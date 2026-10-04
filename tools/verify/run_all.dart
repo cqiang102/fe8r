@@ -121,6 +121,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L2', 'C Oracle ↔ Dart（跳过）', 'true', const [], note: decompNote),
 
+    // M1：全量分层分类（D19 要求未分类为 0）。分类器是代码不是表格，
+    // 所以它也能进回归——改了特征或名称规则后，未分类数必须仍然是 0。
+    if (hasDecomp())
+      Step('L1', 'M1 分层分类（未分类须为 0）', 'python3',
+          ['tools/m1/classify.py'], note: 'D19：6213 个文件全部有结论')
+    else
+      Step('L1', 'M1 分层分类（跳过）', 'true', const [], note: decompNote),
+
     Step('L3', '静态契约', 'flutter',
         ['analyze', '--fatal-infos', 'lib', 'test', 'tools'],
         note: 'analyzer 全绿'),

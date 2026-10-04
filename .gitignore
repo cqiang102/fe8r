@@ -26,3 +26,6 @@ tools/oracle/out/
 # 第三方反编译项目：体积大（151MB），且是可复现的外部依赖。
 # clone 命令见 README。
 third_party/
+
+# M1 分类清单（可由 classify.py 重新生成）
+tools/m1/out/

@@ -45,8 +45,9 @@ assets/maps/prologue.json                        ──► lib/core  规则数�
 - [x] `lib/core` 地图语义形式 —— 与 `.mar` 二进制逐格对照
 - [x] 数据管线接通渲染：`.mar` → `.tmx` → Flame 画面
 - [x] 统一验证入口 `tools/verify/run_all.dart`，5 项全绿
+- [x] **M1 全量分层分类** —— 6213 个文件全部有结论，未分类 0（[`tools/m1/`](tools/m1/README.md)）
+- [x] CI（GitHub Actions，3 个 job，已跑通）
 - [ ] 战斗 / 移动 / 事件（下一步）
-- [ ] CI
 
 ---
 
@@ -119,6 +120,7 @@ dart run tools/verify/run_all.dart   # 或者只跑检查，不装环境
 | L0 | 数据管线往返（`.mar` ↔ 网格 字节级无损） | ✅ 66/66 张地图 |
 | L1 | 地图语义形式（含与 `.mar` 二进制逐格对照） | ✅ |
 | L2 | **C Oracle** —— Dart 移植 vs 真实反编译 C 代码 | ✅ 乱数 161 用例逐位相同 |
+| L1 | **M1 全量分层分类**（6213 个文件，未分类须为 0） | ✅ |
 | L3 | 静态契约（`flutter analyze --fatal-infos`） | ✅ |
 | L4 | 视觉验证 | ⬜ 待做（抓帧能力已备好，见 `lib/ui/debug_screenshot.dart`） |
 
@@ -188,6 +190,7 @@ assets/maps/       数据管线导出的地图
 docs/              设计文档
 tools/oracle/      C Oracle：编译真实反编译 C 作为判据
 tools/pipeline/    数据管线：GBA 资产 → 语义形式
+tools/m1/           全量分层分类（移植 / 重写 / 舍弃）
 tools/verify/      架构检查与统一验证入口
 third_party/       反编译源码（gitignore，需自行 clone）
 ```
