@@ -98,3 +98,50 @@ jobs:
 
       - name: 运行验证（含全量覆盖率）
         run: ./tools/verify/ci.sh --coverage
+
+  # 目标平台是 macOS 桌面，但上面的验证跑在 Linux（快且便宜）。
+  # 这个 job 专门确认"在目标平台上真的能构建出来"——本地已经验证过，
+  # 放进 CI 是为了防止将来引入平台相关依赖时悄悄挂掉。
+  build-macos:
+    name: macOS 构建
+    runs-on: macos-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Flutter（版本读自 .fvmrc）
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: 拉依赖
+        run: flutter pub get
+
+      - name: 构建 macOS 应用
+        run: flutter build macos --debug
+
+      # 地图资源是数据管线的产物，打包时最容易漏。
+      # 这一步确认它们真的进了 bundle，而不是只在源码树里躺着。
+      - name: 确认地图资源已打进 bundle
+        run: |
+          set -e
+          APP=build/macos/Build/Products/Debug/fe8r.app
+          FOUND=0
+          for f in prologue.tmx prologue.metatiles.png prologue.json; do
+            if find "$APP" -path "*assets/maps/$f" | grep -q .; then
+              echo "✓ $f"
+              FOUND=$((FOUND+1))
+            else
+              echo "::error::地图资源 $f 没有打进 bundle"
+            fi
+          done
+          if [ "$FOUND" -ne 3 ]; then
+            echo "--- bundle 里实际的资源 ---"
+            find "$APP" -path "*flutter_assets*" -name "prologue*" | head
+            exit 1
+          fi
+

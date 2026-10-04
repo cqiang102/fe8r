@@ -122,6 +122,25 @@ dart run tools/verify/run_all.dart   # 或者只跑检查，不装环境
 | L3 | 静态契约（`flutter analyze --fatal-infos`） | ✅ |
 | L4 | 视觉验证 | ⬜ 待做（抓帧能力已备好，见 `lib/ui/debug_screenshot.dart`） |
 
+### CI
+
+`.github/workflows/ci.yml` 三个 job：
+
+| job | runner | 内容 |
+|---|---|---|
+| 验证金字塔 | `ubuntu-latest` | `./tools/verify/ci.sh` —— 上面 6 项全部 |
+| C Oracle 全量编译覆盖率 | `ubuntu-latest` | 逐文件试编译反编译项目的全部 C（约 80s，仅在 main / 手动触发） |
+| macOS 构建 | `macos-latest` | 在**目标平台**上真的构建一次，并确认地图资源打进了 bundle |
+
+> **YAML 只负责装环境，检查什么由 `tools/verify/ci.sh` 决定。**
+> 本地跑 `./tools/verify/ci.sh` 与 CI 走完全同一条路径。
+>
+> 两条链路都在 Docker 里用 `ubuntu:24.04` + clang 18 实测过：
+> C Oracle 451 条向量全绿，数据管线 66 张地图往返无损。
+> 所以"CI 上跑不跑得起来"不是猜的。
+
+**首次使用**：把 README 顶部徽章里的 `OWNER/fe8r` 换成你的仓库路径。
+
 ### 关于 C Oracle
 
 `tools/oracle/` 把**第三方反编译项目里真实的 C 代码**在宿主机上编译并运行，
