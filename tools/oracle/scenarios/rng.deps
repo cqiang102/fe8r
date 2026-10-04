@@ -1,0 +1,2 @@
+# src/rng.c 完全自包含，无外部依赖
+src/rng.c

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  关闭 App Sandbox。
+
+	  macOS 版 Flutter 模板默认开启沙箱，应用只能写自己的容器目录。
+	  对游戏来说这不合适：存档、用户导入的资源、调试截图都需要访问真实路径。
+
+	  本项目仅本地学习使用、不对外分发，因此不必为 Mac App Store 的沙箱要求妥协。
+	  若将来要上架，需改回 true，并把文件访问收敛到 NSOpenPanel 授权的路径。
+	-->
+	<key>com.apple.security.app-sandbox</key>
+	<false/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+</dict>
+</plist>

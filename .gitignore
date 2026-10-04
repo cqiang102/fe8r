@@ -1,0 +1,28 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 运行时产物
+flutter_*.log
+
+# 数据管线的产物（可重新生成，见 tools/pipeline/README.md）
+tools/pipeline/out/tmx/
+tools/pipeline/extract/__pycache__/
+
+# C Oracle 的编译产物
+tools/oracle/out/
+
+# 第三方反编译项目：体积大（151MB），且是可复现的外部依赖。
+# clone 命令见 README。
+third_party/

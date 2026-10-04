@@ -1,0 +1,4 @@
+# ComputeBattleUnitEffectiveCritRate 调用 GetItemIndex / GetItemAttributes
+# GetItemIndex 在 harness 里提供（上游是 extern inline，跨 TU 无符号）
+src/ComputeBattleUnitEffectiveCritRate.c
+src/GetItemAttributes.c

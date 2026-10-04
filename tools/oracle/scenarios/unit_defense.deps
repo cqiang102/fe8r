@@ -1,0 +1,3 @@
+# GetUnitDefense 调用 GetItemDefBonus -> GetItemStatBonuses -> GetItemData
+src/GetUnitDefense.c
+src/GetItemDefBonus.c

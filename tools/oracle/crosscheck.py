@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+"""
+crosscheck.py —— 用 Python 独立重实现各场景，交叉校验 C Oracle 的输出。
+
+为什么需要这个：
+    C Oracle 用的是**真实的反编译 C 代码**，所以它算出来的数值本身是权威的。
+    但 harness 的"管道"可能写错 —— struct 字段填错位、TSV 解析错、
+    类型截断没模拟对。这些错误会让 Oracle 安静地给出错误的期望值。
+
+    本脚本从 C 源码**独立地**重写一遍逻辑（严格模拟 C 的整数语义），
+    与 C Oracle 的输出逐条比对。两者一致才说明管道是通的。
+
+    这同时也是 Dart 侧实现的预演 —— Dart 的移植会遇到完全相同的截断问题。
+
+用法:
+    python3 crosscheck.py            # 校验全部场景
+    python3 crosscheck.py rng        # 只校验某一个
+"""
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+VEC = os.path.join(HERE, "vectors")
+
+
+# ---------------------------------------------------------------- 工具
+
+def s8(v):
+    """模拟 C 的 s8（signed char）"""
+    v &= 0xFF
+    return v - 256 if v >= 128 else v
+
+
+def s16(v):
+    """模拟 C 的 s16（short）"""
+    v &= 0xFFFF
+    return v - 65536 if v >= 32768 else v
+
+
+def u16(v):
+    return v & 0xFFFF
+
+
+def c_trunc_div(a, b):
+    """C 的整数除法向零截断（Python 的 // 是向下取整，不同）"""
+    q = abs(a) // abs(b)
+    return -q if (a < 0) != (b < 0) else q
+
+
+def c_mod(a, b):
+    """C 的 % 向零截断（Python 的 % 结果非负，不同）"""
+    return a - c_trunc_div(a, b) * b
+
+
+# ---------------------------------------------------------------- 场景: rng
+# 逐行对照 third_party/fireemblem8j/src/rng.c
+
+class Rng:
+    INIT_TABLE = [0xA36E, 0x924E, 0xB784, 0x4F67, 0x8092, 0x592D, 0x8E70, 0xA794]
+
+    def __init__(self, seed):
+        self.s = [0, 0, 0]
+        self.lcg = 0
+        self.init(seed)
+
+    def init(self, seed):
+        mod = c_mod(seed, 7)
+        self.s[0] = self.INIT_TABLE[mod & 7]; mod += 1
+        self.s[1] = self.INIT_TABLE[mod & 7]; mod += 1
+        self.s[2] = self.INIT_TABLE[mod & 7]
+        r = c_mod(seed, 23)
+        for _ in range(r if r > 0 else 0):
+            self.next_rn()
+
+    def next_rn(self):
+        s = self.s
+        # u16 rn = (gRNSeeds[1] << 11) + (gRNSeeds[0] >> 5);
+        rn = u16((s[1] << 11) + (s[0] >> 5))
+        # gRNSeeds[2] *= 2;  (u16 截断)
+        s[2] = u16(s[2] * 2)
+        if s[1] & 0x8000:
+            s[2] = u16(s[2] + 1)
+        rn = u16(rn ^ s[2])
+        s[2], s[1], s[0] = s[1], s[0], rn
+        return rn
+
+    def next_rn_100(self):
+        return c_trunc_div(self.next_rn() * 100, 0x10000)
+
+    def next_rn_n(self, mx):
+        return c_trunc_div(self.next_rn() * mx, 0x10000)
+
+    def roll2_rn(self, thr):
+        avg = c_trunc_div(self.next_rn_100() + self.next_rn_100(), 2)
+        return 1 if thr > avg else 0
+
+    def set_lcg(self, v):
+        self.lcg = v
+
+    def advance_lcg(self):
+        # u32 rn = (gLCGRNValue * 4 + 2); rn *= (gLCGRNValue * 4 + 3);
+        # gLCGRNValue = rn >> 2; return gLCGRNValue;
+        v = self.lcg
+        rn = u16_32((v * 4 + 2) & 0xFFFFFFFF)
+        rn = (rn * ((v * 4 + 3) & 0xFFFFFFFF)) & 0xFFFFFFFF
+        self.lcg = s32(rn >> 2)
+        return self.lcg & 0xFFFFFFFF
+
+
+def u16_32(v):
+    return v & 0xFFFFFFFF
+
+
+def s32(v):
+    v &= 0xFFFFFFFF
+    return v - (1 << 32) if v >= (1 << 31) else v
+
+
+def model_rng(f):
+    r = Rng(f["seed"])
+    n = f.get("count", 8)
+    fn = f.get("fn", "next")
+    thr = f.get("thr", 50)
+    if fn == "lcg":
+        r.set_lcg(f["seed"])
+        return [r.advance_lcg() for _ in range(n)]
+    if fn == "next100":
+        return [r.next_rn_100() for _ in range(n)]
+    if fn == "nextn":
+        return [r.next_rn_n(thr) for _ in range(n)]
+    if fn == "roll2":
+        return [r.roll2_rn(thr) for _ in range(n)]
+    return [r.next_rn() for _ in range(n)]
+
+
+# ------------------------------------------------ 场景: battle_unit
+
+def model_battle_unit(f):
+    fn = f.get("fn", "avoid")
+    if fn == "defense":
+        # bu->battleDefense = bu->terrainDefense + bu->unit.def;
+        return s16(s8(f.get("terrainDefense", 0)) + s8(f.get("def", 0)))
+    if fn == "dodge":
+        # bu->battleDodgeRate = bu->unit.lck;
+        return s16(s8(f.get("lck", 0)))
+    # bu->battleAvoidRate = (battleSpeed*2) + terrainAvoid + unit.lck; 负数钳位
+    v = s16(s16(f.get("battleSpeed", 0)) * 2 + s8(f.get("terrainAvoid", 0)) + s8(f.get("lck", 0)))
+    return 0 if v < 0 else v
+
+
+# ------------------------------------------------ 场景: unit_defense
+
+def model_unit_defense(f):
+    # GetUnitDefense = unit->def + GetItemDefBonus(item)
+    # GetItemDefBonus(item): item==0 -> 0; 否则 statBonuses ? defBonus : 0
+    item = f.get("item", 0)
+    bonus = 0
+    if item != 0:
+        idx = item & 0xFF              # ITEM_INDEX
+        if idx == 1:                   # harness 里只有索引 1 挂了 pStatBonuses
+            bonus = s8(f.get("defBonus", 0))
+    return s16(s8(f.get("def", 0)) + bonus)
+
+
+# ------------------------------------------------ 场景: crit_rate
+
+ITEM_MONSTER_STONE = 0xB5
+IA_NEGATE_CRIT = 1 << 15
+
+
+def model_crit_rate(f):
+    # battleEffectiveCritRate = critRate - dodgeRate
+    v = s16(s16(f.get("critRate", 0)) - s16(f.get("dodgeRate", 0)))
+    if (f.get("weapon", 0) & 0xFF) == ITEM_MONSTER_STONE:
+        v = 0
+    if v < 0:
+        v = 0
+    # 循环: i < UNIT_ITEM_COUNT(5) && items[i] != 0
+    for key in ("di0", "di1", "di2", "di3", "di4"):
+        item = f.get(key, 0)
+        if item == 0:
+            break                       # ★ 空道具处短路
+        idx = item & 0xFF
+        attrs = IA_NEGATE_CRIT if idx == 2 else 0
+        if attrs & IA_NEGATE_CRIT:
+            v = 0
+            break
+    return v
+
+
+MODELS = {
+    "rng": (model_rng, True),          # True = 结果是列表
+    "battle_unit": (model_battle_unit, False),
+    "unit_defense": (model_unit_defense, False),
+    "crit_rate": (model_crit_rate, False),
+}
+
+
+# ---------------------------------------------------------------- 驱动
+
+def read_cases(path):
+    out = []
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("\t")
+            cid = parts[0]
+            fields = {}
+            for p in parts[1:]:
+                if "=" in p:
+                    k, v = p.split("=", 1)
+                    fields[k] = int(v) if _is_int(v) else v
+            out.append((cid, fields))
+    return out
+
+
+def _is_int(v):
+    try:
+        int(v, 0)
+        return True
+    except ValueError:
+        return False
+
+
+def read_expected(path):
+    out = {}
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            cid, _, val = line.partition("\t")
+            out[cid] = val
+    return out
+
+
+def main():
+    only = sys.argv[1] if len(sys.argv) > 1 else None
+    rc = 0
+    grand = 0
+
+    for name, (model, is_list) in MODELS.items():
+        if only and name != only:
+            continue
+        cases = read_cases(os.path.join(VEC, f"{name}.cases.tsv"))
+        expected = read_expected(os.path.join(VEC, f"{name}.expected.tsv"))
+
+        bad = 0
+        for cid, fields in cases:
+            got = model(fields)
+            got_s = ",".join(str(x) for x in got) if is_list else str(got)
+            exp_s = expected.get(cid)
+            if exp_s is None:
+                print(f"  ✗ {name}:{cid} 缺少期望值")
+                bad += 1
+            elif got_s != exp_s:
+                if bad < 5:
+                    print(f"  ✗ {name}:{cid}\n      Python: {got_s}\n      C     : {exp_s}")
+                bad += 1
+
+        grand += len(cases)
+        if bad == 0:
+            print(f"  ✓ {name:16s} {len(cases):4d} 条全部一致")
+        else:
+            print(f"  ✗ {name:16s} {bad}/{len(cases)} 条不一致")
+            rc = 1
+
+    print()
+    if rc == 0:
+        print(f"交叉校验通过 —— C Oracle 与独立 Python 实现在 {grand} 条向量上完全一致")
+    else:
+        print("交叉校验失败 —— harness 管道可能有问题")
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())

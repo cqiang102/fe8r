@@ -1,0 +1,33 @@
+# FE8 重制版 —— 分析规则。
+#
+# 分层约束（lib/core 不能碰 Flutter/Flame）由 tools/verify/check_architecture.dart
+# 强制检查，因为 analyzer 的自定义规则无法表达"整棵子树禁止某类 import"。
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    # 移植代码里显式标注类型很重要，不给降级余地
+    always_declare_return_types: error
+    # 未使用的 import 常常是重构残留，直接当错误
+    unused_import: error
+    unused_local_variable: warning
+  exclude:
+    - "**/*.g.dart"
+    - "third_party/**"
+    - "build/**"
+    - macos/**
+
+linter:
+  rules:
+    - always_declare_return_types
+    - avoid_dynamic_calls
+    - avoid_print
+    - prefer_final_locals
+    - prefer_single_quotes
+    - require_trailing_commas
+    - unnecessary_parenthesis
+    - use_super_parameters

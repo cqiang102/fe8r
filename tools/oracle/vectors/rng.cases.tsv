@@ -1,0 +1,164 @@
+# 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
+# 场景: rng  种子: 20261003:rng  用例数: 161
+# 格式: <id>\t key=value \t key=value ...
+rng_next_000	seed=0	fn=next	count=8
+rng_100_000	seed=0	fn=next100	count=8
+rng_lcg_000	seed=0	fn=lcg	count=8
+rng_next_001	seed=1	fn=next	count=8
+rng_100_001	seed=1	fn=next100	count=8
+rng_lcg_001	seed=1	fn=lcg	count=8
+rng_next_002	seed=2	fn=next	count=8
+rng_100_002	seed=2	fn=next100	count=8
+rng_lcg_002	seed=2	fn=lcg	count=8
+rng_next_003	seed=6	fn=next	count=8
+rng_100_003	seed=6	fn=next100	count=8
+rng_lcg_003	seed=6	fn=lcg	count=8
+rng_next_004	seed=7	fn=next	count=8
+rng_100_004	seed=7	fn=next100	count=8
+rng_lcg_004	seed=7	fn=lcg	count=8
+rng_next_005	seed=22	fn=next	count=8
+rng_100_005	seed=22	fn=next100	count=8
+rng_lcg_005	seed=22	fn=lcg	count=8
+rng_next_006	seed=23	fn=next	count=8
+rng_100_006	seed=23	fn=next100	count=8
+rng_lcg_006	seed=23	fn=lcg	count=8
+rng_next_007	seed=100	fn=next	count=8
+rng_100_007	seed=100	fn=next100	count=8
+rng_lcg_007	seed=100	fn=lcg	count=8
+rng_next_008	seed=12345	fn=next	count=8
+rng_100_008	seed=12345	fn=next100	count=8
+rng_lcg_008	seed=12345	fn=lcg	count=8
+rng_next_009	seed=32767	fn=next	count=8
+rng_100_009	seed=32767	fn=next100	count=8
+rng_lcg_009	seed=32767	fn=lcg	count=8
+rng_next_010	seed=65535	fn=next	count=8
+rng_100_010	seed=65535	fn=next100	count=8
+rng_lcg_010	seed=65535	fn=lcg	count=8
+rng_next_011	seed=-1	fn=next	count=8
+rng_100_011	seed=-1	fn=next100	count=8
+rng_lcg_011	seed=-1	fn=lcg	count=8
+rng_next_012	seed=-7	fn=next	count=8
+rng_100_012	seed=-7	fn=next100	count=8
+rng_lcg_012	seed=-7	fn=lcg	count=8
+rng_next_013	seed=-23	fn=next	count=8
+rng_100_013	seed=-23	fn=next100	count=8
+rng_lcg_013	seed=-23	fn=lcg	count=8
+rng_next_014	seed=-12345	fn=next	count=8
+rng_100_014	seed=-12345	fn=next100	count=8
+rng_lcg_014	seed=-12345	fn=lcg	count=8
+rng_next_015	seed=48475	fn=next	count=8
+rng_100_015	seed=48475	fn=next100	count=8
+rng_lcg_015	seed=48475	fn=lcg	count=8
+rng_next_016	seed=41020	fn=next	count=8
+rng_100_016	seed=41020	fn=next100	count=8
+rng_lcg_016	seed=41020	fn=lcg	count=8
+rng_next_017	seed=57884	fn=next	count=8
+rng_100_017	seed=57884	fn=next100	count=8
+rng_lcg_017	seed=57884	fn=lcg	count=8
+rng_next_018	seed=22791	fn=next	count=8
+rng_100_018	seed=22791	fn=next100	count=8
+rng_lcg_018	seed=22791	fn=lcg	count=8
+rng_next_019	seed=20382	fn=next	count=8
+rng_100_019	seed=20382	fn=next100	count=8
+rng_lcg_019	seed=20382	fn=lcg	count=8
+rng_next_020	seed=58192	fn=next	count=8
+rng_100_020	seed=58192	fn=next100	count=8
+rng_lcg_020	seed=58192	fn=lcg	count=8
+rng_next_021	seed=41815	fn=next	count=8
+rng_100_021	seed=41815	fn=next100	count=8
+rng_lcg_021	seed=41815	fn=lcg	count=8
+rng_next_022	seed=19003	fn=next	count=8
+rng_100_022	seed=19003	fn=next100	count=8
+rng_lcg_022	seed=19003	fn=lcg	count=8
+rng_next_023	seed=34391	fn=next	count=8
+rng_100_023	seed=34391	fn=next100	count=8
+rng_lcg_023	seed=34391	fn=lcg	count=8
+rng_next_024	seed=35797	fn=next	count=8
+rng_100_024	seed=35797	fn=next100	count=8
+rng_lcg_024	seed=35797	fn=lcg	count=8
+rng_next_025	seed=35336	fn=next	count=8
+rng_100_025	seed=35336	fn=next100	count=8
+rng_lcg_025	seed=35336	fn=lcg	count=8
+rng_next_026	seed=21499	fn=next	count=8
+rng_100_026	seed=21499	fn=next100	count=8
+rng_lcg_026	seed=21499	fn=lcg	count=8
+rng_next_027	seed=58865	fn=next	count=8
+rng_100_027	seed=58865	fn=next100	count=8
+rng_lcg_027	seed=58865	fn=lcg	count=8
+rng_next_028	seed=6075	fn=next	count=8
+rng_100_028	seed=6075	fn=next100	count=8
+rng_lcg_028	seed=6075	fn=lcg	count=8
+rng_next_029	seed=64913	fn=next	count=8
+rng_100_029	seed=64913	fn=next100	count=8
+rng_lcg_029	seed=64913	fn=lcg	count=8
+rng_next_030	seed=28367	fn=next	count=8
+rng_100_030	seed=28367	fn=next100	count=8
+rng_lcg_030	seed=28367	fn=lcg	count=8
+rng_next_031	seed=12935	fn=next	count=8
+rng_100_031	seed=12935	fn=next100	count=8
+rng_lcg_031	seed=12935	fn=lcg	count=8
+rng_next_032	seed=24109	fn=next	count=8
+rng_100_032	seed=24109	fn=next100	count=8
+rng_lcg_032	seed=24109	fn=lcg	count=8
+rng_next_033	seed=32211	fn=next	count=8
+rng_100_033	seed=32211	fn=next100	count=8
+rng_lcg_033	seed=32211	fn=lcg	count=8
+rng_next_034	seed=24595	fn=next	count=8
+rng_100_034	seed=24595	fn=next100	count=8
+rng_lcg_034	seed=24595	fn=lcg	count=8
+rng_roll2_t0_0	seed=52941	fn=roll2	count=10	thr=0
+rng_nextn_t0_0	seed=52941	fn=nextn	count=10	thr=0
+rng_roll2_t0_1	seed=31048	fn=roll2	count=10	thr=0
+rng_nextn_t0_1	seed=31048	fn=nextn	count=10	thr=0
+rng_roll2_t0_2	seed=4521	fn=roll2	count=10	thr=0
+rng_nextn_t0_2	seed=4521	fn=nextn	count=10	thr=0
+rng_roll2_t0_3	seed=35572	fn=roll2	count=10	thr=0
+rng_nextn_t0_3	seed=35572	fn=nextn	count=10	thr=0
+rng_roll2_t1_0	seed=6074	fn=roll2	count=10	thr=1
+rng_nextn_t1_0	seed=6074	fn=nextn	count=10	thr=1
+rng_roll2_t1_1	seed=34713	fn=roll2	count=10	thr=1
+rng_nextn_t1_1	seed=34713	fn=nextn	count=10	thr=1
+rng_roll2_t1_2	seed=10842	fn=roll2	count=10	thr=1
+rng_nextn_t1_2	seed=10842	fn=nextn	count=10	thr=1
+rng_roll2_t1_3	seed=48454	fn=roll2	count=10	thr=1
+rng_nextn_t1_3	seed=48454	fn=nextn	count=10	thr=1
+rng_roll2_t25_0	seed=11197	fn=roll2	count=10	thr=25
+rng_nextn_t25_0	seed=11197	fn=nextn	count=10	thr=25
+rng_roll2_t25_1	seed=46166	fn=roll2	count=10	thr=25
+rng_nextn_t25_1	seed=46166	fn=nextn	count=10	thr=25
+rng_roll2_t25_2	seed=10408	fn=roll2	count=10	thr=25
+rng_nextn_t25_2	seed=10408	fn=nextn	count=10	thr=25
+rng_roll2_t25_3	seed=40840	fn=roll2	count=10	thr=25
+rng_nextn_t25_3	seed=40840	fn=nextn	count=10	thr=25
+rng_roll2_t50_0	seed=45504	fn=roll2	count=10	thr=50
+rng_nextn_t50_0	seed=45504	fn=nextn	count=10	thr=50
+rng_roll2_t50_1	seed=16621	fn=roll2	count=10	thr=50
+rng_nextn_t50_1	seed=16621	fn=nextn	count=10	thr=50
+rng_roll2_t50_2	seed=28542	fn=roll2	count=10	thr=50
+rng_nextn_t50_2	seed=28542	fn=nextn	count=10	thr=50
+rng_roll2_t50_3	seed=17822	fn=roll2	count=10	thr=50
+rng_nextn_t50_3	seed=17822	fn=nextn	count=10	thr=50
+rng_roll2_t75_0	seed=41366	fn=roll2	count=10	thr=75
+rng_nextn_t75_0	seed=41366	fn=nextn	count=10	thr=75
+rng_roll2_t75_1	seed=30109	fn=roll2	count=10	thr=75
+rng_nextn_t75_1	seed=30109	fn=nextn	count=10	thr=75
+rng_roll2_t75_2	seed=42966	fn=roll2	count=10	thr=75
+rng_nextn_t75_2	seed=42966	fn=nextn	count=10	thr=75
+rng_roll2_t75_3	seed=35462	fn=roll2	count=10	thr=75
+rng_nextn_t75_3	seed=35462	fn=nextn	count=10	thr=75
+rng_roll2_t99_0	seed=18185	fn=roll2	count=10	thr=99
+rng_nextn_t99_0	seed=18185	fn=nextn	count=10	thr=99
+rng_roll2_t99_1	seed=20951	fn=roll2	count=10	thr=99
+rng_nextn_t99_1	seed=20951	fn=nextn	count=10	thr=99
+rng_roll2_t99_2	seed=42840	fn=roll2	count=10	thr=99
+rng_nextn_t99_2	seed=42840	fn=nextn	count=10	thr=99
+rng_roll2_t99_3	seed=32849	fn=roll2	count=10	thr=99
+rng_nextn_t99_3	seed=32849	fn=nextn	count=10	thr=99
+rng_roll2_t100_0	seed=2376	fn=roll2	count=10	thr=100
+rng_nextn_t100_0	seed=2376	fn=nextn	count=10	thr=100
+rng_roll2_t100_1	seed=36088	fn=roll2	count=10	thr=100
+rng_nextn_t100_1	seed=36088	fn=nextn	count=10	thr=100
+rng_roll2_t100_2	seed=62998	fn=roll2	count=10	thr=100
+rng_nextn_t100_2	seed=62998	fn=nextn	count=10	thr=100
+rng_roll2_t100_3	seed=33818	fn=roll2	count=10	thr=100
+rng_nextn_t100_3	seed=33818	fn=nextn	count=10	thr=100

@@ -1,0 +1,100 @@
+# FE8 重制版 —— 持续集成
+#
+# 设计原则：**YAML 只负责装环境，检查什么由 ./tools/verify/ci.sh 决定。**
+# 本地跑 `./tools/verify/ci.sh` 与 CI 跑的是同一条路径，因此"本地绿、CI 红"
+# 的情况基本不会出现。
+#
+# 关于 Flutter 版本：从 .fvmrc 读，与本地 fvm 用同一个来源，避免两边漂移。
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+# 同一分支的新 push 取消上一次未跑完的任务
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # CI 在海外，用官方源；本地在国内可以换成 storage.flutter-io.cn
+  PUB_HOSTED_URL: https://pub.dev
+
+jobs:
+  verify:
+    name: 验证金字塔
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Flutter（版本读自 .fvmrc）
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # C Oracle 会用 clang 编译第三方反编译项目的真实 C 代码。
+      # ubuntu-latest 自带 clang，但显式装一次更稳妥。
+      - name: 安装 clang
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq clang
+
+      - name: 缓存反编译源码
+        uses: actions/cache@v4
+        with:
+          path: third_party/fireemblem8j
+          key: fireemblem8j-v1
+
+      - name: 运行验证
+        run: ./tools/verify/ci.sh
+
+  # 全量编译覆盖率单独一个 job：它会把反编译项目里 6213 个 C 文件逐个试着编译，
+  # 约 80 秒，不适合塞进每次 push 的快反馈里。
+  coverage:
+    name: C Oracle 全量编译覆盖率
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Flutter（版本读自 .fvmrc）
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 安装 clang
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq clang
+
+      - name: 缓存反编译源码
+        uses: actions/cache@v4
+        with:
+          path: third_party/fireemblem8j
+          key: fireemblem8j-coverage
+
+      - name: 运行验证（含全量覆盖率）
+        run: ./tools/verify/ci.sh --coverage

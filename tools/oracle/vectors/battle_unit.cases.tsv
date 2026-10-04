@@ -1,0 +1,134 @@
+# 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
+# 场景: battle_unit  种子: 20261003:battle_unit  用例数: 131
+# 格式: <id>\t key=value \t key=value ...
+bu_avoid_edge_00	fn=avoid	battleSpeed=0	terrainAvoid=0	lck=0
+bu_avoid_edge_01	fn=avoid	battleSpeed=0	terrainAvoid=-1	lck=0
+bu_avoid_edge_02	fn=avoid	battleSpeed=0	terrainAvoid=-5	lck=2
+bu_avoid_edge_03	fn=avoid	battleSpeed=0	terrainAvoid=0	lck=-1
+bu_avoid_edge_04	fn=avoid	battleSpeed=1	terrainAvoid=0	lck=0
+bu_avoid_edge_05	fn=avoid	battleSpeed=0	terrainAvoid=5	lck=0
+bu_avoid_edge_06	fn=avoid	battleSpeed=12	terrainAvoid=20	lck=8
+bu_avoid_edge_07	fn=avoid	battleSpeed=30	terrainAvoid=30	lck=30
+bu_avoid_edge_08	fn=avoid	battleSpeed=0	terrainAvoid=-30	lck=0
+bu_avoid_edge_09	fn=avoid	battleSpeed=0	terrainAvoid=0	lck=-30
+bu_avoid_edge_10	fn=avoid	battleSpeed=127	terrainAvoid=-127	lck=0
+bu_avoid_rnd_000	fn=avoid	battleSpeed=2	terrainAvoid=-7	lck=6
+bu_avoid_rnd_001	fn=avoid	battleSpeed=19	terrainAvoid=4	lck=19
+bu_avoid_rnd_002	fn=avoid	battleSpeed=1	terrainAvoid=19	lck=25
+bu_avoid_rnd_003	fn=avoid	battleSpeed=17	terrainAvoid=17	lck=10
+bu_avoid_rnd_004	fn=avoid	battleSpeed=23	terrainAvoid=-23	lck=13
+bu_avoid_rnd_005	fn=avoid	battleSpeed=7	terrainAvoid=17	lck=17
+bu_avoid_rnd_006	fn=avoid	battleSpeed=29	terrainAvoid=23	lck=28
+bu_avoid_rnd_007	fn=avoid	battleSpeed=9	terrainAvoid=-7	lck=20
+bu_avoid_rnd_008	fn=avoid	battleSpeed=28	terrainAvoid=17	lck=7
+bu_avoid_rnd_009	fn=avoid	battleSpeed=15	terrainAvoid=-23	lck=7
+bu_avoid_rnd_010	fn=avoid	battleSpeed=6	terrainAvoid=-14	lck=28
+bu_avoid_rnd_011	fn=avoid	battleSpeed=21	terrainAvoid=3	lck=1
+bu_avoid_rnd_012	fn=avoid	battleSpeed=17	terrainAvoid=3	lck=25
+bu_avoid_rnd_013	fn=avoid	battleSpeed=23	terrainAvoid=21	lck=22
+bu_avoid_rnd_014	fn=avoid	battleSpeed=29	terrainAvoid=8	lck=28
+bu_avoid_rnd_015	fn=avoid	battleSpeed=7	terrainAvoid=-25	lck=10
+bu_avoid_rnd_016	fn=avoid	battleSpeed=30	terrainAvoid=21	lck=5
+bu_avoid_rnd_017	fn=avoid	battleSpeed=2	terrainAvoid=12	lck=27
+bu_avoid_rnd_018	fn=avoid	battleSpeed=8	terrainAvoid=11	lck=2
+bu_avoid_rnd_019	fn=avoid	battleSpeed=7	terrainAvoid=24	lck=10
+bu_avoid_rnd_020	fn=avoid	battleSpeed=27	terrainAvoid=6	lck=23
+bu_avoid_rnd_021	fn=avoid	battleSpeed=3	terrainAvoid=-24	lck=11
+bu_avoid_rnd_022	fn=avoid	battleSpeed=11	terrainAvoid=-29	lck=0
+bu_avoid_rnd_023	fn=avoid	battleSpeed=22	terrainAvoid=23	lck=24
+bu_avoid_rnd_024	fn=avoid	battleSpeed=5	terrainAvoid=9	lck=8
+bu_avoid_rnd_025	fn=avoid	battleSpeed=7	terrainAvoid=19	lck=15
+bu_avoid_rnd_026	fn=avoid	battleSpeed=18	terrainAvoid=-14	lck=29
+bu_avoid_rnd_027	fn=avoid	battleSpeed=19	terrainAvoid=23	lck=24
+bu_avoid_rnd_028	fn=avoid	battleSpeed=8	terrainAvoid=28	lck=13
+bu_avoid_rnd_029	fn=avoid	battleSpeed=7	terrainAvoid=4	lck=9
+bu_avoid_rnd_030	fn=avoid	battleSpeed=2	terrainAvoid=22	lck=29
+bu_avoid_rnd_031	fn=avoid	battleSpeed=22	terrainAvoid=25	lck=24
+bu_avoid_rnd_032	fn=avoid	battleSpeed=1	terrainAvoid=-29	lck=13
+bu_avoid_rnd_033	fn=avoid	battleSpeed=15	terrainAvoid=-2	lck=24
+bu_avoid_rnd_034	fn=avoid	battleSpeed=14	terrainAvoid=14	lck=26
+bu_avoid_rnd_035	fn=avoid	battleSpeed=9	terrainAvoid=12	lck=13
+bu_avoid_rnd_036	fn=avoid	battleSpeed=26	terrainAvoid=-5	lck=11
+bu_avoid_rnd_037	fn=avoid	battleSpeed=11	terrainAvoid=23	lck=12
+bu_avoid_rnd_038	fn=avoid	battleSpeed=22	terrainAvoid=-11	lck=19
+bu_avoid_rnd_039	fn=avoid	battleSpeed=22	terrainAvoid=21	lck=1
+bu_avoid_rnd_040	fn=avoid	battleSpeed=28	terrainAvoid=25	lck=30
+bu_avoid_rnd_041	fn=avoid	battleSpeed=24	terrainAvoid=-9	lck=9
+bu_avoid_rnd_042	fn=avoid	battleSpeed=30	terrainAvoid=-24	lck=24
+bu_avoid_rnd_043	fn=avoid	battleSpeed=14	terrainAvoid=-21	lck=5
+bu_avoid_rnd_044	fn=avoid	battleSpeed=8	terrainAvoid=-8	lck=6
+bu_avoid_rnd_045	fn=avoid	battleSpeed=6	terrainAvoid=-28	lck=18
+bu_avoid_rnd_046	fn=avoid	battleSpeed=10	terrainAvoid=15	lck=8
+bu_avoid_rnd_047	fn=avoid	battleSpeed=14	terrainAvoid=-28	lck=7
+bu_avoid_rnd_048	fn=avoid	battleSpeed=30	terrainAvoid=2	lck=10
+bu_avoid_rnd_049	fn=avoid	battleSpeed=24	terrainAvoid=-25	lck=25
+bu_avoid_rnd_050	fn=avoid	battleSpeed=14	terrainAvoid=-13	lck=16
+bu_avoid_rnd_051	fn=avoid	battleSpeed=10	terrainAvoid=0	lck=11
+bu_avoid_rnd_052	fn=avoid	battleSpeed=24	terrainAvoid=-8	lck=22
+bu_avoid_rnd_053	fn=avoid	battleSpeed=23	terrainAvoid=-27	lck=7
+bu_avoid_rnd_054	fn=avoid	battleSpeed=9	terrainAvoid=30	lck=18
+bu_avoid_rnd_055	fn=avoid	battleSpeed=14	terrainAvoid=-6	lck=24
+bu_avoid_rnd_056	fn=avoid	battleSpeed=19	terrainAvoid=25	lck=1
+bu_avoid_rnd_057	fn=avoid	battleSpeed=10	terrainAvoid=-26	lck=2
+bu_avoid_rnd_058	fn=avoid	battleSpeed=15	terrainAvoid=-30	lck=0
+bu_avoid_rnd_059	fn=avoid	battleSpeed=11	terrainAvoid=19	lck=3
+bu_defense_000	fn=defense	terrainDefense=-9	def=-20
+bu_defense_001	fn=defense	terrainDefense=-3	def=10
+bu_defense_002	fn=defense	terrainDefense=18	def=4
+bu_defense_003	fn=defense	terrainDefense=-8	def=-29
+bu_defense_004	fn=defense	terrainDefense=16	def=-8
+bu_defense_005	fn=defense	terrainDefense=3	def=12
+bu_defense_006	fn=defense	terrainDefense=2	def=-22
+bu_defense_007	fn=defense	terrainDefense=19	def=-11
+bu_defense_008	fn=defense	terrainDefense=30	def=28
+bu_defense_009	fn=defense	terrainDefense=-25	def=13
+bu_defense_010	fn=defense	terrainDefense=17	def=16
+bu_defense_011	fn=defense	terrainDefense=-14	def=-27
+bu_defense_012	fn=defense	terrainDefense=-18	def=-18
+bu_defense_013	fn=defense	terrainDefense=22	def=15
+bu_defense_014	fn=defense	terrainDefense=-17	def=1
+bu_defense_015	fn=defense	terrainDefense=-10	def=30
+bu_defense_016	fn=defense	terrainDefense=6	def=-7
+bu_defense_017	fn=defense	terrainDefense=20	def=27
+bu_defense_018	fn=defense	terrainDefense=2	def=-15
+bu_defense_019	fn=defense	terrainDefense=-16	def=5
+bu_defense_020	fn=defense	terrainDefense=-11	def=-21
+bu_defense_021	fn=defense	terrainDefense=27	def=4
+bu_defense_022	fn=defense	terrainDefense=-2	def=-17
+bu_defense_023	fn=defense	terrainDefense=-11	def=-28
+bu_defense_024	fn=defense	terrainDefense=28	def=-16
+bu_defense_025	fn=defense	terrainDefense=-3	def=8
+bu_defense_026	fn=defense	terrainDefense=26	def=-23
+bu_defense_027	fn=defense	terrainDefense=21	def=7
+bu_defense_028	fn=defense	terrainDefense=-21	def=-11
+bu_defense_029	fn=defense	terrainDefense=23	def=-14
+bu_defense_030	fn=defense	terrainDefense=-5	def=-14
+bu_defense_031	fn=defense	terrainDefense=-20	def=7
+bu_defense_032	fn=defense	terrainDefense=-13	def=4
+bu_defense_033	fn=defense	terrainDefense=1	def=-26
+bu_defense_034	fn=defense	terrainDefense=-28	def=-26
+bu_defense_035	fn=defense	terrainDefense=13	def=-30
+bu_defense_036	fn=defense	terrainDefense=-3	def=-30
+bu_defense_037	fn=defense	terrainDefense=-7	def=-4
+bu_defense_038	fn=defense	terrainDefense=23	def=-27
+bu_defense_039	fn=defense	terrainDefense=-19	def=7
+bu_dodge_000	fn=dodge	lck=6
+bu_dodge_001	fn=dodge	lck=19
+bu_dodge_002	fn=dodge	lck=9
+bu_dodge_003	fn=dodge	lck=-8
+bu_dodge_004	fn=dodge	lck=-28
+bu_dodge_005	fn=dodge	lck=30
+bu_dodge_006	fn=dodge	lck=-8
+bu_dodge_007	fn=dodge	lck=28
+bu_dodge_008	fn=dodge	lck=-17
+bu_dodge_009	fn=dodge	lck=21
+bu_dodge_010	fn=dodge	lck=4
+bu_dodge_011	fn=dodge	lck=0
+bu_dodge_012	fn=dodge	lck=-13
+bu_dodge_013	fn=dodge	lck=-14
+bu_dodge_014	fn=dodge	lck=3
+bu_dodge_015	fn=dodge	lck=0
+bu_dodge_016	fn=dodge	lck=-1
+bu_dodge_017	fn=dodge	lck=18
+bu_dodge_018	fn=dodge	lck=-10
+bu_dodge_019	fn=dodge	lck=-19

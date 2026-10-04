@@ -1,0 +1,5 @@
+# ComputeBattleUnitAvoidRate / ComputeBattleUnitBaseDefense /
+# ComputeBattleUnitDodgeRate 都是纯 struct 访问，无外部函数调用
+src/ComputeBattleUnitAvoidRate.c
+src/ComputeBattleUnitBaseDefense.c
+src/ComputeBattleUnitDodgeRate.c

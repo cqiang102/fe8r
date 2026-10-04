@@ -1,0 +1,5 @@
+# 构建产物
+out/
+
+# compile_coverage.sh 的中间结果
+/tmp/

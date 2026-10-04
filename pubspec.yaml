@@ -1,0 +1,28 @@
+name: fe8r
+description: "Fire Emblem: The Sacred Stones（圣魔之光石）Flutter / Flame 重制版"
+publish_to: none
+version: 0.1.0
+
+# 版本由 fvm 锁定，见 .fvmrc。flame 1.38.2 要求 Flutter >= 3.41。
+environment:
+  sdk: ^3.13.0
+  flutter: ">=3.41.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 游戏引擎
+  flame: ^1.38.2
+  # Tiled 地图。选它而不是 flame_ldtk：成熟度高，且我们的数据管线本来就导出 .tmx
+  flame_tiled: ^3.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/maps/
