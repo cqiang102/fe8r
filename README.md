@@ -1,6 +1,6 @@
 # FE8 重制版
 
-[![CI](https://github.com/OWNER/fe8r/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/fe8r/actions/workflows/ci.yml)
+[![CI](https://github.com/cqiang102/fe8r/actions/workflows/ci.yml/badge.svg)](https://github.com/cqiang102/fe8r/actions/workflows/ci.yml)
 
 《火焰之纹章：圣魔之光石》（Fire Emblem: The Sacred Stones）的 Flutter / Flame 重制版。
 
@@ -138,8 +138,6 @@ dart run tools/verify/run_all.dart   # 或者只跑检查，不装环境
 > 两条链路都在 Docker 里用 `ubuntu:24.04` + clang 18 实测过：
 > C Oracle 451 条向量全绿，数据管线 66 张地图往返无损。
 > 所以"CI 上跑不跑得起来"不是猜的。
-
-**首次使用**：把 README 顶部徽章里的 `OWNER/fe8r` 换成你的仓库路径。
 
 ### 关于 C Oracle
 
