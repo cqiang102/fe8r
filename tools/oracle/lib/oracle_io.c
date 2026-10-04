@@ -9,7 +9,7 @@
 #include "oracle_io.h"
 
 /* 字符串字段的暂存区（oracle_str 返回值指向这里） */
-static char s_strpool[ORA_MAX_FIELDS][ORA_KEY_MAX];
+static char s_strpool[ORA_MAX_FIELDS][ORA_VAL_MAX];
 
 static char* skip_ws(char* p)
 {
@@ -67,8 +67,8 @@ int oracle_next(OracleCase* c)
             c->keys[c->n][ORA_KEY_MAX - 1] = '\0';
             c->vals[c->n] = strtol(eq + 1, NULL, 0);
 
-            strncpy(s_strpool[c->n], eq + 1, ORA_KEY_MAX - 1);
-            s_strpool[c->n][ORA_KEY_MAX - 1] = '\0';
+            strncpy(s_strpool[c->n], eq + 1, ORA_VAL_MAX - 1);
+            s_strpool[c->n][ORA_VAL_MAX - 1] = '\0';
 
             c->n++;
         }

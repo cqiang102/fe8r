@@ -1,0 +1,4 @@
+# 移动范围 BFS。MapFloodCoreStep 用的是仓库里真实的 Thumb C 实现；
+# 驱动循环 MapFloodCore 在 src/arm.s 里是 ARM 汇编（宿主机汇编不了），
+# 由 scenarios/movement.c 按 arm.s 的重构注释转写 —— 详见该文件头部说明。
+src/MapFloodCoreStepThumb.c

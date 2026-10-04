@@ -21,8 +21,18 @@
 #define ORA_MAX_FIELDS 16
 #define ORA_KEY_MAX    32
 #define ORA_ID_MAX     64
-#define ORA_LINE_MAX   4096
-#define ORA_OUT_MAX    1024
+/* ⚠️ 两个长度限制是分开的，别混用：
+ *
+ *   ORA_KEY_MAX  字段**名**的长度（"terrain" / "costs" 这种），32 足够
+ *   ORA_VAL_MAX  字段**值**作为字符串时的长度
+ *
+ * 早期版本用 ORA_KEY_MAX 同时限制两者，于是超过 31 字符的字符串字段被
+ * **静默截断**。M3 的移动范围需要传整张地图的地形网格（32×32 = 1024 个数，
+ * 上千字符），一截断结果就完全错了——而且不报错，只是算错。
+ */
+#define ORA_VAL_MAX    16384
+#define ORA_LINE_MAX   65536
+#define ORA_OUT_MAX    65536
 
 typedef struct {
     char id[ORA_ID_MAX];

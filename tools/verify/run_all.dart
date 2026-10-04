@@ -92,6 +92,22 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '数据管线往返（跳过）', 'true', const [], note: decompNote),
 
+    // 数据表提取：判据是宿主机 C 编译器（编译真表、dump 字节、逐字节比对），
+    // 不是"我解析一遍再自己检查"
+    if (hasDecomp())
+      Step('L0', '数据表提取（vs C 编译器）', 'python3',
+          ['extract/parse_c_tables.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '地形表 104 张 / 6760 个值')
+    else
+      Step('L0', '数据表提取（跳过）', 'true', const [], note: decompNote),
+
+    if (hasDecomp())
+      Step('L0', '数据表逐字节校验', 'python3',
+          ['extract/verify_tables.py'],
+          cwd: 'tools/pipeline', note: 'Python 解析 vs clang 编译结果')
+    else
+      Step('L0', '数据表逐字节校验（跳过）', 'true', const [], note: decompNote),
+
     // 全量导出 + 逐格往返：覆盖所有能解析出资产的章节地图
     if (hasDecomp())
       Step('L0', 'TMX 全量往返', 'python3',
@@ -115,11 +131,19 @@ Future<void> main(List<String> argv) async {
 
     // 把 Dart 移植与真实 C 对上
     if (hasDecomp())
-      Step('L2', 'C Oracle ↔ Dart', 'flutter',
+      Step('L2', 'C Oracle ↔ Dart（乱数）', 'flutter',
           ['test', 'test/core/rng_oracle_test.dart'],
-          note: '乱数 161 用例逐位对照')
+          note: '161 用例逐位对照')
     else
-      Step('L2', 'C Oracle ↔ Dart（跳过）', 'true', const [], note: decompNote),
+      Step('L2', 'C Oracle ↔ Dart（乱数，跳过）', 'true', const [], note: decompNote),
+
+    if (hasDecomp())
+      Step('L2', 'C Oracle ↔ Dart（移动范围）', 'flutter',
+          ['test', 'test/core/movement_oracle_test.dart'],
+          note: '54 用例逐格对照')
+    else
+      Step('L2', 'C Oracle ↔ Dart（移动范围，跳过）', 'true', const [],
+          note: decompNote),
 
     // M1：全量分层分类（D19 要求未分类为 0）。分类器是代码不是表格，
     // 所以它也能进回归——改了特征或名称规则后，未分类数必须仍然是 0。
@@ -208,7 +232,7 @@ Future<void> main(List<String> argv) async {
   }
 
   stdout.writeln('\n[—] 尚未实现');
-  stdout.writeln('      L1 战斗 / 移动 / 事件（目前只有乱数与地图）');
+  stdout.writeln('      L1 战斗结算 / 事件引擎（乱数、地图、移动范围已覆盖）');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');
 

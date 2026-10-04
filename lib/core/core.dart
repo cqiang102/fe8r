@@ -14,5 +14,6 @@
 // 表现层（lib/game）和外壳层（lib/ui）都可以依赖它，反过来不行。
 
 export 'map/map_grid.dart';
+export 'map/movement_range.dart';
 export 'rng/game_rng.dart';
 export 'terrain/terrain_type.dart';

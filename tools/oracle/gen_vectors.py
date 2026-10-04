@@ -130,11 +130,109 @@ def gen_crit_rate(rng):
     return cases
 
 
+def gen_movement(rng):
+    """移动范围（BFS 泛洪）。
+
+    重点覆盖：
+      * 纯平原（应得到规则菱形，可手算校验）
+      * 不可通行地形切断区域
+      * 高消耗地形（森林/山峰）导致绕路
+      * 边界起点（角落、贴边）
+      * 不同移动力（0 / 1 / 最大值）
+    """
+    cases = []
+
+    # 地形 ID（见 include/constants/terrains.h）
+    PLAINS, FOREST, MOUNTAIN, RIVER, SEA = 0x01, 0x0C, 0x11, 0x10, 0x15
+    # 消耗表：常用地形给真实值，其余默认 1，河流/海不可通行
+    def costs(**over):
+        c = [1] * 65
+        c[0x00] = -1          # TERRAIN_NONE
+        c[FOREST] = 2
+        c[MOUNTAIN] = 4
+        c[RIVER] = -1
+        c[SEA] = -1
+        for k, v in over.items():
+            c[int(k, 0)] = v
+        return ",".join(map(str, c))
+
+    BASE = costs()
+
+    def mk(nid, w, h, move, x, y, terrain, c=BASE, unit=0):
+        return (nid, {
+            "w": w, "h": h, "move": move, "x": x, "y": y,
+            "terrain": ",".join(map(str, terrain)), "costs": c, "unit": unit,
+        })
+
+    # --- 手工边界 ---
+    cases.append(mk("mv_flat_8x8_m3", 8, 8, 3, 0, 0, [PLAINS] * 64))
+    cases.append(mk("mv_flat_8x8_m0", 8, 8, 0, 0, 0, [PLAINS] * 64))
+    cases.append(mk("mv_flat_8x8_m1", 8, 8, 1, 0, 0, [PLAINS] * 64))
+    cases.append(mk("mv_flat_8x8_m15", 8, 8, 15, 0, 0, [PLAINS] * 64))
+    cases.append(mk("mv_flat_center", 8, 8, 4, 4, 4, [PLAINS] * 64))
+    cases.append(mk("mv_flat_corner_br", 8, 8, 4, 7, 7, [PLAINS] * 64))
+
+    # 一列河（不可通行）把地图切成两半
+    t = [PLAINS] * 64
+    for y in range(8):
+        t[y * 8 + 4] = RIVER
+    cases.append(mk("mv_river_split", 8, 8, 5, 0, 0, t))
+
+    # 一圈高消耗森林（绕路）
+    t = [PLAINS] * 64
+    for i in range(64):
+        if (i // 8) in (2, 5) or (i % 8) in (2, 5):
+            t[i] = FOREST
+    cases.append(mk("mv_forest_bands", 8, 8, 6, 0, 0, t))
+
+    # 山地：消耗 4，移动力 5 时只走得动一格
+    t = [PLAINS] * 64
+    for i in range(64):
+        if i % 8 >= 3:
+            t[i] = MOUNTAIN
+    cases.append(mk("mv_mountain", 8, 8, 5, 0, 0, t))
+
+    # 窄桥：整列只有一格可通行
+    t = [RIVER] * 64
+    for y in range(8):
+        t[y * 8 + 4] = PLAINS
+        t[y * 8 + 3] = PLAINS
+    cases.append(mk("mv_bridge", 8, 8, 6, 0, 0, t))
+
+    # 全不可通行（只有起点可达）
+    cases.append(mk("mv_all_blocked", 8, 8, 5, 3, 3, [RIVER] * 64))
+
+    # 长宽不等
+    cases.append(mk("mv_rect_3x9", 3, 9, 4, 0, 0, [PLAINS] * 27))
+    cases.append(mk("mv_rect_9x3", 9, 3, 4, 0, 0, [PLAINS] * 27))
+
+    # 单位占位（terrain 里塞一个敌方单位挡住去路）
+    t = [PLAINS] * 64
+    cases.append((f"mv_unit_block", {
+        "w": 8, "h": 8, "move": 4, "x": 0, "y": 0,
+        "terrain": ",".join(map(str, t)), "costs": BASE, "unit": 0x81,
+    }))
+
+    # --- 随机 ---
+    for i in range(40):
+        w = rng.randint(3, 12)
+        h = rng.randint(3, 12)
+        t = []
+        for _ in range(w * h):
+            t.append(rng.choice([PLAINS, PLAINS, PLAINS, FOREST, MOUNTAIN,
+                                 RIVER, SEA]))
+        cases.append(mk(f"mv_rnd_{i:03d}", w, h, rng.randint(0, 12),
+                        rng.randrange(w), rng.randrange(h), t))
+
+    return cases
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit,
     "unit_defense": gen_unit_defense,
     "crit_rate": gen_crit_rate,
+    "movement": gen_movement,
 }
 
 
