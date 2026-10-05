@@ -23,6 +23,15 @@ String? screenshotPathFromEnv() {
   return (p == null || p.isEmpty) ? null : p;
 }
 
+/// 从环境变量读取要回放的输入脚本，形如 `right,right,confirm`
+///
+/// 用于视觉验证：把交互驱动到某个状态再截图。
+/// 没有这个能力就只能截到"刚启动"的画面，而交互状态恰恰是最需要看的。
+String? inputScriptFromEnv() {
+  final p = Platform.environment['FE8R_SCRIPT'];
+  return (p == null || p.isEmpty) ? null : p;
+}
+
 /// 延迟若干帧后抓取 [key] 对应的 RepaintBoundary 并写文件。
 ///
 /// 之所以要等几帧：Flame 的 `onLoad` 是异步的，地图与图集加载完之后
@@ -31,9 +40,17 @@ Future<void> captureWhenReady(
   GlobalKey key,
   String path, {
   int waitFrames = 30,
+  void Function()? beforeCapture,
 }) async {
   // 等足够多的帧，确保异步加载（地图 / 图集）已经完成并画出来了
   for (var i = 0; i < waitFrames; i++) {
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+  }
+
+  // 抓帧前把交互驱动到目标状态
+  beforeCapture?.call();
+  // 再等两帧让新状态画出来
+  for (var i = 0; i < 3; i++) {
     await Future<void>.delayed(const Duration(milliseconds: 100));
   }
 

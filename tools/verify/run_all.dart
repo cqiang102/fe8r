@@ -124,6 +124,12 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', 'TMX 全量往返（跳过）', 'true', const [], note: decompNote),
 
+    // 交互流程状态机：这一层没有 C Oracle（是重写不是移植），
+    // 判据是"状态迁移符合设计 + 完全可序列化 + 不产生非法状态"
+    Step('L1', '交互流程状态机（可序列化）', 'flutter',
+        ['test', 'test/core/flow_machine_test.dart'],
+        note: '11 用例：迁移 / 存档往返 / 非法状态'),
+
     Step('L1', '地图语义形式', 'flutter',
         ['test', 'test/core/map_grid_test.dart'],
         note: '含与 .mar 二进制逐格对照'),
