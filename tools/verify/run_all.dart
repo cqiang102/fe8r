@@ -104,7 +104,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
-          cwd: 'tools/pipeline', note: 'Python 解析 vs clang 编译结果')
+          cwd: 'tools/pipeline', note: '135 张表 / 7008 个值 vs clang')
     else
       Step('L0', '数据表逐字节校验（跳过）', 'true', const [], note: decompNote),
 
@@ -140,7 +140,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L2', 'C Oracle ↔ Dart（战斗数值）', 'flutter',
           ['test', 'test/core/battle_oracle_test.dart'],
-          note: '330 用例：回避/防御/速度/必杀/道具加成')
+          note: '437 用例：回避/防御/速度/必杀/攻击/特效/主教斩魔')
     else
       Step('L2', 'C Oracle ↔ Dart（战斗数值，跳过）', 'true', const [],
           note: decompNote),
@@ -240,7 +240,7 @@ Future<void> main(List<String> argv) async {
   }
 
   stdout.writeln('\n[—] 尚未实现');
-  stdout.writeln('      L1 伤害与命中判定 / 武器三角 / 乱数消耗追踪（M4 剩余部分）');
+  stdout.writeln('      L1 命中判定 / 武器三角 / 乱数消耗追踪（M4 剩余部分）');
   stdout.writeln('      L1 事件引擎（M6）');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');

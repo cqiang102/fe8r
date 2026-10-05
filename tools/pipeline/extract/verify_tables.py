@@ -39,7 +39,7 @@ ARRAY_RX = re.compile(
 )
 
 
-def build_probe(arrays_src, enum_names, outdir):
+def build_probe(arrays_src, enum_names, outdir, enum_headers=None):
     """拼出一个能独立编译的探针程序，并在运行时打印每张表的字节。"""
     # 不写 extern 声明：定义就在上面，直接 sizeof 即可。
     # 写 `extern const signed char X[]` 会与 `s8 X[]`（非 const）冲突。
@@ -81,33 +81,43 @@ int main(void) {{
     with open(os.path.join(outdir, "probe.c"), "w") as f:
         f.write(probe)
 
-    # 地形枚举：直接用原头文件里的 enum 块
-    hdr = open(HDR, encoding="utf-8", errors="replace").read()
-    block = max(re.findall(r"enum\s*\w*\s*\{(.*?)\}", hdr, re.S), key=len)
+    # 枚举：把所有相关头文件里的 enum 块拼到一起给探针用
+    out = []
+    for h in (enum_headers or [HDR]):
+        hdr = open(h, encoding="utf-8", errors="replace").read()
+        blocks = re.findall(r"enum\s*\w*\s*\{(.*?)\}", hdr, re.S)
+        if blocks:
+            # 每个块自带结尾逗号，拼起来会出现 `,,`，先剥掉
+            out.append(max(blocks, key=len).rstrip().rstrip(","))
     with open(os.path.join(outdir, "terrains_enum.h"), "w") as f:
-        f.write("enum {\n" + block + "\n};\n")
+        f.write("enum {\n" + ",\n".join(out) + "\n};\n")
 
 
-def arrays_source():
-    """抽出 data_terrains.c 里所有 `CONST_DATA s8 X[] = {...};` 定义"""
-    text = open(SRC, encoding="utf-8", errors="replace").read()
+def arrays_source(path):
+    """抽出源文件里所有 `CONST_DATA <type> X[] = {...};` 定义"""
+    text = open(path, encoding="utf-8", errors="replace").read()
     return "\n\n".join(m.group(0) for m in ARRAY_RX.finditer(text))
 
 
-def main():
-    json_path = os.path.join(HERE, "..", "out", "tables", "terrains.json")
+def verify_one(json_name):
+    """验证一个 JSON 对应的源文件里的所有表"""
+    json_path = os.path.join(HERE, "..", "out", "tables", json_name)
     if not os.path.exists(json_path):
-        print("错误：先跑 parse_c_tables.py 生成 JSON", file=sys.stderr)
+        print(f"错误：先跑 parse_c_tables.py 生成 {json_name}", file=sys.stderr)
         return 1
     data = json.load(open(json_path, encoding="utf-8"))
     tables = data["tables"]
+    src = os.path.join(DECOMP, data["source"])
 
-    # 只验证 s8 的表（探针里按 signed char dump）
+    # 探针里按 signed char dump；u8 的值在 0..255，signed char 读回来是负的，
+    # 所以比对时统一折算回 0..255
     s8_tables = {k: v for k, v in tables.items() if v["type"] in ("s8", "u8")}
-    print(f"待验证 {len(s8_tables)} 张表（s8/u8）")
+    print(f"── {data['source']} ──")
+    print(f"待验证 {len(s8_tables)} 张表")
 
     with tempfile.TemporaryDirectory() as tmp:
-        build_probe(arrays_source(), list(s8_tables), tmp)
+        enums = [os.path.join(DECOMP, e) for e in data.get("enums", [])] or None
+        build_probe(arrays_source(src), list(s8_tables), tmp, enums)
 
         exe = os.path.join(tmp, "probe")
         r = subprocess.run(
@@ -125,17 +135,18 @@ def main():
             print("探针运行失败", file=sys.stderr)
             return 1
 
-        # 解析 dump
+        # 解析 dump。signed char dump 出来的负数折算回 0..255，
+        # 这样 s8 表和 u8 表能用同一套比对逻辑。
         got = {}
         for line in r.stdout.split("\n"):
             parts = line.split()
             if len(parts) >= 2:
-                got[parts[0]] = [int(x) for x in parts[1:]]
+                got[parts[0]] = [int(x) & 0xFF for x in parts[1:]]
 
     # --- 比对 ---
     bad = []
     for name, tbl in s8_tables.items():
-        mine = tbl["values"]
+        mine = [x & 0xFF for x in tbl["values"]]
         theirs = got.get(name)
         if theirs is None:
             bad.append((name, "探针没有这张表", len(mine), 0))
@@ -159,6 +170,18 @@ def main():
     for name, why, a, b in bad[:15]:
         print(f"  {name}: {why}  (python={a}, clang={b})")
     return 1
+
+
+def main():
+    sources = ["terrains.json", "itemuse.json"]
+    failed = 0
+    for name in sources:
+        if verify_one(name) != 0:
+            failed += 1
+    print()
+    if failed == 0:
+        print(f"全部 {len(sources)} 个数据表文件通过")
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

@@ -87,6 +87,126 @@ class BattleStats {
     }
   }
 
+  /// `IsItemEffectiveAgainst(item, unit)`
+  ///
+  /// 三步：
+  ///   1. 防御方没有职业数据 → false
+  ///   2. 武器的特效列表里没有防御方职业 → false
+  ///   3. 命中后还要过"飞行抵消"：**只有**列表本身是飞行/飞行+魔物时，
+  ///      才检查防御方道具里有没有 `IA_NEGATE_FLYING`
+  ///
+  /// 第 3 步最容易被简化错：把"抵消"做成通用规则就会让对重甲/对龙的特效
+  /// 也被抵消掉。原来的实现是拿**列表指针的身份**来判定的
+  /// （`GetItemEffectiveness(item) != ItemEffectiveness_Flier`），
+  /// 所以这里必须显式传入"这个列表是不是飞行类"，不能靠内容推断。
+  static bool isItemEffectiveAgainst(
+    int item,
+    BattleUnitSide defender,
+    ItemTable items,
+  ) {
+    final classId = defender.classId;
+    if (classId == null) return false;
+
+    final effList = items.effectivenessOf(item);
+    if (effList == null || effList.isEmpty) return false;
+
+    var hit = false;
+    for (final c in effList) {
+      if (c == 0) break; // 终止符
+      if (c == classId) {
+        hit = true;
+        break;
+      }
+    }
+    if (!hit) return false;
+
+    // 非飞行类列表：直接生效
+    if (!items.dataOf(item).effectivenessIsFlier) return true;
+
+    // 飞行类列表：防御方所有道具的属性里只要有 IA_NEGATE_FLYING 就抵消
+    var attributes = 0;
+    for (final it in defender.items) {
+      attributes |= items.attributesOf(it);
+    }
+    return attributes & iaNegateFlying == 0;
+  }
+
+  /// `IsUnitEffectiveAgainst(actor, target)`
+  ///
+  /// 只有攻击方职业是**主教**（0x2B/0x2C）时，才对一切魔物职业生效。
+  /// 没有飞行抵消那一套。
+  static bool isUnitEffectiveAgainst(
+    BattleUnitSide actor,
+    BattleUnitSide target,
+    List<int> monsterClassList,
+  ) {
+    final actorClass = actor.classId;
+    final targetClass = target.classId;
+    if (actorClass == null || targetClass == null) return false;
+    if (actorClass != classBishop && actorClass != classBishopF) return false;
+
+    for (final c in monsterClassList) {
+      if (c == 0) break;
+      if (c == targetClass) return true;
+    }
+    return false;
+  }
+
+  /// `ComputeBattleUnitAttack`
+  ///
+  /// ⚠️ 两条特效分支**不是 else 关系**：`IsUnitEffectiveAgainst`（主教）先算，
+  /// 然后 `IsItemEffectiveAgainst`（武器特效）如果也成立，会**覆盖**掉前者的结果
+  /// ——因为两条分支里都写的是 `attack = attacker->battleAttack;` 重置。
+  ///
+  /// 倍率也不一样：武器特效默认 ×3，但八件"神器"（圣剑/圣枪等）是 ×2。
+  /// 最后再加力量；魔石直接把结果清零。
+  static void computeAttack(
+    BattleUnit attacker,
+    BattleUnit defender,
+    ItemTable items, {
+    required List<int> monsterClassList,
+  }) {
+    attacker.battleAttack =
+        items.mightOf(attacker.weapon) + attacker.wTriangleDmgBonus;
+    var attack = attacker.battleAttack;
+
+    if (isUnitEffectiveAgainst(attacker.unit, defender.unit, monsterClassList)) {
+      attack = attacker.battleAttack;
+      attack = attack * 3;
+    }
+
+    if (isItemEffectiveAgainst(attacker.weapon, defender.unit, items)) {
+      attack = attacker.battleAttack;
+      attack *= sacredWeaponDoublesDamage(attacker.weapon) ? 2 : 3;
+    }
+
+    attacker.battleAttack = attack;
+    attacker.battleAttack += attacker.unit.pow;
+
+    if (ItemTable.itemIndex(attacker.weapon) == itemMonsterStone) {
+      attacker.battleAttack = 0;
+    }
+  }
+
+  /// 那八件特效倍率为 ×2 而不是 ×3 的"神器"。
+  ///
+  /// 对应 C 里 `ComputeBattleUnitAttack` 的 switch：
+  ///   ITEM_SWORD_AUDHULMA / LANCE_VIDOFNIR / AXE_GARM / BOW_NIDHOGG /
+  ///   ANIMA_EXCALIBUR / LIGHT_IVALDI / SWORD_SIEGLINDE / LANCE_SIEGMUND
+  static const Set<int> _sacredWeapons = {
+    0x3E, // ITEM_ANIMA_EXCALIBUR
+    0x85, // ITEM_SWORD_SIEGLINDE
+    0x87, // ITEM_LIGHT_IVALDI
+    0x8E, // ITEM_LANCE_VIDOFNIR
+    0x91, // ITEM_SWORD_AUDHULMA
+    0x92, // ITEM_LANCE_SIEGMUND
+    0x93, // ITEM_AXE_GARM
+    0x94, // ITEM_BOW_NIDHOGG
+  };
+
+  static bool sacredWeaponDoublesDamage(int item) =>
+      _sacredWeapons.contains(ItemTable.itemIndex(item));
+
   /// `GetUnitDefense`
   ///
   /// `unit->def + GetItemDefBonus(GetUnitEquippedWeapon(unit))`

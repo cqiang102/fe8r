@@ -1,0 +1,110 @@
+# 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
+# 场景: battle_attack  种子: 20261003:battle_attack  用例数: 107
+# 格式: <id>\t key=value \t key=value ...
+ba_attack_edge_00	fn=attack	weapon=1	might=10	triBonus=0	pow=5	actorCls=1	targetCls=1	effList=none	negFly=0
+ba_attack_edge_01	fn=attack	weapon=1	might=10	triBonus=3	pow=5	actorCls=1	targetCls=1	effList=none	negFly=0
+ba_attack_edge_02	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=9	effList=armor	negFly=0
+ba_attack_edge_03	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=5	effList=armorAndHorse	negFly=0
+ba_attack_edge_04	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=1	effList=armor	negFly=0
+ba_attack_edge_05	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=75	effList=horse	negFly=0
+ba_attack_edge_06	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=72	effList=flier	negFly=0
+ba_attack_edge_07	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=72	effList=flier	negFly=16384
+ba_attack_edge_08	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=0
+ba_attack_edge_09	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=0
+ba_attack_edge_10	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=16384
+ba_attack_edge_11	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=31	effList=dragon	negFly=0
+ba_attack_edge_12	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=82	effList=monsters	negFly=0
+ba_attack_edge_13	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=1	targetCls=82	effList=monsters	negFly=16384
+ba_attack_edge_14	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=43	targetCls=82	effList=none	negFly=0
+ba_attack_edge_15	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=44	targetCls=82	effList=none	negFly=0
+ba_attack_edge_16	fn=attack	weapon=1	might=5	triBonus=0	pow=0	actorCls=43	targetCls=1	effList=none	negFly=0
+ba_attack_edge_17	fn=attack	weapon=181	might=5	triBonus=0	pow=12	actorCls=1	targetCls=1	effList=none	negFly=0
+ba_attack_edge_18	fn=attack	weapon=0	might=999	triBonus=0	pow=7	actorCls=1	targetCls=1	effList=none	negFly=0
+ba_item_eff_00	weapon=1	might=5	actorCls=1	targetCls=9	effList=armor	negFly=0	fn=item_eff
+ba_unit_eff_00	weapon=1	might=5	actorCls=1	targetCls=9	effList=armor	negFly=0	fn=unit_eff
+ba_item_eff_01	weapon=1	might=5	actorCls=1	targetCls=1	effList=armor	negFly=0	fn=item_eff
+ba_unit_eff_01	weapon=1	might=5	actorCls=1	targetCls=1	effList=armor	negFly=0	fn=unit_eff
+ba_item_eff_02	weapon=1	might=5	actorCls=1	targetCls=75	effList=horse	negFly=0	fn=item_eff
+ba_unit_eff_02	weapon=1	might=5	actorCls=1	targetCls=75	effList=horse	negFly=0	fn=unit_eff
+ba_item_eff_03	weapon=1	might=5	actorCls=1	targetCls=72	effList=flier	negFly=0	fn=item_eff
+ba_unit_eff_03	weapon=1	might=5	actorCls=1	targetCls=72	effList=flier	negFly=0	fn=unit_eff
+ba_item_eff_04	weapon=1	might=5	actorCls=1	targetCls=72	effList=flier	negFly=16384	fn=item_eff
+ba_unit_eff_04	weapon=1	might=5	actorCls=1	targetCls=72	effList=flier	negFly=16384	fn=unit_eff
+ba_item_eff_05	weapon=1	might=5	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=0	fn=item_eff
+ba_unit_eff_05	weapon=1	might=5	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=0	fn=unit_eff
+ba_item_eff_06	weapon=1	might=5	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=16384	fn=item_eff
+ba_unit_eff_06	weapon=1	might=5	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=16384	fn=unit_eff
+ba_item_eff_07	weapon=1	might=5	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=0	fn=item_eff
+ba_unit_eff_07	weapon=1	might=5	actorCls=1	targetCls=82	effList=flierAndMonsters	negFly=0	fn=unit_eff
+ba_item_eff_08	weapon=1	might=5	actorCls=1	targetCls=82	effList=monsters	negFly=0	fn=item_eff
+ba_unit_eff_08	weapon=1	might=5	actorCls=1	targetCls=82	effList=monsters	negFly=0	fn=unit_eff
+ba_item_eff_09	weapon=1	might=5	actorCls=1	targetCls=82	effList=monsters	negFly=16384	fn=item_eff
+ba_unit_eff_09	weapon=1	might=5	actorCls=1	targetCls=82	effList=monsters	negFly=16384	fn=unit_eff
+ba_item_eff_10	weapon=1	might=5	actorCls=1	targetCls=31	effList=dragon	negFly=0	fn=item_eff
+ba_unit_eff_10	weapon=1	might=5	actorCls=1	targetCls=31	effList=dragon	negFly=0	fn=unit_eff
+ba_item_eff_11	weapon=1	might=5	actorCls=43	targetCls=82	effList=none	negFly=0	fn=item_eff
+ba_unit_eff_11	weapon=1	might=5	actorCls=43	targetCls=82	effList=none	negFly=0	fn=unit_eff
+ba_item_eff_12	weapon=1	might=5	actorCls=44	targetCls=82	effList=none	negFly=0	fn=item_eff
+ba_unit_eff_12	weapon=1	might=5	actorCls=44	targetCls=82	effList=none	negFly=0	fn=unit_eff
+ba_item_eff_13	weapon=1	might=5	actorCls=43	targetCls=1	effList=none	negFly=0	fn=item_eff
+ba_unit_eff_13	weapon=1	might=5	actorCls=43	targetCls=1	effList=none	negFly=0	fn=unit_eff
+ba_rnd_000	fn=attack	weapon=1	might=7	triBonus=3	pow=28	actorCls=1	targetCls=72	effList=armorAndHorse	negFly=0
+ba_rnd_001	fn=unit_eff	weapon=1	might=18	triBonus=2	pow=11	actorCls=44	targetCls=82	effList=horse	negFly=0
+ba_rnd_002	fn=unit_eff	weapon=0	might=1	triBonus=-1	pow=13	actorCls=1	targetCls=82	effList=horse	negFly=16384
+ba_rnd_003	fn=unit_eff	weapon=181	might=29	triBonus=2	pow=5	actorCls=1	targetCls=9	effList=dragon	negFly=0
+ba_rnd_004	fn=attack	weapon=1	might=12	triBonus=0	pow=5	actorCls=43	targetCls=31	effList=dragon	negFly=0
+ba_rnd_005	fn=item_eff	weapon=181	might=2	triBonus=3	pow=22	actorCls=43	targetCls=75	effList=monsters	negFly=0
+ba_rnd_006	fn=attack	weapon=1	might=22	triBonus=3	pow=3	actorCls=43	targetCls=1	effList=armorAndHorse	negFly=0
+ba_rnd_007	fn=attack	weapon=1	might=8	triBonus=1	pow=4	actorCls=43	targetCls=1	effList=flierAndMonsters	negFly=0
+ba_rnd_008	fn=unit_eff	weapon=1	might=10	triBonus=-3	pow=37	actorCls=1	targetCls=1	effList=flier	negFly=16384
+ba_rnd_009	fn=attack	weapon=1	might=4	triBonus=-3	pow=16	actorCls=44	targetCls=9	effList=flier	negFly=0
+ba_rnd_010	fn=unit_eff	weapon=181	might=5	triBonus=3	pow=11	actorCls=44	targetCls=82	effList=none	negFly=0
+ba_rnd_011	fn=attack	weapon=1	might=22	triBonus=2	pow=9	actorCls=43	targetCls=1	effList=none	negFly=0
+ba_rnd_012	fn=attack	weapon=1	might=15	triBonus=3	pow=27	actorCls=1	targetCls=43	effList=dragon	negFly=0
+ba_rnd_013	fn=item_eff	weapon=1	might=20	triBonus=-3	pow=13	actorCls=44	targetCls=43	effList=armor	negFly=0
+ba_rnd_014	fn=item_eff	weapon=0	might=20	triBonus=-2	pow=1	actorCls=43	targetCls=75	effList=flier	negFly=0
+ba_rnd_015	fn=attack	weapon=181	might=12	triBonus=3	pow=27	actorCls=1	targetCls=1	effList=armor	negFly=0
+ba_rnd_016	fn=item_eff	weapon=181	might=13	triBonus=-3	pow=32	actorCls=44	targetCls=1	effList=flierAndMonsters	negFly=0
+ba_rnd_017	fn=item_eff	weapon=0	might=13	triBonus=3	pow=37	actorCls=1	targetCls=43	effList=monsters	negFly=0
+ba_rnd_018	fn=attack	weapon=1	might=24	triBonus=-2	pow=16	actorCls=43	targetCls=9	effList=dragon	negFly=0
+ba_rnd_019	fn=item_eff	weapon=1	might=0	triBonus=3	pow=6	actorCls=1	targetCls=75	effList=flierAndMonsters	negFly=16384
+ba_rnd_020	fn=unit_eff	weapon=181	might=25	triBonus=-2	pow=29	actorCls=1	targetCls=75	effList=armor	negFly=0
+ba_rnd_021	fn=attack	weapon=1	might=12	triBonus=-2	pow=11	actorCls=44	targetCls=75	effList=flier	negFly=0
+ba_rnd_022	fn=item_eff	weapon=1	might=24	triBonus=-1	pow=7	actorCls=1	targetCls=1	effList=none	negFly=0
+ba_rnd_023	fn=item_eff	weapon=1	might=13	triBonus=0	pow=31	actorCls=44	targetCls=43	effList=none	negFly=0
+ba_rnd_024	fn=item_eff	weapon=0	might=13	triBonus=-2	pow=2	actorCls=44	targetCls=1	effList=dragon	negFly=16384
+ba_rnd_025	fn=unit_eff	weapon=0	might=16	triBonus=0	pow=39	actorCls=43	targetCls=75	effList=armorAndHorse	negFly=0
+ba_rnd_026	fn=attack	weapon=0	might=26	triBonus=-1	pow=0	actorCls=1	targetCls=1	effList=flier	negFly=0
+ba_rnd_027	fn=item_eff	weapon=1	might=6	triBonus=-3	pow=5	actorCls=44	targetCls=82	effList=armorAndHorse	negFly=16384
+ba_rnd_028	fn=unit_eff	weapon=1	might=15	triBonus=3	pow=1	actorCls=1	targetCls=31	effList=horse	negFly=16384
+ba_rnd_029	fn=attack	weapon=0	might=18	triBonus=2	pow=4	actorCls=44	targetCls=75	effList=none	negFly=0
+ba_rnd_030	fn=attack	weapon=1	might=24	triBonus=1	pow=12	actorCls=1	targetCls=31	effList=flierAndMonsters	negFly=0
+ba_rnd_031	fn=attack	weapon=1	might=13	triBonus=-3	pow=39	actorCls=1	targetCls=9	effList=dragon	negFly=0
+ba_rnd_032	fn=attack	weapon=1	might=12	triBonus=2	pow=17	actorCls=44	targetCls=31	effList=flier	negFly=0
+ba_rnd_033	fn=unit_eff	weapon=181	might=16	triBonus=0	pow=24	actorCls=1	targetCls=75	effList=flier	negFly=0
+ba_rnd_034	fn=attack	weapon=1	might=1	triBonus=-3	pow=17	actorCls=43	targetCls=43	effList=dragon	negFly=16384
+ba_rnd_035	fn=item_eff	weapon=0	might=5	triBonus=1	pow=14	actorCls=43	targetCls=9	effList=armor	negFly=0
+ba_rnd_036	fn=attack	weapon=1	might=23	triBonus=1	pow=5	actorCls=44	targetCls=9	effList=dragon	negFly=0
+ba_rnd_037	fn=item_eff	weapon=181	might=4	triBonus=2	pow=21	actorCls=44	targetCls=9	effList=armorAndHorse	negFly=0
+ba_rnd_038	fn=attack	weapon=0	might=21	triBonus=3	pow=15	actorCls=1	targetCls=82	effList=armorAndHorse	negFly=16384
+ba_rnd_039	fn=item_eff	weapon=0	might=28	triBonus=1	pow=39	actorCls=1	targetCls=1	effList=monsters	negFly=0
+ba_rnd_040	fn=attack	weapon=0	might=28	triBonus=1	pow=29	actorCls=1	targetCls=31	effList=armor	negFly=0
+ba_rnd_041	fn=unit_eff	weapon=0	might=9	triBonus=0	pow=28	actorCls=44	targetCls=72	effList=dragon	negFly=0
+ba_rnd_042	fn=item_eff	weapon=1	might=21	triBonus=-1	pow=11	actorCls=44	targetCls=1	effList=flierAndMonsters	negFly=0
+ba_rnd_043	fn=unit_eff	weapon=181	might=26	triBonus=-3	pow=33	actorCls=44	targetCls=1	effList=none	negFly=0
+ba_rnd_044	fn=attack	weapon=1	might=7	triBonus=3	pow=5	actorCls=44	targetCls=82	effList=flierAndMonsters	negFly=16384
+ba_rnd_045	fn=unit_eff	weapon=0	might=9	triBonus=2	pow=18	actorCls=1	targetCls=82	effList=dragon	negFly=0
+ba_rnd_046	fn=unit_eff	weapon=1	might=2	triBonus=1	pow=4	actorCls=44	targetCls=31	effList=horse	negFly=0
+ba_rnd_047	fn=item_eff	weapon=1	might=0	triBonus=0	pow=12	actorCls=1	targetCls=1	effList=armorAndHorse	negFly=0
+ba_rnd_048	fn=attack	weapon=1	might=4	triBonus=0	pow=21	actorCls=43	targetCls=9	effList=armor	negFly=0
+ba_rnd_049	fn=attack	weapon=1	might=10	triBonus=2	pow=28	actorCls=43	targetCls=1	effList=armorAndHorse	negFly=0
+ba_rnd_050	fn=attack	weapon=1	might=17	triBonus=3	pow=8	actorCls=44	targetCls=43	effList=monsters	negFly=16384
+ba_rnd_051	fn=item_eff	weapon=0	might=14	triBonus=2	pow=5	actorCls=44	targetCls=1	effList=armorAndHorse	negFly=0
+ba_rnd_052	fn=unit_eff	weapon=0	might=13	triBonus=3	pow=32	actorCls=43	targetCls=9	effList=flier	negFly=0
+ba_rnd_053	fn=unit_eff	weapon=1	might=21	triBonus=-3	pow=10	actorCls=1	targetCls=44	effList=horse	negFly=16384
+ba_rnd_054	fn=unit_eff	weapon=0	might=16	triBonus=-3	pow=29	actorCls=43	targetCls=43	effList=armorAndHorse	negFly=16384
+ba_rnd_055	fn=attack	weapon=0	might=16	triBonus=0	pow=34	actorCls=1	targetCls=43	effList=dragon	negFly=0
+ba_rnd_056	fn=item_eff	weapon=1	might=3	triBonus=-3	pow=21	actorCls=1	targetCls=9	effList=armorAndHorse	negFly=0
+ba_rnd_057	fn=attack	weapon=181	might=23	triBonus=1	pow=23	actorCls=44	targetCls=72	effList=horse	negFly=16384
+ba_rnd_058	fn=attack	weapon=1	might=19	triBonus=-3	pow=13	actorCls=1	targetCls=75	effList=flierAndMonsters	negFly=16384
+ba_rnd_059	fn=item_eff	weapon=1	might=19	triBonus=1	pow=15	actorCls=1	targetCls=31	effList=flier	negFly=0

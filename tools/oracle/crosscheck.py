@@ -180,6 +180,7 @@ def model_unit_defense(f):
 # ------------------------------------------------ 场景: crit_rate
 
 ITEM_MONSTER_STONE = 0xB5
+IA_NEGATE_FLYING = (1 << 14)
 IA_NEGATE_CRIT = 1 << 15
 
 
@@ -203,11 +204,118 @@ def model_crit_rate(f):
     return v
 
 
+
+# ------------------------------------------------ 场景: battle_attack
+
+# 与 src/data/data_itemuse.c 的真实有效性表保持一致，从提取出的 JSON 读，
+# 避免"Python 侧手抄一份"导致两边数据不一致
+def _load_effectiveness():
+    import json as _json
+    path = os.path.join(HERE, "..", "pipeline", "out", "tables", "itemuse.json")
+    if not os.path.exists(path):
+        return None
+    d = _json.load(open(path, encoding="utf-8"))
+    tbl = d["tables"]
+    out = {}
+    for name, key in (
+        ("armor", "ItemEffectiveness_Armor"),
+        ("armorAndHorse", "ItemEffectiveness_ArmorAndHorse"),
+        ("horse", "ItemEffectiveness_Horse"),
+        ("flier", "ItemEffectiveness_Flier"),
+        ("flierAndMonsters", "ItemEffectiveness_FlierAndMonsters"),
+        ("dragon", "ItemEffectiveness_Dragon"),
+        ("monsters", "ItemEffectiveness_Monsters"),
+    ):
+        out[name] = [v for v in tbl[key]["values"] if v != 0]
+    return out
+
+
+_EFF = _load_effectiveness()
+_BISHOP = (0x2B, 0x2C)
+_SACRED = {0x3E, 0x85, 0x87, 0x8E, 0x91, 0x92, 0x93, 0x94}
+
+
+def _eff_list(name):
+    if name in (None, "none"):
+        return None
+    return _EFF[name] if _EFF else None
+
+
+def _is_flier_list(name):
+    return name in ("flier", "flierAndMonsters")
+
+
+def _weapon_slot(f):
+    """场景里道具 1 承载被测武器；其它编号的道具没有威力也没有特效。
+
+    ⚠️ 这一条必须照 C 的查表方式写：`GetItemMight(weapon)` 等价于
+    `gItemData[weapon & 0xFF].might`。空手（weapon=0）时查的是**道具 0**，
+    它的 might 与 pEffectiveness 都是 0 —— 用例里的 might/effList
+    只对 `weapon & 0xFF == 1` 生效。
+    漏了这条，所有 weapon=0 的用例都会算出 C 不可能产生的结果。
+    """
+    return (f.get("weapon", 0) & 0xFF) == 1
+
+
+def _might(f):
+    return f.get("might", 0) if _weapon_slot(f) else 0
+
+
+def _item_effective(f):
+    """IsItemEffectiveAgainst 的独立实现"""
+    if _EFF is None:
+        return None
+    if not _weapon_slot(f):
+        return 0            # 道具 0 没有 pEffectiveness
+    eff = _eff_list(f.get("effList", "none"))
+    if eff is None:
+        return 0
+    target = f.get("targetCls", 1)
+    if target not in eff:
+        return 0
+    if not _is_flier_list(f.get("effList", "none")):
+        return 1
+    attrs = IA_NEGATE_FLYING if f.get("negFly", 0) else 0
+    return 0 if (attrs & IA_NEGATE_FLYING) else 1
+
+
+def _unit_effective(f):
+    """IsUnitEffectiveAgainst 的独立实现：只有主教对魔物"""
+    if _EFF is None:
+        return None
+    if f.get("actorCls", 1) not in _BISHOP:
+        return 0
+    return 1 if f.get("targetCls", 1) in _EFF["monsters"] else 0
+
+
+def model_battle_attack(f):
+    if _EFF is None:
+        return None
+    fn = f.get("fn", "attack")
+    if fn == "item_eff":
+        return _item_effective(f)
+    if fn == "unit_eff":
+        return _unit_effective(f)
+
+    weapon = f.get("weapon", 0)
+    base = _might(f) + s16(f.get("triBonus", 0))
+    attack = base
+    if _unit_effective(f):
+        attack = base * 3
+    if _item_effective(f):
+        attack = base * (2 if (weapon & 0xFF) in _SACRED else 3)
+    attack = s16(attack + s8(f.get("pow", 0)))
+    if (weapon & 0xFF) == ITEM_MONSTER_STONE:
+        attack = 0
+    return s16(attack)
+
+
 MODELS = {
     "rng": (model_rng, True),          # True = 结果是列表
     "battle_unit": (model_battle_unit, False),
     "unit_defense": (model_unit_defense, False),
     "crit_rate": (model_crit_rate, False),
+    "battle_attack": (model_battle_attack, False),
 }
 
 

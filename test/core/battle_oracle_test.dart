@@ -6,6 +6,7 @@
 //   unit_defense — GetUnitDefense / GetItemDefBonus
 //
 // 用例里的字段名与 C 场景的输入字段一一对应，两端构造的输入必须完全一致。
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fe8r/core/core.dart';
@@ -162,11 +163,106 @@ void main() {
       expect(failures, isEmpty, reason: failures.take(6).join('\n'));
     });
 
+    test('battle_attack（攻击力 / 武器特效 / 主教斩魔）', () {
+      final cases = _readCases('$_vecDir/battle_attack.cases.tsv');
+      final expected = _readExpected('$_vecDir/battle_attack.expected.tsv');
+      expect(cases, isNotEmpty);
+
+      // 与 scenarios/battle_attack.c 的 pick_list 一一对应。
+      // 职业编号直接取自真实有效性表（tools/pipeline/out/tables/itemuse.json），
+      // 保证与生成向量时用的是同一份数据。
+      final tables = jsonDecode(
+        File('tools/pipeline/out/tables/itemuse.json').readAsStringSync(),
+      ) as Map<String, dynamic>;
+      final tbl = tables['tables'] as Map<String, dynamic>;
+      List<int> members(String name) => ((tbl[name] as Map<String, dynamic>)['values']
+              as List<dynamic>)
+          .map((e) => e as int)
+          .where((v) => v != 0)
+          .toList();
+
+      final lists = <String, List<int>?>{
+        'none': null,
+        'armor': members('ItemEffectiveness_Armor'),
+        'armorAndHorse': members('ItemEffectiveness_ArmorAndHorse'),
+        'horse': members('ItemEffectiveness_Horse'),
+        'flier': members('ItemEffectiveness_Flier'),
+        'flierAndMonsters': members('ItemEffectiveness_FlierAndMonsters'),
+        'dragon': members('ItemEffectiveness_Dragon'),
+        'monsters': members('ItemEffectiveness_Monsters'),
+      };
+      const flierLists = {'flier', 'flierAndMonsters'};
+
+      final failures = <String>[];
+      for (final id in cases.keys.toList()..sort()) {
+        final c = cases[id]!;
+        final want = expected[id];
+        if (want == null) {
+          failures.add('$id: 缺少期望值');
+          continue;
+        }
+
+        // 场景里道具 1 承载被测武器，道具 2 承载 IA_NEGATE_FLYING
+        final items = ItemTable(4);
+        final effName = c['effList'] ?? 'none';
+        items[1]
+          ..might = _v(c, 'might')
+          ..effectiveness = lists[effName]
+          ..effectivenessIsFlier = flierLists.contains(effName);
+        final negFly = _v(c, 'negFly');
+        items[2].attributes = negFly;
+
+        final atk = BattleUnit()
+          ..wTriangleDmgBonus = _v(c, 'triBonus');
+        atk.weapon = asU16(_v(c, 'weapon'));
+        atk.unit = BattleUnitSide(
+          pow: _v(c, 'pow'),
+          classId: _v(c, 'actorCls'),
+        );
+
+        final def = BattleUnit();
+        def.unit = BattleUnitSide(
+          classId: _v(c, 'targetCls'),
+          items: [negFly != 0 ? 2 : 0],
+        );
+
+        final fn = c['fn'] ?? 'attack';
+        final int got;
+        switch (fn) {
+          case 'item_eff':
+            got = BattleStats.isItemEffectiveAgainst(
+                    atk.weapon, def.unit, items)
+                ? 1
+                : 0;
+          case 'unit_eff':
+            got = BattleStats.isUnitEffectiveAgainst(
+              atk.unit,
+              def.unit,
+              lists['monsters']!,
+            )
+                ? 1
+                : 0;
+          default:
+            BattleStats.computeAttack(
+              atk,
+              def,
+              items,
+              monsterClassList: lists['monsters']!,
+            );
+            got = atk.battleAttack;
+        }
+
+        if ('$got' != want) failures.add('$id ($fn): 期望 $want，实际 $got');
+      }
+      expect(failures, isEmpty, reason: failures.take(8).join('\n'));
+    });
+
     test('三个场景的用例总数（防止向量文件被误删）', () {
       final n1 = _readCases('$_vecDir/battle_unit.cases.tsv').length;
       final n2 = _readCases('$_vecDir/crit_rate.cases.tsv').length;
       final n3 = _readCases('$_vecDir/unit_defense.cases.tsv').length;
       expect(n1 + n2 + n3, 171 + 90 + 69);
+      expect(_readCases('$_vecDir/battle_attack.cases.tsv').length, 107);
     });
   });
 }

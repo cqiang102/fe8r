@@ -1,0 +1,8 @@
+src/ComputeBattleUnitAttack.c
+src/IsItemEffectiveAgainst.c
+src/IsUnitEffectiveAgainst.c
+src/GetItemEffectiveness.c
+src/GetItemAttributes.c
+src/data/data_itemuse.c
+src/GetItemMight.c
+src/GetUnitItemSlot.c

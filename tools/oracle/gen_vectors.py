@@ -267,12 +267,151 @@ def gen_battle_unit_all(rng):
     return gen_battle_unit(rng) + gen_battle_speed(rng)
 
 
+
+def gen_battle_attack(rng):
+    """攻击力与特效判定。
+
+    重点覆盖：
+      * 无特效（基准）
+      * 各类特效列表命中 / 不命中
+      * **神器 ×2 vs 普通特效 ×3** 这两条不同倍率
+      * 飞行特效被 IA_NEGATE_FLYING 抵消
+      * 魔物职业（0x2B/0x2C）对一切魔物 ×3
+      * 魔石（ITEM_MONSTER_STONE）→ 攻击力归零
+
+    ⚠️ **职业编号从真实有效性表里读，不手写。**
+    早期版本我手写了 `armor=0x0F`、`horse=0x0C`，结果 0x0F 根本不在
+    ItemEffectiveness_Armor 里，而 0x0C 是 CLASS_GENERAL_F **恰好在**里面——
+    于是"armor 列表打 horse 职业"反而命中了。Oracle 本身没错，
+    错的是我编的测试数据。现在改成从 itemuse.json 里取表成员。
+    """
+    import json as _json
+
+    tables_path = os.path.join(
+        HERE, "..", "pipeline", "out", "tables", "itemuse.json")
+    if not os.path.exists(tables_path):
+        raise SystemExit(
+            f"错误：找不到 {tables_path}\n"
+            "先跑 tools/pipeline/extract/parse_c_tables.py")
+    idata = _json.load(open(tables_path, encoding="utf-8"))
+    cls_enum = {k: v for k, v in idata["enum"].items()
+                if k.startswith("CLASS_")}
+    tbl = idata["tables"]
+
+    def members(name):
+        """取某张有效性表的成员（去掉末尾的 CLASS_NONE 终止符）"""
+        vals = tbl[name]["values"]
+        return [v for v in vals if v != 0]
+
+    ARMOR = members("ItemEffectiveness_Armor")
+    ARMOR_HORSE = members("ItemEffectiveness_ArmorAndHorse")
+    HORSE = members("ItemEffectiveness_Horse")
+    FLIER = members("ItemEffectiveness_Flier")
+    FLIER_MON = members("ItemEffectiveness_FlierAndMonsters")
+    DRAGON = members("ItemEffectiveness_Dragon")
+    MONSTERS = members("ItemEffectiveness_Monsters")
+
+    def outsider(members_list):
+        """找一个**不在**该列表里的职业，用来测"不命中"分支"""
+        for v in range(1, 0x80):
+            if v not in members_list:
+                return v
+        return 1
+
+    PLAIN = outsider(ARMOR + FLIER + DRAGON + MONSTERS)   # 什么特效都不吃
+
+    # `IsUnitEffectiveAgainst` 里写死的 `case 0x2B: case 0x2C:` 对应的是
+    # **主教**（CLASS_BISHOP / CLASS_BISHOP_F）——FE8 的"斩魔"特性。
+    # 别按字面猜成石像鬼蛋：我第一版就猜错了，测试数据选了 CLASS_GORGONEGG，
+    # 于是"主教打魔物 ×3"这条分支一次都没被覆盖到。
+    BISHOP = cls_enum["CLASS_BISHOP"]
+    BISHOP_F = cls_enum["CLASS_BISHOP_F"]
+
+    cases = []
+    LISTS = ["none", "armor", "armorAndHorse", "horse", "flier",
+             "flierAndMonsters", "dragon", "monsters"]
+    NEG = 1 << 14   # IA_NEGATE_FLYING
+
+    # --- attack：完整链路 ---
+    edges = [
+        # (说明, weapon, might, triBonus, pow, actorCls, targetCls, effList, negFly)
+        ("基准", 1, 10, 0, 5, 1, PLAIN, "none", 0),
+        ("三角加成", 1, 10, 3, 5, 1, PLAIN, "none", 0),
+        ("armor 列表命中", 1, 5, 0, 0, 1, ARMOR[0], "armor", 0),
+        ("armorAndHorse 命中", 1, 5, 0, 0, 1, ARMOR_HORSE[0], "armorAndHorse", 0),
+        ("armor 列表不命中", 1, 5, 0, 0, 1, outsider(ARMOR), "armor", 0),
+        ("horse 列表命中", 1, 5, 0, 0, 1, HORSE[0], "horse", 0),
+        ("flier 列表命中", 1, 5, 0, 0, 1, FLIER[0], "flier", 0),
+        ("flier 被抵消", 1, 5, 0, 0, 1, FLIER[0], "flier", NEG),
+        ("flierAndMonsters 命中飞行", 1, 5, 0, 0, 1, FLIER_MON[0], "flierAndMonsters", 0),
+        ("flierAndMonsters 命中魔物", 1, 5, 0, 0, 1, MONSTERS[0], "flierAndMonsters", 0),
+        ("flierAndMonsters 被抵消", 1, 5, 0, 0, 1, FLIER_MON[0], "flierAndMonsters", NEG),
+        ("dragon 列表命中", 1, 5, 0, 0, 1, DRAGON[0], "dragon", 0),
+        ("monsters 列表命中", 1, 5, 0, 0, 1, MONSTERS[0], "monsters", 0),
+        ("monsters 列表不因抵消失效", 1, 5, 0, 0, 1, MONSTERS[0], "monsters", NEG),
+        ("主教打魔物", 1, 5, 0, 0, BISHOP, MONSTERS[0], "none", 0),
+        ("女主教打魔物", 1, 5, 0, 0, BISHOP_F, MONSTERS[0], "none", 0),
+        ("主教打非魔物", 1, 5, 0, 0, BISHOP, PLAIN, "none", 0),
+        ("魔石归零", 0xB5, 5, 0, 12, 1, PLAIN, "none", 0),
+        ("空手", 0, 999, 0, 7, 1, PLAIN, "none", 0),
+    ]
+    for i, (why, w, might, tri, pw, ac, tc, el, ng) in enumerate(edges):
+        cases.append((f"ba_attack_edge_{i:02d}", {
+            "fn": "attack", "weapon": w, "might": might, "triBonus": tri,
+            "pow": pw, "actorCls": ac, "targetCls": tc,
+            "effList": el, "negFly": ng,
+        }))
+    globals()["_BA_NOTES"] = {f"ba_attack_edge_{i:02d}": e[0]
+                              for i, e in enumerate(edges)}
+
+    # --- item_eff / unit_eff：单独看判定 ---
+    pairs = [
+        (1, ARMOR[0], "armor", 0),
+        (1, outsider(ARMOR), "armor", 0),
+        (1, HORSE[0], "horse", 0),
+        (1, FLIER[0], "flier", 0),
+        (1, FLIER[0], "flier", NEG),
+        (1, FLIER_MON[0], "flierAndMonsters", 0),
+        (1, FLIER_MON[0], "flierAndMonsters", NEG),
+        (1, MONSTERS[0], "flierAndMonsters", 0),
+        (1, MONSTERS[0], "monsters", 0),
+        (1, MONSTERS[0], "monsters", NEG),
+        (1, DRAGON[0], "dragon", 0),
+        (BISHOP, MONSTERS[0], "none", 0),
+        (BISHOP_F, MONSTERS[0], "none", 0),
+        (BISHOP, PLAIN, "none", 0),
+    ]
+    for i, (ac, tc, el, ng) in enumerate(pairs):
+        common = {"weapon": 1, "might": 5, "actorCls": ac, "targetCls": tc,
+                  "effList": el, "negFly": ng}
+        cases.append((f"ba_item_eff_{i:02d}", dict(common, fn="item_eff")))
+        cases.append((f"ba_unit_eff_{i:02d}", dict(common, fn="unit_eff")))
+
+    # --- 随机 ---
+    all_cls = [1, PLAIN, BISHOP, BISHOP_F] + ARMOR[:1] + HORSE[:1] + \
+              FLIER[:1] + DRAGON[:1] + MONSTERS[:1]
+    for i in range(60):
+        cases.append((f"ba_rnd_{i:03d}", {
+            "fn": rng.choice(["attack", "attack", "item_eff", "unit_eff"]),
+            "weapon": rng.choice([0, 1, 1, 1, 0xB5]),
+            "might": rng.randrange(0, 30),
+            "triBonus": rng.randrange(-3, 4),
+            "pow": rng.randrange(0, 40),
+            "actorCls": rng.choice([1, 1, BISHOP, BISHOP_F]),
+            "targetCls": rng.choice(all_cls),
+            "effList": rng.choice(LISTS),
+            "negFly": rng.choice([0, 0, NEG]),
+        }))
+    return cases
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit_all,
     "unit_defense": gen_unit_defense,
     "crit_rate": gen_crit_rate,
     "movement": gen_movement,
+    "battle_attack": gen_battle_attack,
 }
 
 

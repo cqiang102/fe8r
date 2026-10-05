@@ -88,6 +88,29 @@ ARRAY_RX = re.compile(
 )
 
 
+def resolve_value(expr, enum):
+    """把 `0x1F` / `TERRAIN_PLAINS` / `CLASS_A + 1` 这类表达式折成整数。
+
+    只支持"单个符号"和"符号/数字 加减常量"这几种形式——反编译项目里
+    表示式下标就那么几种写法，不引入完整表达式求值器，遇到不认识的
+    就返回 None 让校验阶段暴露出来（而不是悄悄算错）。
+    """
+    expr = expr.strip().rstrip(",").strip()
+    if expr in enum:
+        return enum[expr]
+    try:
+        return int(expr, 0)
+    except ValueError:
+        pass
+    # 形如 `SYM + 3` / `SYM - 1`
+    m = re.fullmatch(r"(\w+)\s*([+-])\s*(0x[0-9A-Fa-f]+|\d+)", expr)
+    if m and m.group(1) in enum:
+        base = enum[m.group(1)]
+        delta = int(m.group(3), 0)
+        return base + delta if m.group(2) == "+" else base - delta
+    return None
+
+
 def parse_array(body, enum):
     """解析指定初始化器 → (长度, [值])
 
@@ -109,23 +132,25 @@ def parse_array(body, enum):
         if m:
             idx_expr, val_expr = m.group(1).strip(), m.group(2).strip()
             # 下标可能是枚举名，也可能是数字
-            if idx_expr in enum:
-                idx = enum[idx_expr]
-            else:
-                try:
-                    idx = int(idx_expr, 0)
-                except ValueError:
-                    continue  # 表达式下标（如 A + 1）暂不支持，交给校验暴露
+            resolved = resolve_value(idx_expr, enum)
+            if resolved is None:
+                continue  # 不认识的表达式下标，交给校验阶段暴露
+            idx = resolved
             nxt_auto = idx + 1
         else:
             idx = nxt_auto
             val_expr = item
             nxt_auto += 1
 
-        try:
-            entries[idx] = int(val_expr, 0)
-        except ValueError:
-            # 值可能是枚举名或其它符号，暂不支持
+        # 值可能是数字，也可能是枚举名。
+        #
+        # ⚠️ 早期版本只处理数字，非指定初始化（`{ CLASS_A, CLASS_B, ... }`）
+        # 整张表会被丢空——因为 `int('CLASS_A', 0)` 抛异常后直接 continue。
+        # `data_terrains.c` 全用指定初始化器 `[TERRAIN_X] = n`，所以一直没暴露；
+        # 换成 `data_itemuse.c` 的有效性列表（纯枚举名列表）立刻现形。
+        entries[idx] = resolve_value(val_expr, enum)
+        if entries[idx] is None:
+            del entries[idx]
             continue
 
     if not entries:
@@ -152,51 +177,84 @@ def to_signed8(v):
     return v - 256 if v >= 128 else v
 
 
+# 要提取的源文件 → 它需要的枚举头
+#
+# 枚举头的顺序有讲究：解析时用 `setdefault`，先来的优先。
+# 地形和职业的枚举名不会冲突，但显式列出来更清楚。
+SOURCES = [
+    {
+        "json": "terrains.json",
+        "source": "src/data/data_terrains.c",
+        "enums": ["include/constants/terrains.h"],
+        "signed": True,     # s8：-1 表示不可通行，必须保留符号
+    },
+    {
+        "json": "itemuse.json",
+        "source": "src/data/data_itemuse.c",
+        "enums": ["include/constants/classes.h", "include/constants/items.h"],
+        "signed": False,    # u8：有效性列表里只有职业编号，0 是终止符
+    },
+]
+
+
+def load_enums(paths):
+    merged = {}
+    for rel in paths:
+        full = os.path.join(DECOMP, rel)
+        if not os.path.exists(full):
+            print(f"  ⚠️  找不到 {rel}，跳过", file=sys.stderr)
+            continue
+        found = parse_enum(full)
+        for k, v in found.items():
+            merged.setdefault(k, v)
+        print(f"  枚举 {rel}: {len(found)} 个常量")
+    return merged
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "tables"))
-    ap.add_argument("--source", default=os.path.join(DECOMP, "src/data/data_terrains.c"))
+    ap.add_argument("--only", help="只处理某个 json 名（调试用）")
     a = ap.parse_args()
 
-    if not os.path.exists(a.source):
-        print(f"错误：找不到 {a.source}", file=sys.stderr)
-        return 1
-
-    enum = parse_enum(os.path.join(DECOMP, "include/constants/terrains.h"))
-    print(f"地形枚举: {len(enum)} 个常量，最大下标 {max(enum.values())}")
-
-    tables = extract(a.source, enum)
-    print(f"提取到 {len(tables)} 张表")
-
     os.makedirs(a.out, exist_ok=True)
+    failed = 0
 
-    # JSON 里保留 s8 语义（-1 = 不可通行）
-    payload = {
-        "source": os.path.relpath(a.source, REPO),
-        "terrainEnum": enum,
-        "tables": {
-            k: {
-                "type": v["type"],
-                "size": v["size"],
-                "values": [to_signed8(x) for x in v["values"]],
-            }
-            for k, v in tables.items()
-        },
-    }
-    dst = os.path.join(a.out, "terrains.json")
-    with open(dst, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=1)
-    print(f"→ {dst}  ({os.path.getsize(dst) // 1024} KB)")
+    for spec in SOURCES:
+        if a.only and spec["json"] != a.only:
+            continue
+        src = os.path.join(DECOMP, spec["source"])
+        if not os.path.exists(src):
+            print(f"错误：找不到 {src}", file=sys.stderr)
+            failed += 1
+            continue
 
-    # 抽查一张表
-    t = tables.get("TerrainTable_MovCost_CommonT2Normal")
-    if t:
-        vals = [to_signed8(x) for x in t["values"]]
-        names = {v: k for k, v in enum.items()}
-        print(f"\n抽查 TerrainTable_MovCost_CommonT2Normal（{t['size']} 项）:")
-        for i in range(min(12, len(vals))):
-            print(f"  [{names.get(i, i)}] = {vals[i]}")
-    return 0
+        print(f"\n── {spec['source']} ──")
+        enum = load_enums(spec["enums"])
+        tables = extract(src, enum)
+        print(f"  提取到 {len(tables)} 张表")
+
+        conv = to_signed8 if spec["signed"] else (lambda v: v & 0xFF)
+        payload = {
+            "source": spec["source"],
+            "enums": spec["enums"],
+            "enum": enum,
+            "signed": spec["signed"],
+            "tables": {
+                k: {
+                    "type": v["type"],
+                    "size": v["size"],
+                    "values": [conv(x) for x in v["values"]],
+                }
+                for k, v in tables.items()
+            },
+        }
+        dst = os.path.join(a.out, spec["json"])
+        with open(dst, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=1)
+        print(f"  → {dst}  ({os.path.getsize(dst) // 1024} KB)")
+
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

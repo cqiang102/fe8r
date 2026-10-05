@@ -21,8 +21,20 @@ const int unitItemCount = 5;
 /// `ITEM_MONSTER_STONE`
 const int itemMonsterStone = 0xB5;
 
-/// `IA_NEGATE_CRIT`：免疫必杀的道具属性位
-const int iaNegateCrit = 0x80;
+/// `IsUnitEffectiveAgainst` 里写死 `case 0x2B: case 0x2C:` 的两个职业。
+///
+/// ⚠️ 它们是 **CLASS_BISHOP / CLASS_BISHOP_F**（主教的"斩魔"特性），
+/// 不是名字看着像魔物的那些。反编译源码里用的是裸十六进制，
+/// 按字面猜名字会猜错——我第一版就猜成了石像鬼蛋。
+const int classBishop = 0x2B;
+const int classBishopF = 0x2C;
+
+
+/// `IA_NEGATE_CRIT`：免疫必杀的道具属性位（见 include/bmitem.h）
+const int iaNegateCrit = 1 << 15;
+
+/// `IA_NEGATE_FLYING`：免疫"特效对飞行"
+const int iaNegateFlying = 1 << 14;
 
 /// 把值按 C 的 `s8` 截断
 int asS8(int v) {
@@ -46,8 +58,11 @@ class BattleUnitSide {
     int lck = 0,
     int spd = 0,
     int conBonus = 0,
+    int pow = 0,
+    this.classId,
     List<int>? items,
-  })  : def = asS8(def),
+  })  : _pow = asS8(pow),
+        def = asS8(def),
         lck = asS8(lck),
         spd = asS8(spd),
         conBonus = asS8(conBonus),
@@ -65,6 +80,14 @@ class BattleUnitSide {
 
   /// 携带道具，`u16`
   final List<int> items;
+
+  /// `pClassData->number`；null 表示没有职业数据（C 里的 NULL 指针）
+  int? classId;
+
+  /// 力量（`pow`），`s8`
+  int get pow => _pow;
+  set pow(int v) => _pow = asS8(v);
+  int _pow = 0;
 }
 
 /// 战斗单位（`struct BattleUnit` 的子集）。
@@ -127,6 +150,9 @@ class BattleUnit {
   int get battleEffectiveCritRate => _battleEffectiveCritRate;
   set battleEffectiveCritRate(int v) => _battleEffectiveCritRate = asS16(v);
 
+  /// `s16`：武器三角伤害加成（叠加到攻击力上）
+  int wTriangleDmgBonus = 0;
+
   /// `s8` 字段
   int get terrainAvoid => _terrainAvoid;
   set terrainAvoid(int v) => _terrainAvoid = asS8(v);
@@ -155,7 +181,23 @@ class ItemData {
     this.might = 0,
     this.weight = 0,
     this.statBonuses,
+    this.effectiveness,
+    this.effectivenessIsFlier = false,
   });
+
+  /// 特效列表（`pEffectiveness`）：一串职业编号，0 是终止符。
+  /// null 表示这件武器没有特效。
+  List<int>? effectiveness;
+
+  /// 这个特效列表**是不是** `ItemEffectiveness_Flier` 或
+  /// `ItemEffectiveness_FlierAndMonsters`。
+  ///
+  /// C 里是拿**列表指针的身份**比对的：
+  ///     if (GetItemEffectiveness(item) != ItemEffectiveness_Flier) ...
+  /// 也就是说"是否走飞行抵消"取决于列表是不是那两个全局表之一，
+  /// **不能靠内容里有没有飞行职业来推断**——`FlierAndMonsters` 里也有魔物职业。
+  /// 所以这里把身份显式记成一个标记，由数据加载方设置。
+  bool effectivenessIsFlier;
 
   /// 道具属性位（`IA_*`）
   int attributes;
@@ -201,6 +243,9 @@ class ItemTable {
 
   /// `GetItemStatBonuses(item)`
   ItemStatBonuses? statBonusesOf(int item) => dataOf(item).statBonuses;
+
+  /// `GetItemEffectiveness(item)` —— 特效列表
+  List<int>? effectivenessOf(int item) => dataOf(item).effectiveness;
 
   /// `GetItemDefBonus(item)`
   ///
