@@ -158,6 +158,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '章节配置提取（跳过）', 'true', const [], note: decompNote),
 
+    // 章节 → 资产 → 事件组/单位表：**全程文本**（反编译项目已去指针化）
+    if (hasDecomp())
+      Step('L0', '章节链路（资产 / 事件组）', 'python3',
+          ['extract/parse_chapter_links.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '79 章 → 9 个事件组（含单位表）')
+    else
+      Step('L0', '章节链路（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],

@@ -1,0 +1,704 @@
+{
+ "source": [
+  "layout/baseline_syms.d/dataMore_chapter_asset_table.tsv",
+  "src/data/<Name>_ref/"
+ ],
+ "groupFields": [
+  "turnBasedEvents",
+  "characterBasedEvents",
+  "locationBasedEvents",
+  "miscBasedEvents",
+  "specialEventsWhenUnitSelected",
+  "specialEventsWhenDestSelected",
+  "specialEventsAfterUnitMoved",
+  "tutorialEvents",
+  "traps",
+  "extraTrapsInHard",
+  "playerUnitsInNormal",
+  "playerUnitsInHard",
+  "playerUnitsChoice1InEncounter",
+  "playerUnitsChoice2InEncounter",
+  "playerUnitsChoice3InEncounter",
+  "enemyUnitsChoice1InEncounter",
+  "enemyUnitsChoice2InEncounter",
+  "enemyUnitsChoice3InEncounter",
+  "beginningSceneEvents",
+  "endingSceneEvents"
+ ],
+ "links": [
+  {
+   "index": 0,
+   "internalName": "L00",
+   "mapEventDataId": 7,
+   "eventGroupName": "PrologueEvents"
+  },
+  {
+   "index": 1,
+   "internalName": "L01",
+   "mapEventDataId": 10,
+   "eventGroupName": "Ch1Events"
+  },
+  {
+   "index": 2,
+   "internalName": "L02",
+   "mapEventDataId": 13,
+   "eventGroupName": "Ch2Events"
+  },
+  {
+   "index": 3,
+   "internalName": "L03",
+   "mapEventDataId": 20,
+   "eventGroupName": "Ch3Events"
+  },
+  {
+   "index": 4,
+   "internalName": "L04",
+   "mapEventDataId": 23,
+   "eventGroupName": "Ch4Events"
+  },
+  {
+   "index": 5,
+   "internalName": "I05",
+   "mapEventDataId": 30,
+   "eventGroupName": "Ch5XEvents"
+  },
+  {
+   "index": 6,
+   "internalName": "L05",
+   "mapEventDataId": 33,
+   "eventGroupName": "Ch5EventData"
+  },
+  {
+   "index": 7,
+   "internalName": "L06",
+   "mapEventDataId": 36,
+   "eventGroupName": "Ch6Events"
+  },
+  {
+   "index": 8,
+   "internalName": "L07",
+   "mapEventDataId": 39,
+   "eventGroupName": "Ch7EventData"
+  },
+  {
+   "index": 9,
+   "internalName": "L08",
+   "mapEventDataId": 42,
+   "eventGroupName": "Ch8EventData"
+  },
+  {
+   "index": 10,
+   "internalName": "E09",
+   "mapEventDataId": 45,
+   "eventGroupName": "Ch9EirikaEvents"
+  },
+  {
+   "index": 11,
+   "internalName": "E10",
+   "mapEventDataId": 51,
+   "eventGroupName": "Ch10EirikaEvents"
+  },
+  {
+   "index": 12,
+   "internalName": "E11",
+   "mapEventDataId": 54,
+   "eventGroupName": "Ch12EirikaMapChanges"
+  },
+  {
+   "index": 13,
+   "internalName": "E12",
+   "mapEventDataId": 58,
+   "eventGroupName": "Ch13EirikaMapChanges"
+  },
+  {
+   "index": 14,
+   "internalName": "E13",
+   "mapEventDataId": 64,
+   "eventGroupName": "Ch14EirikaMapChanges"
+  },
+  {
+   "index": 15,
+   "internalName": "E14",
+   "mapEventDataId": 70,
+   "eventGroupName": "Ch15MapChanges"
+  },
+  {
+   "index": 16,
+   "internalName": "E15",
+   "mapEventDataId": 74,
+   "eventGroupName": "Ch16MapChanges"
+  },
+  {
+   "index": 17,
+   "internalName": "E16",
+   "mapEventDataId": 78,
+   "eventGroupName": "Ch17MapChanges"
+  },
+  {
+   "index": 18,
+   "internalName": "E17",
+   "mapEventDataId": 85,
+   "eventGroupName": "Ch18MapChanges"
+  },
+  {
+   "index": 19,
+   "internalName": "E18",
+   "mapEventDataId": 89,
+   "eventGroupName": "Ch19MapChanges"
+  },
+  {
+   "index": 20,
+   "internalName": "E19",
+   "mapEventDataId": 93,
+   "eventGroupName": "Ch20MapChanges"
+  },
+  {
+   "index": 21,
+   "internalName": "E20",
+   "mapEventDataId": 99,
+   "eventGroupName": "FinalChapterMap1Changes"
+  },
+  {
+   "index": 22,
+   "internalName": "E20B",
+   "mapEventDataId": 102,
+   "eventGroupName": "FinalChapterMap2Changes"
+  },
+  {
+   "index": 23,
+   "internalName": "I09",
+   "mapEventDataId": 106,
+   "eventGroupName": "Ch9EphMapChanges"
+  },
+  {
+   "index": 24,
+   "internalName": "I10",
+   "mapEventDataId": 112,
+   "eventGroupName": "Ch10EphraimMapChanges"
+  },
+  {
+   "index": 25,
+   "internalName": "I11",
+   "mapEventDataId": 116,
+   "eventGroupName": "Ch12EphraimMapChanges"
+  },
+  {
+   "index": 26,
+   "internalName": "I12",
+   "mapEventDataId": 119,
+   "eventGroupName": "Ch13EphraimMapChanges"
+  },
+  {
+   "index": 27,
+   "internalName": "I13",
+   "mapEventDataId": 126,
+   "eventGroupName": "Ch14EphraimMapChanges"
+  },
+  {
+   "index": 28,
+   "internalName": "I14",
+   "mapEventDataId": 127,
+   "eventGroupName": "Ch14EphraimEventData"
+  },
+  {
+   "index": 29,
+   "internalName": "I15",
+   "mapEventDataId": 128,
+   "eventGroupName": "Ch15EphraimEventData"
+  },
+  {
+   "index": 30,
+   "internalName": "I16",
+   "mapEventDataId": 129,
+   "eventGroupName": "Ch16EphraimEventData"
+  },
+  {
+   "index": 31,
+   "internalName": "I17",
+   "mapEventDataId": 130,
+   "eventGroupName": "Ch17EphraimEventData"
+  },
+  {
+   "index": 32,
+   "internalName": "I18",
+   "mapEventDataId": 131,
+   "eventGroupName": "Ch18EphraimEventData"
+  },
+  {
+   "index": 33,
+   "internalName": "I19",
+   "mapEventDataId": 132,
+   "eventGroupName": "Ch19EphraimEventData"
+  },
+  {
+   "index": 34,
+   "internalName": "I20",
+   "mapEventDataId": 133,
+   "eventGroupName": "Ch20EphraimEventData"
+  },
+  {
+   "index": 35,
+   "internalName": "I20B",
+   "mapEventDataId": 134,
+   "eventGroupName": "FinalEphraimEvents1"
+  },
+  {
+   "index": 36,
+   "internalName": "T01",
+   "mapEventDataId": 140,
+   "eventGroupName": "TowerOfValni1MapChanges"
+  },
+  {
+   "index": 37,
+   "internalName": "T02",
+   "mapEventDataId": 143,
+   "eventGroupName": "TowerOfValni2MapChanges"
+  },
+  {
+   "index": 38,
+   "internalName": "T03",
+   "mapEventDataId": 146,
+   "eventGroupName": "TowerOfValni3MapChanges"
+  },
+  {
+   "index": 39,
+   "internalName": "T04",
+   "mapEventDataId": 149,
+   "eventGroupName": "TowerOfValni4MapChanges"
+  },
+  {
+   "index": 40,
+   "internalName": "T05",
+   "mapEventDataId": 152,
+   "eventGroupName": "TowerOfValni5MapChanges"
+  },
+  {
+   "index": 41,
+   "internalName": "T06",
+   "mapEventDataId": 155,
+   "eventGroupName": "TowerOfValni6MapChanges"
+  },
+  {
+   "index": 42,
+   "internalName": "T07",
+   "mapEventDataId": 158,
+   "eventGroupName": "TowerOfValni7MapChanges"
+  },
+  {
+   "index": 43,
+   "internalName": "T08",
+   "mapEventDataId": 161,
+   "eventGroupName": "TowerOfValni8MapChanges"
+  },
+  {
+   "index": 44,
+   "internalName": "-",
+   "mapEventDataId": 0,
+   "eventGroupName": null
+  },
+  {
+   "index": 45,
+   "internalName": "-",
+   "mapEventDataId": 0,
+   "eventGroupName": null
+  },
+  {
+   "index": 46,
+   "internalName": "R01",
+   "mapEventDataId": 165,
+   "eventGroupName": "LagdouRuins1MapChanges"
+  },
+  {
+   "index": 47,
+   "internalName": "R02",
+   "mapEventDataId": 168,
+   "eventGroupName": "LagdouRuins2MapChanges"
+  },
+  {
+   "index": 48,
+   "internalName": "R03",
+   "mapEventDataId": 171,
+   "eventGroupName": "LagdouRuins3MapChanges"
+  },
+  {
+   "index": 49,
+   "internalName": "R04",
+   "mapEventDataId": 174,
+   "eventGroupName": "LagdouRuins4MapChanges"
+  },
+  {
+   "index": 50,
+   "internalName": "R05",
+   "mapEventDataId": 177,
+   "eventGroupName": "LagdouRuins5MapChanges"
+  },
+  {
+   "index": 51,
+   "internalName": "R06",
+   "mapEventDataId": 180,
+   "eventGroupName": "LagdouRuins6MapChanges"
+  },
+  {
+   "index": 52,
+   "internalName": "R07",
+   "mapEventDataId": 183,
+   "eventGroupName": "LagdouRuins7MapChanges"
+  },
+  {
+   "index": 53,
+   "internalName": "R08",
+   "mapEventDataId": 187,
+   "eventGroupName": "LagdouRuins8MapChanges"
+  },
+  {
+   "index": 54,
+   "internalName": "R09",
+   "mapEventDataId": 190,
+   "eventGroupName": "LagdouRuins9MapChanges"
+  },
+  {
+   "index": 55,
+   "internalName": "R10",
+   "mapEventDataId": 193,
+   "eventGroupName": "LagdouRuins10MapChanges"
+  },
+  {
+   "index": 56,
+   "internalName": "C00",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 57,
+   "internalName": "H00",
+   "mapEventDataId": 199,
+   "eventGroupName": "MelkaenCoastMapChanges"
+  },
+  {
+   "index": 58,
+   "internalName": "-",
+   "mapEventDataId": 0,
+   "eventGroupName": null
+  },
+  {
+   "index": 59,
+   "internalName": "D00",
+   "mapEventDataId": 202,
+   "eventGroupName": "AnInterestingMap"
+  },
+  {
+   "index": 60,
+   "internalName": "D01",
+   "mapEventDataId": 204,
+   "eventGroupName": "DebugMap"
+  },
+  {
+   "index": 61,
+   "internalName": "E10x",
+   "mapEventDataId": 208,
+   "eventGroupName": "Ch11EirikaMapChanges"
+  },
+  {
+   "index": 62,
+   "internalName": "I10x",
+   "mapEventDataId": 212,
+   "eventGroupName": "Ch11EphraimMapChanges"
+  },
+  {
+   "index": 63,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 64,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 65,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 66,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 67,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 68,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 69,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 70,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 71,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 72,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 73,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 74,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 75,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 76,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 77,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  },
+  {
+   "index": 78,
+   "internalName": "-",
+   "mapEventDataId": 196,
+   "eventGroupName": "LordsSplitMapChanges"
+  }
+ ],
+ "eventGroups": {
+  "PrologueEvents": {
+   "turnBasedEvents": "EventListScr_Prologue_Turn",
+   "characterBasedEvents": "EventListScr_Prologue_Character",
+   "locationBasedEvents": "EventListScr_Prologue_Location",
+   "miscBasedEvents": "EventListScr_Prologue_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Prologue_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Prologue_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Prologue_UnitMove",
+   "tutorialEvents": "EventListScr_Prologue_Tutorial",
+   "traps": "gUidebug_2+0x310",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x24",
+   "playerUnitsInNormal": "UnitDef_Event_PrologueAlly",
+   "playerUnitsInHard": "UnitDef_Event_PrologueAlly",
+   "playerUnitsChoice1InEncounter": "0",
+   "playerUnitsChoice2InEncounter": "0",
+   "playerUnitsChoice3InEncounter": "0",
+   "enemyUnitsChoice1InEncounter": "0",
+   "enemyUnitsChoice2InEncounter": "0",
+   "enemyUnitsChoice3InEncounter": "0",
+   "beginningSceneEvents": "EventScr_Prologue_BeginningScene",
+   "endingSceneEvents": "EventScr_Prologue_EndingScene"
+  },
+  "Ch1Events": {
+   "turnBasedEvents": "EventListScr_Ch1_Turn",
+   "characterBasedEvents": "EventListScr_Ch1_Character",
+   "locationBasedEvents": "EventListScr_Ch1_Location",
+   "miscBasedEvents": "EventListScr_Ch1_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch1_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch1_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch1_UnitMove",
+   "tutorialEvents": "EventListScr_Ch1_Tutorial",
+   "traps": "gUidebug_2+0x313",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x27",
+   "playerUnitsInNormal": "UnitDef_Event_Ch1Ally",
+   "playerUnitsInHard": "UnitDef_Event_Ch1Ally",
+   "playerUnitsChoice1InEncounter": "0",
+   "playerUnitsChoice2InEncounter": "0",
+   "playerUnitsChoice3InEncounter": "0",
+   "enemyUnitsChoice1InEncounter": "0",
+   "enemyUnitsChoice2InEncounter": "0",
+   "enemyUnitsChoice3InEncounter": "0",
+   "beginningSceneEvents": "EventScr_Ch1_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch1_EndingScene"
+  },
+  "Ch2Events": {
+   "turnBasedEvents": "EventListScr_Ch2_Turn",
+   "characterBasedEvents": "EventListScr_Ch2_Character",
+   "locationBasedEvents": "EventListScr_Ch2_Location",
+   "miscBasedEvents": "EventListScr_Ch2_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch2_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch2_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch2_UnitMove",
+   "tutorialEvents": "EventListScr_Ch2_Tutorial",
+   "traps": "gUidebug_2+0x314",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x28",
+   "playerUnitsInNormal": "UnitDef_Event_Ch2Ally",
+   "playerUnitsInHard": "UnitDef_Event_Ch2Ally",
+   "playerUnitsChoice1InEncounter": "0",
+   "playerUnitsChoice2InEncounter": "0",
+   "playerUnitsChoice3InEncounter": "0",
+   "enemyUnitsChoice1InEncounter": "0",
+   "enemyUnitsChoice2InEncounter": "0",
+   "enemyUnitsChoice3InEncounter": "0",
+   "beginningSceneEvents": "EventScr_Ch2_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch2_EndingScene"
+  },
+  "Ch3Events": {
+   "turnBasedEvents": "EventListScr_Ch3_Turn",
+   "characterBasedEvents": "EventListScr_Ch3_Character",
+   "locationBasedEvents": "EventListScr_Ch3_Location",
+   "miscBasedEvents": "EventListScr_Ch3_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch3_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch3_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch3_UnitMove",
+   "tutorialEvents": "EventListScr_Ch3_Tutorials",
+   "traps": "gUidebug_2+0x315",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x29",
+   "playerUnitsInNormal": "UnitDef_Event_Ch3Ally",
+   "playerUnitsInHard": "UnitDef_Event_Ch3Ally",
+   "playerUnitsChoice1InEncounter": "0",
+   "playerUnitsChoice2InEncounter": "0",
+   "playerUnitsChoice3InEncounter": "0",
+   "enemyUnitsChoice1InEncounter": "0",
+   "enemyUnitsChoice2InEncounter": "0",
+   "enemyUnitsChoice3InEncounter": "0",
+   "beginningSceneEvents": "EventScr_Ch3_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch3_EndingScene"
+  },
+  "Ch4Events": {
+   "turnBasedEvents": "EventListScr_Ch4_Turn",
+   "characterBasedEvents": "EventListScr_Ch4_Character",
+   "locationBasedEvents": "EventListScr_Ch4_Location",
+   "miscBasedEvents": "EventListScr_Ch4_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch4_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch4_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch4_UnitMove",
+   "tutorialEvents": "EventListScr_Ch4_Tutorial",
+   "traps": "gUidebug_2+0x317",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x2B",
+   "playerUnitsInNormal": "UnitDef_Event_Ch4Ally",
+   "playerUnitsInHard": "UnitDef_Event_Ch4Ally",
+   "playerUnitsChoice1InEncounter": "UnitDef_Ch4Ally_4",
+   "playerUnitsChoice2InEncounter": "UnitDef_Ch4SkirmishAlly2",
+   "playerUnitsChoice3InEncounter": "UnitDef_Ch4Ally_5",
+   "enemyUnitsChoice1InEncounter": "UnitDef_Ch4Enemy_3",
+   "enemyUnitsChoice2InEncounter": "UnitDef_Ch4Enemy_4",
+   "enemyUnitsChoice3InEncounter": "UnitDef_Ch4Enemy_5",
+   "beginningSceneEvents": "EventScr_Ch4_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch4_1"
+  },
+  "Ch5XEvents": {
+   "turnBasedEvents": "EventListScr_Ch5x_Turn",
+   "characterBasedEvents": "EventListScr_Ch5x_Character",
+   "locationBasedEvents": "EventListScr_Ch5x_Location",
+   "miscBasedEvents": "EventListScr_Ch5x_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch5x_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch5x_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch5x_UnitMove",
+   "tutorialEvents": "EventListScr_Ch5x_Tutorial",
+   "traps": "gUidebug_2+0x319",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x2D",
+   "playerUnitsInNormal": "UnitDef_Event_Ch5xAlly",
+   "playerUnitsInHard": "UnitDef_Event_Ch5xAlly",
+   "playerUnitsChoice1InEncounter": "0",
+   "playerUnitsChoice2InEncounter": "0",
+   "playerUnitsChoice3InEncounter": "0",
+   "enemyUnitsChoice1InEncounter": "0",
+   "enemyUnitsChoice2InEncounter": "0",
+   "enemyUnitsChoice3InEncounter": "0",
+   "beginningSceneEvents": "EventScr_Ch5x_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch5x_EndingScene"
+  },
+  "Ch6Events": {
+   "turnBasedEvents": "EventListScr_Ch6_Turn",
+   "characterBasedEvents": "EventListScr_Ch6_Character",
+   "locationBasedEvents": "EventListScr_Ch6_Location",
+   "miscBasedEvents": "EventListScr_Ch6_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch6_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch6_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch6_UnitMove",
+   "tutorialEvents": "EventListScr_Ch6_Tutorial",
+   "traps": "gUidebug_2+0x31E",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x32",
+   "playerUnitsInNormal": "UnitDef_Event_Ch6Ally",
+   "playerUnitsInHard": "UnitDef_Event_Ch6Ally",
+   "playerUnitsChoice1InEncounter": "UnitDef_Ch6Ally_1",
+   "playerUnitsChoice2InEncounter": "UnitDef_Ch6Ally_2",
+   "playerUnitsChoice3InEncounter": "UnitDef_Ch6Ally_3",
+   "enemyUnitsChoice1InEncounter": "UnitDef_Ch6Enemy_1",
+   "enemyUnitsChoice2InEncounter": "UnitDef_Ch6Enemy_2",
+   "enemyUnitsChoice3InEncounter": "UnitDef_Ch6Enemy_3",
+   "beginningSceneEvents": "EventScr_Ch6_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch6_EndingScene"
+  },
+  "Ch9EirikaEvents": {
+   "turnBasedEvents": "EventListScr_Ch9a_Turn",
+   "characterBasedEvents": "EventListScr_Ch9a_Character",
+   "locationBasedEvents": "EventListScr_Ch9a_Location",
+   "miscBasedEvents": "EventListScr_Ch9a_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch9a_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch9a_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch9a_UnitMove",
+   "tutorialEvents": "EventListScr_Ch9a_Tutorial",
+   "traps": "gUidebug_2+0x330",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x38",
+   "playerUnitsInNormal": "UnitDef_Event_Ch9aAlly",
+   "playerUnitsInHard": "UnitDef_Event_Ch9aAlly",
+   "playerUnitsChoice1InEncounter": "0",
+   "playerUnitsChoice2InEncounter": "0",
+   "playerUnitsChoice3InEncounter": "0",
+   "enemyUnitsChoice1InEncounter": "0",
+   "enemyUnitsChoice2InEncounter": "0",
+   "enemyUnitsChoice3InEncounter": "0",
+   "beginningSceneEvents": "EventScr_Ch9a_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch9a_EndingScene"
+  },
+  "Ch10EirikaEvents": {
+   "turnBasedEvents": "EventListScr_Ch10a_Turn",
+   "characterBasedEvents": "EventListScr_Ch10a_Character",
+   "locationBasedEvents": "EventListScr_Ch10a_Location",
+   "miscBasedEvents": "EventListScr_Ch10a_Misc",
+   "specialEventsWhenUnitSelected": "EventListScr_Ch10a_SelectUnit",
+   "specialEventsWhenDestSelected": "EventListScr_Ch10a_SelectDestination",
+   "specialEventsAfterUnitMoved": "EventListScr_Ch10a_UnitMove",
+   "tutorialEvents": "EventListScr_Ch10a_Tutorial",
+   "traps": "gUidebug_2+0x333",
+   "extraTrapsInHard": "frontier_df4_menu_005_A5FFAD+0x3B",
+   "playerUnitsInNormal": "UnitDef_Event_Ch10aAlly",
+   "playerUnitsInHard": "UnitDef_Event_Ch10aAlly",
+   "playerUnitsChoice1InEncounter": "UnitDef_Ch10AAlly_2",
+   "playerUnitsChoice2InEncounter": "UnitDef_Ch10AAlly_3",
+   "playerUnitsChoice3InEncounter": "UnitDef_Ch10AAlly_4",
+   "enemyUnitsChoice1InEncounter": "UnitDef_Ch10AEnemy_7",
+   "enemyUnitsChoice2InEncounter": "UnitDef_Ch10AEnemy_8",
+   "enemyUnitsChoice3InEncounter": "UnitDef_Ch10AEnemy_9",
+   "beginningSceneEvents": "EventScr_Ch10a_BeginningScene",
+   "endingSceneEvents": "EventScr_Ch10a_EndingScene"
+  }
+ }
+}
