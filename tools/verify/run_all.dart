@@ -109,6 +109,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '二进制表提取（跳过）', 'true', const [], note: decompNote),
 
+    // 职业表：只取地形加成与移动消耗（含引用的表名必须真实存在）
+    if (hasDecomp())
+      Step('L0', '职业表提取', 'python3',
+          ['extract/parse_class_tables.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '127 个职业的地形加成 + 移动消耗表')
+    else
+      Step('L0', '职业表提取（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
@@ -129,6 +137,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '交互流程状态机（可序列化）', 'flutter',
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
+
+    Step('L1', '职业表与武器射程', 'flutter',
+        ['test', 'test/core/class_table_test.dart'],
+        note: '9 用例：按职业查地形 / s8→u8 / 编码射程'),
 
     Step('L1', '交战序列（反击 / 追击 / 勇气）', 'flutter',
         ['test', 'test/core/battle_round_test.dart'],

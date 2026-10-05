@@ -48,6 +48,12 @@ class Fe8Game extends FlameGame {
   /// 战斗结算器（M4 数值层 → M5 战场流程的桥）
   CombatResolver? combat;
 
+  /// 职业表（地形加成 / 移动消耗，按职业查）
+  ClassTable? classTable;
+
+  /// 演示用道具表（射程与威力都从这里取）
+  late ItemTable _items;
+
   /// 乱数与消耗追踪
   final GameRng rng = GameRng();
   late final BattleRngTracker tracker = BattleRngTracker(rng);
@@ -111,8 +117,10 @@ class Fe8Game extends FlameGame {
       field = _makeDemoField(grid);
       flow = FlowMachine(map: grid, costTable: _demoCostTable());
       ai = EnemyAi(map: grid, costTable: _demoCostTable());
+      classTable = _loadClassTable();
+      _items = _demoItems();
       combat = CombatResolver(
-        items: _demoItems(),
+        items: _items,
         triangle: _loadTriangleTable(),
         monsterClassList: _monsterClassList(),
       );
@@ -170,6 +178,13 @@ class Fe8Game extends FlameGame {
     final f = field;
     final fl = flow;
     if (s == null || f == null || fl == null) return;
+
+    // 选中单位的那一刻同步射程（不同武器射程不同）
+    if (i == FlowInput.confirm &&
+        s.phase == FlowPhase.freeCursor &&
+        r0Candidates(f, s) != null) {
+      _syncAttackRange(r0Candidates(f, s)!);
+    }
 
     final r = fl.advance(s, f, i);
 
@@ -282,9 +297,13 @@ class Fe8Game extends FlameGame {
     final atkProfile = _profileFor(attacker);
     final defProfile = _profileFor(defender);
 
-    // 地形防御/回避：直接从规则层的地形表取
+    // 地形防御/回避：按**防御方的职业**查真实表
     final terrainId = _terrainAt(defender.x, defender.y);
-    final (terrainDef, terrainAvo) = _terrainBonuses(terrainId);
+    final (terrainDef, terrainAvo) =
+        _terrainBonuses(terrainId, defProfile.classId);
+    final atkTerrainId = _terrainAt(attacker.x, attacker.y);
+    final (atkDef, atkAvo) =
+        _terrainBonuses(atkTerrainId, atkProfile.classId);
 
     // 完整交战：先手 → 反击 → 追击（序列由规则层的 battleUnwind 决定）
     final round = c.resolveCombat(
@@ -294,8 +313,8 @@ class Fe8Game extends FlameGame {
       targetUnit: defender,
       actorProfile: atkProfile,
       targetProfile: defProfile,
-      actorTerrainDefense: _terrainBonuses(_terrainAt(attacker.x, attacker.y)).$1,
-      actorTerrainAvoid: _terrainBonuses(_terrainAt(attacker.x, attacker.y)).$2,
+      actorTerrainDefense: atkDef,
+      actorTerrainAvoid: atkAvo,
       targetTerrainDefense: terrainDef,
       targetTerrainAvoid: terrainAvo,
     );
@@ -315,14 +334,29 @@ class Fe8Game extends FlameGame {
         '消耗 ${round.rnConsumed} 乱数）\n${lines.join('\n')}';
   }
 
+  /// 把武器的射程同步给流程状态机。
+  ///
+  /// 每次进入"单位已选中"时都要更新 —— 不同单位拿的武器射程不同。
+  void _syncAttackRange(MapUnit unit) {
+    final fl = flow;
+    if (fl == null) return;
+    final p = _profileFor(unit);
+    fl.attackMinRange = _items.minRangeOf(p.weaponItem);
+    fl.attackMaxRange = _items.maxRangeOf(p.weaponItem);
+  }
+
   /// 按阵营给一套演示用的职业/武器数据。
   ///
   /// 真实数据来自章节配置与职业表（M12）；这里只要够把伤害打出来。
   CombatProfile _profileFor(MapUnit u) {
     if (u.factionBit == Faction.red) {
+      // 弓手（id 0x82）用弓，射程 2；其余敌人用斧
+      final isArcher = u.id == 0x82;
       return CombatProfile(
-        classId: 0x2A, level: 3, pow: 6, skl: 5, spd: 5, def: 3, lck: 2,
-        weaponItem: 0x01, weaponType: WeaponType.axe,
+        classId: isArcher ? 0x1B : 0x2A,
+        level: 3, pow: 6, skl: 5, spd: 5, def: 3, lck: 2,
+        weaponItem: isArcher ? 0x04 : 0x03,
+        weaponType: isArcher ? WeaponType.bow : WeaponType.axe,
       );
     }
     if (u.factionBit == Faction.green) {
@@ -337,24 +371,39 @@ class Fe8Game extends FlameGame {
     );
   }
 
-  /// 演示用道具表：编号 1 = 剑（威 5 命 90 必 0 重 3），2 = 枪，3 = 斧
+  /// 演示用道具表。
+  ///
+  /// `encodedRange` 是**高 4 位最小、低 4 位最大**：
+  ///   剑/枪/斧  0x11 → 射程 1
+  ///   弓        0x22 → 射程 2（用来验证射程确实接上了）
+  /// 漏设这个字段的话射程会是 0，**谁都打不到** —— 而且不报错，
+  /// 只表现为"菜单里永远没有攻击"。是很不好查的一类。
   ItemTable _demoItems() {
     final t = ItemTable(8);
     t[1]
       ..might = 5
       ..hit = 90
       ..crit = 0
-      ..weight = 3;
+      ..weight = 3
+      ..encodedRange = 0x11;
     t[2]
       ..might = 7
       ..hit = 85
       ..crit = 0
-      ..weight = 8;
+      ..weight = 8
+      ..encodedRange = 0x11;
     t[3]
       ..might = 8
       ..hit = 75
       ..crit = 0
-      ..weight = 10;
+      ..weight = 10
+      ..encodedRange = 0x11;
+    t[4]
+      ..might = 6
+      ..hit = 80
+      ..crit = 0
+      ..weight = 5
+      ..encodedRange = 0x22; // 弓：射程 2
     return t;
   }
 
@@ -392,18 +441,31 @@ class Fe8Game extends FlameGame {
 
   /// 地形防御/回避加成。
   ///
-  /// 原版这两项来自 `TerrainTable_*`（`gBmMapTerrain` → 地形表）。
-  /// 已经导出的 `terrains.json` 里有对应表，但"哪张表对应哪个地形"
-  /// 还没接（属于 M3 收尾）。这里给一个保守的近似，并**明确标注它不是移植**。
-  (int, int) _terrainBonuses(int terrainId) {
-    switch (terrainId) {
-      case 0x05: // TERRAIN_FOREST
-        return (1, 10);
-      case 0x06: // TERRAIN_PEAK（不可通行，正常走不到）
-        return (2, 20);
-      default:
-        return (0, 0);
-    }
+  /// 走**规则层按职业查表**的实现（`SetBattleUnitTerrainBonuses` 的语义）。
+  /// 早先这里写死过"森林 (1,10)、山峰 (2,20)"并标注为"非移植近似值" ——
+  /// 那个近似值不只是精度不对，**语义也不对**：它给飞行单位也加了森林回避，
+  /// 而原版飞行职业用的是 `_Fly` 表，地形回避基本为 0。
+  (int, int) _terrainBonuses(int terrainId, int classId) {
+    final t = classTable;
+    if (t == null) return (0, 0);
+    return t.terrainBonuses(classId, terrainId);
+  }
+
+  /// 读取职业表。数据由 parse_class_tables.py 提取，
+  /// 并校验所有引用的表名都真实存在。
+  ClassTable? _loadClassTable() {
+    final cf = File('tools/pipeline/out/tables/classes.json');
+    final tf = File('tools/pipeline/out/tables/terrains.json');
+    if (!cf.existsSync() || !tf.existsSync()) return null;
+    return ClassTable.parse(cf.readAsStringSync(), tf.readAsStringSync());
+  }
+
+  /// 光标下的可选中单位（用于在推进前同步射程）
+  MapUnit? r0Candidates(BattleField f, FlowState s) {
+    final u = f.unitAt(s.cursorX, s.cursorY);
+    if (u == null || u.hasActed) return null;
+    if (!f.isControllable(u)) return null;
+    return u;
   }
 
   /// HUD 用：当前可选的行动项

@@ -1,0 +1,1624 @@
+{
+ "source": "src/data/data_classes.c",
+ "classEnum": {
+  "CLASS_NONE": 0,
+  "CLASS_EPHRAIM_LORD": 1,
+  "CLASS_EIRIKA_LORD": 2,
+  "CLASS_EPHRAIM_MASTER_LORD": 3,
+  "CLASS_EIRIKA_MASTER_LORD": 4,
+  "CLASS_CAVALIER": 5,
+  "CLASS_CAVALIER_F": 6,
+  "CLASS_PALADIN": 7,
+  "CLASS_PALADIN_F": 8,
+  "CLASS_ARMOR_KNIGHT": 9,
+  "CLASS_ARMOR_KNIGHT_F": 10,
+  "CLASS_GENERAL": 11,
+  "CLASS_GENERAL_F": 12,
+  "CLASS_THIEF": 13,
+  "CLASS_MANAKETE": 14,
+  "CLASS_MERCENARY": 15,
+  "CLASS_MERCENARY_F": 16,
+  "CLASS_HERO": 17,
+  "CLASS_HERO_F": 18,
+  "CLASS_MYRMIDON": 19,
+  "CLASS_MYRMIDON_F": 20,
+  "CLASS_SWORDMASTER": 21,
+  "CLASS_SWORDMASTER_F": 22,
+  "CLASS_ASSASSIN": 23,
+  "CLASS_ASSASSIN_F": 24,
+  "CLASS_ARCHER": 25,
+  "CLASS_ARCHER_F": 26,
+  "CLASS_SNIPER": 27,
+  "CLASS_SNIPER_F": 28,
+  "CLASS_RANGER": 29,
+  "CLASS_RANGER_F": 30,
+  "CLASS_WYVERN_RIDER": 31,
+  "CLASS_WYVERN_RIDER_F": 32,
+  "CLASS_WYVERN_LORD": 33,
+  "CLASS_WYVERN_LORD_F": 34,
+  "CLASS_WYVERN_KNIGHT": 35,
+  "CLASS_WYVERN_KNIGHT_F": 36,
+  "CLASS_MAGE": 37,
+  "CLASS_MAGE_F": 38,
+  "CLASS_SAGE": 39,
+  "CLASS_SAGE_F": 40,
+  "CLASS_MAGE_KNIGHT": 41,
+  "CLASS_MAGE_KNIGHT_F": 42,
+  "CLASS_BISHOP": 43,
+  "CLASS_BISHOP_F": 44,
+  "CLASS_SHAMAN": 45,
+  "CLASS_SHAMAN_F": 46,
+  "CLASS_DRUID": 47,
+  "CLASS_DRUID_F": 48,
+  "CLASS_SUMMONER": 49,
+  "CLASS_SUMMONER_F": 50,
+  "CLASS_ROGUE": 51,
+  "CLASS_GORGONEGG2": 52,
+  "CLASS_GREAT_KNIGHT": 53,
+  "CLASS_GREAT_KNIGHT_F": 54,
+  "CLASS_RECRUIT_T1": 55,
+  "CLASS_JOURNEYMAN_T2": 56,
+  "CLASS_PUPIL_T2": 57,
+  "CLASS_RECRUIT_T2": 58,
+  "CLASS_MANAKETE_2": 59,
+  "CLASS_MANAKETE_MYRRH": 60,
+  "CLASS_JOURNEYMAN": 61,
+  "CLASS_PUPIL": 62,
+  "CLASS_FIGHTER": 63,
+  "CLASS_WARRIOR": 64,
+  "CLASS_BRIGAND": 65,
+  "CLASS_PIRATE": 66,
+  "CLASS_BERSERKER": 67,
+  "CLASS_MONK": 68,
+  "CLASS_PRIEST": 69,
+  "CLASS_BARD": 70,
+  "CLASS_RECRUIT": 71,
+  "CLASS_PEGASUS_KNIGHT": 72,
+  "CLASS_FALCON_KNIGHT": 73,
+  "CLASS_CLERIC": 74,
+  "CLASS_TROUBADOUR": 75,
+  "CLASS_VALKYRIE": 76,
+  "CLASS_DANCER": 77,
+  "CLASS_SOLDIER": 78,
+  "CLASS_NECROMANCER": 79,
+  "CLASS_FLEET": 80,
+  "CLASS_PHANTOM": 81,
+  "CLASS_REVENANT": 82,
+  "CLASS_ENTOUMBED": 83,
+  "CLASS_BONEWALKER": 84,
+  "CLASS_BONEWALKER_BOW": 85,
+  "CLASS_WIGHT": 86,
+  "CLASS_WIGHT_BOW": 87,
+  "CLASS_BAEL": 88,
+  "CLASS_ELDER_BAEL": 89,
+  "CLASS_CYCLOPS": 90,
+  "CLASS_MAUTHEDOOG": 91,
+  "CLASS_GWYLLGI": 92,
+  "CLASS_TARVOS": 93,
+  "CLASS_MAELDUIN": 94,
+  "CLASS_MOGALL": 95,
+  "CLASS_ARCH_MOGALL": 96,
+  "CLASS_GORGON": 97,
+  "CLASS_GORGONEGG": 98,
+  "CLASS_GARGOYLE": 99,
+  "CLASS_DEATHGOYLE": 100,
+  "CLASS_DRACO_ZOMBIE": 101,
+  "CLASS_DEMON_KING": 102,
+  "CLASS_BLST_REGULAR_USED": 103,
+  "CLASS_BLST_LONG_USED": 104,
+  "CLASS_BLST_KILLER_USED": 105,
+  "CLASS_BLST_REGULAR_EMPTY": 106,
+  "CLASS_BLST_LONG_EMPTY": 107,
+  "CLASS_BLST_KILLER_EMPTY": 108,
+  "CLASS_CIVILIAN_M1": 109,
+  "CLASS_CIVILIAN_F1": 110,
+  "CLASS_CIVILIAN_M2": 111,
+  "CLASS_CIVILIAN_F2": 112,
+  "CLASS_CIVILIAN_M3": 113,
+  "CLASS_CIVILIAN_F3": 114,
+  "CLASS_PEER": 115,
+  "CLASS_QUEEN": 116,
+  "CLASS_PRINCE": 117,
+  "CLASS_QUEEN_2": 118,
+  "CLASS_UNK77": 119,
+  "CLASS_FALLEN_PRINCE": 120,
+  "CLASS_TENT": 121,
+  "CLASS_PONTIFEX": 122,
+  "CLASS_FALLEN_PEER": 123,
+  "CLASS_CYCLOPS_2": 124,
+  "CLASS_ELDER_BAEL_2": 125,
+  "CLASS_JOURNEYMAN_T1": 126,
+  "CLASS_PUPIL_T1": 127,
+  "CLASS_OBSTACLE": 1
+ },
+ "classes": {
+  "CLASS_EPHRAIM_LORD": {
+   "key": "CLASS_EPHRAIM_LORD",
+   "number": 1,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_EIRIKA_LORD": {
+   "key": "CLASS_EIRIKA_LORD",
+   "number": 2,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_EPHRAIM_MASTER_LORD": {
+   "key": "CLASS_EPHRAIM_MASTER_LORD",
+   "number": 3,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_EIRIKA_MASTER_LORD": {
+   "key": "CLASS_EIRIKA_MASTER_LORD",
+   "number": 4,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_CAVALIER": {
+   "key": "CLASS_CAVALIER",
+   "number": 5,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT1Normal",
+    "TerrainTable_MovCost_HorseT1Rain",
+    "TerrainTable_MovCost_HorseT1Snow"
+   ]
+  },
+  "CLASS_CAVALIER_F": {
+   "key": "CLASS_CAVALIER_F",
+   "number": 6,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT1Normal",
+    "TerrainTable_MovCost_HorseT1Rain",
+    "TerrainTable_MovCost_HorseT1Snow"
+   ]
+  },
+  "CLASS_PALADIN": {
+   "key": "CLASS_PALADIN",
+   "number": 7,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_PALADIN_F": {
+   "key": "CLASS_PALADIN_F",
+   "number": 8,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_ARMOR_KNIGHT": {
+   "key": "CLASS_ARMOR_KNIGHT",
+   "number": 9,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ArmorNormal",
+    "TerrainTable_MovCost_ArmorRain",
+    "TerrainTable_MovCost_ArmorSnow"
+   ]
+  },
+  "CLASS_ARMOR_KNIGHT_F": {
+   "key": "CLASS_ARMOR_KNIGHT_F",
+   "number": 10,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ArmorNormal",
+    "TerrainTable_MovCost_ArmorRain",
+    "TerrainTable_MovCost_ArmorSnow"
+   ]
+  },
+  "CLASS_GENERAL": {
+   "key": "CLASS_GENERAL",
+   "number": 11,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ArmorNormal",
+    "TerrainTable_MovCost_ArmorRain",
+    "TerrainTable_MovCost_ArmorSnow"
+   ]
+  },
+  "CLASS_GENERAL_F": {
+   "key": "CLASS_GENERAL_F",
+   "number": 12,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ArmorNormal",
+    "TerrainTable_MovCost_ArmorRain",
+    "TerrainTable_MovCost_ArmorSnow"
+   ]
+  },
+  "CLASS_THIEF": {
+   "key": "CLASS_THIEF",
+   "number": 13,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ThiefNormal",
+    "TerrainTable_MovCost_ThiefRain",
+    "TerrainTable_MovCost_ThiefSnow"
+   ]
+  },
+  "CLASS_MANAKETE": {
+   "key": "CLASS_MANAKETE",
+   "number": 14,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_MERCENARY": {
+   "key": "CLASS_MERCENARY",
+   "number": 15,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_MERCENARY_F": {
+   "key": "CLASS_MERCENARY_F",
+   "number": 16,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_HERO": {
+   "key": "CLASS_HERO",
+   "number": 17,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_HERO_F": {
+   "key": "CLASS_HERO_F",
+   "number": 18,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_MYRMIDON": {
+   "key": "CLASS_MYRMIDON",
+   "number": 19,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_MYRMIDON_F": {
+   "key": "CLASS_MYRMIDON_F",
+   "number": 20,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_SWORDMASTER": {
+   "key": "CLASS_SWORDMASTER",
+   "number": 21,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_SWORDMASTER_F": {
+   "key": "CLASS_SWORDMASTER_F",
+   "number": 22,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_ASSASSIN": {
+   "key": "CLASS_ASSASSIN",
+   "number": 23,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ThiefNormal",
+    "TerrainTable_MovCost_ThiefRain",
+    "TerrainTable_MovCost_ThiefSnow"
+   ]
+  },
+  "CLASS_ASSASSIN_F": {
+   "key": "CLASS_ASSASSIN_F",
+   "number": 24,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ThiefNormal",
+    "TerrainTable_MovCost_ThiefRain",
+    "TerrainTable_MovCost_ThiefSnow"
+   ]
+  },
+  "CLASS_ARCHER": {
+   "key": "CLASS_ARCHER",
+   "number": 25,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_ARCHER_F": {
+   "key": "CLASS_ARCHER_F",
+   "number": 26,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_SNIPER": {
+   "key": "CLASS_SNIPER",
+   "number": 27,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_SNIPER_F": {
+   "key": "CLASS_SNIPER_F",
+   "number": 28,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT2Normal",
+    "TerrainTable_MovCost_CommonT2Rain",
+    "TerrainTable_MovCost_CommonT2Snow"
+   ]
+  },
+  "CLASS_RANGER": {
+   "key": "CLASS_RANGER",
+   "number": 29,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_AnimalT2Normal",
+    "TerrainTable_MovCost_AnimalT2Rain",
+    "TerrainTable_MovCost_AnimalT2Snow"
+   ]
+  },
+  "CLASS_RANGER_F": {
+   "key": "CLASS_RANGER_F",
+   "number": 30,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_AnimalT2Normal",
+    "TerrainTable_MovCost_AnimalT2Rain",
+    "TerrainTable_MovCost_AnimalT2Snow"
+   ]
+  },
+  "CLASS_WYVERN_RIDER": {
+   "key": "CLASS_WYVERN_RIDER",
+   "number": 31,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_WYVERN_RIDER_F": {
+   "key": "CLASS_WYVERN_RIDER_F",
+   "number": 32,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_WYVERN_LORD": {
+   "key": "CLASS_WYVERN_LORD",
+   "number": 33,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_WYVERN_LORD_F": {
+   "key": "CLASS_WYVERN_LORD_F",
+   "number": 34,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_WYVERN_KNIGHT": {
+   "key": "CLASS_WYVERN_KNIGHT",
+   "number": 35,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_WYVERN_KNIGHT_F": {
+   "key": "CLASS_WYVERN_KNIGHT_F",
+   "number": 36,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_MAGE": {
+   "key": "CLASS_MAGE",
+   "number": 37,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_MAGE_F": {
+   "key": "CLASS_MAGE_F",
+   "number": 38,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_SAGE": {
+   "key": "CLASS_SAGE",
+   "number": 39,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_SAGE_F": {
+   "key": "CLASS_SAGE_F",
+   "number": 40,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_MAGE_KNIGHT": {
+   "key": "CLASS_MAGE_KNIGHT",
+   "number": 41,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_MAGE_KNIGHT_F": {
+   "key": "CLASS_MAGE_KNIGHT_F",
+   "number": 42,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_BISHOP": {
+   "key": "CLASS_BISHOP",
+   "number": 43,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_BISHOP_F": {
+   "key": "CLASS_BISHOP_F",
+   "number": 44,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_SHAMAN": {
+   "key": "CLASS_SHAMAN",
+   "number": 45,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_SHAMAN_F": {
+   "key": "CLASS_SHAMAN_F",
+   "number": 46,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_DRUID": {
+   "key": "CLASS_DRUID",
+   "number": 47,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_DRUID_F": {
+   "key": "CLASS_DRUID_F",
+   "number": 48,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_SUMMONER": {
+   "key": "CLASS_SUMMONER",
+   "number": 49,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_SUMMONER_F": {
+   "key": "CLASS_SUMMONER_F",
+   "number": 50,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_ROGUE": {
+   "key": "CLASS_ROGUE",
+   "number": 51,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_ThiefNormal",
+    "TerrainTable_MovCost_ThiefRain",
+    "TerrainTable_MovCost_ThiefSnow"
+   ]
+  },
+  "CLASS_GORGONEGG2": {
+   "key": "CLASS_GORGONEGG2",
+   "number": 52,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_GREAT_KNIGHT": {
+   "key": "CLASS_GREAT_KNIGHT",
+   "number": 53,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_GREAT_KNIGHT_F": {
+   "key": "CLASS_GREAT_KNIGHT_F",
+   "number": 54,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_RECRUIT_T1": {
+   "key": "CLASS_RECRUIT_T1",
+   "number": 55,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_JOURNEYMAN_T2": {
+   "key": "CLASS_JOURNEYMAN_T2",
+   "number": 56,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_PUPIL_T2": {
+   "key": "CLASS_PUPIL_T2",
+   "number": 57,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_RECRUIT_T2": {
+   "key": "CLASS_RECRUIT_T2",
+   "number": 58,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_MANAKETE_2": {
+   "key": "CLASS_MANAKETE_2",
+   "number": 59,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_MANAKETE_MYRRH": {
+   "key": "CLASS_MANAKETE_MYRRH",
+   "number": 60,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_JOURNEYMAN": {
+   "key": "CLASS_JOURNEYMAN",
+   "number": 61,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_PUPIL": {
+   "key": "CLASS_PUPIL",
+   "number": 62,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_FIGHTER": {
+   "key": "CLASS_FIGHTER",
+   "number": 63,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_WARRIOR": {
+   "key": "CLASS_WARRIOR",
+   "number": 64,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_BRIGAND": {
+   "key": "CLASS_BRIGAND",
+   "number": 65,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_BrigandNormal",
+    "TerrainTable_MovCost_BrigandRain",
+    "TerrainTable_MovCost_BrigandSnow"
+   ]
+  },
+  "CLASS_PIRATE": {
+   "key": "CLASS_PIRATE",
+   "number": 66,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_PirateNormal",
+    "TerrainTable_MovCost_PirateRain",
+    "TerrainTable_MovCost_PirateSnow"
+   ]
+  },
+  "CLASS_BERSERKER": {
+   "key": "CLASS_BERSERKER",
+   "number": 67,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_BerserkerNormal",
+    "TerrainTable_MovCost_BerserkerRain",
+    "TerrainTable_MovCost_BerserkerSnow"
+   ]
+  },
+  "CLASS_MONK": {
+   "key": "CLASS_MONK",
+   "number": 68,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_PRIEST": {
+   "key": "CLASS_PRIEST",
+   "number": 69,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_BARD": {
+   "key": "CLASS_BARD",
+   "number": 70,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_RECRUIT": {
+   "key": "CLASS_RECRUIT",
+   "number": 71,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_PEGASUS_KNIGHT": {
+   "key": "CLASS_PEGASUS_KNIGHT",
+   "number": 72,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_FALCON_KNIGHT": {
+   "key": "CLASS_FALCON_KNIGHT",
+   "number": 73,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_CLERIC": {
+   "key": "CLASS_CLERIC",
+   "number": 74,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_TROUBADOUR": {
+   "key": "CLASS_TROUBADOUR",
+   "number": 75,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT1Normal",
+    "TerrainTable_MovCost_HorseT1Rain",
+    "TerrainTable_MovCost_HorseT1Snow"
+   ]
+  },
+  "CLASS_VALKYRIE": {
+   "key": "CLASS_VALKYRIE",
+   "number": 76,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_HorseT2Normal",
+    "TerrainTable_MovCost_HorseT2Rain",
+    "TerrainTable_MovCost_HorseT2Snow"
+   ]
+  },
+  "CLASS_DANCER": {
+   "key": "CLASS_DANCER",
+   "number": 77,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_SOLDIER": {
+   "key": "CLASS_SOLDIER",
+   "number": 78,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_NECROMANCER": {
+   "key": "CLASS_NECROMANCER",
+   "number": 79,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  },
+  "CLASS_FLEET": {
+   "key": "CLASS_FLEET",
+   "number": 80,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_PirateNormal",
+    "TerrainTable_MovCost_PirateRain",
+    "TerrainTable_MovCost_PirateSnow"
+   ]
+  },
+  "CLASS_PHANTOM": {
+   "key": "CLASS_PHANTOM",
+   "number": 81,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_REVENANT": {
+   "key": "CLASS_REVENANT",
+   "number": 82,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_ENTOUMBED": {
+   "key": "CLASS_ENTOUMBED",
+   "number": 83,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_BONEWALKER": {
+   "key": "CLASS_BONEWALKER",
+   "number": 84,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_BONEWALKER_BOW": {
+   "key": "CLASS_BONEWALKER_BOW",
+   "number": 85,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_WIGHT": {
+   "key": "CLASS_WIGHT",
+   "number": 86,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_WIGHT_BOW": {
+   "key": "CLASS_WIGHT_BOW",
+   "number": 87,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CommonT1Normal",
+    "TerrainTable_MovCost_CommonT1Rain",
+    "TerrainTable_MovCost_CommonT1Snow"
+   ]
+  },
+  "CLASS_BAEL": {
+   "key": "CLASS_BAEL",
+   "number": 88,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_BrigandNormal",
+    "TerrainTable_MovCost_BrigandRain",
+    "TerrainTable_MovCost_BrigandSnow"
+   ]
+  },
+  "CLASS_ELDER_BAEL": {
+   "key": "CLASS_ELDER_BAEL",
+   "number": 89,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_BrigandNormal",
+    "TerrainTable_MovCost_BrigandRain",
+    "TerrainTable_MovCost_BrigandSnow"
+   ]
+  },
+  "CLASS_CYCLOPS": {
+   "key": "CLASS_CYCLOPS",
+   "number": 90,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_MAUTHEDOOG": {
+   "key": "CLASS_MAUTHEDOOG",
+   "number": 91,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_AnimalT1Normal",
+    "TerrainTable_MovCost_AnimalT1Rain",
+    "TerrainTable_MovCost_AnimalT1Snow"
+   ]
+  },
+  "CLASS_GWYLLGI": {
+   "key": "CLASS_GWYLLGI",
+   "number": 92,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_AnimalT2Normal",
+    "TerrainTable_MovCost_AnimalT2Rain",
+    "TerrainTable_MovCost_AnimalT2Snow"
+   ]
+  },
+  "CLASS_TARVOS": {
+   "key": "CLASS_TARVOS",
+   "number": 93,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_AnimalT1Normal",
+    "TerrainTable_MovCost_AnimalT1Rain",
+    "TerrainTable_MovCost_AnimalT1Snow"
+   ]
+  },
+  "CLASS_MAELDUIN": {
+   "key": "CLASS_MAELDUIN",
+   "number": 94,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_AnimalT2Normal",
+    "TerrainTable_MovCost_AnimalT2Rain",
+    "TerrainTable_MovCost_AnimalT2Snow"
+   ]
+  },
+  "CLASS_MOGALL": {
+   "key": "CLASS_MOGALL",
+   "number": 95,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_ARCH_MOGALL": {
+   "key": "CLASS_ARCH_MOGALL",
+   "number": 96,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_GORGON": {
+   "key": "CLASS_GORGON",
+   "number": 97,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_GORGONEGG": {
+   "key": "CLASS_GORGONEGG",
+   "number": 98,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_GARGOYLE": {
+   "key": "CLASS_GARGOYLE",
+   "number": 99,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_DEATHGOYLE": {
+   "key": "CLASS_DEATHGOYLE",
+   "number": 100,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_DRACO_ZOMBIE": {
+   "key": "CLASS_DRACO_ZOMBIE",
+   "number": 101,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FlyNormal",
+    "TerrainTable_MovCost_FlyRain",
+    "TerrainTable_MovCost_FlySnow"
+   ]
+  },
+  "CLASS_DEMON_KING": {
+   "key": "CLASS_DEMON_KING",
+   "number": 102,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_DemonKing",
+    "TerrainTable_MovCost_DemonKing",
+    "TerrainTable_MovCost_DemonKing"
+   ]
+  },
+  "CLASS_BLST_REGULAR_USED": {
+   "key": "CLASS_BLST_REGULAR_USED",
+   "number": 103,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_BLST_LONG_USED": {
+   "key": "CLASS_BLST_LONG_USED",
+   "number": 104,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_BLST_KILLER_USED": {
+   "key": "CLASS_BLST_KILLER_USED",
+   "number": 105,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_BLST_REGULAR_EMPTY": {
+   "key": "CLASS_BLST_REGULAR_EMPTY",
+   "number": 106,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_BLST_LONG_EMPTY": {
+   "key": "CLASS_BLST_LONG_EMPTY",
+   "number": 107,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_BLST_KILLER_EMPTY": {
+   "key": "CLASS_BLST_KILLER_EMPTY",
+   "number": 108,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_CIVILIAN_M1": {
+   "key": "CLASS_CIVILIAN_M1",
+   "number": 109,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_CIVILIAN_F1": {
+   "key": "CLASS_CIVILIAN_F1",
+   "number": 110,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_CIVILIAN_M2": {
+   "key": "CLASS_CIVILIAN_M2",
+   "number": 111,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_CIVILIAN_F2": {
+   "key": "CLASS_CIVILIAN_F2",
+   "number": 112,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_CIVILIAN_M3": {
+   "key": "CLASS_CIVILIAN_M3",
+   "number": 113,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_CIVILIAN_F3": {
+   "key": "CLASS_CIVILIAN_F3",
+   "number": 114,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_PEER": {
+   "key": "CLASS_PEER",
+   "number": 115,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_QUEEN": {
+   "key": "CLASS_QUEEN",
+   "number": 116,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_PRINCE": {
+   "key": "CLASS_PRINCE",
+   "number": 117,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_QUEEN_2": {
+   "key": "CLASS_QUEEN_2",
+   "number": 118,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_UNK77": {
+   "key": "CLASS_UNK77",
+   "number": 119,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": null
+  },
+  "CLASS_FALLEN_PRINCE": {
+   "key": "CLASS_FALLEN_PRINCE",
+   "number": 120,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_TENT": {
+   "key": "CLASS_TENT",
+   "number": 121,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_PONTIFEX": {
+   "key": "CLASS_PONTIFEX",
+   "number": 122,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_FALLEN_PEER": {
+   "key": "CLASS_FALLEN_PEER",
+   "number": 123,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_CivilianNormal",
+    "TerrainTable_MovCost_CivilianRain",
+    "TerrainTable_MovCost_CivilianSnow"
+   ]
+  },
+  "CLASS_CYCLOPS_2": {
+   "key": "CLASS_CYCLOPS_2",
+   "number": 124,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_ELDER_BAEL_2": {
+   "key": "CLASS_ELDER_BAEL_2",
+   "number": 125,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_BrigandNormal",
+    "TerrainTable_MovCost_BrigandRain",
+    "TerrainTable_MovCost_BrigandSnow"
+   ]
+  },
+  "CLASS_JOURNEYMAN_T1": {
+   "key": "CLASS_JOURNEYMAN_T1",
+   "number": 126,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_FighterNormal",
+    "TerrainTable_MovCost_FighterRain",
+    "TerrainTable_MovCost_FighterSnow"
+   ]
+  },
+  "CLASS_PUPIL_T1": {
+   "key": "CLASS_PUPIL_T1",
+   "number": 127,
+   "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
+   "pTerrainDefenseLookup": "TerrainTable_Def_Common",
+   "pTerrainResistanceLookup": "TerrainTable_Res_Common",
+   "pMovCostTable": [
+    "TerrainTable_MovCost_MagicNormal",
+    "TerrainTable_MovCost_MagicRain",
+    "TerrainTable_MovCost_MagicSnow"
+   ]
+  }
+ }
+}

@@ -67,6 +67,7 @@ if [ "'"$MODE"'" = "--full" ]; then
     cd /w/tools/pipeline
     python3 extract/parse_c_tables.py --out out/tables >/dev/null
     python3 extract/parse_carved_tables.py --out out/tables >/dev/null
+    python3 extract/parse_class_tables.py --out out/tables >/dev/null
     python3 extract/verify_tables.py | tail -3
     echo
 fi

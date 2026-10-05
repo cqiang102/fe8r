@@ -46,6 +46,10 @@ def parse_enum(header, enum_name=None):
     但有显式值时必须尊重它。
     """
     text = open(header, encoding="utf-8", errors="replace").read()
+    # ⚠️ 先剥注释再解析：行尾注释会把**下一个**枚举名并进当前项的 key，
+    # 导致那个常量被静默丢掉（classes.h 实测少 4 个）。
+    text = re.sub(r"/\*.*?\*/", " ", text, flags=re.S)
+    text = re.sub(r"//[^\n]*", " ", text)
     # 取 enum { ... }; 里最大的块
     blocks = re.findall(r"enum\s*\w*\s*\{(.*?)\}", text, re.S)
     if not blocks:
@@ -74,7 +78,13 @@ def parse_enum(header, enum_name=None):
             try:
                 nxt = int(val, 0)
             except ValueError:
-                continue
+                # 值可能是**另一个枚举名**（别名），例如
+                #     CLASS_OBSTACLE = CLASS_EPHRAIM_LORD,
+                # 之前这里是 `continue`，那个常量被静默丢掉。
+                if val in vals:
+                    nxt = vals[val]
+                else:
+                    continue
         vals[name] = nxt
         nxt += 1
     return vals

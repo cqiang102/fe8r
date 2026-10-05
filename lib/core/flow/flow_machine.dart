@@ -488,11 +488,16 @@ class FlowMachine {
     return out;
   }
 
-  /// 站在 [x],[y] 时能打到的敌人。
+  /// 攻击范围（由武器决定）。
   ///
-  /// 射程目前固定为 **1（相邻）**。真实武器射程（`GetItemMinRange` /
-  /// `GetItemMaxRange`，弓是 2、投枪是 1-2）需要武器数据接进来，
-  /// 属于 M4 收尾。
+  /// 值来自 `GetItemMinRange` / `GetItemMaxRange`（编码射程的高/低 4 位）。
+  /// **FlowMachine 不持有道具表** —— 射程由调用方算好传进来。
+  /// 理由同"状态机不结算伤害"：道具表不属于流程状态，
+  /// 放进来会让存档连带存下整张表。
+  int attackMinRange = 1;
+  int attackMaxRange = 1;
+
+  /// 站在 [x],[y] 时能打到的敌人。
   ///
   /// 顺序：**先按 id 升序**，保证同一局面下目标顺序稳定 ——
   /// 否则玩家看到的"第一个目标"会随哈希顺序变化，回放/存档对不上。
@@ -503,10 +508,14 @@ class FlowMachine {
     int y,
   ) {
     final out = field.units
-        .where((u) =>
-            u.isAlive &&
-            !PhaseRules.areUnitsAllied(u.faction, attacker.faction) &&
-            (_dist(x, y, u.x, u.y) == 1))
+        .where((u) {
+          if (!u.isAlive) return false;
+          if (PhaseRules.areUnitsAllied(u.faction, attacker.faction)) {
+            return false;
+          }
+          final d = _dist(x, y, u.x, u.y);
+          return d >= attackMinRange && d <= attackMaxRange;
+        })
         .toList()
       ..sort((a, b) => a.id.compareTo(b.id));
     return out;

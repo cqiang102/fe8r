@@ -268,6 +268,12 @@ class ItemData {
   /// 武器特殊效果（`GetItemWeaponEffect`）
   int weaponEffectId = 0;
 
+  /// 编码射程（`encodedRange`）：**高 4 位是最小射程，低 4 位是最大射程**。
+  ///
+  /// 所以 1 格武器是 `0x11`、2 格是 `0x22`、1-2 格是 `0x12`。
+  /// 不要写成"一个字节表示射程"。
+  int encodedRange = 0;
+
   /// 属性加成表；null 表示没有
   ItemStatBonuses? statBonuses;
 }
@@ -309,6 +315,15 @@ class ItemTable {
 
   /// `GetItemWeaponEffect(item)` —— 武器的特殊效果编号
   int weaponEffectOf(int item) => dataOf(item).weaponEffectId;
+
+  /// `GetItemEncodedRange(item)`
+  int encodedRangeOf(int item) => dataOf(item).encodedRange;
+
+  /// `GetItemMinRange(item)` —— 编码射程的**高 4 位**
+  int minRangeOf(int item) => encodedRangeOf(item) >> 4;
+
+  /// `GetItemMaxRange(item)` —— 编码射程的**低 4 位**
+  int maxRangeOf(int item) => encodedRangeOf(item) & 0xF;
 
   /// `GetItemStatBonuses(item)`
   ItemStatBonuses? statBonusesOf(int item) => dataOf(item).statBonuses;
