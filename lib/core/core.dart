@@ -27,6 +27,7 @@ export 'flow/battle_field.dart';
 export 'flow/enemy_ai.dart';
 export 'flow/flow_machine.dart';
 export 'flow/turn_loop.dart';
+export 'flow/unit_defs.dart';
 export 'battle/weapon_triangle.dart';
 export 'battle/battle_unit.dart';
 export 'map/map_grid.dart';

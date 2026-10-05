@@ -145,6 +145,14 @@ Future<void> main(List<String> argv) async {
     // 所以：产物以 macOS 上生成的那份为准并入库，Dart 测试跑入库产物
     // （确定性）。重新生成用 `python3 tools/pipeline/extract/parse_chapter_events.py`。
 
+    // 章节单位配置：结构有文档、字段具名 —— 让编译器解码位域
+    if (hasDecomp())
+      Step('L0', '章节单位配置提取', 'python3',
+          ['extract/parse_unit_defs.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '111 张表 / 2422 条单位')
+    else
+      Step('L0', '章节单位配置提取（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
@@ -165,6 +173,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '交互流程状态机（可序列化）', 'flutter',
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
+
+    Step('L1', '章节单位配置（真实数据）', 'flutter',
+        ['test', 'test/core/unit_defs_test.dart'],
+        note: '6 用例：111 张表 / 位域范围 / 分组分隔符'),
 
     Step('L1', '章节事件脚本（真实数据）', 'flutter',
         ['test', 'test/core/chapter_events_test.dart'],
