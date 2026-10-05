@@ -5,15 +5,18 @@
 # **本地和 GitHub Actions 跑的是同一个脚本。** CI 的 YAML 只负责装环境
 # （Flutter / Python / clang），具体检查什么全在 tools/verify/run_all.dart 里定义。
 #
-# ⚠️ 但"脚本相同"**不等于**"环境相同"。M5 就踩过一次：
-# `turn_switch` 场景里 gPlaySt 被定义两次，macOS 的 ld64 把两个 tentative
-# definition 合并了，Linux 的 ld 直接报 multiple definition —— 本机全绿，
-# CI 两个 job 全红，而且报错在链接阶段、和源码位置对不上。
+# ⚠️ **CI 全部跑在 macos-latest**（曾经跑 ubuntu 以省时间，现已改回）。
 #
-# 教训：**平台差异要在构建参数上消除，而不是靠"本地跑过"来推断。**
-# 现在 build.sh 显式带 -fno-common，两边行为一致。
+# 复盘：Linux 与 macOS 的差异在这个项目里**只制造假问题、没抓到过真问题**。
+#   * `gPlaySt` 重复定义 —— 只在 C Oracle 测试脚手架里，不影响产品
+#   * 数据提取产物平台不一致 —— 只在构建期数据管线里
+# 四次排查全部花在"验证工具自己"身上，而 macOS 构建 job 一直全绿。
 #
-# 想在本地直接验 Linux，用 tools/verify/ci-linux.sh（Docker）。
+# 所以本地跑 `./tools/verify/ci.sh` 与 CI 跑的是**同一个平台**，
+# "本地绿、CI 红"从根上不可能发生了。
+#
+# 另外 build.sh 仍然带 -fno-common：那是个好的防御（重复定义本来就该报错），
+# 只是不再需要它去弥合平台差异。
 #
 # 用法:
 #   ./tools/verify/ci.sh              常规

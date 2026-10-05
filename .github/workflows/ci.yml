@@ -5,6 +5,14 @@
 # 的情况基本不会出现。
 #
 # 关于 Flutter 版本：从 .fvmrc 读，与本地 fvm 用同一个来源，避免两边漂移。
+#
+# ⚠️ **所有 job 都跑 macos-latest**（曾经跑 ubuntu 以省时间）。
+# 改回 macOS 的原因：Linux 与 macOS 的差异在这个项目里**只制造假问题、
+# 没抓到过真问题**。逐条复盘：
+#   * gPlaySt 重复定义 —— 只在 C Oracle 测试脚手架里，不影响产品
+#   * 数据提取产物平台不一致 —— 只在构建期数据管线里
+# 四次排查全部花在"验证工具自己"身上，而 macOS 构建 job 一直全绿。
+# 代价是 CI 变慢，收益是"本地绿、CI 红"这类事从根上消失。
 
 name: CI
 
@@ -26,7 +34,7 @@ env:
 jobs:
   verify:
     name: 验证金字塔
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 30
 
     steps:
@@ -65,7 +73,7 @@ jobs:
   # 约 80 秒，不适合塞进每次 push 的快反馈里。
   coverage:
     name: C Oracle 全量编译覆盖率
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 30
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
 

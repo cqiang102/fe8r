@@ -132,8 +132,6 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '事件指令集校验（跳过）', 'true', const [], note: decompNote),
 
-    // 章节事件提取：指针槽已靠**重定位表**归一化成符号引用，
-    // 实测 Linux 与 macOS 逐表一致 —— 所以可以进 CI 了。
     if (hasDecomp())
       Step('L0', '章节事件提取（指针归一化）', 'python3',
           ['extract/parse_chapter_events.py', '--out', 'out/tables'],
