@@ -1,0 +1,106 @@
+# 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
+# 场景: phase  种子: 20261003:phase  用例数: 103
+# 格式: <id>\t key=value \t key=value ...
+ph_allied_blue_blue	fn=allied	left=0	right=0
+ph_alleg_blue_blue	fn=allegiance	left=0	right=0
+ph_allied_blue_green	fn=allied	left=0	right=64
+ph_alleg_blue_green	fn=allegiance	left=0	right=64
+ph_allied_blue_red	fn=allied	left=0	right=128
+ph_alleg_blue_red	fn=allegiance	left=0	right=128
+ph_allied_green_blue	fn=allied	left=64	right=0
+ph_alleg_green_blue	fn=allegiance	left=64	right=0
+ph_allied_green_green	fn=allied	left=64	right=64
+ph_alleg_green_green	fn=allegiance	left=64	right=64
+ph_allied_green_red	fn=allied	left=64	right=128
+ph_alleg_green_red	fn=allegiance	left=64	right=128
+ph_allied_red_blue	fn=allied	left=128	right=0
+ph_alleg_red_blue	fn=allegiance	left=128	right=0
+ph_allied_red_green	fn=allied	left=128	right=64
+ph_alleg_red_green	fn=allegiance	left=128	right=64
+ph_allied_red_red	fn=allied	left=128	right=128
+ph_alleg_red_red	fn=allegiance	left=128	right=128
+ph_current_blue	fn=current	faction=0
+ph_nonactive_blue	fn=nonactive	faction=0
+ph_current_green	fn=current	faction=64
+ph_nonactive_green	fn=nonactive	faction=64
+ph_current_red	fn=current	faction=128
+ph_nonactive_red	fn=nonactive	faction=128
+ph_able_none	fn=abled	faction=0	units=1=0:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_unsel	fn=abled	faction=0	units=1=2:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_dead	fn=abled	faction=0	units=1=4:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_notdep	fn=abled	faction=0	units=1=8:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_rescued	fn=abled	faction=0	units=1=32:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_roof	fn=abled	faction=0	units=1=128:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_bit16	fn=abled	faction=0	units=1=65536:0:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_sleep	fn=abled	faction=0	units=1=0:2:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_berserk	fn=abled	faction=0	units=1=0:4:0:1,2=0:0:0:1,3=0:0:0:1
+ph_able_classes	fn=abled	faction=0	units=1=0:0:1048576:1,2=0:0:0:1,3=0:0:0:1
+ph_able_invalid	fn=abled	faction=0	units=1=0:0:0:0,2=0:0:0:1
+ph_able_bound_blue	fn=abled	faction=0	units=1=0:0:0:1,63=0:0:0:1
+ph_able_bound_green	fn=abled	faction=64	units=65=0:0:0:1,127=0:0:0:1
+ph_able_bound_red	fn=abled	faction=128	units=129=0:0:0:1,191=0:0:0:1
+ph_instate_4	fn=instate	faction=0	state=4	units=1=4:0:0:1,2=0:0:0:1,3=0:0:0:1,4=32:0:0:1
+ph_instate_32	fn=instate	faction=0	state=32	units=1=4:0:0:1,2=0:0:0:1,3=0:0:0:1,4=32:0:0:1
+ph_instate_2	fn=instate	faction=0	state=2	units=1=4:0:0:1,2=0:0:0:1,3=0:0:0:1,4=32:0:0:1
+ph_instate_0	fn=instate	faction=0	state=0	units=1=4:0:0:1,2=0:0:0:1,3=0:0:0:1,4=32:0:0:1
+ph_instate_4294967295	fn=instate	faction=0	state=4294967295	units=1=4:0:0:1,2=0:0:0:1,3=0:0:0:1,4=32:0:0:1
+ph_rnd_000	fn=abled	faction=0	state=1	units=30=65536:0:0:1
+ph_rnd_001	fn=abled	faction=64	state=0	units=82=65536:0:0:1,66=0:0:1048576:0,102=32:0:1048576:0,80=0:0:0:1,100=4:4:1048576:0
+ph_rnd_002	fn=abled	faction=64	state=0	units=87=32:0:0:1,78=32:2:1048576:1,72=4:0:0:1,101=0:0:0:0
+ph_rnd_003	fn=abled	faction=0	state=32	units=12=32:2:0:1
+ph_rnd_004	fn=abled	faction=0	state=4	units=55=2:0:0:1,1=65536:2:1048576:0,18=32:0:0:1
+ph_rnd_005	fn=abled	faction=128	state=0	units=159=4:4:0:0,170=32:0:0:1,131=65536:0:0:1,160=65536:0:0:1,165=0:4:0:1
+ph_rnd_006	fn=abled	faction=64	state=2	units=95=65536:4:0:1,68=0:4:0:1,115=4:4:0:1
+ph_rnd_007	fn=abled	faction=0	state=4	units=4=0:2:1048576:0,31=65536:2:0:1,33=65536:4:0:0
+ph_rnd_008	fn=instate	faction=64	state=2	units=64=4:0:1048576:0,78=0:0:0:0,107=65536:4:0:1
+ph_rnd_009	fn=abled	faction=128	state=1	units=157=0:0:1048576:1,145=0:4:1048576:1,164=0:4:0:0
+ph_rnd_010	fn=instate	faction=64	state=4	units=125=0:2:1048576:0,79=65536:0:1048576:1,81=2:0:1048576:1
+ph_rnd_011	fn=instate	faction=128	state=1	units=190=0:2:0:1
+ph_rnd_012	fn=abled	faction=0	state=4	units=57=0:0:1048576:1,26=0:4:0:1,36=0:0:1048576:1,59=2:4:0:1
+ph_rnd_013	fn=instate	faction=128	state=32	units=129=0:4:0:0,145=32:4:0:1,130=4:0:0:0
+ph_rnd_014	fn=abled	faction=0	state=4	units=39=2:0:1048576:0,33=2:4:1048576:1,55=65536:4:0:1,37=0:0:1048576:0,7=32:0:1048576:1
+ph_rnd_015	fn=instate	faction=64	state=1	units=116=32:2:1048576:0,125=65536:2:1048576:1,76=65536:0:1048576:0,83=2:0:1048576:0,66=0:0:0:1
+ph_rnd_016	fn=abled	faction=0	state=4	units=29=0:0:0:1
+ph_rnd_017	fn=abled	faction=64	state=4	units=104=0:0:0:0,105=0:4:0:1,73=2:4:0:1,73=65536:0:1048576:1,71=0:0:0:0
+ph_rnd_018	fn=instate	faction=128	state=0	units=142=0:4:1048576:1
+ph_rnd_019	fn=abled	faction=128	state=4	units=135=2:0:0:1,145=4:2:0:1,149=2:4:0:1,190=0:0:0:1
+ph_rnd_020	fn=abled	faction=0	state=1	units=49=0:0:0:1,6=0:0:0:1,7=0:0:1048576:1
+ph_rnd_021	fn=abled	faction=128	state=2	units=158=32:0:0:1
+ph_rnd_022	fn=abled	faction=128	state=1	units=171=0:0:1048576:1,152=32:4:0:1
+ph_rnd_023	fn=instate	faction=128	state=1	units=130=0:0:0:1,154=0:0:0:1,182=0:0:1048576:1
+ph_rnd_024	fn=abled	faction=64	state=1	units=83=32:0:0:0,98=0:2:0:1
+ph_rnd_025	fn=instate	faction=0	state=32	units=51=32:0:0:1,56=2:4:0:1,49=2:2:0:1,49=0:2:1048576:0,39=4:2:1048576:1
+ph_rnd_026	fn=abled	faction=0	state=2	units=38=2:0:1048576:1
+ph_rnd_027	fn=abled	faction=128	state=32	units=163=4:0:1048576:0
+ph_rnd_028	fn=abled	faction=128	state=0	units=129=0:4:0:1,161=2:0:0:0
+ph_rnd_029	fn=instate	faction=128	state=32	units=176=32:0:0:1
+ph_rnd_030	fn=instate	faction=64	state=1	units=77=32:0:0:1,119=0:2:1048576:1,112=32:0:0:0
+ph_rnd_031	fn=abled	faction=64	state=0	units=112=32:2:0:0,69=32:0:0:1,87=2:4:0:1,92=65536:0:0:0,124=0:0:0:1
+ph_rnd_032	fn=instate	faction=64	state=4	units=115=65536:0:0:1,82=4:0:1048576:1,110=0:4:1048576:0
+ph_rnd_033	fn=abled	faction=128	state=2	units=147=0:0:0:1
+ph_rnd_034	fn=instate	faction=128	state=1	units=163=0:2:0:0
+ph_rnd_035	fn=abled	faction=128	state=0	units=176=32:0:0:1,130=4:0:0:1,133=0:2:1048576:1
+ph_rnd_036	fn=instate	faction=0	state=32	units=43=4:0:0:0
+ph_rnd_037	fn=abled	faction=64	state=0	units=111=0:0:0:1,87=2:0:0:1,75=0:0:0:1,108=0:2:0:0,121=0:0:1048576:1
+ph_rnd_038	fn=abled	faction=128	state=0	units=131=0:0:0:1
+ph_rnd_039	fn=abled	faction=0	state=32	units=39=4:4:0:1
+ph_rnd_040	fn=abled	faction=64	state=2	units=71=65536:0:1048576:0
+ph_rnd_041	fn=abled	faction=0	state=32	units=54=2:4:1048576:1,30=4:2:0:1,25=0:2:0:1
+ph_rnd_042	fn=instate	faction=64	state=0	units=116=4:0:1048576:1,81=0:0:0:1,94=0:2:1048576:1,81=0:2:0:0
+ph_rnd_043	fn=abled	faction=64	state=0	units=121=0:0:0:1,107=4:0:1048576:1,113=0:2:1048576:1,126=32:4:0:1,105=0:0:0:1
+ph_rnd_044	fn=instate	faction=0	state=4	units=34=0:0:0:1,49=0:4:0:1,57=32:0:0:1,45=4:2:0:0
+ph_rnd_045	fn=abled	faction=0	state=4	units=28=4:0:0:1
+ph_rnd_046	fn=abled	faction=64	state=0	units=73=0:0:0:0,108=65536:0:0:1
+ph_rnd_047	fn=abled	faction=64	state=32	units=118=2:2:0:0,113=0:0:0:1,80=32:4:0:0
+ph_rnd_048	fn=abled	faction=0	state=4	units=42=65536:0:0:1,1=0:4:1048576:1,55=0:0:0:1,2=0:4:1048576:0
+ph_rnd_049	fn=abled	faction=0	state=1	units=23=32:2:0:1,1=0:0:0:0
+ph_rnd_050	fn=instate	faction=0	state=2	units=26=65536:2:0:1
+ph_rnd_051	fn=abled	faction=64	state=0	units=93=0:0:1048576:1
+ph_rnd_052	fn=instate	faction=128	state=0	units=139=0:2:0:0
+ph_rnd_053	fn=abled	faction=128	state=32	units=137=0:4:0:1,138=4:2:1048576:1,144=0:2:0:1
+ph_rnd_054	fn=abled	faction=64	state=0	units=118=65536:0:0:1,110=32:4:0:1,110=2:0:0:0
+ph_rnd_055	fn=abled	faction=0	state=1	units=44=32:0:0:1,18=0:0:1048576:0,57=2:0:0:1,34=0:0:0:1,43=65536:0:0:1
+ph_rnd_056	fn=abled	faction=64	state=32	units=108=0:0:1048576:1,84=2:0:0:1
+ph_rnd_057	fn=instate	faction=64	state=0	units=91=65536:0:0:0,73=65536:4:0:1,71=65536:2:0:1
+ph_rnd_058	fn=instate	faction=0	state=2	units=18=0:0:0:1,21=0:4:1048576:1,63=0:2:1048576:0
+ph_rnd_059	fn=instate	faction=0	state=4	units=26=4:4:0:1,57=4:2:1048576:0

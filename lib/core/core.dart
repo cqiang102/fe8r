@@ -15,6 +15,7 @@
 
 export 'battle/battle_rng.dart';
 export 'battle/battle_stats.dart';
+export 'battle/phase.dart';
 export 'battle/weapon_triangle.dart';
 export 'battle/battle_unit.dart';
 export 'map/map_grid.dart';

@@ -546,6 +546,91 @@ def gen_weapon_triangle(rng):
     return cases
 
 
+
+def gen_phase(rng):
+    """阵营判定与"本回合可行动单位数"。
+
+    重点覆盖：
+      * 三个阵营两两组合（同盟 / 同一阵营是**两个不同**的判定）
+      * notAble 掩码的**每一位单独触发**（漏一位就会让不该动的单位动起来）
+      * 异常状态（睡眠 / 狂暴）
+      * CA_UNSELECTABLE
+      * pCharacterData 为空（UNIT_IS_VALID 为假）
+      * CountUnitsInState 是"**不处于**该状态"的计数（容易写反）
+    """
+    BLUE, GREEN, RED = 0x00, 0x40, 0x80
+    US_UNSEL, US_DEAD, US_NOTDEP, US_RESCUED, US_ROOF, US_B16 = (
+        1 << 1, 1 << 2, 1 << 3, 1 << 5, 1 << 7, 1 << 16)
+    CA_UNSEL = 1 << 20
+
+    cases = []
+
+    # --- 阵营判定 ---
+    factions = [("blue", BLUE), ("green", GREEN), ("red", RED)]
+    for ln, lv in factions:
+        for rn, rv in factions:
+            cases.append((f"ph_allied_{ln}_{rn}", {
+                "fn": "allied", "left": lv, "right": rv}))
+            cases.append((f"ph_alleg_{ln}_{rn}", {
+                "fn": "allegiance", "left": lv, "right": rv}))
+    for ln, lv in factions:
+        cases.append((f"ph_current_{ln}", {"fn": "current", "faction": lv}))
+        cases.append((f"ph_nonactive_{ln}", {"fn": "nonactive", "faction": lv}))
+
+    # --- notAble 掩码逐位 ---
+    unit = lambda st, status=0, ca=0, valid=1: f"{st}:{status}:{ca}:{valid}"
+    bit_cases = [
+        ("none", 0, 1), ("unsel", US_UNSEL, 0), ("dead", US_DEAD, 0),
+        ("notdep", US_NOTDEP, 0), ("rescued", US_RESCUED, 0),
+        ("roof", US_ROOF, 0), ("bit16", US_B16, 0),
+        ("sleep", 0, 0), ("berserk", 0, 0), ("classes", 0, 0),
+    ]
+    for name, st, expect in bit_cases:
+        status = 2 if name == "sleep" else (4 if name == "berserk" else 0)
+        ca = CA_UNSEL if name == "classes" else 0
+        # 一个"有问题"的单位 + 两个正常单位；期望值由 Oracle 决定，
+        # 这里只负责把场景造出来
+        units = f"1={unit(st, status, ca, 1)},2={unit(0)},3={unit(0)}"
+        cases.append((f"ph_able_{name}", {
+            "fn": "abled", "faction": BLUE, "units": units}))
+
+    # 无效单位（valid=0）
+    cases.append(("ph_able_invalid", {
+        "fn": "abled", "faction": BLUE,
+        "units": f"1={unit(0, 0, 0, 0)},2={unit(0)}"}))
+
+    # 编号边界：阵营基址 +1 / +0x3F 应当算进去
+    for fid, fname in ((BLUE, "blue"), (GREEN, "green"), (RED, "red")):
+        units = f"{fid + 1}={unit(0)},{fid + 0x3F}={unit(0)}"
+        cases.append((f"ph_able_bound_{fname}", {
+            "fn": "abled", "faction": fid, "units": units}))
+
+    # --- CountUnitsInState（注意语义是"不处于"）---
+    for st in (US_DEAD, US_RESCUED, US_UNSEL, 0, 0xFFFFFFFF):
+        units = f"1={unit(US_DEAD)},2={unit(0)},3={unit(0)},4={unit(US_RESCUED)}"
+        cases.append((f"ph_instate_{st}", {
+            "fn": "instate", "faction": BLUE, "state": st, "units": units}))
+
+    # --- 随机 ---
+    for i in range(60):
+        fid = rng.choice([BLUE, GREEN, RED])
+        parts = []
+        for k in range(rng.randrange(1, 6)):
+            uid = rng.randrange(fid, fid + 0x40)
+            st = rng.choice([0, 0, 0, US_DEAD, US_RESCUED, US_UNSEL, US_B16])
+            status = rng.choice([0, 0, 0, 2, 4])
+            ca = rng.choice([0, 0, CA_UNSEL])
+            valid = rng.choice([1, 1, 1, 0])
+            parts.append(f"{uid}={unit(st, status, ca, valid)}")
+        cases.append((f"ph_rnd_{i:03d}", {
+            "fn": rng.choice(["abled", "abled", "instate"]),
+            "faction": fid,
+            "state": rng.choice([1, 2, 4, 1 << 5, 0]),
+            "units": ",".join(parts),
+        }))
+    return cases
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit_all,
@@ -555,6 +640,7 @@ SCENARIOS = {
     "battle_attack": gen_battle_attack,
     "battle_rng": gen_battle_rng,
     "weapon_triangle": gen_weapon_triangle,
+    "phase": gen_phase,
 }
 
 

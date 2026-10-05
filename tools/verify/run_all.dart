@@ -154,6 +154,14 @@ Future<void> main(List<String> argv) async {
           note: decompNote),
 
     if (hasDecomp())
+      Step('L2', 'C Oracle ↔ Dart（阶段与阵营）', 'flutter',
+          ['test', 'test/core/phase_oracle_test.dart'],
+          note: '103 用例：阵营判定 / 可行动单位计数')
+    else
+      Step('L2', 'C Oracle ↔ Dart（阶段与阵营，跳过）', 'true', const [],
+          note: decompNote),
+
+    if (hasDecomp())
       Step('L2', 'C Oracle ↔ Dart（移动范围）', 'flutter',
           ['test', 'test/core/movement_oracle_test.dart'],
           note: '54 用例逐格对照')

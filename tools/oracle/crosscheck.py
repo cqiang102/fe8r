@@ -491,6 +491,71 @@ def model_weapon_triangle(f):
     return "%d,%d,%d,%d" % (s8(at_hit), s8(at_dmg), s8(df_hit), s8(df_dmg))
 
 
+
+# ------------------------------------------------ 场景: phase
+
+# 逐条对照 src/bmphase.c
+_US_UNSEL, _US_DEAD, _US_NOTDEP, _US_RESCUED, _US_ROOF, _US_B16 = (
+    1 << 1, 1 << 2, 1 << 3, 1 << 5, 1 << 7, 1 << 16)
+_CA_UNSEL = 1 << 20
+_NOT_ABLE = _US_UNSEL | _US_DEAD | _US_NOTDEP | _US_RESCUED | _US_ROOF | _US_B16
+
+
+def _parse_phase_units(spec):
+    """解析 `<id>=<state>:<status>:<classAttr>:<valid>` 列表 → {id: tuple}"""
+    units = {}
+    if not spec:
+        return units
+    for p in spec.split(","):
+        if "=" not in p:
+            continue
+        k, v = p.split("=", 1)
+        f = v.split(":")
+        if len(f) < 4:
+            continue
+        units[int(k)] = (int(f[0]), int(f[1]), int(f[2]), f[3] != "0")
+    return units
+
+
+def model_phase(f):
+    fn = f.get("fn", "abled")
+
+    if fn == "allied":
+        return 1 if (f.get("left", 0) & 0x80) == (f.get("right", 0) & 0x80) else 0
+    if fn == "allegiance":
+        return 1 if (f.get("left", 0) & 0xC0) == (f.get("right", 0) & 0xC0) else 0
+    if fn == "current":
+        return f.get("faction", 0) & 0x80
+    if fn == "nonactive":
+        return (f.get("faction", 0) & 0x80) ^ 0x80
+
+    units = _parse_phase_units(f.get("units", ""))
+    faction = f.get("faction", 0)
+    count = 0
+    for uid in range(faction + 1, faction + 0x40):
+        u = units.get(uid)
+        if u is None:
+            continue
+        state, status, ca, valid = u
+        if not valid:                       # UNIT_IS_VALID 要求 pCharacterData
+            continue
+
+        if fn == "instate":
+            # ⚠️ 语义是"**不处于**该状态"的单位数
+            if state & f.get("state", 0) == 0:
+                count += 1
+            continue
+
+        if state & _NOT_ABLE:
+            continue
+        if status in (2, 4):                # SLEEP / BERSERK
+            continue
+        if ca & _CA_UNSEL:
+            continue
+        count += 1
+    return count
+
+
 MODELS = {
     "rng": (model_rng, True),          # True = 结果是列表
     "battle_unit": (model_battle_unit, False),
@@ -499,6 +564,7 @@ MODELS = {
     "battle_attack": (model_battle_attack, False),
     "battle_rng": (model_battle_rng, False),
     "weapon_triangle": (model_weapon_triangle, False),
+    "phase": (model_phase, False),
 }
 
 
