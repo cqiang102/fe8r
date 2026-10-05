@@ -310,12 +310,135 @@ def model_battle_attack(f):
     return s16(attack)
 
 
+
+# ------------------------------------------------ 场景: battle_rng
+
+# 战斗判定的乱数消耗顺序，逐条对照：
+#   src/BattleGenerateHitAttributes.c / src/bmbattle_0802B164.c / src/BattleCheckSilencer.c
+# 输出与 C 场景一致：damage,attributes,seed0,seed1,seed2
+
+_ATTR_CRIT = 1 << 0
+_ATTR_MISS = 1 << 1
+_ATTR_SILENCER = 1 << 11
+_ATTR_SURESHOT = 1 << 14
+_ATTR_GREATSHLD = 1 << 15
+_ATTR_PIERCE = 1 << 16
+
+_CFG_SIMULATE = 1 << 1
+_MAX_DAMAGE = 127
+
+_CLS_SNIPER = 0x1B
+_CLS_SNIPER_F = 0x1C
+_CLS_GENERAL = 0x0B
+_CLS_GENERAL_F = 0x0C
+_CLS_WYVERN_KNIGHT = 0x23
+_CLS_WYVERN_KNIGHT_F = 0x24
+_CLS_DEMON_KING = 0x66
+
+
+class _BattleRng:
+    def __init__(self, seed):
+        self.r = Rng(seed)
+
+    def roll1(self, thr):
+        return thr > self.r.next_rn_100()
+
+    def roll2(self, thr):
+        avg = c_trunc_div(self.r.next_rn_100() + self.r.next_rn_100(), 2)
+        return thr > avg
+
+    def state(self):
+        return tuple(self.r.s)
+
+    def battle_roll1(self, config, thr, sim):
+        if config & _CFG_SIMULATE:
+            return sim
+        return self.roll1(thr)
+
+    def battle_roll2(self, config, thr, sim):
+        if config & _CFG_SIMULATE:
+            return sim
+        return self.roll2(thr)
+
+
+def model_battle_rng(f):
+    seed = f.get("seed", 0)
+    config = f.get("config", 1)
+    attrs = f.get("attrs", 0)
+    attacker_cls = f.get("actorCls", 1)
+    defender_cls = f.get("targetCls", 1)
+    level = f.get("actorLevel", 1)
+
+    t = _BattleRng(seed)
+    damage = 0
+
+    # ---- 1. BattleCheckSureShot ----
+    if not (attrs & _ATTR_SURESHOT or attrs & _ATTR_PIERCE or attrs & _ATTR_GREATSHLD):
+        if attacker_cls in (_CLS_SNIPER, _CLS_SNIPER_F):
+            # 弩车（0x35/0x36/0x37）直接必中且不消耗乱数；否则 roll 一次
+            if f.get("weaponIndex", 1) not in (0x35, 0x36, 0x37):
+                if t.battle_roll1(config, level, False):
+                    attrs |= _ATTR_SURESHOT
+
+    # ---- 2. 命中判定（Roll2RN，2 个乱数）----
+    if not (attrs & _ATTR_SURESHOT):
+        if not t.battle_roll2(config, f.get("hitRate", 100), True):
+            attrs |= _ATTR_MISS
+            st = t.state()
+            return "0,%d,%d,%d,%d" % (attrs, st[0], st[1], st[2])
+
+    attack = f.get("attack", 0)
+    defense = f.get("defense", 0)
+
+    # ---- 3. BattleCheckGreatShield（只有 GENERAL / GENERAL_F）----
+    if not (attrs & (_ATTR_MISS | _ATTR_SURESHOT | _ATTR_PIERCE | _ATTR_GREATSHLD)):
+        if defender_cls in (_CLS_GENERAL, _CLS_GENERAL_F):
+            if t.battle_roll1(config, level, False):
+                attrs |= _ATTR_GREATSHLD
+
+    # ---- 4. BattleCheckPierce（翼骑士）----
+    if not (attrs & (_ATTR_SURESHOT | _ATTR_PIERCE | _ATTR_GREATSHLD)):
+        if attacker_cls in (_CLS_WYVERN_KNIGHT, _CLS_WYVERN_KNIGHT_F):
+            if t.battle_roll1(config, level, False):
+                attrs |= _ATTR_PIERCE
+
+    if attrs & _ATTR_PIERCE:
+        defense = 0
+
+    damage = s16(attack - defense)
+    if attrs & _ATTR_GREATSHLD:
+        damage = 0
+
+    # ---- 5. 必杀判定 + 6. 瞬杀判定（嵌在必杀内部）----
+    if t.battle_roll1(config, f.get("critRate", 0), False):
+        if defender_cls == _CLS_DEMON_KING:
+            sil = False
+        else:
+            sil = t.battle_roll1(config, f.get("silencerRate", 0), False)
+        if sil:
+            attrs |= _ATTR_SILENCER
+            damage = _MAX_DAMAGE
+            attrs &= ~_ATTR_GREATSHLD
+        else:
+            attrs |= _ATTR_CRIT
+            damage = damage * 3
+
+    if damage > _MAX_DAMAGE:
+        damage = _MAX_DAMAGE
+    if damage < 0:
+        damage = 0
+
+    st = t.state()
+    return "%d,%d,%d,%d,%d" % (damage, attrs, st[0], st[1], st[2])
+
+
 MODELS = {
     "rng": (model_rng, True),          # True = 结果是列表
     "battle_unit": (model_battle_unit, False),
     "unit_defense": (model_unit_defense, False),
     "crit_rate": (model_crit_rate, False),
     "battle_attack": (model_battle_attack, False),
+    "battle_rng": (model_battle_rng, False),
 }
 
 

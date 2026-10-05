@@ -257,6 +257,58 @@ void main() {
       expect(failures, isEmpty, reason: failures.take(8).join('\n'));
     });
 
+    test('battle_rng（乱数消耗顺序，用 LFSR 状态做指纹）', () {
+      final cases = _readCases('$_vecDir/battle_rng.cases.tsv');
+      final expected = _readExpected('$_vecDir/battle_rng.expected.tsv');
+      expect(cases, isNotEmpty);
+
+      final failures = <String>[];
+      var totalConsumed = 0;
+
+      for (final id in cases.keys.toList()..sort()) {
+        final c = cases[id]!;
+        final want = expected[id];
+        if (want == null) {
+          failures.add('$id: 缺少期望值');
+          continue;
+        }
+
+        final rng = GameRng()..initRn(_v(c, 'seed'));
+        final tracker = BattleRngTracker(rng);
+        final ctx = BattleHitContext(
+          config: _v(c, 'config', BattleConfig.real),
+          hitRate: _v(c, 'hitRate', 100),
+          critRate: _v(c, 'critRate'),
+          silencerRate: _v(c, 'silencerRate'),
+          attack: _v(c, 'attack'),
+          defense: _v(c, 'defense'),
+          attributes: _v(c, 'attrs'),
+        );
+
+        final n = battleGenerateHitAttributes(
+          tracker,
+          ctx,
+          BattleCombatant(
+            classId: _v(c, 'actorCls', 1),
+            level: _v(c, 'actorLevel', 1),
+          ),
+          BattleCombatant(classId: _v(c, 'targetCls', 1)),
+        );
+        totalConsumed += n;
+
+        final (s0, s1, s2) = rng.storeRnState();
+        final got = '${ctx.damage},${ctx.attributes},$s0,$s1,$s2';
+
+        if (got != want) {
+          failures.add('\$id\n    期望 \$want\n    实际 \$got  (消耗 \$n 个乱数)');
+        }
+      }
+
+      expect(failures, isEmpty, reason: failures.take(5).join('\n'));
+      // 状态指纹只有在"确实消耗了乱数"时才有区分度
+      expect(totalConsumed, greaterThan(100));
+    });
+
     test('三个场景的用例总数（防止向量文件被误删）', () {
       final n1 = _readCases('$_vecDir/battle_unit.cases.tsv').length;
       final n2 = _readCases('$_vecDir/crit_rate.cases.tsv').length;

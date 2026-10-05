@@ -405,6 +405,66 @@ def gen_battle_attack(rng):
     return cases
 
 
+
+def gen_battle_rng(rng):
+    """战斗流程的乱数消耗。
+
+    判据不是"数了几次"，而是**调用结束后的 LFSR 状态**——
+    少消耗一次 / 多消耗一次 / 顺序不同，状态都会完全不同。
+    所以每条用例都输出 (damage, attributes, seed0, seed1, seed2)。
+
+    重点覆盖：
+      * 命中 / 未命中（未命中会提前 return，只消耗 2 个）
+      * 必杀命中（多走一次 BattleCheckSilencer）
+      * SURESHOT 标志（跳过命中判定 → 少消耗 2 个）
+      * SIMULATE 配置（所有 BattleRoll*RN 直接短路 → 消耗 0 个）
+      * 天马/翼骑士职业（BattleCheckPierce 额外消耗 1 个）
+      * 魔王职业（BattleCheckSilencer 直接返回，少消耗 1 个）
+    """
+    edges = [
+        # (说明, seed, hitRate, critRate, silencerRate, attack, defense, actorCls, targetCls, level, attrs, config)
+        ("必中不必杀",       0, 100, 0,   0,   10, 2, 1, 1, 1, 0, 1),
+        ("必中必杀",         0, 100, 100, 0,   10, 2, 1, 1, 1, 0, 1),
+        ("必不中",           0, 0,   0,   0,   10, 2, 1, 1, 1, 0, 1),
+        ("SURESHOT 跳过命中", 0, 0,   0,   0,   10, 2, 1, 1, 1, 1 << 14, 1),
+        ("SIMULATE 全部短路", 0, 50,  50,  50,  10, 2, 1, 1, 1, 0, 2),
+        ("翼骑士 extra roll", 0, 100, 0,   0,   10, 2, 0x23, 1, 50, 0, 1),
+        ("魔王免疫瞬杀",     0, 100, 100, 100, 10, 2, 1, 0x66, 1, 0, 1),
+        # ⚠️ 瞬杀判定嵌在**必杀判定内部**：
+        #     if (BattleRoll1RN(critRate)) { if (BattleCheckSilencer(...)) ... }
+        # 所以必须 critRate 也拉满才会走到瞬杀分支——
+        # 之前只把 silencerRate 设成 100，critRate=0，结果一次都没覆盖到。
+        ("瞬杀（必杀+瞬杀都满）", 0, 100, 100, 100, 10, 2, 1, 1, 1, 0, 1),
+        ("有瞬杀率但必杀为 0",   0, 100, 0,   100, 10, 2, 1, 1, 1, 0, 1),
+        ("伤害为负钳位",     0, 100, 0,   0,   3, 10, 1, 1, 1, 0, 1),
+        ("不同种子",         7, 100, 0,   0,   10, 2, 1, 1, 1, 0, 1),
+        ("不同种子+必杀",    42, 100, 100, 0,   10, 2, 1, 1, 1, 0, 1),
+    ]
+    cases = []
+    for i, (why, sd, hr, cr, sr, atk, df, ac, tc, lv, attrs, cfg) in enumerate(edges):
+        cases.append((f"br_edge_{i:02d}", {
+            "seed": sd, "hitRate": hr, "critRate": cr, "silencerRate": sr,
+            "attack": atk, "defense": df, "actorCls": ac, "targetCls": tc,
+            "actorLevel": lv, "attrs": attrs, "config": cfg,
+        }))
+
+    for i in range(90):
+        cases.append((f"br_rnd_{i:03d}", {
+            "seed": rng.randrange(0, 1000),
+            "hitRate": rng.choice([0, 10, 50, 90, 100, 100]),
+            "critRate": rng.choice([0, 0, 20, 50, 100]),
+            "silencerRate": rng.choice([0, 0, 0, 30]),
+            "attack": rng.randrange(0, 40),
+            "defense": rng.randrange(0, 40),
+            "actorCls": rng.choice([1, 1, 0x23, 0x24]),
+            "targetCls": rng.choice([1, 1, 1, 0x66]),
+            "actorLevel": rng.randrange(1, 60),
+            "attrs": rng.choice([0, 0, 0, 1 << 14]),
+            "config": rng.choice([1, 1, 1, 2]),
+        }))
+    return cases
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit_all,
@@ -412,6 +472,7 @@ SCENARIOS = {
     "crit_rate": gen_crit_rate,
     "movement": gen_movement,
     "battle_attack": gen_battle_attack,
+    "battle_rng": gen_battle_rng,
 }
 
 

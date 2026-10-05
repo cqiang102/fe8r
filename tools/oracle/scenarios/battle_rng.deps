@@ -1,0 +1,11 @@
+src/BattleGenerateHitAttributes.c
+# 三个 Check：SureShot / GreatShield / Pierce 都在这个文件里
+src/bmbattle_0802B328.c
+src/bmbattle_0802B164.c
+src/BattleCheckSilencer.c
+# BattleRoll1RN / BattleRoll2RN 是乱数消耗的入口
+src/BattleRoll2RN.c
+src/sub_802A490.c
+# 真实乱数实现，原样链接（不做任何插桩）
+src/rng.c
+src/GetItemWeaponEffect.c
