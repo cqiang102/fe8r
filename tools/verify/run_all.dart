@@ -130,6 +130,10 @@ Future<void> main(List<String> argv) async {
         ['test', 'test/core/flow_machine_test.dart'],
         note: '11 用例：迁移 / 存档往返 / 非法状态'),
 
+    Step('L1', '回合循环与敌方 AI', 'flutter',
+        ['test', 'test/core/turn_loop_test.dart'],
+        note: '15 用例：阶段推进 / 灰化清除 / AI 确定性'),
+
     Step('L1', '地图语义形式', 'flutter',
         ['test', 'test/core/map_grid_test.dart'],
         note: '含与 .mar 二进制逐格对照'),
@@ -157,6 +161,14 @@ Future<void> main(List<String> argv) async {
           note: '655 用例：战斗数值 / 特效 / 乱数消耗 / 武器三角')
     else
       Step('L2', 'C Oracle ↔ Dart（战斗数值，跳过）', 'true', const [],
+          note: decompNote),
+
+    if (hasDecomp())
+      Step('L2', 'C Oracle ↔ Dart（回合推进）', 'flutter',
+          ['test', 'test/core/turn_switch_oracle_test.dart'],
+          note: '47 用例：阶段顺序 / 回合数递增与 999 上限')
+    else
+      Step('L2', 'C Oracle ↔ Dart（回合推进，跳过）', 'true', const [],
           note: decompNote),
 
     if (hasDecomp())

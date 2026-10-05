@@ -136,9 +136,51 @@ class BattleField {
   /// 结束当前单位行动
   void finishUnit(MapUnit u) => u.hasActed = true;
 
-  /// 本回合还能行动的我方单位数（对应 `GetPhaseAbleUnitCount` 的简化版）
+  /// 把地图单位转成 `PhaseRules` 需要的最小视图。
+  ///
+  /// ⚠️ **`hasActed` 对应 `US_UNSELECTABLE`**，不是 `US_HAS_MOVED`。
+  /// 原版里这两个是不同的位：
+  ///   * `US_UNSELECTABLE` —— 灰掉、本回合不能再动（`GetPhaseAbleUnitCount` 的 notAble 掩码里有它）
+  ///   * `US_HAS_MOVED`    —— 已经移动过（用于再移动 / Canto），**不在**掩码里，
+  ///                          所以"移动过但还能再动"的单位仍然会被计入
+  /// 把两者当成一个，会让再移动类单位在移动后立刻被判定为"已行动"。
+  List<PhaseUnit?> toPhaseUnits() {
+    final arr = List<PhaseUnit?>.filled(0x100, null);
+    for (final u in units) {
+      if (u.id < 0 || u.id >= 0x100) continue;
+      arr[u.id] = PhaseUnit(
+        faction: u.faction,
+        state: u.isAlive ? (u.hasActed ? UnitState.unselectable : 0)
+                         : UnitState.dead,
+        statusIndex: UnitStatus.none,
+        classAttributes: 0,
+        hasCharacterData: true,
+      );
+    }
+    return arr;
+  }
+
+  /// `GetPhaseAbleUnitCount(faction)`
+  ///
+  /// 直接用规则层的实现，不在表现层另写一套。
+  int phaseAbleCount(int faction) =>
+      PhaseRules.getPhaseAbleUnitCount(toPhaseUnits(), faction);
+
+  /// 本回合还能行动的**我方**单位数
   int get actionableCount =>
       units.where((u) => u.isAlive && !u.hasActed && isControllable(u)).length;
+
+  /// `ClearActiveFactionGrayedStates` 的核心：清掉当前阵营的灰化标记。
+  ///
+  /// 原版在阶段开始时调用它，把 `US_UNSELECTABLE | US_HAS_MOVED | US_HAS_MOVED_AI`
+  /// 一起清掉——这正是"新回合所有单位又能动了"的机制。
+  void clearActiveFactionGrayedStates() {
+    for (final u in units) {
+      if (PhaseRules.isSameAllegiance(u.faction, activeFaction)) {
+        u.hasActed = false;
+      }
+    }
+  }
 
   /// 是否所有我方单位都行动完了 —— 可以结束回合
   bool get allActed => actionableCount == 0;

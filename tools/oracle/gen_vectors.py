@@ -631,6 +631,40 @@ def gen_phase(rng):
     return cases
 
 
+
+def gen_turn_switch(rng):
+    """回合推进（SwitchPhases）。
+
+    重点覆盖：
+      * 三个起始阵营各自连切几次（顺序 蓝→红→绿→蓝）
+      * **回合数只在 GREEN 绕回 BLUE 时递增**
+      * **999 上限**：到顶后不再增长（998 跨一步、999 原地）
+    """
+    BLUE, GREEN, RED = 0x00, 0x40, 0x80
+    cases = [
+        # 各阵营起手连切一整轮多
+        ("ts_from_blue", BLUE, 1, 7),
+        ("ts_from_red", RED, 1, 7),
+        ("ts_from_green", GREEN, 1, 7),
+        # 回合数边界
+        ("ts_turn_997", GREEN, 997, 6),
+        ("ts_turn_998", GREEN, 998, 6),
+        ("ts_turn_999", GREEN, 999, 6),
+        ("ts_turn_1", BLUE, 1, 3),
+    ]
+    out = []
+    for name, f, t, n in cases:
+        out.append((name, {"faction": f, "turn": t, "steps": n}))
+
+    for i in range(40):
+        out.append((f"ts_rnd_{i:03d}", {
+            "faction": rng.choice([BLUE, GREEN, RED]),
+            "turn": rng.choice([1, 2, 5, 100, 500, 996, 997, 998, 999, 1000]),
+            "steps": rng.randrange(1, 12),
+        }))
+    return out
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit_all,
@@ -641,6 +675,7 @@ SCENARIOS = {
     "battle_rng": gen_battle_rng,
     "weapon_triangle": gen_weapon_triangle,
     "phase": gen_phase,
+    "turn_switch": gen_turn_switch,
 }
 
 

@@ -556,6 +556,29 @@ def model_phase(f):
     return count
 
 
+
+# ------------------------------------------------ 场景: turn_switch
+
+# 逐条对照 src/bm_080153B0.c 的 SwitchPhases
+def model_turn_switch(f):
+    faction = f.get("faction", 0)
+    turn = f.get("turn", 1)
+    steps = f.get("steps", 1)
+    out = []
+    for _ in range(steps):
+        if faction == 0x00:
+            faction = 0x80
+        elif faction == 0x80:
+            faction = 0x40
+        elif faction == 0x40:
+            faction = 0x00
+            # ⚠️ 回合数只在 GREEN 绕回 BLUE 时递增，且有 999 上限
+            if turn < 999:
+                turn += 1
+        out.append("%d,%d" % (faction, turn))
+    return ";".join(out)
+
+
 MODELS = {
     "rng": (model_rng, True),          # True = 结果是列表
     "battle_unit": (model_battle_unit, False),
@@ -565,6 +588,7 @@ MODELS = {
     "battle_rng": (model_battle_rng, False),
     "weapon_triangle": (model_weapon_triangle, False),
     "phase": (model_phase, False),
+    "turn_switch": (model_turn_switch, False),
 }
 
 

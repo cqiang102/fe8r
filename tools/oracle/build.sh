@@ -42,13 +42,21 @@ build_one() {
         return 1
     fi
 
-    # 读取依赖的反编译源文件（每行一个，相对 DECOMP 根；# 开头为注释）
+    # 读取依赖的反编译源文件（每行一个；# 开头为注释）
+    #   普通行     → 相对 DECOMP 根，如 src/rng.c
+    #   @ 开头     → 相对 tools/oracle，如 @override/foo.c
+    #                 （用于"只需要上游某个 TU 里的单个函数、直接编整个 TU
+    #                   会拖进几十个无关符号"的情况）
     if [ -f "$deps_file" ]; then
         while IFS= read -r line; do
             line="${line%%#*}"                     # 去掉行内注释
             line="$(echo "$line" | xargs)"         # 去首尾空白
             [ -z "$line" ] && continue
-            deps+=("$DECOMP/$line")
+            case "$line" in
+                @*) deps+=("$HERE/${line#@}") ;;
+                /*) deps+=("$line") ;;
+                *)  deps+=("$DECOMP/$line") ;;
+            esac
         done < "$deps_file"
     fi
 

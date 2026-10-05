@@ -91,6 +91,8 @@ class _GameShellState extends State<_GameShell> {
     } else if (k == LogicalKeyboardKey.keyX ||
         k == LogicalKeyboardKey.escape) {
       i = FlowInput.cancel;
+    } else if (k == LogicalKeyboardKey.keyE) {
+      i = FlowInput.endTurn;
     }
     if (i == null) return KeyEventResult.ignored;
     _game.input(i);

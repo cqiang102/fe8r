@@ -47,6 +47,9 @@ enum FlowInput {
 
   /// 取消（键盘 X / ESC / 鼠标右键）
   cancel,
+
+  /// 结束回合（键盘 E / 空格）
+  endTurn,
 }
 
 /// 流程状态机的状态快照。**完全可序列化。**
@@ -155,7 +158,12 @@ class FlowState {
 
 /// 推进结果
 class FlowResult {
-  FlowResult(this.state, {this.movedUnit = false, this.committedMove = false});
+  FlowResult(
+    this.state, {
+    this.movedUnit = false,
+    this.committedMove = false,
+    this.endTurn = false,
+  });
 
   final FlowState state;
 
@@ -164,6 +172,9 @@ class FlowResult {
 
   /// 本次输入是否提交了一次完整的"移动 + 待机"
   final bool committedMove;
+
+  /// 本次输入是否请求结束回合
+  final bool endTurn;
 }
 
 /// 交互流程状态机。
@@ -240,6 +251,9 @@ class FlowMachine {
 
       case FlowInput.cancel:
         return FlowResult(s);
+
+      case FlowInput.endTurn:
+        return FlowResult(s, endTurn: true);
     }
   }
 
@@ -267,6 +281,9 @@ class FlowMachine {
           pendingX: s.cursorX,
           pendingY: s.cursorY,
         ));
+
+      case FlowInput.endTurn:
+        return FlowResult(s);
 
       case FlowInput.cancel:
         // 回到选中前的光标位置
@@ -313,6 +330,7 @@ class FlowMachine {
       case FlowInput.down:
       case FlowInput.left:
       case FlowInput.right:
+      case FlowInput.endTurn:
         return FlowResult(s);
     }
   }

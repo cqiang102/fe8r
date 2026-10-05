@@ -40,6 +40,9 @@ class Fe8Game extends FlameGame {
   /// 交互流程状态机（规则层，纯 Dart）
   FlowMachine? flow;
 
+  /// 敌方 AI（M5 的最小实现，不是原版 cp_* 的移植）
+  EnemyAi? ai;
+
   /// 当前流程状态
   FlowState? state;
 
@@ -93,6 +96,7 @@ class Fe8Game extends FlameGame {
       // 4) 战场与交互流程（规则层）
       field = _makeDemoField(grid);
       flow = FlowMachine(map: grid, costTable: _demoCostTable());
+      ai = EnemyAi(map: grid, costTable: _demoCostTable());
       state = FlowState(
         phase: FlowPhase.freeCursor,
         cursorX: 2,
@@ -131,6 +135,7 @@ class Fe8Game extends FlameGame {
         'right' => FlowInput.right,
         'confirm' || 'z' => FlowInput.confirm,
         'cancel' || 'x' => FlowInput.cancel,
+        'endturn' || 'e' => FlowInput.endTurn,
         _ => null,
       };
       if (i != null) input(i);
@@ -160,6 +165,72 @@ class Fe8Game extends FlameGame {
     state = r.state;
     _rebuildOverlay();
     _updateHud();
+
+    if (r.endTurn) endTurn();
+  }
+
+  /// 结束当前回合：推进阶段，若轮到非玩家阵营就跑 AI，直到回到玩家回合。
+  ///
+  /// 用 `advanceToNextActivePhase` 而不是"切一次就完事"——
+  /// 场上没有友军 NPC 时，绿色阶段必须被跳过（判据是原版的
+  /// `GetPhaseAbleUnitCount == 0`，不是我另写的一套规则）。
+  void endTurn() {
+    final f = field;
+    final s = state;
+    if (f == null || s == null) return;
+
+    // 最多转 4 个阶段，防止任何意外造成死循环
+    for (var guard = 0; guard < 4; guard++) {
+      final hops = advanceToNextActivePhase(f);
+      if (hops == 0) break;
+
+      if (f.activeFaction == Faction.blue) {
+        // 回到玩家回合
+        state = s.copyWith(
+          phase: FlowPhase.freeCursor,
+          selectedUnitId: null,
+          moveOriginX: null,
+          moveOriginY: null,
+          turn: f.turn,
+          faction: f.activeFaction,
+        );
+        _rebuildOverlay();
+        _updateHud();
+        return;
+      }
+
+      _runFactionAi(f);
+    }
+
+    _rebuildOverlay();
+    _updateHud();
+  }
+
+  /// 让当前阵营的所有单位按 AI 行动一轮。
+  ///
+  /// 单位按 **id 升序**处理，且每一步都重新查询战场状态——
+  /// 因为前面的单位移动后会改变后面单位的落点选择。
+  void _runFactionAi(BattleField f) {
+    final brain = ai;
+    if (brain == null) return;
+
+    final actors = f.units
+        .where((u) => u.isAlive && !u.hasActed &&
+            PhaseRules.isSameAllegiance(u.faction, f.activeFaction))
+        .map((u) => u.id)
+        .toList()
+      ..sort();
+
+    for (final id in actors) {
+      final u = f.unitById(id);
+      if (u == null || !u.isAlive || u.hasActed) continue;
+      if (u.x < 0 || u.x >= f.width || u.y < 0 || u.y >= f.height) continue;
+
+      final a = brain.decide(f, u);
+      f.moveUnit(u, a.toX, a.toY);
+      f.finishUnit(u);
+      // M5 只做到"移动 + 判定够不够得着"；真正的伤害结算属于下一步
+    }
   }
 
   void _updateHud() {

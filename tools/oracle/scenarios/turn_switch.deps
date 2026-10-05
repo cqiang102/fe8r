@@ -1,0 +1,4 @@
+# SwitchPhases 在 bm_080153B0.c，但它同一个 TU 里还有别的函数依赖
+# 一堆 Proc/相机符号，直接编会缺符号。这里的做法是：
+# 用小的包装 TU 只把 SwitchPhases 抽出来编（见 override 目录）。
+@override/turn_switch_only.c
