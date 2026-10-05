@@ -168,6 +168,20 @@ class EventOpcodes {
   static const int counter = 0x0F;
   static const int evBitModify = 0x10;
 
+  // ---- 表现类指令 ----
+  // 这一组的"实现"是**重写**而不是移植：原版深绑 GBA 的文字/渲染系统
+  // （EventText_StartTalkMsg 之类）。按方案的三层划分，VM 只建模
+  // "脚本想要什么"，怎么画由表现层决定。
+  static const int setTextType = 0x1A;
+  static const int displayText = 0x1B;
+  static const int continueText = 0x1C;
+  static const int endText = 0x1D;
+  static const int displayFace = 0x1E;
+  static const int moveFace = 0x1F;
+  static const int clearTextBox = 0x20;
+  static const int showBg = 0x21;
+  static const int clearScreen = 0x22;
+
   /// 全表（由提取出的 JSON 注入，用于把操作码翻译成名字）
   static Map<int, String> _names = const {};
 
@@ -217,4 +231,26 @@ class SlotOpSubCommand {
 class EvSetSubCommand {
   static const int clearEventBit = 0; // EVSUBCMD_EVBIT_F
   static const int setEventBit = 8; // EVSUBCMD_EVBIT_T
+}
+
+/// `EV_CMD_DISPLAYTEXT` 的子命令
+class TextShowSubCommand {
+  static const int show = 0; // EVSUBCMD_TEXTSHOW
+  static const int show2 = 1; // EVSUBCMD_TEXTSHOW2
+  static const int removeAll = 2; // EVSUBCMD_REMA
+}
+
+/// `EV_CMD_SETTEXTTYPE` 的子命令（对话框样式）
+class TextTypeSubCommand {
+  static const int talk = 0; // EVSUBCMD_TEXTSTART
+  static const int removePortraits = 1; // EVSUBCMD_REMOVEPORTRAITS
+  static const int tutorial = 3; // EVSUBCMD_TUTORIALTEXTBOXSTART
+  static const int solo = 4; // EVSUBCMD_SOLOTEXTBOXSTART
+}
+
+/// `EV_CMD_SHOWBG` 的子命令
+class ShowBgSubCommand {
+  static const int display = 0; // EVSUBCMD_BACG
+  static const int transition = 1; // EVSUBCMD_0x2141
+  static const int fadeIn = 2; // EVSUBCMD_2142
 }

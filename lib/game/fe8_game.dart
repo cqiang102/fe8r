@@ -19,6 +19,7 @@ import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
+import 'package:fe8r/game/demo_event.dart';
 // FixedResolutionViewport 只在 flame/camera.dart 里导出
 import 'package:flame/components.dart' show PositionComponent;
 import 'package:flame/camera.dart' show FixedResolutionViewport;
@@ -60,6 +61,12 @@ class Fe8Game extends FlameGame {
 
   /// 最近一次攻击的结果，供 HUD 显示
   String lastCombat = '';
+
+  /// 剧情引擎（M6）：手写演示脚本 + 虚拟机
+  EventVm? eventVm;
+  EventVmState? eventState;
+  DialogueBoxComponent? _dialogue;
+  bool _showDialogue = false;
 
   /// 当前流程状态
   FlowState? state;
@@ -137,6 +144,10 @@ class Fe8Game extends FlameGame {
       world.add(_overlayLayer!);
       _rebuildOverlay();
 
+      // 剧情引擎：脚本用真实编码手写（见 demo_event.dart）
+      eventVm = EventVm(textTable: demoTextTable);
+      eventState = EventVmState(script: buildDemoEventScript());
+
       status.value = '${grid.id}  ${grid.width}×${grid.height}  '
           '${_terrainBrief(grid)}';
       _updateHud();
@@ -164,6 +175,7 @@ class Fe8Game extends FlameGame {
         'confirm' || 'z' => FlowInput.confirm,
         'cancel' || 'x' => FlowInput.cancel,
         'endturn' || 'e' => FlowInput.endTurn,
+        'dialogue' || 'd' => FlowInput.startDialogue,
         _ => null,
       };
       if (i != null) input(i);
@@ -174,6 +186,18 @@ class Fe8Game extends FlameGame {
   ///
   /// **所有规则判断都在 `FlowMachine` 里**，这里只负责把新状态搬到画面上。
   void input(FlowInput i) {
+    // 剧情演出期间，confirm 用来推进对白，而不是操作战场。
+    // 这个优先级放在**调用点**而不是状态机里：剧情与战场是两个独立的
+    // 状态机，谁优先是外壳层的策略，不该污染任何一方。
+    if (i == FlowInput.startDialogue) {
+      startDialogue();
+      return;
+    }
+    if (_showDialogue && i == FlowInput.confirm) {
+      advanceDialogue();
+      return;
+    }
+
     final s = state;
     final f = field;
     final fl = flow;
@@ -213,6 +237,71 @@ class Fe8Game extends FlameGame {
     _updateHud();
 
     if (r.endTurn) endTurn();
+  }
+
+  /// 开始剧情演出
+  void startDialogue() {
+    if (eventVm == null) return;
+    _showDialogue = true;
+    _pumpEvent();
+  }
+
+  /// 推进剧情：跑引擎直到"等玩家"或结束，然后重画对话框。
+  void _pumpEvent() {
+    final vm = eventVm;
+    final st = eventState;
+    if (vm == null || st == null) return;
+
+    vm.run(st);
+    _rebuildDialogue();
+  }
+
+  /// 玩家按键推进对白
+  void advanceDialogue() {
+    final vm = eventVm;
+    final st = eventState;
+    if (vm == null || st == null) return;
+
+    if (st.waitingForPlayer) {
+      vm.advanceFromPlayerInput(st);
+    }
+    vm.run(st);
+
+    if (st.done) {
+      _showDialogue = false;
+      _rebuildDialogue();
+      return;
+    }
+    _rebuildDialogue();
+  }
+
+  void _rebuildDialogue() {
+    final st = eventState;
+    final layer = _overlayLayer;
+    if (layer == null) return;
+
+    if (_dialogue != null) {
+      layer.remove(_dialogue!);
+      _dialogue = null;
+    }
+    if (!_showDialogue || st == null) {
+      _updateHud();
+      return;
+    }
+
+    final pres = st.presentation;
+    final cam = camera.viewport.virtualSize;
+    final boxH = cam.y * 0.26;
+
+    _dialogue = DialogueBoxComponent(
+      text: st.lastText,
+      hostFaceId: pres.faces[0],
+      guestFaceId: pres.faces[1],
+      boxWidth: cam.x * 0.86,
+      boxHeight: boxH,
+    )..position = Vector2(cam.x * 0.07, cam.y * 0.68);
+    layer.add(_dialogue!);
+    _updateHud();
   }
 
   /// 结束当前回合：推进阶段，若轮到非玩家阵营就跑 AI，直到回到玩家回合。
@@ -484,6 +573,14 @@ class Fe8Game extends FlameGame {
     final menu = s.phase == FlowPhase.actionMenu
         ? '  [${menuOptions(s, f).map((o) => o.label).join(' / ')}]'
         : (s.phase == FlowPhase.selectTarget ? '  选择目标' : '');
+    final ev = eventState;
+    if (_showDialogue && ev != null) {
+      hud.value = '剧情  ${ev.done ? '结束' : (ev.waitingForPlayer ? '等按键（Z / 回车）' : '演出中）')}'
+          '  背景 ${ev.presentation.backgroundId ?? '-'}'
+          '  立绘 ${ev.presentation.faces.values.join(',')}'
+          '\n${ev.lastText}';
+      return;
+    }
     hud.value = '回合 ${f.turn}  $who  '
         '可行动 ${f.actionableCount}  '
         '光标 (${s.cursorX},${s.cursorY})  '

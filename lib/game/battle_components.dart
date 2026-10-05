@@ -237,3 +237,80 @@ class TargetMarkerComponent extends PositionComponent {
     canvas.drawLine(r.topRight, r.bottomLeft, p);
   }
 }
+
+/// 对话框。
+///
+/// **渲染层不做任何剧情判断** —— 显示哪段文字、要不要继续等，
+/// 全部由 `lib/core/event` 的 VM 决定。这里只负责把
+/// `EventPresentation` 画出来。
+///
+/// 立绘/背景暂时用色块 + 文字占位：真实素材属于 M11 美术管线，
+/// 现在画占位图只会掩盖"引擎对不对"这个真正要验证的东西。
+class DialogueBoxComponent extends PositionComponent {
+  DialogueBoxComponent({
+    required this.text,
+    required this.hostFaceId,
+    required this.guestFaceId,
+    required this.boxWidth,
+    required this.boxHeight,
+  }) : super(size: Vector2(boxWidth, boxHeight));
+
+  final String text;
+  final int? hostFaceId;
+  final int? guestFaceId;
+  final double boxWidth;
+  final double boxHeight;
+
+  @override
+  void render(Canvas canvas) {
+    // 立绘占位：左右各一个色块 + 编号
+    _face(canvas, guestFaceId, 0);
+    _face(canvas, hostFaceId, 1);
+
+    // 对话框
+    final box = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(box, const Radius.circular(4)),
+      Paint()..color = const Color(0xF0101820),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(box.deflate(1), const Radius.circular(4)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..color = const Color(0xFF8FA8C8),
+    );
+
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(color: const Color(0xFFF0F4FA), fontSize: size.y * 0.22),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: size.x - 16);
+    tp.paint(canvas, const Offset(8, 8));
+  }
+
+  void _face(Canvas canvas, int? id, int side) {
+    if (id == null) return;
+    final w = size.x * 0.16;
+    final x = side == 0 ? size.x * 0.06 : size.x - size.x * 0.06 - w;
+    final r = Rect.fromLTWH(x, -size.y * 0.9, w, size.y * 0.85);
+    canvas.drawRect(r, Paint()..color = const Color(0xCC3A6FB4));
+    canvas.drawRect(
+      r.deflate(1),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..color = const Color(0xFFD8DEE9),
+    );
+    final tp = TextPainter(
+      text: TextSpan(
+        text: '脸$id',
+        style: TextStyle(color: const Color(0xFFFFFFFF), fontSize: w * 0.3),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    tp.paint(canvas, Offset(r.left + (w - tp.width) / 2, r.top + 6));
+  }
+}

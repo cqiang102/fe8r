@@ -283,6 +283,138 @@ void main() {
     });
   });
 
+  group('表现类指令（对话 / 立绘 / 背景）', () {
+    EventVmState fresh(List<int> words, {Map<int, String>? texts}) =>
+        EventVmState(script: EventScript.decode(words));
+
+    test('DISPLAYTEXT 显示文字并等玩家按键', () {
+      final vm = EventVm(textTable: {7: '艾莉卡：我们上！'});
+      final st = fresh(script([
+        ins(0x1B, 2, TextShowSubCommand.show, [7]),
+        ins(0x01, 2, 1),
+      ]));
+      final s0 = vm.step(st)!;
+      expect(st.presentation.textBoxVisible, isTrue);
+      expect(st.presentation.textId, 7);
+      expect(st.lastText, '艾莉卡：我们上！');
+      expect(st.waitingForPlayer, isTrue, reason: '显示文字后应当等玩家');
+      expect(s0.text, '艾莉卡：我们上！');
+
+      // 等玩家期间不推进
+      final s1 = vm.step(st)!;
+      expect(s1.advanced, isFalse);
+      expect(s1.note, '等玩家按键');
+
+      // 按键后继续
+      expect(vm.advanceFromPlayerInput(st), isTrue);
+      expect(st.waitingForPlayer, isFalse);
+      final s2 = vm.step(st)!;
+      expect(s2.instruction?.opcode, EventOpcodes.end);
+    });
+
+    test('文本编号 0 是哨兵：不显示也不等待', () {
+      final vm = EventVm();
+      final st = fresh(script([
+        ins(0x1B, 2, TextShowSubCommand.show, [0]),
+        ins(0x01, 2, 1),
+      ]));
+      vm.run(st);
+      expect(st.waitingForPlayer, isFalse, reason: '编号 0 不该让流程卡住');
+      expect(st.done, isTrue);
+    });
+
+    test('负数文本编号取插槽 2 的值', () {
+      final vm = EventVm(textTable: {42: '来自插槽'});
+      final st = fresh(script([
+        ins(0x05, 3, 0, [2, 42]), // slot2 = 42
+        ins(0x1B, 2, TextShowSubCommand.show, [-1]),
+        ins(0x01, 2, 1),
+      ]));
+      vm.step(st); // SVAL
+      vm.step(st); // DISPLAYTEXT
+      expect(st.presentation.textId, 42);
+      expect(st.lastText, '来自插槽');
+    });
+
+    test('REMA 关闭文字框且不等玩家', () {
+      final vm = EventVm(textTable: {1: 'x'});
+      final st = fresh(script([
+        ins(0x1B, 2, TextShowSubCommand.show, [1]),
+        ins(0x1B, 2, TextShowSubCommand.removeAll, [0]),
+        ins(0x01, 2, 1),
+      ]));
+      vm.step(st); // 显示
+      vm.advanceFromPlayerInput(st);
+      vm.step(st); // REMA
+      expect(st.presentation.textBoxVisible, isFalse);
+      expect(st.waitingForPlayer, isFalse);
+    });
+
+    test('DISPLAYFACE 把子命令当槽位、参数当脸编号', () {
+      final vm = EventVm();
+      final st = fresh(script([
+        ins(0x1E, 2, 0, [12]), // 槽 0 = 脸 12
+        ins(0x1E, 2, 1, [34]), // 槽 1 = 脸 34
+        ins(0x01, 2, 1),
+      ]));
+      vm.run(st);
+      expect(st.presentation.faces[0], 12);
+      expect(st.presentation.faces[1], 34);
+    });
+
+    test('SHOWBG 设背景；CLEARSCREEN 清掉背景与立绘', () {
+      final vm = EventVm();
+      final st = fresh(script([
+        ins(0x21, 4, ShowBgSubCommand.display, [5, 0]),
+        ins(0x1E, 2, 0, [9]),
+        ins(0x22, 2, 0), // CLEARSCREEN
+        ins(0x01, 2, 1),
+      ]));
+      vm.run(st);
+      expect(st.presentation.backgroundId, isNull);
+      expect(st.presentation.faces, isEmpty);
+    });
+
+    test('SETTEXTTYPE 切换样式；REMOVEPORTRAITS 会清立绘', () {
+      final vm = EventVm();
+      final st = fresh(script([
+        ins(0x1E, 2, 0, [9]),
+        ins(0x1A, 2, TextTypeSubCommand.removePortraits, [0]),
+        ins(0x01, 2, 1),
+      ]));
+      vm.run(st);
+      expect(st.presentation.textType, TextTypeSubCommand.removePortraits);
+      expect(st.presentation.faces, isEmpty);
+    });
+
+    test('一段完整的对话场景能跑完', () {
+      final vm = EventVm(textTable: {10: '第一句', 11: '第二句'});
+      final st = fresh(script([
+        ins(0x21, 4, ShowBgSubCommand.display, [3, 0]), // 背景
+        ins(0x1E, 2, 0, [7]), // 立绘
+        ins(0x1B, 2, TextShowSubCommand.show, [10]),
+        ins(0x1B, 2, TextShowSubCommand.show, [11]),
+        ins(0x1B, 2, TextShowSubCommand.removeAll, [0]),
+        ins(0x22, 2, 0), // 清屏
+        ins(0x01, 2, 1),
+      ]));
+
+      // 每帧推一次，遇到"等玩家"就按键
+      var guard = 0;
+      final seen = <String>[];
+      while (!st.done && guard++ < 100) {
+        final before = st.pc;
+        vm.run(st);
+        if (st.lastText.isNotEmpty && st.pc != before) seen.add(st.lastText);
+        if (st.waitingForPlayer) vm.advanceFromPlayerInput(st);
+      }
+      expect(st.done, isTrue, reason: '循环 $guard 次仍未结束');
+      expect(seen, contains('第一句'));
+      expect(seen, contains('第二句'));
+      expect(st.presentation.backgroundId, isNull, reason: '最后清屏了');
+    });
+  });
+
   group('可序列化（剧情中途存档）', () {
     test('状态编码再解码等价', () {
       final words = script([
@@ -307,6 +439,28 @@ void main() {
       expect(round.eventBits, st.eventBits);
       expect(round.stallTimer, st.stallTimer);
       expect(round.done, st.done);
+    });
+
+    test('表现状态与"等玩家"标志都入档', () {
+      final words = script([
+        ins(0x21, 4, ShowBgSubCommand.display, [5, 0]),
+        ins(0x1E, 2, 1, [22]),
+        ins(0x1B, 2, TextShowSubCommand.show, [3]),
+        ins(0x01, 2, 1),
+      ]);
+      final sc = EventScript.decode(words);
+      final vm = EventVm(textTable: {3: '台词'});
+      final st = EventVmState(script: sc);
+      vm.run(st);
+      expect(st.waitingForPlayer, isTrue);
+
+      final round = EventVmState.decode(st.encode(), sc);
+      expect(round.waitingForPlayer, isTrue,
+          reason: '存档时停在"等玩家按键"是完全正常的，这个标志必须入档');
+      expect(round.presentation.backgroundId, 5);
+      expect(round.presentation.faces[1], 22);
+      expect(round.presentation.textId, 3);
+      expect(round.lastText, '台词');
     });
 
     test('解档后能继续跑完（不是只能读的死状态）', () {

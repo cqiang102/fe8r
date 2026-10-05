@@ -33,6 +33,61 @@ import 'event_script.dart';
 /// 插槽数量（`EV_SLOT_IDX_*`）
 const int eventSlotCount = 0x10;
 
+/// 剧情的**表现状态** —— VM 记录"脚本想要什么"，渲染层决定怎么画。
+///
+/// 为什么不把 GBA 的渲染细节搬进来：原版这些指令直接调
+/// `EventText_StartTalkMsg` / 背景图层 / 立绘 OAM，那是表现层的活。
+/// 搬进来会让 VM 依赖一套用不上的图形系统，而且换成 Flutter 之后
+/// 那些细节全部要重写。这里只留**语义**：显示哪段文字、谁的脸、
+/// 什么背景、要不要等玩家。
+class EventPresentation {
+  EventPresentation({
+    this.textId,
+    this.textType = TextTypeSubCommand.talk,
+    this.backgroundId,
+    Map<int, int>? faces,
+    this.textBoxVisible = false,
+  }) : faces = faces ?? {};
+
+  /// 当前文字编号（null = 没在显示文字）
+  int? textId;
+
+  /// 对话框样式
+  int textType;
+
+  /// 当前背景编号
+  int? backgroundId;
+
+  /// 立绘槽位 → 角色脸编号。
+  /// `DISPLAYFACE` 把**子命令当作槽位**、参数 0 当作脸编号 —— 这个编码
+  /// 不太寻常（通常子命令是"做什么"，这里是"放哪儿"）。
+  final Map<int, int> faces;
+
+  bool textBoxVisible;
+
+  Map<String, dynamic> toJson() => {
+        'textId': textId,
+        'textType': textType,
+        'backgroundId': backgroundId,
+        'faces': faces.map((k, v) => MapEntry('$k', v)),
+        'textBoxVisible': textBoxVisible,
+      };
+
+  static EventPresentation fromJson(Map<String, dynamic> j) {
+    final f = <int, int>{};
+    (j['faces'] as Map<String, dynamic>? ?? {}).forEach((k, v) {
+      f[int.parse(k)] = v as int;
+    });
+    return EventPresentation(
+      textId: j['textId'] as int?,
+      textType: j['textType'] as int? ?? TextTypeSubCommand.talk,
+      backgroundId: j['backgroundId'] as int?,
+      faces: f,
+      textBoxVisible: j['textBoxVisible'] as bool? ?? false,
+    );
+  }
+}
+
 /// 引擎状态。
 ///
 /// **完全可序列化** —— 这是"剧情演出中途存档"的基础。
@@ -46,9 +101,12 @@ class EventVmState {
     this.stallTimer = 0,
     this.done = false,
     this.lastText = '',
+    this.waitingForPlayer = false,
+    EventPresentation? presentation,
   })  : callStack = callStack ?? [],
         slots = slots ?? List<int>.filled(eventSlotCount, 0),
-        eventBits = eventBits ?? {};
+        eventBits = eventBits ?? {},
+        presentation = presentation ?? EventPresentation();
 
   /// 当前脚本
   final EventScript script;
@@ -74,6 +132,15 @@ class EventVmState {
   /// 最近一次显示的文字（供表现层取用）
   String lastText;
 
+  /// 是否在等玩家按键继续。
+  ///
+  /// 这是**引擎状态**而不是表现层的动画状态：它决定 VM 会不会推进，
+  /// 所以必须入档 —— 存档时正好停在"等玩家按键"的一帧是完全正常的。
+  bool waitingForPlayer;
+
+  /// 当前的表现状态（文字 / 立绘 / 背景）
+  final EventPresentation presentation;
+
   Map<String, dynamic> toJson() => {
         'pc': pc,
         'callStack': callStack,
@@ -83,6 +150,8 @@ class EventVmState {
         'stallTimer': stallTimer,
         'done': done,
         'lastText': lastText,
+        'waitingForPlayer': waitingForPlayer,
+        'presentation': presentation.toJson(),
       };
 
   /// 从 JSON 恢复。**脚本本身不入档** —— 它是静态数据，
@@ -105,6 +174,10 @@ class EventVmState {
       stallTimer: j['stallTimer'] as int? ?? 0,
       done: j['done'] as bool? ?? false,
       lastText: j['lastText'] as String? ?? '',
+      waitingForPlayer: j['waitingForPlayer'] as bool? ?? false,
+      presentation: EventPresentation.fromJson(
+        j['presentation'] as Map<String, dynamic>? ?? {},
+      ),
     );
   }
 
@@ -152,11 +225,31 @@ class EventVm {
   /// 这里允许注入，让引擎本身能独立测试。
   final Map<int, String> textTable;
 
+  /// 玩家按键继续。
+  ///
+  /// 对应原版文本系统的"按键推进"。返回是否真的解除了等待 ——
+  /// 不在等待时调用它是无害的（返回 false），这样调用方不必先查状态。
+  bool advanceFromPlayerInput(EventVmState state) {
+    if (!state.waitingForPlayer) return false;
+    state.waitingForPlayer = false;
+    return true;
+  }
+
   /// 推进一条指令。
   ///
   /// 返回 null 表示"不推进"（等待中或已结束），调用方应当停帧。
   EventStep? step(EventVmState state) {
     if (state.done) return null;
+
+    // 等玩家按键：整条流程卡在这里，直到 advanceFromPlayerInput。
+    // 注意这与 stallTimer 不同：那是按帧等待，这是按输入等待。
+    if (state.waitingForPlayer) {
+      return EventStep(
+        instruction: null,
+        advanced: false,
+        note: '等玩家按键',
+      );
+    }
 
     // 等待中：只减计数，不执行指令。
     // 原版对应 `if (proc->evStallTimer) { proc->evStallTimer--; return; }`
@@ -257,6 +350,69 @@ class EventVm {
         _branch(state, inst, idx);
         return EventStep(instruction: inst, advanced: true);
 
+      // ---------------------------------------------------- 表现类
+
+      case EventOpcodes.setTextType:
+        state.presentation.textType = inst.subCommand;
+        if (inst.subCommand == TextTypeSubCommand.removePortraits) {
+          state.presentation.faces.clear();
+        }
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true,
+            note: '对话框样式 ${inst.subCommand}');
+
+      case EventOpcodes.displayText:
+        _displayText(state, inst, idx);
+        return EventStep(instruction: inst, advanced: true,
+            text: state.lastText,
+            note: state.waitingForPlayer ? '等玩家按键' : '继续');
+
+      case EventOpcodes.continueText:
+        state.pc = _nextOffset(state, idx);
+        state.waitingForPlayer = true;
+        return EventStep(instruction: inst, advanced: true, note: '等玩家按键');
+
+      case EventOpcodes.endText:
+        state.presentation.textBoxVisible = false;
+        state.presentation.textId = null;
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: '关闭文字框');
+
+      case EventOpcodes.displayFace:
+        _requireArgs(inst, 1);
+        // ⚠️ 子命令是**槽位**，参数 0 才是脸编号
+        state.presentation.faces[inst.subCommand] = inst.args[0];
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true,
+            note: '立绘槽 ${inst.subCommand} = 脸 ${inst.args[0]}');
+
+      case EventOpcodes.moveFace:
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: '移动立绘');
+
+      case EventOpcodes.clearTextBox:
+        state.presentation.textBoxVisible = false;
+        state.presentation.textId = null;
+        state.lastText = '';
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: '清空文字框');
+
+      case EventOpcodes.showBg:
+        _requireArgs(inst, 1);
+        state.presentation.backgroundId = inst.args[0];
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true,
+            note: '背景 ${inst.args[0]}');
+
+      case EventOpcodes.clearScreen:
+        state.presentation.backgroundId = null;
+        state.presentation.faces.clear();
+        state.presentation.textBoxVisible = false;
+        state.presentation.textId = null;
+        state.lastText = '';
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: '清屏');
+
       default:
         // **不静默跳过**。未实现的指令如果悄悄越过，
         // 剧情会"看起来能跑但内容缺失"，那是最难发现的一类问题。
@@ -285,6 +441,43 @@ class EventVm {
   }
 
   // ------------------------------------------------------------ 内部
+
+  /// `EV_CMD_DISPLAYTEXT`
+  ///
+  /// 子命令：
+  ///   * `show` / `show2` —— 显示文字并**等玩家按键**（原版是等文字框结束）
+  ///   * `removeAll`      —— 关掉所有文字框，不等玩家
+  ///
+  /// ⚠️ 原文里有个容易漏的分支：`if (evArgument == 0) return CONTINUE;`
+  /// 也就是**文字编号为 0 时什么都不做**。0 在原版是"没有文字"的哨兵值。
+  /// 漏掉它会让编号 0 去查表，得到空字符串，表现为"这里莫名卡一下"。
+  void _displayText(EventVmState state, EventInstruction inst, int idx) {
+    if (inst.subCommand == TextShowSubCommand.removeAll) {
+      state.presentation.textBoxVisible = false;
+      state.presentation.textId = null;
+      state.lastText = '';
+      state.pc = _nextOffset(state, idx);
+      return;
+    }
+
+    _requireArgs(inst, 1);
+    final msgId = inst.args[0];
+
+    // 负数表示"取插槽 2 的值"（原版 `if (evArgument < 0) evArgument = gEventSlots[2]`）
+    final resolved = msgId < 0 ? state.slots[2] : msgId;
+
+    if (resolved == 0) {
+      // 哨兵值：不显示，也不等待
+      state.pc = _nextOffset(state, idx);
+      return;
+    }
+
+    state.presentation.textBoxVisible = true;
+    state.presentation.textId = resolved;
+    state.lastText = textTable[resolved] ?? '';
+    state.waitingForPlayer = true;
+    state.pc = _nextOffset(state, idx);
+  }
 
   int _nextOffset(EventVmState state, int idx) {
     final inst = state.script.instructions[idx];

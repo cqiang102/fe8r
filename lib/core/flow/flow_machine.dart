@@ -64,8 +64,11 @@ enum FlowInput {
   /// 取消（键盘 X / ESC / 鼠标右键）
   cancel,
 
-  /// 结束回合（键盘 E / 空格）
+  /// 结束回合（键盘 E）
   endTurn,
+
+  /// 开始剧情演出（键盘 D）—— 只在外壳层处理，流程状态机忽略它
+  startDialogue,
 }
 
 /// 流程状态机的状态快照。**完全可序列化。**
@@ -298,6 +301,9 @@ class FlowMachine {
 
       case FlowInput.endTurn:
         return FlowResult(s, endTurn: true);
+
+      case FlowInput.startDialogue:
+        return FlowResult(s);
     }
   }
 
@@ -328,6 +334,7 @@ class FlowMachine {
         ));
 
       case FlowInput.endTurn:
+      case FlowInput.startDialogue:
         return FlowResult(s);
 
       case FlowInput.cancel:
@@ -405,6 +412,7 @@ class FlowMachine {
         ));
 
       case FlowInput.endTurn:
+      case FlowInput.startDialogue:
         return FlowResult(s);
     }
   }
@@ -452,6 +460,7 @@ class FlowMachine {
         ));
 
       case FlowInput.endTurn:
+      case FlowInput.startDialogue:
         return FlowResult(s);
     }
   }
