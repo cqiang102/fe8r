@@ -132,6 +132,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '事件指令集校验（跳过）', 'true', const [], note: decompNote),
 
+    // 真实章节事件脚本：编成目标文件 → nm 取长度 → 还原 u16 字流
+    if (hasDecomp())
+      Step('L0', '章节事件提取（vs C 编译器）', 'python3',
+          ['extract/parse_chapter_events.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '21 张表 / 10768 个字')
+    else
+      Step('L0', '章节事件提取（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
@@ -152,6 +160,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '交互流程状态机（可序列化）', 'flutter',
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
+
+    Step('L1', '章节事件脚本（真实数据）', 'flutter',
+        ['test', 'test/core/chapter_events_test.dart'],
+        note: '6 用例：21 张表 / 与宏展开逐字一致'),
 
     Step('L1', '事件引擎（指令解码 + 虚拟机）', 'flutter',
         ['test', 'test/core/event_vm_test.dart'],
