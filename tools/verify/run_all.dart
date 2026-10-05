@@ -138,6 +138,14 @@ Future<void> main(List<String> argv) async {
       Step('L2', 'C Oracle ↔ Dart（乱数，跳过）', 'true', const [], note: decompNote),
 
     if (hasDecomp())
+      Step('L2', 'C Oracle ↔ Dart（战斗数值）', 'flutter',
+          ['test', 'test/core/battle_oracle_test.dart'],
+          note: '330 用例：回避/防御/速度/必杀/道具加成')
+    else
+      Step('L2', 'C Oracle ↔ Dart（战斗数值，跳过）', 'true', const [],
+          note: decompNote),
+
+    if (hasDecomp())
       Step('L2', 'C Oracle ↔ Dart（移动范围）', 'flutter',
           ['test', 'test/core/movement_oracle_test.dart'],
           note: '54 用例逐格对照')
@@ -232,7 +240,8 @@ Future<void> main(List<String> argv) async {
   }
 
   stdout.writeln('\n[—] 尚未实现');
-  stdout.writeln('      L1 战斗结算 / 事件引擎（乱数、地图、移动范围已覆盖）');
+  stdout.writeln('      L1 伤害与命中判定 / 武器三角 / 乱数消耗追踪（M4 剩余部分）');
+  stdout.writeln('      L1 事件引擎（M6）');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');
 

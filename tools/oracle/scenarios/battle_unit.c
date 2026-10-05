@@ -23,6 +23,7 @@
  */
 #include "global.h"
 #include "bmbattle.h"
+#include "bmitem.h"
 #include "oracle_io.h"
 
 static int str_eq(const char* a, const char* b)
@@ -35,6 +36,11 @@ void ComputeBattleUnitAvoidRate(struct BattleUnit* bu);
 void ComputeBattleUnitBaseDefense(struct BattleUnit* bu);
 void ComputeBattleUnitDodgeRate(struct BattleUnit* bu);
 
+/* ---- 可控的道具表 ----
+   ComputeBattleUnitSpeed 通过 GetItemWeight(bu->weaponBefore) 读重量。
+   道具编号 1..4 给不同重量，0 表示空手（重量 0）。 */
+struct ItemData gItemData[8];
+
 void oracle_run(const OracleCase* c)
 {
     struct BattleUnit bu;
@@ -45,13 +51,27 @@ void oracle_run(const OracleCase* c)
     /* 清零，保证未设置的字段是确定的（默认 0） */
     for (i = 0; i < sizeof(bu); i++) p[i] = 0;
 
+    gItemData[0].weight = 0;
+    gItemData[1].weight = 1;
+    gItemData[2].weight = 5;
+    gItemData[3].weight = 12;
+    gItemData[4].weight = 20;
+
+    bu.weaponBefore  = (u16)oracle_long(c, "weaponBefore", 0);
+    bu.unit.conBonus = (signed char)oracle_long(c, "conBonus", 0);
+    bu.unit.spd      = (signed char)oracle_long(c, "spd", 0);
+
     bu.battleSpeed   = (short)oracle_long(c, "battleSpeed", 0);
     bu.terrainAvoid  = (signed char)oracle_long(c, "terrainAvoid", 0);
     bu.terrainDefense = (signed char)oracle_long(c, "terrainDefense", 0);
     bu.unit.def      = (signed char)oracle_long(c, "def", 0);
     bu.unit.lck      = (signed char)oracle_long(c, "lck", 0);
 
-    if (str_eq(fn, "defense")) {
+    if (str_eq(fn, "speed")) {
+        ComputeBattleUnitSpeed(&bu);
+        oracle_emit_long(c, bu.battleSpeed);
+    }
+    else if (str_eq(fn, "defense")) {
         ComputeBattleUnitBaseDefense(&bu);
         oracle_emit_long(c, bu.battleDefense);
     }

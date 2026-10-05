@@ -1,5 +1,5 @@
 # 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
-# 场景: battle_unit  种子: 20261003:battle_unit  用例数: 131
+# 场景: battle_unit  种子: 20261003:battle_unit  用例数: 171
 # 格式: <id>\t key=value \t key=value ...
 bu_avoid_edge_00	fn=avoid	battleSpeed=0	terrainAvoid=0	lck=0
 bu_avoid_edge_01	fn=avoid	battleSpeed=0	terrainAvoid=-1	lck=0
@@ -132,3 +132,43 @@ bu_dodge_016	fn=dodge	lck=-1
 bu_dodge_017	fn=dodge	lck=18
 bu_dodge_018	fn=dodge	lck=-10
 bu_dodge_019	fn=dodge	lck=-19
+bu_speed_edge_00	fn=speed	spd=10	weaponBefore=0	conBonus=0
+bu_speed_edge_01	fn=speed	spd=10	weaponBefore=1	conBonus=0
+bu_speed_edge_02	fn=speed	spd=10	weaponBefore=2	conBonus=0
+bu_speed_edge_03	fn=speed	spd=5	weaponBefore=3	conBonus=0
+bu_speed_edge_04	fn=speed	spd=10	weaponBefore=4	conBonus=20
+bu_speed_edge_05	fn=speed	spd=10	weaponBefore=3	conBonus=5
+bu_speed_edge_06	fn=speed	spd=10	weaponBefore=3	conBonus=12
+bu_speed_edge_07	fn=speed	spd=10	weaponBefore=3	conBonus=30
+bu_speed_edge_08	fn=speed	spd=0	weaponBefore=2	conBonus=0
+bu_speed_edge_09	fn=speed	spd=127	weaponBefore=0	conBonus=0
+bu_speed_rnd_000	fn=speed	spd=37	weaponBefore=1	conBonus=-1
+bu_speed_rnd_001	fn=speed	spd=14	weaponBefore=2	conBonus=22
+bu_speed_rnd_002	fn=speed	spd=0	weaponBefore=3	conBonus=21
+bu_speed_rnd_003	fn=speed	spd=3	weaponBefore=1	conBonus=-2
+bu_speed_rnd_004	fn=speed	spd=20	weaponBefore=3	conBonus=16
+bu_speed_rnd_005	fn=speed	spd=26	weaponBefore=1	conBonus=15
+bu_speed_rnd_006	fn=speed	spd=21	weaponBefore=2	conBonus=12
+bu_speed_rnd_007	fn=speed	spd=8	weaponBefore=0	conBonus=-3
+bu_speed_rnd_008	fn=speed	spd=9	weaponBefore=4	conBonus=10
+bu_speed_rnd_009	fn=speed	spd=8	weaponBefore=4	conBonus=5
+bu_speed_rnd_010	fn=speed	spd=24	weaponBefore=2	conBonus=13
+bu_speed_rnd_011	fn=speed	spd=7	weaponBefore=1	conBonus=10
+bu_speed_rnd_012	fn=speed	spd=17	weaponBefore=1	conBonus=8
+bu_speed_rnd_013	fn=speed	spd=6	weaponBefore=1	conBonus=14
+bu_speed_rnd_014	fn=speed	spd=19	weaponBefore=0	conBonus=2
+bu_speed_rnd_015	fn=speed	spd=-3	weaponBefore=1	conBonus=15
+bu_speed_rnd_016	fn=speed	spd=21	weaponBefore=4	conBonus=19
+bu_speed_rnd_017	fn=speed	spd=-10	weaponBefore=1	conBonus=2
+bu_speed_rnd_018	fn=speed	spd=26	weaponBefore=3	conBonus=-4
+bu_speed_rnd_019	fn=speed	spd=22	weaponBefore=2	conBonus=24
+bu_speed_rnd_020	fn=speed	spd=15	weaponBefore=0	conBonus=1
+bu_speed_rnd_021	fn=speed	spd=14	weaponBefore=1	conBonus=22
+bu_speed_rnd_022	fn=speed	spd=15	weaponBefore=2	conBonus=0
+bu_speed_rnd_023	fn=speed	spd=20	weaponBefore=4	conBonus=-1
+bu_speed_rnd_024	fn=speed	spd=4	weaponBefore=1	conBonus=23
+bu_speed_rnd_025	fn=speed	spd=33	weaponBefore=4	conBonus=1
+bu_speed_rnd_026	fn=speed	spd=-4	weaponBefore=1	conBonus=-4
+bu_speed_rnd_027	fn=speed	spd=34	weaponBefore=3	conBonus=-5
+bu_speed_rnd_028	fn=speed	spd=23	weaponBefore=4	conBonus=0
+bu_speed_rnd_029	fn=speed	spd=23	weaponBefore=0	conBonus=-3

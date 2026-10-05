@@ -48,7 +48,8 @@ assets/maps/prologue.json                        ──► lib/core  规则数�
 - [x] **M1 全量分层分类** —— 6213 个文件全部有结论，未分类 0（[`tools/m1/`](tools/m1/README.md)）
 - [x] CI（GitHub Actions，3 个 job，已跑通）
 - [x] **M3 单位与移动范围** —— 地形消耗表 + BFS 泛洪，54 用例与真实 C 逐格一致
-- [ ] M4 战斗结算（伤害 / 命中 / 必杀）
+- [~] **M4 战斗结算** —— 数值层完成（回避/防御/速度/必杀/道具加成，330 用例）；
+      伤害与命中判定、武器三角、乱数消耗追踪待做
 
 ---
 
@@ -121,7 +122,7 @@ dart run tools/verify/run_all.dart   # 或者只跑检查，不装环境
 | L0 | 数据管线往返（`.mar` ↔ 网格 字节级无损） | ✅ 66/66 张地图 |
 | L1 | 地图语义形式（含与 `.mar` 二进制逐格对照） | ✅ |
 | L0 | 数据表提取（判据是 **C 编译器**本身） | ✅ 104 张 / 6760 个值逐字节一致 |
-| L2 | **C Oracle** —— Dart 移植 vs 真实反编译 C 代码 | ✅ 乱数 161 + 移动范围 54 用例 |
+| L2 | **C Oracle** —— Dart 移植 vs 真实反编译 C 代码 | ✅ 545 条向量（乱数 / 移动范围 / 战斗数值）|
 | L1 | **M1 全量分层分类**（6213 个文件，未分类须为 0） | ✅ |
 | L3 | 静态契约（`flutter analyze --fatal-infos`） | ✅ |
 | L4 | 视觉验证 | ⬜ 待做（抓帧能力已备好，见 `lib/ui/debug_screenshot.dart`） |
@@ -183,6 +184,7 @@ graphics/map/MapPalette1.pal              （调色板）
 
 ```
 lib/core/          规则层（纯 Dart）
+  battle/          战斗数值（已通过 C Oracle）
   map/             地图语义形式 + 移动范围 BFS（已通过 C Oracle）
   rng/             乱数（已通过 C Oracle）
   terrain/         地形类型（决定移动/回避/防御）

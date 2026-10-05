@@ -135,8 +135,23 @@ def model_rng(f):
 
 # ------------------------------------------------ 场景: battle_unit
 
+# 与 scenarios/battle_unit.c 里的 gItemData 重量表保持一致
+BU_ITEM_WEIGHTS = {0: 0, 1: 1, 2: 5, 3: 12, 4: 20}
+
+
 def model_battle_unit(f):
     fn = f.get("fn", "avoid")
+    if fn == "speed":
+        # ComputeBattleUnitSpeed:
+        #   effWt = GetItemWeight(weaponBefore) - conBonus; 负数钳位到 0
+        #   battleSpeed = spd - effWt;                     负数钳位到 0
+        eff = BU_ITEM_WEIGHTS.get(f.get("weaponBefore", 0) & 0xFF, 0) - s8(f.get("conBonus", 0))
+        if eff < 0:
+            eff = 0
+        spd = s8(f.get("spd", 0)) - eff
+        if spd < 0:
+            spd = 0
+        return s16(spd)
     if fn == "defense":
         # bu->battleDefense = bu->terrainDefense + bu->unit.def;
         return s16(s8(f.get("terrainDefense", 0)) + s8(f.get("def", 0)))

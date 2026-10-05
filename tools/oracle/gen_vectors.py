@@ -227,9 +227,49 @@ def gen_movement(rng):
     return cases
 
 
+def gen_battle_speed(rng):
+    """战斗速度：有效重量 = 武器重量 - 体格，两道钳位。
+
+    并入 battle_unit 场景文件（靠 fn=speed 分派），所以这里产出的是
+    追加到 battle_unit.cases.tsv 的用例。
+    """
+    cases = []
+    # 手工边界：两道钳位各来一遍
+    edges = [
+        # (spd, weaponBefore, conBonus)
+        (10, 0, 0),      # 空手，重量 0
+        (10, 1, 0),      # 重量 1
+        (10, 2, 0),      # 重量 5
+        (5, 3, 0),       # 重量 12 > 速度 -> 钳位到 0
+        (10, 4, 20),     # 体格 20 > 重量 20 -> 有效重量 0
+        (10, 3, 5),      # 12 - 5 = 7
+        (10, 3, 12),     # 12 - 12 = 0
+        (10, 3, 30),     # 体格远超重量 -> 有效重量 0
+        (0, 2, 0),       # 速度 0，重量 5 -> 钳位到 0
+        (127, 0, 0),     # 速度上界
+    ]
+    for i, (spd, wb, con) in enumerate(edges):
+        cases.append((f"bu_speed_edge_{i:02d}",
+                      {"fn": "speed", "spd": spd, "weaponBefore": wb,
+                       "conBonus": con}))
+    for i in range(30):
+        cases.append((f"bu_speed_rnd_{i:03d}", {
+            "fn": "speed",
+            "spd": rng.randrange(-10, 40),
+            "weaponBefore": rng.choice([0, 1, 2, 3, 4]),
+            "conBonus": rng.randrange(-5, 25),
+        }))
+    return cases
+
+
+def gen_battle_unit_all(rng):
+    """battle_unit 场景 = 原有三函数 + 新增 speed"""
+    return gen_battle_unit(rng) + gen_battle_speed(rng)
+
+
 SCENARIOS = {
     "rng": gen_rng,
-    "battle_unit": gen_battle_unit,
+    "battle_unit": gen_battle_unit_all,
     "unit_defense": gen_unit_defense,
     "crit_rate": gen_crit_rate,
     "movement": gen_movement,

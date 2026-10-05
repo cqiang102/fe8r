@@ -3,3 +3,6 @@
 src/ComputeBattleUnitAvoidRate.c
 src/ComputeBattleUnitBaseDefense.c
 src/ComputeBattleUnitDodgeRate.c
+# ComputeBattleUnitSpeed 需要 GetItemWeight —— 场景里提供了可控的 gItemData
+src/ComputeBattleUnitSpeed.c
+src/GetItemWeight.c
