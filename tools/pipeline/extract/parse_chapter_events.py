@@ -54,6 +54,9 @@ HOST = os.path.join(REPO, "tools", "oracle", "host")
 
 SRC = "src/data/frontier_df3_eventscr_ch/frontier_df3_eventscr_ch.c"
 
+sys.path.insert(0, HERE)
+import relocations as R  # noqa: E402
+
 # 条件类型的**长度表**。作用：把平坦的字流切成一条条事件条目。
 #
 #     struct EventListCmdInfo { int (*func)(struct EventInfo*); int length; };
@@ -187,10 +190,12 @@ def symbol_sizes(obj, names):
     # 只保留我们关心的表的地址，长度取"下一个任意符号"
     addr_of = {name: addr for addr, name in entries}
     found = {}
+    addrs = {}
     for name in names:
         a = addr_of.get(name)
         if a is None:
             continue
+        addrs[name] = a
         nxt = None
         for addr, _ in entries:
             if addr > a:
@@ -198,7 +203,7 @@ def symbol_sizes(obj, names):
                 break
         if nxt is not None:
             found[name] = nxt - a
-    return found
+    return found, addrs
 
 
 def count_elements_from_source(raw, table):
@@ -237,7 +242,7 @@ def element_size():
     return 8
 
 
-def build_and_dump(names, sizes, undef_symbols=None):
+def build_and_dump(names, sizes, undef_symbols=None, slot_syms=None):
     with tempfile.TemporaryDirectory() as tmp:
         src = open(os.path.join(DECOMP, SRC), encoding="utf-8",
                    errors="replace").read()
@@ -253,6 +258,11 @@ def build_and_dump(names, sizes, undef_symbols=None):
             # 把两个参数打包成 `y<<16 | x`）。只取低 16 位会丢掉一半的字，
             # 解析出来的脚本会整体错位。
             probe.append(f'  {{ extern EventListScr {n}[]; ')
+            # ⚠️ 同时打印表的**地址**：`otool -r` 的地址与 `nm` 的地址
+            # 基准不一致（实测差很远），拿两边去配对会一条都匹配不上。
+            # 让探针自己报地址，重定位就统一到同一个空间里了。
+            probe.append(f'    printf("BASE {n} %lu\\n", '
+                         f'(unsigned long)(uintptr_t){n}); ')
             probe.append(f'    printf("TABLE {n} {cnt * 2}\\n"); ')
             # ⚠️ 这里只能导出**原始字**，不能做"指针归一化"。
             #
@@ -267,7 +277,15 @@ def build_and_dump(names, sizes, undef_symbols=None):
             # 所以这个提取**不进 CI**，产物以 macOS 上生成的那份为准并入库，
             # Dart 测试跑的是入库产物（确定性）。
             # 见 --check 与 run_all.dart 里的说明。
+            # ⚠️ 指针槽**不打地址**，改打一个记号 —— 地址是宿主相关的。
+            # 具体指向哪个符号，由 Python 侧从重定位表里补上
+            # （探针里拿不到符号名）。这样产物与平台无关。
+            ptr_slots = sorted((slot_syms or {}).get(n, {}))
+            cond = " || ".join(f"i == {k}" for k in ptr_slots) or "0"
             probe.append(f'    for (long i = 0; i < {cnt}; i++) {{ ')
+            # 输出**两个** token（`PTR PTR`），保持 token 数与槽数一致 ——
+            # 只输出一个会让字流对不齐，后面全部错位。
+            probe.append(f'      if ({cond}) {{ printf("PTR PTR "); continue; }} ')
             probe.append(f'      unsigned long v = (unsigned long){n}[i]; ')
             probe.append(f'      printf("%04lx %04lx ", v & 0xFFFF, '
                          f'(v >> 16) & 0xFFFF); }} ')
@@ -343,9 +361,14 @@ def main():
         obj = compile_object(tmp, src)
         if obj is None:
             return 1
-        sizes = symbol_sizes(obj, names)
+        sizes, addrs = symbol_sizes(obj, names)
         undef = undefined_symbols(obj)
         print(f"  未定义符号 {len(undef)} 个（将在探针目录里生成桩）")
+        # ⚠️ 在**块内**读重定位。放到块外的话目标文件已被删除，
+        # `otool -r` 会悄悄返回空 —— 表现为"重定位条目 0 条"，且不报错。
+        # （临时目录生命周期在这类脚本里已经绊倒过三次。）
+        relocs = R.read_relocations(obj)
+        print(f"  重定位条目 {len(relocs)} 条")
     missing = [n for n in names if n not in sizes]
     if missing:
         # 最后一张表后面没有别的符号，地址差法失效 —— 从源码数元素个数补齐
@@ -362,25 +385,82 @@ def main():
     print(f"  nm 取到 {len(sizes)} 个符号长度"
           f"（合计 {sum(sizes.values()) // element_size()} 个字）")
 
-    out = build_and_dump(names, sizes, undef)
+    # ---- 读重定位：把指针槽归一化成**符号引用** ----
+    #
+    # 这一步是本文件过去"平台相关"的根因所在：源码里
+    # `CALL((u8 *)<表> + 0x70)` 编出来是**宿主绝对地址**，
+    # 而桩符号布局 macOS 与 Linux 不同（实测 21 张表里 20 张不一致）。
+    #
+    # 重定位表记的是"第 N 字节引用符号 X" —— 与平台无关。
+    # 把"绝对地址 → 符号名"整理成 "表名 → {槽序号: 符号名}"
+    slot_syms = {}
+    for tname in names:
+        base = addrs.get(tname)
+        if base is None:
+            continue
+        m = {}
+        for addr, sym in relocs.items():
+            if base <= addr < base + sizes[tname]:
+                # ⚠️ 槽的步长是**宿主上** `EventListScr` 的大小（8 字节），
+                # 不是 ROM 上的 4 字节。用 4 算出来的槽号在探针里
+                # （`i` 是宿主的数组下标）一个都命中不了 ——
+                # 表现为"指针槽一个都没标出来，words 里还留着宿主地址"。
+                m[(addr - base) // element_size()] = sym
+        if m:
+            slot_syms[tname] = m
+    print(f"  含指针的表 {len(slot_syms)} 张，"
+          f"指针槽共 {sum(len(v) for v in slot_syms.values())} 个")
+
+    out = build_and_dump(names, sizes, undef, slot_syms)
     if out is None:
         return 1
 
+    # 指针槽归属**已经在上面按 `nm` 的地址算好了**。
+    # 曾经想改用探针打印的 `BASE` 重算一次 —— 那是错的：
+    # 探针里的 BASE 是**链接后**的地址（还带着桩符号），
+    # 与目标文件里重定位的地址不在同一个空间，重算结果直接归零。
+    # `otool -r` / `readelf -r` 的地址与 `nm` 的地址是同一套，直接用即可。
+
     tables = {}
+
     for line in out.split("\n"):
         if line.startswith("TABLE "):
             parts = line.split()
             if len(parts) >= 3:
-                tables[parts[1]] = {"size": int(parts[2]), "words": []}
+                tables[parts[1]] = {"size": int(parts[2]), "words": [], "ptrs": {}}
         elif line.strip() and tables:
             last = next(reversed(tables))
-            if not tables[last]["words"]:
-                tables[last]["words"] = [int(x, 16) for x in line.split()]
+            if tables[last]["words"] or tables[last]["ptrs"]:
+                continue
+            toks = line.split()
+            words = []
+            slot = 0
+            i = 0
+            syms = (slot_syms or {}).get(last, {})
+            while i < len(toks):
+                if toks[i] == "PTR":
+                    # 两个 PTR 占一个槽；换成符号引用（**不是**地址）
+                    words.append(None)
+                    words.append(None)
+                    if slot in syms:
+                        tables[last]["ptrs"][slot] = syms[slot]
+                    i += 2
+                else:
+                    words.append(int(toks[i], 16))
+                    i += 1
+                if len(words) % 2 == 0:
+                    slot += 1
+            tables[last]["words"] = words
 
     bad = [k for k, v in tables.items() if len(v["words"]) != v["size"]]
     if bad:
         print(f"❌ {len(bad)} 张表的字数与声明不符: {bad[:3]}", file=sys.stderr)
         return 1
+
+    # 指针槽用 null 占位 —— 它的真实含义在 `ptrs` 里（符号名）。
+    # **不塞一个假地址**：那样调用方会以为它是可用的数值。
+    nptr = sum(len(v["ptrs"]) for v in tables.values())
+    print(f"  指针槽 {nptr} 个（用 null 占位，符号名记在 ptrs 里）")
 
     total = sum(v["size"] for v in tables.values())
     print(f"\n导出 {len(tables)} 张表 / {total} 个字")

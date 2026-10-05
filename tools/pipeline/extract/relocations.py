@@ -30,9 +30,20 @@ Linux（`readelf -r`）：
     Offset          Info           Type           Sym. Value    Sym. Name + Addend
     0000000000000010  000300000001 R_X86_64_64    0000000000000000 .data + 0
 
-⚠️ 注意 Linux 那行的符号名可能形如 `.data + 0`（**段相对**，不是符号名）——
+⚠️ 注意 Linux 那行的符号名可能形如 `.data`（**段相对**，不是符号名）——
 那就说明它指向的是某个段内位置而非命名符号，我们解析不了，
 应当**明确标出来**而不是当成一个符号名。
+
+## 关于加数（addend）
+
+Linux 的 `readelf` 会把加数一起打出来（`sym + 0x70`），
+而 macOS 的 `otool -rv` **只给符号名**，加数在原始（非 `-v`）输出里，
+拿不到名字的同时拿加数。
+
+所以这里**统一只取符号名，丢掉加数** —— 两边结果才能一致。
+代价是 `CALL((u8 *)<表> + 0x70)` 里的 `+0x70` 会丢；
+要恢复它需要额外解析 macOS 的原始 `otool -r`（那里给的是符号索引
+与 value），属于后续工作。**先保证一致，再谈精度。**
 """
 import os
 import re
@@ -102,18 +113,18 @@ def _read_elf(obj_path, section):
             addr = int(p[0], 16)
         except ValueError:
             continue
-        # 符号名在 Type 之后；可能带 " + addend"
-        rest = " ".join(p[3:])
-        m = re.match(r"^([0-9a-fA-F]+)\s+(\S+)(?:\s*\+\s*(0x[0-9a-fA-F]+|\d+))?$",
-                     rest)
-        if m:
-            sym, addend = m.group(2), m.group(3)
-            if sym.startswith("."):
-                # 段相对引用（如 `.data + 0`）—— 不是命名符号，明确标出
-                sym = f"?section:{sym}"
-            out[addr] = sym if not addend else f"{sym}+{addend}"
-        else:
-            out[addr] = f"?unparsed:{rest[:40]}"
+        # 格式：`<Offset> <Info> <Type> <Sym.Value> <Sym.Name> + <Addend>`
+        # 符号名是**倒数第三列**（前面是 Offset/Info/Type/SymValue）。
+        # 之前用一个宽松的正则去匹 `rest`，遇到 SymValue 不是 0 就失配，
+        # 落进 `?unparsed`。按列取更稳。
+        if len(p) < 6:
+            out[addr] = f"?unparsed:{line.strip()[:40]}"
+            continue
+        sym = p[-3]
+        if sym.startswith("."):
+            # 段相对引用（如 `.data`）—— 不是命名符号，明确标出
+            sym = f"?section:{sym}"
+        out[addr] = sym
     return out
 
 

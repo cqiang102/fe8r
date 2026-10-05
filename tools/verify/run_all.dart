@@ -132,18 +132,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '事件指令集校验（跳过）', 'true', const [], note: decompNote),
 
-    // ⚠️ 章节事件提取**故意不进 CI**。
-    //
-    // 含指针条目的表，其字流依赖宿主平台：源码里是
-    // `CALL((u8 *)<本表> + 0x70)`（字节偏移），编出来却是宿主绝对地址，
-    // 而桩符号布局 macOS 与 Linux 不同 —— 实测 21 张表里 20 张两边不一致。
-    //
-    // 试过"把 > 0xFFFF 的值当指针、减去表首归一化"：**行不通**，
-    // 因为 `_EvtParams2(x, y)` 打包出的 u32（如 0x0001000C）同样 > 0xFFFF。
-    // 区分"打包的两个字"与"指针"需要重定位信息，靠数值做不到。
-    //
-    // 所以：产物以 macOS 上生成的那份为准并入库，Dart 测试跑入库产物
-    // （确定性）。重新生成用 `python3 tools/pipeline/extract/parse_chapter_events.py`。
+    // 章节事件提取：指针槽已靠**重定位表**归一化成符号引用，
+    // 实测 Linux 与 macOS 逐表一致 —— 所以可以进 CI 了。
+    if (hasDecomp())
+      Step('L0', '章节事件提取（指针归一化）', 'python3',
+          ['extract/parse_chapter_events.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '21 张表 / 570 个指针槽 → 符号名')
+    else
+      Step('L0', '章节事件提取（跳过）', 'true', const [], note: decompNote),
 
     // 章节单位配置：**元素个数由探针里的 `sizeof` 算**，
     // 不靠 `nm` 的地址差 —— 后者在 ELF 与 Mach-O 上取法不同

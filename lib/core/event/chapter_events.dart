@@ -107,12 +107,28 @@ class EventListEntry {
 
 /// 一张章节事件表
 class ChapterEventTable {
-  ChapterEventTable({required this.name, required this.words});
+  ChapterEventTable({
+    required this.name,
+    required this.words,
+    Map<int, String>? ptrs,
+  }) : ptrs = ptrs ?? const {};
 
   final String name;
 
   /// 原始字流（u16）。**这是提取的产物，已由 C 编译器验证。**
-  final List<int> words;
+  ///
+  /// ⚠️ 指针槽是 `null` —— 它的含义在 [ptrs] 里（符号名）。
+  /// 早先这些位置存的是**宿主绝对地址**（平台相关，21 张表里 20 张
+  /// macOS 与 Linux 不一致）。现在靠重定位表归一化成符号引用。
+  final List<int?> words;
+
+  /// 槽序号 → 指向的符号名。
+  ///
+  /// `CALL((u8 *)<本表> + 0xNN)` 会解析成"指向本表"的符号名。
+  final Map<int, String> ptrs;
+
+  /// 指针槽个数
+  int get pointerSlotCount => ptrs.length;
 
   /// 尝试从 [start] 处当作**纯指令流**解码。
   ///
@@ -121,7 +137,8 @@ class ChapterEventTable {
   EventScript? decodeAsScript({int start = 0}) {
     if (start >= words.length) return null;
     try {
-      return EventScript.decode(words.sublist(start));
+      return EventScript.decode(
+          words.sublist(start).whereType<int>().toList());
     } on FormatException {
       return null;
     }
@@ -140,8 +157,10 @@ class ChapterEventTable {
       final wordIdx = elem * 2;
       if (wordIdx + 1 >= words.length) break;
       // 首字 = 低 16 位是条件类型，高 16 位是标志
+      // 指针槽是 null —— 条目解析遇到它就停（长度规则对不上）
       final w0 = words[wordIdx];
       final w1 = words[wordIdx + 1];
+      if (w0 == null || w1 == null) break;
       final conditionId = w0 & 0xFFFF;
       final flag = w1 & 0xFFFF;
 
@@ -157,7 +176,10 @@ class ChapterEventTable {
       for (var k = 1; k < len; k++) {
         final i = (elem + k) * 2;
         if (i + 1 >= words.length) break;
-        payload.add((words[i + 1] << 16) | words[i]);
+        final lo = words[i];
+        final hi = words[i + 1];
+        if (lo == null || hi == null) break;
+        payload.add((hi << 16) | lo);
       }
 
       out.add(EventListEntry(
@@ -216,7 +238,11 @@ class ChapterEvents {
       final m = v as Map<String, dynamic>;
       out[name] = ChapterEventTable(
         name: name,
-        words: (m['words'] as List<dynamic>).map((e) => e as int).toList(),
+        words: (m['words'] as List<dynamic>)
+            .map((e) => e as int?)
+            .toList(),
+        ptrs: (m['ptrs'] as Map<String, dynamic>? ?? {})
+            .map((k, v) => MapEntry(int.parse(k), v as String)),
       );
     });
     return ChapterEvents(out, ci);
