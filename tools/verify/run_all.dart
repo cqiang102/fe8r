@@ -155,7 +155,7 @@ Future<void> main(List<String> argv) async {
 
     Step('L1', '事件引擎（指令解码 + 虚拟机）', 'flutter',
         ['test', 'test/core/event_vm_test.dart'],
-        note: '30 用例：位打包 / 控制流 / 表现类 / 可序列化'),
+        note: '39 用例：位打包 / 控制流 / 表现类 / 单位移动 / 可序列化'),
 
     Step('L1', '职业表与武器射程', 'flutter',
         ['test', 'test/core/class_table_test.dart'],
@@ -314,7 +314,7 @@ Future<void> main(List<String> argv) async {
 
   stdout.writeln('\n[—] 尚未实现');
 
-  stdout.writeln('      L1 事件引擎的其余指令（150 条里已实现 25 条：控制流 + 对话/立绘/背景）');
+  stdout.writeln('      L1 事件引擎的其余指令（150 条里已实现 27 条）');
   stdout.writeln('      L1 章节触发条件与剧情数据管线');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');

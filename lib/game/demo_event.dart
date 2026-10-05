@@ -31,6 +31,14 @@ const int demoFaceSeth = 2;
 /// 背景编号
 const int demoBgPlain = 7;
 
+/// 演示用的单位编号（对应 demo 战场里的 MapUnit.id）
+const int demoPidEirika = 1;
+const int demoSethPid = 2;
+
+/// 把 (x, y) 打包成一个字 —— 原版 `_EvtSubParam16u8(x, y)`：
+/// **低 8 位是 x，高 8 位是 y**。
+int packXy(int x, int y) => (x & 0xFF) + ((y & 0xFF) << 8);
+
 /// 构造演示脚本。
 ///
 /// 指令布局按 `_EvtCmd` 打包：`word[0] = opcode<<8 | len<<4 | sub`。
@@ -62,8 +70,15 @@ EventScript buildDemoEventScript() {
       [w(cmd, 4, sub), arg0 & 0xFFFF, arg1 & 0xFFFF, arg2 & 0xFFFF];
 
   return EventScript.decode([
+    // 镜头先对到开场位置（让"角色走进画面"看得见）
+    ...i2(EventOpcodes.cameraControl, CameraSubCommand.at, packXy(2, 6)),
+
     // 背景
     ...i4(EventOpcodes.showBg, ShowBgSubCommand.display, demoBgPlain, 0, 0),
+
+    // 艾莉卡从 (2,6) 走到 (4,6) —— 走进画面
+    ...i4(EventOpcodes.moveUnit, MoveUnitSubCommand.move,
+        1, demoPidEirika, packXy(4, 6)),
     // 立绘：槽 0 = 艾莉卡，槽 1 = 塞思
     ...i2(EventOpcodes.displayFace, 0, demoFaceEirika),
     ...i2(EventOpcodes.displayFace, 1, demoFaceSeth),

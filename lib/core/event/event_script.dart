@@ -40,6 +40,22 @@ class EventInstruction {
   /// 子命令（`EVSUBCMD_*`，语义随 [opcode] 变化）
   final int subCommand;
 
+  /// 子命令的**低 3 位**（`EVT_SUB_CMD_LO`）。
+  ///
+  /// 有些指令把 4 位的子命令字段拆成两半用：低 3 位是子命令，
+  /// 第 3 位是附加标志（`MOVEUNIT` 的 `modify`、`CAMERACONTROL` 的第二参数）。
+  ///
+  ///     #define EVT_SUB_CMD_LO(scr) (*(const u16*)scr & 0x7)
+  ///     #define EVT_SUB_CMD_HI(scr) ((*(const u16*)scr & 0xF) >> 0x3)
+  ///
+  /// ⚠️ 直接用 `subCommand` 当子命令会出错：`MOVEUNIT` 的
+  /// `EVSUBCMD_MOVE | (modify << 3)` 在 modify=1 时子命令是 8，
+  /// 而真实的子命令是 0（MOVE）。
+  int get subCommandLow => subCommand & 0x7;
+
+  /// 子命令的**第 3 位**（`EVT_SUB_CMD_HI`）
+  int get subCommandHigh => (subCommand & 0xF) >> 3;
+
   /// 参数（`s16`）
   final List<int> args;
 
@@ -182,6 +198,10 @@ class EventOpcodes {
   static const int showBg = 0x21;
   static const int clearScreen = 0x22;
 
+  // ---- 单位与镜头 ----
+  static const int cameraControl = 0x26;
+  static const int moveUnit = 0x2F;
+
   /// 全表（由提取出的 JSON 注入，用于把操作码翻译成名字）
   static Map<int, String> _names = const {};
 
@@ -246,6 +266,32 @@ class TextTypeSubCommand {
   static const int removePortraits = 1; // EVSUBCMD_REMOVEPORTRAITS
   static const int tutorial = 3; // EVSUBCMD_TUTORIALTEXTBOXSTART
   static const int solo = 4; // EVSUBCMD_SOLOTEXTBOXSTART
+}
+
+/// `EV_CMD_MOVEUNIT` 的子命令（只用**低 3 位**）
+class MoveUnitSubCommand {
+  static const int move = 0; // EVSUBCMD_MOVE：走到指定 (x,y)
+  static const int moveOnto = 1; // EVSUBCMD_MOVEONTO：走到目标所在位置
+  static const int moveOneStep = 2; // EVSUBCMD_MOVE_1STEP：朝指定方向走一格
+  static const int moveDefined = 3; // EVSUBCMD_MOVE_DEFINED：按队列路径走
+}
+
+/// `EV_CMD_MOVEUNIT` 的 `MOVE_1STEP` 方向。
+///
+/// 原版是硬编码的四个 case，没有具名常量：
+///   0 → y--  1 → y++  2 → x--  3 → x++
+/// 注意顺序是"先上下后左右"，不是常见的"上下左右"环。
+class MoveDirection {
+  static const int up = 0;
+  static const int down = 1;
+  static const int left = 2;
+  static const int right = 3;
+}
+
+/// `EV_CMD_CAMERACONTROL` 的子命令（只用**低 3 位**）
+class CameraSubCommand {
+  static const int at = 0; // EVSUBCMD_CAMERA_AT：移动到 (x,y)
+  static const int character = 1; // EVSUBCMD_CAMERA_CHAR：移动到某单位
 }
 
 /// `EV_CMD_SHOWBG` 的子命令

@@ -415,6 +415,115 @@ void main() {
     });
   });
 
+  group('单位移动与镜头', () {
+    EventVmState fresh(List<int> words) =>
+        EventVmState(script: EventScript.decode(words));
+
+    test('子命令字段拆成低 3 位 + 第 3 位', () {
+      // 原版把 MOVEUNIT 的子命令打包成 `EVSUBCMD_MOVE | (modify << 3)`。
+      // modify=1 时 4 位的值是 8，但**真实子命令仍是 0（MOVE）**。
+      final s = EventScript.decode(ins(0x2F, 4, 0 | (1 << 3), [1, 2, 0]));
+      final i = s.instructions[0];
+      expect(i.subCommand, 8);
+      expect(i.subCommandLow, MoveUnitSubCommand.move,
+          reason: '直接用 subCommand 会得到 8，把它当成子命令就错了');
+      expect(i.subCommandHigh, 1);
+    });
+
+    test('MOVEUNIT/MOVE 解析打包的 (x, y)', () {
+      final vm = EventVm();
+      // 目标是 (7, 3)：packed = 7 | (3 << 8)
+      final st = fresh(ins(0x2F, 4, MoveUnitSubCommand.move, [1, 5, 7 | (3 << 8)]));
+      vm.step(st);
+      expect(st.pendingMoves.length, 1);
+      final m = st.pendingMoves.single;
+      expect(m.unitId, 5);
+      expect(m.toX, 7);
+      expect(m.toY, 3);
+      expect(m.targetMode, MoveTargetMode.absolute);
+      expect(st.waitingForMove, isTrue);
+    });
+
+    test('负数速度表示瞬移', () {
+      final vm = EventVm();
+      final st = fresh(ins(0x2F, 4, MoveUnitSubCommand.move, [-1, 5, 2 | (2 << 8)]));
+      vm.step(st);
+      expect(st.pendingMoves.single.instant, isTrue);
+    });
+
+    test('MOVEONTO 把第二参数当作目标单位', () {
+      final vm = EventVm();
+      final st = fresh(ins(0x2F, 4, MoveUnitSubCommand.moveOnto, [1, 5, 9]));
+      vm.step(st);
+      final m = st.pendingMoves.single;
+      expect(m.targetMode, MoveTargetMode.ontoUnit);
+      expect(m.targetUnitId, 9);
+    });
+
+    test('MOVE_1STEP 记录方向', () {
+      final vm = EventVm();
+      final st = fresh(ins(0x2F, 4, MoveUnitSubCommand.moveOneStep,
+          [1, 5, MoveDirection.right]));
+      vm.step(st);
+      final m = st.pendingMoves.single;
+      expect(m.targetMode, MoveTargetMode.oneStep);
+      expect(m.direction, MoveDirection.right);
+    });
+
+    test('等单位走完之前 VM 不推进', () {
+      final vm = EventVm();
+      final st = fresh(script([
+        ins(0x2F, 4, MoveUnitSubCommand.move, [1, 5, 3 | (3 << 8)]),
+        ins(0x1B, 2, TextShowSubCommand.show, [1]),
+        ins(0x01, 2, 1),
+      ]));
+      vm.step(st); // MOVEUNIT
+      expect(st.waitingForMove, isTrue);
+
+      final blocked = vm.step(st)!;
+      expect(blocked.advanced, isFalse);
+      expect(blocked.note, contains('个单位走完'));
+      expect(st.presentation.textBoxVisible, isFalse,
+          reason: '移动没结束前不该弹对白');
+
+      expect(vm.notifyMoveFinished(st), isTrue);
+      expect(st.waitingForMove, isFalse);
+      expect(st.pendingMoves, isEmpty);
+
+      final next = vm.step(st)!;
+      expect(next.instruction?.opcode, EventOpcodes.displayText);
+    });
+
+    test('CAMERACONTROL/AT 解析打包坐标', () {
+      final vm = EventVm();
+      final st = fresh(ins(0x26, 2, CameraSubCommand.at, [4 | (9 << 8)]));
+      vm.step(st);
+      expect(st.cameraX, 4);
+      expect(st.cameraY, 9);
+    });
+
+    test('CAMERACONTROL 的子命令同样只用低 3 位', () {
+      final vm = EventVm();
+      final st = fresh(ins(0x26, 2, CameraSubCommand.at | (1 << 3), [1 | (2 << 8)]));
+      vm.step(st);
+      expect(st.cameraX, 1, reason: '第 3 位是附加参数，不是子命令的一部分');
+      expect(st.cameraY, 2);
+    });
+
+    test('移动请求入档（含未解析的目标模式）', () {
+      final words = ins(0x2F, 4, MoveUnitSubCommand.moveOnto, [1, 5, 9]);
+      final sc = EventScript.decode(words);
+      final st = EventVmState(script: sc);
+      EventVm().step(st);
+
+      final round = EventVmState.decode(st.encode(), sc);
+      expect(round.waitingForMove, isTrue);
+      expect(round.pendingMoves.length, 1);
+      expect(round.pendingMoves.single.targetMode, MoveTargetMode.ontoUnit);
+      expect(round.pendingMoves.single.targetUnitId, 9);
+    });
+  });
+
   group('可序列化（剧情中途存档）', () {
     test('状态编码再解码等价', () {
       final words = script([

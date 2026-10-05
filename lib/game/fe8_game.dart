@@ -68,6 +68,10 @@ class Fe8Game extends FlameGame {
   DialogueBoxComponent? _dialogue;
   bool _showDialogue = false;
 
+  /// 正在播的剧情移动：单位 id → 目标格
+  final Map<int, (int, int)> _eventMoveTargets = {};
+  double _eventMoveAccum = 0;
+
   /// 当前流程状态
   FlowState? state;
 
@@ -239,6 +243,14 @@ class Fe8Game extends FlameGame {
     if (r.endTurn) endTurn();
   }
 
+  @override
+  void update(double dt) {
+    // 剧情演出的移动是**按帧推进**的：VM 已经因为 waitingForMove 停住，
+    // 由这里把单位一格一格挪到位，挪完再通知 VM 继续。
+    _tickEventMoves(dt);
+    super.update(dt);
+  }
+
   /// 开始剧情演出
   void startDialogue() {
     if (eventVm == null) return;
@@ -253,7 +265,115 @@ class Fe8Game extends FlameGame {
     if (vm == null || st == null) return;
 
     vm.run(st);
+    _consumeEventMoves();
     _rebuildDialogue();
+  }
+
+  /// 把 VM 排出的移动请求交给表现层。
+  ///
+  /// **规则层只描述意图（谁去哪儿），寻路与动画都在这里做** ——
+  /// 与"渲染层不做规则判断"是同一条边界的两侧。
+  void _consumeEventMoves() {
+    final vm = eventVm;
+    final st = eventState;
+    if (vm == null || st == null) return;
+    if (st.pendingMoves.isEmpty) {
+      if (st.waitingForMove) vm.notifyMoveFinished(st);
+      return;
+    }
+
+    for (final m in st.pendingMoves) {
+      final u = field?.unitById(m.unitId);
+      if (u == null) continue;
+
+      // 目标解析：绝对坐标直接用；其余模式在这里补全
+      int tx = m.toX;
+      int ty = m.toY;
+      switch (m.targetMode) {
+        case MoveTargetMode.absolute:
+          break;
+        case MoveTargetMode.ontoUnit:
+          final t = field?.unitById(m.targetUnitId);
+          if (t == null) continue;
+          tx = t.x;
+          ty = t.y;
+        case MoveTargetMode.oneStep:
+          // 方向：0 上 / 1 下 / 2 左 / 3 右（先上下后左右）
+          switch (m.direction) {
+            case MoveDirection.up:
+              ty -= 1;
+            case MoveDirection.down:
+              ty += 1;
+            case MoveDirection.left:
+              tx -= 1;
+            case MoveDirection.right:
+              tx += 1;
+          }
+        case MoveTargetMode.queuedPath:
+          continue; // 路径队列未实现
+      }
+
+      if (m.instant) {
+        field!.moveUnit(u, tx, ty);
+      } else {
+        _eventMoveTargets[u.id] = (tx, ty);
+      }
+    }
+    st.pendingMoves.clear();
+    _rebuildOverlay();
+  }
+
+  /// 每帧推进剧情移动（一格一格走，像个角色而不是瞬移）
+  void _tickEventMoves(double dt) {
+    if (_eventMoveTargets.isEmpty) return;
+    _eventMoveAccum += dt;
+    // 每 0.18 秒走一格
+    if (_eventMoveAccum < 0.18) return;
+    _eventMoveAccum = 0;
+
+    final f = field;
+    if (f == null) return;
+
+    final done = <int>[];
+    _eventMoveTargets.forEach((id, target) {
+      final u = f.unitById(id);
+      if (u == null) {
+        done.add(id);
+        return;
+      }
+      final (tx, ty) = target;
+      if (u.x == tx && u.y == ty) {
+        done.add(id);
+        return;
+      }
+      // 先走 x 再走 y —— 简单的 L 形路径。
+      // 真实寻路（绕开障碍）属于后续；M6 验证的是"事件能驱动单位移动"。
+      if (u.x != tx) {
+        f.moveUnit(u, u.x + (tx > u.x ? 1 : -1), u.y);
+      } else {
+        f.moveUnit(u, u.x, u.y + (ty > u.y ? 1 : -1));
+      }
+    });
+    for (final id in done) {
+      _eventMoveTargets.remove(id);
+    }
+    _rebuildOverlay();
+    // ⚠️ 必须同时刷新 HUD。只重建画面会让 HUD 停在旧状态 ——
+    // 表现出来就是"读数说单位还在原地，画面上它已经走了"。
+    // 视觉验证靠的就是这个读数，它说谎等于没有验证。
+    _rebuildDialogue();
+
+    // 全部到位的瞬间解除 VM 的等待
+    if (_eventMoveTargets.isEmpty) {
+      final vm = eventVm;
+      final st = eventState;
+      if (vm != null && st != null && st.waitingForMove) {
+        vm.notifyMoveFinished(st);
+        vm.run(st);
+        _consumeEventMoves();
+      }
+      _rebuildDialogue();
+    }
   }
 
   /// 玩家按键推进对白
@@ -266,6 +386,7 @@ class Fe8Game extends FlameGame {
       vm.advanceFromPlayerInput(st);
     }
     vm.run(st);
+    _consumeEventMoves();
 
     if (st.done) {
       _showDialogue = false;
@@ -575,10 +696,19 @@ class Fe8Game extends FlameGame {
         : (s.phase == FlowPhase.selectTarget ? '  选择目标' : '');
     final ev = eventState;
     if (_showDialogue && ev != null) {
-      hud.value = '剧情  ${ev.done ? '结束' : (ev.waitingForPlayer ? '等按键（Z / 回车）' : '演出中）')}'
+      // 把单位坐标也放进来：剧情里"角色有没有走到位"是这一轮要验证的核心，
+      // 只靠看像素判断不了。
+      final pos = f.units
+          .where((u) => u.isAlive)
+          .map((u) => '${u.name.isEmpty ? u.id : u.name}(${u.x},${u.y})')
+          .join(' ');
+      hud.value = '剧情  ${ev.done ? '结束' : (ev.waitingForPlayer ? '等按键（Z / 回车）' : '演出中')}'
           '  背景 ${ev.presentation.backgroundId ?? '-'}'
           '  立绘 ${ev.presentation.faces.values.join(',')}'
-          '\n${ev.lastText}';
+          '  镜头 ${ev.cameraX ?? '-'},${ev.cameraY ?? '-'}'
+          '  待移动 ${_eventMoveTargets.length}'
+          '\n${ev.lastText}'
+          '\n$pos';
       return;
     }
     hud.value = '回合 ${f.turn}  $who  '

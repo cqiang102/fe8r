@@ -33,6 +33,87 @@ import 'event_script.dart';
 /// 插槽数量（`EV_SLOT_IDX_*`）
 const int eventSlotCount = 0x10;
 
+/// 移动目标怎么解析
+enum MoveTargetMode {
+  /// 坐标就是绝对格子坐标
+  absolute,
+
+  /// 走到某个单位所在的位置
+  ontoUnit,
+
+  /// 从当前位置朝某方向走一格
+  oneStep,
+
+  /// 按事件队列里预先登记的路径走
+  queuedPath,
+}
+
+/// 一次"让某个单位走到某处"的请求。
+///
+/// VM 只描述**意图**（谁、去哪儿、多快、是否瞬移），
+/// 具体怎么走由渲染层决定 —— 寻路与动画都属于表现层。
+class UnitMoveRequest {
+  const UnitMoveRequest({
+    required this.unitId,
+    required this.toX,
+    required this.toY,
+    required this.speed,
+    required this.instant,
+    this.targetMode = MoveTargetMode.absolute,
+    this.targetUnitId,
+    this.direction,
+  });
+
+  /// `pid`（角色编号）
+  final int unitId;
+  final int toX;
+  final int toY;
+
+  /// 速度；**负数表示直接瞬移**（原版 `if (speed < 0) MoveUnit_(...)`）
+  final int speed;
+
+  /// 是否瞬移过去
+  final bool instant;
+
+  /// 目标怎么解析
+  final MoveTargetMode targetMode;
+
+  /// [MoveTargetMode.ontoUnit] 时的目标单位
+  final int? targetUnitId;
+
+  /// [MoveTargetMode.oneStep] 时的方向
+  final int? direction;
+
+  Map<String, dynamic> toJson() => {
+        'unitId': unitId,
+        'toX': toX,
+        'toY': toY,
+        'speed': speed,
+        'instant': instant,
+        'targetMode': targetMode.name,
+        'targetUnitId': targetUnitId,
+        'direction': direction,
+      };
+
+  static UnitMoveRequest fromJson(Map<String, dynamic> j) => UnitMoveRequest(
+        unitId: j['unitId'] as int,
+        toX: j['toX'] as int,
+        toY: j['toY'] as int,
+        speed: j['speed'] as int,
+        instant: j['instant'] as bool,
+        targetMode: MoveTargetMode.values.firstWhere(
+          (m) => m.name == j['targetMode'],
+          orElse: () => MoveTargetMode.absolute,
+        ),
+        targetUnitId: j['targetUnitId'] as int?,
+        direction: j['direction'] as int?,
+      );
+
+  @override
+  String toString() => 'MoveUnit($unitId → $toX,$toY speed=$speed'
+      '${instant ? ' 瞬移' : ''})';
+}
+
 /// 剧情的**表现状态** —— VM 记录"脚本想要什么"，渲染层决定怎么画。
 ///
 /// 为什么不把 GBA 的渲染细节搬进来：原版这些指令直接调
@@ -102,10 +183,15 @@ class EventVmState {
     this.done = false,
     this.lastText = '',
     this.waitingForPlayer = false,
+    this.waitingForMove = false,
+    List<UnitMoveRequest>? pendingMoves,
+    this.cameraX,
+    this.cameraY,
     EventPresentation? presentation,
   })  : callStack = callStack ?? [],
         slots = slots ?? List<int>.filled(eventSlotCount, 0),
         eventBits = eventBits ?? {},
+        pendingMoves = pendingMoves ?? [],
         presentation = presentation ?? EventPresentation();
 
   /// 当前脚本
@@ -141,6 +227,27 @@ class EventVmState {
   /// 当前的表现状态（文字 / 立绘 / 背景）
   final EventPresentation presentation;
 
+  /// 待执行的单位移动请求。渲染层取走后调用 [EventVm.notifyMoveFinished]。
+  final List<UnitMoveRequest> pendingMoves;
+
+  /// 是否在等单位走完。
+  ///
+  /// ⚠️ **这是对原版的一处刻意偏离。**
+  /// 原版的 `Event2F_MoveUnit` 返回 `EVC_ADVANCE_CONTINUE`，也就是
+  /// "开始走，脚本继续往下跑"；同步靠 Proc 系统在事件引擎层面完成
+  /// （`TryPrepareEventUnitMovement` 失败时返回 `EVC_STOP_YIELD`，
+  /// 下一帧重试同一条指令）。
+  ///
+  /// 我们没有 Proc 调度器。若照抄"不等待"，下一句对白会在角色走到位之前
+  /// 就弹出来 —— 画面上明显是坏的。
+  /// 所以这里用显式的 `waitingForMove` 代替 Proc 层面的同步：
+  /// **语义等价（脚本在单位到位前不继续），实现不同。**
+  bool waitingForMove;
+
+  /// 镜头目标（null = 不控制镜头）
+  int? cameraX;
+  int? cameraY;
+
   Map<String, dynamic> toJson() => {
         'pc': pc,
         'callStack': callStack,
@@ -151,6 +258,10 @@ class EventVmState {
         'done': done,
         'lastText': lastText,
         'waitingForPlayer': waitingForPlayer,
+        'waitingForMove': waitingForMove,
+        'pendingMoves': pendingMoves.map((m) => m.toJson()).toList(),
+        'cameraX': cameraX,
+        'cameraY': cameraY,
         'presentation': presentation.toJson(),
       };
 
@@ -175,6 +286,12 @@ class EventVmState {
       done: j['done'] as bool? ?? false,
       lastText: j['lastText'] as String? ?? '',
       waitingForPlayer: j['waitingForPlayer'] as bool? ?? false,
+      waitingForMove: j['waitingForMove'] as bool? ?? false,
+      pendingMoves: (j['pendingMoves'] as List<dynamic>? ?? [])
+          .map((e) => UnitMoveRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cameraX: j['cameraX'] as int?,
+      cameraY: j['cameraY'] as int?,
       presentation: EventPresentation.fromJson(
         j['presentation'] as Map<String, dynamic>? ?? {},
       ),
@@ -235,6 +352,17 @@ class EventVm {
     return true;
   }
 
+  /// 渲染层报告"移动已完成"。
+  ///
+  /// 会清空待执行队列并解除等待。返回是否真的解除了等待 ——
+  /// 不在等待时调用是无害的。
+  bool notifyMoveFinished(EventVmState state) {
+    if (!state.waitingForMove) return false;
+    state.pendingMoves.clear();
+    state.waitingForMove = false;
+    return true;
+  }
+
   /// 推进一条指令。
   ///
   /// 返回 null 表示"不推进"（等待中或已结束），调用方应当停帧。
@@ -248,6 +376,15 @@ class EventVm {
         instruction: null,
         advanced: false,
         note: '等玩家按键',
+      );
+    }
+
+    // 等单位走完（渲染层调用 notifyMoveFinished 解除）
+    if (state.waitingForMove) {
+      return EventStep(
+        instruction: null,
+        advanced: false,
+        note: '等 ${state.pendingMoves.length} 个单位走完',
       );
     }
 
@@ -413,6 +550,18 @@ class EventVm {
         state.pc = _nextOffset(state, idx);
         return EventStep(instruction: inst, advanced: true, note: '清屏');
 
+      // ---------------------------------------------------- 单位与镜头
+
+      case EventOpcodes.moveUnit:
+        _moveUnit(state, inst, idx);
+        return EventStep(instruction: inst, advanced: true,
+            note: '移动 ${state.pendingMoves.last}');
+
+      case EventOpcodes.cameraControl:
+        _cameraControl(state, inst, idx);
+        return EventStep(instruction: inst, advanced: true,
+            note: '镜头 → ${state.cameraX},${state.cameraY}');
+
       default:
         // **不静默跳过**。未实现的指令如果悄悄越过，
         // 剧情会"看起来能跑但内容缺失"，那是最难发现的一类问题。
@@ -441,6 +590,112 @@ class EventVm {
   }
 
   // ------------------------------------------------------------ 内部
+
+  /// `EV_CMD_MOVEUNIT`
+  ///
+  /// 参数：`args[0] = speed`、`args[1] = pid`、`args[2]` 随子命令变化。
+  ///
+  /// ⚠️ 子命令要用**低 3 位**（`subCommandLow`）。原版把它打包成
+  /// `EVSUBCMD_MOVE | (modify << 3)`，直接用 4 位的值会得到 8 而不是 0。
+  void _moveUnit(EventVmState state, EventInstruction inst, int idx) {
+    _requireArgs(inst, 3);
+    final speed = inst.args[0];
+    final pid = inst.args[1];
+    final arg2 = inst.args[2];
+    final sub = inst.subCommandLow;
+
+    // 原版 `if (speed < 0) MoveUnit_(...)` —— 负数速度是"直接瞬移"
+    final instant = speed < 0;
+
+    state.pendingMoves.add(_resolveMoveTarget(sub, pid, arg2, speed, instant));
+    state.waitingForMove = true;
+    state.pc = _nextOffset(state, idx);
+  }
+
+  /// 把指令参数翻译成"要走到哪"。
+  ///
+  /// 三种子命令的目标**依赖单位表**（目标单位在哪、自己现在在哪），
+  /// 而 VM 刻意不持有单位表 —— 所以用 [UnitMoveRequest.targetMode] 标记出来，
+  /// 让渲染层去解析。
+  ///
+  /// 用显式的 mode 而不是"给个 (0,0) 让渲染层猜"：后者会把
+  /// "目标未解析"和"目标真的在 (0,0)"混成一种情况。
+  UnitMoveRequest _resolveMoveTarget(
+    int sub,
+    int pid,
+    int arg2,
+    int speed,
+    bool instant,
+  ) {
+    switch (sub) {
+      case MoveUnitSubCommand.move:
+        // (x, y) 打包成一个字：低 8 位是 x，高 8 位是 y
+        return UnitMoveRequest(
+          unitId: pid,
+          toX: arg2 & 0xFF,
+          toY: (arg2 >> 8) & 0xFF,
+          speed: speed,
+          instant: instant,
+        );
+      case MoveUnitSubCommand.moveOnto:
+        // arg2 是**目标单位的 pid**
+        return UnitMoveRequest(
+          unitId: pid,
+          toX: 0,
+          toY: 0,
+          speed: speed,
+          instant: instant,
+          targetMode: MoveTargetMode.ontoUnit,
+          targetUnitId: arg2,
+        );
+      case MoveUnitSubCommand.moveOneStep:
+        // arg2 是方向；起点是单位当前位置
+        return UnitMoveRequest(
+          unitId: pid,
+          toX: 0,
+          toY: 0,
+          speed: speed,
+          instant: instant,
+          targetMode: MoveTargetMode.oneStep,
+          direction: arg2,
+        );
+      case MoveUnitSubCommand.moveDefined:
+        return UnitMoveRequest(
+          unitId: pid,
+          toX: 0,
+          toY: 0,
+          speed: speed,
+          instant: instant,
+          targetMode: MoveTargetMode.queuedPath,
+        );
+      default:
+        throw UnimplementedError('MOVEUNIT 子命令 $sub 未实现');
+    }
+  }
+
+  /// `EV_CMD_CAMERACONTROL`
+  ///
+  /// 参数：`args[0]`。子命令用低 3 位。
+  ///   * `at` —— `args[0]` 是打包的 `(x, y)`
+  ///   * `character` —— `args[0]` 是单位 pid，坐标由渲染层查
+  void _cameraControl(EventVmState state, EventInstruction inst, int idx) {
+    _requireArgs(inst, 1);
+    final sub = inst.subCommandLow;
+
+    switch (sub) {
+      case CameraSubCommand.at:
+        final packed = inst.args[0];
+        state.cameraX = packed & 0xFF;
+        state.cameraY = (packed >> 8) & 0xFF;
+      case CameraSubCommand.character:
+        // 坐标依赖单位表；用特殊值标记"跟随某单位"
+        state.cameraX = -1;
+        state.cameraY = inst.args[0];
+      default:
+        throw UnimplementedError('CAMERACONTROL 子命令 $sub 未实现');
+    }
+    state.pc = _nextOffset(state, idx);
+  }
 
   /// `EV_CMD_DISPLAYTEXT`
   ///
