@@ -162,7 +162,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L0', '章节链路（资产 / 事件组）', 'python3',
           ['extract/parse_chapter_links.py', '--out', 'out/tables'],
-          cwd: 'tools/pipeline', note: '79 章 → 9 个事件组（含单位表）')
+          cwd: 'tools/pipeline', note: '79 章 → 16 个事件组（含单位表）')
     else
       Step('L0', '章节链路（跳过）', 'true', const [], note: decompNote),
 

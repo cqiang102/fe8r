@@ -30,21 +30,27 @@
 绕道编译 + 重定位表，花了四轮 —— 这是过度套用
 "让编译器算"那条原则（它只适用于**位域**）。
 
-## ⚠️ 一个已知的下标偏移
+## ⚠️ 限制：只有部分事件组能被解析（`_ref` 不完整）
 
-`dataMore_chapter_asset_table.tsv` 的 `US <Name>` 标注是**美版**的。
-JP 版缺少 `MapPalette4` / `MapPalette16` 两个条目，所以**从某个下标起，
-US 名字与 JP 的实际内容会错位**。
+我原以为问题是"US 标注有下标偏移"，于是试着测出偏移点：
 
-实测：79 章里引用到 60 个不同的资产名，其中只有 9 个以 `Events` 结尾
-并被正确解析成事件组；其余 51 个落在偏移区，名字是错位的。
+    T=45 shift=1: 15/59      T=47 shift=1: 16/59
+    T=46 shift=1: 16/59      T=48 shift=1: 16/59
+    （基准 shift=0 是 16/60）
 
-**这 9 个是可信的**（都在偏移点之前）。要覆盖全部章节，
-需要先确定偏移点并做 JP↔US 的下标校正 —— 属于后续工作。
+**任何偏移假设都不比基准好** —— 说明问题不在偏移。
 
-判断依据不是"我猜偏移在哪"，而是：`mapEventDataId` 按
-`GetChapterEventDataPointer` 的用法**必然是事件组**，
-出现 `Ch10EphraimMapChanges` 这种名字就说明标注错位了。
+真正的原因：**反编译项目只对 17 个事件组做了去指针化**
+（`src/data/*Events_ref` / `*EventData_ref` 一共 17 个目录），
+而章节引用了 60 个不同的资产。
+**`_ref` 本身不完整**（去指针化是"前沿"工作，还有大量表没做）。
+
+所以本文件的做法是：**按实际存在的 `_ref` 目录来判定**，
+而不是猜命名规则（`Events` / `EventData` 两种都有，还会更多）。
+能解析多少算多少，不硬凑。
+
+判断"哪个是事件组"的依据来自 `GetChapterEventDataPointer` 的用法
+（`mapEventDataId` 必然是事件组），以及**该符号是否真有去指针化的定义**。
 
 ## 这条链
 
@@ -210,6 +216,15 @@ def main():
         return 1
     chapters = json.load(open(ch_path, encoding="utf-8"))["chapters"]
 
+    # 实际做过去指针化的事件组目录（这才是"能不能解析"的真判据）
+    ref_dirs = set()
+    ddir = os.path.join(DECOMP, CH_REF_DIR)
+    for n in os.listdir(ddir):
+        if n.endswith("_ref") and ("Events" in n or "EventData" in n):
+            ref_dirs.add(n[:-4])
+    print(f"去指针化过的事件组目录 {len(ref_dirs)} 个"
+          f"（这是能解析的上限 —— `_ref` 并不完整）")
+
     links = []
     groups = {}
     problems = []
@@ -224,7 +239,10 @@ def main():
         }
         if name is None:
             problems.append(f"{c['internalName']}: 资产 {aid} 无名")
-        elif name.endswith("Events"):
+        elif name in ref_dirs:
+            # ⚠️ 按**实际存在的 `_ref` 目录**判定，不猜命名规则。
+            # 命名有 `Events` 和 `EventData` 两种（`Ch5EventData`、
+            # `Ch16EphraimEventData`…），靠字符串猜会漏。
             g = read_event_group(name)
             if g is None:
                 problems.append(f"{c['internalName']}: 找不到 {name}_ref")
