@@ -239,6 +239,19 @@ def build_and_dump(names, sizes, undef_symbols=None):
             # 解析出来的脚本会整体错位。
             probe.append(f'  {{ extern EventListScr {n}[]; ')
             probe.append(f'    printf("TABLE {n} {cnt * 2}\\n"); ')
+            # ⚠️ 这里只能导出**原始字**，不能做"指针归一化"。
+            #
+            # 试过：把 > 0xFFFF 的值当成指针、减去表首得到偏移。
+            # **行不通** —— 在 64 位宿主上 `_EvtParams2(x, y)` 打包出的
+            # u32（如 `_EvtParams2(0xC, 1)` = 0x0001000C）同样 > 0xFFFF，
+            # 会被误判成指针。区分"打包的两个字"与"指针"需要**重定位信息**，
+            # 靠数值做不到。
+            #
+            # 后果：含指针条目的表，其字流**依赖宿主平台**
+            # （桩符号布局 macOS 与 Linux 不同，实测 21 张里 20 张不一致）。
+            # 所以这个提取**不进 CI**，产物以 macOS 上生成的那份为准并入库，
+            # Dart 测试跑的是入库产物（确定性）。
+            # 见 --check 与 run_all.dart 里的说明。
             probe.append(f'    for (long i = 0; i < {cnt}; i++) {{ ')
             probe.append(f'      unsigned long v = (unsigned long){n}[i]; ')
             probe.append(f'      printf("%04lx %04lx ", v & 0xFFFF, '
