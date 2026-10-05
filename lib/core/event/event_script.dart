@@ -1,0 +1,220 @@
+// PORT OF: include/event.h 的指令编码宏 + include/eventscript.h 的指令集
+//
+// 事件脚本的**指令解码**。
+//
+// ## 指令编码
+//
+// 脚本是 `u16[]`，每条指令的第一个字按位打包：
+//
+//     word[0] = (cmd & 0xFF) << 8 | (len & 0x0F) << 4 | (sub & 0x0F)
+//               ^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^^^^^    ^^^^^^^^^^^
+//               操作码              长度（u16 字数）    子命令
+//
+// 参数从 `word[1]` 开始，按 **s16** 解释。
+//
+// 这套常量由 `tools/pipeline/extract/verify_eventscript.py` 用 C 编译器复核：
+// 不是"照着源码抄一遍"（那只能证明抄得一致），而是把 `_EvtCmd` 宏展开后
+// 让编译器把值算出来比对。
+//
+// ⚠️ 长度是**字（u16）数**，不是字节数。按字节算会让所有指令错位。
+
+/// 一条已解码的事件指令。
+class EventInstruction {
+  const EventInstruction({
+    required this.offset,
+    required this.opcode,
+    required this.length,
+    required this.subCommand,
+    required this.args,
+  });
+
+  /// 在脚本里的字偏移（用于跳转与调试）
+  final int offset;
+
+  /// 操作码（`EV_CMD_*`）
+  final int opcode;
+
+  /// 长度，单位是 **u16 字**（含第一个字）
+  final int length;
+
+  /// 子命令（`EVSUBCMD_*`，语义随 [opcode] 变化）
+  final int subCommand;
+
+  /// 参数（`s16`）
+  final List<int> args;
+
+  /// 编码回一个字流
+  List<int> encode() {
+    final w0 = ((opcode & 0xFF) << 8) | ((length & 0xF) << 4) | (subCommand & 0xF);
+    return [w0, ...args.map((a) => a & 0xFFFF)];
+  }
+
+  @override
+  String toString() {
+    final name = EventOpcodes.nameOf(opcode);
+    final a = args.isEmpty ? '' : ' ${args.join(', ')}';
+    return '[$offset] $name(0x${opcode.toRadixString(16)}) '
+        'len=$length sub=$subCommand$a';
+  }
+}
+
+/// 事件脚本：一串指令 + 标签表。
+class EventScript {
+  EventScript({required this.instructions, required this.labels});
+
+  final List<EventInstruction> instructions;
+
+  /// 标签名 → 字偏移
+  final Map<String, int> labels;
+
+  /// 从 `u16` 字流解码。
+  ///
+  /// 遇到 `length == 0` 会**停下来并报错**：长度 0 的指令会让偏移原地打转，
+  /// 是死循环的经典成因。原版不会产生这种指令，出现就说明流读歪了。
+  static EventScript decode(List<int> words) {
+    final out = <EventInstruction>[];
+    final labels = <String, int>{};
+    var i = 0;
+    var guard = 0;
+
+    while (i < words.length) {
+      final w0 = words[i] & 0xFFFF;
+      final opcode = (w0 >> 8) & 0xFF;
+      final len = (w0 >> 4) & 0xF;
+      final sub = w0 & 0xF;
+
+      if (len == 0) {
+        throw FormatException(
+          '字偏移 $i 处的指令长度为 0（word=0x${w0.toRadixString(16)}）。'
+          '长度为 0 会让执行器原地踏步。',
+        );
+      }
+      if (i + len > words.length) {
+        throw FormatException(
+          '字偏移 $i 处的指令声明长度 $len，超出脚本末尾（共 ${words.length} 字）',
+        );
+      }
+
+      final rawArgs = <int>[];
+      for (var k = 1; k < len; k++) {
+        final v = words[i + k] & 0xFFFF;
+        rawArgs.add(v >= 0x8000 ? v - 0x10000 : v); // s16
+      }
+
+      final inst = EventInstruction(
+        offset: i,
+        opcode: opcode,
+        length: len,
+        subCommand: sub,
+        args: rawArgs,
+      );
+      out.add(inst);
+
+      // 标签：原版用 GOTO 的目标地址标记，这里把"指向自己的第一个参数"
+      // 记录成可读的 label_N，方便调试与测试。
+      if (opcode == EventOpcodes.label && rawArgs.isNotEmpty) {
+        labels['label_${rawArgs[0]}'] = i;
+      }
+
+      i += len;
+      guard++;
+      if (guard > 1 << 20) {
+        throw const FormatException('解码超过 100 万条指令，疑似脚本损坏');
+      }
+    }
+
+    return EventScript(instructions: out, labels: labels);
+  }
+
+  static EventScript fromJsonWords(List<dynamic> words) =>
+      decode(words.map((e) => e as int).toList());
+
+  /// 按偏移找指令下标；找不到返回 null
+  int? indexAtOffset(int offset) {
+    for (var i = 0; i < instructions.length; i++) {
+      if (instructions[i].offset == offset) return i;
+    }
+    return null;
+  }
+
+  @override
+  String toString() => 'EventScript(${instructions.length} 条指令, '
+      '${labels.length} 个标签)';
+}
+
+/// 操作码与子命令常量。
+///
+/// 值全部来自 `tools/pipeline/out/tables/eventscript.json`
+/// （由 C 编译器复核）。这里只列**已经实现**的那些 —— 列一堆用不到的
+/// 常量只会让"这个引擎支持什么"变得含糊。
+class EventOpcodes {
+  const EventOpcodes._();
+
+  static const int nop = 0x00;
+  static const int end = 0x01;
+  static const int evSet = 0x02;
+  static const int evCheck = 0x03;
+  static const int randomNumber = 0x04;
+  static const int sVal = 0x05;
+  static const int slotOps = 0x06;
+  static const int queueOps = 0x07;
+  static const int label = 0x08;
+  static const int goTo = 0x09;
+  static const int call = 0x0A;
+  static const int enqueueCall = 0x0B;
+  static const int branch = 0x0C;
+  static const int asmc = 0x0D;
+  static const int stall = 0x0E;
+  static const int counter = 0x0F;
+  static const int evBitModify = 0x10;
+
+  /// 全表（由提取出的 JSON 注入，用于把操作码翻译成名字）
+  static Map<int, String> _names = const {};
+
+  static void loadNames(Map<String, dynamic> commands) {
+    final m = <int, String>{};
+    for (final e in commands.entries) {
+      m[e.value as int] = e.key;
+    }
+    _names = m;
+  }
+
+  static String nameOf(int opcode) =>
+      _names[opcode] ?? 'EV_CMD_0x${opcode.toRadixString(16)}';
+}
+
+/// `EV_CMD_END` 的子命令
+class EndSubCommand {
+  static const int returnFromCall = 0; // EVSUBCMD_ENDA
+  static const int endAll = 1; // EVSUBCMD_ENDB
+}
+
+/// `EV_CMD_BRANCH` 的子命令
+class BranchSubCommand {
+  static const int eq = 0;
+  static const int ne = 1;
+  static const int ge = 2;
+  static const int gt = 3;
+  static const int le = 4;
+  static const int lt = 5;
+}
+
+/// `EV_CMD_SLOT_OPS` 的子命令
+class SlotOpSubCommand {
+  static const int add = 0;
+  static const int sub = 1;
+  static const int mul = 2;
+  static const int div = 3;
+  static const int mod = 4;
+  static const int and = 5;
+  static const int or = 6;
+  static const int xor = 7;
+  static const int lsl = 8;
+  static const int lsr = 9;
+}
+
+/// `EV_CMD_EVSET` 的子命令
+class EvSetSubCommand {
+  static const int clearEventBit = 0; // EVSUBCMD_EVBIT_F
+  static const int setEventBit = 8; // EVSUBCMD_EVBIT_T
+}

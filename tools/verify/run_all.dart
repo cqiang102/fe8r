@@ -117,6 +117,21 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '职业表提取（跳过）', 'true', const [], note: decompNote),
 
+    // 事件引擎的指令集：150 条指令 / 161 个子命令 + 位打包宏
+    if (hasDecomp())
+      Step('L0', '事件指令集（vs C 编译器）', 'python3',
+          ['extract/parse_eventscript.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '150 条指令 / 161 个子命令')
+    else
+      Step('L0', '事件指令集（跳过）', 'true', const [], note: decompNote),
+
+    if (hasDecomp())
+      Step('L0', '事件指令集校验', 'python3',
+          ['extract/verify_eventscript.py'],
+          cwd: 'tools/pipeline', note: '枚举值 + `_EvtCmd` 宏展开 vs clang')
+    else
+      Step('L0', '事件指令集校验（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
@@ -137,6 +152,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '交互流程状态机（可序列化）', 'flutter',
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
+
+    Step('L1', '事件引擎（指令解码 + 虚拟机）', 'flutter',
+        ['test', 'test/core/event_vm_test.dart'],
+        note: '21 用例：位打包 / 控制流 / 可序列化'),
 
     Step('L1', '职业表与武器射程', 'flutter',
         ['test', 'test/core/class_table_test.dart'],
@@ -295,7 +314,8 @@ Future<void> main(List<String> argv) async {
 
   stdout.writeln('\n[—] 尚未实现');
 
-  stdout.writeln('      L1 事件引擎（M6）');
+  stdout.writeln('      L1 事件引擎的其余指令（150 条里已实现 16 条控制流）');
+  stdout.writeln('      L1 章节触发条件与剧情数据管线');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');
 

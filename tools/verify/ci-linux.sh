@@ -68,6 +68,8 @@ if [ "'"$MODE"'" = "--full" ]; then
     python3 extract/parse_c_tables.py --out out/tables >/dev/null
     python3 extract/parse_carved_tables.py --out out/tables >/dev/null
     python3 extract/parse_class_tables.py --out out/tables >/dev/null
+    python3 extract/parse_eventscript.py --out out/tables >/dev/null
+    python3 extract/verify_eventscript.py | tail -2
     python3 extract/verify_tables.py | tail -3
     echo
 fi

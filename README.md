@@ -189,6 +189,7 @@ graphics/map/MapPalette1.pal              （调色板）
 
 ```
 lib/core/          规则层（纯 Dart）
+  event/           事件引擎（指令解码 + 可序列化虚拟机）
   battle/          战斗数值 + 乱数消耗（已通过 C Oracle）
   map/             地图语义形式 + 移动范围 BFS（已通过 C Oracle）
   rng/             乱数（已通过 C Oracle）
