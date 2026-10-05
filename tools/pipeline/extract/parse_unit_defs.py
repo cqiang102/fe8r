@@ -58,9 +58,18 @@ HOST = os.path.join(REPO, "tools", "oracle", "host")
 #
 # 第 2 批是"章节 → 事件组 → playerUnitsInNormal"那一跳的落点，
 # 名字形如 `UnitDef_Event_Ch8Ally` / `UnitDef_Event_PrologueEnemy`。
+# 要扫的源文件。三批格式**完全一样**（都是 `struct UnitDefinition` 具名初始化器）：
+#   1. frontier_df3_unitdef_b.c —— 章节增援/遭遇战配置
+#   2. UnitDef_Event_*_ref/*.c  —— 章节事件引用的单位
+#   3. data_prologue_event_udefs.c —— **不在 `_ref` 目录里**的那批
+#
+# 第 3 批是踩坑补上的：`UnitDef_Event_PrologueAlly`（序章的我方单位）
+# 定义在 `data_prologue_event_udefs.c`，不是任何 `_ref` 目录，
+# 只按 `_ref` 扫会漏掉它 —— 表现为"章节 0 装配不出来"。
 SRC_GLOBS = [
     "src/data/frontier_df3_unitdef_b/frontier_df3_unitdef_b.c",
     "src/data/UnitDef_Event_*_ref/*.c",
+    "src/data/data_prologue_event_udefs.c",
 ]
 
 
@@ -107,6 +116,8 @@ def strip_conflicting_externs(text):
     # 只剥离**名字在 eventcall.h 里声明为 `struct REDA`** 的那些。
     # 通配剥离会把有用的声明（如 frontier_df4_banim_b_*）也删掉。
     bad = reda_names_from_includes()
+
+    # 1) 去掉 `extern const u8 REDA_X[];` 这类**前置声明**（无用且冲突）
     out = []
     for line in text.split("\n"):
         m = re.match(
@@ -115,7 +126,20 @@ def strip_conflicting_externs(text):
         if m and m.group(1) in bad:
             continue
         out.append(line)
-    return "\n".join(out)
+    text = "\n".join(out)
+
+    # 2) 还有**定义**层面的冲突：`data_prologue_event_udefs.c` 里
+    #    `u32 REDAs_PrologueEnemy1[] = {...}` 与 eventcall.h 的
+    #    `struct REDA REDAs_PrologueEnemy1[]` 类型不符。
+    #
+    #    我们不需要这些 REDA 数组（只读 UnitDefinition 的
+    #    charIndex/class/level/x/y/items）。所以把该文件里这些名字
+    #    **整体改名** —— 定义与引用一起改，语义不变，
+    #    只是不再与 eventcall.h 的声明撞名。
+    for name in sorted(bad):
+        if re.search(rf"\b{re.escape(name)}\s*\[", text):
+            text = re.sub(rf"\b{re.escape(name)}\b", f"{name}_u32", text)
+    return text
 
 
 def compile_obj(tmp, src):

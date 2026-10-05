@@ -22,21 +22,21 @@ void main() {
       defs = UnitDefs.parse(f.readAsStringSync());
     });
 
-    test('124 张表 / 2884 个条目 / 真实单位数', () {
+    test('125 张表 / 2887 个条目 / 真实单位数', () {
       // 三者要分清：**条目**包含 `{0}` 分组分隔符，**单位**不含。
       // 第一版我把它们混为一谈，测试挂了才发现。
       // 数字全部钉死：位域解析或表长算错时这里会失败。
       //
       // 元素个数现在由探针的 `sizeof` 算（不靠 nm 的地址差），
       // 已实测 Linux 与 macOS 逐条一致 —— 所以这一步可以进 CI。
-      expect(defs.tables.length, 124);
+      expect(defs.tables.length, 125);
       final entries =
           defs.tables.values.fold<int>(0, (s, t) => s + t.entries.length);
       final seps = defs.tables.values
           .fold<int>(0, (s, t) => s + t.entries.where((e) => e.isGroupSeparator).length);
-      expect(entries, 2884);
-      expect(seps, 387);
-      expect(defs.totalUnits, 2497);
+      expect(entries, 2887);
+      expect(seps, 388);
+      expect(defs.totalUnits, 2499);
       expect(entries, defs.totalUnits + seps);
     });
 

@@ -146,7 +146,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L0', '章节单位配置提取', 'python3',
           ['extract/parse_unit_defs.py', '--out', 'out/tables'],
-          cwd: 'tools/pipeline', note: '111 张表 / 2796 个条目（编译器算长度）')
+          cwd: 'tools/pipeline', note: '125 张表 / 2887 个条目（编译器算长度）')
     else
       Step('L0', '章节单位配置提取（跳过）', 'true', const [], note: decompNote),
 
@@ -190,6 +190,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '重定位读取（指针归一化的前提）', 'flutter',
         ['test', 'test/core/relocations_test.dart'],
         note: '1 用例：otool -rv / readelf -r 两条路径'),
+
+    Step('L1', '章节装配（链路的首个消费者）', 'flutter',
+        ['test', 'test/core/chapter_loader_test.dart'],
+        note: '6 用例：79 章 → 8 章可装配'),
 
     Step('L1', '章节配置表（真实数据）', 'flutter',
         ['test', 'test/core/chapters_test.dart'],
