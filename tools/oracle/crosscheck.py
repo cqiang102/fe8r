@@ -432,6 +432,65 @@ def model_battle_rng(f):
     return "%d,%d,%d,%d,%d" % (damage, attrs, st[0], st[1], st[2])
 
 
+
+# ------------------------------------------------ 场景: weapon_triangle
+
+# 规则表从 carve 提取的 JSON 读，避免 Python 侧手抄一份
+_REAVER = 1 << 8
+
+
+def _load_triangle():
+    import json as _json
+    path = os.path.join(HERE, "..", "pipeline", "out", "tables",
+                        "weapon_triangle.json")
+    if not os.path.exists(path):
+        return None
+    d = _json.load(open(path, encoding="utf-8"))
+    return [(r["attackerWeaponType"], r["defenderWeaponType"],
+             r["hitBonus"], r["atkBonus"]) for r in d["rules"]]
+
+
+_TRI = _load_triangle()
+
+
+def model_weapon_triangle(f):
+    if _TRI is None:
+        return None
+    fn = f.get("fn", "triangle")
+
+    if fn == "hitrate":
+        # ComputeBattleUnitHitRate:
+        #   skl*2 + GetItemHit(weapon) + lck/2 + wTriangleHitBonus
+        # 注意 lck/2 是 C 的向零截断除法
+        return s16(s8(f.get("skl", 0)) * 2
+                   + s8(f.get("itemHit", 0))
+                   + c_trunc_div(s8(f.get("lck", 0)), 2)
+                   + s8(f.get("wth", 0)))
+
+    at_t = s8(f.get("atkType", 0))
+    df_t = s8(f.get("defType", 0))
+    at_hit = at_dmg = df_hit = df_dmg = 0
+
+    for (a, d, h, k) in _TRI:
+        if at_t == a and df_t == d:
+            at_hit, at_dmg = h, k
+            df_hit, df_dmg = -h, -k
+            break
+
+    at_attr = f.get("atkAttr", 0)
+    df_attr = f.get("defAttr", 0)
+    both = (at_attr & _REAVER) and (df_attr & _REAVER)
+    if not both:
+        if at_attr & _REAVER:
+            at_hit, at_dmg = -at_hit * 2, -at_dmg * 2
+            df_hit, df_dmg = -df_hit * 2, -df_dmg * 2
+        if df_attr & _REAVER:
+            at_hit, at_dmg = -at_hit * 2, -at_dmg * 2
+            df_hit, df_dmg = -df_hit * 2, -df_dmg * 2
+
+    return "%d,%d,%d,%d" % (s8(at_hit), s8(at_dmg), s8(df_hit), s8(df_dmg))
+
+
 MODELS = {
     "rng": (model_rng, True),          # True = 结果是列表
     "battle_unit": (model_battle_unit, False),
@@ -439,6 +498,7 @@ MODELS = {
     "crit_rate": (model_crit_rate, False),
     "battle_attack": (model_battle_attack, False),
     "battle_rng": (model_battle_rng, False),
+    "weapon_triangle": (model_weapon_triangle, False),
 }
 
 

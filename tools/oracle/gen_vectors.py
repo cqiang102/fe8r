@@ -465,6 +465,87 @@ def gen_battle_rng(rng):
     return cases
 
 
+
+def gen_weapon_triangle(rng):
+    """武器三角与命中率。
+
+    重点覆盖：
+      * 剑/枪/斧 六种组合（三种优势 + 三种劣势）
+      * 魔法三角 理/光/暗
+      * 同类型对同类型（表里没有规则 → 全 0）
+      * 勇者武器（IA_REVERTTRIANGLE）反转
+      * **双方都是勇者武器时互相抵消**（原版两个 if 是一起判的）
+      * 命中率的整数除法边界（lck 奇偶）
+    """
+    SWORD, LANCE, AXE, BOW, ANIMA, LIGHT, DARK = 0, 1, 2, 3, 5, 6, 7
+    REAVER = 1 << 8
+
+    cases = []
+
+    # --- triangle：物理与魔法三角全覆盖 ---
+    phys = [SWORD, LANCE, AXE]
+    magic = [ANIMA, LIGHT, DARK]
+    for a in phys + magic:
+        for d in phys + magic:
+            cases.append((f"wt_pair_{a}_{d}", {
+                "fn": "triangle", "atkType": a, "defType": d,
+            }))
+
+    # 弓箭/法杖：表里没有这两类，应当一律 0
+    for a in (BOW, 4):
+        for d in (SWORD, BOW):
+            cases.append((f"wt_none_{a}_{d}", {
+                "fn": "triangle", "atkType": a, "defType": d,
+            }))
+
+    # --- Reaver ---
+    reaver = [
+        ("atk_only_adv", SWORD, AXE, REAVER, 0),
+        ("atk_only_dis", SWORD, LANCE, REAVER, 0),
+        ("def_only_adv", SWORD, AXE, 0, REAVER),
+        ("both_adv", SWORD, AXE, REAVER, REAVER),
+        ("both_dis", SWORD, LANCE, REAVER, REAVER),
+        ("no_rule_reaver", SWORD, SWORD, REAVER, 0),
+        ("magic_reaver", ANIMA, LIGHT, REAVER, 0),
+    ]
+    for name, a, d, aa, da in reaver:
+        cases.append((f"wt_reaver_{name}", {
+            "fn": "triangle", "atkType": a, "defType": d,
+            "atkAttr": aa, "defAttr": da,
+        }))
+
+    # --- hitrate ---
+    hit_edges = [
+        (0, 0, 0, 0),          # 全 0
+        (10, 8, 85, 0),        # 常规
+        (10, 8, 85, 15),       # 带三角优势
+        (10, 8, 85, -15),      # 带三角劣势
+        (0, 1, 0, 0),          # lck=1 -> 1/2 = 0
+        (0, 3, 0, 0),          # lck=3 -> 3/2 = 1
+        (-5, 0, 0, 0),         # 负技巧（异常输入）
+        (127, 127, 127, 127),  # 上界
+        (0, 0, 0, -127),       # 大负三角加成
+    ]
+    for i, (skl, lck, ih, wth) in enumerate(hit_edges):
+        cases.append((f"wt_hit_edge_{i:02d}", {
+            "fn": "hitrate", "skl": skl, "lck": lck, "itemHit": ih, "wth": wth,
+        }))
+
+    for i in range(60):
+        cases.append((f"wt_rnd_{i:03d}", {
+            "fn": rng.choice(["triangle", "triangle", "hitrate"]),
+            "atkType": rng.choice([0, 1, 2, 3, 4, 5, 6, 7]),
+            "defType": rng.choice([0, 1, 2, 3, 4, 5, 6, 7]),
+            "atkAttr": rng.choice([0, 0, REAVER]),
+            "defAttr": rng.choice([0, 0, REAVER]),
+            "skl": rng.randrange(0, 40),
+            "lck": rng.randrange(0, 40),
+            "itemHit": rng.randrange(0, 100),
+            "wth": rng.choice([0, 15, -15]),
+        }))
+    return cases
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit_all,
@@ -473,6 +554,7 @@ SCENARIOS = {
     "movement": gen_movement,
     "battle_attack": gen_battle_attack,
     "battle_rng": gen_battle_rng,
+    "weapon_triangle": gen_weapon_triangle,
 }
 
 

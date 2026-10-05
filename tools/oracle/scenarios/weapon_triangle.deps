@@ -1,0 +1,4 @@
+src/BattleApplyWeaponTriangleEffect.c
+src/BattleApplyReaverEffect.c
+src/bmbattle_0802AB1C.c
+src/GetItemHit.c

@@ -101,6 +101,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '数据表提取（跳过）', 'true', const [], note: decompNote),
 
+    // 只有二进制、没有 C 源码的表（武器三角规则）——判据是结构自洽性
+    if (hasDecomp())
+      Step('L0', '二进制表提取（自洽性校验）', 'python3',
+          ['extract/parse_carved_tables.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '武器三角规则表（ROM 0x085C3F70）')
+    else
+      Step('L0', '二进制表提取（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
@@ -140,7 +148,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L2', 'C Oracle ↔ Dart（战斗数值）', 'flutter',
           ['test', 'test/core/battle_oracle_test.dart'],
-          note: '539 用例：回避/速度/必杀/攻击/特效/主教斩魔/乱数消耗')
+          note: '655 用例：战斗数值 / 特效 / 乱数消耗 / 武器三角')
     else
       Step('L2', 'C Oracle ↔ Dart（战斗数值，跳过）', 'true', const [],
           note: decompNote),
@@ -240,7 +248,7 @@ Future<void> main(List<String> argv) async {
   }
 
   stdout.writeln('\n[—] 尚未实现');
-  stdout.writeln('      L1 命中率数值 / 武器三角加成（M4 剩余部分）');
+
   stdout.writeln('      L1 事件引擎（M6）');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');

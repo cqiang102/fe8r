@@ -309,6 +309,57 @@ void main() {
       expect(totalConsumed, greaterThan(100));
     });
 
+    test('weapon_triangle（武器三角 / 勇者武器 / 命中率）', () {
+      final cases = _readCases('$_vecDir/weapon_triangle.cases.tsv');
+      final expected = _readExpected('$_vecDir/weapon_triangle.expected.tsv');
+      expect(cases, isNotEmpty);
+
+      // 规则表由 carve 提取（没有 C 源码），这里读同一份 JSON
+      final triJson = jsonDecode(
+        File('tools/pipeline/out/tables/weapon_triangle.json').readAsStringSync(),
+      ) as Map<String, dynamic>;
+      final table = WeaponTriangleTable.fromJson(triJson);
+
+      final failures = <String>[];
+      for (final id in cases.keys.toList()..sort()) {
+        final c = cases[id]!;
+        final want = expected[id];
+        if (want == null) {
+          failures.add('$id: 缺少期望值');
+          continue;
+        }
+
+        final atk = BattleUnit()
+          ..weaponType = _v(c, 'atkType', 0)
+          ..weaponAttributes = _v(c, 'atkAttr', 0);
+        final def = BattleUnit()
+          ..weaponType = _v(c, 'defType', 0)
+          ..weaponAttributes = _v(c, 'defAttr', 0);
+
+        final fn = c['fn'] ?? 'triangle';
+        final String got;
+        if (fn == 'hitrate') {
+          final items = ItemTable(4);
+          items[1].hit = _v(c, 'itemHit', 0);
+          atk.weapon = 1;
+          atk.unit = BattleUnitSide(
+            skl: _v(c, 'skl', 0),
+            lck: _v(c, 'lck', 0),
+          );
+          atk.wTriangleHitBonus = _v(c, 'wth', 0);
+          computeHitRate(atk, items);
+          got = '${atk.battleHitRate}';
+        } else {
+          table.apply(atk, def);
+          got = '${atk.wTriangleHitBonus},${atk.wTriangleDmgBonus},'
+              '${def.wTriangleHitBonus},${def.wTriangleDmgBonus}';
+        }
+
+        if (got != want) failures.add('$id ($fn): 期望 $want，实际 $got');
+      }
+      expect(failures, isEmpty, reason: failures.take(6).join('\n'));
+    });
+
     test('三个场景的用例总数（防止向量文件被误删）', () {
       final n1 = _readCases('$_vecDir/battle_unit.cases.tsv').length;
       final n2 = _readCases('$_vecDir/crit_rate.cases.tsv').length;

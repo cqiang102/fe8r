@@ -1,0 +1,119 @@
+# 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
+# 场景: weapon_triangle  种子: 20261003:weapon_triangle  用例数: 116
+# 格式: <id>\t key=value \t key=value ...
+wt_pair_0_0	fn=triangle	atkType=0	defType=0
+wt_pair_0_1	fn=triangle	atkType=0	defType=1
+wt_pair_0_2	fn=triangle	atkType=0	defType=2
+wt_pair_0_5	fn=triangle	atkType=0	defType=5
+wt_pair_0_6	fn=triangle	atkType=0	defType=6
+wt_pair_0_7	fn=triangle	atkType=0	defType=7
+wt_pair_1_0	fn=triangle	atkType=1	defType=0
+wt_pair_1_1	fn=triangle	atkType=1	defType=1
+wt_pair_1_2	fn=triangle	atkType=1	defType=2
+wt_pair_1_5	fn=triangle	atkType=1	defType=5
+wt_pair_1_6	fn=triangle	atkType=1	defType=6
+wt_pair_1_7	fn=triangle	atkType=1	defType=7
+wt_pair_2_0	fn=triangle	atkType=2	defType=0
+wt_pair_2_1	fn=triangle	atkType=2	defType=1
+wt_pair_2_2	fn=triangle	atkType=2	defType=2
+wt_pair_2_5	fn=triangle	atkType=2	defType=5
+wt_pair_2_6	fn=triangle	atkType=2	defType=6
+wt_pair_2_7	fn=triangle	atkType=2	defType=7
+wt_pair_5_0	fn=triangle	atkType=5	defType=0
+wt_pair_5_1	fn=triangle	atkType=5	defType=1
+wt_pair_5_2	fn=triangle	atkType=5	defType=2
+wt_pair_5_5	fn=triangle	atkType=5	defType=5
+wt_pair_5_6	fn=triangle	atkType=5	defType=6
+wt_pair_5_7	fn=triangle	atkType=5	defType=7
+wt_pair_6_0	fn=triangle	atkType=6	defType=0
+wt_pair_6_1	fn=triangle	atkType=6	defType=1
+wt_pair_6_2	fn=triangle	atkType=6	defType=2
+wt_pair_6_5	fn=triangle	atkType=6	defType=5
+wt_pair_6_6	fn=triangle	atkType=6	defType=6
+wt_pair_6_7	fn=triangle	atkType=6	defType=7
+wt_pair_7_0	fn=triangle	atkType=7	defType=0
+wt_pair_7_1	fn=triangle	atkType=7	defType=1
+wt_pair_7_2	fn=triangle	atkType=7	defType=2
+wt_pair_7_5	fn=triangle	atkType=7	defType=5
+wt_pair_7_6	fn=triangle	atkType=7	defType=6
+wt_pair_7_7	fn=triangle	atkType=7	defType=7
+wt_none_3_0	fn=triangle	atkType=3	defType=0
+wt_none_3_3	fn=triangle	atkType=3	defType=3
+wt_none_4_0	fn=triangle	atkType=4	defType=0
+wt_none_4_3	fn=triangle	atkType=4	defType=3
+wt_reaver_atk_only_adv	fn=triangle	atkType=0	defType=2	atkAttr=256	defAttr=0
+wt_reaver_atk_only_dis	fn=triangle	atkType=0	defType=1	atkAttr=256	defAttr=0
+wt_reaver_def_only_adv	fn=triangle	atkType=0	defType=2	atkAttr=0	defAttr=256
+wt_reaver_both_adv	fn=triangle	atkType=0	defType=2	atkAttr=256	defAttr=256
+wt_reaver_both_dis	fn=triangle	atkType=0	defType=1	atkAttr=256	defAttr=256
+wt_reaver_no_rule_reaver	fn=triangle	atkType=0	defType=0	atkAttr=256	defAttr=0
+wt_reaver_magic_reaver	fn=triangle	atkType=5	defType=6	atkAttr=256	defAttr=0
+wt_hit_edge_00	fn=hitrate	skl=0	lck=0	itemHit=0	wth=0
+wt_hit_edge_01	fn=hitrate	skl=10	lck=8	itemHit=85	wth=0
+wt_hit_edge_02	fn=hitrate	skl=10	lck=8	itemHit=85	wth=15
+wt_hit_edge_03	fn=hitrate	skl=10	lck=8	itemHit=85	wth=-15
+wt_hit_edge_04	fn=hitrate	skl=0	lck=1	itemHit=0	wth=0
+wt_hit_edge_05	fn=hitrate	skl=0	lck=3	itemHit=0	wth=0
+wt_hit_edge_06	fn=hitrate	skl=-5	lck=0	itemHit=0	wth=0
+wt_hit_edge_07	fn=hitrate	skl=127	lck=127	itemHit=127	wth=127
+wt_hit_edge_08	fn=hitrate	skl=0	lck=0	itemHit=0	wth=-127
+wt_rnd_000	fn=hitrate	atkType=6	defType=2	atkAttr=0	defAttr=0	skl=21	lck=37	itemHit=60	wth=-15
+wt_rnd_001	fn=triangle	atkType=2	defType=0	atkAttr=0	defAttr=0	skl=33	lck=7	itemHit=44	wth=15
+wt_rnd_002	fn=hitrate	atkType=1	defType=2	atkAttr=0	defAttr=0	skl=9	lck=32	itemHit=33	wth=15
+wt_rnd_003	fn=hitrate	atkType=2	defType=0	atkAttr=0	defAttr=0	skl=13	lck=14	itemHit=53	wth=15
+wt_rnd_004	fn=triangle	atkType=4	defType=5	atkAttr=0	defAttr=256	skl=36	lck=3	itemHit=72	wth=15
+wt_rnd_005	fn=triangle	atkType=0	defType=5	atkAttr=0	defAttr=0	skl=21	lck=0	itemHit=43	wth=-15
+wt_rnd_006	fn=hitrate	atkType=7	defType=5	atkAttr=256	defAttr=0	skl=17	lck=28	itemHit=12	wth=0
+wt_rnd_007	fn=triangle	atkType=0	defType=5	atkAttr=0	defAttr=0	skl=26	lck=24	itemHit=56	wth=-15
+wt_rnd_008	fn=triangle	atkType=3	defType=7	atkAttr=0	defAttr=256	skl=16	lck=39	itemHit=57	wth=0
+wt_rnd_009	fn=triangle	atkType=5	defType=1	atkAttr=256	defAttr=0	skl=11	lck=36	itemHit=64	wth=15
+wt_rnd_010	fn=hitrate	atkType=7	defType=1	atkAttr=256	defAttr=256	skl=23	lck=13	itemHit=74	wth=-15
+wt_rnd_011	fn=triangle	atkType=1	defType=4	atkAttr=256	defAttr=0	skl=16	lck=30	itemHit=18	wth=0
+wt_rnd_012	fn=hitrate	atkType=4	defType=7	atkAttr=256	defAttr=0	skl=22	lck=9	itemHit=79	wth=15
+wt_rnd_013	fn=triangle	atkType=0	defType=2	atkAttr=0	defAttr=0	skl=5	lck=20	itemHit=67	wth=15
+wt_rnd_014	fn=hitrate	atkType=0	defType=7	atkAttr=256	defAttr=0	skl=6	lck=28	itemHit=81	wth=15
+wt_rnd_015	fn=triangle	atkType=5	defType=6	atkAttr=0	defAttr=0	skl=3	lck=33	itemHit=3	wth=0
+wt_rnd_016	fn=triangle	atkType=2	defType=3	atkAttr=256	defAttr=0	skl=2	lck=6	itemHit=57	wth=15
+wt_rnd_017	fn=triangle	atkType=3	defType=1	atkAttr=0	defAttr=256	skl=31	lck=20	itemHit=33	wth=0
+wt_rnd_018	fn=triangle	atkType=2	defType=5	atkAttr=0	defAttr=256	skl=18	lck=34	itemHit=30	wth=0
+wt_rnd_019	fn=triangle	atkType=7	defType=4	atkAttr=0	defAttr=0	skl=3	lck=31	itemHit=26	wth=0
+wt_rnd_020	fn=hitrate	atkType=5	defType=7	atkAttr=0	defAttr=0	skl=20	lck=35	itemHit=12	wth=15
+wt_rnd_021	fn=triangle	atkType=7	defType=1	atkAttr=0	defAttr=0	skl=24	lck=5	itemHit=77	wth=-15
+wt_rnd_022	fn=triangle	atkType=7	defType=0	atkAttr=256	defAttr=256	skl=21	lck=30	itemHit=99	wth=0
+wt_rnd_023	fn=triangle	atkType=0	defType=6	atkAttr=0	defAttr=0	skl=16	lck=10	itemHit=51	wth=0
+wt_rnd_024	fn=hitrate	atkType=5	defType=2	atkAttr=0	defAttr=0	skl=36	lck=35	itemHit=39	wth=-15
+wt_rnd_025	fn=triangle	atkType=0	defType=5	atkAttr=256	defAttr=256	skl=34	lck=37	itemHit=52	wth=0
+wt_rnd_026	fn=hitrate	atkType=7	defType=5	atkAttr=0	defAttr=0	skl=32	lck=21	itemHit=13	wth=0
+wt_rnd_027	fn=triangle	atkType=4	defType=5	atkAttr=256	defAttr=256	skl=3	lck=10	itemHit=72	wth=0
+wt_rnd_028	fn=hitrate	atkType=2	defType=6	atkAttr=256	defAttr=0	skl=37	lck=2	itemHit=64	wth=-15
+wt_rnd_029	fn=triangle	atkType=1	defType=0	atkAttr=256	defAttr=0	skl=4	lck=11	itemHit=81	wth=0
+wt_rnd_030	fn=triangle	atkType=1	defType=3	atkAttr=0	defAttr=256	skl=23	lck=6	itemHit=9	wth=-15
+wt_rnd_031	fn=triangle	atkType=0	defType=6	atkAttr=256	defAttr=0	skl=1	lck=11	itemHit=69	wth=0
+wt_rnd_032	fn=hitrate	atkType=0	defType=5	atkAttr=256	defAttr=0	skl=26	lck=30	itemHit=61	wth=15
+wt_rnd_033	fn=triangle	atkType=4	defType=1	atkAttr=0	defAttr=0	skl=5	lck=35	itemHit=86	wth=15
+wt_rnd_034	fn=hitrate	atkType=0	defType=2	atkAttr=0	defAttr=0	skl=19	lck=20	itemHit=29	wth=-15
+wt_rnd_035	fn=hitrate	atkType=0	defType=3	atkAttr=0	defAttr=256	skl=29	lck=25	itemHit=45	wth=0
+wt_rnd_036	fn=hitrate	atkType=6	defType=4	atkAttr=0	defAttr=0	skl=23	lck=29	itemHit=43	wth=-15
+wt_rnd_037	fn=hitrate	atkType=1	defType=3	atkAttr=256	defAttr=256	skl=4	lck=25	itemHit=68	wth=0
+wt_rnd_038	fn=hitrate	atkType=5	defType=0	atkAttr=256	defAttr=0	skl=2	lck=24	itemHit=23	wth=15
+wt_rnd_039	fn=triangle	atkType=7	defType=0	atkAttr=0	defAttr=0	skl=28	lck=24	itemHit=92	wth=15
+wt_rnd_040	fn=triangle	atkType=0	defType=5	atkAttr=256	defAttr=0	skl=27	lck=33	itemHit=78	wth=15
+wt_rnd_041	fn=hitrate	atkType=0	defType=5	atkAttr=256	defAttr=256	skl=8	lck=1	itemHit=31	wth=0
+wt_rnd_042	fn=triangle	atkType=6	defType=4	atkAttr=0	defAttr=256	skl=24	lck=27	itemHit=3	wth=0
+wt_rnd_043	fn=triangle	atkType=4	defType=7	atkAttr=0	defAttr=0	skl=13	lck=15	itemHit=61	wth=0
+wt_rnd_044	fn=triangle	atkType=1	defType=1	atkAttr=0	defAttr=0	skl=11	lck=16	itemHit=90	wth=-15
+wt_rnd_045	fn=hitrate	atkType=0	defType=3	atkAttr=0	defAttr=0	skl=10	lck=24	itemHit=91	wth=15
+wt_rnd_046	fn=triangle	atkType=0	defType=6	atkAttr=0	defAttr=256	skl=9	lck=4	itemHit=71	wth=0
+wt_rnd_047	fn=triangle	atkType=5	defType=3	atkAttr=0	defAttr=0	skl=22	lck=23	itemHit=20	wth=15
+wt_rnd_048	fn=hitrate	atkType=5	defType=2	atkAttr=0	defAttr=256	skl=25	lck=38	itemHit=82	wth=0
+wt_rnd_049	fn=hitrate	atkType=2	defType=5	atkAttr=0	defAttr=0	skl=15	lck=10	itemHit=90	wth=15
+wt_rnd_050	fn=triangle	atkType=4	defType=5	atkAttr=0	defAttr=0	skl=27	lck=33	itemHit=47	wth=0
+wt_rnd_051	fn=triangle	atkType=2	defType=7	atkAttr=0	defAttr=256	skl=3	lck=10	itemHit=26	wth=0
+wt_rnd_052	fn=triangle	atkType=4	defType=7	atkAttr=0	defAttr=0	skl=4	lck=25	itemHit=47	wth=-15
+wt_rnd_053	fn=hitrate	atkType=0	defType=2	atkAttr=0	defAttr=0	skl=29	lck=29	itemHit=61	wth=15
+wt_rnd_054	fn=triangle	atkType=7	defType=5	atkAttr=0	defAttr=0	skl=25	lck=2	itemHit=31	wth=0
+wt_rnd_055	fn=triangle	atkType=3	defType=5	atkAttr=0	defAttr=256	skl=18	lck=17	itemHit=95	wth=-15
+wt_rnd_056	fn=triangle	atkType=4	defType=4	atkAttr=0	defAttr=256	skl=30	lck=23	itemHit=98	wth=0
+wt_rnd_057	fn=triangle	atkType=5	defType=4	atkAttr=0	defAttr=256	skl=22	lck=35	itemHit=26	wth=0
+wt_rnd_058	fn=triangle	atkType=3	defType=0	atkAttr=0	defAttr=0	skl=24	lck=37	itemHit=77	wth=-15
+wt_rnd_059	fn=hitrate	atkType=4	defType=1	atkAttr=0	defAttr=256	skl=22	lck=12	itemHit=80	wth=15

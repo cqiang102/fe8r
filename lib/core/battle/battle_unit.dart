@@ -59,9 +59,11 @@ class BattleUnitSide {
     int spd = 0,
     int conBonus = 0,
     int pow = 0,
+    int skl = 0,
     this.classId,
     List<int>? items,
   })  : _pow = asS8(pow),
+        _skl = asS8(skl),
         def = asS8(def),
         lck = asS8(lck),
         spd = asS8(spd),
@@ -88,6 +90,11 @@ class BattleUnitSide {
   int get pow => _pow;
   set pow(int v) => _pow = asS8(v);
   int _pow = 0;
+
+  /// 技巧（`skl`），`s8` —— 命中率的输入
+  int get skl => _skl;
+  set skl(int v) => _skl = asS8(v);
+  int _skl = 0;
 }
 
 /// 战斗单位（`struct BattleUnit` 的子集）。
@@ -150,8 +157,22 @@ class BattleUnit {
   int get battleEffectiveCritRate => _battleEffectiveCritRate;
   set battleEffectiveCritRate(int v) => _battleEffectiveCritRate = asS16(v);
 
-  /// `s16`：武器三角伤害加成（叠加到攻击力上）
-  int wTriangleDmgBonus = 0;
+  /// 武器类型（`ITYPE_*`）
+  int weaponType = 0;
+
+  /// 武器属性位（`IA_*`）
+  int weaponAttributes = 0;
+
+  int _triHit = 0;
+  int _triDmg = 0;
+
+  /// `s8`：武器三角命中加成
+  int get wTriangleHitBonus => _triHit;
+  set wTriangleHitBonus(int v) => _triHit = asS8(v);
+
+  /// `s8`：武器三角伤害加成（叠加到攻击力上）
+  int get wTriangleDmgBonus => _triDmg;
+  set wTriangleDmgBonus(int v) => _triDmg = asS8(v);
 
   /// `s8` 字段
   int get terrainAvoid => _terrainAvoid;
@@ -180,6 +201,7 @@ class ItemData {
     this.attributes = 0,
     this.might = 0,
     this.weight = 0,
+    this.hit = 0,
     this.statBonuses,
     this.effectiveness,
     this.effectivenessIsFlier = false,
@@ -207,6 +229,9 @@ class ItemData {
 
   /// 重量
   int weight;
+
+  /// 命中（`GetItemHit`）
+  int hit;
 
   /// 属性加成表；null 表示没有
   ItemStatBonuses? statBonuses;
@@ -240,6 +265,9 @@ class ItemTable {
 
   /// `GetItemWeight(item)`
   int weightOf(int item) => dataOf(item).weight;
+
+  /// `GetItemHit(item)`
+  int hitOf(int item) => dataOf(item).hit;
 
   /// `GetItemStatBonuses(item)`
   ItemStatBonuses? statBonusesOf(int item) => dataOf(item).statBonuses;

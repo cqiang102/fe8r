@@ -1,0 +1,89 @@
+{
+ "source": "src/data/frontier_df4_uistuff/frontier_df4_uistuff.c",
+ "symbol": "sWeaponTriangleRules",
+ "romAddress": 6045552,
+ "weaponTypeNames": {
+  "0": "ITYPE_SWORD",
+  "1": "ITYPE_LANCE",
+  "2": "ITYPE_AXE",
+  "3": "ITYPE_BOW",
+  "4": "ITYPE_STAFF",
+  "5": "ITYPE_ANIMA",
+  "6": "ITYPE_LIGHT",
+  "7": "ITYPE_DARK"
+ },
+ "rules": [
+  {
+   "attackerWeaponType": 0,
+   "defenderWeaponType": 1,
+   "hitBonus": -15,
+   "atkBonus": -1
+  },
+  {
+   "attackerWeaponType": 0,
+   "defenderWeaponType": 2,
+   "hitBonus": 15,
+   "atkBonus": 1
+  },
+  {
+   "attackerWeaponType": 1,
+   "defenderWeaponType": 2,
+   "hitBonus": -15,
+   "atkBonus": -1
+  },
+  {
+   "attackerWeaponType": 1,
+   "defenderWeaponType": 0,
+   "hitBonus": 15,
+   "atkBonus": 1
+  },
+  {
+   "attackerWeaponType": 2,
+   "defenderWeaponType": 0,
+   "hitBonus": -15,
+   "atkBonus": -1
+  },
+  {
+   "attackerWeaponType": 2,
+   "defenderWeaponType": 1,
+   "hitBonus": 15,
+   "atkBonus": 1
+  },
+  {
+   "attackerWeaponType": 5,
+   "defenderWeaponType": 7,
+   "hitBonus": -15,
+   "atkBonus": -1
+  },
+  {
+   "attackerWeaponType": 5,
+   "defenderWeaponType": 6,
+   "hitBonus": 15,
+   "atkBonus": 1
+  },
+  {
+   "attackerWeaponType": 6,
+   "defenderWeaponType": 5,
+   "hitBonus": -15,
+   "atkBonus": -1
+  },
+  {
+   "attackerWeaponType": 6,
+   "defenderWeaponType": 7,
+   "hitBonus": 15,
+   "atkBonus": 1
+  },
+  {
+   "attackerWeaponType": 7,
+   "defenderWeaponType": 6,
+   "hitBonus": -15,
+   "atkBonus": -1
+  },
+  {
+   "attackerWeaponType": 7,
+   "defenderWeaponType": 5,
+   "hitBonus": 15,
+   "atkBonus": 1
+  }
+ ]
+}
