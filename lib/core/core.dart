@@ -24,6 +24,7 @@ export 'battle/hit_effects.dart';
 export 'battle/phase.dart';
 export 'flow/combat.dart';
 export 'flow/battle_field.dart';
+export 'flow/chapters.dart';
 export 'flow/enemy_ai.dart';
 export 'flow/flow_machine.dart';
 export 'flow/turn_loop.dart';

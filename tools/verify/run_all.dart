@@ -156,6 +156,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '章节单位配置提取（跳过）', 'true', const [], note: decompNote),
 
+    // 章节配置：可读 C，且字段值平台无关 —— 可进 CI
+    if (hasDecomp())
+      Step('L0', '章节配置提取', 'python3',
+          ['extract/parse_chapters.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '79 章（60 有名 + 19 空槽）')
+    else
+      Step('L0', '章节配置提取（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
@@ -176,6 +184,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '交互流程状态机（可序列化）', 'flutter',
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
+
+    Step('L1', '章节配置表（真实数据）', 'flutter',
+        ['test', 'test/core/chapters_test.dart'],
+        note: '6 用例：79 章 / 名字格式 / 事件组索引'),
 
     Step('L1', '章节单位配置（真实数据）', 'flutter',
         ['test', 'test/core/unit_defs_test.dart'],
