@@ -33,6 +33,19 @@ const int classBishopF = 0x2C;
 /// `IA_NEGATE_CRIT`：免疫必杀的道具属性位（见 include/bmitem.h）
 const int iaNegateCrit = 1 << 15;
 
+/// `IA_BRAVE`：勇者武器，一次攻击打两下
+const int iaBrave = 1 << 5;
+
+/// `CA_*` 职业属性位 —— **全部取自 include/bmunit.h**。
+///
+/// 这些位号很反直觉（ASSASSIN 在 25 位而不是 20 位），
+/// 凭印象写必然出错：我第一版把 CA_ASSASSIN 写成 1 << 20，
+/// 那是 CA_UNSELECTABLE，于是"刺客瞬杀率"这条分支零覆盖。
+const int caBoss = 1 << 15;
+const int caUnselectable = 1 << 20;
+const int caNegateLethality = 1 << 24;
+const int caAssassin = 1 << 25;
+
 /// `IA_NEGATE_FLYING`：免疫"特效对飞行"
 const int iaNegateFlying = 1 << 14;
 
@@ -61,6 +74,7 @@ class BattleUnitSide {
     int pow = 0,
     int skl = 0,
     this.classId,
+    this.classAttributes = 0,
     List<int>? items,
   })  : _pow = asS8(pow),
         _skl = asS8(skl),
@@ -85,6 +99,9 @@ class BattleUnitSide {
 
   /// `pClassData->number`；null 表示没有职业数据（C 里的 NULL 指针）
   int? classId;
+
+  /// `UNIT_CATTRIBUTES(unit)` = 角色属性 | 职业属性
+  final int classAttributes;
 
   /// 力量（`pow`），`s8`
   int get pow => _pow;
@@ -129,6 +146,8 @@ class BattleUnit {
   int _battleCritRate = 0;
   int _battleDodgeRate = 0;
   int _battleEffectiveCritRate = 0;
+  int _battleEffectiveHitRate = 0;
+  int _battleSilencerRate = 0;
   int _terrainAvoid = 0;
   int _terrainDefense = 0;
 
@@ -157,11 +176,20 @@ class BattleUnit {
   int get battleEffectiveCritRate => _battleEffectiveCritRate;
   set battleEffectiveCritRate(int v) => _battleEffectiveCritRate = asS16(v);
 
+  int get battleEffectiveHitRate => _battleEffectiveHitRate;
+  set battleEffectiveHitRate(int v) => _battleEffectiveHitRate = asS16(v);
+
+  int get battleSilencerRate => _battleSilencerRate;
+  set battleSilencerRate(int v) => _battleSilencerRate = asS16(v);
+
   /// 武器类型（`ITYPE_*`）
   int weaponType = 0;
 
   /// 武器属性位（`IA_*`）
   int weaponAttributes = 0;
+
+  /// `GetItemWeaponEffect(weaponBefore)` —— 追击判定要用
+  int followUpWeaponEffect = 0;
 
   int _triHit = 0;
   int _triDmg = 0;
@@ -237,6 +265,9 @@ class ItemData {
   /// 必杀（`GetItemCrit`）
   int crit;
 
+  /// 武器特殊效果（`GetItemWeaponEffect`）
+  int weaponEffectId = 0;
+
   /// 属性加成表；null 表示没有
   ItemStatBonuses? statBonuses;
 }
@@ -275,6 +306,9 @@ class ItemTable {
 
   /// `GetItemCrit(item)`
   int critOf(int item) => dataOf(item).crit;
+
+  /// `GetItemWeaponEffect(item)` —— 武器的特殊效果编号
+  int weaponEffectOf(int item) => dataOf(item).weaponEffectId;
 
   /// `GetItemStatBonuses(item)`
   ItemStatBonuses? statBonusesOf(int item) => dataOf(item).statBonuses;

@@ -14,6 +14,7 @@
 // 表现层（lib/game）和外壳层（lib/ui）都可以依赖它，反过来不行。
 
 export 'battle/battle_rng.dart';
+export 'battle/battle_round.dart';
 export 'battle/battle_stats.dart';
 export 'battle/hit_effects.dart';
 export 'battle/phase.dart';

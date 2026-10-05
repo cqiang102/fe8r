@@ -579,6 +579,61 @@ def model_turn_switch(f):
     return ";".join(out)
 
 
+
+# ------------------------------------------------ 场景: effective_hit
+
+# 逐条对照 src/bmbattle_0802ABD0.c / src/bmbattle.c / src/GetBattleUnitHitCount.c
+_CA_BOSS = 1 << 15
+_CA_NEGATE_LETHALITY = 1 << 24
+_CA_ASSASSIN = 1 << 25
+_IA_BRAVE = 1 << 5
+_FOLLOWUP_THRESHOLD = 4
+_WPN_EFFECT_HPHALVE = 3
+_ITEM_MONSTER_STONE = 0xB5
+
+
+def model_effective_hit(f):
+    fn = f.get("fn", "effhit")
+
+    if fn == "effhit":
+        # ⚠️ 上限 100 —— 漏掉它，120 的命中率会一路传进 Roll2RN
+        v = s16(f.get("hitRate", 0)) - s16(f.get("avoidRate", 0))
+        if v > 100:
+            v = 100
+        if v < 0:
+            v = 0
+        return s16(v)
+
+    if fn == "silencer":
+        if not (f.get("atkCA", 0) & _CA_ASSASSIN):
+            return 0
+        rate = 50
+        if f.get("defCA", 0) & _CA_BOSS:
+            rate = 25
+        if f.get("defCA", 0) & _CA_NEGATE_LETHALITY:
+            rate = 0
+        return rate
+
+    if fn == "hitcount":
+        return 1 << (1 if (f.get("wepAttr", 0) & _IA_BRAVE) else 0)
+
+    # followup
+    a_spd = s16(f.get("atkSpd", 0))
+    d_spd = s16(f.get("defSpd", 0))
+
+    if d_spd > 250:
+        return 0
+    if abs(a_spd - d_spd) < _FOLLOWUP_THRESHOLD:
+        return 0
+
+    side = 1 if a_spd > d_spd else 2
+    if f.get("wepEffect", 0) == _WPN_EFFECT_HPHALVE:
+        return 0
+    if (f.get("weapon", 1) & 0xFF) == _ITEM_MONSTER_STONE:
+        return 0
+    return side
+
+
 MODELS = {
     "rng": (model_rng, True),          # True = 结果是列表
     "battle_unit": (model_battle_unit, False),
@@ -589,6 +644,7 @@ MODELS = {
     "weapon_triangle": (model_weapon_triangle, False),
     "phase": (model_phase, False),
     "turn_switch": (model_turn_switch, False),
+    "effective_hit": (model_effective_hit, False),
 }
 
 

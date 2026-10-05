@@ -130,6 +130,10 @@ Future<void> main(List<String> argv) async {
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
 
+    Step('L1', '交战序列（反击 / 追击 / 勇气）', 'flutter',
+        ['test', 'test/core/battle_round_test.dart'],
+        note: '14 用例 + effective_hit 84 条 C Oracle 对照'),
+
     Step('L1', '战斗结算（M4→M5 桥接）', 'flutter',
         ['test', 'test/core/combat_test.dart'],
         note: '5 用例：伤害钳位 / 乱数消耗语义 / 确定性'),
@@ -279,7 +283,6 @@ Future<void> main(List<String> argv) async {
 
   stdout.writeln('\n[—] 尚未实现');
 
-  stdout.writeln('      完整交战（追击 / 反击 / 7 段命中序列，原版 BattleGenerateRoundHits）');
   stdout.writeln('      L1 事件引擎（M6）');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');

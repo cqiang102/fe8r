@@ -1,0 +1,87 @@
+# 自动生成，请勿手改。生成器: tools/oracle/gen_vectors.py
+# 场景: effective_hit  种子: 20261003:effective_hit  用例数: 84
+# 格式: <id>\t key=value \t key=value ...
+eh_edge_00	fn=effhit	hitRate=0	avoidRate=0
+eh_edge_01	fn=effhit	hitRate=100	avoidRate=0
+eh_edge_02	fn=effhit	hitRate=120	avoidRate=0
+eh_edge_03	fn=effhit	hitRate=255	avoidRate=0
+eh_edge_04	fn=effhit	hitRate=150	avoidRate=30
+eh_edge_05	fn=effhit	hitRate=10	avoidRate=50
+eh_edge_06	fn=effhit	hitRate=90	avoidRate=30
+eh_edge_07	fn=effhit	hitRate=100	avoidRate=100
+eh_edge_08	fn=effhit	hitRate=1	avoidRate=0
+eh_edge_09	fn=effhit	hitRate=0	avoidRate=100
+eh_edge_10	fn=effhit	hitRate=127	avoidRate=127
+eh_edge_11	fn=effhit	hitRate=-5	avoidRate=0
+eh_edge_12	fn=effhit	hitRate=50	avoidRate=-20
+eh_fu_00	fn=followup	atkSpd=10	defSpd=6
+eh_fu_01	fn=followup	atkSpd=6	defSpd=10
+eh_fu_02	fn=followup	atkSpd=10	defSpd=7
+eh_fu_03	fn=followup	atkSpd=7	defSpd=10
+eh_fu_04	fn=followup	atkSpd=10	defSpd=10
+eh_fu_05	fn=followup	atkSpd=10	defSpd=5
+eh_fu_06	fn=followup	atkSpd=250	defSpd=250
+eh_fu_07	fn=followup	atkSpd=251	defSpd=10
+eh_fu_08	fn=followup	atkSpd=10	defSpd=251
+eh_fu_09	fn=followup	atkSpd=255	defSpd=0
+eh_fu_10	fn=followup	atkSpd=0	defSpd=4
+eh_sil_00	fn=silencer	atkCA=0	defCA=0
+eh_sil_01	fn=silencer	atkCA=33554432	defCA=0
+eh_sil_02	fn=silencer	atkCA=33554432	defCA=32768
+eh_sil_03	fn=silencer	atkCA=33554432	defCA=16777216
+eh_sil_04	fn=silencer	atkCA=33554432	defCA=16809984
+eh_sil_05	fn=silencer	atkCA=32768	defCA=33554432
+eh_sil_06	fn=silencer	atkCA=1	defCA=1
+eh_hc_0	fn=hitcount	wepAttr=0
+eh_hc_brave	fn=hitcount	wepAttr=32
+eh_hc_brave_plus	fn=hitcount	wepAttr=33
+eh_rnd_000	fn=effhit	hitRate=52	avoidRate=127	atkCA=33554432	defCA=16777216	atkSpd=129	defSpd=42	wepAttr=0
+eh_rnd_001	fn=silencer	hitRate=20	avoidRate=136	atkCA=32768	defCA=0	atkSpd=166	defSpd=256	wepAttr=0
+eh_rnd_002	fn=silencer	hitRate=37	avoidRate=41	atkCA=32768	defCA=16777216	atkSpd=176	defSpd=66	wepAttr=0
+eh_rnd_003	fn=silencer	hitRate=150	avoidRate=105	atkCA=32768	defCA=0	atkSpd=144	defSpd=127	wepAttr=0
+eh_rnd_004	fn=effhit	hitRate=51	avoidRate=98	atkCA=0	defCA=16777216	atkSpd=90	defSpd=51	wepAttr=0
+eh_rnd_005	fn=effhit	hitRate=-16	avoidRate=101	atkCA=0	defCA=0	atkSpd=201	defSpd=191	wepAttr=32
+eh_rnd_006	fn=effhit	hitRate=-2	avoidRate=19	atkCA=0	defCA=16777216	atkSpd=177	defSpd=49	wepAttr=32
+eh_rnd_007	fn=effhit	hitRate=-3	avoidRate=60	atkCA=0	defCA=0	atkSpd=188	defSpd=166	wepAttr=32
+eh_rnd_008	fn=hitcount	hitRate=129	avoidRate=31	atkCA=0	defCA=32768	atkSpd=20	defSpd=112	wepAttr=0
+eh_rnd_009	fn=hitcount	hitRate=164	avoidRate=61	atkCA=0	defCA=32768	atkSpd=138	defSpd=55	wepAttr=32
+eh_rnd_010	fn=effhit	hitRate=194	avoidRate=68	atkCA=33554432	defCA=0	atkSpd=177	defSpd=195	wepAttr=0
+eh_rnd_011	fn=followup	hitRate=160	avoidRate=0	atkCA=0	defCA=16777216	atkSpd=11	defSpd=98	wepAttr=32
+eh_rnd_012	fn=hitcount	hitRate=7	avoidRate=17	atkCA=0	defCA=16777216	atkSpd=198	defSpd=47	wepAttr=32
+eh_rnd_013	fn=effhit	hitRate=118	avoidRate=127	atkCA=33554432	defCA=16777216	atkSpd=96	defSpd=226	wepAttr=0
+eh_rnd_014	fn=silencer	hitRate=125	avoidRate=-1	atkCA=32768	defCA=32768	atkSpd=115	defSpd=13	wepAttr=0
+eh_rnd_015	fn=hitcount	hitRate=11	avoidRate=-10	atkCA=0	defCA=16777216	atkSpd=101	defSpd=36	wepAttr=0
+eh_rnd_016	fn=effhit	hitRate=161	avoidRate=90	atkCA=0	defCA=32768	atkSpd=148	defSpd=101	wepAttr=32
+eh_rnd_017	fn=followup	hitRate=107	avoidRate=88	atkCA=0	defCA=0	atkSpd=162	defSpd=57	wepAttr=0
+eh_rnd_018	fn=followup	hitRate=168	avoidRate=124	atkCA=0	defCA=32768	atkSpd=94	defSpd=144	wepAttr=0
+eh_rnd_019	fn=hitcount	hitRate=-5	avoidRate=-11	atkCA=32768	defCA=0	atkSpd=250	defSpd=81	wepAttr=32
+eh_rnd_020	fn=followup	hitRate=32	avoidRate=75	atkCA=33554432	defCA=32768	atkSpd=169	defSpd=174	wepAttr=0
+eh_rnd_021	fn=followup	hitRate=-5	avoidRate=-6	atkCA=33554432	defCA=0	atkSpd=104	defSpd=155	wepAttr=0
+eh_rnd_022	fn=silencer	hitRate=43	avoidRate=52	atkCA=0	defCA=16777216	atkSpd=63	defSpd=236	wepAttr=0
+eh_rnd_023	fn=silencer	hitRate=-16	avoidRate=34	atkCA=0	defCA=0	atkSpd=254	defSpd=116	wepAttr=0
+eh_rnd_024	fn=followup	hitRate=119	avoidRate=146	atkCA=0	defCA=0	atkSpd=41	defSpd=188	wepAttr=32
+eh_rnd_025	fn=silencer	hitRate=39	avoidRate=125	atkCA=0	defCA=0	atkSpd=178	defSpd=92	wepAttr=0
+eh_rnd_026	fn=followup	hitRate=-17	avoidRate=88	atkCA=33554432	defCA=0	atkSpd=169	defSpd=88	wepAttr=32
+eh_rnd_027	fn=silencer	hitRate=196	avoidRate=42	atkCA=0	defCA=0	atkSpd=225	defSpd=39	wepAttr=0
+eh_rnd_028	fn=silencer	hitRate=142	avoidRate=29	atkCA=0	defCA=0	atkSpd=17	defSpd=99	wepAttr=0
+eh_rnd_029	fn=followup	hitRate=19	avoidRate=92	atkCA=0	defCA=0	atkSpd=90	defSpd=103	wepAttr=0
+eh_rnd_030	fn=followup	hitRate=37	avoidRate=59	atkCA=0	defCA=0	atkSpd=142	defSpd=216	wepAttr=32
+eh_rnd_031	fn=silencer	hitRate=126	avoidRate=102	atkCA=0	defCA=32768	atkSpd=245	defSpd=92	wepAttr=0
+eh_rnd_032	fn=silencer	hitRate=42	avoidRate=144	atkCA=33554432	defCA=16777216	atkSpd=0	defSpd=244	wepAttr=32
+eh_rnd_033	fn=followup	hitRate=168	avoidRate=84	atkCA=0	defCA=0	atkSpd=167	defSpd=131	wepAttr=32
+eh_rnd_034	fn=followup	hitRate=142	avoidRate=121	atkCA=0	defCA=0	atkSpd=26	defSpd=1	wepAttr=0
+eh_rnd_035	fn=effhit	hitRate=188	avoidRate=118	atkCA=33554432	defCA=0	atkSpd=255	defSpd=69	wepAttr=32
+eh_rnd_036	fn=silencer	hitRate=134	avoidRate=32	atkCA=0	defCA=0	atkSpd=127	defSpd=178	wepAttr=0
+eh_rnd_037	fn=effhit	hitRate=85	avoidRate=38	atkCA=0	defCA=16777216	atkSpd=19	defSpd=226	wepAttr=0
+eh_rnd_038	fn=hitcount	hitRate=40	avoidRate=103	atkCA=32768	defCA=16777216	atkSpd=190	defSpd=148	wepAttr=32
+eh_rnd_039	fn=effhit	hitRate=71	avoidRate=54	atkCA=33554432	defCA=16777216	atkSpd=172	defSpd=252	wepAttr=0
+eh_rnd_040	fn=effhit	hitRate=69	avoidRate=24	atkCA=33554432	defCA=0	atkSpd=162	defSpd=124	wepAttr=0
+eh_rnd_041	fn=effhit	hitRate=142	avoidRate=-11	atkCA=32768	defCA=0	atkSpd=183	defSpd=180	wepAttr=0
+eh_rnd_042	fn=effhit	hitRate=131	avoidRate=89	atkCA=32768	defCA=32768	atkSpd=110	defSpd=25	wepAttr=32
+eh_rnd_043	fn=silencer	hitRate=-12	avoidRate=2	atkCA=0	defCA=0	atkSpd=50	defSpd=200	wepAttr=32
+eh_rnd_044	fn=hitcount	hitRate=113	avoidRate=14	atkCA=32768	defCA=16777216	atkSpd=116	defSpd=188	wepAttr=32
+eh_rnd_045	fn=followup	hitRate=190	avoidRate=143	atkCA=32768	defCA=0	atkSpd=68	defSpd=59	wepAttr=32
+eh_rnd_046	fn=silencer	hitRate=73	avoidRate=123	atkCA=32768	defCA=16777216	atkSpd=112	defSpd=142	wepAttr=32
+eh_rnd_047	fn=followup	hitRate=-5	avoidRate=6	atkCA=33554432	defCA=32768	atkSpd=117	defSpd=190	wepAttr=32
+eh_rnd_048	fn=silencer	hitRate=123	avoidRate=89	atkCA=33554432	defCA=0	atkSpd=259	defSpd=19	wepAttr=32
+eh_rnd_049	fn=silencer	hitRate=134	avoidRate=67	atkCA=33554432	defCA=0	atkSpd=93	defSpd=126	wepAttr=0

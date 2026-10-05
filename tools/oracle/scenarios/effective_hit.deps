@@ -1,0 +1,7 @@
+src/bmbattle_0802ABD0.c
+src/GetBattleUnitHitCount.c
+src/BattleCheckBraveEffect.c
+# ComputeBattleUnitSilencerRate / BattleGetFollowUpOrder 在 bmbattle.c，
+# 那个 TU 依赖太多，用 override 只抽这两个函数
+@override/effective_hit_from_bmbattle.c
+src/GetItemWeaponEffect.c

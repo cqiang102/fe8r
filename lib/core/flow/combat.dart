@@ -19,6 +19,7 @@
 // 那需要 `BattleGetFollowUpOrder` / `BattleUnwind` 那一套（M4 未覆盖的部分）。
 // 这里先做**一次攻击判定**，够让 M5 的"打完一场遭遇战"成立。
 
+import '../battle/battle_round.dart';
 import '../battle/battle_rng.dart';
 import '../battle/battle_stats.dart';
 import '../battle/battle_unit.dart';
@@ -66,6 +67,34 @@ class CombatProfile {
 
   /// 剩余耐久（0 = 会打坏；M5 先把耐久当纯展示，不做打坏流程）
   final int weaponUses;
+}
+
+/// 一次完整交战的结果
+class CombatRound {
+  CombatRound({required this.steps, required this.results});
+
+  /// 实际执行的步骤序列（含反击与追击）
+  final List<BattleStep> steps;
+
+  /// 每一步的结果，与 [steps] 一一对应
+  final List<AttackResult> results;
+
+  int get totalDamage =>
+      results.fold(0, (sum, r) => sum + r.damage);
+
+  int get rnConsumed => results.fold(0, (sum, r) => sum + r.rnConsumed);
+
+  bool get anyCrit => results.any((r) => r.crit);
+
+  @override
+  String toString() {
+    final b = StringBuffer();
+    for (var i = 0; i < steps.length; i++) {
+      if (i > 0) b.write('  ');
+      b.write('[${steps[i].toString()}] ${results[i]}');
+    }
+    return b.toString();
+  }
 }
 
 /// 一次攻击的完整结果
@@ -133,6 +162,80 @@ class CombatResolver {
     return bu;
   }
 
+  /// 结算**一次完整交战**：先手 → 反击 → 追击。
+  ///
+  /// 序列由规则层的 [battleUnwind] 决定（控制流与 C Oracle 锁定），
+  /// 这里只负责"每一步怎么算"。
+  ///
+  /// ⚠️ 每一步都要**重新取双方的战斗单位与数值**：
+  /// 前一步可能打死了人、可能改变了 HP（半血武器按当前 HP 算攻击力），
+  /// 用循环外算好的一份数据会得到 C 不可能产生的结果。
+  CombatRound resolveCombat({
+    required BattleRngTracker tracker,
+    required GameRng rng,
+    required MapUnit actorUnit,
+    required MapUnit targetUnit,
+    required CombatProfile actorProfile,
+    required CombatProfile targetProfile,
+    required int actorTerrainDefense,
+    required int actorTerrainAvoid,
+    required int targetTerrainDefense,
+    required int targetTerrainAvoid,
+  }) {
+    final results = <AttackResult>[];
+
+    // 只建一次：追击判定要用 battleSpeed，而速度在一次交战中不变。
+    // **每一步的攻防数值由 `attack` 重算** —— 半血武器按当前 HP 算攻击力，
+    // 用循环外算好的一份数据会得到 C 不可能产生的结果。
+    final actorBu = buildBattleUnit(actorUnit, actorProfile)
+      ..followUpWeaponEffect = items.weaponEffectOf(actorProfile.weaponItem);
+    final targetBu = buildBattleUnit(targetUnit, targetProfile)
+      ..followUpWeaponEffect = items.weaponEffectOf(targetProfile.weaponItem);
+
+    // battleUnwind 只需要速度；这里先把速度算出来
+    BattleStats.computeSpeed(actorBu, items);
+    BattleStats.computeSpeed(targetBu, items);
+
+    final steps = battleUnwind(
+      actor: actorBu,
+      target: targetBu,
+      perform: (step) {
+        final attacker = step.attackerIsActor ? actorUnit : targetUnit;
+        final defender = step.attackerIsActor ? targetUnit : actorUnit;
+        final ap = step.attackerIsActor ? actorProfile : targetProfile;
+        final dp = step.attackerIsActor ? targetProfile : actorProfile;
+        final aTd =
+            step.attackerIsActor ? actorTerrainDefense : targetTerrainDefense;
+        final aTa =
+            step.attackerIsActor ? actorTerrainAvoid : targetTerrainAvoid;
+        final dTd =
+            step.attackerIsActor ? targetTerrainDefense : actorTerrainDefense;
+        final dTa =
+            step.attackerIsActor ? targetTerrainAvoid : actorTerrainAvoid;
+
+        results.add(attack(
+          tracker: tracker,
+          rng: rng,
+          attackerUnit: attacker,
+          defenderUnit: defender,
+          attackerProfile: ap,
+          defenderProfile: dp,
+          terrainDefense: dTd,
+          terrainAvoid: dTa,
+          attackerTerrainDefense: aTd,
+          attackerTerrainAvoid: aTa,
+        ));
+
+        // `BattleGenerateHit` 的结束条件：**任一方** HP 归零
+        return BattleStepOutcome(
+          finished: actorUnit.hp <= 0 || targetUnit.hp <= 0,
+        );
+      },
+    );
+
+    return CombatRound(steps: steps, results: results);
+  }
+
   /// 结算一次攻击。
   ///
   /// 顺序严格跟随原版：
@@ -150,15 +253,19 @@ class CombatResolver {
     required CombatProfile defenderProfile,
     required int terrainDefense,
     required int terrainAvoid,
+    int attackerTerrainDefense = 0,
+    int attackerTerrainAvoid = 0,
   }) {
     final atk = buildBattleUnit(attackerUnit, attackerProfile);
     final def = buildBattleUnit(defenderUnit, defenderProfile);
 
     // ---- 1. 数值 ----
+    atk.setTerrain(
+        defense: attackerTerrainDefense, avoid: attackerTerrainAvoid);
+    def.setTerrain(defense: terrainDefense, avoid: terrainAvoid);
     BattleStats.computeAttack(atk, def, items,
         monsterClassList: monsterClassList);
-    BattleStats.computeBaseDefense(def);
-    def.setTerrain(defense: terrainDefense, avoid: terrainAvoid);
+    BattleStats.computeBaseDefense(atk);
     BattleStats.computeBaseDefense(def);
     BattleStats.computeSpeed(atk, items);
     BattleStats.computeSpeed(def, items);
@@ -171,19 +278,24 @@ class CombatResolver {
     // ---- 2. 武器三角 ----
     triangle.apply(atk, def);
 
-    // 有效命中 = 命中 - 回避（原版还有武器相克等修正，这里覆盖主要项）
-    final effectiveHit = atk.battleHitRate - def.battleAvoidRate;
+    // ⚠️ 必须走规则层的 computeEffectiveHitRate，不能自己写减法 ——
+    // 它带着**上限 100** 的钳位。我第一版就是自己写的减法，
+    // 结果 120 的命中率一路传进 Roll2RN，分布和原版不同。
+    BattleStats.computeEffectiveHitRate(atk, def);
 
     // 必杀率要在回避/幸运算完之后再算
-    atk.battleCritRate = items.critOf(attackerProfile.weaponItem) +
-        (atk.unit.skl ~/ 2);
+    atk.battleCritRate =
+        items.critOf(attackerProfile.weaponItem) + (atk.unit.skl ~/ 2);
     BattleStats.computeEffectiveCritRate(atk, def, items);
+    BattleStats.computeSilencerRate(atk, def);
+
+    final effectiveHit = atk.battleEffectiveHitRate;
 
     // ---- 3~5. 判定与扣血 ----
     final ctx = BattleHitContext(
       hitRate: effectiveHit,
       critRate: atk.battleEffectiveCritRate,
-      silencerRate: 0,
+      silencerRate: atk.battleSilencerRate,
       attack: atk.battleAttack,
       // 原版 `gBattleStats.defense` 用的是 `battleDefense`（含地形）
       defense: def.battleDefense,

@@ -286,20 +286,33 @@ class Fe8Game extends FlameGame {
     final terrainId = _terrainAt(defender.x, defender.y);
     final (terrainDef, terrainAvo) = _terrainBonuses(terrainId);
 
-    final r = c.attack(
+    // 完整交战：先手 → 反击 → 追击（序列由规则层的 battleUnwind 决定）
+    final round = c.resolveCombat(
       tracker: tracker,
       rng: rng,
-      attackerUnit: attacker,
-      defenderUnit: defender,
-      attackerProfile: atkProfile,
-      defenderProfile: defProfile,
-      terrainDefense: terrainDef,
-      terrainAvoid: terrainAvo,
+      actorUnit: attacker,
+      targetUnit: defender,
+      actorProfile: atkProfile,
+      targetProfile: defProfile,
+      actorTerrainDefense: _terrainBonuses(_terrainAt(attacker.x, attacker.y)).$1,
+      actorTerrainAvoid: _terrainBonuses(_terrainAt(attacker.x, attacker.y)).$2,
+      targetTerrainDefense: terrainDef,
+      targetTerrainAvoid: terrainAvo,
     );
 
     final name = attacker.name.isEmpty ? '单位${attacker.id}' : attacker.name;
     final tname = defender.name.isEmpty ? '单位${defender.id}' : defender.name;
-    lastCombat = '$name → $tname  $r';
+
+    // 战报按步骤展开，让"谁打了几下、有没有反击"一眼可见
+    final lines = <String>[];
+    for (var i = 0; i < round.steps.length; i++) {
+      final st = round.steps[i];
+      final who = st.attackerIsActor ? name : tname;
+      final whom = st.attackerIsActor ? tname : name;
+      lines.add('$who → $whom  ${round.results[i]}');
+    }
+    lastCombat = '$name vs $tname（${round.steps.length} 段，'
+        '消耗 ${round.rnConsumed} 乱数）\n${lines.join('\n')}';
   }
 
   /// 按阵营给一套演示用的职业/武器数据。

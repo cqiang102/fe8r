@@ -665,6 +665,79 @@ def gen_turn_switch(rng):
     return out
 
 
+
+def gen_effective_hit(rng):
+    """有效命中率 / 瞬杀率 / 追击判定 / 攻击次数。
+
+    ⚠️ 常量一律取自反编译头文件，不凭印象写：
+         CA_ASSASSIN        = 1 << 25   （我第一版写成 1 << 20，
+                                         那是 CA_UNSELECTABLE，
+                                         于是"刺客瞬杀率"这条分支零覆盖）
+         CA_BOSS            = 1 << 15
+         CA_NEGATE_LETHALITY= 1 << 24
+         IA_BRAVE           = 1 << 5
+    """
+    CA_ASSASSIN = 1 << 25
+    CA_BOSS = 1 << 15
+    CA_NEGATE_LETHALITY = 1 << 24
+    IA_BRAVE = 1 << 5
+
+    cases = []
+
+    # --- 有效命中率：重点是上限 100 的钳位 ---
+    hit_edges = [
+        (0, 0), (100, 0), (120, 0), (255, 0), (150, 30),
+        (10, 50), (90, 30), (100, 100), (1, 0), (0, 100),
+        (127, 127), (-5, 0), (50, -20),
+    ]
+    for i, (hr, av) in enumerate(hit_edges):
+        cases.append((f"eh_edge_{i:02d}", {
+            "fn": "effhit", "hitRate": hr, "avoidRate": av}))
+
+    # --- 追击判定：>= 4 而不是 > 4 ---
+    fu_edges = [
+        (10, 6, "diff4_atk"), (6, 10, "diff4_def"),
+        (10, 7, "diff3_不够"), (7, 10, "diff3_不够_反"),
+        (10, 10, "等速"), (10, 5, "diff5"),
+        (250, 250, "都250"), (251, 10, "actor>250"),
+        (10, 251, "target>250"), (255, 0, "极端"),
+        (0, 4, "缓慢"),
+    ]
+    for i, (a, d, _why) in enumerate(fu_edges):
+        cases.append((f"eh_fu_{i:02d}", {
+            "fn": "followup", "atkSpd": a, "defSpd": d}))
+
+    # --- 瞬杀率 ---
+    sil = [
+        (0, 0), (CA_ASSASSIN, 0), (CA_ASSASSIN, CA_BOSS),
+        (CA_ASSASSIN, CA_NEGATE_LETHALITY),
+        (CA_ASSASSIN, CA_BOSS | CA_NEGATE_LETHALITY),
+        (CA_BOSS, CA_ASSASSIN), (1, 1),
+    ]
+    for i, (ac, dc) in enumerate(sil):
+        cases.append((f"eh_sil_{i:02d}", {
+            "fn": "silencer", "atkCA": ac, "defCA": dc}))
+
+    # --- 攻击次数 ---
+    cases.append(("eh_hc_0", {"fn": "hitcount", "wepAttr": 0}))
+    cases.append(("eh_hc_brave", {"fn": "hitcount", "wepAttr": IA_BRAVE}))
+    cases.append(("eh_hc_brave_plus", {"fn": "hitcount", "wepAttr": IA_BRAVE | 1}))
+
+    # --- 随机 ---
+    for i in range(50):
+        cases.append((f"eh_rnd_{i:03d}", {
+            "fn": rng.choice(["effhit", "followup", "silencer", "hitcount"]),
+            "hitRate": rng.randrange(-20, 200),
+            "avoidRate": rng.randrange(-20, 150),
+            "atkCA": rng.choice([0, 0, CA_ASSASSIN, CA_BOSS]),
+            "defCA": rng.choice([0, 0, CA_BOSS, CA_NEGATE_LETHALITY]),
+            "atkSpd": rng.randrange(0, 260),
+            "defSpd": rng.randrange(0, 260),
+            "wepAttr": rng.choice([0, 0, IA_BRAVE]),
+        }))
+    return cases
+
+
 SCENARIOS = {
     "rng": gen_rng,
     "battle_unit": gen_battle_unit_all,
@@ -676,6 +749,7 @@ SCENARIOS = {
     "weapon_triangle": gen_weapon_triangle,
     "phase": gen_phase,
     "turn_switch": gen_turn_switch,
+    "effective_hit": gen_effective_hit,
 }
 
 

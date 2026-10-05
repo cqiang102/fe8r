@@ -207,6 +207,44 @@ class BattleStats {
   static bool sacredWeaponDoublesDamage(int item) =>
       _sacredWeapons.contains(ItemTable.itemIndex(item));
 
+  /// `ComputeBattleUnitEffectiveHitRate`
+  ///
+  /// ⚠️ **上限是 100**，不只是"负数钳到 0"：
+  ///
+  ///     battleEffectiveHitRate = battleHitRate - defender->battleAvoidRate;
+  ///     if (> 100) = 100;      // ★ 最容易漏的一条
+  ///     if (< 0)   = 0;
+  ///
+  /// 漏掉上限不会崩，但 `BattleUpdateBattleStats` 会把它直接塞进
+  /// `gBattleStats.hitRate` 参与判定，于是 `Roll2RN(120)` 和
+  /// `Roll2RN(100)` 的分布不同 —— 命中率被悄悄抬高了。
+  ///
+  /// 我第一版就是这样：只钳了下界。C Oracle 的 `eh_edge_02`
+  /// （hitRate=120）把它抓了出来。
+  static void computeEffectiveHitRate(BattleUnit attacker, BattleUnit defender) {
+    var v = attacker.battleHitRate - defender.battleAvoidRate;
+    if (v > 100) v = 100;
+    if (v < 0) v = 0;
+    attacker.battleEffectiveHitRate = v;
+  }
+
+  /// `ComputeBattleUnitSilencerRate`
+  ///
+  /// 只有刺客职业有瞬杀率：
+  ///   * 基础 50
+  ///   * 目标是 Boss（`CA_BOSS`）→ 25
+  ///   * 目标带 `CA_NEGATE_LETHALITY` → 0（**优先级最高**，覆盖前两者）
+  static void computeSilencerRate(BattleUnit attacker, BattleUnit defender) {
+    if (attacker.unit.classAttributes & caAssassin == 0) {
+      attacker.battleSilencerRate = 0;
+      return;
+    }
+    var rate = 50;
+    if (defender.unit.classAttributes & caBoss != 0) rate = 25;
+    if (defender.unit.classAttributes & caNegateLethality != 0) rate = 0;
+    attacker.battleSilencerRate = rate;
+  }
+
   /// `GetUnitDefense`
   ///
   /// `unit->def + GetItemDefBonus(GetUnitEquippedWeapon(unit))`
