@@ -61,7 +61,16 @@ build_one() {
     fi
 
     echo "构建 $name  (依赖 ${#deps[@]} 个反编译源文件)"
-    clang -std=gnu89 -O2 -w \
+
+    # -fno-common 的理由（不要删）：
+    # clang 默认 -fcommon，两个 TU 里的 tentative definition（`struct Foo x;`）
+    # 会被链接器**合并**成同一个符号；Linux 的 GNU ld 会直接报 multiple
+    # definition。结果就是"macOS 本地绿、Linux CI 红"，而且报错在**链接阶段**，
+    # 和源码位置对不上，很难查。
+    # 显式打开让两边行为一致 —— 本地就能拦住。
+    #
+    # 注意：这一行必须留在 clang 命令**之外**，写进续行里会被当成输入文件。
+    clang -std=gnu89 -O2 -w -fno-common \
         -include "$PRELUDE" \
         -I "$DECOMP/include" -I "$DECOMP" -I "$HERE/lib" \
         -o "$OUT/$name" \

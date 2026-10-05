@@ -16,7 +16,12 @@
 #include "bmunit.h"
 #include "chapterdata.h"
 
-struct PlaySt gPlaySt;
+/* ⚠️ gPlaySt 是外部全局，**这里只能 extern 不能定义**。
+   上游的 bm_080153B0.c 也没有定义它（定义在 bm.c 之类的地方）。
+   之前在场景文件和本文件里各定义了一次：macOS 的 ld64 会把两个
+   tentative definition 合并，Linux 的 ld 直接报 multiple definition。
+   这种"本地绿、CI 红"的差异必须在构建参数上消除，见 build.sh 的 -fno-common。 */
+extern struct PlaySt gPlaySt;
 
 /* 上游会调用它；本场景不关心支援经验，给个空实现 */
 void ProcessTurnSupportExp(void) {}

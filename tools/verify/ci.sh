@@ -4,7 +4,16 @@
 #
 # **本地和 GitHub Actions 跑的是同一个脚本。** CI 的 YAML 只负责装环境
 # （Flutter / Python / clang），具体检查什么全在 tools/verify/run_all.dart 里定义。
-# 这样"本地绿了 CI 却红"的情况基本不会发生。
+#
+# ⚠️ 但"脚本相同"**不等于**"环境相同"。M5 就踩过一次：
+# `turn_switch` 场景里 gPlaySt 被定义两次，macOS 的 ld64 把两个 tentative
+# definition 合并了，Linux 的 ld 直接报 multiple definition —— 本机全绿，
+# CI 两个 job 全红，而且报错在链接阶段、和源码位置对不上。
+#
+# 教训：**平台差异要在构建参数上消除，而不是靠"本地跑过"来推断。**
+# 现在 build.sh 显式带 -fno-common，两边行为一致。
+#
+# 想在本地直接验 Linux，用 tools/verify/ci-linux.sh（Docker）。
 #
 # 用法:
 #   ./tools/verify/ci.sh              常规
