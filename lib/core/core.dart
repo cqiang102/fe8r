@@ -15,7 +15,9 @@
 
 export 'battle/battle_rng.dart';
 export 'battle/battle_stats.dart';
+export 'battle/hit_effects.dart';
 export 'battle/phase.dart';
+export 'flow/combat.dart';
 export 'flow/battle_field.dart';
 export 'flow/enemy_ai.dart';
 export 'flow/flow_machine.dart';

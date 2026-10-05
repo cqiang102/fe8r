@@ -47,7 +47,11 @@ class _GameShell extends StatefulWidget {
 class _GameShellState extends State<_GameShell> {
   late final Fe8Game _game = Fe8Game();
 
-  /// 包住 GameWidget，供调试截图抓帧（见 lib/ui/debug_screenshot.dart）
+  /// 包住**整个界面**（含 HUD），供调试截图抓帧。
+  ///
+  /// 早先只包 GameWidget，结果截图里看不到 HUD —— 而"战斗日志 / 乱数消耗 /
+  /// HP 变化"这些恰恰是视觉验证最需要看的东西。抓帧范围必须覆盖
+  /// 你要断言的内容，否则这个能力就是摆设。
   final GlobalKey _captureKey = GlobalKey();
 
   @override
@@ -105,9 +109,11 @@ class _GameShellState extends State<_GameShell> {
       body: Focus(
         autofocus: true,
         onKeyEvent: _onKey,
-        child: Stack(
+        child: RepaintBoundary(
+          key: _captureKey,
+          child: Stack(
         children: [
-          RepaintBoundary(key: _captureKey, child: GameWidget(game: _game)),
+          GameWidget(game: _game),
           // 左上角信息条：M0 阶段用来确认版本与加载状态
           Positioned(
             left: 12,
@@ -153,6 +159,7 @@ class _GameShellState extends State<_GameShell> {
             ),
           ),
         ],
+          ),
         ),
       ),
     );

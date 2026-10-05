@@ -13,6 +13,8 @@
 // 让 lib/core 去解析 Tiled 的 XML 是架构错误——将来换掉渲染方案时，
 // 规则层不该跟着动。两者由同一个管线从同一份 GBA 数据导出，所以不可能不一致。
 
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
@@ -42,6 +44,16 @@ class Fe8Game extends FlameGame {
 
   /// 敌方 AI（M5 的最小实现，不是原版 cp_* 的移植）
   EnemyAi? ai;
+
+  /// 战斗结算器（M4 数值层 → M5 战场流程的桥）
+  CombatResolver? combat;
+
+  /// 乱数与消耗追踪
+  final GameRng rng = GameRng();
+  late final BattleRngTracker tracker = BattleRngTracker(rng);
+
+  /// 最近一次攻击的结果，供 HUD 显示
+  String lastCombat = '';
 
   /// 当前流程状态
   FlowState? state;
@@ -97,6 +109,12 @@ class Fe8Game extends FlameGame {
       field = _makeDemoField(grid);
       flow = FlowMachine(map: grid, costTable: _demoCostTable());
       ai = EnemyAi(map: grid, costTable: _demoCostTable());
+      combat = CombatResolver(
+        items: _demoItems(),
+        triangle: _loadTriangleTable(),
+        monsterClassList: _monsterClassList(),
+      );
+      rng.initRn(1);
       state = FlowState(
         phase: FlowPhase.freeCursor,
         cursorX: 2,
@@ -229,7 +247,136 @@ class Fe8Game extends FlameGame {
       final a = brain.decide(f, u);
       f.moveUnit(u, a.toX, a.toY);
       f.finishUnit(u);
-      // M5 只做到"移动 + 判定够不够得着"；真正的伤害结算属于下一步
+
+      // 够得着就打
+      if (a.attacked && a.targetId != null) {
+        _resolveAttack(f, u, f.unitById(a.targetId)!);
+        // 目标阵亡就从战场移除
+        final tgt = f.unitById(a.targetId);
+        if (tgt != null && tgt.hp <= 0) tgt.hp = 0;
+      }
+    }
+  }
+
+  /// 结算一次攻击（攻击方打防御方），并把结果写进 HUD。
+  ///
+  /// 这里是 M4 与 M5 的接缝：数值由已通过 C Oracle 的 `CombatResolver` 算，
+  /// 表现层只负责把结果说出来。
+  void _resolveAttack(BattleField f, MapUnit attacker, MapUnit defender) {
+    final c = combat;
+    if (c == null) return;
+
+    final atkProfile = _profileFor(attacker);
+    final defProfile = _profileFor(defender);
+
+    // 地形防御/回避：直接从规则层的地形表取
+    final terrainId = _terrainAt(defender.x, defender.y);
+    final (terrainDef, terrainAvo) = _terrainBonuses(terrainId);
+
+    final r = c.attack(
+      tracker: tracker,
+      rng: rng,
+      attackerUnit: attacker,
+      defenderUnit: defender,
+      attackerProfile: atkProfile,
+      defenderProfile: defProfile,
+      terrainDefense: terrainDef,
+      terrainAvoid: terrainAvo,
+    );
+
+    final name = attacker.name.isEmpty ? '单位${attacker.id}' : attacker.name;
+    final tname = defender.name.isEmpty ? '单位${defender.id}' : defender.name;
+    lastCombat = '$name → $tname  $r';
+  }
+
+  /// 按阵营给一套演示用的职业/武器数据。
+  ///
+  /// 真实数据来自章节配置与职业表（M12）；这里只要够把伤害打出来。
+  CombatProfile _profileFor(MapUnit u) {
+    if (u.factionBit == Faction.red) {
+      return CombatProfile(
+        classId: 0x2A, level: 3, pow: 6, skl: 5, spd: 5, def: 3, lck: 2,
+        weaponItem: 0x01, weaponType: WeaponType.axe,
+      );
+    }
+    if (u.factionBit == Faction.green) {
+      return const CombatProfile(
+        classId: 0x09, level: 2, pow: 4, skl: 4, spd: 3, def: 4, lck: 3,
+        weaponItem: 0x02, weaponType: WeaponType.lance,
+      );
+    }
+    return CombatProfile(
+      classId: 0x01, level: u.level, pow: 5, skl: 6, spd: 7, def: 4, lck: 5,
+      weaponItem: 0x01, weaponType: WeaponType.sword,
+    );
+  }
+
+  /// 演示用道具表：编号 1 = 剑（威 5 命 90 必 0 重 3），2 = 枪，3 = 斧
+  ItemTable _demoItems() {
+    final t = ItemTable(8);
+    t[1]
+      ..might = 5
+      ..hit = 90
+      ..crit = 0
+      ..weight = 3;
+    t[2]
+      ..might = 7
+      ..hit = 85
+      ..crit = 0
+      ..weight = 8;
+    t[3]
+      ..might = 8
+      ..hit = 75
+      ..crit = 0
+      ..weight = 10;
+    return t;
+  }
+
+  /// 从提取出的 JSON 读武器三角规则表（没有 C 源码，由 carve 提取）
+  WeaponTriangleTable _loadTriangleTable() {
+    final f = File('tools/pipeline/out/tables/weapon_triangle.json');
+    if (!f.existsSync()) {
+      // 数据没生成时给空表：不静默用一套"假规则"顶替
+      return WeaponTriangleTable(const []);
+    }
+    return WeaponTriangleTable.fromJson(
+      jsonDecode(f.readAsStringSync()) as Map<String, dynamic>,
+    );
+  }
+
+  List<int> _monsterClassList() {
+    const p = 'tools/pipeline/out/tables/itemuse.json';
+    final f = File(p);
+    if (!f.existsSync()) return const [];
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    final t = (d['tables'] as Map<String, dynamic>)['ItemEffectiveness_Monsters']
+        as Map<String, dynamic>;
+    return (t['values'] as List<dynamic>)
+        .map((e) => e as int)
+        .where((v) => v != 0)
+        .toList();
+  }
+
+  int _terrainAt(int x, int y) {
+    final g = map;
+    if (g == null) return 0;
+    if (x < 0 || y < 0 || x >= g.width || y >= g.height) return 0;
+    return g.terrainAt(x, y).id;
+  }
+
+  /// 地形防御/回避加成。
+  ///
+  /// 原版这两项来自 `TerrainTable_*`（`gBmMapTerrain` → 地形表）。
+  /// 已经导出的 `terrains.json` 里有对应表，但"哪张表对应哪个地形"
+  /// 还没接（属于 M3 收尾）。这里给一个保守的近似，并**明确标注它不是移植**。
+  (int, int) _terrainBonuses(int terrainId) {
+    switch (terrainId) {
+      case 0x05: // TERRAIN_FOREST
+        return (1, 10);
+      case 0x06: // TERRAIN_PEAK（不可通行，正常走不到）
+        return (2, 20);
+      default:
+        return (0, 0);
     }
   }
 
@@ -238,10 +385,17 @@ class Fe8Game extends FlameGame {
     final f = field;
     if (s == null || f == null) return;
     final who = f.activeFaction == Faction.red ? '敌方' : '我方';
+    final hp = f.units
+        .where((u) => u.isAlive)
+        .map((u) => '${u.name.isEmpty ? u.id : u.name}:${u.hp}')
+        .join(' ');
     hud.value = '回合 ${f.turn}  $who  '
         '可行动 ${f.actionableCount}  '
         '光标 (${s.cursorX},${s.cursorY})  '
-        '${s.phase.name}';
+        '${s.phase.name}  '
+        '乱数 ${tracker.consumed}\n'
+        'HP  $hp'
+        '${lastCombat.isEmpty ? '' : '\n$lastCombat'}';
   }
 
   /// 按当前流程状态重建叠加层。

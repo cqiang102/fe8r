@@ -202,6 +202,7 @@ class ItemData {
     this.might = 0,
     this.weight = 0,
     this.hit = 0,
+    this.crit = 0,
     this.statBonuses,
     this.effectiveness,
     this.effectivenessIsFlier = false,
@@ -232,6 +233,9 @@ class ItemData {
 
   /// 命中（`GetItemHit`）
   int hit;
+
+  /// 必杀（`GetItemCrit`）
+  int crit;
 
   /// 属性加成表；null 表示没有
   ItemStatBonuses? statBonuses;
@@ -268,6 +272,9 @@ class ItemTable {
 
   /// `GetItemHit(item)`
   int hitOf(int item) => dataOf(item).hit;
+
+  /// `GetItemCrit(item)`
+  int critOf(int item) => dataOf(item).crit;
 
   /// `GetItemStatBonuses(item)`
   ItemStatBonuses? statBonusesOf(int item) => dataOf(item).statBonuses;
