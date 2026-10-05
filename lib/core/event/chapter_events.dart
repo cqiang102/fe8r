@@ -26,6 +26,24 @@
 // 真正的修法是读目标文件的重定位表（`otool -r` / `readelf -r`），
 // 那属于后续工作。
 //
+// ## 表的结构（这一轮才搞清）
+//
+// `EventListScr` 表**不是指令流**，而是**事件条目清单**。
+// 引擎的遍历（`src/SearchAvailableEvent.c`）：
+//
+//     int cmdId = EVT_CMD_LO(info->listScript[0]);   // 首字低 16 位 = 条件类型
+//     if (!CheckFlag(EVT_CMD_HI(info->listScript[0])))  // 高 16 位 = 标志
+//         if (cmdInfo[cmdId].func(info) == 1) break;    // 条件成立就采用这条
+//     info->listScript += cmdInfo[cmdId].length;        // 否则按长度跳过
+//
+// ⚠️ **长度单位是 `EventListScr` 元素（4 字节 = 2 个 u16 字），不是字节。**
+// 条件类型各带自己的长度（实测取值 1 / 3 / 4），所以"一条条目占几个字"
+// 取决于它的条件类型 —— 这也是为什么之前"当纯指令流解码"时，
+// 有的表从 0 能解、有的要从 2 解：那是碰巧。
+//
+// 条件成立后，条目的**载荷**会被填进 `struct EventInfo`（指针、坐标、
+// pid 等），其中的 `script` 才是真正的**指令流**入口。
+//
 // ## ⚠️ 这些表**不纯是指令流**
 //
 // 实测：部分表能从字偏移 0 完整解码（如 `..._001_A696D4`，409 条指令），
@@ -46,6 +64,46 @@
 import 'dart:convert';
 
 import 'event_script.dart';
+
+/// 事件条目：条件 + 载荷。
+///
+/// 对应 `struct EventInfo` 里由条目字流填出来的那部分字段。
+class EventListEntry {
+  const EventListEntry({
+    required this.offset,
+    required this.conditionId,
+    required this.flag,
+    required this.length,
+    required this.payload,
+  });
+
+  /// 在表里的**元素**偏移（不是字偏移）
+  final int offset;
+
+  /// 条件类型（首字的低 16 位）
+  final int conditionId;
+
+  /// 标志（首字的高 16 位）—— 引擎会先 `CheckFlag`
+  final int flag;
+
+  /// 本条目占多少个 `EventListScr` 元素
+  final int length;
+
+  /// 载荷元素（首字之后的部分），每个元素是 32 位
+  final List<int> payload;
+
+  /// 载荷里的**指针类**字段。
+  ///
+  /// ⚠️ 这些值在当前产物里是**宿主地址**（平台相关），不能当 ROM 地址用。
+  /// 标出来是为了让调用方知道"这里有个待解析的引用"，
+  /// 而不是把它当成一个有意义的数字。
+  bool get hasUnresolvedPointer => payload.any((v) => v > 0xFFFF);
+
+  @override
+  String toString() => 'Entry(@$offset cond=$conditionId flag=0x'
+      '${flag.toRadixString(16)} len=$length'
+      '${hasUnresolvedPointer ? ' 含指针' : ''})';
+}
 
 /// 一张章节事件表
 class ChapterEventTable {
@@ -69,6 +127,53 @@ class ChapterEventTable {
     }
   }
 
+  /// 按**条件类型长度**把表切成事件条目。
+  ///
+  /// [cmdInfo] 来自提取产物：条件类型 → `{func, length}`。
+  ///
+  /// 元素是 4 字节（2 个 u16 字），长度单位是元素 —— 换算关系别搞错。
+  List<EventListEntry> parseEntries(Map<int, int> lengths) {
+    final out = <EventListEntry>[];
+    var elem = 0; // 元素偏移
+    var guard = 0;
+    while (true) {
+      final wordIdx = elem * 2;
+      if (wordIdx + 1 >= words.length) break;
+      // 首字 = 低 16 位是条件类型，高 16 位是标志
+      final w0 = words[wordIdx];
+      final w1 = words[wordIdx + 1];
+      final conditionId = w0 & 0xFFFF;
+      final flag = w1 & 0xFFFF;
+
+      final len = lengths[conditionId];
+      if (len == null) {
+        // 未知条件类型：不知道要跳多少，**停下来**而不是猜一个长度。
+        // 猜错会让后面所有条目错位，而且不会报错。
+        break;
+      }
+      if (len <= 0) break;
+
+      final payload = <int>[];
+      for (var k = 1; k < len; k++) {
+        final i = (elem + k) * 2;
+        if (i + 1 >= words.length) break;
+        payload.add((words[i + 1] << 16) | words[i]);
+      }
+
+      out.add(EventListEntry(
+        offset: elem,
+        conditionId: conditionId,
+        flag: flag,
+        length: len,
+        payload: payload,
+      ));
+
+      elem += len;
+      if (++guard > 100000) break;
+    }
+    return out;
+  }
+
   /// 探测这张表作为纯指令流的**可用起点**。
   ///
   /// 只探测 0 和 2 两个候选：从数据看，表头若存在就是 1 个槽
@@ -84,13 +189,28 @@ class ChapterEventTable {
 
 /// 全部章节事件表
 class ChapterEvents {
-  ChapterEvents(this.tables);
+  ChapterEvents(this.tables, this.cmdInfo);
 
   final Map<String, ChapterEventTable> tables;
+
+  /// 条件类型 → `{func, length}`
+  final Map<int, ({String func, int length})> cmdInfo;
+
+  /// 条件类型 → 长度（供 [ChapterEventTable.parseEntries] 用）
+  Map<int, int> get cmdLengths =>
+      cmdInfo.map((k, v) => MapEntry(k, v.length));
 
   static ChapterEvents parse(String json) {
     final d = jsonDecode(json) as Map<String, dynamic>;
     final raw = d['tables'] as Map<String, dynamic>;
+    final ci = <int, ({String func, int length})>{};
+    (d['cmdInfo'] as Map<String, dynamic>? ?? {}).forEach((k, v) {
+      final m = v as Map<String, dynamic>;
+      ci[int.parse(k)] = (
+        func: m['func'] as String,
+        length: m['length'] as int,
+      );
+    });
     final out = <String, ChapterEventTable>{};
     raw.forEach((name, v) {
       final m = v as Map<String, dynamic>;
@@ -99,7 +219,7 @@ class ChapterEvents {
         words: (m['words'] as List<dynamic>).map((e) => e as int).toList(),
       );
     });
-    return ChapterEvents(out);
+    return ChapterEvents(out, ci);
   }
 
   /// 能作为纯指令流使用的表（其余是混有表头/子表引用的）

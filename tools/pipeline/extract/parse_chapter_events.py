@@ -54,6 +54,21 @@ HOST = os.path.join(REPO, "tools", "oracle", "host")
 
 SRC = "src/data/frontier_df3_eventscr_ch/frontier_df3_eventscr_ch.c"
 
+# 条件类型的**长度表**。作用：把平坦的字流切成一条条事件条目。
+#
+#     struct EventListCmdInfo { int (*func)(struct EventInfo*); int length; };
+#
+# 引擎的遍历（src/SearchAvailableEvent.c）：
+#     cmdId = EVT_CMD_LO(listScript[0]);      // 首字的低 16 位 = 条件类型
+#     ...
+#     listScript += cmdInfo[cmdId].length;    // 按该类型的长度前进
+#
+# **长度单位是 `EventListScr` 元素（4 字节 = 2 个 u16 字），不是字节。**
+# 上游把它放在一个汇编文件里（de-pointer 过的表），所以这里按文本读；
+# 内容是 `.4byte EvCheckNN_Xxx + 0x1` 与 `.4byte <length>` 成对出现。
+CMD_INFO_SRC = ("src/data/gEventListCmdInfoTable_ref/"
+                "dat_gEventListCmdInfoTable_ref.s")
+
 
 def strip_section_attrs(text):
     """把 `__attribute__((section("...")))` 机械去掉。
@@ -382,9 +397,24 @@ def main():
             sub = x & 0xF
             print(f"  {x:04x} → opcode=0x{op:02x} len={ln} sub={sub}")
 
+    # ---- 条件类型长度表 ----
+    ci_path = os.path.join(DECOMP, CMD_INFO_SRC)
+    cmd_info = {}
+    if os.path.exists(ci_path):
+        ci = open(ci_path, encoding="utf-8", errors="replace").read()
+        pairs = re.findall(
+            r"\.4byte\s+(EvCheck\w+)[^\n]*\n\s*\.4byte\s+(0x[0-9A-Fa-f]+)", ci)
+        for i, (fn, ln) in enumerate(pairs):
+            cmd_info[str(i)] = {"func": fn, "length": int(ln, 16)}
+        print(f"\n条件类型长度表: {len(cmd_info)} 条"
+              f"（长度取值 {sorted({v['length'] for v in cmd_info.values()})}）")
+    else:
+        print(f"⚠️  找不到 {CMD_INFO_SRC}，条件类型长度表为空", file=sys.stderr)
+
     os.makedirs(a.out, exist_ok=True)
     payload = {
         "source": SRC,
+        "cmdInfo": cmd_info,
         "tables": tables,
     }
     dst = os.path.join(a.out, "chapter_events.json")

@@ -82,6 +82,77 @@ void main() {
       expect(all, contains(EventOpcodes.goTo));
     });
 
+    test('条件类型长度表：14 条，长度取值 1/3/4', () {
+      expect(events.cmdInfo.length, 14);
+      expect(events.cmdInfo[0]!.func, 'EvCheck00_Always');
+      expect(events.cmdInfo[0]!.length, 1);
+      expect(events.cmdInfo[3]!.func, 'EvCheck03_CHAR');
+      expect(events.cmdInfo[3]!.length, 4);
+      final lens = events.cmdInfo.values.map((v) => v.length).toSet();
+      expect(lens, {1, 3, 4});
+    });
+
+    test('按条件长度切条目：能切出条目，但**切不完整张表**', () {
+      // ⚠️ 这是本轮**如实记录**的结论，不是期望的理想状态。
+      //
+      // 事件条目清单的遍历规则已经搞清楚（见 chapter_events.dart 顶部）：
+      //   首字低 16 位 = 条件类型 → 查长度表 → 按长度前进
+      // 按这条规则，`_000_A69464` 的第一个条目是
+      //   [EVENT_WORD(0x00000002), BNE(0,0xC,1)] = 3 个元素 ✓
+      // 但第三个元素 `1a23`（= TUTORIALTEXTBOXSTART 指令）的低 16 位是
+      // 0x1a23 = 6691，**不在长度表里** —— 遍历到此为止。
+      //
+      // 说明 `EventListScr` 表**不是同质的**：同一个文件里既有
+      // "事件条目清单"，也有"指令流"，还可能有别的形态。
+      // 哪种是哪种还没有完全梳理出来 —— 这是下一步的工作。
+      final lens = events.cmdLengths;
+      var tablesWithEntries = 0;
+      var totalEntries = 0;
+      for (final t in events.tables.values) {
+        final entries = t.parseEntries(lens);
+        if (entries.isEmpty) continue;
+        tablesWithEntries++;
+        totalEntries += entries.length;
+        for (final e in entries) {
+          expect(lens.containsKey(e.conditionId), isTrue);
+          expect(e.length, lens[e.conditionId]);
+        }
+      }
+      // 数量钉死：将来把表结构完全梳理清楚时，这两个数字会变，
+      // 从而提醒更新结论，而不是悄悄"变好"。
+      expect(tablesWithEntries, greaterThan(0),
+          reason: '至少要有表能按条目规则切出东西');
+      expect(totalEntries, greaterThan(0));
+      expect(tablesWithEntries, lessThan(21),
+          reason: '并非所有表都是条目清单 —— 这正是本轮没解决的部份');
+    });
+
+    test('条目首尾相接（在能切出来的范围内自洽）', () {
+      final lens = events.cmdLengths;
+      for (final t in events.tables.values) {
+        final entries = t.parseEntries(lens);
+        var acc = 0;
+        for (final e in entries) {
+          expect(e.offset, acc, reason: '${t.name} 的条目没有首尾相接');
+          acc += e.length;
+        }
+      }
+    });
+
+    test('条件类型用到了长度表里的若干种', () {
+      final lens = events.cmdLengths;
+      final conds = <int>{};
+      for (final t in events.tables.values) {
+        for (final e in t.parseEntries(lens)) {
+          conds.add(e.conditionId);
+        }
+      }
+      expect(conds, isNotEmpty);
+      for (final c in conds) {
+        expect(events.cmdInfo.containsKey(c), isTrue);
+      }
+    });
+
     test('字流总量与提取日志一致（5384 个槽 × 2）', () {
       final total =
           events.tables.values.fold<int>(0, (s, t) => s + t.words.length);
