@@ -1,5 +1,40 @@
 // 章节单位配置表（`struct UnitDefinition`）的加载。
 //
+// ## ★ 章节 → 单位表的链路（本轮找到的，尚未实现）
+//
+// 之前卡在"哪一章用哪张单位表"。这轮把整条链找齐了：
+//
+//     chapterIndex
+//       → gChapterDataTable[i]              （79 条，可读初始化器，
+//                                            src/data/chapter_settings.h）
+//       → .mapEventDataId                   （u8 索引）
+//       → gChapterDataAssetTable[id]        （资源指针表）
+//       → struct ChapterEventGroup          （include/chapterdata.h:118）
+//           ├── turnBasedEvents             ← 回合事件脚本表
+//           ├── characterBasedEvents        ← 角色事件
+//           ├── locationBasedEvents         ← 地点事件（村庄/宝箱/门）
+//           ├── miscBasedEvents
+//           ├── traps / extraTrapsInHard
+//           ├── playerUnitsInNormal/Hard    ← **我方单位配置表**
+//           ├── playerUnitsChoice1..3InEncounter
+//           ├── enemyUnitsChoice1..3InEncounter ← **敌方单位配置表**
+//           ├── beginningSceneEvents        ← **开场剧情**
+//           └── endingSceneEvents
+//
+// 也就是说：**已经提取的两样东西（单位配置表、事件脚本表）在这里汇合**，
+// 而 `struct ChapterEventGroup` 就是那个汇合点。
+//
+// 下一步的提取工作：
+//   1. 从 chapter_settings.h 读 gChapterDataTable 的
+//      (internalName, mapEventDataId, map 资源 id)
+//   2. 读 gChapterDataAssetTable（指针表，在 carve 数据里）
+//   3. 读各 ChapterEventGroup 实例（同样是 carve 数据），
+//      把里面的指针解析回"哪张单位表 / 哪张事件表"
+//
+// ⚠️ 第 2、3 步涉及**指针**，而指针是平台/布局相关的 ——
+// 需要读重定位信息（`otool -r` / `readelf -r`），
+// 不能再走"导出绝对地址"的老路（章节事件就是这么栽的）。
+//
 // ## 数据从哪来
 //
 // `tools/pipeline/extract/parse_unit_defs.py` 把
