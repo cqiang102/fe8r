@@ -45021,24 +45021,6 @@
     "item1": 0,
     "item2": 0,
     "item3": 0
-   },
-   {
-    "index": 1,
-    "charIndex": 0,
-    "classIndex": 0,
-    "leaderCharIndex": 0,
-    "allegiance": 0,
-    "level": 0,
-    "autolevel": 0,
-    "x": 0,
-    "y": 0,
-    "genMonster": 0,
-    "itemDrop": 0,
-    "sumFlag": 0,
-    "item0": 0,
-    "item1": 0,
-    "item2": 0,
-    "item3": 0
    }
   ],
   "frontier_df3_unitdef_b_072_923AD8": [

@@ -145,16 +145,16 @@ Future<void> main(List<String> argv) async {
     // 所以：产物以 macOS 上生成的那份为准并入库，Dart 测试跑入库产物
     // （确定性）。重新生成用 `python3 tools/pipeline/extract/parse_chapter_events.py`。
 
-    // ⚠️ 章节单位配置提取**故意不进 CI**（与章节事件同理）。
-    //
-    // 字段值本身是平台无关的（探针打印解码后的字段，这部分已验证），
-    // 但**元素个数**不是：表长靠 `nm -n` 的"下一个符号地址"求，
-    // 而 ELF 与 Mach-O 对"下一个符号"的取法不同 ——
-    // 实测 Linux 导出 2629 条、macOS 2797 条。
-    //
-    // 正解是让编译器自己算相邻表地址差（`(char*)&next - (char*)&cur`），
-    // 或读重定位信息。属于后续工作。
-    // 当前产物以 macOS 生成的为准并入库，Dart 测试跑入库产物。
+    // 章节单位配置：**元素个数由探针里的 `sizeof` 算**，
+    // 不靠 `nm` 的地址差 —— 后者在 ELF 与 Mach-O 上取法不同
+    // （实测 Linux 2629 / macOS 2796）。现在两边逐条一致，
+    // 所以这一步**可以**进 CI。
+    if (hasDecomp())
+      Step('L0', '章节单位配置提取', 'python3',
+          ['extract/parse_unit_defs.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '111 张表 / 2796 个条目（编译器算长度）')
+    else
+      Step('L0', '章节单位配置提取（跳过）', 'true', const [], note: decompNote),
 
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',

@@ -183,12 +183,19 @@ def host_sizeof(tmp, src, stub_syms):
 def build_probe(tmp, src, names, stub_syms, counts):
     body = []
     for n in names:
-        cnt = counts.get(n, 0)
-        body.append(f'  {{ extern struct UnitDefinition {n}[];')
-        body.append(f'    int i = 0;')
+        # ⚠️ 刻意**不**写 `extern struct UnitDefinition {n}[];`：
+        # 那样声明出来的是 incomplete type，`sizeof` 用不了，
+        # 就只能靠 `nm` 的地址差求长度 —— 而那是**平台相关**的
+        # （ELF 与 Mach-O 对"下一个符号"的取法不同，
+        #   实测 Linux 2629 条 / macOS 2797 条）。
+        #
+        # 源码已经拼在本探针里，数组是**已定义**的，直接用 sizeof 即可。
+        # 这是编译器算的，两边必然一致。
+        body.append(f'  {{ int i = 0;')
+        body.append(f'    const long cnt = (long)(sizeof({n}) / sizeof({n}[0]));')
         # 按**表的真实元素个数**遍历，遇到 `{0}` 也照常输出 ——
         # 那是分组分隔符，不是结尾（见 symbol_sizes 的说明）。
-        body.append(f'    while (i < {cnt}) {{')
+        body.append('    while (i < cnt) {')
         body.append(f'      const struct UnitDefinition* u = &{n}[i];')
         body.append(f'      printf("U {n} %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\\n",')
         body.append('        i, u->charIndex, u->classIndex, u->leaderCharIndex,')
@@ -262,49 +269,8 @@ def main():
             return 1
         undef = undefined_symbols(obj)
         print(f"  未定义符号 {len(undef)} 个（生成桩）")
-        sizes = symbol_sizes(obj, names)
-        missing = [n for n in names if n not in sizes]
-        missing_last = list(missing)
-        raw_counts = {}
-        # 最后一张表后面没有别的符号，地址差法失效 —— 用"源码里数顶层元素"
-        # 补上（与章节事件那边同样的处理）。
-        for n in list(missing):
-            m = re.search(rf"^struct UnitDefinition\s+{re.escape(n)}\[\]"
-                          rf"\s*[^=]*=\s*\{{", src, re.M)
-            if not m:
-                continue
-            i = m.end(); depth = 0; cnt = 0
-            while i < len(src):
-                c = src[i]
-                if c == "{":
-                    depth += 1
-                elif c == "}":
-                    if depth == 0:
-                        cnt += 1
-                        break
-                    depth -= 1
-                elif c == "," and depth == 0:
-                    cnt += 1
-                i += 1
-            raw_counts[n] = cnt
-            sizes[n] = cnt  # 先用元素个数占位，下面不再除
-            missing.remove(n)
-            print(f"  {n}: nm 无后继符号，从源码数出 {cnt} 个元素")
-        if missing:
-            print(f"❌ 仍缺 {len(missing)} 张表的长度", file=sys.stderr)
-            return 1
-        # 宿主上 sizeof(UnitDefinition) = 24；元素个数两边一致，
-        # 变的是单个元素的大小，所以这里用宿主尺寸换算个数是对的。
-        host_size = host_sizeof(tmp, src, undef)
-        if host_size is None:
-            return 1
-        counts = {n: sizes[n] // host_size for n in names}
-        # 上一段给最后一张表塞的是"元素数 × 24"，这里按真实尺寸重算
-        for n in missing_last:
-            if n in raw_counts:
-                counts[n] = raw_counts[n]
-        print(f"  nm 取到 {len(sizes)} 张表的长度（宿主元素大小 {host_size}）")
-        out = build_probe(tmp, src, names, undef, counts)
+        # 元素个数由**探针里的 sizeof** 算，不在这里做任何长度推断。
+        out = build_probe(tmp, src, names, undef, {})
     if out is None:
         return 1
 
