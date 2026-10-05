@@ -65,6 +65,8 @@ class Fe8Game extends FlameGame {
   final List<UnitComponent> _unitComponents = [];
   CursorComponent? _cursor;
   MovementRangeComponent? _rangeComp;
+  ActionMenuComponent? _menuComp;
+  final List<TargetMarkerComponent> _targetMarkers = [];
   PositionComponent? _overlayLayer;
 
   /// 地图的 metatile 尺寸（像素）
@@ -171,12 +173,23 @@ class Fe8Game extends FlameGame {
 
     final r = fl.advance(s, f, i);
 
-    // 提交一次移动（当前只实现"待机"这一个行动）
+    // 提交一次移动
     if (r.committedMove && s.selectedUnitId != null) {
       final u = f.unitById(s.selectedUnitId);
       if (u != null && s.pendingX != null && s.pendingY != null) {
         f.moveUnit(u, s.pendingX!, s.pendingY!);
         f.finishUnit(u);
+
+        // 落点确定后才结算攻击 —— 顺序不能反：
+        // 先移动再打，射程要靠移动**之后**的位置算。
+        final atk = r.attack;
+        if (atk != null) {
+          final target = f.unitById(atk.targetId);
+          final attacker = f.unitById(atk.attackerId);
+          if (target != null && attacker != null) {
+            _resolveAttack(f, attacker, target);
+          }
+        }
       }
     }
 
@@ -380,6 +393,10 @@ class Fe8Game extends FlameGame {
     }
   }
 
+  /// HUD 用：当前可选的行动项
+  List<ActionOption> menuOptions(FlowState s, BattleField f) =>
+      flow?.availableActions(s, f) ?? const [ActionOption.wait];
+
   void _updateHud() {
     final s = state;
     final f = field;
@@ -389,10 +406,13 @@ class Fe8Game extends FlameGame {
         .where((u) => u.isAlive)
         .map((u) => '${u.name.isEmpty ? u.id : u.name}:${u.hp}')
         .join(' ');
+    final menu = s.phase == FlowPhase.actionMenu
+        ? '  [${menuOptions(s, f).map((o) => o.label).join(' / ')}]'
+        : (s.phase == FlowPhase.selectTarget ? '  选择目标' : '');
     hud.value = '回合 ${f.turn}  $who  '
         '可行动 ${f.actionableCount}  '
         '光标 (${s.cursorX},${s.cursorY})  '
-        '${s.phase.name}  '
+        '${s.phase.name}$menu  '
         '乱数 ${tracker.consumed}\n'
         'HP  $hp'
         '${lastCombat.isEmpty ? '' : '\n$lastCombat'}';
@@ -419,6 +439,12 @@ class Fe8Game extends FlameGame {
       layer.remove(_rangeComp!);
       _rangeComp = null;
     }
+    if (_menuComp != null) {
+      layer.remove(_menuComp!);
+      _menuComp = null;
+    }
+    layer.removeAll(_targetMarkers);
+    _targetMarkers.clear();
 
     // 移动范围画在单位下面
     final range = fl.currentRange;
@@ -440,6 +466,52 @@ class Fe8Game extends FlameGame {
       _unitComponents.add(c);
     }
 
+    // 选目标阶段：把所有可选目标标出来，当前那个用实心准星
+    if (s.phase == FlowPhase.selectTarget) {
+      final unit = f.unitById(s.selectedUnitId);
+      if (unit != null) {
+        final ax = s.pendingX ?? unit.x;
+        final ay = s.pendingY ?? unit.y;
+        final targets = fl.validTargets(f, unit, ax, ay);
+        final idx = s.targetIndex.clamp(0, targets.isEmpty ? 0 : targets.length - 1);
+        for (var i = 0; i < targets.length; i++) {
+          final m = TargetMarkerComponent(tileSize: metatileSize)
+            ..position =
+                Vector2(targets[i].x * metatileSize, targets[i].y * metatileSize);
+          layer.add(m);
+          _targetMarkers.add(m);
+        }
+        // 光标停在当前目标上，玩家才知道自己在选谁
+        if (targets.isNotEmpty) {
+          final t = targets[idx];
+          _cursor = CursorComponent(tileSize: metatileSize)
+            ..position = Vector2(t.x * metatileSize, t.y * metatileSize);
+          layer.add(_cursor!);
+          return;
+        }
+      }
+    }
+
+    // 行动菜单：画在"落点那一格"的右边
+    if (s.phase == FlowPhase.actionMenu) {
+      final opts = fl.availableActions(s, f);
+      final px = s.pendingX ?? s.cursorX;
+      final py = s.pendingY ?? s.cursorY;
+      _menuComp = ActionMenuComponent(
+        options: opts,
+        selectedIndex: s.actionIndex.clamp(0, opts.length - 1),
+        tileSize: metatileSize,
+      )..position = Vector2(
+          (px + 1) * metatileSize,
+          py * metatileSize,
+        );
+      layer.add(_menuComp!);
+      _cursor = CursorComponent(tileSize: metatileSize)
+        ..position = Vector2(px * metatileSize, py * metatileSize);
+      layer.add(_cursor!);
+      return;
+    }
+
     _cursor = CursorComponent(tileSize: metatileSize)
       ..position = Vector2(s.cursorX * metatileSize, s.cursorY * metatileSize);
     layer.add(_cursor!);
@@ -459,7 +531,9 @@ class Fe8Game extends FlameGame {
         MapUnit(id: 1, faction: Faction.blue, x: 2, y: 2, movement: 3, hp: 18, maxHp: 18, name: 'Eirika'),
         MapUnit(id: 2, faction: Faction.blue, x: 3, y: 4, movement: 5, hp: 28, maxHp: 30, name: 'Seth'),
         MapUnit(id: 3, faction: Faction.blue, x: 5, y: 3, movement: 2, hp: 12, maxHp: 20, name: 'Mage'),
-        MapUnit(id: 0x81, faction: Faction.red, x: 8, y: 6, movement: 4, hp: 22, maxHp: 22, name: 'Fighter'),
+        // 这个敌人贴着 Seth(3,4)，用来演示"玩家侧攻击"的完整流程
+        MapUnit(id: 0x81, faction: Faction.red, x: 4, y: 4, movement: 4, hp: 22, maxHp: 22, name: 'Fighter'),
+        MapUnit(id: 0x83, faction: Faction.red, x: 8, y: 6, movement: 4, hp: 22, maxHp: 22, name: 'Brigand'),
         MapUnit(id: 0x82, faction: Faction.red, x: 10, y: 3, movement: 4, hp: 20, maxHp: 20, name: 'Archer'),
         MapUnit(id: 0x41, faction: Faction.green, x: 7, y: 8, movement: 3, hp: 16, maxHp: 16, name: 'Ally'),
       ],

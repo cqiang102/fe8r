@@ -165,3 +165,75 @@ class MovementRangeComponent extends PositionComponent {
     }
   }
 }
+
+/// 行动菜单（待机 / 攻击）。
+///
+/// 画在地图上的单位旁边，而不是屏幕角落——原版就是这样，
+/// 而且"菜单跟着单位走"能避免玩家看错是哪个单位在行动。
+class ActionMenuComponent extends PositionComponent {
+  ActionMenuComponent({
+    required this.options,
+    required this.selectedIndex,
+    required this.tileSize,
+  }) : super(size: Vector2(tileSize * 2.6, tileSize * options.length));
+
+  final List<ActionOption> options;
+  final int selectedIndex;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.x, size.y),
+        const Radius.circular(3),
+      ),
+      Paint()..color = const Color(0xE0101820),
+    );
+
+    for (var i = 0; i < options.length; i++) {
+      final y = i * tileSize;
+      if (i == selectedIndex) {
+        canvas.drawRect(
+          Rect.fromLTWH(0, y, size.x, tileSize),
+          Paint()..color = const Color(0x66FFE066),
+        );
+      }
+      final tp = TextPainter(
+        text: TextSpan(
+          text: options[i].label,
+          style: TextStyle(
+            color: i == selectedIndex
+                ? const Color(0xFFFFE066)
+                : const Color(0xFFD8DEE9),
+            fontSize: tileSize * 0.52,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      tp.paint(canvas, Offset(4, y + (tileSize - tp.height) / 2));
+    }
+  }
+}
+
+/// 攻击目标的标记（准星）
+class TargetMarkerComponent extends PositionComponent {
+  TargetMarkerComponent({required double tileSize})
+      : super(size: Vector2.all(tileSize));
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(0, 0, size.x, size.y).deflate(1.5);
+    final p = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5
+      ..color = const Color(0xFFFF5A5A);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(3)),
+      p,
+    );
+    // 两条对角线，让"这是攻击目标"和"这是普通光标"一眼可分
+    canvas.drawLine(r.topLeft, r.bottomRight, p..strokeWidth = 1.5);
+    canvas.drawLine(r.topRight, r.bottomLeft, p);
+  }
+}

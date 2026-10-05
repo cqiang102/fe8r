@@ -16,6 +16,7 @@
 
 import 'dart:convert';
 
+import '../battle/phase.dart';
 import '../map/map_grid.dart';
 import '../map/movement_range.dart';
 import 'battle_field.dart';
@@ -31,8 +32,23 @@ enum FlowPhase {
   /// 已确认落点，正在选择"移动后做什么"
   actionMenu,
 
+  /// 正在选择攻击目标
+  selectTarget,
+
   /// 已完成本回合行动，等待下一个单位
   unitDone,
+}
+
+/// 行动菜单里的选项。
+///
+/// 只放**已经实现**的项：原版还有 道具 / 交换 / 救出 / 再移动 等，
+/// 属于后续里程碑。这里放一个做不了的选项只会让玩家点了没反应。
+enum ActionOption {
+  wait('待机'),
+  attack('攻击');
+
+  const ActionOption(this.label);
+  final String label;
 }
 
 /// 一次输入
@@ -65,6 +81,8 @@ class FlowState {
     this.pendingY,
     this.turn = 1,
     this.faction = 0,
+    this.actionIndex = 0,
+    this.targetIndex = 0,
   });
 
   final FlowPhase phase;
@@ -85,6 +103,12 @@ class FlowState {
   final int turn;
   final int faction;
 
+  /// 行动菜单里当前高亮的项（[ActionOption] 的序号）
+  final int actionIndex;
+
+  /// 选目标阶段当前高亮的目标序号（对应 `validTargets()` 的结果）
+  final int targetIndex;
+
   FlowState copyWith({
     FlowPhase? phase,
     int? cursorX,
@@ -96,6 +120,8 @@ class FlowState {
     Object? pendingY = _unset,
     int? turn,
     int? faction,
+    int? actionIndex,
+    int? targetIndex,
   }) {
     return FlowState(
       phase: phase ?? this.phase,
@@ -112,6 +138,8 @@ class FlowState {
       pendingY: pendingY == _unset ? this.pendingY : pendingY as int?,
       turn: turn ?? this.turn,
       faction: faction ?? this.faction,
+      actionIndex: actionIndex ?? this.actionIndex,
+      targetIndex: targetIndex ?? this.targetIndex,
     );
   }
 
@@ -128,6 +156,8 @@ class FlowState {
         'pendingY': pendingY,
         'turn': turn,
         'faction': faction,
+        'actionIndex': actionIndex,
+        'targetIndex': targetIndex,
       };
 
   factory FlowState.fromJson(Map<String, dynamic> json) => FlowState(
@@ -144,6 +174,8 @@ class FlowState {
         pendingY: json['pendingY'] as int?,
         turn: json['turn'] as int? ?? 1,
         faction: json['faction'] as int? ?? 0,
+        actionIndex: json['actionIndex'] as int? ?? 0,
+        targetIndex: json['targetIndex'] as int? ?? 0,
       );
 
   String encode() => jsonEncode(toJson());
@@ -163,6 +195,7 @@ class FlowResult {
     this.movedUnit = false,
     this.committedMove = false,
     this.endTurn = false,
+    this.attack,
   });
 
   final FlowState state;
@@ -175,6 +208,14 @@ class FlowResult {
 
   /// 本次输入是否请求结束回合
   final bool endTurn;
+
+  /// 本次输入是否请求执行一次攻击。
+  ///
+  /// **状态机不自己结算伤害** —— 它只决定"谁打谁"，把结算交给调用方。
+  /// 理由：结算需要道具表 / 职业数据 / 乱数，这些都不是流程状态的一部分；
+  /// 把它们塞进状态机，存档就会连带存下整张道具表。
+  /// 保持"流程只管流程"，也是 FlowState 能保持可序列化的原因。
+  final ({int attackerId, int targetId})? attack;
 }
 
 /// 交互流程状态机。
@@ -211,6 +252,9 @@ class FlowMachine {
 
       case FlowPhase.actionMenu:
         return _actionMenu(state, field, input);
+
+      case FlowPhase.selectTarget:
+        return _selectTarget(state, field, input);
     }
   }
 
@@ -280,6 +324,7 @@ class FlowMachine {
           phase: FlowPhase.actionMenu,
           pendingX: s.cursorX,
           pendingY: s.cursorY,
+          actionIndex: 0,
         ));
 
       case FlowInput.endTurn:
@@ -302,18 +347,50 @@ class FlowMachine {
   // ------------------------------------------------------------ 行动菜单
 
   FlowResult _actionMenu(FlowState s, BattleField field, FlowInput input) {
+    final unit = field.unitById(s.selectedUnitId);
+    if (unit == null) {
+      // 选中的单位没了（比如被打死）—— 回到自由光标，不要卡在这个阶段
+      return FlowResult(_toFreeCursor(s));
+    }
+
+    final options = availableActions(s, field);
+    final at = s.pendingX ?? unit.x;
+    final atY = s.pendingY ?? unit.y;
+
     switch (input) {
+      case FlowInput.up:
+      case FlowInput.left:
+        if (options.length <= 1) return FlowResult(s);
+        return FlowResult(s.copyWith(
+          actionIndex: (s.actionIndex - 1 + options.length) % options.length,
+        ));
+
+      case FlowInput.down:
+      case FlowInput.right:
+        if (options.length <= 1) return FlowResult(s);
+        return FlowResult(s.copyWith(
+          actionIndex: (s.actionIndex + 1) % options.length,
+        ));
+
       case FlowInput.confirm:
-        // M5 只实现"待机"这一个选项。攻击/道具/救出等留到后续里程碑。
+        final picked = options[s.actionIndex.clamp(0, options.length - 1)];
+
+        if (picked == ActionOption.attack) {
+          final targets = validTargets(field, unit, at, atY);
+          if (targets.isEmpty) {
+            // 理论上到不了这里（availableActions 会先滤掉），
+            // 但真的到了也不能卡死：退回菜单并归零高亮。
+            return FlowResult(s.copyWith(actionIndex: 0));
+          }
+          return FlowResult(s.copyWith(
+            phase: FlowPhase.selectTarget,
+            targetIndex: 0,
+          ));
+        }
+
+        // 待机
         return FlowResult(
-          s.copyWith(
-            phase: FlowPhase.freeCursor,
-            selectedUnitId: null,
-            moveOriginX: null,
-            moveOriginY: null,
-            pendingX: null,
-            pendingY: null,
-          ),
+          _toFreeCursor(s),
           movedUnit: true,
           committedMove: true,
         );
@@ -324,16 +401,119 @@ class FlowMachine {
           phase: FlowPhase.unitSelected,
           pendingX: null,
           pendingY: null,
+          actionIndex: 0,
         ));
 
-      case FlowInput.up:
-      case FlowInput.down:
-      case FlowInput.left:
-      case FlowInput.right:
       case FlowInput.endTurn:
         return FlowResult(s);
     }
   }
+
+  // ------------------------------------------------------------ 选择目标
+
+  FlowResult _selectTarget(FlowState s, BattleField field, FlowInput input) {
+    final unit = field.unitById(s.selectedUnitId);
+    if (unit == null) return FlowResult(_toFreeCursor(s));
+
+    final at = s.pendingX ?? unit.x;
+    final atY = s.pendingY ?? unit.y;
+    final targets = validTargets(field, unit, at, atY);
+    if (targets.isEmpty) {
+      return FlowResult(s.copyWith(phase: FlowPhase.actionMenu, targetIndex: 0));
+    }
+
+    switch (input) {
+      case FlowInput.up:
+      case FlowInput.left:
+        return FlowResult(s.copyWith(
+          targetIndex: (s.targetIndex - 1 + targets.length) % targets.length,
+        ));
+
+      case FlowInput.down:
+      case FlowInput.right:
+        return FlowResult(s.copyWith(
+          targetIndex: (s.targetIndex + 1) % targets.length,
+        ));
+
+      case FlowInput.confirm:
+        final t = targets[s.targetIndex.clamp(0, targets.length - 1)];
+        // 攻击也要算作"这个单位行动完了"
+        return FlowResult(
+          _toFreeCursor(s),
+          movedUnit: true,
+          committedMove: true,
+          attack: (attackerId: unit.id, targetId: t.id),
+        );
+
+      case FlowInput.cancel:
+        return FlowResult(s.copyWith(
+          phase: FlowPhase.actionMenu,
+          targetIndex: 0,
+        ));
+
+      case FlowInput.endTurn:
+        return FlowResult(s);
+    }
+  }
+
+  FlowState _toFreeCursor(FlowState s) => s.copyWith(
+        phase: FlowPhase.freeCursor,
+        selectedUnitId: null,
+        moveOriginX: null,
+        moveOriginY: null,
+        pendingX: null,
+        pendingY: null,
+        actionIndex: 0,
+        targetIndex: 0,
+      );
+
+  /// 当前单位在 [atX],[atY] 位置上能做的事。
+  ///
+  /// 位置是**参数**而不是读 `unit.x`：行动菜单是在"已确认落点但还没真的
+  /// 移动"的时候弹出的，此时单位还在原位。用 `unit.x` 会算出移动前的射程。
+  List<ActionOption> availableActions(
+    FlowState s,
+    BattleField field, {
+    int? atX,
+    int? atY,
+  }) {
+    final unit = field.unitById(s.selectedUnitId);
+    if (unit == null) return const [ActionOption.wait];
+    final x = atX ?? s.pendingX ?? unit.x;
+    final y = atY ?? s.pendingY ?? unit.y;
+    final out = <ActionOption>[ActionOption.wait];
+    if (validTargets(field, unit, x, y).isNotEmpty) {
+      out.add(ActionOption.attack);
+    }
+    return out;
+  }
+
+  /// 站在 [x],[y] 时能打到的敌人。
+  ///
+  /// 射程目前固定为 **1（相邻）**。真实武器射程（`GetItemMinRange` /
+  /// `GetItemMaxRange`，弓是 2、投枪是 1-2）需要武器数据接进来，
+  /// 属于 M4 收尾。
+  ///
+  /// 顺序：**先按 id 升序**，保证同一局面下目标顺序稳定 ——
+  /// 否则玩家看到的"第一个目标"会随哈希顺序变化，回放/存档对不上。
+  List<MapUnit> validTargets(
+    BattleField field,
+    MapUnit attacker,
+    int x,
+    int y,
+  ) {
+    final out = field.units
+        .where((u) =>
+            u.isAlive &&
+            !PhaseRules.areUnitsAllied(u.faction, attacker.faction) &&
+            (_dist(x, y, u.x, u.y) == 1))
+        .toList()
+      ..sort((a, b) => a.id.compareTo(b.id));
+    return out;
+  }
+
+  static int _dist(int ax, int ay, int bx, int by) =>
+      (ax - bx).abs() + (ay - by).abs();
 
   // ------------------------------------------------------------ 工具
 

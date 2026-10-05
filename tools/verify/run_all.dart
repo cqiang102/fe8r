@@ -128,7 +128,7 @@ Future<void> main(List<String> argv) async {
     // 判据是"状态迁移符合设计 + 完全可序列化 + 不产生非法状态"
     Step('L1', '交互流程状态机（可序列化）', 'flutter',
         ['test', 'test/core/flow_machine_test.dart'],
-        note: '11 用例：迁移 / 存档往返 / 非法状态'),
+        note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
 
     Step('L1', '战斗结算（M4→M5 桥接）', 'flutter',
         ['test', 'test/core/combat_test.dart'],
