@@ -52,12 +52,70 @@ REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 DECOMP = os.path.join(REPO, "third_party", "fireemblem8j")
 HOST = os.path.join(REPO, "tools", "oracle", "host")
 
-SRC = "src/data/frontier_df3_unitdef_b/frontier_df3_unitdef_b.c"
+# 要扫的源文件。两批格式**完全一样**（都是 `struct UnitDefinition` 具名初始化器）：
+#   1. frontier_df3_unitdef_b.c —— 111 张表（章节增援/遭遇战配置）
+#   2. UnitDef_Event_*_ref/*.c  —— 13 张表（**章节事件里直接引用的我方/敌方单位**）
+#
+# 第 2 批是"章节 → 事件组 → playerUnitsInNormal"那一跳的落点，
+# 名字形如 `UnitDef_Event_Ch8Ally` / `UnitDef_Event_PrologueEnemy`。
+SRC_GLOBS = [
+    "src/data/frontier_df3_unitdef_b/frontier_df3_unitdef_b.c",
+    "src/data/UnitDef_Event_*_ref/*.c",
+]
 
 
 def strip_section_attrs(text):
     """机械去掉 `__attribute__((section("...")))`（Mach-O 不接受 `.data.foo`）。"""
     return re.sub(r'__attribute__\s*\(\(\s*section\s*\([^)]*\)\s*\)\)', " ", text)
+
+
+def reda_names_from_includes():
+    """从 `eventcall.h` 里读出所有以 `struct REDA` 声明的符号名。
+
+    只剥离**确实冲突的**那些 —— 第一版按类型通配剥离，
+    把 `frontier_df4_banim_b_076_90B4DC` 这类**有用的**声明也删了，
+    结果报 "use of undeclared identifier"。
+    """
+    import glob as _g
+    names = set()
+    for h in _g.glob(os.path.join(DECOMP, "include", "*.h")):
+        try:
+            t = open(h, encoding="utf-8", errors="replace").read()
+        except OSError:
+            continue
+        for m in re.finditer(
+                r"extern\s+\w*\s*CONST_DATA\s+struct\s+REDA\s+(\w+)\s*\[",
+                t):
+            names.add(m.group(1))
+    return names
+
+
+def strip_conflicting_externs(text):
+    """去掉 `extern const u8 Xxx[];` 这类**前置声明**。
+
+    `UnitDef_Event_*_ref/*.c` 为了引用 REDA（增援数据）会在文件头写
+        extern const u8 REDA_PrologueGradoCavalry0[];
+    而 `eventcall.h` 里的真实声明是
+        extern CONST_DATA struct REDA REDA_PrologueGradoCavalry0[];
+    两者类型冲突，合到一个 TU 里编会报
+    "redeclaration with a different type"。
+
+    这些前置声明对我们**没有用**（我们要的是 `struct UnitDefinition` 表），
+    所以机械删掉。与 `strip_section_attrs` 同类的处理：
+    **只动声明，不动任何数据。**
+    """
+    # 只剥离**名字在 eventcall.h 里声明为 `struct REDA`** 的那些。
+    # 通配剥离会把有用的声明（如 frontier_df4_banim_b_*）也删掉。
+    bad = reda_names_from_includes()
+    out = []
+    for line in text.split("\n"):
+        m = re.match(
+            r"^\s*extern\s+const\s+(?:u8|u16|u32|s8|s16|s32|int|unsigned)\s+"
+            r"(\w+)\s*\[\s*\]\s*;\s*$", line)
+        if m and m.group(1) in bad:
+            continue
+        out.append(line)
+    return "\n".join(out)
 
 
 def compile_obj(tmp, src):
@@ -249,13 +307,28 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
 
-    path = os.path.join(DECOMP, SRC)
-    if not os.path.exists(path):
-        print(f"错误：找不到 {path}", file=sys.stderr)
+    import glob as _glob
+    files = []
+    for g in SRC_GLOBS:
+        files.extend(sorted(_glob.glob(os.path.join(DECOMP, g))))
+    if not files:
+        print("错误：没找到任何单位配置源文件", file=sys.stderr)
         return 1
+    print(f"扫描 {len(files)} 个源文件")
 
-    raw = open(path, encoding="utf-8", errors="replace").read()
-    names = re.findall(r"^struct UnitDefinition\s+(\w+)\[\]", raw, re.M)
+    raw = ""
+    names = []
+    for f in files:
+        t = open(f, encoding="utf-8", errors="replace").read()
+        # ⚠️ 不能要求行首就是 `struct UnitDefinition` ——
+        # `UnitDef_Event_*_ref/*.c` 里的写法是：
+        #     SECTION(".rodata.dat_...") struct UnitDefinition Xxx[] =
+        # 前面带一个 SECTION(...)。第一版按行首匹配，13 个文件一个表都没找到。
+        found = re.findall(
+            r"struct\s+UnitDefinition\s+(\w+)\s*\[\s*\]", t)
+        if found:
+            raw += "\n" + strip_conflicting_externs(strip_section_attrs(t))
+            names.extend(found)
     print(f"找到 {len(names)} 张单位配置表")
     if a.limit:
         names = names[:a.limit]
@@ -320,7 +393,7 @@ def main():
 
     os.makedirs(a.out, exist_ok=True)
     payload = {
-        "source": SRC,
+        "sources": [os.path.relpath(f, DECOMP) for f in files],
         "hostSizeof": size_of,
         "gbaSizeof": 18,
         "tables": tables,
