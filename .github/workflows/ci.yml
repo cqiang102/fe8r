@@ -53,12 +53,19 @@ jobs:
         with:
           python-version: '3.12'
 
-      # C Oracle 会用 clang 编译第三方反编译项目的真实 C 代码。
-      # ubuntu-latest 自带 clang，但显式装一次更稳妥。
-      - name: 安装 clang
+      # ⚠️ clang **不要装**：macos-latest 自带 Xcode 命令行工具，
+      # 里面就有 clang。
+      #
+      # 这里曾经留着 `sudo apt-get install clang` —— 那是 ubuntu 的写法。
+      # 上一轮把 runs-on 从 ubuntu 改成 macos 时**漏改了这两步**，
+      # 于是每个 job 都挂在"apt-get: command not found"上，
+      # 而 annotation 只给一句 "Process completed with exit code 1"，
+      # 完全看不出是哪一步。
+      - name: 确认 clang 可用
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq clang
+          set -e
+          clang --version | head -1
+          which clang
 
       - name: 缓存反编译源码
         uses: actions/cache@v4
@@ -66,8 +73,24 @@ jobs:
           path: third_party/fireemblem8j
           key: fireemblem8j-v1
 
+      # 失败时把输出末尾写进 job summary —— GitHub 的 annotation 只会给
+      # 一句 "exit code 1"，看不到是哪一步、什么错。
+      # 这次排查就卡在这上面：真正的错是 "apt-get: command not found"，
+      # 但页面上完全看不出来。
       - name: 运行验证
-        run: ./tools/verify/ci.sh
+        run: |
+          set -o pipefail
+          ./tools/verify/ci.sh 2>&1 | tee ci.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            {
+              echo "## ❌ 验证失败（退出码 $status）"
+              echo '```'
+              tail -120 ci.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$status"
 
   # 全量编译覆盖率单独一个 job：它会把反编译项目里 6213 个 C 文件逐个试着编译，
   # 约 80 秒，不适合塞进每次 push 的快反馈里。
@@ -93,10 +116,12 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 安装 clang
+      # 同上：macos-latest 自带 clang，不要 apt-get
+      - name: 确认 clang 可用
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq clang
+          set -e
+          clang --version | head -1
+          which clang
 
       - name: 缓存反编译源码
         uses: actions/cache@v4
@@ -105,7 +130,19 @@ jobs:
           key: fireemblem8j-coverage
 
       - name: 运行验证（含全量覆盖率）
-        run: ./tools/verify/ci.sh --coverage
+        run: |
+          set -o pipefail
+          ./tools/verify/ci.sh --coverage 2>&1 | tee ci.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            {
+              echo "## ❌ 验证失败（退出码 $status）"
+              echo '```'
+              tail -120 ci.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$status"
 
   # 目标平台是 macOS 桌面，但上面的验证跑在 Linux（快且便宜）。
   # 这个 job 专门确认"在目标平台上真的能构建出来"——本地已经验证过，
