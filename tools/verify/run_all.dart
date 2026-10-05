@@ -185,6 +185,10 @@ Future<void> main(List<String> argv) async {
         ['test', 'test/core/flow_machine_test.dart'],
         note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
 
+    Step('L1', '重定位读取（指针归一化的前提）', 'flutter',
+        ['test', 'test/core/relocations_test.dart'],
+        note: '1 用例：otool -rv / readelf -r 两条路径'),
+
     Step('L1', '章节配置表（真实数据）', 'flutter',
         ['test', 'test/core/chapters_test.dart'],
         note: '6 用例：79 章 / 名字格式 / 事件组索引'),
