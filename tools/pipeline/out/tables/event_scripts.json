@@ -1,338 +1,332 @@
 {
  "sources": [],
  "tableCount": 166,
- "instructionCount": 5842,
- "decodedTables": 159,
+ "instructionCount": 4263,
+ "decodedTables": 100,
  "opcodes": [
   {
    "opcode": 5,
    "name": "EV_CMD_SVAL",
-   "count": 983,
-   "percent": 16.83
+   "count": 772,
+   "percent": 18.11
   },
   {
    "opcode": 27,
    "name": "EV_CMD_DISPLAYTEXT",
-   "count": 459,
-   "percent": 7.86
-  },
-  {
-   "opcode": 10,
-   "name": "EV_CMD_CALL",
-   "count": 403,
-   "percent": 6.9
+   "count": 359,
+   "percent": 8.42
   },
   {
    "opcode": 7,
    "name": "EV_CMD_QUEUE_OPS",
-   "count": 360,
-   "percent": 6.16
+   "count": 333,
+   "percent": 7.81
+  },
+  {
+   "opcode": 10,
+   "name": "EV_CMD_CALL",
+   "count": 278,
+   "percent": 6.52
   },
   {
    "opcode": 59,
    "name": "EV_CMD_DISPLAYCURSOR",
-   "count": 337,
-   "percent": 5.77
+   "count": 253,
+   "percent": 5.93
   },
   {
    "opcode": 29,
    "name": "EV_CMD_ENDTEXT",
-   "count": 267,
-   "percent": 4.57
-  },
-  {
-   "opcode": 23,
-   "name": "EV_CMD_FADE",
-   "count": 255,
-   "percent": 4.36
-  },
-  {
-   "opcode": 14,
-   "name": "EV_CMD_STALL",
-   "count": 252,
-   "percent": 4.31
+   "count": 213,
+   "percent": 5.0
   },
   {
    "opcode": 48,
    "name": "EV_CMD_ENUN",
-   "count": 239,
-   "percent": 4.09
+   "count": 176,
+   "percent": 4.13
+  },
+  {
+   "opcode": 14,
+   "name": "EV_CMD_STALL",
+   "count": 163,
+   "percent": 3.82
   },
   {
    "opcode": 2,
    "name": "EV_CMD_EVSET",
-   "count": 228,
-   "percent": 3.9
+   "count": 163,
+   "percent": 3.82
   },
   {
    "opcode": 52,
    "name": "EV_CMD_CHANGESTATE",
-   "count": 203,
-   "percent": 3.47
+   "count": 151,
+   "percent": 3.54
+  },
+  {
+   "opcode": 23,
+   "name": "EV_CMD_FADE",
+   "count": 149,
+   "percent": 3.5
   },
   {
    "opcode": 1,
    "name": "EV_CMD_END",
-   "count": 182,
-   "percent": 3.12
-  },
-  {
-   "opcode": 8,
-   "name": "EV_CMD_LABEL",
-   "count": 168,
-   "percent": 2.88
-  },
-  {
-   "opcode": 12,
-   "name": "EV_CMD_BRANCH",
-   "count": 162,
-   "percent": 2.77
-  },
-  {
-   "opcode": 47,
-   "name": "EV_CMD_MOVEUNIT",
-   "count": 158,
-   "percent": 2.7
+   "count": 111,
+   "percent": 2.6
   },
   {
    "opcode": 44,
    "name": "EV_CMD_LOADUNIT",
-   "count": 148,
-   "percent": 2.53
+   "count": 110,
+   "percent": 2.58
   },
   {
    "opcode": 26,
    "name": "EV_CMD_SETTEXTTYPE",
-   "count": 127,
-   "percent": 2.17
+   "count": 104,
+   "percent": 2.44
+  },
+  {
+   "opcode": 47,
+   "name": "EV_CMD_MOVEUNIT",
+   "count": 101,
+   "percent": 2.37
+  },
+  {
+   "opcode": 12,
+   "name": "EV_CMD_BRANCH",
+   "count": 93,
+   "percent": 2.18
   },
   {
    "opcode": 18,
    "name": "EV_CMD_BGMCHANGE_12",
-   "count": 108,
-   "percent": 1.85
+   "count": 90,
+   "percent": 2.11
+  },
+  {
+   "opcode": 8,
+   "name": "EV_CMD_LABEL",
+   "count": 85,
+   "percent": 1.99
   },
   {
    "opcode": 38,
    "name": "EV_CMD_CAMERACONTROL",
-   "count": 67,
+   "count": 55,
+   "percent": 1.29
+  },
+  {
+   "opcode": 19,
+   "name": "EV_CMD_BGMCHANGE_13",
+   "count": 49,
    "percent": 1.15
   },
   {
-   "opcode": 37,
-   "name": "EV_CMD_LOMA",
-   "count": 64,
+   "opcode": 255,
+   "name": "",
+   "count": 47,
    "percent": 1.1
   },
   {
    "opcode": 51,
    "name": "EV_CMD_CHECKSTATE",
-   "count": 63,
-   "percent": 1.08
-  },
-  {
-   "opcode": 19,
-   "name": "EV_CMD_BGMCHANGE_13",
-   "count": 57,
-   "percent": 0.98
+   "count": 42,
+   "percent": 0.99
   },
   {
    "opcode": 21,
    "name": "EV_CMD_BGMVOLUMECHANGE",
-   "count": 49,
-   "percent": 0.84
-  },
-  {
-   "opcode": 3,
-   "name": "EV_CMD_EVCHECK",
-   "count": 46,
-   "percent": 0.79
-  },
-  {
-   "opcode": 58,
-   "name": "EV_CMD_DISPLAYPOPUP",
-   "count": 41,
-   "percent": 0.7
+   "count": 33,
+   "percent": 0.77
   },
   {
    "opcode": 17,
    "name": "EV_CMD_IGNOREKEYS",
-   "count": 37,
+   "count": 27,
    "percent": 0.63
-  },
-  {
-   "opcode": 6,
-   "name": "EV_CMD_SLOT_OPS",
-   "count": 36,
-   "percent": 0.62
   },
   {
    "opcode": 9,
    "name": "EV_CMD_GOTO",
-   "count": 35,
-   "percent": 0.6
+   "count": 26,
+   "percent": 0.61
   },
   {
-   "opcode": 25,
-   "name": "EV_CMD_CHECKVARIOUS",
-   "count": 32,
-   "percent": 0.55
+   "opcode": 37,
+   "name": "EV_CMD_LOMA",
+   "count": 25,
+   "percent": 0.59
   },
   {
    "opcode": 34,
    "name": "EV_CMD_CLEARSCREEN",
-   "count": 30,
-   "percent": 0.51
+   "count": 23,
+   "percent": 0.54
   },
   {
-   "opcode": 39,
-   "name": "EV_CMD_TILE_CHANGE",
-   "count": 26,
-   "percent": 0.45
+   "opcode": 25,
+   "name": "EV_CMD_CHECKVARIOUS",
+   "count": 22,
+   "percent": 0.52
   },
   {
    "opcode": 42,
    "name": "EV_CMD_CHANGECHAPTER",
-   "count": 23,
-   "percent": 0.39
-  },
-  {
-   "opcode": 55,
-   "name": "EV_CMD_GIVEITEM",
-   "count": 23,
-   "percent": 0.39
+   "count": 19,
+   "percent": 0.45
   },
   {
    "opcode": 28,
    "name": "EV_CMD_CONTINUETEXT",
-   "count": 22,
-   "percent": 0.38
+   "count": 19,
+   "percent": 0.45
   },
   {
-   "opcode": 61,
-   "name": "EV_CMD_MENUOVERRIDE",
-   "count": 16,
-   "percent": 0.27
+   "opcode": 3,
+   "name": "EV_CMD_EVCHECK",
+   "count": 14,
+   "percent": 0.33
   },
   {
-   "opcode": 20,
-   "name": "EV_CMD_BGMOVERWRITE",
-   "count": 12,
-   "percent": 0.21
+   "opcode": 55,
+   "name": "EV_CMD_GIVEITEM",
+   "count": 14,
+   "percent": 0.33
   },
   {
    "opcode": 15,
    "name": "EV_CMD_COUNTER",
    "count": 12,
-   "percent": 0.21
-  },
-  {
-   "opcode": 24,
-   "name": "EV_CMD_COLORFADE",
-   "count": 12,
-   "percent": 0.21
+   "percent": 0.28
   },
   {
    "opcode": 43,
    "name": "EV_CMD_LOAD_PRECONF",
-   "count": 11,
-   "percent": 0.19
+   "count": 10,
+   "percent": 0.23
   },
   {
-   "opcode": 22,
-   "name": "EV_CMD_PLAYSE",
-   "count": 11,
+   "opcode": 6,
+   "name": "EV_CMD_SLOT_OPS",
+   "count": 10,
+   "percent": 0.23
+  },
+  {
+   "opcode": 39,
+   "name": "EV_CMD_TILE_CHANGE",
+   "count": 10,
+   "percent": 0.23
+  },
+  {
+   "opcode": 20,
+   "name": "EV_CMD_BGMOVERWRITE",
+   "count": 10,
+   "percent": 0.23
+  },
+  {
+   "opcode": 24,
+   "name": "EV_CMD_COLORFADE",
+   "count": 10,
+   "percent": 0.23
+  },
+  {
+   "opcode": 63,
+   "name": "EV_CMD_SCRIPT_BATTLE",
+   "count": 8,
    "percent": 0.19
   },
   {
    "opcode": 13,
    "name": "EV_CMD_ASMC",
-   "count": 11,
+   "count": 8,
+   "percent": 0.19
+  },
+  {
+   "opcode": 11,
+   "name": "EV_CMD_ENQUEUE_CALL",
+   "count": 8,
    "percent": 0.19
   },
   {
    "opcode": 33,
    "name": "EV_CMD_SHOWBG",
-   "count": 10,
-   "percent": 0.17
+   "count": 8,
+   "percent": 0.19
   },
   {
-   "opcode": 63,
-   "name": "EV_CMD_SCRIPT_BATTLE",
-   "count": 9,
-   "percent": 0.15
-  },
-  {
-   "opcode": 11,
-   "name": "EV_CMD_ENQUEUE_CALL",
-   "count": 9,
-   "percent": 0.15
-  },
-  {
-   "opcode": 45,
-   "name": "EV_CMD_CHANGE_PAL",
+   "opcode": 22,
+   "name": "EV_CMD_PLAYSE",
    "count": 6,
-   "percent": 0.1
+   "percent": 0.14
+  },
+  {
+   "opcode": 61,
+   "name": "EV_CMD_MENUOVERRIDE",
+   "count": 6,
+   "percent": 0.14
   },
   {
    "opcode": 16,
    "name": "EV_CMD_EVBITMODIFY",
-   "count": 6,
-   "percent": 0.1
+   "count": 5,
+   "percent": 0.12
+  },
+  {
+   "opcode": 58,
+   "name": "EV_CMD_DISPLAYPOPUP",
+   "count": 5,
+   "percent": 0.12
+  },
+  {
+   "opcode": 45,
+   "name": "EV_CMD_CHANGE_PAL",
+   "count": 4,
+   "percent": 0.09
   },
   {
    "opcode": 66,
    "name": "EV_CMD_EARTHQUAKE",
    "count": 4,
-   "percent": 0.07
+   "percent": 0.09
   },
   {
    "opcode": 50,
    "name": "EV_CMD_LOADSINGLEUNIT",
    "count": 4,
-   "percent": 0.07
+   "percent": 0.09
+  },
+  {
+   "opcode": 0,
+   "name": "EV_CMD_NOP",
+   "count": 4,
+   "percent": 0.09
   },
   {
    "opcode": 41,
    "name": "EV_CMD_CHANGEFOGVISION",
    "count": 3,
-   "percent": 0.05
-  },
-  {
-   "opcode": 57,
-   "name": "EV_CMD_CHANGEAI",
-   "count": 2,
-   "percent": 0.03
+   "percent": 0.07
   },
   {
    "opcode": 49,
    "name": "EV_CMD_TOGGLERANGE",
    "count": 2,
-   "percent": 0.03
+   "percent": 0.05
   },
   {
    "opcode": 46,
    "name": "EV_CMD_GET_PID",
    "count": 2,
-   "percent": 0.03
+   "percent": 0.05
   },
   {
    "opcode": 166,
    "name": "EV_CMD_WM_A6",
    "count": 2,
-   "percent": 0.03
-  },
-  {
-   "opcode": 4,
-   "name": "EV_CMD_RANDOMNUMBER",
-   "count": 2,
-   "percent": 0.03
-  },
-  {
-   "opcode": 60,
-   "name": "EV_CMD_MOVE_CURSOR",
-   "count": 2,
-   "percent": 0.03
+   "percent": 0.05
   },
   {
    "opcode": 54,
@@ -341,20 +335,14 @@
    "percent": 0.02
   },
   {
-   "opcode": 108,
-   "name": "",
+   "opcode": 4,
+   "name": "EV_CMD_RANDOMNUMBER",
    "count": 1,
    "percent": 0.02
   },
   {
-   "opcode": 30,
-   "name": "EV_CMD_DISPLAYFACE",
-   "count": 1,
-   "percent": 0.02
-  },
-  {
-   "opcode": 149,
-   "name": "EV_CMD_WM_LOADLOCATION3",
+   "opcode": 60,
+   "name": "EV_CMD_MOVE_CURSOR",
    "count": 1,
    "percent": 0.02
   }
@@ -363,282 +351,217 @@
   {
    "opcode": 5,
    "sub": 0,
-   "count": 983
-  },
-  {
-   "opcode": 10,
-   "sub": 0,
-   "count": 403
+   "count": 772
   },
   {
    "opcode": 7,
    "sub": 1,
-   "count": 352
+   "count": 329
+  },
+  {
+   "opcode": 10,
+   "sub": 0,
+   "count": 278
   },
   {
    "opcode": 29,
    "sub": 0,
-   "count": 267
+   "count": 213
+  },
+  {
+   "opcode": 27,
+   "sub": 0,
+   "count": 181
   },
   {
    "opcode": 48,
    "sub": 0,
-   "count": 239
-  },
-  {
-   "opcode": 27,
-   "sub": 0,
-   "count": 231
+   "count": 176
   },
   {
    "opcode": 27,
    "sub": 2,
-   "count": 215
+   "count": 165
   },
   {
    "opcode": 14,
    "sub": 0,
-   "count": 196
+   "count": 152
+  },
+  {
+   "opcode": 59,
+   "sub": 2,
+   "count": 126
   },
   {
    "opcode": 1,
    "sub": 0,
-   "count": 180
-  },
-  {
-   "opcode": 8,
-   "sub": 0,
-   "count": 168
-  },
-  {
-   "opcode": 59,
-   "sub": 2,
-   "count": 168
+   "count": 107
   },
   {
    "opcode": 59,
    "sub": 1,
-   "count": 140
-  },
-  {
-   "opcode": 23,
-   "sub": 1,
-   "count": 126
-  },
-  {
-   "opcode": 2,
-   "sub": 8,
-   "count": 118
-  },
-  {
-   "opcode": 23,
-   "sub": 0,
-   "count": 108
+   "count": 102
   },
   {
    "opcode": 18,
    "sub": 0,
-   "count": 108
+   "count": 90
   },
   {
-   "opcode": 12,
-   "sub": 1,
-   "count": 93
-  },
-  {
-   "opcode": 2,
-   "sub": 9,
-   "count": 93
-  },
-  {
-   "opcode": 26,
-   "sub": 0,
-   "count": 92
-  },
-  {
-   "opcode": 47,
+   "opcode": 8,
    "sub": 0,
    "count": 85
   },
   {
-   "opcode": 44,
-   "sub": 1,
-   "count": 73
+   "opcode": 2,
+   "sub": 9,
+   "count": 82
   },
   {
-   "opcode": 44,
+   "opcode": 23,
+   "sub": 1,
+   "count": 72
+  },
+  {
+   "opcode": 26,
    "sub": 0,
    "count": 71
   },
   {
+   "opcode": 2,
+   "sub": 8,
+   "count": 68
+  },
+  {
    "opcode": 12,
    "sub": 0,
-   "count": 65
+   "count": 59
   },
   {
-   "opcode": 37,
+   "opcode": 23,
    "sub": 0,
-   "count": 64
+   "count": 58
   },
   {
-   "opcode": 52,
-   "sub": 10,
-   "count": 41
-  },
-  {
-   "opcode": 52,
-   "sub": 11,
-   "count": 41
-  },
-  {
-   "opcode": 52,
-   "sub": 12,
-   "count": 40
-  },
-  {
-   "opcode": 52,
-   "sub": 15,
-   "count": 40
-  },
-  {
-   "opcode": 58,
-   "sub": 1,
-   "count": 39
+   "opcode": 44,
+   "sub": 0,
+   "count": 56
   },
   {
    "opcode": 47,
-   "sub": 2,
-   "count": 38
+   "sub": 0,
+   "count": 54
   },
   {
-   "opcode": 17,
-   "sub": 0,
-   "count": 37
+   "opcode": 44,
+   "sub": 1,
+   "count": 51
+  },
+  {
+   "opcode": 255,
+   "sub": 15,
+   "count": 47
+  },
+  {
+   "opcode": 12,
+   "sub": 1,
+   "count": 33
   },
   {
    "opcode": 51,
    "sub": 2,
-   "count": 35
+   "count": 33
   },
   {
-   "opcode": 9,
-   "sub": 0,
-   "count": 35
+   "opcode": 52,
+   "sub": 11,
+   "count": 32
   },
   {
-   "opcode": 14,
-   "sub": 1,
-   "count": 35
+   "opcode": 52,
+   "sub": 10,
+   "count": 31
   },
   {
-   "opcode": 3,
-   "sub": 0,
-   "count": 34
+   "opcode": 52,
+   "sub": 12,
+   "count": 30
   },
   {
    "opcode": 19,
    "sub": 4,
-   "count": 34
+   "count": 29
   },
   {
-   "opcode": 6,
-   "sub": 0,
-   "count": 33
+   "opcode": 52,
+   "sub": 15,
+   "count": 28
   },
   {
-   "opcode": 34,
-   "sub": 0,
-   "count": 30
+   "opcode": 47,
+   "sub": 2,
+   "count": 28
   },
   {
-   "opcode": 21,
+   "opcode": 17,
    "sub": 0,
    "count": 27
   },
   {
-   "opcode": 38,
-   "sub": 8,
+   "opcode": 9,
+   "sub": 0,
    "count": 26
   },
   {
-   "opcode": 38,
+   "opcode": 37,
    "sub": 0,
    "count": 25
   },
   {
    "opcode": 26,
    "sub": 3,
-   "count": 25
+   "count": 24
   },
   {
-   "opcode": 21,
-   "sub": 1,
-   "count": 22
+   "opcode": 34,
+   "sub": 0,
+   "count": 23
+  },
+  {
+   "opcode": 38,
+   "sub": 8,
+   "count": 21
+  },
+  {
+   "opcode": 38,
+   "sub": 0,
+   "count": 20
   },
   {
    "opcode": 28,
    "sub": 0,
-   "count": 22
-  },
-  {
-   "opcode": 39,
-   "sub": 0,
-   "count": 20
-  },
-  {
-   "opcode": 55,
-   "sub": 0,
-   "count": 20
-  },
-  {
-   "opcode": 14,
-   "sub": 2,
    "count": 19
   },
   {
-   "opcode": 51,
-   "sub": 8,
-   "count": 18
-  },
-  {
-   "opcode": 25,
+   "opcode": 21,
    "sub": 0,
    "count": 18
   },
   {
-   "opcode": 47,
-   "sub": 3,
-   "count": 17
+   "opcode": 21,
+   "sub": 1,
+   "count": 15
   },
   {
    "opcode": 38,
    "sub": 1,
-   "count": 16
-  },
-  {
-   "opcode": 52,
-   "sub": 8,
-   "count": 16
+   "count": 14
   },
   {
    "opcode": 42,
    "sub": 1,
-   "count": 16
-  },
-  {
-   "opcode": 61,
-   "sub": 0,
-   "count": 16
-  },
-  {
-   "opcode": 59,
-   "sub": 0,
-   "count": 15
-  },
-  {
-   "opcode": 19,
-   "sub": 6,
-   "count": 14
+   "count": 13
   },
   {
    "opcode": 27,
@@ -647,8 +570,18 @@
   },
   {
    "opcode": 47,
-   "sub": 8,
+   "sub": 3,
    "count": 13
+  },
+  {
+   "opcode": 59,
+   "sub": 0,
+   "count": 12
+  },
+  {
+   "opcode": 52,
+   "sub": 8,
+   "count": 12
   },
   {
    "opcode": 3,
@@ -656,68 +589,58 @@
    "count": 12
   },
   {
-   "opcode": 2,
-   "sub": 1,
+   "opcode": 14,
+   "sub": 2,
+   "count": 11
+  },
+  {
+   "opcode": 25,
+   "sub": 0,
+   "count": 11
+  },
+  {
+   "opcode": 55,
+   "sub": 0,
+   "count": 11
+  },
+  {
+   "opcode": 19,
+   "sub": 6,
    "count": 11
   },
   {
    "opcode": 43,
    "sub": 2,
-   "count": 11
-  },
-  {
-   "opcode": 23,
-   "sub": 2,
-   "count": 11
-  },
-  {
-   "opcode": 22,
-   "sub": 0,
-   "count": 11
-  },
-  {
-   "opcode": 33,
-   "sub": 0,
    "count": 10
   },
   {
    "opcode": 23,
-   "sub": 3,
+   "sub": 2,
    "count": 10
   },
   {
    "opcode": 59,
    "sub": 4,
-   "count": 10
+   "count": 9
   },
   {
-   "opcode": 13,
+   "opcode": 23,
+   "sub": 3,
+   "count": 9
+  },
+  {
+   "opcode": 2,
+   "sub": 1,
+   "count": 8
+  },
+  {
+   "opcode": 39,
    "sub": 0,
-   "count": 10
-  },
-  {
-   "opcode": 52,
-   "sub": 1,
    "count": 8
   },
   {
-   "opcode": 24,
-   "sub": 2,
-   "count": 8
-  },
-  {
-   "opcode": 26,
-   "sub": 1,
-   "count": 8
-  },
-  {
-   "opcode": 11,
-   "sub": 1,
-   "count": 8
-  },
-  {
-   "opcode": 7,
-   "sub": 2,
+   "opcode": 33,
+   "sub": 0,
    "count": 8
   },
   {
@@ -726,14 +649,24 @@
    "count": 7
   },
   {
-   "opcode": 20,
+   "opcode": 6,
    "sub": 0,
    "count": 7
   },
   {
-   "opcode": 25,
-   "sub": 7,
-   "count": 6
+   "opcode": 26,
+   "sub": 1,
+   "count": 7
+  },
+  {
+   "opcode": 11,
+   "sub": 1,
+   "count": 7
+  },
+  {
+   "opcode": 13,
+   "sub": 0,
+   "count": 7
   },
   {
    "opcode": 51,
@@ -741,43 +674,38 @@
    "count": 6
   },
   {
-   "opcode": 45,
-   "sub": 0,
-   "count": 6
-  },
-  {
-   "opcode": 39,
-   "sub": 1,
-   "count": 6
-  },
-  {
-   "opcode": 2,
-   "sub": 0,
-   "count": 6
-  },
-  {
-   "opcode": 16,
+   "opcode": 20,
    "sub": 0,
    "count": 6
   },
   {
    "opcode": 52,
-   "sub": 5,
+   "sub": 1,
+   "count": 6
+  },
+  {
+   "opcode": 24,
+   "sub": 2,
+   "count": 6
+  },
+  {
+   "opcode": 22,
+   "sub": 0,
+   "count": 6
+  },
+  {
+   "opcode": 61,
+   "sub": 0,
+   "count": 6
+  },
+  {
+   "opcode": 25,
+   "sub": 7,
    "count": 5
   },
   {
    "opcode": 52,
    "sub": 0,
-   "count": 5
-  },
-  {
-   "opcode": 63,
-   "sub": 0,
-   "count": 5
-  },
-  {
-   "opcode": 47,
-   "sub": 1,
    "count": 5
   },
   {
@@ -791,13 +719,33 @@
    "count": 5
   },
   {
-   "opcode": 20,
+   "opcode": 2,
+   "sub": 0,
+   "count": 5
+  },
+  {
+   "opcode": 16,
+   "sub": 0,
+   "count": 5
+  },
+  {
+   "opcode": 58,
    "sub": 1,
    "count": 5
   },
   {
-   "opcode": 44,
-   "sub": 2,
+   "opcode": 45,
+   "sub": 0,
+   "count": 4
+  },
+  {
+   "opcode": 52,
+   "sub": 5,
+   "count": 4
+  },
+  {
+   "opcode": 63,
+   "sub": 0,
    "count": 4
   },
   {
@@ -806,18 +754,28 @@
    "count": 4
   },
   {
+   "opcode": 47,
+   "sub": 1,
+   "count": 4
+  },
+  {
+   "opcode": 20,
+   "sub": 1,
+   "count": 4
+  },
+  {
    "opcode": 24,
    "sub": 0,
    "count": 4
   },
   {
-   "opcode": 12,
+   "opcode": 59,
    "sub": 5,
    "count": 4
   },
   {
-   "opcode": 59,
-   "sub": 5,
+   "opcode": 7,
+   "sub": 2,
    "count": 4
   },
   {
@@ -831,16 +789,6 @@
    "count": 3
   },
   {
-   "opcode": 52,
-   "sub": 13,
-   "count": 3
-  },
-  {
-   "opcode": 52,
-   "sub": 14,
-   "count": 3
-  },
-  {
    "opcode": 42,
    "sub": 2,
    "count": 3
@@ -851,14 +799,19 @@
    "count": 3
   },
   {
+   "opcode": 44,
+   "sub": 2,
+   "count": 3
+  },
+  {
    "opcode": 63,
    "sub": 2,
    "count": 3
   },
   {
-   "opcode": 42,
-   "sub": 3,
-   "count": 3
+   "opcode": 3,
+   "sub": 0,
+   "count": 2
   },
   {
    "opcode": 25,
@@ -867,6 +820,11 @@
   },
   {
    "opcode": 6,
+   "sub": 1,
+   "count": 2
+  },
+  {
+   "opcode": 39,
    "sub": 1,
    "count": 2
   },
@@ -881,22 +839,17 @@
    "count": 2
   },
   {
-   "opcode": 57,
-   "sub": 0,
-   "count": 2
-  },
-  {
    "opcode": 26,
    "sub": 4,
    "count": 2
   },
   {
-   "opcode": 49,
-   "sub": 0,
+   "opcode": 42,
+   "sub": 3,
    "count": 2
   },
   {
-   "opcode": 58,
+   "opcode": 49,
    "sub": 0,
    "count": 2
   },
@@ -906,8 +859,8 @@
    "count": 2
   },
   {
-   "opcode": 14,
-   "sub": 3,
+   "opcode": 47,
+   "sub": 8,
    "count": 2
   },
   {
@@ -918,11 +871,6 @@
   {
    "opcode": 19,
    "sub": 2,
-   "count": 2
-  },
-  {
-   "opcode": 4,
-   "sub": 0,
    "count": 2
   },
   {
@@ -941,6 +889,21 @@
    "count": 2
   },
   {
+   "opcode": 1,
+   "sub": 2,
+   "count": 2
+  },
+  {
+   "opcode": 52,
+   "sub": 13,
+   "count": 1
+  },
+  {
+   "opcode": 52,
+   "sub": 14,
+   "count": 1
+  },
+  {
    "opcode": 25,
    "sub": 3,
    "count": 1
@@ -956,12 +919,22 @@
    "count": 1
   },
   {
+   "opcode": 0,
+   "sub": 14,
+   "count": 1
+  },
+  {
    "opcode": 13,
    "sub": 1,
    "count": 1
   },
   {
    "opcode": 25,
+   "sub": 5,
+   "count": 1
+  },
+  {
+   "opcode": 12,
    "sub": 5,
    "count": 1
   },
@@ -976,8 +949,28 @@
    "count": 1
   },
   {
+   "opcode": 0,
+   "sub": 12,
+   "count": 1
+  },
+  {
    "opcode": 54,
    "sub": 0,
+   "count": 1
+  },
+  {
+   "opcode": 4,
+   "sub": 0,
+   "count": 1
+  },
+  {
+   "opcode": 0,
+   "sub": 0,
+   "count": 1
+  },
+  {
+   "opcode": 0,
+   "sub": 3,
    "count": 1
   },
   {
@@ -986,47 +979,12 @@
    "count": 1
   },
   {
-   "opcode": 51,
-   "sub": 7,
-   "count": 1
-  },
-  {
-   "opcode": 108,
-   "sub": 8,
-   "count": 1
-  },
-  {
-   "opcode": 25,
-   "sub": 9,
-   "count": 1
-  },
-  {
-   "opcode": 30,
-   "sub": 1,
-   "count": 1
-  },
-  {
-   "opcode": 25,
-   "sub": 6,
-   "count": 1
-  },
-  {
-   "opcode": 149,
-   "sub": 5,
-   "count": 1
-  },
-  {
    "opcode": 60,
    "sub": 0,
    "count": 1
-  },
-  {
-   "opcode": 60,
-   "sub": 1,
-   "count": 1
   }
  ],
- "implementedCoveragePercent": 62.2,
+ "implementedCoveragePercent": 61.0,
  "implementedOpcodes": [
   "branch",
   "call",
@@ -1052,18 +1010,77 @@
   "stall"
  ],
  "problems": [
+  "EventScr_9EEA58: 字偏移 17 长度为 0",
+  "EventScr_Ch10a_BeginningScene: 字偏移 77 长度为 0",
+  "EventScr_Ch12A_0: 字偏移 24 越界（len=15）",
+  "EventScr_Ch12B_1: 字偏移 25 长度为 0",
+  "EventScr_Ch14b_BeginningScene: 字偏移 111 长度为 0",
+  "EventScr_Ch14b_EndingScene: 字偏移 49 长度为 0",
+  "EventScr_Ch15A_17: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_18: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_19: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_20: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_21: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_22: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_23: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_24: 字偏移 23 长度为 0",
+  "EventScr_Ch15A_25: 字偏移 23 长度为 0",
   "EventScr_Ch15A_26: 字偏移 160 越界（len=4）",
-  "EventScr_Ch16A_1: 字偏移 44 越界（len=4）",
+  "EventScr_Ch15B_14: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_15: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_16: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_17: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_18: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_19: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_20: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_21: 字偏移 23 长度为 0",
+  "EventScr_Ch15B_22: 字偏移 23 长度为 0",
+  "EventScr_Ch16A_1: 字偏移 32 越界（len=15）",
+  "EventScr_Ch16A_11: 字偏移 201 长度为 0",
+  "EventScr_Ch16A_12: 字偏移 305 长度为 0",
   "EventScr_Ch16b_BeginningScene: 字偏移 42 越界（len=4）",
   "EventScr_Ch18b_BeginningScene: 字偏移 30 越界（len=4）",
-  "EventScr_Ch1Tut_EirikaVisitHouseInit: 字偏移 37 越界（len=12）",
-  "EventScr_Ch1Tut_OnBeginning: 字偏移 24 越界（len=13）",
-  "EventScr_SuspendPrompt: 字偏移 25 越界（len=15）"
+  "EventScr_Ch1Tut_BeforeSethMoveToEnemy: 字偏移 42 越界（len=15）",
+  "EventScr_Ch1Tut_EirikaVisitHouseIdle2: 字偏移 42 越界（len=15）",
+  "EventScr_Ch1Tut_EirikaVisitHouseInit: 字偏移 37 越界（len=15）",
+  "EventScr_Ch1Tut_OnBeginning: 字偏移 24 越界（len=15）",
+  "EventScr_Ch1Tut_TradeSelectGalliamIdle2: 字偏移 42 越界（len=15）",
+  "EventScr_Ch1_BeginningScene: 字偏移 53 长度为 0",
+  "EventScr_Ch21A_8: 字偏移 173 长度为 0",
+  "EventScr_Ch2Tutorial12: 字偏移 42 越界（len=15）",
+  "EventScr_Ch2Tutorial2: 字偏移 42 越界（len=15）",
+  "EventScr_Ch2Tutorial24: 字偏移 42 越界（len=15）",
+  "EventScr_Ch2Tutorial28: 字偏移 42 越界（len=15）",
+  "EventScr_Ch2Tutorial9: 字偏移 42 越界（len=15）",
+  "EventScr_Ch2_BeginningScene: 字偏移 139 长度为 0",
+  "EventScr_Ch2_Village1: 字偏移 58 越界（len=15）",
+  "EventScr_Ch3_BeginningScene: 字偏移 127 长度为 0",
+  "EventScr_Ch4_1: 字偏移 51 长度为 0",
+  "EventScr_Ch5_0: 字偏移 24 越界（len=15）",
+  "EventScr_Ch5_BeginningScene: 字偏移 17 长度为 0",
+  "EventScr_Ch6_0: 字偏移 91 长度为 0",
+  "EventScr_Ch6_1: 字偏移 24 越界（len=15）",
+  "EventScr_Ch6_BeginningScene: 字偏移 59 长度为 0",
+  "EventScr_Ch8_11: 字偏移 55 长度为 0",
+  "EventScr_Ch8_BeginningScene: 字偏移 189 长度为 0",
+  "EventScr_Ch9A_2: 字偏移 26 越界（len=15）",
+  "EventScr_FloorClearInTower: 字偏移 39 长度为 0",
+  "EventScr_GiveTreasureToLuckyDog: 字偏移 15 长度为 0",
+  "EventScr_MapSupportConversation: 字偏移 21 长度为 0",
+  "EventScr_Prologue_OneEnemyLeft: 字偏移 33 越界（len=12）",
+  "EventScr_Prologue_Tutorial1: 字偏移 42 越界（len=15）",
+  "EventScr_Prologue_TutorialB: 字偏移 42 越界（len=15）",
+  "EventScr_Ruin_54: 字偏移 19 长度为 0",
+  "EventScr_Ruin_56: 字偏移 37 长度为 0",
+  "EventScr_Ruin_58: 字偏移 31 长度为 0",
+  "EventScr_SkirmishRetreat: 字偏移 39 越界（len=15）",
+  "EventScr_SuspendPrompt: 字偏移 35 长度为 0",
+  "EventScr_Tutorial_Exec1: 字偏移 45 长度为 0"
  ],
  "tables": {
   "EventScr_9EEA58": {
    "slots": 21,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch10A_0": {
    "slots": 22,
@@ -1091,7 +1108,7 @@
   },
   "EventScr_Ch10a_BeginningScene": {
    "slots": 129,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch10a_EndingScene": {
    "slots": 143,
@@ -1119,7 +1136,7 @@
   },
   "EventScr_Ch12A_0": {
    "slots": 16,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch12A_5": {
    "slots": 18,
@@ -1127,7 +1144,7 @@
   },
   "EventScr_Ch12B_1": {
    "slots": 62,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch13A_3": {
    "slots": 18,
@@ -1175,11 +1192,11 @@
   },
   "EventScr_Ch14b_BeginningScene": {
    "slots": 99,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch14b_EndingScene": {
    "slots": 123,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_0": {
    "slots": 18,
@@ -1187,39 +1204,39 @@
   },
   "EventScr_Ch15A_17": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_18": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_19": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_20": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_21": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_22": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_23": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_24": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_25": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15A_26": {
    "slots": 81,
@@ -1227,39 +1244,39 @@
   },
   "EventScr_Ch15B_14": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_15": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_16": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_17": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_18": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_19": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_20": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_21": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch15B_22": {
    "slots": 17,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch16A_1": {
    "slots": 23,
@@ -1267,11 +1284,11 @@
   },
   "EventScr_Ch16A_11": {
    "slots": 237,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch16A_12": {
    "slots": 307,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch16A_9": {
    "slots": 19,
@@ -1303,7 +1320,7 @@
   },
   "EventScr_Ch1Tut_BeforeSethMoveToEnemy": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch1Tut_ChooseSethTurn1": {
    "slots": 29,
@@ -1315,7 +1332,7 @@
   },
   "EventScr_Ch1Tut_EirikaVisitHouseIdle2": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch1Tut_EirikaVisitHouseInit": {
    "slots": 22,
@@ -1339,11 +1356,11 @@
   },
   "EventScr_Ch1Tut_TradeSelectGalliamIdle2": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch1_BeginningScene": {
    "slots": 120,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch1_EndingScene": {
    "slots": 29,
@@ -1371,7 +1388,7 @@
   },
   "EventScr_Ch21A_8": {
    "slots": 87,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch21A_9": {
    "slots": 27,
@@ -1391,7 +1408,7 @@
   },
   "EventScr_Ch2Tutorial12": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch2Tutorial14": {
    "slots": 23,
@@ -1407,7 +1424,7 @@
   },
   "EventScr_Ch2Tutorial2": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch2Tutorial21": {
    "slots": 18,
@@ -1423,7 +1440,7 @@
   },
   "EventScr_Ch2Tutorial24": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch2Tutorial27": {
    "slots": 31,
@@ -1431,7 +1448,7 @@
   },
   "EventScr_Ch2Tutorial28": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch2Tutorial4": {
    "slots": 23,
@@ -1447,7 +1464,7 @@
   },
   "EventScr_Ch2Tutorial9": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch2_10": {
    "slots": 18,
@@ -1459,7 +1476,7 @@
   },
   "EventScr_Ch2_BeginningScene": {
    "slots": 121,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch2_EndingScene": {
    "slots": 82,
@@ -1467,7 +1484,7 @@
   },
   "EventScr_Ch2_Village1": {
    "slots": 32,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch3_0": {
    "slots": 46,
@@ -1479,7 +1496,7 @@
   },
   "EventScr_Ch3_BeginningScene": {
    "slots": 83,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch3_EndingScene": {
    "slots": 103,
@@ -1495,7 +1512,7 @@
   },
   "EventScr_Ch4_1": {
    "slots": 80,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch4_10": {
    "slots": 25,
@@ -1511,7 +1528,7 @@
   },
   "EventScr_Ch5_0": {
    "slots": 19,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch5_10": {
    "slots": 21,
@@ -1527,7 +1544,7 @@
   },
   "EventScr_Ch5_BeginningScene": {
    "slots": 218,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch5_EndingScene": {
    "slots": 56,
@@ -1543,11 +1560,11 @@
   },
   "EventScr_Ch6_0": {
    "slots": 47,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch6_1": {
    "slots": 19,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch6_2": {
    "slots": 28,
@@ -1555,7 +1572,7 @@
   },
   "EventScr_Ch6_BeginningScene": {
    "slots": 138,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch6_EndingScene": {
    "slots": 39,
@@ -1579,15 +1596,15 @@
   },
   "EventScr_Ch8_11": {
    "slots": 97,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch8_BeginningScene": {
    "slots": 123,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch9A_2": {
    "slots": 16,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ch9A_4": {
    "slots": 37,
@@ -1607,15 +1624,15 @@
   },
   "EventScr_FloorClearInTower": {
    "slots": 23,
-   "ok": true
+   "ok": false
   },
   "EventScr_GiveTreasureToLuckyDog": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_MapSupportConversation": {
    "slots": 16,
-   "ok": true
+   "ok": false
   },
   "EventScr_Prologue_BeginningScene": {
    "slots": 53,
@@ -1631,7 +1648,7 @@
   },
   "EventScr_Prologue_OneEnemyLeft": {
    "slots": 21,
-   "ok": true
+   "ok": false
   },
   "EventScr_Prologue_RenaisThroneCutscene": {
    "slots": 233,
@@ -1651,7 +1668,7 @@
   },
   "EventScr_Prologue_Tutorial1": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Prologue_Tutorial4": {
    "slots": 32,
@@ -1663,19 +1680,19 @@
   },
   "EventScr_Prologue_TutorialB": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ruin_54": {
    "slots": 401,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ruin_56": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ruin_58": {
    "slots": 21,
-   "ok": true
+   "ok": false
   },
   "EventScr_Ruin_60": {
    "slots": 33,
@@ -1715,7 +1732,7 @@
   },
   "EventScr_SkirmishRetreat": {
    "slots": 24,
-   "ok": true
+   "ok": false
   },
   "EventScr_SuspendPrompt": {
    "slots": 19,
@@ -1723,7 +1740,7 @@
   },
   "EventScr_Tutorial_Exec1": {
    "slots": 37,
-   "ok": true
+   "ok": false
   }
  }
 }

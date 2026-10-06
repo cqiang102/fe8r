@@ -215,8 +215,21 @@ def main():
             # ⚠️ 每个槽（GBA 上 `EventListScr` = 4 字节）含**两个 u16 字**。
             # 只打低 16 位会丢掉一半 —— 表现为"字数 = 槽数"，
             # 而指令是按 u16 字走的，于是解不出任何东西。
+            # ⚠️ 指针槽必须**固定化**。
+            #
+            # 宿主上指针是 64 位，低 32 位是**宿主地址**；而指令遍历靠
+            # `len` 字段前进 —— 一旦某步落在指针槽上，后续切分就随地址而变。
+            # 实测：同一份源码，`EventScr_Ch1Tut_EirikaVisitHouseInit`
+            # 一次能解、一次不能，`decodedTables` 159/160 飘。
+            #
+            # 判据：宿主指针 > 0xFFFFFFFF，而打包进槽的数值都 ≤ 0xFFFFFFFF。
+            # 命中就输出固定哨兵 —— 遍历因此可复现。
+            # （代价：指针槽的字值不是真实值。要**运行**场景时才需要真实值，
+            #   那时应当像章节事件那样把指针解析回符号名。）
             body.append(f'    for (long i = 0; i < cnt; i++) {{')
             body.append(f'      unsigned long v = (unsigned long){n}[i];')
+            body.append('      if (v > 0xFFFFFFFFUL) '
+                        '{ printf("FFFFFFFF FFFFFFFF "); continue; }')
             body.append(f'      printf("%04lx %04lx ", v & 0xFFFF,'
                         f' (v >> 16) & 0xFFFF); }}')
             body.append('    printf("\\n"); }')
@@ -373,7 +386,11 @@ def main():
     vm_src = os.path.join(REPO, "lib", "core", "event", "event_vm.dart")
     impl_percent = None
     impl_names = []
-    if os.path.exists(vm_src):
+    # ⚠️ `eventscript.json` 由 parse_eventscript.py 生成。
+    # 单独跑本脚本时它可能还不存在 —— 不能无条件打开
+    # （之前会 FileNotFoundError，而不是给一个"名字缺失"的降级结果）。
+    cmd_path = op_path if os.path.exists(op_path) else None
+    if os.path.exists(vm_src) and cmd_path is not None:
         vm = open(vm_src, encoding="utf-8").read()
         used = set(re.findall(r"EventOpcodes\.(\w+)", vm))
 
@@ -381,7 +398,7 @@ def main():
             return re.sub(r"[^a-z0-9]", "", x.replace("EV_CMD_", "").lower())
 
         n2v = {_norm(k): v for k, v in
-               (json.load(open(op_path, encoding="utf-8")).get("commands")
+               (json.load(open(cmd_path, encoding="utf-8")).get("commands")
                 or {}).items() if isinstance(v, int)}
         vals = {n2v[_norm(u)] for u in used if _norm(u) in n2v}
         cov = sum(c for op, c in counts.items() if op in vals)

@@ -20,17 +20,27 @@ void main() {
       d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
     });
 
-    test('166 张表，绝大多数能完整解码', () {
+    test('166 张表，100 张能完整解码', () {
       expect(d['tableCount'], 166);
-      // 场景脚本是**纯线性指令流**（与章节条件表不同），所以解码率很高
-      expect(d['decodedTables'], 159,
+      // ⚠️ 100，不是 159。这个下降是**修正**，不是退步。
+      //
+      // 之前指针槽打的是宿主地址，那些"能解码"的表里有 59 张是
+      // **碰巧跨过垃圾继续走**到底的 —— 同一份源码，换个运行时
+      // `decodedTables` 就在 159/160 之间飘
+      // （`EventScr_Ch1Tut_EirikaVisitHouseInit` 一次能解一次不能）。
+      //
+      // 现在指针槽固定成哨兵，遍历可复现。100 才是**诚实的**数字：
+      // 剩下 66 张里有指针被当成指令头，走不下去。
+      //
+      // 这个数字会随指针解析（把 CALL/LOAD 的目标还原成符号名）而上升。
+      expect(d['decodedTables'], 100,
           reason: '数字钉死：解码器或数据变了这里会失败');
-      expect(d['instructionCount'], 5842);
+      expect(d['instructionCount'], 4263);
     });
 
-    test('真实场景用到 59 种 opcode', () {
+    test('真实场景用到 57 种 opcode', () {
       final ops = d['opcodes'] as List<dynamic>;
-      expect(ops.length, 59);
+      expect(ops.length, 57);
     });
 
     test('覆盖率曲线：前 20 个 opcode 就能覆盖近 9 成指令', () {
@@ -48,20 +58,20 @@ void main() {
       expect(at[30]!, greaterThan(95));
     });
 
-    test('**当前实现覆盖真实指令 62.2%**', () {
+    test('**当前实现覆盖真实指令 61.0%**', () {
       final pct = (d['implementedCoveragePercent'] as num).toDouble();
       // 这是最有意义的指标。它上升说明真实可执行的剧情变多了；
       // 数字变化会在这里体现出来，从而提醒更新结论。
-      expect(pct, closeTo(62.2, 0.1));
+      expect(pct, closeTo(61.0, 0.1));
       expect((d['implementedOpcodes'] as List<dynamic>).length,
           greaterThan(15));
     });
 
-    test('频次最高的 opcode 是 SVAL（16.8%）—— 变量赋值', () {
+    test('频次最高的 opcode 是 SVAL（18.1%）—— 变量赋值', () {
       final top = (d['opcodes'] as List<dynamic>).first
           as Map<String, dynamic>;
       expect(top['name'], 'EV_CMD_SVAL');
-      expect((top['percent'] as num).toDouble(), closeTo(16.8, 0.1));
+      expect((top['percent'] as num).toDouble(), closeTo(18.1, 0.1));
     });
   });
 }
