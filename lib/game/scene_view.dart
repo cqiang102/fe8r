@@ -13,13 +13,15 @@
 // 现在只有**一个** `show()`，挂在 viewport 上（`camera.viewport` 的子组件
 // 在世界之后渲染，坐标就是虚拟分辨率 —— 这正是 GBA 风格 UI 要的语义）。
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui' show Image, instantiateImageCodec;
+import 'dart:ui' show Color, Image, Paint, instantiateImageCodec;
 
 import 'package:fe8r/core/core.dart';
 import 'package:flame/camera.dart' show Viewport;
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 
 import 'battle_components.dart';
 
@@ -93,13 +95,50 @@ class SceneView {
     }
   }
 
+  /// 全屏淡入淡出用的覆盖层。
+  ///
+  /// ⚠️ **挂在 viewport 上、优先级最高** —— 它要盖住地图。
+  /// 用 Flame 的 `OpacityEffect` 而不是自己 `dt` 累加：白拿
+  /// `onComplete`，正好用来在淡完后解除脚本阻塞。
+  late final RectangleComponent _fadeOverlay = RectangleComponent(
+    paint: Paint()..color = const Color(0xFF000000),
+    priority: 1 << 20,
+  )..opacity = 0;
+
+  /// 淡入/淡出，返回的 Future 在动画结束时完成。
+  ///
+  /// ⚠️ **脚本会阻塞到淡完** —— `src/Event17_Fade.c` 里四个分支
+  /// 返回的都是 `EVC_ADVANCE_YIELD`。
+  Future<void> fade(FadeDirection dir, int speed, Vector2 virtualSize) {
+    final done = Completer<void>();
+    _fadeOverlay
+      ..size = virtualSize.clone()
+      ..paint.color = dir.isWhite
+          ? const Color(0xFFFFFFFF)
+          : const Color(0xFF000000);
+    // 速度值是"越大越慢"（原作语义），换算成一个能看的秒数
+    final secs = (speed.clamp(1, 32)) * 0.02 + 0.1;
+    _fadeOverlay.removeAll(_fadeOverlay.children.whereType<OpacityEffect>());
+    _fadeOverlay.add(OpacityEffect.to(
+      dir.endsVisible ? 0 : 1,
+      EffectController(duration: secs),
+      onComplete: () {
+        if (!done.isCompleted) done.complete();
+      },
+    ));
+    return done.future;
+  }
+
   /// 把 UI 层挂到 viewport 上。
   ///
   /// ⚠️ 必须挂 viewport：
   ///   * 挂 `world` → 跟着地图缩放、位置错
   ///   * 挂 game 根节点 → `CameraComponent` 的优先级是 `0x7fffffff`，
   ///     **地图画在 UI 之上**，对话框被完全盖住
-  void attachTo(Viewport viewport) => viewport.add(layer);
+  void attachTo(Viewport viewport) {
+    viewport.add(layer);
+    layer.add(_fadeOverlay);
+  }
 
   /// 显示一句话。[text] 为 null 或空则收起对话框。
   void show({
@@ -195,4 +234,18 @@ class SceneView {
     }
     return m.segments.length;
   }
+}
+
+/// 淡入/淡出的**表现层**属性。
+///
+/// ⚠️ 放在 `lib/game` 而不是 `lib/core` ——
+/// "白色还是黑色""最终可不可见"是表现层的事，
+/// `lib/core` 只保留"往哪个方向淡"这个规则层事实。
+extension FadeDirectionView on FadeDirection {
+  bool get isWhite => this == FadeDirection.fromWhite ||
+      this == FadeDirection.toWhite;
+
+  /// 画面最终是否可见
+  bool get endsVisible => this == FadeDirection.fromBlack ||
+      this == FadeDirection.fromWhite;
 }

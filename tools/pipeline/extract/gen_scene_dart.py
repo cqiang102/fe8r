@@ -185,6 +185,17 @@ def stmt(op, A):
     if op == "STAL":
         return (f"await s.stall({num(A[0])});", False)
 
+    # ---- 淡入/淡出 ----
+    #
+    # ⚠️ **缩写名是反的**，看 `src/Event17_Fade.c`：
+    #     case 0: // FADU → StartLockingFadeFromBlack  （从黑淡出 = 画面出现）
+    #     case 1: // FADI → StartLockingFadeToBlack    （淡到黑 = 画面消失）
+    # 按名字猜会正好做反。所以这里显式映射，不靠名字。
+    if op in ("FADU", "FADI", "FAWU", "FAWI"):
+        d = {"FADU": "fromBlack", "FADI": "toBlack",
+             "FAWU": "fromWhite", "FAWI": "toWhite"}[op]
+        return (f"await s.fade(FadeDirection.{d}, {num(A[0]) if A else 0});", False)
+
     if op in ("END", "ENDA"):
         return ("return;", True)
 
@@ -322,6 +333,9 @@ def main():
         "（不需要随时存档），",
         "//            所以场景脚本用 async 函数直接表达「等玩家按键」，"
         "不再用可序列化的状态机。",
+        "//",
+        "// ignore_for_file: type=lint, dead_code",
+        "// ^ 只压 lint 噪音；**类型错误照样报** —— 见 analysis_options.yaml 的说明。",
         "//",
         "// GENERATED —— 由 tools/pipeline/extract/gen_scene_dart.py 生成。",
         "// **请勿手改**：改 C 源码或生成器，然后重新生成。",

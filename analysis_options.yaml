@@ -16,7 +16,17 @@ analyzer:
     unused_import: error
     unused_local_variable: warning
   exclude:
-    - "**/*.g.dart"
+    # ⚠️ **不要排除 `**/*.g.dart`。**
+    #
+    # 曾经排除了，理由是不想被生成代码的 lint 噪音干扰。后果是
+    # `scene_data.g.dart` 里**生成器调用了一个不存在的 `Scene.fade()`**
+    # 而 `flutter analyze` 报"No issues found" —— 编译器实际报了 518 处。
+    #
+    # 生成文件恰恰是"生成器与运行时 API 不匹配"最容易出问题的地方，
+    # 排除它等于把最需要检查的文件排除掉。
+    #
+    # 正确做法：**照常分析**，在生成文件顶部加 `// ignore_for_file: type=lint`
+    # 只压 lint 噪音，**类型错误照样报**。
     - "third_party/**"
     - "build/**"
     - macos/**

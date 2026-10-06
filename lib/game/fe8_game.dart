@@ -422,6 +422,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _updateSceneDialogue();
         _sceneWait = Completer<void>();
         await _sceneWait!.future;
+        case Fade(:final dir, :final speed):
+          // 脚本阻塞到淡完 —— 见 src/Event17_Fade.c（四个分支都 ADVANCE_YIELD）
+          await _sceneView?.fade(dir, speed, camera.viewport.virtualSize);
+
       case WaitForInput():
         break; // ShowText 已经等过了
       case LoadUnits():

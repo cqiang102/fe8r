@@ -1,6 +1,9 @@
 // arch-exempt: R4 「完全可序列化」这条约束已由用户明确取消（不需要随时存档），
 //            所以场景脚本用 async 函数直接表达「等玩家按键」，不再用可序列化的状态机。
 //
+// ignore_for_file: type=lint, dead_code
+// ^ 只压 lint 噪音；**类型错误照样报** —— 见 analysis_options.yaml 的说明。
+//
 // GENERATED —— 由 tools/pipeline/extract/gen_scene_dart.py 生成。
 // **请勿手改**：改 C 源码或生成器，然后重新生成。
 //
@@ -146,7 +149,7 @@ Future<void> scr_9EEA58(Scene s) async {
           if (s.slotInt(32795) != 12) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 3;
           continue;
         case 3:
@@ -173,7 +176,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 10;
           continue;
         case 10:
@@ -193,7 +196,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 15;
           continue;
         case 15:
@@ -548,10 +551,10 @@ Future<void> Ch10B_0(Scene s) async {
     await s.textShow(2682);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
     s.placeholder('DISA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 560));
     s.placeholder('ENUN');
     s.placeholder('DISA');
@@ -733,7 +736,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_9EEA58'));
     s.loadUnits(1, Sym('frontier_df4_banim_b_077_90DB94', 52));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.moveUnit('MOVE_1STEP', [16, 105, 3]);
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -743,7 +746,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.textShow(2540);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -754,7 +757,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.placeholder('ENUN');
     s.setSlot(11, 851975);
     s.placeholder('TILECHANGE');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('TILECHANGE');
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
     s.placeholder('ENUN');
@@ -778,7 +781,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.textShow(2542);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -792,7 +795,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch10AEnemy_1'));
     s.setSlot(3, 1);
     await s.call(Sym('EventScr_LoadUnitForTutorial'));
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -833,7 +836,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 1;
           continue;
         case 1:
@@ -989,7 +992,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 42;
           continue;
         case 42:
@@ -1049,7 +1052,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 56;
           continue;
         case 56:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 57;
           continue;
         case 57:
@@ -1077,7 +1080,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 63;
           continue;
         case 63:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 64;
           continue;
         case 64:
@@ -1219,7 +1222,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 100;
           continue;
         case 100:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 101;
           continue;
         case 101:
@@ -1250,7 +1253,7 @@ Future<void> Ch11B_0(Scene s) async {
     await s.textShow(2707);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('TILEREVERT');
     s.placeholder('TILECHANGE');
     s.placeholder('CLEAN');
@@ -1260,7 +1263,7 @@ Future<void> Ch11B_0(Scene s) async {
     s.placeholder('ENUN');
     s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_2'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -1298,13 +1301,13 @@ Future<void> Ch11B_2(Scene s) async {
     await s.textShow(2709);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('TILECHANGE');
     s.placeholder('CLEAN');
     s.placeholder('CAMERA2');
     s.placeholder('TEXTSTART');
     s.placeholder('EARTHQUAKE_START');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     await s.stall(32);
     s.placeholder('EARTHQUAKE_END');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_029_9184F0'));
@@ -1384,7 +1387,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 13;
           continue;
         case 13:
@@ -1392,7 +1395,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 4);
           pc = 15;
           continue;
         case 15:
@@ -1430,7 +1433,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 25;
           continue;
         case 25:
@@ -1478,7 +1481,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 37;
           continue;
         case 37:
@@ -1538,7 +1541,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 2);
           pc = 52;
           continue;
         case 52:
@@ -1570,7 +1573,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 2);
           pc = 60;
           continue;
         case 60:
@@ -2420,7 +2423,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 19;
           continue;
         case 19:
@@ -2436,7 +2439,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 23;
           continue;
         case 23:
@@ -2516,7 +2519,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 43;
           continue;
         case 43:
@@ -2668,7 +2671,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 81;
           continue;
         case 81:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 82;
           continue;
         case 82:
@@ -2707,7 +2710,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 91;
           continue;
         case 91:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 4);
           pc = 92;
           continue;
         case 92:
@@ -2783,7 +2786,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 110;
           continue;
         case 110:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 111;
           continue;
         case 111:
@@ -2808,7 +2811,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
 /// `EventScr_Ch13b_EndingScene`
 Future<void> Ch13b_EndingScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -2816,7 +2819,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -2828,7 +2831,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     await s.textShow(2739);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -3017,7 +3020,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('CAMERA');
     s.placeholder('CLEAN');
     s.placeholder('MUSC');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_038_91B948_residue'));
     s.setSlot(1, 0);
     s.placeholder('SET_STATE');
@@ -3038,10 +3041,10 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
     s.placeholder('CAMERA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('SPAWN_ENEMY');
     s.setSlot(2, 64);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 5, 2]);
@@ -3065,10 +3068,10 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('ENUN');
     s.placeholder('REVEAL');
     s.placeholder('DISA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('CAMERA2');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180));
     s.placeholder('ENUN');
@@ -3771,7 +3774,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 28;
           continue;
         case 28:
@@ -3795,7 +3798,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 34;
           continue;
         case 34:
@@ -3863,7 +3866,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 50;
           continue;
         case 50:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 51;
           continue;
         case 51:
@@ -3898,7 +3901,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 60;
           continue;
         case 60:
@@ -4384,7 +4387,7 @@ Future<void> Ch16A_1(Scene s) async {
     s.slotArith('SADD', 10, 2);
     s.placeholder('STARTFADE');
     s.placeholder('EvtColorFadeSetup');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 128);
     await s.call(Sym('data_085B9BBC', 360));
     s.placeholder('EVBIT_MODIFY');
     await s.call(Sym('EventScr_Ch16A_1', 84));
@@ -4392,7 +4395,7 @@ Future<void> Ch16A_1(Scene s) async {
     s.placeholder('REMOVEPORTRAITS');
     s.slotArith('SADD', 2, 10);
     s.placeholder('BACG');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 4);
     s.placeholder('EVBIT_MODIFY');
     return;
     s.placeholder('CHECK_MODE');
@@ -4417,7 +4420,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 4;
           continue;
         case 4:
@@ -4473,7 +4476,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 18;
           continue;
         case 18:
@@ -4481,7 +4484,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 20;
           continue;
         case 20:
@@ -4517,7 +4520,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 29;
           continue;
         case 29:
@@ -4553,7 +4556,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 38;
           continue;
         case 38:
@@ -4593,7 +4596,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 48;
           continue;
         case 48:
@@ -4640,7 +4643,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 60;
           continue;
         case 60:
@@ -4686,7 +4689,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 71;
           continue;
         case 71:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 72;
           continue;
         case 72:
@@ -4788,7 +4791,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 97;
           continue;
         case 97:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 98;
           continue;
         case 98:
@@ -4923,7 +4926,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 132;
           continue;
         case 132:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 133;
           continue;
         case 133:
@@ -4991,7 +4994,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 150;
           continue;
         case 150:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 151;
           continue;
         case 151:
@@ -5018,7 +5021,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 157;
           continue;
         case 157:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 158;
           continue;
         case 158:
@@ -5070,7 +5073,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 170;
           continue;
         case 170:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 171;
           continue;
         case 171:
@@ -5106,7 +5109,7 @@ Future<void> Ch16A_12(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 1;
           continue;
         case 1:
@@ -5146,7 +5149,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 11;
           continue;
         case 11:
@@ -5158,7 +5161,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 14;
           continue;
         case 14:
@@ -5218,7 +5221,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 29;
           continue;
         case 29:
@@ -5258,7 +5261,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 4);
           pc = 39;
           continue;
         case 39:
@@ -5350,7 +5353,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 62;
           continue;
         case 62:
@@ -5382,7 +5385,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 70;
           continue;
         case 70:
@@ -5482,7 +5485,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 94;
           continue;
         case 94:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 95;
           continue;
         case 95:
@@ -5522,7 +5525,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 104;
           continue;
         case 104:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 105;
           continue;
         case 105:
@@ -5598,7 +5601,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 123;
           continue;
         case 123:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 124;
           continue;
         case 124:
@@ -5622,7 +5625,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 129;
           continue;
         case 129:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 130;
           continue;
         case 130:
@@ -5670,7 +5673,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 141;
           continue;
         case 141:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 142;
           continue;
         case 142:
@@ -5682,7 +5685,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 144;
           continue;
         case 144:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 4);
           pc = 145;
           continue;
         case 145:
@@ -5718,7 +5721,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 153;
           continue;
         case 153:
-          s.placeholder('FAWI');
+          await s.fade(FadeDirection.toWhite, 4);
           pc = 154;
           continue;
         case 154:
@@ -5754,7 +5757,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 162;
           continue;
         case 162:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 163;
           continue;
         case 163:
@@ -5762,7 +5765,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 164;
           continue;
         case 164:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 4);
           pc = 165;
           continue;
         case 165:
@@ -5910,7 +5913,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 202;
           continue;
         case 202:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 203;
           continue;
         case 203:
@@ -5962,7 +5965,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 215;
           continue;
         case 215:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 216;
           continue;
         case 216:
@@ -6066,7 +6069,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 242;
           continue;
         case 242:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 243;
           continue;
         case 243:
@@ -6335,7 +6338,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 28;
           continue;
         case 28:
@@ -6343,7 +6346,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 30;
           continue;
         case 30:
@@ -6431,7 +6434,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 52;
           continue;
         case 52:
@@ -6598,7 +6601,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 30;
           continue;
         case 30:
@@ -6626,7 +6629,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 4);
           pc = 37;
           continue;
         case 37:
@@ -6702,7 +6705,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 56;
           continue;
         case 56:
@@ -6762,7 +6765,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 71;
           continue;
         case 71:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 72;
           continue;
         case 72:
@@ -7370,7 +7373,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 14;
           continue;
         case 14:
@@ -7559,7 +7562,7 @@ Future<void> Ch20b_BeginningScene(Scene s) async {
     s.setSlot(2, 108);
     await s.call(Sym('EventScr_UnitWarpOUT'));
     s.placeholder('DISA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch21BEnemy_0'));
     s.placeholder('ENUN');
     await s.call(Sym('data_085B9BBC', 512));
@@ -7572,7 +7575,7 @@ Future<void> Ch20b_BeginningScene(Scene s) async {
 /// `EventScr_Ch21A_0`
 Future<void> Ch21A_0(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 4);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -7580,7 +7583,7 @@ Future<void> Ch21A_0(Scene s) async {
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 4);
     s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -7613,7 +7616,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('FAWI');
+          await s.fade(FadeDirection.toWhite, 2);
           pc = 3;
           continue;
         case 3:
@@ -7621,7 +7624,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('FAWU');
+          await s.fade(FadeDirection.fromWhite, 2);
           pc = 5;
           continue;
         case 5:
@@ -7677,7 +7680,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('FAWI');
+          await s.fade(FadeDirection.toWhite, 2);
           pc = 20;
           continue;
         case 20:
@@ -7693,7 +7696,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('FAWU');
+          await s.fade(FadeDirection.fromWhite, 2);
           pc = 24;
           continue;
         case 24:
@@ -7884,7 +7887,7 @@ Future<void> Ch21b_BeginningScene(Scene s) async {
 /// `EventScr_Ch21b_EndingScene`
 Future<void> Ch21b_EndingScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 4);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -7892,7 +7895,7 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 4);
     s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -8320,9 +8323,9 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     await s.textShow(2324);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch2Ally'));
     s.placeholder('ENUN');
     s.placeholder('EvtBgmFadeIn');
@@ -8455,7 +8458,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 11;
           continue;
         case 11:
@@ -8494,7 +8497,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 21;
           continue;
         case 21:
@@ -8514,7 +8517,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 2);
           pc = 26;
           continue;
         case 26:
@@ -8526,7 +8529,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('FAWI');
+          await s.fade(FadeDirection.toWhite, 2);
           pc = 29;
           continue;
         case 29:
@@ -8538,7 +8541,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('FAWU');
+          await s.fade(FadeDirection.fromWhite, 2);
           pc = 32;
           continue;
         case 32:
@@ -8558,7 +8561,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('FAWI');
+          await s.fade(FadeDirection.toWhite, 2);
           pc = 37;
           continue;
         case 37:
@@ -8574,7 +8577,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('FAWU');
+          await s.fade(FadeDirection.fromWhite, 2);
           pc = 41;
           continue;
         case 41:
@@ -8594,7 +8597,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 46;
           continue;
         case 46:
@@ -8881,7 +8884,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 12;
           continue;
         case 12:
@@ -8897,7 +8900,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 16;
           continue;
         case 16:
@@ -8971,7 +8974,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 35;
           continue;
         case 35:
@@ -9007,7 +9010,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 44;
           continue;
         case 44:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 45;
           continue;
         case 45:
@@ -9124,7 +9127,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 11;
           continue;
         case 11:
@@ -9177,7 +9180,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 25;
           continue;
         case 25:
@@ -9209,7 +9212,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 33;
           continue;
         case 33:
@@ -9225,7 +9228,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 37;
           continue;
         case 37:
@@ -9357,7 +9360,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 70;
           continue;
         case 70:
@@ -9508,7 +9511,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 16;
           continue;
         case 16:
@@ -9578,7 +9581,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 35;
           continue;
         case 35:
@@ -9614,7 +9617,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 44;
           continue;
         case 44:
@@ -9843,11 +9846,11 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.textShow(2403);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
     s.loadUnits(1, Sym('UnitDef_Ch4Enemy_0'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
@@ -9856,9 +9859,9 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.textShow(2404);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CAMERA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSI');
     s.placeholder('CURSOR_AT');
     await s.stall(60);
@@ -9871,10 +9874,10 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.placeholder('MUNO');
     s.setSlot(2, Sym('EventScr_Ch4_7'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
     s.placeholder('CAMERA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch4Ally_1'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -9919,7 +9922,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('CAMERA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
@@ -10104,7 +10107,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 23;
           continue;
         case 23:
@@ -10136,7 +10139,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 31;
           continue;
         case 31:
@@ -10320,7 +10323,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 77;
           continue;
         case 77:
@@ -10540,7 +10543,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 131;
           continue;
         case 131:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 132;
           continue;
         case 132:
@@ -10560,7 +10563,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 136;
           continue;
         case 136:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 137;
           continue;
         case 137:
@@ -10697,7 +10700,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 1;
           continue;
         case 1:
@@ -10869,17 +10872,17 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(11, 262154);
     s.placeholder('LOMA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('BROWNBOXTEXT');
     s.placeholder('CURSOR_AT');
     await s.stall(60);
     s.placeholder('CURE');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(11, 262155);
     s.placeholder('LOMA');
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_1'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('SPAWN_ENEMY');
     s.moveUnit('MOVE', [16, 67, 10, 4]);
     s.placeholder('ENUN');
@@ -10896,7 +10899,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.textShow(2455);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EvtBgmFadeIn');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
@@ -10905,7 +10908,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('LOMA');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_1'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -10915,13 +10918,13 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.textShow(2456);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 458761);
     s.placeholder('LOMA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_2'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -10936,7 +10939,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.moveUnit('MOVE', [0, 17, 8, 5]);
     s.moveUnit('MOVE', [0, 66, 8, 6]);
     s.placeholder('STAL2');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('ENUN');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
@@ -10945,7 +10948,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('LOMA');
     s.loadUnits(1, Sym('frontier_df4_banim_b_075_90A050'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -10976,7 +10979,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     await s.textShow(2465);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EvtBgmFadeIn');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
@@ -10986,7 +10989,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_0'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch5xAlly_0'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -10996,7 +10999,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     await s.textShow(2466);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -11004,7 +11007,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('LOMA');
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_2'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('EVBIT_T');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_3'));
     s.placeholder('ENUN');
@@ -11022,7 +11025,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     await s.textShow(2467);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EvtBgmFadeIn');
     s.placeholder('EVENT_WORD');
     s.placeholder('EVENT_WORD');
@@ -11193,7 +11196,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 3;
           continue;
         case 3:
@@ -11368,7 +11371,7 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.textShow(2473);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(2, Sym('EventScr_Ch6_2'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     await s.call(Sym('data_085B9BBC', 512));
@@ -11526,7 +11529,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 4;
           continue;
         case 4:
@@ -11767,7 +11770,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 68;
           continue;
         case 68:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 69;
           continue;
         case 69:
@@ -11792,13 +11795,13 @@ Future<void> Ch7_BeginningScene(Scene s) async {
 
 /// `EventScr_Ch7_EndingScene`
 Future<void> Ch7_EndingScene(Scene s) async {
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(11, 0);
     s.placeholder('LOMA');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 440));
     s.placeholder('ENUN');
@@ -11846,7 +11849,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [2]);
     s.placeholder('STAL2');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('ENUN');
     s.placeholder('ENUT');
     s.placeholder('MNCH');
@@ -11885,7 +11888,7 @@ Future<void> Ch8_10(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
     s.placeholder('ENUN');
     s.placeholder('MUSC');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -11894,7 +11897,7 @@ Future<void> Ch8_10(Scene s) async {
     await s.textShow(3010);
     s.placeholder('TEXTEND');
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FAWI');
+    await s.fade(FadeDirection.toWhite, 2);
     s.placeholder('REMA');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
@@ -11905,35 +11908,35 @@ Future<void> Ch8_10(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_3'));
     s.placeholder('ENUN');
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 2);
     s.placeholder('BROWNBOXTEXT');
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
     s.placeholder('REMOVEPORTRAITS');
-    s.placeholder('FAWI');
+    await s.fade(FadeDirection.toWhite, 16);
     s.placeholder('BACG');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 16);
     await s.textShow(3011);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FAWI');
+    await s.fade(FadeDirection.toWhite, 16);
     s.placeholder('CLEAN');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 16);
     s.moveUnit('MOVE', [0, 1, 0, 16]);
     s.placeholder('STAL2');
-    s.placeholder('FAWI');
+    await s.fade(FadeDirection.toWhite, 16);
     s.placeholder('ENUN');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.placeholder('REMOVEPORTRAITS');
     s.placeholder('BACG');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 16);
     await s.textShow(3012);
     s.placeholder('TEXTEND');
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('FAWI');
+    await s.fade(FadeDirection.toWhite, 2);
     s.placeholder('REMA');
     s.setSlot(11, 1310734);
     s.placeholder('LOMA');
@@ -11941,7 +11944,7 @@ Future<void> Ch8_10(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
     s.placeholder('ENUN');
     s.placeholder('MUSC');
-    s.placeholder('FAWU');
+    await s.fade(FadeDirection.fromWhite, 2);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -11964,7 +11967,7 @@ Future<void> Ch8_11(Scene s) async {
     s.placeholder('TILECHANGE');
     s.loadUnits(1, Sym('UnitDef_Ch9AEnemy_11'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -12024,7 +12027,7 @@ Future<void> Ch8_11(Scene s) async {
     s.moveUnit('MOVE', [16, 29, 13, 10]);
     s.moveUnit('MOVE', [16, 68, 15, 10]);
     s.placeholder('STAL2');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('ENUN');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
@@ -12386,7 +12389,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 18;
           continue;
         case 18:
@@ -12442,7 +12445,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 32;
           continue;
         case 32:
@@ -12466,7 +12469,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 38;
           continue;
         case 38:
@@ -12522,7 +12525,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 52;
           continue;
         case 52:
@@ -12530,7 +12533,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 53;
           continue;
         case 53:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 54;
           continue;
         case 54:
@@ -12594,7 +12597,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 70;
           continue;
         case 70:
@@ -12602,7 +12605,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 71;
           continue;
         case 71:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 72;
           continue;
         case 72:
@@ -12810,7 +12813,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 123;
           continue;
         case 123:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 124;
           continue;
         case 124:
@@ -12879,7 +12882,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 7;
           continue;
         case 7:
@@ -12915,7 +12918,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 16;
           continue;
         case 16:
@@ -13208,7 +13211,7 @@ Future<void> CutsceneExecEnd_Sub0(Scene s) async {
           if (s.slotInt(99) != 12) { pc = 5; } else { pc = 4; }
           continue;
         case 4:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 5;
           continue;
         case 5:
@@ -13219,7 +13222,7 @@ Future<void> CutsceneExecEnd_Sub0(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 8;
           continue;
         case 8:
@@ -13246,7 +13249,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 3;
           continue;
         case 3:
@@ -13910,7 +13913,7 @@ Future<void> Prologue_EndingScene(Scene s) async {
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2264);
     s.placeholder('TEXTEND');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('REMA');
     s.placeholder('ENUT');
     s.placeholder('ENUT');
@@ -14031,7 +14034,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.placeholder('LOMA');
     s.loadUnits(2, Sym('UnitDef_Event_PrologueThroneRoomUnits'));
     s.placeholder('ENUN');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.placeholder('BROWNBOXTEXT');
     s.loadUnits(1, Sym('UnitDef_Event_PrologueMessager'));
@@ -14098,7 +14101,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.placeholder('TEXTSTART');
     await s.textShow(2246);
     s.placeholder('TEXTEND');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 2);
     s.placeholder('REMA');
     s.placeholder('EVBIT_F');
     s.placeholder('CLEA');
@@ -14106,7 +14109,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.placeholder('CLEN');
     s.setSlot(11, 0);
     s.placeholder('LOMA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('UnitDef_Event_PrologueEscapees'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -14192,14 +14195,14 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.textShow(2252);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('FADI');
+    await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EVBIT_F');
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 0);
     s.placeholder('LOMA');
-    s.placeholder('FADU');
+    await s.fade(FadeDirection.fromBlack, 16);
     return;
 }
 
@@ -15234,7 +15237,7 @@ Future<void> Ruin_54(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 1;
           continue;
         case 1:
@@ -15253,7 +15256,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 6;
           continue;
         case 6:
@@ -15265,7 +15268,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 9;
           continue;
         case 9:
@@ -15287,7 +15290,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 15;
           continue;
         case 15:
@@ -15299,7 +15302,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 18;
           continue;
         case 18:
@@ -15321,7 +15324,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 24;
           continue;
         case 24:
@@ -15333,7 +15336,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 26;
           continue;
         case 26:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 27;
           continue;
         case 27:
@@ -15355,7 +15358,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 33;
           continue;
         case 33:
@@ -15367,7 +15370,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 36;
           continue;
         case 36:
@@ -15389,7 +15392,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 42;
           continue;
         case 42:
@@ -15401,7 +15404,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 44;
           continue;
         case 44:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 45;
           continue;
         case 45:
@@ -15423,7 +15426,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 50;
           continue;
         case 50:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 51;
           continue;
         case 51:
@@ -15435,7 +15438,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 53;
           continue;
         case 53:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 54;
           continue;
         case 54:
@@ -15457,7 +15460,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 60;
           continue;
         case 60:
@@ -15469,7 +15472,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 62;
           continue;
         case 62:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 63;
           continue;
         case 63:
@@ -15491,7 +15494,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 68;
           continue;
         case 68:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 69;
           continue;
         case 69:
@@ -15503,7 +15506,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 71;
           continue;
         case 71:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 72;
           continue;
         case 72:
@@ -15525,7 +15528,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 77;
           continue;
         case 77:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 78;
           continue;
         case 78:
@@ -15537,7 +15540,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 80;
           continue;
         case 80:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 81;
           continue;
         case 81:
@@ -15559,7 +15562,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 86;
           continue;
         case 86:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 87;
           continue;
         case 87:
@@ -15571,7 +15574,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 89;
           continue;
         case 89:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 90;
           continue;
         case 90:
@@ -15593,7 +15596,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 95;
           continue;
         case 95:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 96;
           continue;
         case 96:
@@ -15605,7 +15608,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 98;
           continue;
         case 98:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 99;
           continue;
         case 99:
@@ -15627,7 +15630,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 104;
           continue;
         case 104:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 105;
           continue;
         case 105:
@@ -15639,7 +15642,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 107;
           continue;
         case 107:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 108;
           continue;
         case 108:
@@ -15661,7 +15664,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 113;
           continue;
         case 113:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 114;
           continue;
         case 114:
@@ -15673,7 +15676,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 116;
           continue;
         case 116:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 117;
           continue;
         case 117:
@@ -15695,7 +15698,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 122;
           continue;
         case 122:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 123;
           continue;
         case 123:
@@ -15707,7 +15710,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 125;
           continue;
         case 125:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 126;
           continue;
         case 126:
@@ -15729,7 +15732,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 131;
           continue;
         case 131:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 132;
           continue;
         case 132:
@@ -15741,7 +15744,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 134;
           continue;
         case 134:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 135;
           continue;
         case 135:
@@ -15763,7 +15766,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 140;
           continue;
         case 140:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 141;
           continue;
         case 141:
@@ -15775,7 +15778,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 143;
           continue;
         case 143:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 144;
           continue;
         case 144:
@@ -15797,7 +15800,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 149;
           continue;
         case 149:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 150;
           continue;
         case 150:
@@ -15809,7 +15812,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 152;
           continue;
         case 152:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 153;
           continue;
         case 153:
@@ -15831,7 +15834,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 158;
           continue;
         case 158:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 159;
           continue;
         case 159:
@@ -15843,7 +15846,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 161;
           continue;
         case 161:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 162;
           continue;
         case 162:
@@ -15865,7 +15868,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 167;
           continue;
         case 167:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 168;
           continue;
         case 168:
@@ -15877,7 +15880,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 170;
           continue;
         case 170:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 171;
           continue;
         case 171:
@@ -15899,7 +15902,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 176;
           continue;
         case 176:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 177;
           continue;
         case 177:
@@ -15911,7 +15914,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 179;
           continue;
         case 179:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 180;
           continue;
         case 180:
@@ -15933,7 +15936,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 185;
           continue;
         case 185:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 186;
           continue;
         case 186:
@@ -15945,7 +15948,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 188;
           continue;
         case 188:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 189;
           continue;
         case 189:
@@ -15967,7 +15970,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 194;
           continue;
         case 194:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 195;
           continue;
         case 195:
@@ -15979,7 +15982,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 197;
           continue;
         case 197:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 198;
           continue;
         case 198:
@@ -16001,7 +16004,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 203;
           continue;
         case 203:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 204;
           continue;
         case 204:
@@ -16013,7 +16016,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 206;
           continue;
         case 206:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 207;
           continue;
         case 207:
@@ -16035,7 +16038,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 212;
           continue;
         case 212:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 213;
           continue;
         case 213:
@@ -16047,7 +16050,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 215;
           continue;
         case 215:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 216;
           continue;
         case 216:
@@ -16069,7 +16072,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 221;
           continue;
         case 221:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 222;
           continue;
         case 222:
@@ -16081,7 +16084,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 224;
           continue;
         case 224:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 225;
           continue;
         case 225:
@@ -16103,7 +16106,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 230;
           continue;
         case 230:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 231;
           continue;
         case 231:
@@ -16115,7 +16118,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 233;
           continue;
         case 233:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 234;
           continue;
         case 234:
@@ -16137,7 +16140,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 239;
           continue;
         case 239:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 240;
           continue;
         case 240:
@@ -16149,7 +16152,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 242;
           continue;
         case 242:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 243;
           continue;
         case 243:
@@ -16171,7 +16174,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 248;
           continue;
         case 248:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 249;
           continue;
         case 249:
@@ -16183,7 +16186,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 251;
           continue;
         case 251:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 252;
           continue;
         case 252:
@@ -16205,7 +16208,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 257;
           continue;
         case 257:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 258;
           continue;
         case 258:
@@ -16217,7 +16220,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 260;
           continue;
         case 260:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 261;
           continue;
         case 261:
@@ -16239,7 +16242,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 266;
           continue;
         case 266:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 267;
           continue;
         case 267:
@@ -16251,7 +16254,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 269;
           continue;
         case 269:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 270;
           continue;
         case 270:
@@ -16273,7 +16276,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 275;
           continue;
         case 275:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 276;
           continue;
         case 276:
@@ -16285,7 +16288,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 278;
           continue;
         case 278:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 279;
           continue;
         case 279:
@@ -16307,7 +16310,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 284;
           continue;
         case 284:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 285;
           continue;
         case 285:
@@ -16319,7 +16322,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 287;
           continue;
         case 287:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 288;
           continue;
         case 288:
@@ -16341,7 +16344,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 293;
           continue;
         case 293:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 64);
           pc = 294;
           continue;
         case 294:
@@ -16353,7 +16356,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 296;
           continue;
         case 296:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 64);
           pc = 297;
           continue;
         case 297:
@@ -16381,7 +16384,7 @@ Future<void> Ruin_56(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 1;
           continue;
         case 1:
@@ -16404,7 +16407,7 @@ Future<void> Ruin_56(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 7;
           continue;
         case 7:
@@ -16424,7 +16427,7 @@ Future<void> Ruin_56(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 12;
           continue;
         case 12:
@@ -16444,7 +16447,7 @@ Future<void> Ruin_56(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 17;
           continue;
         case 17:
@@ -16465,7 +16468,7 @@ Future<void> Ruin_58(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 1;
           continue;
         case 1:
@@ -16488,7 +16491,7 @@ Future<void> Ruin_58(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 7;
           continue;
         case 7:
@@ -16496,7 +16499,7 @@ Future<void> Ruin_58(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 9;
           continue;
         case 9:
@@ -16516,7 +16519,7 @@ Future<void> Ruin_58(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('FADU');
+          await s.fade(FadeDirection.fromBlack, 16);
           pc = 14;
           continue;
         case 14:
@@ -16811,7 +16814,7 @@ Future<void> SkirmishRetreat(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 9;
           continue;
         case 9:
@@ -16972,7 +16975,7 @@ Future<void> SuspendPrompt(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('FADI');
+          await s.fade(FadeDirection.toBlack, 4);
           pc = 11;
           continue;
         case 11:

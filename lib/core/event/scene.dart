@@ -29,6 +29,21 @@
 import 'game_text.dart';
 
 /// 演出中发生的一件事
+/// 淡入/淡出方向。取值对应 `EVSUBCMD_FAD*`。
+enum FadeDirection {
+  /// subcode 0：从黑淡出（画面出现）
+  fromBlack,
+
+  /// subcode 1：淡到黑（画面消失）
+  toBlack,
+
+  /// subcode 2：从白淡出
+  fromWhite,
+
+  /// subcode 3：淡到白
+  toWhite,
+}
+
 sealed class SceneEvent {
   const SceneEvent();
 }
@@ -61,6 +76,24 @@ class ShowText extends SceneEvent {
   @override
   String toString() => 'ShowText(0x${message.id.toRadixString(16)}'
       '${pageCount > 1 ? ' 第${pageIndex + 1}/$pageCount页' : ''})';
+}
+
+/// 淡入/淡出（`FADU` / `FADI` / `FAWU` / `FAWI`）
+class Fade extends SceneEvent {
+  const Fade({
+    required this.dir,
+    required this.speed,
+    required this.scriptName,
+  });
+
+  final FadeDirection dir;
+
+  /// 速度参数：值越大越慢（原作语义）
+  final int speed;
+  final String scriptName;
+
+  @override
+  String toString() => 'Fade(${dir.name}, speed=$speed)';
 }
 
 /// 等玩家按键（文本里有 `[A]` 时自动产生）
@@ -290,6 +323,21 @@ class Scene {
   }
 
   Future<void> stall(int frames) => onEvent(Stall(frames));
+
+  /// 淡入/淡出。
+  ///
+  /// ⚠️ **缩写名是反的** —— 看 `src/Event17_Fade.c`：
+  ///
+  ///     case 0: // FADU
+  ///         StartLockingFadeFromBlack(...);   // 从黑淡出 → 画面出现
+  ///     case 1: // FADI
+  ///         StartLockingFadeToBlack(...);     // 淡到黑 → 画面消失
+  ///
+  /// 按缩写猜会**正好做反**。生成器里也是显式映射，不靠名字。
+  ///
+  /// 四个分支都返回 `EVC_ADVANCE_YIELD` —— **脚本阻塞到淡完为止**。
+  Future<void> fade(FadeDirection dir, int speed) =>
+      onEvent(Fade(dir: dir, speed: speed, scriptName: currentScript));
 
   /// 认得但本阶段不执行的调用（`CURSOR_CHAR` / `MUSI` / `CHECK_TUTORIAL`…）
   void placeholder(String op) {
