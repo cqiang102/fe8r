@@ -174,6 +174,19 @@ class EventOpcodes {
   static const int sVal = 0x05;
   static const int slotOps = 0x06;
   static const int queueOps = 0x07;
+
+  // ---- 以下由"真实场景频次"驱动补上（见 parse_event_scripts.py）----
+  //
+  // "150 个指令里实现了 27 个"没有意义 —— 那 27 个是挑的。
+  // 这几个是拿 166 张真实场景、4263 条真实指令统计出来的高频缺口：
+  //   QUEUE_OPS 7.81% / DISPLAYCURSOR 5.93% / ENUN 4.13%
+  //   CHANGESTATE 3.54% / FADE 3.50% / LOADUNIT 2.58%
+  // 补上这 6 个，真实覆盖率从 61.0% 升到 ~88.5%。
+  static const int fade = 0x17;
+  static const int loadUnit = 0x2C;
+  static const int enun = 0x30;
+  static const int changeState = 0x34;
+  static const int displayCursor = 0x3B;
   static const int label = 0x08;
   static const int goTo = 0x09;
   static const int call = 0x0A;

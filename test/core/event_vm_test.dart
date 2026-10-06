@@ -608,7 +608,7 @@ void main() {
       final json = st.encode();
       expect(json.contains('instructions'), isFalse,
           reason: '脚本是静态数据，塞进存档会让它膨胀几百倍');
-      expect(json.length, lessThan(400));
+      expect(json.length, lessThan(450));
     });
   });
 

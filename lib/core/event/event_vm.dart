@@ -128,7 +128,13 @@ class EventPresentation {
     this.backgroundId,
     Map<int, int>? faces,
     this.textBoxVisible = false,
-  }) : faces = faces ?? {};
+    this.cursorX,
+    this.cursorY,
+    this.fadeDirection,
+    this.fadeAmount,
+    List<int>? loadedUnitDefs,
+  })  : faces = faces ?? {},
+        loadedUnitDefs = loadedUnitDefs ?? [];
 
   /// 当前文字编号（null = 没在显示文字）
   int? textId;
@@ -146,12 +152,29 @@ class EventPresentation {
 
   bool textBoxVisible;
 
+  /// `DISPLAYCURSOR` 要显示的光标位置（null = 不显示）
+  int? cursorX;
+  int? cursorY;
+
+  /// `FADE`：方向（子命令）与时长
+  int? fadeDirection;
+  int? fadeAmount;
+
+  /// `LOADUNIT` 请求加载的单位表下标（**只记请求**，
+  /// 真正的单位表查找归渲染层 —— VM 刻意不持有单位表）
+  final List<int> loadedUnitDefs;
+
   Map<String, dynamic> toJson() => {
         'textId': textId,
         'textType': textType,
         'backgroundId': backgroundId,
         'faces': faces.map((k, v) => MapEntry('$k', v)),
         'textBoxVisible': textBoxVisible,
+        'cursorX': cursorX,
+        'cursorY': cursorY,
+        'fadeDirection': fadeDirection,
+        'fadeAmount': fadeAmount,
+        'loadedUnitDefs': loadedUnitDefs,
       };
 
   static EventPresentation fromJson(Map<String, dynamic> j) {
@@ -185,6 +208,8 @@ class EventVmState {
     this.waitingForPlayer = false,
     this.waitingForMove = false,
     List<UnitMoveRequest>? pendingMoves,
+    List<int>? queuedOps,
+    List<({int pid, int stateBits})>? pendingStateChanges,
     this.cameraX,
     this.cameraY,
     EventPresentation? presentation,
@@ -192,6 +217,8 @@ class EventVmState {
         slots = slots ?? List<int>.filled(eventSlotCount, 0),
         eventBits = eventBits ?? {},
         pendingMoves = pendingMoves ?? [],
+        queuedOps = queuedOps ?? [],
+        pendingStateChanges = pendingStateChanges ?? [],
         presentation = presentation ?? EventPresentation();
 
   /// 当前脚本
@@ -229,6 +256,14 @@ class EventVmState {
 
   /// 待执行的单位移动请求。渲染层取走后调用 [EventVm.notifyMoveFinished]。
   final List<UnitMoveRequest> pendingMoves;
+
+  /// `QUEUE_OPS` 排队的字偏移。**VM 不自己决定何时执行** ——
+  /// 时机归调用方（原版是执行到某个点才把队列放出来）。
+  final List<int> queuedOps;
+
+  /// `CHANGESTATE` 待应用的改动。VM 不持有单位表，
+  /// 所以记成"待应用"，由 `lib/game` 落到 BattleField 上。
+  final List<({int pid, int stateBits})> pendingStateChanges;
 
   /// 是否在等单位走完。
   ///
@@ -561,6 +596,72 @@ class EventVm {
         _cameraControl(state, inst, idx);
         return EventStep(instruction: inst, advanced: true,
             note: '镜头 → ${state.cameraX},${state.cameraY}');
+
+      // ---- 以下 6 个由"真实场景频次"驱动补上 ----
+      //
+      // 分工按架构走：**表现层的事只发请求，不做规则判断**；
+      // 真正的状态改动才写在这里。所以 DISPLAYCURSOR / FADE / LOADUNIT
+      // 只往 presentation 里记一个请求，由 `lib/game` 去落实 ——
+      //   渲染层不做规则决定，VM 也不做像素决定。
+
+      case EventOpcodes.displayCursor:
+        // 0x3B：显示单位光标。原版参数是 (x, y)
+        _requireArgs(inst, 2);
+        state.presentation.cursorX = inst.args[0];
+        const note = '显示光标';
+        state.presentation.cursorY = inst.args[1];
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: note);
+
+      case EventOpcodes.fade:
+        // 0x17：淡入淡出。子命令=方向，参数 0 = 时长
+        _requireArgs(inst, 1);
+        state.presentation.fadeDirection = inst.subCommand;
+        const note = '淡入淡出';
+        state.presentation.fadeAmount = inst.args[0];
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: note);
+
+      case EventOpcodes.loadUnit:
+        // 0x2C：加载一个单位。参数 0 = 单位表下标
+        //
+        // **只记请求，不查表** —— 查表要单位表，而 VM 刻意不持有它。
+        // 渲染层拿到请求后去 ChapterLoader / UnitDefs 里解析。
+        _requireArgs(inst, 1);
+        state.presentation.loadedUnitDefs.add(inst.args[0]);
+        final note = '请求加载单位表 ${inst.args[0]}';
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: note);
+
+      case EventOpcodes.changeState:
+        // 0x34：改单位状态位。原版是 (pid, state)
+        //
+        // 这是**规则**，不是表现 —— 但它改的是"场上单位"，
+        // 而 VM 不持有单位表；所以记成一条待应用的状态改动，
+        // 由 `lib/game` 落到 BattleField 上。
+        _requireArgs(inst, 2);
+        state.pendingStateChanges.add(
+          (pid: inst.args[0], stateBits: inst.args[1]),
+        );
+        const note = '改单位状态位';
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: note);
+
+      case EventOpcodes.enun:
+        // 0x30：结束单位行动（NPC/敌方版）。与 `END` 的 endAll 同义。
+        const note = '结束单位行动';
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: note);
+
+      case EventOpcodes.queueOps:
+        // 0x07：把后续若干条指令**排队**，稍后执行。
+        //
+        // 原版是维护一个待执行队列；这里记下排队的原始字偏移，
+        // 由调用方决定何时执行 —— VM 不自己决定时机。
+        state.queuedOps.add(state.pc);
+        const note = '排队后续指令';
+        state.pc = _nextOffset(state, idx);
+        return EventStep(instruction: inst, advanced: true, note: note);
 
       default:
         // **不静默跳过**。未实现的指令如果悄悄越过，

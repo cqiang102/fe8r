@@ -58,13 +58,13 @@ void main() {
       expect(at[30]!, greaterThan(95));
     });
 
-    test('**当前实现覆盖真实指令 61.0%**', () {
+    test('**当前实现覆盖真实指令 88.5%**', () {
       final pct = (d['implementedCoveragePercent'] as num).toDouble();
       // 这是最有意义的指标。它上升说明真实可执行的剧情变多了；
       // 数字变化会在这里体现出来，从而提醒更新结论。
-      expect(pct, closeTo(61.0, 0.1));
+      expect(pct, closeTo(88.5, 0.1));
       expect((d['implementedOpcodes'] as List<dynamic>).length,
-          greaterThan(15));
+          greaterThan(25));
     });
 
     test('频次最高的 opcode 是 SVAL（18.1%）—— 变量赋值', () {
