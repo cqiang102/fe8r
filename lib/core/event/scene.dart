@@ -39,14 +39,28 @@ class ShowText extends SceneEvent {
     required this.message,
     required this.scriptName,
     required this.step,
+    this.page,
+    this.pageIndex = 0,
+    this.pageCount = 1,
   });
 
   final GameMessage message;
   final String scriptName;
   final int step;
 
+  /// **这一页**的文字（一条消息可能有好几页，见 `GameMessage.pages`）
+  final String? page;
+  final int pageIndex;
+  final int pageCount;
+
+  /// 实际要显示的文字
+  String get text => page ?? message.plain;
+
+  bool get hasMorePages => pageIndex + 1 < pageCount;
+
   @override
-  String toString() => 'ShowText(0x${message.id.toRadixString(16)})';
+  String toString() => 'ShowText(0x${message.id.toRadixString(16)}'
+      '${pageCount > 1 ? ' 第${pageIndex + 1}/$pageCount页' : ''})';
 }
 
 /// 等玩家按键（文本里有 `[A]` 时自动产生）
@@ -240,12 +254,29 @@ class Scene {
       missing.add('text:0x${textId.toRadixString(16)}');
       return;
     }
-    await onEvent(ShowText(
-      message: m,
-      scriptName: currentScript,
-      step: 0,
-    ));
-    if (m.segments.whereType<TextControl>().any((c) => c.isWaitForKey)) {
+    // ⚠️ **一页一页地演**，不是整条消息一口气画出来。
+    //
+    // 一条消息里 `[A]` / `[CR]` 把正文切成多页（序章开场那条就有好几页）。
+    // 第一版不分页，结果只显示前两行、后面全被裁掉。
+    final pages = m.pages;
+    if (pages.isEmpty) {
+      await onEvent(ShowText(
+        message: m,
+        scriptName: currentScript,
+        step: 0,
+      ));
+      return;
+    }
+    for (var i = 0; i < pages.length; i++) {
+      await onEvent(ShowText(
+        message: m,
+        scriptName: currentScript,
+        step: 0,
+        page: pages[i],
+        pageIndex: i,
+        pageCount: pages.length,
+      ));
+      // 每一页都要玩家按键才继续（最后一页也一样 —— 原作的节奏）
       await onEvent(WaitForInput(currentScript, 0));
     }
   }

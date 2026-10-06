@@ -36,7 +36,11 @@ class TextControl extends TextSegment {
   final int? arg;
 
   /// 渲染层真正需要的语义
+  /// `[A]` —— 等玩家按键。文本里的"这一页结束了"。
   bool get isWaitForKey => name == 'A';
+
+  /// `[CR]` —— 换页（清屏重画）。
+  bool get isPageBreak => name == 'A' || name == 'CR';
   bool get isLineBreak => name == 'LF';
   bool get isLoadFace => name == 'LoadFace';
   bool get isFacePosition => name.startsWith('Open') || name.startsWith('Close');
@@ -66,6 +70,41 @@ class GameMessage {
       .trim();
 
   bool get isEmpty => plain.trim().isEmpty;
+
+  /// **分页**。
+  ///
+  /// FE 的文本是一串控制码：`[A]`（= 3）是"等玩家按键"，`[CR]`（= 2）是
+  /// 换页。一条消息里常常有好几页 —— 序章开场那条 0x8c3 就有。
+  ///
+  /// ⚠️ 我第一版**没有分页**，把整条消息一口气画进两行的框里，
+  /// 结果只显示前两行、后面全被裁掉（截图里一眼可见）。
+  /// 而当时我甚至没意识到"分页"是个概念 —— 直到去读
+  /// `texts/jp_textdefs.txt`（反编译项目把控制码的语义也写下来了）。
+  ///
+  /// 返回每一页的纯文字（已去掉控制码、`[LF]` 已换成换行）。
+  List<String> get pages {
+    final out = <String>[];
+    final buf = StringBuffer();
+    for (final seg in segments) {
+      if (seg is TextRun) {
+        buf.write(seg.text);
+      } else {
+        final c = seg as TextControl;
+        if (c.isPageBreak) {
+          // `[A]` / `[CR]` 都是"这一页到此为止"
+          out.add(buf.toString().trim());
+          buf.clear();
+        } else if (c.isLineBreak) {
+          buf.write('\n');
+        }
+        // 其余控制码（立绘位置、加载脸…）不进正文
+      }
+    }
+    final tail = buf.toString().trim();
+    if (tail.isNotEmpty) out.add(tail);
+    // 全空的页（连续两个 `[A]`）去掉
+    return out.where((p) => p.isNotEmpty).toList();
+  }
 }
 
 /// 全部游戏文本

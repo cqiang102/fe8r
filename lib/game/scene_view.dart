@@ -89,7 +89,8 @@ class SceneView {
       if (seg.isLoadFace && seg.arg != null) face = seg.arg;
     }
     show(
-      text: e.message.plain,
+      // 用**这一页**的文字，不是整条消息
+      text: e.text,
       virtualSize: virtualSize,
       hostFace: face,
     );
