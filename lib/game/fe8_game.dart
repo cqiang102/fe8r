@@ -44,7 +44,6 @@ class Fe8Game extends FlameGame {
   //   * `sceneRunner` 执行从源码逐行解析的场景脚本
   // 场景脚本这条路没有指针问题（参数就是名字），所以先把它跑起来。
 
-  SceneScripts? sceneScripts;
   GameTexts? gameTexts;
   SceneRunner? sceneRunner;
 
@@ -120,12 +119,13 @@ class Fe8Game extends FlameGame {
   /// 加载真实剧本与文本（不存在就返回 null —— 不静默用假数据顶替）
   void _loadSceneData() {
     try {
-      final sf = File('tools/pipeline/out/tables/scene_scripts.json');
       final tf = File('tools/pipeline/out/tables/texts.json');
-      if (!sf.existsSync() || !tf.existsSync()) return;
-      sceneScripts = SceneScripts.parse(sf.readAsStringSync());
+      if (!tf.existsSync()) return;
       gameTexts = GameTexts.parse(tf.readAsStringSync());
-      sceneRunner = SceneRunner(scenes: sceneScripts!, texts: gameTexts!);
+      // ⚠️ 剧本**不是**从文件读的 —— 它是生成的 Dart 代码
+      //（`lib/core/event/scene_data.g.dart`，由 C 源码直接生成）。
+      // 没有 JSON、没有运行时解析，引用了不存在的脚本在**生成时**就报出来了。
+      sceneRunner = SceneRunner(texts: gameTexts!);
     } catch (e) {
       // 读失败就当作没有 —— 但**不吞掉**，写进 status 让人看得见
       status.value = '剧本加载失败: $e';
@@ -310,7 +310,7 @@ class Fe8Game extends FlameGame {
   bool _startRealScene() {
     final runner = sceneRunner;
     if (runner == null) return false;
-    if (!runner.scenes.scripts.containsKey(realSceneName)) return false;
+    if (!runner.scripts.containsKey(realSceneName)) return false;
 
     lastSceneResult = runner.run(realSceneName);
     _sceneTexts = lastSceneResult!.texts;
@@ -802,11 +802,11 @@ class Fe8Game extends FlameGame {
     final cur = currentSceneText;
     final total = _sceneTexts.length;
     final miss = lastSceneResult?.missing.length ?? 0;
-    final skip = lastSceneResult?.skipped.length ?? 0;
+    final skip = lastSceneResult?.placeholderOps.length ?? 0;
     return '剧情 ${_sceneIndex + 1}/$total'
         '  文本=0x${cur?.message.id.toRadixString(16) ?? '-'}'
         '${miss > 0 ? '  缺$miss' : ''}'
-        '${skip > 0 ? '  未实现指令$skip种' : ''}';
+        '${skip > 0 ? '  未执行指令$skip种' : ''}';
   }
 
   void _updateHud() {
@@ -826,13 +826,14 @@ class Fe8Game extends FlameGame {
       final cur = currentSceneText;
       final r = lastSceneResult;
       final miss = (r?.missing.toList() ?? const <String>[])..sort();
-      final skip = (r?.skipped.entries.toList() ?? const <MapEntry<String, int>>[])
-        ..sort((a, b) => b.value.compareTo(a.value));
+      final skip = (r?.placeholderOps.entries.toList() ??
+              const <MapEntry<String, int>>[])
+          ..sort((a, b) => b.value.compareTo(a.value));
       hud.value = '$sceneHudLine'
           '\n【${cur?.scriptName ?? '-'}】'
           '\n${cur?.message.plain ?? ''}'
           '${miss.isEmpty ? '' : '\n缺: ${miss.take(3).join(' ')}'}'
-          '${skip.isEmpty ? '' : '\n未实现指令: ${skip.take(4).map((e) => '${e.key}×${e.value}').join(' ')}'}';
+          '${skip.isEmpty ? '' : '\n未执行指令: ${skip.take(5).map((e) => '${e.key}×${e.value}').join(' ')}'}';
       return;
     }
 

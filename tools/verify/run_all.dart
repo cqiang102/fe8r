@@ -168,11 +168,11 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
 
-    // 场景剧情：**从源码逐行解析**，不走编译（参数就是名字，没有指针）
+    // 场景剧情：**从 C 源码直接生成 Dart**（没有 JSON 中间层）
     if (hasDecomp())
-      Step('L0', '场景剧情脚本（源码解析）', 'python3',
-          ['extract/parse_scene_scripts.py', '--out', 'out/tables'],
-          cwd: 'tools/pipeline', note: '196 个脚本 / 130 种指令名')
+      Step('L0', '场景剧情脚本（生成 Dart）', 'python3',
+          ['extract/gen_scene_dart.py'],
+          cwd: 'tools/pipeline', note: '196 个脚本 / 6348 条指令')
     else
       Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
 
