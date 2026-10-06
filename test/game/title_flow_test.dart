@@ -174,6 +174,71 @@ void main() {
     });
   });
 
+  group('★ 菜单项的精灵索引 = 枚举值（`include/savemenu.h:33-41`）', () {
+    test('NEW_GAME 的精灵索引是 4，不是列表位置', () {
+      // `SpriteArray_SavemenuData_1[4] = gSprite_SavemenuData_4`
+      expect(MainMenuItem.newGame.spriteIndex, 4);
+      expect(MainMenuItem.resume.spriteIndex, 0);
+      expect(MainMenuItem.restart.spriteIndex, 1);
+      expect(MainMenuItem.copy.spriteIndex, 2);
+      expect(MainMenuItem.erase.spriteIndex, 3);
+      expect(MainMenuItem.extras.spriteIndex, 5);
+    });
+
+    test('精灵索引**与它在可见列表里的位置无关**', () {
+      final f = fresh();
+      f.usedSlots = 1;
+      // 列表 = [RESTART(1), COPY(2), ERASE(3), NEW_GAME(4)]
+      // 位置是 0..3，但精灵索引是 1..4 —— 两者不同
+      final idx = f.options.map((o) => o.spriteIndex).toList();
+      expect(idx, [1, 2, 3, 4]);
+      expect(idx, isNot(List.generate(4, (i) => i)),
+          reason: '如果按位置取精灵，第一项会画成 RESUME 的图');
+    });
+  });
+
+  group('★ 选项走向（`src/SaveMenuTryMoveSaveSlotCursor.c:24-41`）', () {
+    test('NEW_GAME 直接去难度，不选存档槽', () {
+      final f = fresh()..startAt = TitleScreen.mainMenu;
+      f.reset();
+      expect(f.mainItem, MainMenuItem.newGame);
+      f.tick(confirm: true, cancel: false, up: false, down: false);
+      expect(f.screen, TitleScreen.difficulty);
+    });
+
+    test('RESUME 什么都不选，直接进游戏', () {
+      final f = fresh()..startAt = TitleScreen.mainMenu;
+      f.reset();
+      f.resumable = true;
+      expect(f.mainItem, MainMenuItem.resume);
+      final go = f.tick(confirm: true, cancel: false, up: false, down: false);
+      expect(go, isTrue);
+      expect(f.screen, TitleScreen.mainMenu, reason: 'RESUME 不经过任何画面');
+    });
+
+    test('RESTART / ERASE / COPY 要先选存档槽', () {
+      // ⚠️ COPY 只在 `count < 3` 时出现（`InitSaveMenuChoice.c`），
+      // 所以用 1 个存档 —— 这样三项都在列表里。
+      // （我第一版用 `usedSlots = 3`，COPY 不在列表里 —— **测试写错了，不是代码错**，
+      //   而这恰好反证了实现与源码一致。）
+      for (final target in [MainMenuItem.restart, MainMenuItem.erase,
+                            MainMenuItem.copy]) {
+        final f = fresh()..startAt = TitleScreen.mainMenu;
+        f.reset();
+        f.usedSlots = 1;
+        final i = f.options.indexOf(target);
+        expect(i, greaterThanOrEqualTo(0), reason: '$target 应该出现在列表里');
+        for (var k = 0; k < i; k++) {
+          f.tick(confirm: false, cancel: false, up: false, down: true);
+        }
+        expect(f.mainItem, target);
+        f.tick(confirm: true, cancel: false, up: false, down: false);
+        expect(f.screen, TitleScreen.saveSlot,
+            reason: '$target 的 flag=1，要先选槽');
+      }
+    });
+  });
+
   test('标题文字用的是**真实消息表**（253 / 1749）', () {
     final f = fresh();
     // `GameTexts.empty()` 时退回硬编码的原文，仍然是那一句

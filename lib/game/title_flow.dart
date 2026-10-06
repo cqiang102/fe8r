@@ -82,7 +82,53 @@ enum TitleScreen {
 ///
 /// ⚠️ 我第一版自己编了「开始新的游戏 / 附加内容」两项 ——
 /// **原作是六个、而且按存档状态动态出现**（见 [mainMenuOptions]）。
-enum MainMenuItem { resume, restart, copy, erase, newGame, extras }
+/// ## ★ 枚举值 = **OAM 精灵索引**
+///
+/// `src/savedraw.c:199-205`：
+///
+/// ```c
+/// for (i = 0; i < SAVE_MENU_PARENT(proc)->unk_31; i++) {
+///     int spriteIdx = BitfileToIndex(SaveMenuGetBitfile(
+///         SAVE_MENU_PARENT(proc)->main_options, i));   // 位下标 = 精灵索引
+///     SaveDraw_DrawMainMenuOption(proc, 48 - xOffset, y + i * 25, spriteIdx, ...);
+/// }
+/// ```
+///
+/// 而 `SpriteArray_SavemenuData_1[]`（`data_08A9D904.c:92-103`）是
+/// 索引 → 精灵的映射：
+///
+///     [0]=Data_0 [1]=Data_1 [2]=Data_2 [3]=Data_3
+///     [4]=Data_4 [5]=Data_5 [6]=Data_6 [7]=Data_1 [8]=Data_8 ...
+///
+/// **所以 `NEW_GAME` 的精灵索引是 4，不是它在列表里的位置。**
+///
+/// ## ⚠️ 标签**不是消息文本**，是 OAM 精灵
+///
+/// `gSprite_SavemenuData_4`（`frontier_df4_menu.c:7350`）：
+///
+/// ```c
+/// { 5,
+///   OAM0_SHAPE_32x16, OAM1_SIZE_32x16,             OAM2_CHR(0x180),
+///   OAM0_SHAPE_16x16, OAM1_SIZE_16x16 + OAM1_X(32), OAM2_CHR(0x184),
+///   ... }
+/// ```
+///
+/// 「はじめから」是**预渲染的图块**，装在 VRAM 的 `0x180/0x184/0x106/…`。
+/// 我在消息表里找不到，就是因为**它根本不在消息表里**。
+enum MainMenuItem {
+  /// 枚举值就是 OAM 精灵索引（`include/savemenu.h:33-41`）
+  resume(0),
+  restart(1),
+  copy(2),
+  erase(3),
+  newGame(4),
+  extras(5);
+
+  const MainMenuItem(this.spriteIndex);
+
+  /// `MAIN_MENU_*` 的值 —— `SpriteArray_SavemenuData_1` 的下标
+  final int spriteIndex;
+}
 
 /// 难度（`SaveMenu_PostDifficultHandler.c:32-36`：`difficulty == 3` 走单独分支）
 enum Difficulty {
@@ -280,11 +326,14 @@ class TitleFlow {
             case MainMenuItem.newGame:
               _goto(TitleScreen.difficulty);
             case MainMenuItem.resume:
-            case MainMenuItem.restart:
-              // 读档继续 / 从头开始：都直接进游戏（存档系统是 M9）
+              // `case MAIN_MENU_OPTION_RESUME: return 0;` —— 什么都不选，直接进游戏
               return true;
-            case MainMenuItem.copy:
+            case MainMenuItem.restart:
             case MainMenuItem.erase:
+            case MainMenuItem.copy:
+              // `flag = 1` —— **要先选一个存档槽**
+              // （存档系统是 M9，这里只走到槽选择）
+              _goto(TitleScreen.saveSlot);
             case MainMenuItem.extras:
               // 本实现不做 —— **留在原地**，不静默跳走
               return false;

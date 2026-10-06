@@ -122,12 +122,30 @@ class TitleView extends PositionComponent {
 
   /// 菜单项的文字。
   ///
-  /// ⚠️ **这几个是我按语义写的占位**，不是从消息表里查出来的 ——
-  /// 我找了 `texts.json` 但没定位到存档菜单那批标签
-  /// （1..8 字的短标签扫了一遍，命中都是地图地名）。
+  /// ## ⚠️ 仍然是占位 —— 但**原因已经查清**
   ///
-  /// **下一步（有明确判据）**：在 `src/savemenu*.c` 里找到
-  /// `main_options` 的位 → 消息 id 的映射表。找到之前不假装它是真的。
+  /// **菜单项根本不是文字，是 OAM 精灵。** 出处：
+  ///
+  /// ```c
+  /// // src/savedraw.c:199-205
+  /// int spriteIdx = BitfileToIndex(SaveMenuGetBitfile(
+  ///     SAVE_MENU_PARENT(proc)->main_options, i));    // 位下标 = 精灵索引
+  /// SaveDraw_DrawMainMenuOption(proc, 48 - xOffset, y + i * 25, spriteIdx, ...);
+  /// ```
+  ///
+  /// 精灵索引 = `MAIN_MENU_*` 的**枚举值**（`MainMenuItem.spriteIndex`）：
+  /// RESUME=0 / RESTART=1 / COPY=2 / ERASE=3 / **NEW_GAME=4** / EXTRAS=5。
+  ///
+  /// 索引 → 精灵表：`SpriteArray_SavemenuData_1[]`（`data_08A9D904.c:92-103`）。
+  ///
+  /// 图块数据：`graphics/frontier_df4_menu/Img_GameMainMenuObjs.png`（256×48）
+  /// 与 `Img_DifficultyMenuObjs.png`；调色板 `Pal_MenuFontGlyphs0..3.pal`。
+  ///
+  /// **所以我在消息表里找不到 —— 它不在消息表里。**
+  ///
+  /// 图块是 `Img_*` 裸素材，需要拆分工具才能还原（与标题同一类问题，
+  /// 见 `graphics/opanim/opanim.mk` 关于 FETSATOOL 的注释）。
+  /// **在这些图块合成出来之前，这里只能是占位，不假装是真的。**
   static String _label(MainMenuItem o) {
     switch (o) {
       case MainMenuItem.resume:
