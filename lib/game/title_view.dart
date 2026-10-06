@@ -1,26 +1,32 @@
 // 开场流程的画面。
 //
-// ⚠️ **图形是占位的，流程是真的。**
+// # 设计原则：**用 Flame 的方式重做，不照抄 GBA 的实现**
 //
-// 标题/logo 的素材在 `graphics/frontier_df3_titlescreen/`，
-// 是 **8px 宽的灰度图块条**（`L` 模式），和立绘一样要按 TSA 合成。
-// 那是独立的一块工作（参照 `tools/pipeline/extract/parse_portraits.py`）。
+// 原作的这些画面是 GBA 的 BG 图块 + OAM 精灵拼出来的：
+// 边框是一张 `Tsa_*` 图块图、菜单项是预渲染的 OAM 精灵
+// （见 `docs/源码索引.md` 与各处的 `PORT OF` 注释）。
 //
-// 所以这里只画：
-//   * 纯色背景（Nintendo / IntSys / 健康警告各自的底色）
-//   * **真实的文字**（标题「聖魔の光石」= 消息 253、
-//     「スタートを押すと始まります」= 消息 1749）
+// **那套实现方式不该被照搬。** 我们从源码里取的是**结构与内容**：
 //
-// 这样下一步接图形时**只改这个文件**，流程与状态机不动。
-import 'package:flame/components.dart';
+//   * 顺序与时机（`gProcScr_GameControl`、`Title_IDLE` 的 815 帧）
+//   * 有哪些项、什么时候出现（`InitSaveMenuChoice.c` 的规则）
+//   * 布局（`DifficultySelect_PutModeText` 的列行）
+//   * **真实文案**（消息表里的 ID —— 253 / 1749 / 2098-2100 等）
+//
+// 呈现方式换成 Flutter + Flame：
+//
+//   * 菜单用 `MenuPanelComponent`（与战斗行动菜单**同一个组件**）
+//   * 文字用 `TextComponent`，尺寸全部由图块尺寸派生
+//   * 只有"现成素材"才当图片贴（`assets/title/`）
 import 'dart:ui' show Image;
 
+import 'package:fe8r/game/menu_panel.dart';
 import 'package:flame/cache.dart' show Images;
+import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
 import 'title_flow.dart';
 
-/// 开场流程的渲染层
 class TitleView extends PositionComponent {
   TitleView({required this.flow, required this.screenSize})
       : super(size: screenSize.clone(), priority: 1 << 19);
@@ -28,124 +34,222 @@ class TitleView extends PositionComponent {
   final TitleFlow flow;
   final Vector2 screenSize;
 
-  /// 淡入淡出用的覆盖层（0 = 透明、1 = 全黑）。
-  ///
-  /// ⚠️ **必须自己在 `update` 里推进。**
-  /// 我第一版把它初始化成 `1` 就不管了 —— 于是**整屏全黑**，
-  /// 底下的素材一张都看不见（截图里只有文字）。
-  /// 「图没显示」和「图被黑幕盖住」在截图里长得一样。
+  /// 淡入用的覆盖层（0 = 透明、1 = 全黑）
   double fade = 1;
-
-  /// ② 开场动画：`OpAnimScrollBg.png` 是 **240×800** 的滚动背景。
-  ///
-  /// 出处：`preview/tsa/MANIFEST.tsv` ——
-  /// 「Assembled 240x800 preview of 100 scroll-bg bands (opanim1-100);
-  ///   each band is 240x8 GBA-screen-width; **bands loop during opaque animation**」
-  ///
-  /// 所以是"整张长图在滚"，不是逐条播放。
-  double _scrollY = 0;
-
-  /// 滚动速度（像素/秒）。原作是逐帧滚动，这里取一个视觉接近的值。
-  static const double scrollSpeed = 20;
-
-  /// 当前画面已经淡了多久（帧）
   int _fadeFrame = 0;
   TitleScreen? _fadeScreen;
 
-  /// 淡入用 **30 帧**（`src/GameIntroNintendoFadeOUT.c:17` 的 `0x1E`）
+  /// 淡入 **30 帧**（`src/GameIntroNintendoFadeOUT.c:17` 的 `0x1E`）
   static const int fadeFrames = 30;
 
-  TextComponent? _main;
-  TextComponent? _sub;
+  /// 一个 GBA 图块多少像素 —— **所有尺寸都从它派生**
+  double get tile => screenSize.x / 30;
 
-  /// 菜单项的文字组件（每次重建时替换）
-  final List<TextComponent> _menuTexts = [];
-  int _lastKey = -1;
-
-  /// 已加载的**现成素材**（反编译项目里已经合成好的 PNG）。
-  ///
-  /// ## ⚠️ 大部分素材不用我合成 —— 用户提醒后才发现
-  ///
-  /// 规律是 **`Img_X.png` 是裸图块条、`X.png` 是合成版**：
-  ///
-  ///     misc_gfx3/IntelligentSystems.png    240×160  mode P   ← 合成好的
-  ///     misc_gfx3/Img_IntelligentSystems.png  8×1192  mode L   ← 裸条
-  ///
-  /// `Makefile:804-808` 用 `$(GBAGFX)` 把合成版转成 `.4bpp`/`.gbapal` ——
-  /// 也就是说**那些 PNG 是可编辑的源图**。
-  ///
-  /// 我本来打算自己合成标题素材，**差点重复劳动**。
   final Map<String, Image> _images = {};
 
-  /// 每个画面用哪张现成素材（没有的留空，退回纯色底）
+  /// 有现成素材的画面（`assets/title/`，由 `copy_title_assets.py` 产出）
   static const _assetFor = <TitleScreen, String>{
     TitleScreen.intelligentSystems: 'IntelligentSystems.png',
-    // ⚠️ **不要用 `OpAnimScrollBg.png`** —— 它是 240×800 的滚动背景，
-    // 但**素材本身就是噪点**（反编译项目自己组装出来的预览就是那样）。
-    // 用角色立绘 —— 职业介绍本来就是介绍角色，而且那批是干净的。
-    //
-    // （滚动背景那张可能是片头转场用的"雪花"效果，也可能组装有问题；
-    //   没查清之前不用它。）
     TitleScreen.classReel: 'OpAnimEirika.png',
   };
 
-  /// 每个画面的底色（占位；接图形后删掉）
-  static const _bg = <TitleScreen, Color>{
-    TitleScreen.nintendo: Color(0xFF101418),
-    TitleScreen.intelligentSystems: Color(0xFF141018),
-    TitleScreen.healthSafety: Color(0xFF101014),
-    TitleScreen.title: Color(0xFF1A2233),
-    TitleScreen.classReel: Color(0xFF12202A),
-    TitleScreen.mainMenu: Color(0xFF16202C),
-    TitleScreen.difficulty: Color(0xFF16202C),
-    TitleScreen.saveSlot: Color(0xFF16202C),
-  };
+  TextComponent? _title;
+  TextComponent? _body;
+  SaveMainMenuComponent? _menu;
+  int _layoutKey = -1;
 
-  /// 当前画面的**菜单项**（空 = 不是菜单）
-  ///
-  /// ⚠️ 之前我把菜单也拼成一个字符串、用 `▶` 标选中 ——
-  /// **那不算 UI**：看不出"这东西能选"、没有框、没有行高亮。
-  /// 用户指出"缺的是 UI 交互"，这就是那部分。
-  List<String> get menuItems {
+  @override
+  Future<void> onLoad() async {
+    await _loadAssets();
+    await _layout();
+  }
+
+  Future<void> _loadAssets() async {
+    final images = Images(prefix: 'assets/title/');
+    for (final name in _assetFor.values.toSet()) {
+      try {
+        _images[name] = await images.load(name);
+      } catch (_) {
+        // 缺素材就退回纯色底 —— 不静默崩，也不假装有图
+      }
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (_fadeScreen != flow.screen) {
+      _fadeScreen = flow.screen;
+      _fadeFrame = 0;
+    }
+    if (_fadeFrame < fadeFrames) {
+      _fadeFrame++;
+      fade = (1 - _fadeFrame / fadeFrames).clamp(0, 1);
+    }
+
+    // 选择变了要重排菜单（高亮行跟着走）
+    final key = Object.hash(flow.screen, flow.mainIndex, flow.difficulty,
+        flow.saveSlot, flow.options.length);
+    if (key != _layoutKey) _layout();
+  }
+
+  // ---------------------------------------------------------------- 布局
+
+  Future<void> _layout() async {
+    _layoutKey = Object.hash(flow.screen, flow.mainIndex, flow.difficulty,
+        flow.saveSlot, flow.options.length);
+
+    _title?.removeFromParent();
+    _body?.removeFromParent();
+    _menu?.removeFromParent();
+    _title = null;
+    _body = null;
+    _menu = null;
+
+    final asset = _assetFor[flow.screen];
+    final hasArt = asset != null && _images.containsKey(asset);
+
+    // 标题：有素材的画面不写字（素材自己会说话）
+    if (!hasArt) {
+      _title = TextComponent(
+        text: _headline(),
+        textRenderer: TextPaint(
+          style: TextStyle(
+            color: const Color(0xFFFFFFFF),
+            fontSize: tile * 2.0,
+          ),
+        ),
+        anchor: Anchor.topCenter,
+        position: Vector2(screenSize.x / 2, screenSize.y * 0.14),
+      );
+      add(_title!);
+    }
+
+    // 菜单：**与战斗行动菜单同一个组件**
+    final entries = _entries();
+    if (entries.isNotEmpty) {
+      final w = flow.screen == TitleScreen.difficulty
+          ? screenSize.x * 0.40
+          : screenSize.x * 0.44;
+      _menu = SaveMainMenuComponent(
+        entries: entries,
+        selectedIndex: _selected(),
+        tileSize: tile,
+        panelWidth: w,
+      )..position = Vector2(
+          tile * 2.5,
+          flow.screen == TitleScreen.difficulty
+              ? screenSize.y * 0.40
+              : screenSize.y * 0.34,
+        );
+      add(_menu!);
+    }
+
+    // 正文：难度说明在**右边**（源码 `DifficultySelect_PutModeText`
+    // 把它放在 BG0 第 18 列），其余画面居中在下方
+    final body = _bodyText();
+    if (body.isNotEmpty) {
+      final isDiff = flow.screen == TitleScreen.difficulty;
+      _body = TextComponent(
+        text: body,
+        textRenderer: TextPaint(
+          style: TextStyle(
+            color: const Color(0xFFB8C4D4),
+            fontSize: tile * (isDiff ? 0.95 : 1.15),
+            height: 1.5,
+          ),
+        ),
+        anchor: isDiff ? Anchor.topLeft : Anchor.topCenter,
+        position: Vector2(
+          isDiff ? screenSize.x * 0.48 : screenSize.x / 2,
+          isDiff ? screenSize.y * 0.40 : screenSize.y * 0.62,
+        ),
+      );
+      add(_body!);
+    }
+  }
+
+  // ---------------------------------------------------------------- 内容
+
+  String _headline() {
+    switch (flow.screen) {
+      case TitleScreen.nintendo:
+        return 'Nintendo';
+      case TitleScreen.intelligentSystems:
+        return 'INTELLIGENT SYSTEMS';
+      case TitleScreen.healthSafety:
+        return flow.pressStart; // 真实消息 1749
+      case TitleScreen.title:
+        return flow.gameTitle; // 真实消息 253「聖魔の光石」
+      case TitleScreen.classReel:
+        return '職業紹介';
+      case TitleScreen.mainMenu:
+        return '開始';
+      case TitleScreen.difficulty:
+        return '難易度';
+      case TitleScreen.saveSlot:
+        return 'セーブ';
+    }
+  }
+
+  /// 菜单项。**内容全部来自 [TitleFlow] 的源码规则**，这里只做显示。
+  List<MenuEntry> _entries() {
     switch (flow.screen) {
       case TitleScreen.mainMenu:
-        // ⚠️ 选项由 `InitSaveMenuChoice.c` 的规则动态决定（不是写死的两项）
-        return [for (final o in flow.options) _label(o)];
+        return [
+          for (final o in flow.options)
+            MenuEntry(_label(o), enabled: o != MainMenuItem.extras),
+        ];
       case TitleScreen.difficulty:
-        return const ['あたらしい', 'ふつう', 'むずかしい'];
+        return [
+          for (final d in Difficulty.values) MenuEntry(_difficultyLabel(d)),
+        ];
       case TitleScreen.saveSlot:
-        return const ['ファイル１', 'ファイル２', 'ファイル３'];
+        return [
+          for (var i = 0; i < 3; i++) MenuEntry('ファイル${i + 1}'),
+        ];
       default:
         return const [];
     }
   }
 
-  /// 菜单项的文字。
+  int _selected() {
+    switch (flow.screen) {
+      case TitleScreen.mainMenu:
+        return flow.mainIndex;
+      case TitleScreen.difficulty:
+        return flow.difficulty.index;
+      case TitleScreen.saveSlot:
+        return flow.saveSlot < 0 ? 0 : flow.saveSlot;
+      default:
+        return 0;
+    }
+  }
+
+  /// 正文（空串 = 这个画面没有正文）
+  String _bodyText() {
+    switch (flow.screen) {
+      case TitleScreen.healthSafety:
+        return '（健康与安全提示画面）';
+      case TitleScreen.title:
+        return flow.pressStart;
+      case TitleScreen.classReel:
+        return '（不按键 815 帧会自动播放）';
+      case TitleScreen.difficulty:
+        // ★ 真实消息 2098 / 2099 / 2100
+        // （`gTextIds_DifficultyDescription`，见 `Difficulty` 的出处）
+        return flow.difficultyDescription;
+      default:
+        return '';
+    }
+  }
+
+  /// 主菜单项的名字。
   ///
-  /// ## ⚠️ 仍然是占位 —— 但**原因已经查清**
-  ///
-  /// **菜单项根本不是文字，是 OAM 精灵。** 出处：
-  ///
-  /// ```c
-  /// // src/savedraw.c:199-205
-  /// int spriteIdx = BitfileToIndex(SaveMenuGetBitfile(
-  ///     SAVE_MENU_PARENT(proc)->main_options, i));    // 位下标 = 精灵索引
-  /// SaveDraw_DrawMainMenuOption(proc, 48 - xOffset, y + i * 25, spriteIdx, ...);
-  /// ```
-  ///
-  /// 精灵索引 = `MAIN_MENU_*` 的**枚举值**（`MainMenuItem.spriteIndex`）：
-  /// RESUME=0 / RESTART=1 / COPY=2 / ERASE=3 / **NEW_GAME=4** / EXTRAS=5。
-  ///
-  /// 索引 → 精灵表：`SpriteArray_SavemenuData_1[]`（`data_08A9D904.c:92-103`）。
-  ///
-  /// 图块数据：`graphics/frontier_df4_menu/Img_GameMainMenuObjs.png`（256×48）
-  /// 与 `Img_DifficultyMenuObjs.png`；调色板 `Pal_MenuFontGlyphs0..3.pal`。
-  ///
-  /// **所以我在消息表里找不到 —— 它不在消息表里。**
-  ///
-  /// 图块是 `Img_*` 裸素材，需要拆分工具才能还原（与标题同一类问题，
-  /// 见 `graphics/opanim/opanim.mk` 关于 FETSATOOL 的注释）。
-  /// **在这些图块合成出来之前，这里只能是占位，不假装是真的。**
+  /// ⚠️ **原作里这几个不是文字，是 OAM 精灵**（`gSprite_SavemenuData_N`）。
+  /// 取不到那些图块，所以这里是**按语义写的日文**，不是消息表原文。
+  /// 结构（哪些项、什么顺序、能不能选）是真的，字面是占位的。
   static String _label(MainMenuItem o) {
     switch (o) {
       case MainMenuItem.resume:
@@ -163,302 +267,47 @@ class TitleView extends PositionComponent {
     }
   }
 
-  /// 菜单里当前选中的下标
-  int get menuIndex {
-    switch (flow.screen) {
-      case TitleScreen.mainMenu:
-        return flow.mainIndex;
-      case TitleScreen.difficulty:
-        return flow.difficulty.index;
-      case TitleScreen.saveSlot:
-        return flow.saveSlot < 0 ? 0 : flow.saveSlot;
-      default:
-        return -1;
+  /// 难度名。同样是精灵（`gSprite_DifficultyMenuSelectModeText`），字面占位。
+  static String _difficultyLabel(Difficulty d) {
+    switch (d) {
+      case Difficulty.easy:
+        return 'あたらしい';
+      case Difficulty.normal:
+        return 'ふつう';
+      case Difficulty.hard:
+        return 'むずかしい';
     }
   }
 
-  /// 主文字 / 副文字（副文字可以没有）
-  (String, String?) _lines() {
-    switch (flow.screen) {
-      case TitleScreen.nintendo:
-        return ('Nintendo', null);
-      case TitleScreen.intelligentSystems:
-        return ('INTELLIGENT SYSTEMS', null);
-      case TitleScreen.healthSafety:
-        // 真实文案：消息 1749
-        return (flow.pressStart, '（健康与安全提示画面）');
-      case TitleScreen.title:
-        // 真实标题：消息 253
-        return (flow.gameTitle, flow.pressStart);
-      case TitleScreen.classReel:
-        return ('職業紹介', '（不按键 815 帧会自动播放）');
-      case TitleScreen.mainMenu:
-        return ('開始', null);
-      case TitleScreen.difficulty:
-        // 说明文字是**真实消息**（2098/2099/2100，见 `Difficulty` 的出处）
-        return ('難易度', flow.difficultyDescription);
-      case TitleScreen.saveSlot:
-        return ('セーブ', null);
-    }
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await _loadAssets();
-    await _rebuild(force: true);
-  }
-
-  Future<void> _loadAssets() async {
-    final images = Images(prefix: 'assets/title/');
-    for (final name in _assetFor.values.toSet()) {
-      // 直接读字节再解码 —— 不依赖 flame 的资源清单，
-      // 这样"素材在不在"是**文件系统层面**能看出来的
-      try {
-        // `Images.load` 会走 Flame 自己的缓存（`Flame.images`），
-        // 所以用文件名当 key 就够了 —— 不用自己拿字节解码。
-        _images[name] = await images.load(name);
-      } catch (e) {
-        // 缺素材就退回纯色底，不静默崩
-        // ignore: avoid_print
-        print('  [title] 素材 $name 加载失败：$e');
-      }
-    }
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    // 画面切了就从头淡入
-    if (_fadeScreen != flow.screen) {
-      _fadeScreen = flow.screen;
-      _fadeFrame = 0;
-      _scrollY = 0;
-    }
-    // 开场动画的滚动背景
-    if (flow.screen == TitleScreen.classReel) {
-      _scrollY += scrollSpeed * dt;
-    }
-    if (_fadeFrame < fadeFrames) {
-      _fadeFrame++;
-      fade = 1 - _fadeFrame / fadeFrames;
-      if (fade < 0) fade = 0;
-    }
-
-    // 状态机由 `Fe8Game` 按帧推进；这里只负责"状态变了就重建文字"
-    final key = flow.screen.index * 16 +
-        flow.mainItem.index * 4 +
-        flow.difficulty.index * 2 +
-        (flow.saveSlot + 1);
-    if (key != _lastKey) _rebuild();
-  }
-
-  Future<void> _rebuild({bool force = false}) async {
-    final key = flow.screen.index * 16 +
-        flow.mainItem.index * 4 +
-        flow.difficulty.index * 2 +
-        (flow.saveSlot + 1);
-    if (!force && key == _lastKey) return;
-    _lastKey = key;
-
-    final (main, sub) = _lines();
-    if (_main != null) remove(_main!);
-    if (_sub != null) remove(_sub!);
-
-    // ⚠️ **有现成素材就不画占位文字。**
-    //
-    // 我第一版两个都画，结果占位文字压在真实的 INTELLIGENT SYSTEMS logo 上
-    // （截图里一眼可见）—— 素材越真，这个错越显眼。
-    //
-    // 判据：`_assetFor` 里有这个画面、且素材**真的加载成功**。
-    final asset = _assetFor[flow.screen];
-    final hasArt = asset != null && _images.containsKey(asset);
-    if (hasArt) {
-      return;   // 素材自己会说话
-    }
-
-    final cx = screenSize.x / 2;
-    _main = TextComponent(
-      text: main,
-      textRenderer: TextPaint(
-        style: TextStyle(
-          color: const Color(0xFFFFFFFF),
-          fontSize: screenSize.x * 0.075,
-          height: 1.2,
-        ),
-      ),
-      anchor: Anchor.topCenter,
-      // 菜单画面的标题要**上移**：菜单框从 0.42 开始，压在一起会重叠
-      position: Vector2(cx, menuItems.isEmpty
-          ? screenSize.y * 0.34
-          : screenSize.y * 0.16),
-    );
-    add(_main!);
-
-    // 菜单项：**每项一个 TextComponent**，才能各自定位到框里
-    final items = menuItems;
-    if (items.isNotEmpty) {
-      _menuTexts.clear();
-      final m = _MenuMetrics(size,
-          // 名字**始终在左**；难度画面的说明文字在右。
-        count: items.length, left: true);
-      for (var i = 0; i < items.length; i++) {
-        final t = TextComponent(
-          text: items[i],
-          textRenderer: TextPaint(
-            style: TextStyle(
-              color: const Color(0xFFF0F4FA),
-              fontSize: m.tile * 1.5,
-            ),
-          ),
-          anchor: Anchor.centerLeft,
-          position: Vector2(
-            m.boxX + m.tile * 0.9,
-            m.originY + m.tile * 0.7 + i * m.rowH + m.rowH / 2,
-          ),
-          priority: 2,
-        );
-        add(t);
-        _menuTexts.add(t);
-      }
-    } else {
-      for (final t in _menuTexts) {
-        remove(t);
-      }
-      _menuTexts.clear();
-    }
-
-    if (sub != null) {
-      // 难度画面的说明文字要放到**右边**（源码在 BG0 第 18 列），
-      // 否则会和左边的名字叠在一起。
-      final isDiff = flow.screen == TitleScreen.difficulty;
-      _sub = TextComponent(
-        text: sub,
-        textRenderer: TextPaint(
-          style: TextStyle(
-            color: const Color(0xFFB8C4D4),
-            fontSize: screenSize.x * (isDiff ? 0.032 : 0.045),
-            height: 1.4,
-          ),
-        ),
-        anchor: isDiff ? Anchor.topLeft : Anchor.topCenter,
-        position: Vector2(
-          isDiff ? screenSize.x * 0.50 : cx,
-          screenSize.y * (isDiff ? 0.42 : 0.56),
-        ),
-      );
-      add(_sub!);
-    }
-  }
+  // ---------------------------------------------------------------- 绘制
 
   @override
   void render(Canvas canvas) {
-    // 底色
+    // 纯色底 —— 只有素材表达不了的部分才落到 canvas
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.x, size.y),
-      Paint()..color = _bg[flow.screen] ?? const Color(0xFF101418),
+      Paint()..color = const Color(0xFF141A22),
     );
 
-    // 有现成素材就画素材（**像素风：不插值**）
     final name = _assetFor[flow.screen];
     final img = name == null ? null : _images[name];
     if (img != null) {
       final iw = img.width.toDouble();
       final ih = img.height.toDouble();
-      if (ih > iw) {
-        // 长图（滚动背景）：按 `_scrollY` 取一屏，**循环**
-        final viewH = iw * (size.y / size.x);          // 一屏在原图里的高度
-        final y = _scrollY % (ih - viewH);
-        canvas.drawImageRect(
-          img,
-          Rect.fromLTWH(0, y, iw, viewH),
-          Rect.fromLTWH(0, 0, size.x, size.y),
-          Paint()..filterQuality = FilterQuality.none,
-        );
-      } else {
-        // 单屏素材：铺满（保持比例，居中）
-        final scale = size.y / ih;
-        final w = iw * scale;
-        canvas.drawImageRect(
-          img,
-          Rect.fromLTWH(0, 0, iw, ih),
-          Rect.fromLTWH((size.x - w) / 2, 0, w, size.y),
-          Paint()..filterQuality = FilterQuality.none,
-        );
-      }
-    }
-    // ---- 菜单：带框的列表 + 行高亮 ----
-    final items = menuItems;
-    if (items.isNotEmpty) {
-      final m = _MenuMetrics(size,
-          // 名字**始终在左**；难度画面的说明文字在右。
-        count: items.length, left: true);
-      final w = m.boxW(size);
-      final h = m.boxH();
-      final rect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(m.boxX, m.originY, w, h),
-        Radius.circular(m.tile * 0.4),
-      );
-      // 底
-      canvas.drawRRect(rect, Paint()..color = const Color(0xE0101820));
-      // 选中行的高亮块
-      final sel = menuIndex.clamp(0, items.length - 1);
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTWH(
-            m.boxX + m.tile * 0.3,
-            m.originY + m.tile * 0.7 + sel * m.rowH,
-            w - m.tile * 0.6,
-            m.rowH,
-          ),
-          Radius.circular(m.tile * 0.2),
-        ),
-        Paint()..color = const Color(0x66FFE066),
-      );
-      // 框线（描边）
-      canvas.drawRRect(
-        rect,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = m.tile * 0.25
-          ..color = const Color(0xFF8FA8C8),
+      // 像素风：**不插值**
+      canvas.drawImageRect(
+        img,
+        Rect.fromLTWH(0, 0, iw, ih),
+        Rect.fromLTWH(0, 0, size.x, size.x * ih / iw),
+        Paint()..filterQuality = FilterQuality.none,
       );
     }
 
-    // 淡入淡出用黑幕
     if (fade > 0) {
       canvas.drawRect(
         Rect.fromLTWH(0, 0, size.x, size.y),
-        Paint()..color = Color.fromRGBO(0, 0, 0, fade.clamp(0, 1)),
+        Paint()..color = Color.fromRGBO(0, 0, 0, fade),
       );
     }
   }
-}
-
-/// 菜单的绘制参数（**从视口尺寸算，不写死像素**）
-class _MenuMetrics {
-  _MenuMetrics(Vector2 screen, {required this.count, this.left = true})
-      : tile = screen.x / 30,          // GBA 是 30 图块宽
-        originY = screen.y * 0.42;
-
-  /// 菜单框靠左还是靠右。
-  ///
-  /// 难度画面**说明文字在右边**（`DifficultySelect_PutModeText` 把它放在
-  /// `TILEMAP_LOCATED(gBG0TilemapBuffer, 18, 7)`），所以名字要放左边，
-  /// 否则两边会叠在一起（截图里一眼可见）。
-  final bool left;
-
-  /// 一个图块多少像素（GBA 是 8px）
-  final double tile;
-  final double originY;
-  final int count;
-
-  /// 行高：原作菜单是 2 图块一行
-  double get rowH => tile * 2.2;
-
-  /// 框的宽：够放下最长的一项
-  /// 框宽：难度画面要给右边的说明文字留位置
-  double boxW(Vector2 screen) => screen.x * (left ? 0.40 : 0.52);
-  double boxH() => rowH * count + tile * 1.4;
-  double get boxX => left ? tile * 3 : tile * 16;
 }

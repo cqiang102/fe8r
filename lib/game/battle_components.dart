@@ -215,6 +215,12 @@ class MovementRangeComponent extends PositionComponent {
 ///
 /// 画在地图上的单位旁边，而不是屏幕角落——原版就是这样，
 /// 而且"菜单跟着单位走"能避免玩家看错是哪个单位在行动。
+/// 战斗行动菜单。
+///
+/// ⚠️ **这是独立的实现，不与其他菜单共用组件。**
+/// 原版的战斗行动菜单和存档菜单是**两套不同的子系统**
+/// （见 `docs/菜单盘点.md`）—— 我曾经把它们抽成一个"通用菜单"，
+/// 那是把两边的差异抹掉。
 class ActionMenuComponent extends PositionComponent {
   ActionMenuComponent({
     required this.options,
@@ -228,7 +234,7 @@ class ActionMenuComponent extends PositionComponent {
 
   @override
   Future<void> onLoad() async {
-    // 选中行的高亮用 `RectangleComponent`，不再手绘
+    // 选中行的高亮用 `RectangleComponent`，不手绘
     add(RectangleComponent(
       position: Vector2(0, selectedIndex * tileSize),
       size: Vector2(size.x, tileSize),
@@ -236,8 +242,7 @@ class ActionMenuComponent extends PositionComponent {
       priority: 0,
     ));
 
-    // 每行文字用 `TextComponent` —— 它自己量尺寸、自己按 anchor 定位，
-    // 不用手算 `(tileSize - tp.height) / 2` 这种居中偏移。
+    // 每行文字用 `TextComponent` —— 它自己量尺寸、自己按 anchor 定位
     for (var i = 0; i < options.length; i++) {
       add(TextComponent(
         text: options[i].label,
@@ -249,7 +254,6 @@ class ActionMenuComponent extends PositionComponent {
             fontSize: tileSize * 0.52,
           ),
         ),
-        // 垂直居中靠 anchor，不靠手算
         anchor: Anchor.centerLeft,
         position: Vector2(4, i * tileSize + tileSize / 2),
         priority: 1,
@@ -259,8 +263,6 @@ class ActionMenuComponent extends PositionComponent {
 
   @override
   void render(Canvas canvas) {
-    // 圆角框：Flame 没有圆角矩形组件（只有 `RectangleComponent` 画直角），
-    // 这一处手绘是有理由的。
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(0, 0, size.x, size.y),
