@@ -130,7 +130,7 @@ class TitleView extends PositionComponent {
     final entries = _entries();
     if (entries.isNotEmpty) {
       final w = flow.screen == TitleScreen.difficulty
-          ? screenSize.x * 0.40
+          ? screenSize.x * 0.34
           : screenSize.x * 0.44;
       _menu = SaveMainMenuComponent(
         entries: entries,
@@ -162,7 +162,7 @@ class TitleView extends PositionComponent {
         ),
         anchor: isDiff ? Anchor.topLeft : Anchor.topCenter,
         position: Vector2(
-          isDiff ? screenSize.x * 0.48 : screenSize.x / 2,
+          isDiff ? screenSize.x * 0.52 : screenSize.x / 2,
           isDiff ? screenSize.y * 0.40 : screenSize.y * 0.62,
         ),
       );
@@ -185,11 +185,11 @@ class TitleView extends PositionComponent {
       case TitleScreen.classReel:
         return '職業紹介';
       case TitleScreen.mainMenu:
-        return '開始';
+        return flow.ui('開始');
       case TitleScreen.difficulty:
-        return '難易度';
+        return flow.ui('難易度');
       case TitleScreen.saveSlot:
-        return 'セーブ';
+        return flow.ui('セーブ');
     }
   }
 
@@ -250,7 +250,11 @@ class TitleView extends PositionComponent {
   /// ⚠️ **原作里这几个不是文字，是 OAM 精灵**（`gSprite_SavemenuData_N`）。
   /// 取不到那些图块，所以这里是**按语义写的日文**，不是消息表原文。
   /// 结构（哪些项、什么顺序、能不能选）是真的，字面是占位的。
-  static String _label(MainMenuItem o) {
+  String _label(MainMenuItem o) {
+    return flow.ui(_labelJp(o));
+  }
+
+  static String _labelJp(MainMenuItem o) {
     switch (o) {
       case MainMenuItem.resume:
         return 'つづきから';
@@ -268,7 +272,11 @@ class TitleView extends PositionComponent {
   }
 
   /// 难度名。同样是精灵（`gSprite_DifficultyMenuSelectModeText`），字面占位。
-  static String _difficultyLabel(Difficulty d) {
+  String _difficultyLabel(Difficulty d) {
+    return flow.ui(_difficultyLabelJp(d));
+  }
+
+  static String _difficultyLabelJp(Difficulty d) {
     switch (d) {
       case Difficulty.easy:
         return 'あたらしい';

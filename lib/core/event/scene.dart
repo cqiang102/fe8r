@@ -358,11 +358,14 @@ class Scene {
 
   /// `TEXTSHOW(id)` —— 显示文字；文本里有 `[A]` 就等玩家按键
   Future<void> textShow(int textId) async {
-    final m = texts.byId(textId);
-    if (m == null) {
+    if (texts.byId(textId) == null) {
       missing.add('text:0x${textId.toRadixString(16)}');
       return;
     }
+    // **汉化在这里生效**：有译文就用译文，段数不符自动退回原文
+    // （见 `GameTexts.localized`）—— 所以译错一条不会让游戏显示错版，
+    // 只会那一句仍是日文。
+    final m = texts.localized(textId);
     // ⚠️ **一页一页地演**，不是整条消息一口气画出来。
     //
     // 一条消息里 `[A]` / `[CR]` 把正文切成多页（序章开场那条就有好几页）。

@@ -224,16 +224,31 @@ class TitleFlow {
   /// 选好的存档（`-1` 表示还没选）
   bool get hasSave => saveSlot >= 0;
 
+  /// 取一条消息的**当前语言**文本（有译文用译文）。
+  ///
+  /// ⚠️ **必须走 `localized().plain`，不能自己 `join()` 译文段。**
+  ///
+  /// `plain` 会把 `[LF]` 控制码变成真正的换行；自己 `join()` 就丢掉了换行，
+  /// 一段本来分行的说明会挤成一行、溢出屏幕（截图里验证过）。
+  String _msg(int id, String fallback) {
+    if (texts.byId(id) == null) return fallback;
+    final p = texts.localized(id).plain.trim();
+    return p.isEmpty ? fallback : p;
+  }
+
   /// 「聖魔の光石」—— 消息 253（`texts.json`）
-  String get gameTitle => texts.byId(253)?.plain.trim() ?? '聖魔の光石';
+  String get gameTitle => _msg(253, '聖魔の光石');
 
   /// 「スタートを押すと始まります」—— 消息 1749
-  String get pressStart => texts.byId(1749)?.plain.trim() ?? 'スタートを押すと始まります';
+  String get pressStart => _msg(1749, 'スタートを押すと始まります');
+
+  /// UI 用词的译文（术语表；原作的菜单项是精灵，没有消息 id）
+  String ui(String jp) => texts.ui(jp);
 
   /// 当前难度的**说明文字** —— `gTextIds_DifficultyDescription[选择]`
   /// （消息 2098 / 2099 / 2100，出处见 [Difficulty]）
   String get difficultyDescription =>
-      texts.byId(difficulty.descriptionMsgId)?.plain.trim() ?? '';
+      _msg(difficulty.descriptionMsgId, '');
 
   /// 主菜单**实际会出现哪些项** —— 逐条对应 `src/InitSaveMenuChoice.c:23-62`。
   ///

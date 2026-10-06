@@ -172,6 +172,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final tf = File('tools/pipeline/out/tables/texts.json');
       if (!tf.existsSync()) return;
       gameTexts = GameTexts.parse(tf.readAsStringSync());
+
+      // 汉化覆盖：**有就叠加，没有就照常显示原文**（不崩、不报错）
+      final zh = File('assets/i18n/zh_CN.json');
+      if (zh.existsSync()) {
+        final t = GameTexts.parseTranslations(zh.readAsStringSync());
+        gameTexts!.applyTranslations(t.messages);
+        gameTexts!.uiTerms.addAll(t.ui);
+      }
       // ⚠️ 剧本**不是**从文件读的 —— 它是生成的 Dart `async` 函数
       //（`lib/core/event/scene_data.g.dart`，由 C 源码直接生成）。
       // 没有 JSON、没有指令列表、没有解释器。

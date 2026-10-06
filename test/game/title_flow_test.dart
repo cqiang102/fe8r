@@ -14,7 +14,7 @@ import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/title_flow.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-TitleFlow fresh() => TitleFlow(texts: const GameTexts.empty());
+TitleFlow fresh() => TitleFlow(texts: GameTexts.empty());
 
 /// 推进 n 帧，不带任何输入
 void idle(TitleFlow f, int n) {

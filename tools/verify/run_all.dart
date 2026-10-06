@@ -233,6 +233,10 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '游戏文本', 'true', const [], skip: true, note: decompNote),
 
+    // 汉化：段数校验 —— **必须排在文本表生成之后**（它读 texts.json）
+    Step('L0', '汉化校验', 'python3', ['i18n.py', 'verify'],
+        cwd: 'tools/i18n', note: '段数不符就拒绝，不静默错版'),
+
     if (hasDecomp())
       Step('L0', '章节链路（资产 / 事件组）', 'python3',
           ['extract/parse_chapter_links.py', '--out', 'out/tables'],

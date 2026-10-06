@@ -227,6 +227,27 @@ class GameMessage {
 
   bool get isEmpty => plain.trim().isEmpty;
 
+  /// 按顺序的**文本段**（不含控制码）—— 译文的对应单位
+  List<String> get runs => [
+        for (final s in segments)
+          if (s is TextRun) s.text,
+      ];
+
+  /// 用新的文本段造一条消息（控制码原位保留）
+  ///
+  /// ⚠️ [newRuns] 的数量必须与 [runs] 一致 —— 调用方（[GameTexts.localized]）
+  /// 已经检查过；这里不一致就抛，避免静默错版。
+  GameMessage withRuns(List<String> newRuns) {
+    if (newRuns.length != runs.length) {
+      throw ArgumentError('段数不符：需要 ${runs.length}，给了 ${newRuns.length}');
+    }
+    var i = 0;
+    return GameMessage(id: id, segments: [
+      for (final s in segments)
+        if (s is TextRun) TextRun(newRuns[i++]) else s,
+    ]);
+  }
+
   /// **分页**。
   ///
   /// FE 的文本是一串控制码：`[A]`（= 3）是"等玩家按键"，`[CR]`（= 2）是
@@ -313,20 +334,90 @@ class GameMessage {
 
 /// 全部游戏文本
 class GameTexts {
-  GameTexts({required this.messages, required this.titles});
+  GameTexts({
+    required this.messages,
+    required this.titles,
+    Map<int, List<String>>? translations,
+  }) : translations = translations ?? <int, List<String>>{};
+  //                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // ⚠️ **不能用 `const {}` 当默认值** —— 那是**不可变 map**，
+  // `applyTranslations` 一 `clear()` 就抛
+  // `Unsupported operation: Cannot modify unmodifiable map`，
+  // 而它被 `try` 包着 —— 结果是**整个剧本加载失败**（截图里 HUD 上能看见）。
+  //
+  // 教训：`const` 默认值藏在构造函数签名里，很容易看漏。</
 
   /// 空表 —— 给"不依赖数据文件"的单测用（例如开场流程的状态机）。
   ///
   /// ⚠️ 数据管线没跑时**不要**拿它当兜底：那会静默丢掉全部文案。
   /// 它只用于"本来就不需要文案"的测试。
-  const GameTexts.empty()
+  /// 空表 —— 给"不依赖数据文件"的单测用。
+  GameTexts.empty()
       : messages = const {},
-        titles = const {};
+        titles = const {},
+        translations = <int, List<String>>{};
 
   final Map<int, GameMessage> messages;
 
   /// 章节内部名 → 标题
   final Map<String, String> titles;
+
+  /// **译文覆盖**：消息 id → 按顺序的文本段。
+  ///
+  /// ## 为什么是"按段的数组"而不是一段文本
+  ///
+  /// 消息的载体是「文本段」与「控制码」交替（见 [TextSegment]）。
+  /// 译文**只替换文本段，控制码原位不动** —— 所以译文按顺序给出每一段，
+  /// **段数不匹配就直接不采用**，不会静默错版。
+  ///
+  /// 出处：`assets/i18n/zh_CN.json`，由 `tools/i18n/i18n.py apply` 产出。
+  final Map<int, List<String>> translations;
+
+  /// 有译文吗
+  bool get hasTranslation => translations.isNotEmpty;
+
+  /// **UI 用词**：日文字面量 → 译文。
+  ///
+  /// 为什么单独一张表：原作的菜单项是 **OAM 精灵**，不在消息表里
+  /// （见 `docs/菜单盘点.md`）—— 所以代码里那几个字面量没有消息 id 可用。
+  final Map<String, String> uiTerms = {};
+
+  /// 读译文覆盖（缺文件就当作没有汉化 —— 不崩）
+  void applyTranslations(Map<int, List<String>> t) {
+    translations
+      ..clear()
+      ..addAll(t);
+  }
+
+  /// 取 UI 用词的译文；没有就返回原文
+  String ui(String jp) => uiTerms[jp] ?? jp;
+
+  /// 带译文的消息 —— **段数不符时退回原文**（宁可显示日文，也不要错版）
+  GameMessage localized(int id) {
+    final m = byId(id);
+    if (m == null) throw StateError('没有消息 $id');
+    final t = translations[id];
+    if (t == null || t.length != m.runs.length) return m;
+    return m.withRuns(t);
+  }
+
+  /// 解析译文覆盖文件（`assets/i18n/zh_CN.json`）。
+  ///
+  /// 结构：`{"messages": {"253": ["圣魔的光石"], ...}}`
+  static ({Map<int, List<String>> messages, Map<String, String> ui})
+      parseTranslations(String json) {
+    final d = jsonDecode(json) as Map<String, dynamic>;
+    final msgs = <int, List<String>>{};
+    (d['messages'] as Map<String, dynamic>).forEach((k, v) {
+      msgs[int.parse(k)] = [for (final s in (v as List<dynamic>)) s as String];
+    });
+    final ui = <String, String>{};
+    final u = d['ui'];
+    if (u is Map<String, dynamic>) {
+      u.forEach((k, v) => ui[k] = v as String);
+    }
+    return (messages: msgs, ui: ui);
+  }
 
   static GameTexts parse(String json) {
     final d = jsonDecode(json) as Map<String, dynamic>;
