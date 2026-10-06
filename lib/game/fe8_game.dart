@@ -348,7 +348,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 之前直接从序章开场演起，跳过了 ① Press Start / ④ 标题 /
     // ⑤ 主菜单/难度/存档槽（用户指出）。
     if (gameTexts != null) {
+      final forced = Platform.environment['FE8R_TITLE'];
       titleFlow = TitleFlow(texts: gameTexts!);
+      final jump = forced == null ? null : TitleFlow.screenByName(forced);
+      if (jump != null) {
+        titleFlow!.startAt = jump;
+        titleFlow!.reset();
+      }
       _titleView = TitleView(
         flow: titleFlow!,
         screenSize: camera.viewport.virtualSize,

@@ -98,15 +98,48 @@ void main() {
       return f;
     }
 
-    test('主菜单可以切到「附加内容」，但确认不了（本实现不做）', () {
-      final f = atMenu();
-      expect(f.mainItem, MainMenuItem.newGame);
-      f.tick(confirm: false, cancel: false, up: false, down: true);
-      expect(f.mainItem, MainMenuItem.extras);
+    test('★ 主菜单的选项**按存档状态动态出现**（`InitSaveMenuChoice.c`）', () {
+      final f = fresh();
+      // 全新（无存档、无中断）：只有「はじめから」
+      expect(f.options, [MainMenuItem.newGame],
+          reason: 'count==0 且无 extras 时只加 NEW_GAME');
 
-      final go = f.tick(confirm: true, cancel: false, up: false, down: false);
-      expect(go, isFalse, reason: '附加内容没实现，不该放行');
-      expect(f.screen, TitleScreen.mainMenu, reason: '应当留在原地而不是静默跳走');
+      // 有 1 个存档：RESTART / COPY / ERASE / NEW_GAME
+      f.usedSlots = 1;
+      expect(f.options, [
+        MainMenuItem.restart,
+        MainMenuItem.copy,
+        MainMenuItem.erase,
+        MainMenuItem.newGame,
+      ]);
+
+      // 3 个存档全满：没有 COPY（`if (count < 3)`）、也没有 NEW_GAME
+      f.usedSlots = 3;
+      expect(f.options, [
+        MainMenuItem.restart,
+        MainMenuItem.erase,
+      ]);
+
+      // 有中断存档 → 最前面加 RESUME
+      f.usedSlots = 0;
+      f.resumable = true;
+      expect(f.options, [MainMenuItem.resume, MainMenuItem.newGame]);
+    });
+
+    test('上下到边界就停（原作不循环）', () {
+      final f = atMenu();
+      f.usedSlots = 1;
+      expect(f.options.length, 4);
+      // 往上到底还是 0
+      for (var i = 0; i < 3; i++) {
+        f.tick(confirm: false, cancel: false, up: true, down: false);
+      }
+      expect(f.mainIndex, 0);
+      // 往下到底 = 最后一项
+      for (var i = 0; i < 9; i++) {
+        f.tick(confirm: false, cancel: false, up: false, down: true);
+      }
+      expect(f.mainIndex, 3);
     });
 
     test('新游戏 → 难度 → 存档槽 → 放行', () {

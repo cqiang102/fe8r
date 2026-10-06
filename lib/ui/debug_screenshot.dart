@@ -78,4 +78,16 @@ Future<void> captureWhenReady(
   await file.writeAsBytes(data.buffer.asUint8List());
   debugPrint('[screenshot] 已写出 $path '
       '(${image.width}x${image.height}, ${data.lengthInBytes} 字节)');
+
+  // ⚠️⚠️ **必须退出，否则这条命令会一直挂着。**
+  //
+  // 我漏了这一步很久：截图写完之后应用继续跑、`flutter run` 不退出，
+  // 于是命令一直等到外层的 `timeout 300`（**5 分钟**）才被杀掉。
+  //
+  // 因为命令最终"成功"（grep 得到那行 `已写出`），**从没被怀疑过** ——
+  // 约 20 次截图 = 纯等待约 100 分钟。
+  //
+  // 这类"成功但慢得离谱"的坑，和"永远返回 0 的门禁"是同一族：
+  // **它不报错，只是在浪费你的时间。**
+  exit(0);
 }

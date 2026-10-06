@@ -67,8 +67,22 @@ enum TitleScreen {
   saveSlot,
 }
 
-/// 主菜单的选项（`src/StartSaveMenu.c:35-36` 的 `main_sel_bitfile`）
-enum MainMenuItem { newGame, extras }
+/// 主菜单的选项。
+///
+/// ## 出处：`include/savemenu.h:45-53`
+///
+/// ```c
+/// MAIN_MENU_OPTION_RESUME   = (1 << MAIN_MENU_RESUME),
+/// MAIN_MENU_OPTION_RESTART  = (1 << MAIN_MENU_RESTART),
+/// MAIN_MENU_OPTION_COPY     = (1 << MAIN_MENU_COPY),
+/// MAIN_MENU_OPTION_ERASE    = (1 << MAIN_MENU_ERASE),
+/// MAIN_MENU_OPTION_NEW_GAME = (1 << MAIN_MENU_NEW_GAME),
+/// MAIN_MENU_OPTION_EXTRAS   = (1 << MAIN_MENU_EXTRAS),
+/// ```
+///
+/// ⚠️ 我第一版自己编了「开始新的游戏 / 附加内容」两项 ——
+/// **原作是六个、而且按存档状态动态出现**（见 [mainMenuOptions]）。
+enum MainMenuItem { resume, restart, copy, erase, newGame, extras }
 
 /// 难度（`SaveMenu_PostDifficultHandler.c:32-36`：`difficulty == 3` 走单独分支）
 enum Difficulty {
@@ -111,8 +125,24 @@ class TitleFlow {
   /// 在这个画面上待了多少帧（对应原作的 `timer_idle`）
   int framesOnScreen = 0;
 
-  /// 当前选中项
-  MainMenuItem mainItem = MainMenuItem.newGame;
+  /// 已用存档槽数（`InitSaveMenuChoice.c` 里的 `count`）
+  int usedSlots = 0;
+
+  /// 有中断存档吗（`proc->unk_44 == 0x100`）
+  bool resumable = false;
+
+  /// 主菜单当前实际出现的项（**每次都由源码规则算出来**）
+  List<MainMenuItem> get options =>
+      mainMenuOptions(usedSlots: usedSlots, resumable: resumable);
+
+  /// 当前选中项在 [options] 里的下标
+  int mainIndex = 0;
+
+  MainMenuItem get mainItem {
+    final o = options;
+    if (o.isEmpty) return MainMenuItem.newGame;
+    return o[mainIndex.clamp(0, o.length - 1)];
+  }
   Difficulty difficulty = Difficulty.normal;
   int saveSlot = -1;
 
@@ -125,9 +155,71 @@ class TitleFlow {
   /// 「スタートを押すと始まります」—— 消息 1749
   String get pressStart => texts.byId(1749)?.plain.trim() ?? 'スタートを押すと始まります';
 
+  /// 主菜单**实际会出现哪些项** —— 逐条对应 `src/InitSaveMenuChoice.c:23-62`。
+  ///
+  /// ```c
+  /// if (proc->unk_44 == 0x100)
+  ///     AddMainMenuOption(proc, MAIN_MENU_OPTION_RESUME);      // 有中断存档
+  ///
+  /// for (i = 0; i < 3; i++)
+  ///     if (proc->chapter_idx[i] != (u8)-1) count++;           // 数已用存档槽
+  ///
+  /// if (count > 0) {
+  ///     AddMainMenuOption(proc, MAIN_MENU_OPTION_RESTART);
+  ///     if (count < 3) AddMainMenuOption(proc, MAIN_MENU_OPTION_COPY);
+  ///     AddMainMenuOption(proc, MAIN_MENU_OPTION_ERASE);
+  /// }
+  /// if (count < 3) AddMainMenuOption(proc, MAIN_MENU_OPTION_NEW_GAME);
+  /// ...
+  /// if (proc->extra_options != 0) proc->main_options |= MAIN_MENU_OPTION_EXTRAS;
+  /// ```
+  ///
+  /// [usedSlots] = 已用存档数（0..3）、[resumable] = 有中断存档、
+  /// [hasExtras] = 附加内容可用（本实现恒为 false —— 附加内容不做）。
+  List<MainMenuItem> mainMenuOptions({
+    int usedSlots = 0,
+    bool resumable = false,
+    bool hasExtras = false,
+  }) {
+    final out = <MainMenuItem>[];
+    if (resumable) out.add(MainMenuItem.resume);
+    if (usedSlots > 0) {
+      out.add(MainMenuItem.restart);
+      if (usedSlots < 3) out.add(MainMenuItem.copy);
+      out.add(MainMenuItem.erase);
+    }
+    if (usedSlots < 3) out.add(MainMenuItem.newGame);
+    if (hasExtras) out.add(MainMenuItem.extras);
+    return out;
+  }
+
   void reset() {
     screen = startAt;
     framesOnScreen = 0;
+  }
+
+  /// 调试入口：`FE8R_TITLE=menu|difficulty|slot|title|is` 直接跳到某个画面
+  /// （**只为看 UI**，不影响正常流程）
+  static TitleScreen? screenByName(String n) {
+    switch (n) {
+      case 'nintendo':
+        return TitleScreen.nintendo;
+      case 'is':
+        return TitleScreen.intelligentSystems;
+      case 'press':
+        return TitleScreen.healthSafety;
+      case 'title':
+        return TitleScreen.title;
+      case 'reel':
+        return TitleScreen.classReel;
+      case 'menu':
+        return TitleScreen.mainMenu;
+      case 'difficulty':
+        return TitleScreen.difficulty;
+      case 'slot':
+        return TitleScreen.saveSlot;
+    }
+    return null;
   }
 
   /// 每帧推进。[confirm]/[cancel]/[up]/[down] 来自输入层。
@@ -178,17 +270,25 @@ class TitleFlow {
 
       // ---- ⑤ 主菜单 ----
       case TitleScreen.mainMenu:
-        if (up || down) {
-          mainItem = mainItem == MainMenuItem.newGame
-              ? MainMenuItem.extras
-              : MainMenuItem.newGame;
+        final n = options.length;
+        if (n > 0 && (up || down)) {
+          // 上下移动，**到边界就停**（原作不是循环）
+          mainIndex = (mainIndex + (down ? 1 : -1)).clamp(0, n - 1);
         }
         if (confirm) {
-          if (mainItem == MainMenuItem.extras) {
-            // 附加内容本实现不做 —— 留在原地而不是静默跳走
-            return false;
+          switch (mainItem) {
+            case MainMenuItem.newGame:
+              _goto(TitleScreen.difficulty);
+            case MainMenuItem.resume:
+            case MainMenuItem.restart:
+              // 读档继续 / 从头开始：都直接进游戏（存档系统是 M9）
+              return true;
+            case MainMenuItem.copy:
+            case MainMenuItem.erase:
+            case MainMenuItem.extras:
+              // 本实现不做 —— **留在原地**，不静默跳走
+              return false;
           }
-          _goto(TitleScreen.difficulty);
         }
         if (cancel) _goto(TitleScreen.title);
 
