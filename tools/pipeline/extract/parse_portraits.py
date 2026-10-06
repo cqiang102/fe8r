@@ -134,6 +134,69 @@ def compose(name, tsa):
     return out
 
 
+# ---------------------------------------------------------------------------
+# 嘴型（表情）
+#
+# ## 机制（`src/face.c` 的 `PutFace80x72_Standard`）
+#
+# ```c
+# int x = info->xMouth - 1;
+# int y = info->yMouth;
+# CallARM_FillTileRect(tm, gBattleForecast_0, (u16)tileref);
+# tm[TILEMAP_INDEX(x, y) + 0x00 + 0] = tileref + 0x00 + 0x1C;
+# ...
+# tm[TILEMAP_INDEX(x, y) + 0x20 + 0] = tileref + 0x20 + 0x1C;
+# ```
+#
+# 即：在 **(xMouth-1, yMouth)** 处覆盖一个 **4×2 图块（32×16px）** 的嘴。
+#
+# ## `_mouth.png` 是什么
+#
+# 32×96 = 4×12 图块 = **6 帧 × 8 块（每帧 4×2）**。
+# 实测帧间确实不同（与帧 0 差 11/24/7/14/24 个像素），所以这个切分是对的。
+#
+# ## 位置从哪来
+#
+# `struct FaceData` 在反编译项目里**没有定义**（只有前向声明），
+# 所以 `xMouth`/`yMouth` 只能从 `portrait_data[]` 的字里推。
+# 表里第 5 个字是 `0x04030602`，按小端拆是 `02 06 03 04` ——
+# 低字节 `2` / 次字节 `6`，与**视觉实验**一致（贴上去正落在嘴的位置）。
+#
+# ⚠️ 置信度：**中**。位置看着对，但字段的正式含义仍未证实
+# （`0x03`/`0x04` 是什么不知道）。所以导出时把原始字也带上，
+# 免得将来只能靠重新推。
+MOUTH_FRAMES = 6
+MOUTH_TILES_PER_FRAME = 8
+
+
+def compose_mouth(name, pal):
+    """把一个角色的嘴型条切成 6 帧 RGBA。返回 list[Image] 或 None。"""
+    p = os.path.join(PORTRAIT_DIR, f"portrait_{name}_mouth.png")
+    if not os.path.exists(p):
+        return None
+    m = Image.open(p)
+    if m.size[0] != 32 or m.size[1] != 96:
+        return None
+    px = m.load()
+    frames = []
+    for f in range(MOUTH_FRAMES):
+        im = Image.new("RGBA", (32, 16), (0, 0, 0, 0))
+        op = im.load()
+        for row in range(2):
+            for col in range(4):
+                n = f * MOUTH_TILES_PER_FRAME + row * 4 + col
+                tx, ty = (n % 4) * 8, (n // 4) * 8
+                for y in range(8):
+                    for x in range(8):
+                        idx = px[tx + x, ty + y]
+                        if idx == 0:
+                            continue
+                        c = pal[idx] if idx < len(pal) else (0, 0, 0)
+                        op[col * 8 + x, row * 8 + y] = (c[0], c[1], c[2], 255)
+        frames.append(im)
+    return frames
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "portraits"))
@@ -155,7 +218,10 @@ def main():
         names = names[:a.limit]
 
     os.makedirs(a.out, exist_ok=True)
+    mouth_dir = os.path.join(a.out, "mouth")
+    os.makedirs(mouth_dir, exist_ok=True)
     ok, skip, meta = 0, 0, {}
+    mouths = 0
     for n in names:
         img = compose(n, tsa)
         if img is None:
@@ -165,7 +231,17 @@ def main():
         meta[n] = {"w": img.size[0], "h": img.size[1]}
         ok += 1
 
-    print(f"合成 {ok} 张（跳过 {skip}）")
+        # 嘴型：6 帧 × 32×16（`_mouth.png` = 4×12 图块）
+        pal = load_palette(os.path.join(
+            PORTRAIT_DIR, f"portrait_{n}_palette.agbpal"))
+        frames = compose_mouth(n, pal)
+        if frames:
+            for fi, fr in enumerate(frames):
+                fr.save(os.path.join(mouth_dir, f"{n}_{fi}.png"))
+            meta[n]["mouthFrames"] = len(frames)
+            mouths += 1
+
+    print(f"合成 {ok} 张（跳过 {skip}），其中 {mouths} 张带嘴型")
     # ⚠️ 空集不算通过：一张都没合成出来必定是素材路径或 TSA 解析坏了
     if ok == 0:
         print("❌ 一张都没合成出来 —— 空集不算通过", file=sys.stderr)

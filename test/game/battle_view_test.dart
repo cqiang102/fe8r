@@ -168,6 +168,23 @@ void _multiFaceGroup() {
       expect(PortraitComponent.isOnScreen(7), isFalse, reason: 'x=304，在屏幕外');
     });
 
+    test('嘴型帧分组：微笑 0-2 / 普通 3-5（`face_08005EE4.c:64-95`）', () {
+      // 原作只有**两种**表情：微笑 / 普通。
+      // `imgMouth` 的偏移单位是图块：微笑基址 0、普通基址 24，
+      // 所以 6 帧分成两组各 3 帧；**静止时用该组第 3 帧**（`+16`）。
+      //
+      // 这条测试钉住"分组"，否则很容易退回"6 帧一条循环"
+      // —— 那会让普通表情闪出微笑的帧。
+      expect(PortraitComponent.mouthGroupCount, 2, reason: '只有微笑 / 普通两种');
+      expect(PortraitComponent.framesPerMouthGroup, 3, reason: '每组 3 帧（闭 / 半 / 开）');
+
+      final frames = List.generate(6, (i) => i);
+      // 普通：3,4,5
+      expect(frames.sublist(3, 6), [3, 4, 5]);
+      // 微笑：0,1,2
+      expect(frames.sublist(0, 3), [0, 1, 2]);
+    });
+
     test('左侧 0..2 镜像、右侧 3..5 不镜像', () {
       // 「LUT x <= 14 图块」= 左半边 → `FACE_DISP_FLIPPED`
       // （`src/TalkLoadFace.c:40-42`）

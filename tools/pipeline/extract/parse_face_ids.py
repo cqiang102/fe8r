@@ -119,10 +119,20 @@ def main():
     # 174 个表项里只有 117 个带 `_tileset` —— 空项（占位脸）会让下标整体错位。
     # 实测那样做只有 7/8 个具名常量对得上，末尾偏了。
     faces = {}
+    # 顺带带上第 5 个字（`0x04030602`）—— 推测是 `xMouth`/`yMouth`
+    # 所在的字。`struct FaceData` 在反编译项目里没有定义，只能带原始字。
+    mouth_raw = {}
     for k in range(total):
         e0 = items[k * WORDS_PER_ENTRY]
         mm = re.search(r"&portrait_([A-Za-z0-9_]+)_tileset", e0)
         faces[k + 1] = mm.group(1) if mm else None
+        # 第 5 个字（下标 5）：低字节 = xMouth、次字节 = yMouth（推测）
+        e5 = items[k * WORDS_PER_ENTRY + 5] if k * WORDS_PER_ENTRY + 5 < len(items) else ''
+        mv = re.search(r"0x([0-9A-Fa-f]{8})", e5)
+        if mv:
+            v = int(mv.group(1), 16)
+            mouth_raw[k + 1] = {"raw": f"0x{v:08X}",
+                                "xMouth": v & 0xFF, "yMouth": (v >> 8) & 0xFF}
 
     named = sum(1 for v in faces.values() if v)
     print(f"  其中有名字的 {named} 个，空项 {total - named} 个")
@@ -167,6 +177,9 @@ def main():
             "source": TABLE_SRC,
             "note": "表项下标 + 1 = 脸编号（GetPortraitData 是 fy = portrait_data + fid - 1）",
             "faces": {str(k): v for k, v in sorted(faces.items())},
+            "mouthPos": {str(k): v for k, v in sorted(mouth_raw.items())},
+            "mouthPosNote": "第 5 个字的低字节/次字节；struct FaceData 未定义，"
+                            "此处为**推测**（视觉实验一致，置信度中）",
         }, f, ensure_ascii=False, indent=1)
     print(f"\n→ {dst}  ({os.path.getsize(dst) // 1024} KB)")
     return 0

@@ -69,6 +69,16 @@ class SceneView {
   /// 已解析的立绘图像缓存（角色名 → 图像）
   final Map<String, Image?> _portraitCache = {};
 
+  /// 嘴型帧缓存（角色名 → 6 帧）
+  final Map<String, List<Image>> _mouthCache = {};
+
+  /// 嘴的位置：脸编号 → (xMouth, yMouth)
+  ///
+  /// 来自 `face_ids.json` 的 `mouthPos`（`portrait_data[]` 第 5 个字）。
+  /// ⚠️ `struct FaceData` 在反编译项目里没有定义 —— 这是**推测**的字段位置，
+  /// 依据是"同体型的角色数值相同"（Eirika yMouth=6，成年男性全是 5）。
+  Map<int, (int, int)> mouthPos = const {};
+
   /// 从提取产物里读脸编号映射。
   ///
   /// 表项是**可读的 C 源码**里的符号名（`&portrait_Eirika_tileset`），
@@ -82,6 +92,18 @@ class SceneView {
       if (v is String) out[int.parse(k)] = v;
     });
     faceNames = out;
+    final mp = <int, (int, int)>{};
+    final raw = d['mouthPos'];
+    if (raw is Map<String, dynamic>) {
+      raw.forEach((k, v) {
+        if (v is Map<String, dynamic>) {
+          final x = v['xMouth'];
+          final y = v['yMouth'];
+          if (x is int && y is int) mp[int.parse(k)] = (x, y);
+        }
+      });
+    }
+    mouthPos = mp;
   }
 
   /// 已加载的立绘（角色名 → 图像）
@@ -109,6 +131,16 @@ class SceneView {
         final codec = await instantiateImageCodec(f.readAsBytesSync());
         final frame = await codec.getNextFrame();
         _portraitCache[name] = frame.image;
+
+        // 嘴型 6 帧（有就载）
+        final mf = <Image>[];
+        for (var i = 0; i < 6; i++) {
+          final mfile = File('tools/pipeline/out/portraits/mouth/${name}_$i.png');
+          if (!mfile.existsSync()) break;
+          final mc = await instantiateImageCodec(mfile.readAsBytesSync());
+          mf.add((await mc.getNextFrame()).image);
+        }
+        if (mf.isNotEmpty) _mouthCache[name] = mf;
       } catch (_) {
         _portraitCache[name] = null;
       }
@@ -260,7 +292,8 @@ class SceneView {
   ///
   /// 立绘**不属于对话框** —— 它是独立的一层，位置由
   /// `gTalkFaceHPosLut` 决定（见 `portrait_component.dart`）。
-  void _syncPortraits(Map<int, int> slots) {
+  void _syncPortraits(Map<int, int> slots,
+      {bool mouthMoving = false, bool smiling = false}) {
     if (_screenSize == Vector2.zero()) return;
     // 移除不再需要的
     for (final slot in _portraits.keys.toList()) {
@@ -274,12 +307,20 @@ class SceneView {
       final img = portraitFor(fid);
       if (img == null) return;
       final existing = _portraits[slot];
-      if (existing != null && existing.image == img) return;
+      if (existing != null && existing.image == img) {
+        existing.mouthMoving = mouthMoving;
+        existing.smiling = smiling;
+        return;
+      }
       if (existing != null) layer.remove(existing);
+      final (mx, my) = mouthPos[fid] ?? (0, 0);
       final c = PortraitComponent(
         slot: slot,
         image: img,
         screenSize: _screenSize,
+        mouthFrames: _mouthCache[faceNames[fid]] ?? const [],
+        xMouth: mx,
+        yMouth: my,
       );
       layer.add(c);
       _portraits[slot] = c;
@@ -338,6 +379,10 @@ class SceneView {
     var activeSlot = 0xFF;
     var pending80 = false;   // 上一个 token 是 $0080 前缀
     var expectFaceArg = false;
+    // 嘴在动吗 —— `[ToggleMouthMove]`(22) 每出现一次就翻转
+    // （`src/TalkInterpret.c:130-133`）
+    var mouthMoving = false;
+    var smiling = false;
     for (final seg in segs) {
       if (seg is! TextControl) {
         pending80 = false;
@@ -372,6 +417,15 @@ class SceneView {
         activeSlot = sel;
         _speakerSlot = sel;
         expectFaceArg = false;   // 位置码会打断"等脸参数"
+        continue;
+      }
+      if (seg.name == 'ToggleMouthMove') {
+        mouthMoving = !mouthMoving;
+        continue;
+      }
+      if (seg.name == 'ToggleSmile') {
+        // `src/TalkInterpret.c:135-138` 同样是翻转
+        smiling = !smiling;
         continue;
       }
       if (seg.isClearFace) {
@@ -411,7 +465,7 @@ class SceneView {
       // 这一页是靠 `[A]` 结束的 → 画闪烁箭头提示玩家按键
       waitingForInput: e.message.isWaitForKeyAt(upto),
     );
-    _syncPortraits(slots);
+    _syncPortraits(slots, mouthMoving: mouthMoving, smiling: smiling);
     if (unknownFaceSlots.isNotEmpty) {
       // 出声：这类槽位没有画出来，不是因为"没有脸"
       assert(() {

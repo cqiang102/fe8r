@@ -39,12 +39,78 @@ class PortraitComponent extends PositionComponent {
     required this.slot,
     required this.image,
     required this.screenSize,
+    this.mouthFrames = const [],
+    this.xMouth = 0,
+    this.yMouth = 0,
   }) : super(
           size: Vector2(screenSize.x * (96 / 240), screenSize.x * (80 / 240)),
         );
 
   final int slot;
   final Image image;
+
+  /// 嘴型帧（6 帧，每帧 32×16 = 4×2 图块）。
+  ///
+  /// ## 分组（**关键**）——`src/face_08005EE4.c:64-95`
+  ///
+  /// ```c
+  /// int offsetA = (disp & FACE_DISP_SMILE) ? 0 : 24;   // 微笑 / 普通的基址
+  /// offsetA += 16;                                      // 静止时用该组第 3 帧
+  /// ...
+  /// int offsetB = (disp & FACE_DISP_SMILE) ? 0 : 24;
+  /// switch (blinkControl) { case 1: case 3: offsetB += 8; break; case 2: offsetB += 16; break; }
+  /// ```
+  ///
+  /// `imgMouth` 的偏移单位是**图块**（每块 0x20 字节），所以：
+  ///
+  ///     块  0-7  /  8-15 / 16-23   →  **微笑**的 3 帧（闭 / 半 / 开）
+  ///     块 24-31 / 32-39 / 40-47   →  **普通**的 3 帧
+  ///
+  /// **静止时用该组的第 3 帧**（`+16`），说话时才循环。
+  ///
+  /// ⚠️ 我第一版把 6 帧当成**一条循环** —— 于是"普通"表情会闪出"微笑"的帧。
+  final List<Image> mouthFrames;
+
+  /// 是否微笑（`[ToggleSmile]`，`FACE_DISP_SMILE`）。
+  ///
+  /// 原作只有**两种**表情：微笑 / 普通（加上说话时嘴动）。
+  bool smiling = false;
+
+  /// 该组的 3 帧：微笑用 0-2、普通用 3-5
+  List<Image> get _group => mouthFrames.length < 6
+      ? mouthFrames
+      : (smiling
+          ? mouthFrames.sublist(0, 3)
+          : mouthFrames.sublist(3, 6));
+
+  /// 没在说话时该用该组的**第 3 帧**（`offsetA + 16` = 该组最后一帧）。
+  ///
+  /// 等嘴型位置证实之后再接进渲染。
+  Image? get staticMouthFrame => _group.length >= 3 ? _group[2] : null;
+
+  /// 嘴在图块坐标系里的位置（来自 `portrait_data[]` 第 5 个字）。
+  final int xMouth;
+  final int yMouth;
+
+  /// 是否正在"说话"（嘴在动）。
+  ///
+  /// 由 `[ToggleMouthMove]`(22) 翻转（`src/TalkInterpret.c:130-133`：
+  /// `sTalkState->mouthMoveEnabled = 1 - sTalkState->mouthMoveEnabled;`），
+  /// 打印每个字符时 `SetTalkFaceMouthMove(activeSlot)`
+  /// （`src/scene_08006CA4.c:64-66`）推进一帧。
+  bool mouthMoving = false;
+
+  /// 当前嘴型帧
+  int _mouthFrame = 0;
+
+  /// 推进嘴型（每次打印一个字符调一次）。
+  ///
+  /// 原作是在该组的**前两帧**之间切（`blinkControl` 的 1/3 → +8、2 → +16），
+  /// 这里用 3 帧循环近似。
+  void tickMouth() {
+    if (!mouthMoving || mouthFrames.isEmpty) return;
+    _mouthFrame = (_mouthFrame + 1) % 3;
+  }
 
   /// 屏幕虚拟分辨率（240×160 一类）
   final Vector2 screenSize;
@@ -55,6 +121,12 @@ class PortraitComponent extends PositionComponent {
   static const slotTileX = <int, double>{
     0: 3, 1: 6, 2: 9, 3: 21, 4: 24, 5: 27, 6: -8, 7: 38,
   };
+
+  /// 表情组数：**只有两种**（微笑 / 普通）——`FACE_DISP_SMILE`。
+  static const mouthGroupCount = 2;
+
+  /// 每组 3 帧（闭 / 半 / 开）
+  static const framesPerMouthGroup = 3;
 
   /// 屏幕内的槽位（按 x 从左到右）。
   ///
@@ -100,5 +172,29 @@ class PortraitComponent extends PositionComponent {
         Paint()..filterQuality = FilterQuality.none,
       );
     }
+
+    // ---------------------------------------------------------------------
+    // ⚠️ **嘴型覆盖层暂不绘制。**
+    //
+    // 机制已经查清（`src/face_08005EE4.c:64-95` + `src/face.c:69-82`）：
+    // 在 `(xMouth-1, yMouth)` 处覆盖 4×2 图块的嘴，6 帧分「微笑 0-2 /
+    // 普通 3-5」两组。素材也提取好了（90 角色 × 6 帧）。
+    //
+    // **但 `xMouth`/`yMouth` 的来源没有证实。**
+    // `struct FaceData` 在反编译项目里没有定义，我只能从
+    // `portrait_data[]` 第 5 个字（`0x04030602`）里推。
+    //
+    // 我一度以为推对了 —— 因为把 `(2,6)` 贴上去"看着差不多"。
+    // 但那个实验里**左边有一块明显的杂色，正是嘴画错了位置**，
+    // 我把它当成了"tile 选择不准"。
+    //
+    // 上线之后在真实截图里一眼可见：Fado 的脸颊、士兵的领口都有错位。
+    //
+    // **判据是"看不出错"，不是"看着差不多"。** 位置没证实之前不画 ——
+    // 画错比不画更糟。
+    //
+    // 下一步（有明确判据）：找到 `struct FaceData` 的真实定义，
+    // 或从 `FaceMouth_Loop` 的 `imgMouth` 指针反推字段偏移。
+    // ---------------------------------------------------------------------
   }
 }

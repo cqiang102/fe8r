@@ -7,363 +7,453 @@
  "portraits": {
   "Aias": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Amelia": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Anna": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Arena": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Armoury": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Artur": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Bandit_1": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Bazba": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Beran": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Binks": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Bone": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Breguet": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Caellach": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Carlyle": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Colm": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Cormag": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Dozla": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Duessel": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Eirika": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Ephraim": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Ewan": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Fado": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Forde": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Franz": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Frelia_Knight": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Garcia": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Gerik": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Gheb": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Gilliam": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Glen": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Hayden": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Innes": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Ismaire": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Joshua": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Klimt": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Knoll": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Kyle": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "L_Arachel": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Lute": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Lyon": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Lyon_evil": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Man_Unused": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Mansel": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Marisa": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Morva": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Moulder": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Murray": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Myrrh": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Myrrh_with_wing": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Mystery_1": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Mystery_faded": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Natasha": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Neimi": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Novala": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "O_Neill": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Orson": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Orson_drugged": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Pablo": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Rennac": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Riev": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Ross": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Saar": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Saleh": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Saleh_Grandma": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Secret_Shop": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Selena": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Seth": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Soldier_1": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Syrene": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Tana": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Tethys": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Tirado": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Valter": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Vanessa": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Vendor": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Vigarde_dead": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Vigarde_healthy": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Girl_Black_Hair": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Girl_Brown_Hair": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Girl_Young": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Man_1": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Man_2": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Man_3": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Man_4": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Old_Man": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Old_Woman": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Woman": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Young_Boy": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Villager_Young_Man": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   },
   "Zonta": {
    "w": 80,
-   "h": 72
+   "h": 72,
+   "mouthFrames": 6
   }
  }
 }
