@@ -329,6 +329,7 @@ class DialogueBoxComponent extends PositionComponent {
     required this.boxHeight,
     this.timePerChar = 0.02,
     this.waitingForInput = false,
+    this.tailOnLeft = true,
   }) : super(size: Vector2(boxWidth, boxHeight));
 
   final String text;
@@ -351,6 +352,19 @@ class DialogueBoxComponent extends PositionComponent {
   ///
   /// ⚠️ 我原来完全没有这个提示 —— 玩家不知道"该按键了"。
   final bool waitingForInput;
+
+  /// 气泡尾巴在左边还是右边。
+  ///
+  /// 出处：`src/scene_080081A0.c` 的 `PutTalkBubble`
+  ///   `kind = xAnchor < 16 ? 0 : 1;`
+  /// 其中 `xAnchor = GetTalkFaceHPos(talkFace)`（图块）。
+  /// slot 0..2 的 x 是 3/6/9（< 16）→ **尾巴在左**；
+  /// slot 3..5 是 21/24/27（≥ 16）→ **尾巴在右**。
+  ///
+  /// 尾巴本身是 2×2 图块，放在气泡**下方**（y = 气泡底 = 72px），
+  /// 指向说话人所在的那一侧 —— `src/PutTalkBubbleTail.c:23-53`
+  /// （kind 0/1 是左右镜像的一对）。
+  final bool tailOnLeft;
 
   PolygonComponent? _arrow;
 
@@ -397,6 +411,20 @@ class DialogueBoxComponent extends PositionComponent {
       children: [_textBox..position = Vector2(m - 2, m - 2)],
     );
     add(clip);
+
+    // 气泡尾巴（指向说话人）
+    final t = size.y * 0.14;
+    final tailX = tailOnLeft ? size.x * 0.06 : size.x * 0.94 - t;
+    add(PolygonComponent(
+      [
+        Vector2(0, 0),
+        Vector2(t, 0),
+        Vector2(tailOnLeft ? t * 0.15 : t * 0.85, t * 1.3),
+      ],
+      position: Vector2(tailX, size.y - 1),
+      paint: Paint()..color = const Color(0xE0101820),
+      priority: -1,
+    ));
 
     // 等待按键的闪烁箭头（右下角）
     if (waitingForInput) {

@@ -41,6 +41,12 @@ class SceneView {
   /// 每个槽位上的立绘（**独立于对话框**）
   final Map<int, PortraitComponent> _portraits = {};
 
+  /// 当前说话人的槽位（决定气泡尾巴朝向）。
+  ///
+  /// 出处：`src/scene_080087A4.c` 的 `StartTalkOpen` —— 它把
+  /// `speakingFaceSlot` 设成刚打开的那个脸槽。
+  int? _speakerSlot;
+
   /// 当前显示的对白（null = 没在显示）
   ShowText? current;
 
@@ -206,6 +212,9 @@ class SceneView {
       boxWidth: boxW,
       boxHeight: boxH,
       waitingForInput: waitingForInput,
+      // 尾巴指向说话人：左侧槽位（x<16 图块）尾巴在左
+      tailOnLeft: _speakerSlot == null ||
+          (PortraitComponent.slotTileX[_speakerSlot!] ?? 0) < 16,
     )..position = Vector2(virtualSize.x * 0.04, boxY);
     layer.add(_box!);
     onHudChanged();
@@ -351,6 +360,7 @@ class SceneView {
       final sel = seg.faceSlotSelect;
       if (sel != null) {
         activeSlot = sel;
+        _speakerSlot = sel;
         expectFaceArg = false;   // 位置码会打断"等脸参数"
         continue;
       }
