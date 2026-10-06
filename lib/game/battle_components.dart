@@ -17,6 +17,8 @@
 
 
 import 'package:fe8r/core/core.dart';
+import 'dart:ui' show Image;
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 // `ClipComponent` 的 `ShapeBuilder` 要求 Flame 的 `Shape`，
@@ -321,6 +323,8 @@ class DialogueBoxComponent extends PositionComponent {
     required this.text,
     required this.hostFaceId,
     required this.guestFaceId,
+    this.hostPortrait,
+    this.guestPortrait,
     required this.boxWidth,
     required this.boxHeight,
     this.timePerChar = 0.02,
@@ -329,6 +333,12 @@ class DialogueBoxComponent extends PositionComponent {
   final String text;
   final int? hostFaceId;
   final int? guestFaceId;
+
+  /// 立绘图像（由 `SceneView` 从 `tools/pipeline/out/portraits/` 预加载）。
+  ///
+  /// 为 null 时退回"编号占位"—— 数据管线没跑或该脸编号没名字时。
+  final Image? hostPortrait;
+  final Image? guestPortrait;
   final double boxWidth;
   final double boxHeight;
 
@@ -376,15 +386,16 @@ class DialogueBoxComponent extends PositionComponent {
     );
     add(clip);
 
-    _addFaceLabel(guestFaceId, 0);
-    _addFaceLabel(hostFaceId, 1);
+    // 有立绘图就不放编号占位
+    if (guestPortrait == null) _addFaceLabel(guestFaceId, 0);
+    if (hostPortrait == null) _addFaceLabel(hostFaceId, 1);
   }
 
   @override
   void render(Canvas canvas) {
     // 立绘占位：左右各一个色块 + 编号
-    _face(canvas, guestFaceId, 0);
-    _face(canvas, hostFaceId, 1);
+    _face(canvas, guestFaceId, guestPortrait, 0);
+    _face(canvas, hostFaceId, hostPortrait, 1);
 
     final box = Rect.fromLTWH(0, 0, size.x, size.y);
     canvas.drawRRect(
@@ -400,15 +411,29 @@ class DialogueBoxComponent extends PositionComponent {
     );
   }
 
-  void _face(Canvas canvas, int? id, int side) {
+  void _face(Canvas canvas, int? id, Image? img, int side) {
     if (id == null) return;
-    final w = size.x * 0.12;
+    // 立绘比占位编号大得多，而且**上缘要探出框外**（原作就是这样，
+    // 人物半身像从对话框后面升起来）。
+    final w = size.x * 0.20;
     final r = Rect.fromLTWH(
+      // 往外挪一点，别贴着框边被切
       side == 0 ? size.x * 0.02 : size.x - w - size.x * 0.02,
-      -w * 0.8,
+      -w * 0.75,
       w,
       w,
     );
+    // 有立绘就画立绘 —— 用 `drawImageRect` 缩放，`FilterQuality.none`
+    // 保住像素风（开了插值会糊）。
+    if (img != null) {
+      canvas.drawImageRect(
+        img,
+        Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
+        Rect.fromLTWH(r.left, r.top, r.width, r.width * 0.9),
+        Paint()..filterQuality = FilterQuality.none,
+      );
+      return;
+    }
     canvas.drawRRect(
       RRect.fromRectAndRadius(r, const Radius.circular(4)),
       Paint()..color = const Color(0xCC2A3A50),

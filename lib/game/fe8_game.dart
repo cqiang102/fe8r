@@ -274,6 +274,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       // 场景表现层挂 viewport —— 见 scene_view.dart 里的说明
       _sceneView = SceneView(onHudChanged: _updateHud);
+      // 脸编号 → 角色名（表就是可读的 C 源码里的符号名）
+      _sceneView!.loadFaceIds('tools/pipeline/out/tables/face_ids.json');
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
 
@@ -437,6 +439,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 返回 false 表示数据没加载到（那就退回演示脚本，而不是假装成功）。
   Future<void> _startRealScene() async {
+    // 先把这一章用到的立绘全部解码好。
+    //
+    // ⚠️ 立绘解码是异步的、渲染是同步的 —— 不预热的话第一页画不出人像。
+    await _preloadScenePortraits();
     final sc = scene;
     final fn = allSceneFns[realSceneName];
     if (sc == null || fn == null) return;
@@ -458,6 +464,27 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static const String realSceneName = 'EventScr_Prologue_BeginningScene';
 
   /// 把当前这句对白画进对话框
+  /// 预热当前章节场景里会用到的立绘
+  Future<void> _preloadScenePortraits() async {
+    final sc = scene;
+    final v = _sceneView;
+    if (sc == null || v == null) return;
+    // 扫全部场景文本里的脸编号
+    final ids = <int>{};
+    for (final t in sc.texts.messages.values) {
+      for (final seg in t.segments) {
+        if (seg is TextControl && seg.isFaceSpec) {
+          final f = seg.faceId;
+          if (f != null) ids.add(f);
+        }
+      }
+    }
+    if (ids.isEmpty) return;
+    await v.preload(ids);
+    // 预加载完刷新一次，把第一页的立绘补上
+    _updateSceneDialogue();
+  }
+
   void _updateSceneDialogue() {
     _sceneView?.applyEvent(
       _showDialogue ? _currentText : null,

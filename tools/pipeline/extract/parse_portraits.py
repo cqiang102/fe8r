@@ -106,7 +106,12 @@ def compose(name, tsa):
     tw = ts.size[0] // 8
     th = ts.size[1] // 8
 
-    out = Image.new("RGB", (w * 8, h * 8))
+    # ⚠️ **用 RGBA，索引 0 = 透明。**
+    #
+    # GBA 立绘的调色板第 0 色是"透明/背景色"（实测是浅绿）。
+    # 第一版存成 RGB，于是每张立绘都顶着一块浅绿方块，
+    # 贴在对话框上像是画错了。
+    out = Image.new("RGBA", (w * 8, h * 8), (0, 0, 0, 0))
     op = out.load()
 
     for i, e in enumerate(entries):
@@ -122,7 +127,10 @@ def compose(name, tsa):
         for y in range(8):
             for x in range(8):
                 idx = px[sx + (7 - x if hf else x), sy + (7 - y if vf else y)]
-                op[tx + x, ty + y] = pal[idx] if idx < len(pal) else (0, 0, 0)
+                if idx == 0:
+                    continue  # 索引 0 = 透明
+                c = pal[idx] if idx < len(pal) else (0, 0, 0)
+                op[tx + x, ty + y] = (c[0], c[1], c[2], 255)
     return out
 
 

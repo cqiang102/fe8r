@@ -41,9 +41,63 @@ class TextControl extends TextSegment {
 
   /// `[CR]` —— 换页（清屏重画）。
   bool get isPageBreak => name == 'A' || name == 'CR';
+
+  /// `[$XXXX]` —— **脸编号**，编码是 `(槽位 << 8) | 脸编号`。
+  ///
+  /// ⚠️ 不是纯脸编号。序章开场实测：
+  ///
+  ///     $0152 → 槽 1，脸 82  = Fado（雷诺斯王）
+  ///     $016B → 槽 1，脸 107 = Soldier_1（传令兵）
+  ///     $0102 → 槽 1，脸 2   = Eirika
+  ///     $0104 → 槽 1，脸 4   = Seth
+  ///     $0142 → 槽 1，脸 66  = Valter
+  ///
+  /// 而 `0x152` 本身 = 338 **越出表范围**（174 项）——
+  /// 第一版据此以为"这不是脸编号"，拆成高低字节才对上。
+  bool get isFaceSpec => name.startsWith(r'$');
+
+  /// 槽位（0 或 1）
+  int? get faceSlot {
+    if (!isFaceSpec) return null;
+    final v = int.tryParse(name.substring(1), radix: 16);
+    return v == null ? null : (v >> 8) & 0xFF;
+  }
+
+  /// 脸编号
+  int? get faceId {
+    if (!isFaceSpec) return null;
+    final v = int.tryParse(name.substring(1), radix: 16);
+    return v == null ? null : v & 0xFF;
+  }
   bool get isLineBreak => name == 'LF';
   bool get isLoadFace => name == 'LoadFace';
   bool get isFacePosition => name.startsWith('Open') || name.startsWith('Close');
+
+  /// 立绘位置的**屏幕左/右**。
+  ///
+  /// 控制码定义（`texts/jp_textdefs.txt`）：
+  ///
+  ///     [OpenFarLeft]=8  [OpenMidLeft]=9  [OpenLeft]=10
+  ///     [OpenRight]=11   [OpenMidRight]=12 [OpenFarRight]=13
+  ///     [OpenFarFarLeft]=14  [OpenFarFarRight]=15
+  ///
+  /// ⚠️ **`$XXXX` 不是"槽位编号"，是"给刚打开的位置放哪张脸"。**
+  ///
+  /// 我是先按"高字节 = 槽位"实现的，结果序章演到第 9 页（国王说
+  /// 「わが軍の兵士に降伏を命じよ」）时画面上还是传令兵 —— 因为
+  /// `[LoadFace]$0152`(Fado) 和 `[LoadFace]$016B`(传令兵) 的高字节都是 1，
+  /// 后者把前者覆盖了。
+  ///
+  /// 实际语义是：
+  ///
+  ///     [OpenMidLeft]     $0152 → Fado 放 MidLeft
+  ///     [OpenFarFarRight] $016B → 传令兵 放 FarFarRight
+  ///     [OpenFarFarRight] $0080 → 清空 FarFarRight（编号无名字 = 清）
+  ///
+  /// 所以说话人会变，是靠**位置**区分的。
+  static bool isLeftPosition(String name) => const {
+        'OpenFarLeft', 'OpenMidLeft', 'OpenLeft', 'OpenFarFarLeft',
+      }.contains(name);
 
   @override
   String toString() =>
