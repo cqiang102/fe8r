@@ -1,3 +1,6 @@
+// PORT OF: src/eventinfo.c + src/eventscr_0800F8D4.c（事件脚本表的装配）
+//          数据由 tools/pipeline/extract/parse_chapter_events.py 提取
+//
 // 真实章节事件脚本的**加载**。
 //
 // ## 数据从哪来

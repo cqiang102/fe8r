@@ -1,3 +1,6 @@
+// PORT OF: src/data/chapterdata.c（gChapterDataTable）的加载
+//          数据由 tools/pipeline/extract/parse_chapters.py 提取
+//
 // 章节配置表（`gChapterDataTable`，79 章）的加载。
 //
 // ## 这是「章节 → 单位表 / 事件表」链路的第一段

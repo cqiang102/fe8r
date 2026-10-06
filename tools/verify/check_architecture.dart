@@ -44,6 +44,20 @@ enum Scope {
   ///
   /// 去掉字符串是为了不让文档里举的反例被当真。
   code,
+
+  /// 在**原样的前若干行**上匹配（注释保留）。
+  ///
+  /// ⚠️ 为 R7 而加。R7 要检查的正是**注释本身**（`PORT OF: …`），
+  /// 而它原来用的是 `Scope.code` —— 那条路径会先 `stripComments`，
+  /// 把要匹配的内容剥掉，于是 **R7 在任何合法 Dart 里都不可能命中**。
+  ///
+  /// 审计实测：新建一个没有 `PORT OF:` 的纯 Dart 文件 →
+  /// `架构检查通过（扫描 36 个文件，7 条规则）` **EXIT=0**；
+  /// 同一文件改成 `import 'package:flutter/widgets.dart';` → R1 正确报错。
+  /// **脚本本身没坏，唯独 R7 是死的。**
+  ///
+  /// 这就是第 5 个"永远退出 0"的门禁。
+  rawHead,
 }
 
 /// 一条规则
@@ -56,6 +70,7 @@ class Rule {
     required this.scope,
     this.hint = '',
     this.skipPortOfCheck = false,
+    this.mustMatch = false,
   });
 
   /// 规则编号，出现在报错里
@@ -78,6 +93,18 @@ class Rule {
 
   /// R7 专用：跳过纯导出文件
   final bool skipPortOfCheck;
+
+  /// **"必须包含"型规则**（默认是"禁止出现"型）。
+  ///
+  /// ⚠️ 为 R7 而加。R7 要表达的是"**每个文件都必须有** `PORT OF:` 头注释"，
+  /// 而框架原本只有"匹配到 = 违规"一种语义 —— 于是 R7 被写成
+  /// "**出现** PORT OF 就报错"，正好反了。
+  ///
+  /// 加上 `Scope.code` 会先剥注释，R7 就变成了**双重失效**：
+  /// 既不匹配（注释被剥）、语义又反了 —— 所以它从来没报过任何东西。
+  ///
+  /// 这个 `mustMatch` 是这类"要求存在"的规则第一个正确的表达方式。
+  final bool mustMatch;
 }
 
 /// 违规记录
@@ -153,13 +180,19 @@ final List<Rule> rules = [
     '$coreDir 的文件必须带 `PORT OF: <C 源文件>` 头注释',
     [coreDir],
     RegExp(r'PORT OF:\s*\S'),
-    scope: Scope.code,
+    // ⚠️ 必须是 rawHead 而不是 code —— 见 `Scope.rawHead` 的说明
+    scope: Scope.rawHead,
+    // ⚠️ "必须包含"型：**不匹配**才是违规
+    mustMatch: true,
     hint: '在文件顶部加一行，例如：// PORT OF: src/rng.c',
     skipPortOfCheck: true,
   ),
 ];
 
 // ---------------------------------------------------------------- 源码处理
+
+/// `Scope.rawHead` 看前多少行（头注释一般就在最前面）
+const _rawHeadLines = 30;
 
 /// 从 [start]（引号位置）扫描到字符串结束，返回结束后的下标
 int _scanString(String src, int start) {
@@ -302,6 +335,22 @@ List<Violation> check(List<Rule> rules) {
             if (_directiveLine.hasMatch(lines[i]) &&
                 rule.pattern.hasMatch(lines[i])) {
               violations.add(Violation(file, i + 1, lines[i], rule));
+            }
+          }
+        } else if (rule.scope == Scope.rawHead) {
+          // 原样（**不剥注释**），只看前 _rawHeadLines 行
+          final lines = raw.split('\n').take(_rawHeadLines).toList();
+          if (rule.mustMatch) {
+            // 前 N 行里一处都没匹配 → 违规（报在第 1 行）
+            if (!lines.any(rule.pattern.hasMatch)) {
+              violations.add(Violation(file, 1, lines.isEmpty ? '' : lines.first,
+                  rule));
+            }
+          } else {
+            for (var i = 0; i < lines.length; i++) {
+              if (rule.pattern.hasMatch(lines[i])) {
+                violations.add(Violation(file, i + 1, lines[i], rule));
+              }
             }
           }
         } else {

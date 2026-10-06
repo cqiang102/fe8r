@@ -1,3 +1,6 @@
+// PORT OF: src/event.c + src/TalkInterpret.c（场景演出的运行时）
+//          ⚠️ 不是 1:1 移植：脚本改成了 async 函数，不是可序列化的指令流
+//
 // arch-exempt: R4 「完全可序列化」这条约束已由用户明确取消（不需要随时存档），
 //           所以场景脚本改用 async 函数直接表达"等玩家按键"，
 //           不再用可序列化的状态机。见 tools/pipeline/extract/gen_scene_dart.py。

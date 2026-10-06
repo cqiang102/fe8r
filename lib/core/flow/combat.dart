@@ -1,3 +1,5 @@
+// PORT OF: src/bmbattle.c 的 BattleGenerate 编排 + src/bmbattle_0802A0C8.c
+//
 // M4（战斗数值）与 M5（战场流程）之间的桥。
 //
 // ## 这个文件为什么必须存在

@@ -1,3 +1,5 @@
+// PORT OF: src/chapterdata.c + src/eventinfo.c（章节数据表与事件表的分派）
+//
 // 「章节 → 事件组 → 单位表」这条链的加载。
 //
 // ## 链路的每一跳（全部是文本，见 tools/pipeline/extract/）

@@ -180,43 +180,76 @@ class SceneView {
     }
     current = e;
 
-    // 立绘：`[OpenXXX]` 打开一个**位置**，紧跟着的 `[$XXXX]` 给这个位置放脸。
+    // 立绘模型 —— **出处：`src/TalkInterpret.c:140-165` + `src/TalkLoadFace.c:44-51`**
     //
-    // ⚠️ 不是"槽位"！见 `TextControl.isLeftPosition` 的说明 ——
-    // 我第一版按"高字节 = 槽位"做，结果说话人一变（Fado → 传令兵）
-    // 立绘还是旧的，因为两者的高字节都是 1。
+    //     [OpenFarLeft](8)..[OpenFarFarRight](15)   →  **设置活动槽**（code - 8，0..7）
+    //     [LoadFace](16) + u16                      →  读脸编号载入**当前活动槽**
+    //                                                 faceId = u16 - 0x100
+    //
+    // ⚠️ 我先后错过两次：当成"(槽位<<8)|脸编号"，又当成"屏幕位置+脸编号"。
+    // 两次都"看起来对"，因为 `0x0152 - 0x100 = 0x52` 恰好等于取低字节。
+    // **解码结果对，机制全错。**
+    //
+    // 偏离样本 `$0080` 才是探针：它根本不是脸编号，是 `0x80`(face-ctrl 前缀)
+    // + 子命令 `0x00`，被 dumper 按 u16 合并写成 `[$0080]`。
     final page = e.page ?? e.message.plain;
     final upto = _indexOfPage(e.message, page);
 
-    // 每个位置当前的脸（按出现顺序回放，后写的覆盖先写的）
-    final left = <String, int>{};
-    final right = <String, int>{};
-    String? pendingPos;
+    // 逐页回放：槽位 0..7 → 脸编号
+    final slots = <int, int>{};
+    var activeSlot = 0xFF; // `TalkLoadFace` 里 0xFF 会被改成 1
+    var expectFaceArg = false;
     for (final seg in e.message.segments.take(upto)) {
       if (seg is! TextControl) continue;
-      if (seg.isFacePosition) {
-        pendingPos = seg.name;
-        // `CloseSpeech*` 之类不改位置，只记 Open*
-        if (seg.name.startsWith('Close')) pendingPos = null;
-      } else if (seg.isFaceSpec && pendingPos != null) {
-        final fid = seg.faceId;
-        final bucket = TextControl.isLeftPosition(pendingPos) ? left : right;
-        // 没有名字的脸编号 = 清空这个位置
-        if (fid == null || faceNames[fid] == null) {
-          bucket.remove(pendingPos);
-        } else {
-          bucket[pendingPos] = fid;
+      final sel = seg.faceSlotSelect;
+      if (sel != null) {
+        activeSlot = sel;
+        continue;
+      }
+      if (seg.isLoadFace) {
+        expectFaceArg = true;
+        continue;
+      }
+      if (seg.isFaceSpec) {
+        if (!expectFaceArg) {
+          // `$0080` 这类：不是脸编号，是 face-ctrl 前缀 —— **跳过**
+          continue;
         }
-        pendingPos = null;
+        expectFaceArg = false;
+        if (activeSlot == 0xFF) activeSlot = 1; // 与 `TalkLoadFace` 一致
+        final fid = seg.faceId;
+        if (fid == null) {
+          slots.remove(activeSlot);
+        } else {
+          slots[activeSlot] = fid;
+        }
       }
     }
 
     show(
       text: page,
       virtualSize: virtualSize,
-      hostFace: right.values.isEmpty ? null : right.values.last,
-      guestFace: left.values.isEmpty ? null : left.values.last,
+      // 槽位 → 屏幕侧：`gTalkFaceHPosLut = {3,6,9,21,24,27,-8,38}`，
+      // 前半（0..2）在左，后半（3..7）在右
+      hostFace: _rightmost(slots),
+      guestFace: _leftmost(slots),
     );
+  }
+
+  /// 槽位表里最靠右的那个脸
+  int? _rightmost(Map<int, int> slots) {
+    for (final s in const [5, 4, 3, 7, 6, 2, 1, 0]) {
+      if (slots.containsKey(s)) return slots[s];
+    }
+    return null;
+  }
+
+  /// 槽位表里最靠左的那个脸
+  int? _leftmost(Map<int, int> slots) {
+    for (final s in const [0, 1, 2, 6, 3, 4, 5, 7]) {
+      if (slots.containsKey(s)) return slots[s];
+    }
+    return null;
   }
 
   /// 这一页在整条消息里的结束位置（用于"只看这一页之前的脸"）

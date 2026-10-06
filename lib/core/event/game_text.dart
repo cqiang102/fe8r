@@ -1,3 +1,6 @@
+// PORT OF: include/scene.h（CHFE_L_* 控制码）+ src/TalkInterpret.c + src/TalkLoadFace.c
+//          数据由 tools/pipeline/extract/parse_text.py 从 texts/jp_texts.txt 提取
+//
 // 游戏文本（对白 / 章节标题 / 界面文字）。
 //
 // ## 数据从哪来 —— 不用解码
@@ -42,36 +45,83 @@ class TextControl extends TextSegment {
   /// `[CR]` —— 换页（清屏重画）。
   bool get isPageBreak => name == 'A' || name == 'CR';
 
-  /// `[$XXXX]` —— **脸编号**，编码是 `(槽位 << 8) | 脸编号`。
+  /// `[$XXXX]` —— `[LoadFace]` 后面的 u16 参数。**脸编号 = raw - 0x100**。
   ///
-  /// ⚠️ 不是纯脸编号。序章开场实测：
+  /// ## 出处：`src/TalkLoadFace.c:44-51`
   ///
-  ///     $0152 → 槽 1，脸 82  = Fado（雷诺斯王）
-  ///     $016B → 槽 1，脸 107 = Soldier_1（传令兵）
-  ///     $0102 → 槽 1，脸 2   = Eirika
-  ///     $0104 → 槽 1，脸 4   = Seth
-  ///     $0142 → 槽 1，脸 66  = Valter
+  /// ```c
+  /// faceId = sTalkState->str[0];
+  /// faceId = (sTalkState->str[1] * 0x100) + faceId;   // 小端 u16
+  /// if (faceId == 0xFFFF) {
+  ///     faceId = GetUnitPortraitId(gActiveUnit);       // 特殊：取当前单位
+  /// } else {
+  ///     faceId = faceId - 0x100;                       // ★ 减 0x100
+  /// }
+  /// ```
   ///
-  /// 而 `0x152` 本身 = 338 **越出表范围**（174 项）——
-  /// 第一版据此以为"这不是脸编号"，拆成高低字节才对上。
+  /// ⚠️ **高字节不是"槽位"，是个常量偏移 0x100。**
+  ///
+  /// 我先后错过**两次**：
+  ///
+  ///   1. 当成 `(槽位 << 8) | 脸编号`
+  ///   2. 当成"屏幕位置 + 脸编号"
+  ///
+  /// 两次都"看起来对"，因为 `0x0152 - 0x100 = 0x52` **恰好等于取低字节** ——
+  /// **解码结果对，机制全错。**
+  ///
+  /// 而 `$0080` 在两种错误解读下都会得到垃圾（`128` / 负值），
+  /// **那才是暴露模型错误的探针**：它根本不是脸编号，是
+  /// `0x80`(face-ctrl 前缀) + 子命令 `0x00`，被 dumper 按 u16 合并写成了 `[$0080]`。
+  ///
+  /// **教训：结果对不代表模型对。要去找偏离的样本。**
+  ///
+  /// 返回 `null` 表示"不是一次脸编号"（`0xFFFF` 特殊值，或负值）。
   bool get isFaceSpec => name.startsWith(r'$');
 
-  /// 槽位（0 或 1）
-  int? get faceSlot {
-    if (!isFaceSpec) return null;
-    final v = int.tryParse(name.substring(1), radix: 16);
-    return v == null ? null : (v >> 8) & 0xFF;
-  }
-
-  /// 脸编号
+  /// 脸编号 = `raw - 0x100`。见 [isFaceSpec] 的说明。
   int? get faceId {
     if (!isFaceSpec) return null;
-    final v = int.tryParse(name.substring(1), radix: 16);
-    return v == null ? null : v & 0xFF;
+    final raw = int.tryParse(name.substring(1), radix: 16);
+    if (raw == null || raw == 0xFFFF) return null;
+    final id = raw - 0x100;
+    return id < 0 ? null : id;
   }
+
+  /// `[OpenFarLeft]`(8) .. `[OpenFarFarRight]`(15) —— **设置活动槽位**。
+  ///
+  /// ## 出处：`src/TalkInterpret.c:140-165`
+  ///
+  /// ```c
+  /// case CHFE_L_LoadFace:            // 0x10，一个"块"的开始
+  ///     while (1) {
+  ///         switch (*sTalkState->str) {
+  ///             case CHFE_L_OpenFarLeft:   // 0x08
+  ///             ... case CHFE_L_OpenFarFarRight:   // 0x0F
+  ///                 SetActiveTalkFace(*sTalkState->str - 8);   // ← 只是**选槽**
+  ///                 ...
+  ///             case CHFE_L_LoadFace:      // 0x10
+  ///                 TalkLoadFace(proc);    // ← 读后面 2 字节当脸编号
+  /// ```
+  ///
+  /// ⚠️ **不是"屏幕位置"**，是槽位选择；槽位 0..7 再由
+  /// `gTalkFaceHPosLut[8] = {3, 6, 9, 21, 24, 27, -8, 38}`（`src/scene_08008830.c`）
+  /// 映射到屏幕 x。
+  int? get faceSlotSelect {
+    // ⚠️ 不能写成 `if (!isFacePosition) return null;` ——
+    // `isFacePosition` 反过来又依赖本方法，会**环形依赖**。
+    if (!name.startsWith('Open')) return null;
+    const m = {
+      'OpenFarLeft': 0, 'OpenMidLeft': 1, 'OpenLeft': 2, 'OpenRight': 3,
+      'OpenMidRight': 4, 'OpenFarRight': 5, 'OpenFarFarLeft': 6,
+      'OpenFarFarRight': 7,
+    };
+    return m[name];
+  }
+
   bool get isLineBreak => name == 'LF';
   bool get isLoadFace => name == 'LoadFace';
-  bool get isFacePosition => name.startsWith('Open') || name.startsWith('Close');
+  bool get isFacePosition =>
+      faceSlotSelect != null || name.startsWith('Close');
 
   /// 立绘位置的**屏幕左/右**。
   ///

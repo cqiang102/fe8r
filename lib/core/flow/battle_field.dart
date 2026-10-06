@@ -1,3 +1,6 @@
+// PORT OF: include/bmunit.h（struct Unit）+ src/bm.c（战场状态）
+//          ⚠️ 刻意不复用 lib/core/battle/battle_unit.dart 的 BattleUnit
+//
 // 战场单位与场地的**语义模型**（纯 Dart，可序列化）。
 //
 // 这里刻意不复用 `lib/core/battle/battle_unit.dart` 里的 `BattleUnit`：

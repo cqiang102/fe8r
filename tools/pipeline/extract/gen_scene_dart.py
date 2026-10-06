@@ -335,6 +335,8 @@ def main():
         "不再用可序列化的状态机。",
         "//",
         "// ignore_for_file: type=lint, dead_code",
+        "//",
+        "// PORT OF: src/event.c + src/TalkInterpret.c（场景脚本）",
         "// ^ 只压 lint 噪音；**类型错误照样报** —— 见 analysis_options.yaml 的说明。",
         "//",
         "// GENERATED —— 由 tools/pipeline/extract/gen_scene_dart.py 生成。",

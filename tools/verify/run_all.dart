@@ -14,6 +14,16 @@ import 'dart:io';
 
 /// 一个检查步骤
 class Step {
+  /// ⚠️ **"跳过"必须是一种独立状态，不能靠跑 `true` 冒充通过。**
+  ///
+  /// 原本 19 个"（跳过）"步骤的可执行文件是 `true`（退出 0），
+  /// 于是汇总把它们记成 **pass** —— 审计实测：搭一份没有 `third_party/`
+  /// 的仓库跑全量，每一步都 `✓ 通过 (4ms)`，结尾 **`通过 27 项`，退出 0**。
+  /// 而 `third_party/` 是 gitignore 的，**新克隆的默认状态就是这个**。
+  ///
+  /// 也就是说：**仓库刚克隆下来、什么都没验，门禁报"通过 27 项"。**
+  final bool skip;
+
   Step(
     this.layer,
     this.name,
@@ -22,6 +32,7 @@ class Step {
     this.cwd = '.',
     this.note = '',
     this.requires = const [],
+    this.skip = false,
   });
 
   /// 验证层级（L0..L4）
@@ -75,6 +86,7 @@ Future<void> main(List<String> argv) async {
   final root = Directory.current.path;
   final (flutter, dart) = resolveToolchain();
   final coverage = argv.contains('--coverage');
+  final allowMissingDecomp = argv.contains('--allow-missing-decomp');
 
   const decomp = 'third_party/fireemblem8j';
   final decompNote = '需要 `git clone --depth 1 https://github.com/laqieer/'
@@ -90,7 +102,7 @@ Future<void> main(List<String> argv) async {
           ['extract/map_render.py', '--roundtrip'],
           cwd: 'tools/pipeline', note: '.mar ↔ 网格 字节级无损')
     else
-      Step('L0', '数据管线往返（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '数据管线往返', 'true', const [], skip: true, note: decompNote),
 
     // 数据表提取：判据是宿主机 C 编译器（编译真表、dump 字节、逐字节比对），
     // 不是"我解析一遍再自己检查"
@@ -99,7 +111,7 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_c_tables.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '地形表 104 张 / 6760 个值')
     else
-      Step('L0', '数据表提取（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '数据表提取', 'true', const [], skip: true, note: decompNote),
 
     // 只有二进制、没有 C 源码的表（武器三角规则）——判据是结构自洽性
     if (hasDecomp())
@@ -107,7 +119,7 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_carved_tables.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '武器三角规则表（ROM 0x085C3F70）')
     else
-      Step('L0', '二进制表提取（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '二进制表提取', 'true', const [], skip: true, note: decompNote),
 
     // 职业表：只取地形加成与移动消耗（含引用的表名必须真实存在）
     if (hasDecomp())
@@ -115,7 +127,7 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_class_tables.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '127 个职业的地形加成 + 移动消耗表')
     else
-      Step('L0', '职业表提取（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '职业表提取', 'true', const [], skip: true, note: decompNote),
 
     // 事件引擎的指令集：150 条指令 / 161 个子命令 + 位打包宏
     if (hasDecomp())
@@ -123,21 +135,21 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_eventscript.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '150 条指令 / 161 个子命令')
     else
-      Step('L0', '事件指令集（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '事件指令集', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
       Step('L0', '事件指令集校验', 'python3',
           ['extract/verify_eventscript.py'],
           cwd: 'tools/pipeline', note: '枚举值 + `_EvtCmd` 宏展开 vs clang')
     else
-      Step('L0', '事件指令集校验（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '事件指令集校验', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
       Step('L0', '章节事件提取（指针归一化）', 'python3',
           ['extract/parse_chapter_events.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '21 张表 / 570 个指针槽 → 符号名')
     else
-      Step('L0', '章节事件提取（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '章节事件提取', 'true', const [], skip: true, note: decompNote),
 
     // 章节单位配置：**元素个数由探针里的 `sizeof` 算**，
     // 不靠 `nm` 的地址差 —— 后者在 ELF 与 Mach-O 上取法不同
@@ -148,7 +160,7 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_unit_defs.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '125 张表 / 2887 个条目（编译器算长度）')
     else
-      Step('L0', '章节单位配置提取（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '章节单位配置提取', 'true', const [], skip: true, note: decompNote),
 
     // 章节配置：可读 C，且字段值平台无关 —— 可进 CI
     if (hasDecomp())
@@ -156,7 +168,7 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_chapters.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '79 章（60 有名 + 19 空槽）')
     else
-      Step('L0', '章节配置提取（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '章节配置提取', 'true', const [], skip: true, note: decompNote),
 
     // 章节 → 资产 → 事件组/单位表：**全程文本**（反编译项目已去指针化）
     // 场景剧情脚本：纯线性指令流，用来统计**真实 opcode 覆盖率**
@@ -166,15 +178,22 @@ Future<void> main(List<String> argv) async {
           cwd: 'tools/pipeline',
           note: '166 张 / 5843 条指令 / 当前覆盖 62.2%')
     else
-      Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '场景剧情脚本', 'true', const [], skip: true, note: decompNote),
 
     // 场景剧情：**从 C 源码直接生成 Dart**（没有 JSON 中间层）
+    // ⚠️ **必须用 `--check`，不能用写模式。**
+    //
+    // 写模式会**静默覆盖** 438KB 的生成文件：审计实测往
+    // `lib/core/event/scene_data.g.dart` 追加一行篡改内容，跑一次就
+    // "恢复"了、`git status` 立刻变干净 —— 篡改无痕，而且
+    // **验证过程本身在修改被 Git 跟踪的源码**（L0 架构检查看的是旧文件、
+    // L3 分析看的是新文件，同一次运行内自相矛盾）。
     if (hasDecomp())
-      Step('L0', '场景剧情脚本（生成 Dart）', 'python3',
-          ['extract/gen_scene_dart.py'],
+      Step('L0', '场景剧情脚本（生成 Dart，只校验不写）', 'python3',
+          ['extract/gen_scene_dart.py', '--check'],
           cwd: 'tools/pipeline', note: '196 个脚本 → async 函数（直线103/分支93）')
     else
-      Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '场景剧情脚本', 'true', const [], skip: true, note: decompNote),
 
     // 游戏文本：反编译项目已解码成纯文本，不用碰 Huffman
     // 立绘：索引色图块条 + GBA 调色板 + TSA 排列 → 可显示 PNG
@@ -183,7 +202,7 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_portraits.py', '--out', 'out/portraits'],
           cwd: 'tools/pipeline', note: '90 个角色 / 80×72')
     else
-      Step('L0', '立绘合成（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '立绘合成', 'true', const [], skip: true, note: decompNote),
 
     // 脸编号 → 角色名（表项是**可读的 C 源码**）
     if (hasDecomp())
@@ -191,28 +210,28 @@ Future<void> main(List<String> argv) async {
           ['extract/parse_face_ids.py'],
           cwd: 'tools/pipeline', note: '174 项 / 117 个有名字')
     else
-      Step('L0', '脸编号映射（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '脸编号映射', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
       Step('L0', '游戏文本 + 章节标题', 'python3',
           ['extract/parse_text.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '3339 条消息 / 61 个章节标题')
     else
-      Step('L0', '游戏文本（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '游戏文本', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
       Step('L0', '章节链路（资产 / 事件组）', 'python3',
           ['extract/parse_chapter_links.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '79 章 → 16 个事件组（含单位表）')
     else
-      Step('L0', '章节链路（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '章节链路', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
           cwd: 'tools/pipeline', note: '135 张表 / 7008 个值 vs clang')
     else
-      Step('L0', '数据表逐字节校验（跳过）', 'true', const [], note: decompNote),
+      Step('L0', '数据表逐字节校验', 'true', const [], skip: true, note: decompNote),
 
     // 全量导出 + 逐格往返：覆盖所有能解析出资产的章节地图
     if (hasDecomp())
@@ -220,7 +239,7 @@ Future<void> main(List<String> argv) async {
           ['extract/map_tmx.py', '--verify-all', '--out', 'out/tmx'],
           cwd: 'tools/pipeline', note: '52 张地图 .tmx ↔ .mar 逐格一致')
     else
-      Step('L0', 'TMX 全量往返（跳过）', 'true', const [], note: decompNote),
+      Step('L0', 'TMX 全量往返', 'true', const [], skip: true, note: decompNote),
 
     // ⚠️ **所有 Dart 测试合并成一次 `flutter test`。**
     //
@@ -248,7 +267,7 @@ Future<void> main(List<String> argv) async {
           ['tools/oracle/verify.sh', if (coverage) '--coverage'],
           note: 'golden 对照 + Python 交叉校验', requires: ['tools/oracle/verify.sh'])
     else
-      Step('L2', 'C Oracle 自检（跳过）', 'true', const [], note: decompNote),
+      Step('L2', 'C Oracle 自检', 'true', const [], skip: true, note: decompNote),
 
     // 把 Dart 移植与真实 C 对上
     if (hasDecomp())
@@ -296,7 +315,7 @@ Future<void> main(List<String> argv) async {
       Step('L1', 'M1 分层分类（未分类须为 0）', 'python3',
           ['tools/m1/classify.py'], note: 'D19：6213 个文件全部有结论')
     else
-      Step('L1', 'M1 分层分类（跳过）', 'true', const [], note: decompNote),
+      Step('L1', 'M1 分层分类', 'true', const [], skip: true, note: decompNote),
 
     Step('L3', '静态契约', 'flutter',
         ['analyze', '--fatal-infos', 'lib', 'test', 'tools'],
@@ -332,6 +351,13 @@ Future<void> main(List<String> argv) async {
       'dart' => dart,
       _ => s.exe,
     };
+
+    if (s.skip) {
+      stdout.writeln('  ⤼ 跳过：${s.note}');
+      results.add((s, 'skip', '-'));
+      skipped++;
+      continue;
+    }
 
     final int code;
     final String out;
@@ -390,6 +416,24 @@ Future<void> main(List<String> argv) async {
   if (failed.isEmpty) {
     stdout.writeln('通过 $passed 项'
         '${skipped > 0 ? '，跳过 $skipped 项' : ''}');
+
+    // ⚠️ **有跳过就不能算"通过"。**
+    //
+    // `third_party/` 是 gitignore 的 —— 新克隆的仓库默认没有反编译源码，
+    // 于是 19 个数据管线步骤全部跳过。若这里 `return`（退出 0），
+    // 门禁就会在"什么都没验"的状态下报"通过 N 项"。
+    //
+    // 要跳过就必须显式表态：`--allow-missing-decomp`。
+    if (skipped > 0) {
+      if (allowMissingDecomp) {
+        stdout.writeln('（已用 --allow-missing-decomp 放行）');
+        return;
+      }
+      stderr.writeln('\n✗ 有 $skipped 项被跳过 —— **不算通过**。');
+      stderr.writeln('  最常见原因：$decompNote');
+      stderr.writeln('  确认环境无法提供时，显式加 --allow-missing-decomp。');
+      exit(1);
+    }
     return;
   }
   stdout.writeln('失败 ${failed.length} 项（通过 $passed，跳过 $skipped）：');

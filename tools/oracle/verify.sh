@@ -34,7 +34,10 @@ python3 "$HERE/crosscheck.py" || fail=1
 if [ "$COVERAGE" = "1" ]; then
     echo
     echo "── [3/3] 全量编译覆盖率（慢）──"
-    "$HERE/compile_coverage.sh" | tail -20
+    # ⚠️ `|| fail=1` **不能漏**。原本这里只 `| tail -20`，
+    # 而脚本是 `set -uo pipefail`（**没有 -e**）→ 覆盖率脚本即使崩了也永远绿。
+    # 审计实测：把 compile_coverage.sh 换成 `exit 1`，这里照样输出 "ALL GREEN"、退出 0。
+    "$HERE/compile_coverage.sh" | tail -20 || fail=1
 else
     echo
     echo "── [3/3] 全量编译覆盖率 ── 跳过（加 --coverage 启用）"

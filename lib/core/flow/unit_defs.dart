@@ -1,3 +1,6 @@
+// PORT OF: include/bmunit.h（struct UnitDefinition）+ src/eventscr_0800F8D4.c
+//          数据由 tools/pipeline/extract/parse_unit_defs.py 提取
+//
 // 章节单位配置表（`struct UnitDefinition`）的加载。
 //
 // ## ★ 章节 → 单位表的链路（本轮找到的，尚未实现）
