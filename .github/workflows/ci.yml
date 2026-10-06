@@ -1,8 +1,22 @@
 # FE8 重制版 —— 持续集成
 #
 # 设计原则：**YAML 只负责装环境，检查什么由 ./tools/verify/ci.sh 决定。**
-# 本地跑 `./tools/verify/ci.sh` 与 CI 跑的是同一条路径，因此"本地绿、CI 红"
-# 的情况基本不会出现。
+# 本地跑 `./tools/verify/ci.sh` 与 CI 跑的是同一条路径、同一个平台（macOS），
+# 因此"本地绿、CI 红"基本不会出现。
+#
+# ⚠️ **不在 push 上跑。**
+#
+# 理由：既然是同一条路径、同一个平台，而每次推送前本地都会跑一遍
+# `./tools/verify/ci.sh`（40 秒），那 push 时再跑一遍 CI 就是**纯重复** ——
+# 换来的只是 2~4 分钟的等待，信息量为零。
+#
+# 所以 CI 的定位改成**兜底**，而不是每次提交的闸门：
+#   * pull_request —— 有人提 PR 时（此项目目前是单人直推 main，很少用）
+#   * workflow_dispatch —— 想跑就跑
+#   * schedule —— 每周一次，防止"本地一直没跑"导致的分支腐坏
+#                 以及需要独立环境验证时（例如换了机器）
+#
+# **真正的闸门是本地 `./tools/verify/ci.sh`。**
 #
 # 关于 Flutter 版本：从 .fvmrc 读，与本地 fvm 用同一个来源，避免两边漂移。
 #
@@ -17,8 +31,6 @@
 name: CI
 
 on:
-  push:
-    branches: [main, master]
   pull_request:
   workflow_dispatch:
   # 每周一凌晨跑一次全量覆盖率 —— 它是**移植进度指标**，
