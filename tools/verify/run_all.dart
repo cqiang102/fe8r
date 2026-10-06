@@ -159,6 +159,15 @@ Future<void> main(List<String> argv) async {
       Step('L0', '章节配置提取（跳过）', 'true', const [], note: decompNote),
 
     // 章节 → 资产 → 事件组/单位表：**全程文本**（反编译项目已去指针化）
+    // 场景剧情脚本：纯线性指令流，用来统计**真实 opcode 覆盖率**
+    if (hasDecomp())
+      Step('L0', '场景剧情脚本 + opcode 覆盖率', 'python3',
+          ['extract/parse_event_scripts.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline',
+          note: '166 张 / 5843 条指令 / 当前覆盖 62.2%')
+    else
+      Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '章节链路（资产 / 事件组）', 'python3',
           ['extract/parse_chapter_links.py', '--out', 'out/tables'],
@@ -190,6 +199,10 @@ Future<void> main(List<String> argv) async {
     Step('L1', '重定位读取（指针归一化的前提）', 'flutter',
         ['test', 'test/core/relocations_test.dart'],
         note: '1 用例：otool -rv / readelf -r 两条路径'),
+
+    Step('L1', '场景剧情脚本（真实数据）', 'flutter',
+        ['test', 'test/core/event_scripts_test.dart'],
+        note: '5 用例：166 张表 / 覆盖率曲线 / 当前 62.2%'),
 
     Step('L1', '章节装配（链路的首个消费者）', 'flutter',
         ['test', 'test/core/chapter_loader_test.dart'],

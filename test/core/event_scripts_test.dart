@@ -1,0 +1,67 @@
+// 场景剧情脚本的**真实 opcode 覆盖率**测试。
+//
+// "150 个指令里实现了 27 个"没有意义 —— 那 27 个是挑的。
+// 这里跑的是 166 张真实场景、5843 条真实指令，
+// 给出的百分比是"真实剧情里我能执行多少"。
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter_test/flutter_test.dart';
+
+const _p = 'tools/pipeline/out/tables/event_scripts.json';
+
+void main() {
+  group('场景剧情脚本', () {
+    late Map<String, dynamic> d;
+
+    setUpAll(() {
+      final f = File(_p);
+      if (!f.existsSync()) fail('缺少 $_p');
+      d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    });
+
+    test('166 张表，绝大多数能完整解码', () {
+      expect(d['tableCount'], 166);
+      // 场景脚本是**纯线性指令流**（与章节条件表不同），所以解码率很高
+      expect(d['decodedTables'], 159,
+          reason: '数字钉死：解码器或数据变了这里会失败');
+      expect(d['instructionCount'], 5842);
+    });
+
+    test('真实场景用到 59 种 opcode', () {
+      final ops = d['opcodes'] as List<dynamic>;
+      expect(ops.length, 59);
+    });
+
+    test('覆盖率曲线：前 20 个 opcode 就能覆盖近 9 成指令', () {
+      final ops = d['opcodes'] as List<dynamic>;
+      var acc = 0.0;
+      final at = <int, double>{};
+      for (var i = 0; i < ops.length; i++) {
+        final o = ops[i] as Map<String, dynamic>;
+        acc += (o['percent'] as num).toDouble();
+        if ([10, 20, 30, 40].contains(i + 1)) at[i + 1] = acc;
+      }
+      // 这条曲线是"按频次实现"的依据
+      expect(at[10]!, greaterThan(60));
+      expect(at[20]!, greaterThan(85));
+      expect(at[30]!, greaterThan(95));
+    });
+
+    test('**当前实现覆盖真实指令 62.2%**', () {
+      final pct = (d['implementedCoveragePercent'] as num).toDouble();
+      // 这是最有意义的指标。它上升说明真实可执行的剧情变多了；
+      // 数字变化会在这里体现出来，从而提醒更新结论。
+      expect(pct, closeTo(62.2, 0.1));
+      expect((d['implementedOpcodes'] as List<dynamic>).length,
+          greaterThan(15));
+    });
+
+    test('频次最高的 opcode 是 SVAL（16.8%）—— 变量赋值', () {
+      final top = (d['opcodes'] as List<dynamic>).first
+          as Map<String, dynamic>;
+      expect(top['name'], 'EV_CMD_SVAL');
+      expect((top['percent'] as num).toDouble(), closeTo(16.8, 0.1));
+    });
+  });
+}

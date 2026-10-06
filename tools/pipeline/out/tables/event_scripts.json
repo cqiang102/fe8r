@@ -1,0 +1,1729 @@
+{
+ "sources": [],
+ "tableCount": 166,
+ "instructionCount": 5842,
+ "decodedTables": 159,
+ "opcodes": [
+  {
+   "opcode": 5,
+   "name": "EV_CMD_SVAL",
+   "count": 983,
+   "percent": 16.83
+  },
+  {
+   "opcode": 27,
+   "name": "EV_CMD_DISPLAYTEXT",
+   "count": 459,
+   "percent": 7.86
+  },
+  {
+   "opcode": 10,
+   "name": "EV_CMD_CALL",
+   "count": 403,
+   "percent": 6.9
+  },
+  {
+   "opcode": 7,
+   "name": "EV_CMD_QUEUE_OPS",
+   "count": 360,
+   "percent": 6.16
+  },
+  {
+   "opcode": 59,
+   "name": "EV_CMD_DISPLAYCURSOR",
+   "count": 337,
+   "percent": 5.77
+  },
+  {
+   "opcode": 29,
+   "name": "EV_CMD_ENDTEXT",
+   "count": 267,
+   "percent": 4.57
+  },
+  {
+   "opcode": 23,
+   "name": "EV_CMD_FADE",
+   "count": 255,
+   "percent": 4.36
+  },
+  {
+   "opcode": 14,
+   "name": "EV_CMD_STALL",
+   "count": 252,
+   "percent": 4.31
+  },
+  {
+   "opcode": 48,
+   "name": "EV_CMD_ENUN",
+   "count": 239,
+   "percent": 4.09
+  },
+  {
+   "opcode": 2,
+   "name": "EV_CMD_EVSET",
+   "count": 228,
+   "percent": 3.9
+  },
+  {
+   "opcode": 52,
+   "name": "EV_CMD_CHANGESTATE",
+   "count": 203,
+   "percent": 3.47
+  },
+  {
+   "opcode": 1,
+   "name": "EV_CMD_END",
+   "count": 182,
+   "percent": 3.12
+  },
+  {
+   "opcode": 8,
+   "name": "EV_CMD_LABEL",
+   "count": 168,
+   "percent": 2.88
+  },
+  {
+   "opcode": 12,
+   "name": "EV_CMD_BRANCH",
+   "count": 162,
+   "percent": 2.77
+  },
+  {
+   "opcode": 47,
+   "name": "EV_CMD_MOVEUNIT",
+   "count": 158,
+   "percent": 2.7
+  },
+  {
+   "opcode": 44,
+   "name": "EV_CMD_LOADUNIT",
+   "count": 148,
+   "percent": 2.53
+  },
+  {
+   "opcode": 26,
+   "name": "EV_CMD_SETTEXTTYPE",
+   "count": 127,
+   "percent": 2.17
+  },
+  {
+   "opcode": 18,
+   "name": "EV_CMD_BGMCHANGE_12",
+   "count": 108,
+   "percent": 1.85
+  },
+  {
+   "opcode": 38,
+   "name": "EV_CMD_CAMERACONTROL",
+   "count": 67,
+   "percent": 1.15
+  },
+  {
+   "opcode": 37,
+   "name": "EV_CMD_LOMA",
+   "count": 64,
+   "percent": 1.1
+  },
+  {
+   "opcode": 51,
+   "name": "EV_CMD_CHECKSTATE",
+   "count": 63,
+   "percent": 1.08
+  },
+  {
+   "opcode": 19,
+   "name": "EV_CMD_BGMCHANGE_13",
+   "count": 57,
+   "percent": 0.98
+  },
+  {
+   "opcode": 21,
+   "name": "EV_CMD_BGMVOLUMECHANGE",
+   "count": 49,
+   "percent": 0.84
+  },
+  {
+   "opcode": 3,
+   "name": "EV_CMD_EVCHECK",
+   "count": 46,
+   "percent": 0.79
+  },
+  {
+   "opcode": 58,
+   "name": "EV_CMD_DISPLAYPOPUP",
+   "count": 41,
+   "percent": 0.7
+  },
+  {
+   "opcode": 17,
+   "name": "EV_CMD_IGNOREKEYS",
+   "count": 37,
+   "percent": 0.63
+  },
+  {
+   "opcode": 6,
+   "name": "EV_CMD_SLOT_OPS",
+   "count": 36,
+   "percent": 0.62
+  },
+  {
+   "opcode": 9,
+   "name": "EV_CMD_GOTO",
+   "count": 35,
+   "percent": 0.6
+  },
+  {
+   "opcode": 25,
+   "name": "EV_CMD_CHECKVARIOUS",
+   "count": 32,
+   "percent": 0.55
+  },
+  {
+   "opcode": 34,
+   "name": "EV_CMD_CLEARSCREEN",
+   "count": 30,
+   "percent": 0.51
+  },
+  {
+   "opcode": 39,
+   "name": "EV_CMD_TILE_CHANGE",
+   "count": 26,
+   "percent": 0.45
+  },
+  {
+   "opcode": 42,
+   "name": "EV_CMD_CHANGECHAPTER",
+   "count": 23,
+   "percent": 0.39
+  },
+  {
+   "opcode": 55,
+   "name": "EV_CMD_GIVEITEM",
+   "count": 23,
+   "percent": 0.39
+  },
+  {
+   "opcode": 28,
+   "name": "EV_CMD_CONTINUETEXT",
+   "count": 22,
+   "percent": 0.38
+  },
+  {
+   "opcode": 61,
+   "name": "EV_CMD_MENUOVERRIDE",
+   "count": 16,
+   "percent": 0.27
+  },
+  {
+   "opcode": 20,
+   "name": "EV_CMD_BGMOVERWRITE",
+   "count": 12,
+   "percent": 0.21
+  },
+  {
+   "opcode": 15,
+   "name": "EV_CMD_COUNTER",
+   "count": 12,
+   "percent": 0.21
+  },
+  {
+   "opcode": 24,
+   "name": "EV_CMD_COLORFADE",
+   "count": 12,
+   "percent": 0.21
+  },
+  {
+   "opcode": 43,
+   "name": "EV_CMD_LOAD_PRECONF",
+   "count": 11,
+   "percent": 0.19
+  },
+  {
+   "opcode": 22,
+   "name": "EV_CMD_PLAYSE",
+   "count": 11,
+   "percent": 0.19
+  },
+  {
+   "opcode": 13,
+   "name": "EV_CMD_ASMC",
+   "count": 11,
+   "percent": 0.19
+  },
+  {
+   "opcode": 33,
+   "name": "EV_CMD_SHOWBG",
+   "count": 10,
+   "percent": 0.17
+  },
+  {
+   "opcode": 63,
+   "name": "EV_CMD_SCRIPT_BATTLE",
+   "count": 9,
+   "percent": 0.15
+  },
+  {
+   "opcode": 11,
+   "name": "EV_CMD_ENQUEUE_CALL",
+   "count": 9,
+   "percent": 0.15
+  },
+  {
+   "opcode": 45,
+   "name": "EV_CMD_CHANGE_PAL",
+   "count": 6,
+   "percent": 0.1
+  },
+  {
+   "opcode": 16,
+   "name": "EV_CMD_EVBITMODIFY",
+   "count": 6,
+   "percent": 0.1
+  },
+  {
+   "opcode": 66,
+   "name": "EV_CMD_EARTHQUAKE",
+   "count": 4,
+   "percent": 0.07
+  },
+  {
+   "opcode": 50,
+   "name": "EV_CMD_LOADSINGLEUNIT",
+   "count": 4,
+   "percent": 0.07
+  },
+  {
+   "opcode": 41,
+   "name": "EV_CMD_CHANGEFOGVISION",
+   "count": 3,
+   "percent": 0.05
+  },
+  {
+   "opcode": 57,
+   "name": "EV_CMD_CHANGEAI",
+   "count": 2,
+   "percent": 0.03
+  },
+  {
+   "opcode": 49,
+   "name": "EV_CMD_TOGGLERANGE",
+   "count": 2,
+   "percent": 0.03
+  },
+  {
+   "opcode": 46,
+   "name": "EV_CMD_GET_PID",
+   "count": 2,
+   "percent": 0.03
+  },
+  {
+   "opcode": 166,
+   "name": "EV_CMD_WM_A6",
+   "count": 2,
+   "percent": 0.03
+  },
+  {
+   "opcode": 4,
+   "name": "EV_CMD_RANDOMNUMBER",
+   "count": 2,
+   "percent": 0.03
+  },
+  {
+   "opcode": 60,
+   "name": "EV_CMD_MOVE_CURSOR",
+   "count": 2,
+   "percent": 0.03
+  },
+  {
+   "opcode": 54,
+   "name": "EV_CMD_CHECKINAREA",
+   "count": 1,
+   "percent": 0.02
+  },
+  {
+   "opcode": 108,
+   "name": "",
+   "count": 1,
+   "percent": 0.02
+  },
+  {
+   "opcode": 30,
+   "name": "EV_CMD_DISPLAYFACE",
+   "count": 1,
+   "percent": 0.02
+  },
+  {
+   "opcode": 149,
+   "name": "EV_CMD_WM_LOADLOCATION3",
+   "count": 1,
+   "percent": 0.02
+  }
+ ],
+ "subCommands": [
+  {
+   "opcode": 5,
+   "sub": 0,
+   "count": 983
+  },
+  {
+   "opcode": 10,
+   "sub": 0,
+   "count": 403
+  },
+  {
+   "opcode": 7,
+   "sub": 1,
+   "count": 352
+  },
+  {
+   "opcode": 29,
+   "sub": 0,
+   "count": 267
+  },
+  {
+   "opcode": 48,
+   "sub": 0,
+   "count": 239
+  },
+  {
+   "opcode": 27,
+   "sub": 0,
+   "count": 231
+  },
+  {
+   "opcode": 27,
+   "sub": 2,
+   "count": 215
+  },
+  {
+   "opcode": 14,
+   "sub": 0,
+   "count": 196
+  },
+  {
+   "opcode": 1,
+   "sub": 0,
+   "count": 180
+  },
+  {
+   "opcode": 8,
+   "sub": 0,
+   "count": 168
+  },
+  {
+   "opcode": 59,
+   "sub": 2,
+   "count": 168
+  },
+  {
+   "opcode": 59,
+   "sub": 1,
+   "count": 140
+  },
+  {
+   "opcode": 23,
+   "sub": 1,
+   "count": 126
+  },
+  {
+   "opcode": 2,
+   "sub": 8,
+   "count": 118
+  },
+  {
+   "opcode": 23,
+   "sub": 0,
+   "count": 108
+  },
+  {
+   "opcode": 18,
+   "sub": 0,
+   "count": 108
+  },
+  {
+   "opcode": 12,
+   "sub": 1,
+   "count": 93
+  },
+  {
+   "opcode": 2,
+   "sub": 9,
+   "count": 93
+  },
+  {
+   "opcode": 26,
+   "sub": 0,
+   "count": 92
+  },
+  {
+   "opcode": 47,
+   "sub": 0,
+   "count": 85
+  },
+  {
+   "opcode": 44,
+   "sub": 1,
+   "count": 73
+  },
+  {
+   "opcode": 44,
+   "sub": 0,
+   "count": 71
+  },
+  {
+   "opcode": 12,
+   "sub": 0,
+   "count": 65
+  },
+  {
+   "opcode": 37,
+   "sub": 0,
+   "count": 64
+  },
+  {
+   "opcode": 52,
+   "sub": 10,
+   "count": 41
+  },
+  {
+   "opcode": 52,
+   "sub": 11,
+   "count": 41
+  },
+  {
+   "opcode": 52,
+   "sub": 12,
+   "count": 40
+  },
+  {
+   "opcode": 52,
+   "sub": 15,
+   "count": 40
+  },
+  {
+   "opcode": 58,
+   "sub": 1,
+   "count": 39
+  },
+  {
+   "opcode": 47,
+   "sub": 2,
+   "count": 38
+  },
+  {
+   "opcode": 17,
+   "sub": 0,
+   "count": 37
+  },
+  {
+   "opcode": 51,
+   "sub": 2,
+   "count": 35
+  },
+  {
+   "opcode": 9,
+   "sub": 0,
+   "count": 35
+  },
+  {
+   "opcode": 14,
+   "sub": 1,
+   "count": 35
+  },
+  {
+   "opcode": 3,
+   "sub": 0,
+   "count": 34
+  },
+  {
+   "opcode": 19,
+   "sub": 4,
+   "count": 34
+  },
+  {
+   "opcode": 6,
+   "sub": 0,
+   "count": 33
+  },
+  {
+   "opcode": 34,
+   "sub": 0,
+   "count": 30
+  },
+  {
+   "opcode": 21,
+   "sub": 0,
+   "count": 27
+  },
+  {
+   "opcode": 38,
+   "sub": 8,
+   "count": 26
+  },
+  {
+   "opcode": 38,
+   "sub": 0,
+   "count": 25
+  },
+  {
+   "opcode": 26,
+   "sub": 3,
+   "count": 25
+  },
+  {
+   "opcode": 21,
+   "sub": 1,
+   "count": 22
+  },
+  {
+   "opcode": 28,
+   "sub": 0,
+   "count": 22
+  },
+  {
+   "opcode": 39,
+   "sub": 0,
+   "count": 20
+  },
+  {
+   "opcode": 55,
+   "sub": 0,
+   "count": 20
+  },
+  {
+   "opcode": 14,
+   "sub": 2,
+   "count": 19
+  },
+  {
+   "opcode": 51,
+   "sub": 8,
+   "count": 18
+  },
+  {
+   "opcode": 25,
+   "sub": 0,
+   "count": 18
+  },
+  {
+   "opcode": 47,
+   "sub": 3,
+   "count": 17
+  },
+  {
+   "opcode": 38,
+   "sub": 1,
+   "count": 16
+  },
+  {
+   "opcode": 52,
+   "sub": 8,
+   "count": 16
+  },
+  {
+   "opcode": 42,
+   "sub": 1,
+   "count": 16
+  },
+  {
+   "opcode": 61,
+   "sub": 0,
+   "count": 16
+  },
+  {
+   "opcode": 59,
+   "sub": 0,
+   "count": 15
+  },
+  {
+   "opcode": 19,
+   "sub": 6,
+   "count": 14
+  },
+  {
+   "opcode": 27,
+   "sub": 1,
+   "count": 13
+  },
+  {
+   "opcode": 47,
+   "sub": 8,
+   "count": 13
+  },
+  {
+   "opcode": 3,
+   "sub": 1,
+   "count": 12
+  },
+  {
+   "opcode": 2,
+   "sub": 1,
+   "count": 11
+  },
+  {
+   "opcode": 43,
+   "sub": 2,
+   "count": 11
+  },
+  {
+   "opcode": 23,
+   "sub": 2,
+   "count": 11
+  },
+  {
+   "opcode": 22,
+   "sub": 0,
+   "count": 11
+  },
+  {
+   "opcode": 33,
+   "sub": 0,
+   "count": 10
+  },
+  {
+   "opcode": 23,
+   "sub": 3,
+   "count": 10
+  },
+  {
+   "opcode": 59,
+   "sub": 4,
+   "count": 10
+  },
+  {
+   "opcode": 13,
+   "sub": 0,
+   "count": 10
+  },
+  {
+   "opcode": 52,
+   "sub": 1,
+   "count": 8
+  },
+  {
+   "opcode": 24,
+   "sub": 2,
+   "count": 8
+  },
+  {
+   "opcode": 26,
+   "sub": 1,
+   "count": 8
+  },
+  {
+   "opcode": 11,
+   "sub": 1,
+   "count": 8
+  },
+  {
+   "opcode": 7,
+   "sub": 2,
+   "count": 8
+  },
+  {
+   "opcode": 19,
+   "sub": 8,
+   "count": 7
+  },
+  {
+   "opcode": 20,
+   "sub": 0,
+   "count": 7
+  },
+  {
+   "opcode": 25,
+   "sub": 7,
+   "count": 6
+  },
+  {
+   "opcode": 51,
+   "sub": 0,
+   "count": 6
+  },
+  {
+   "opcode": 45,
+   "sub": 0,
+   "count": 6
+  },
+  {
+   "opcode": 39,
+   "sub": 1,
+   "count": 6
+  },
+  {
+   "opcode": 2,
+   "sub": 0,
+   "count": 6
+  },
+  {
+   "opcode": 16,
+   "sub": 0,
+   "count": 6
+  },
+  {
+   "opcode": 52,
+   "sub": 5,
+   "count": 5
+  },
+  {
+   "opcode": 52,
+   "sub": 0,
+   "count": 5
+  },
+  {
+   "opcode": 63,
+   "sub": 0,
+   "count": 5
+  },
+  {
+   "opcode": 47,
+   "sub": 1,
+   "count": 5
+  },
+  {
+   "opcode": 15,
+   "sub": 3,
+   "count": 5
+  },
+  {
+   "opcode": 15,
+   "sub": 0,
+   "count": 5
+  },
+  {
+   "opcode": 20,
+   "sub": 1,
+   "count": 5
+  },
+  {
+   "opcode": 44,
+   "sub": 2,
+   "count": 4
+  },
+  {
+   "opcode": 50,
+   "sub": 2,
+   "count": 4
+  },
+  {
+   "opcode": 24,
+   "sub": 0,
+   "count": 4
+  },
+  {
+   "opcode": 12,
+   "sub": 5,
+   "count": 4
+  },
+  {
+   "opcode": 59,
+   "sub": 5,
+   "count": 4
+  },
+  {
+   "opcode": 51,
+   "sub": 5,
+   "count": 3
+  },
+  {
+   "opcode": 41,
+   "sub": 0,
+   "count": 3
+  },
+  {
+   "opcode": 52,
+   "sub": 13,
+   "count": 3
+  },
+  {
+   "opcode": 52,
+   "sub": 14,
+   "count": 3
+  },
+  {
+   "opcode": 42,
+   "sub": 2,
+   "count": 3
+  },
+  {
+   "opcode": 55,
+   "sub": 1,
+   "count": 3
+  },
+  {
+   "opcode": 63,
+   "sub": 2,
+   "count": 3
+  },
+  {
+   "opcode": 42,
+   "sub": 3,
+   "count": 3
+  },
+  {
+   "opcode": 25,
+   "sub": 2,
+   "count": 2
+  },
+  {
+   "opcode": 6,
+   "sub": 1,
+   "count": 2
+  },
+  {
+   "opcode": 66,
+   "sub": 0,
+   "count": 2
+  },
+  {
+   "opcode": 66,
+   "sub": 15,
+   "count": 2
+  },
+  {
+   "opcode": 57,
+   "sub": 0,
+   "count": 2
+  },
+  {
+   "opcode": 26,
+   "sub": 4,
+   "count": 2
+  },
+  {
+   "opcode": 49,
+   "sub": 0,
+   "count": 2
+  },
+  {
+   "opcode": 58,
+   "sub": 0,
+   "count": 2
+  },
+  {
+   "opcode": 46,
+   "sub": 1,
+   "count": 2
+  },
+  {
+   "opcode": 14,
+   "sub": 3,
+   "count": 2
+  },
+  {
+   "opcode": 166,
+   "sub": 0,
+   "count": 2
+  },
+  {
+   "opcode": 19,
+   "sub": 2,
+   "count": 2
+  },
+  {
+   "opcode": 4,
+   "sub": 0,
+   "count": 2
+  },
+  {
+   "opcode": 1,
+   "sub": 1,
+   "count": 2
+  },
+  {
+   "opcode": 25,
+   "sub": 4,
+   "count": 2
+  },
+  {
+   "opcode": 15,
+   "sub": 1,
+   "count": 2
+  },
+  {
+   "opcode": 25,
+   "sub": 3,
+   "count": 1
+  },
+  {
+   "opcode": 6,
+   "sub": 5,
+   "count": 1
+  },
+  {
+   "opcode": 63,
+   "sub": 1,
+   "count": 1
+  },
+  {
+   "opcode": 13,
+   "sub": 1,
+   "count": 1
+  },
+  {
+   "opcode": 25,
+   "sub": 5,
+   "count": 1
+  },
+  {
+   "opcode": 42,
+   "sub": 4,
+   "count": 1
+  },
+  {
+   "opcode": 11,
+   "sub": 0,
+   "count": 1
+  },
+  {
+   "opcode": 54,
+   "sub": 0,
+   "count": 1
+  },
+  {
+   "opcode": 52,
+   "sub": 4,
+   "count": 1
+  },
+  {
+   "opcode": 51,
+   "sub": 7,
+   "count": 1
+  },
+  {
+   "opcode": 108,
+   "sub": 8,
+   "count": 1
+  },
+  {
+   "opcode": 25,
+   "sub": 9,
+   "count": 1
+  },
+  {
+   "opcode": 30,
+   "sub": 1,
+   "count": 1
+  },
+  {
+   "opcode": 25,
+   "sub": 6,
+   "count": 1
+  },
+  {
+   "opcode": 149,
+   "sub": 5,
+   "count": 1
+  },
+  {
+   "opcode": 60,
+   "sub": 0,
+   "count": 1
+  },
+  {
+   "opcode": 60,
+   "sub": 1,
+   "count": 1
+  }
+ ],
+ "implementedCoveragePercent": 62.2,
+ "implementedOpcodes": [
+  "branch",
+  "call",
+  "cameraControl",
+  "clearScreen",
+  "clearTextBox",
+  "continueText",
+  "displayFace",
+  "displayText",
+  "end",
+  "endText",
+  "evCheck",
+  "evSet",
+  "goTo",
+  "label",
+  "moveFace",
+  "moveUnit",
+  "nop",
+  "sVal",
+  "setTextType",
+  "showBg",
+  "slotOps",
+  "stall"
+ ],
+ "problems": [
+  "EventScr_Ch15A_26: 字偏移 160 越界（len=4）",
+  "EventScr_Ch16A_1: 字偏移 44 越界（len=4）",
+  "EventScr_Ch16b_BeginningScene: 字偏移 42 越界（len=4）",
+  "EventScr_Ch18b_BeginningScene: 字偏移 30 越界（len=4）",
+  "EventScr_Ch1Tut_EirikaVisitHouseInit: 字偏移 37 越界（len=12）",
+  "EventScr_Ch1Tut_OnBeginning: 字偏移 24 越界（len=13）",
+  "EventScr_SuspendPrompt: 字偏移 25 越界（len=15）"
+ ],
+ "tables": {
+  "EventScr_9EEA58": {
+   "slots": 21,
+   "ok": true
+  },
+  "EventScr_Ch10A_0": {
+   "slots": 22,
+   "ok": true
+  },
+  "EventScr_Ch10A_13": {
+   "slots": 37,
+   "ok": true
+  },
+  "EventScr_Ch10A_8": {
+   "slots": 22,
+   "ok": true
+  },
+  "EventScr_Ch10B_0": {
+   "slots": 46,
+   "ok": true
+  },
+  "EventScr_Ch10B_1": {
+   "slots": 21,
+   "ok": true
+  },
+  "EventScr_Ch10B_2": {
+   "slots": 20,
+   "ok": true
+  },
+  "EventScr_Ch10a_BeginningScene": {
+   "slots": 129,
+   "ok": true
+  },
+  "EventScr_Ch10a_EndingScene": {
+   "slots": 143,
+   "ok": true
+  },
+  "EventScr_Ch11B_0": {
+   "slots": 27,
+   "ok": true
+  },
+  "EventScr_Ch11B_1": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch11B_2": {
+   "slots": 33,
+   "ok": true
+  },
+  "EventScr_Ch11B_6": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch11a_EndingScene": {
+   "slots": 246,
+   "ok": true
+  },
+  "EventScr_Ch12A_0": {
+   "slots": 16,
+   "ok": true
+  },
+  "EventScr_Ch12A_5": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch12B_1": {
+   "slots": 62,
+   "ok": true
+  },
+  "EventScr_Ch13A_3": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch13A_4": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch13B_0": {
+   "slots": 20,
+   "ok": true
+  },
+  "EventScr_Ch13B_1": {
+   "slots": 20,
+   "ok": true
+  },
+  "EventScr_Ch13a_EndingScene": {
+   "slots": 141,
+   "ok": true
+  },
+  "EventScr_Ch13b_EndingScene": {
+   "slots": 32,
+   "ok": true
+  },
+  "EventScr_Ch14A_0": {
+   "slots": 61,
+   "ok": true
+  },
+  "EventScr_Ch14A_1": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch14A_8": {
+   "slots": 21,
+   "ok": true
+  },
+  "EventScr_Ch14B_12": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch14B_2": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch14b_BeginningScene": {
+   "slots": 99,
+   "ok": true
+  },
+  "EventScr_Ch14b_EndingScene": {
+   "slots": 123,
+   "ok": true
+  },
+  "EventScr_Ch15A_0": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch15A_17": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_18": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_19": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_20": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_21": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_22": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_23": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_24": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_25": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15A_26": {
+   "slots": 81,
+   "ok": false
+  },
+  "EventScr_Ch15B_14": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_15": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_16": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_17": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_18": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_19": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_20": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_21": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch15B_22": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch16A_1": {
+   "slots": 23,
+   "ok": false
+  },
+  "EventScr_Ch16A_11": {
+   "slots": 237,
+   "ok": true
+  },
+  "EventScr_Ch16A_12": {
+   "slots": 307,
+   "ok": true
+  },
+  "EventScr_Ch16A_9": {
+   "slots": 19,
+   "ok": true
+  },
+  "EventScr_Ch16B_3": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch16B_5": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch16b_BeginningScene": {
+   "slots": 22,
+   "ok": false
+  },
+  "EventScr_Ch18A_11": {
+   "slots": 71,
+   "ok": true
+  },
+  "EventScr_Ch18b_BeginningScene": {
+   "slots": 16,
+   "ok": false
+  },
+  "EventScr_Ch19A_11": {
+   "slots": 173,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_BeforeSethMoveToEnemy": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_ChooseSethTurn1": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_EirikaVisitHouseIdle1": {
+   "slots": 30,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_EirikaVisitHouseIdle2": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_EirikaVisitHouseInit": {
+   "slots": 22,
+   "ok": false
+  },
+  "EventScr_Ch1Tut_GuideTerrainHeal": {
+   "slots": 16,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_OnBeginning": {
+   "slots": 16,
+   "ok": false
+  },
+  "EventScr_Ch1Tut_SethMoveToEnemy": {
+   "slots": 30,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_TradeSelectGalliamIdle1": {
+   "slots": 31,
+   "ok": true
+  },
+  "EventScr_Ch1Tut_TradeSelectGalliamIdle2": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch1_BeginningScene": {
+   "slots": 120,
+   "ok": true
+  },
+  "EventScr_Ch1_EndingScene": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch1_Turn_AllyReinforceArrive": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch20B_1": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch20B_2": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch20b_BeginningScene": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch21A_0": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch21A_8": {
+   "slots": 87,
+   "ok": true
+  },
+  "EventScr_Ch21A_9": {
+   "slots": 27,
+   "ok": true
+  },
+  "EventScr_Ch21b_BeginningScene": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Ch21b_EndingScene": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial11": {
+   "slots": 31,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial12": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial14": {
+   "slots": 23,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial15": {
+   "slots": 23,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial18": {
+   "slots": 32,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial2": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial21": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial22": {
+   "slots": 22,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial23": {
+   "slots": 30,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial24": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial27": {
+   "slots": 31,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial28": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial4": {
+   "slots": 23,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial5": {
+   "slots": 23,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial8": {
+   "slots": 30,
+   "ok": true
+  },
+  "EventScr_Ch2Tutorial9": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ch2_10": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch2_8": {
+   "slots": 16,
+   "ok": true
+  },
+  "EventScr_Ch2_BeginningScene": {
+   "slots": 121,
+   "ok": true
+  },
+  "EventScr_Ch2_EndingScene": {
+   "slots": 82,
+   "ok": true
+  },
+  "EventScr_Ch2_Village1": {
+   "slots": 32,
+   "ok": true
+  },
+  "EventScr_Ch3_0": {
+   "slots": 46,
+   "ok": true
+  },
+  "EventScr_Ch3_5": {
+   "slots": 29,
+   "ok": true
+  },
+  "EventScr_Ch3_BeginningScene": {
+   "slots": 83,
+   "ok": true
+  },
+  "EventScr_Ch3_EndingScene": {
+   "slots": 103,
+   "ok": true
+  },
+  "EventScr_Ch3_Turn1Npc": {
+   "slots": 26,
+   "ok": true
+  },
+  "EventScr_Ch4_0": {
+   "slots": 23,
+   "ok": true
+  },
+  "EventScr_Ch4_1": {
+   "slots": 80,
+   "ok": true
+  },
+  "EventScr_Ch4_10": {
+   "slots": 25,
+   "ok": true
+  },
+  "EventScr_Ch4_2": {
+   "slots": 40,
+   "ok": true
+  },
+  "EventScr_Ch4_BeginningScene": {
+   "slots": 126,
+   "ok": true
+  },
+  "EventScr_Ch5_0": {
+   "slots": 19,
+   "ok": true
+  },
+  "EventScr_Ch5_10": {
+   "slots": 21,
+   "ok": true
+  },
+  "EventScr_Ch5_11": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch5_5": {
+   "slots": 18,
+   "ok": true
+  },
+  "EventScr_Ch5_BeginningScene": {
+   "slots": 218,
+   "ok": true
+  },
+  "EventScr_Ch5_EndingScene": {
+   "slots": 56,
+   "ok": true
+  },
+  "EventScr_Ch5x_BeginningScene": {
+   "slots": 128,
+   "ok": true
+  },
+  "EventScr_Ch5x_EndingScene": {
+   "slots": 71,
+   "ok": true
+  },
+  "EventScr_Ch6_0": {
+   "slots": 47,
+   "ok": true
+  },
+  "EventScr_Ch6_1": {
+   "slots": 19,
+   "ok": true
+  },
+  "EventScr_Ch6_2": {
+   "slots": 28,
+   "ok": true
+  },
+  "EventScr_Ch6_BeginningScene": {
+   "slots": 138,
+   "ok": true
+  },
+  "EventScr_Ch6_EndingScene": {
+   "slots": 39,
+   "ok": true
+  },
+  "EventScr_Ch7_BeginningScene": {
+   "slots": 92,
+   "ok": true
+  },
+  "EventScr_Ch7_EndingScene": {
+   "slots": 81,
+   "ok": true
+  },
+  "EventScr_Ch8_0": {
+   "slots": 26,
+   "ok": true
+  },
+  "EventScr_Ch8_10": {
+   "slots": 84,
+   "ok": true
+  },
+  "EventScr_Ch8_11": {
+   "slots": 97,
+   "ok": true
+  },
+  "EventScr_Ch8_BeginningScene": {
+   "slots": 123,
+   "ok": true
+  },
+  "EventScr_Ch9A_2": {
+   "slots": 16,
+   "ok": true
+  },
+  "EventScr_Ch9A_4": {
+   "slots": 37,
+   "ok": true
+  },
+  "EventScr_Ch9B_9": {
+   "slots": 16,
+   "ok": true
+  },
+  "EventScr_Ch9a_BeginningScene": {
+   "slots": 178,
+   "ok": true
+  },
+  "EventScr_Ch9a_EndingScene": {
+   "slots": 101,
+   "ok": true
+  },
+  "EventScr_FloorClearInTower": {
+   "slots": 23,
+   "ok": true
+  },
+  "EventScr_GiveTreasureToLuckyDog": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_MapSupportConversation": {
+   "slots": 16,
+   "ok": true
+  },
+  "EventScr_Prologue_BeginningScene": {
+   "slots": 53,
+   "ok": true
+  },
+  "EventScr_Prologue_EndingScene": {
+   "slots": 22,
+   "ok": true
+  },
+  "EventScr_Prologue_GiveRapier": {
+   "slots": 17,
+   "ok": true
+  },
+  "EventScr_Prologue_OneEnemyLeft": {
+   "slots": 21,
+   "ok": true
+  },
+  "EventScr_Prologue_RenaisThroneCutscene": {
+   "slots": 233,
+   "ok": true
+  },
+  "EventScr_Prologue_TutEirikaAttack": {
+   "slots": 28,
+   "ok": true
+  },
+  "EventScr_Prologue_TutMessageTurn2": {
+   "slots": 37,
+   "ok": true
+  },
+  "EventScr_Prologue_Tutorial0": {
+   "slots": 30,
+   "ok": true
+  },
+  "EventScr_Prologue_Tutorial1": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Prologue_Tutorial4": {
+   "slots": 32,
+   "ok": true
+  },
+  "EventScr_Prologue_TutorialA": {
+   "slots": 30,
+   "ok": true
+  },
+  "EventScr_Prologue_TutorialB": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ruin_54": {
+   "slots": 401,
+   "ok": true
+  },
+  "EventScr_Ruin_56": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ruin_58": {
+   "slots": 21,
+   "ok": true
+  },
+  "EventScr_Ruin_60": {
+   "slots": 33,
+   "ok": true
+  },
+  "EventScr_Ruin_62": {
+   "slots": 27,
+   "ok": true
+  },
+  "EventScr_Ruin_64": {
+   "slots": 39,
+   "ok": true
+  },
+  "EventScr_Ruin_66": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_Ruin_68": {
+   "slots": 36,
+   "ok": true
+  },
+  "EventScr_Ruin_70": {
+   "slots": 25,
+   "ok": true
+  },
+  "EventScr_Ruin_72": {
+   "slots": 42,
+   "ok": true
+  },
+  "EventScr_Ruin_74": {
+   "slots": 33,
+   "ok": true
+  },
+  "EventScr_Ruin_76": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_SkirmishRetreat": {
+   "slots": 24,
+   "ok": true
+  },
+  "EventScr_SuspendPrompt": {
+   "slots": 19,
+   "ok": false
+  },
+  "EventScr_Tutorial_Exec1": {
+   "slots": 37,
+   "ok": true
+  }
+ }
+}
