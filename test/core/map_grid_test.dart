@@ -10,7 +10,7 @@ import 'dart:typed_data';
 import 'package:fe8r/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const String _jsonPath = 'assets/maps/prologue.json';
+const String _jsonPath = 'assets/maps/PrologueMap.json';
 const String _marPath =
     'third_party/fireemblem8j/graphics/map/layout/PrologueMap.mar';
 

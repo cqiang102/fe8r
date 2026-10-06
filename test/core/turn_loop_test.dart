@@ -11,7 +11,7 @@ import 'package:fe8r/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 MapGrid _map() =>
-    MapGrid.parse(File('assets/maps/prologue.json').readAsStringSync());
+    MapGrid.parse(File('assets/maps/PrologueMap.json').readAsStringSync());
 
 MovementCostTable _flat() {
   final c = List<int>.filled(65, 1);

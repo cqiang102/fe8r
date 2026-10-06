@@ -1,0 +1,822 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="22" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="Ch16Map_metatiles" tilewidth="16" tileheight="16" tilecount="112" columns="32">
+  <image source="Ch16Map.metatiles.png" width="512" height="64" />
+  <tile id="0">
+   <properties>
+    <property name="metatile" type="int" value="2" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="metatile" type="int" value="33" />
+    <property name="terrain" value="TERRAIN_CHEST_FULL" />
+    <property name="terrain_id" type="int" value="33" />
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="metatile" type="int" value="34" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="metatile" type="int" value="98" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="metatile" type="int" value="107" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="metatile" type="int" value="130" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="metatile" type="int" value="162" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="metatile" type="int" value="194" />
+    <property name="terrain" value="TERRAIN_FOREST" />
+    <property name="terrain_id" type="int" value="12" />
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="metatile" type="int" value="195" />
+    <property name="terrain" value="TERRAIN_FOREST" />
+    <property name="terrain_id" type="int" value="12" />
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="metatile" type="int" value="224" />
+    <property name="terrain" value="TERRAIN_FOREST" />
+    <property name="terrain_id" type="int" value="12" />
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="metatile" type="int" value="321" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="metatile" type="int" value="354" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="metatile" type="int" value="386" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="metatile" type="int" value="419" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="metatile" type="int" value="421" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="metatile" type="int" value="422" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="metatile" type="int" value="426" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="metatile" type="int" value="430" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="metatile" type="int" value="433" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="metatile" type="int" value="451" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="metatile" type="int" value="452" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="metatile" type="int" value="453" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="metatile" type="int" value="454" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="metatile" type="int" value="459" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="metatile" type="int" value="460" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="metatile" type="int" value="480" />
+    <property name="terrain" value="TERRAIN_DOOR" />
+    <property name="terrain_id" type="int" value="30" />
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="metatile" type="int" value="483" />
+    <property name="terrain" value="TERRAIN_STAIRS" />
+    <property name="terrain_id" type="int" value="45" />
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="metatile" type="int" value="484" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="metatile" type="int" value="491" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="metatile" type="int" value="493" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="metatile" type="int" value="521" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="metatile" type="int" value="522" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="metatile" type="int" value="525" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="metatile" type="int" value="548" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="metatile" type="int" value="552" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="metatile" type="int" value="553" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="metatile" type="int" value="554" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="metatile" type="int" value="583" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="metatile" type="int" value="586" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="metatile" type="int" value="595" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="metatile" type="int" value="608" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="metatile" type="int" value="609" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="metatile" type="int" value="614" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="metatile" type="int" value="615" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="metatile" type="int" value="624" />
+    <property name="terrain" value="TERRAIN_THRONE" />
+    <property name="terrain_id" type="int" value="31" />
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="metatile" type="int" value="625" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="metatile" type="int" value="627" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="metatile" type="int" value="640" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="metatile" type="int" value="641" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="metatile" type="int" value="647" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="metatile" type="int" value="656" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="metatile" type="int" value="657" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="metatile" type="int" value="665" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="metatile" type="int" value="666" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="metatile" type="int" value="672" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="metatile" type="int" value="673" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="56">
+   <properties>
+    <property name="metatile" type="int" value="686" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="metatile" type="int" value="688" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="58">
+   <properties>
+    <property name="metatile" type="int" value="689" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="59">
+   <properties>
+    <property name="metatile" type="int" value="690" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="60">
+   <properties>
+    <property name="metatile" type="int" value="691" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="61">
+   <properties>
+    <property name="metatile" type="int" value="710" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="62">
+   <properties>
+    <property name="metatile" type="int" value="719" />
+    <property name="terrain" value="TERRAIN_PILLAR" />
+    <property name="terrain_id" type="int" value="29" />
+   </properties>
+  </tile>
+  <tile id="63">
+   <properties>
+    <property name="metatile" type="int" value="724" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="64">
+   <properties>
+    <property name="metatile" type="int" value="729" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="65">
+   <properties>
+    <property name="metatile" type="int" value="730" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="metatile" type="int" value="737" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="metatile" type="int" value="739" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="metatile" type="int" value="740" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="69">
+   <properties>
+    <property name="metatile" type="int" value="742" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="70">
+   <properties>
+    <property name="metatile" type="int" value="754" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="71">
+   <properties>
+    <property name="metatile" type="int" value="756" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="metatile" type="int" value="760" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="metatile" type="int" value="761" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="metatile" type="int" value="762" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="75">
+   <properties>
+    <property name="metatile" type="int" value="775" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="76">
+   <properties>
+    <property name="metatile" type="int" value="779" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="77">
+   <properties>
+    <property name="metatile" type="int" value="783" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="78">
+   <properties>
+    <property name="metatile" type="int" value="784" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="79">
+   <properties>
+    <property name="metatile" type="int" value="785" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="metatile" type="int" value="786" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="metatile" type="int" value="787" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="metatile" type="int" value="790" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="83">
+   <properties>
+    <property name="metatile" type="int" value="794" />
+    <property name="terrain" value="TERRAIN_PLAINS" />
+    <property name="terrain_id" type="int" value="1" />
+   </properties>
+  </tile>
+  <tile id="84">
+   <properties>
+    <property name="metatile" type="int" value="810" />
+    <property name="terrain" value="TERRAIN_BRACE" />
+    <property name="terrain_id" type="int" value="63" />
+   </properties>
+  </tile>
+  <tile id="85">
+   <properties>
+    <property name="metatile" type="int" value="813" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="metatile" type="int" value="818" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="metatile" type="int" value="820" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="88">
+   <properties>
+    <property name="metatile" type="int" value="821" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="89">
+   <properties>
+    <property name="metatile" type="int" value="822" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="metatile" type="int" value="823" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="91">
+   <properties>
+    <property name="metatile" type="int" value="824" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="92">
+   <properties>
+    <property name="metatile" type="int" value="825" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="93">
+   <properties>
+    <property name="metatile" type="int" value="858" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="94">
+   <properties>
+    <property name="metatile" type="int" value="866" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="95">
+   <properties>
+    <property name="metatile" type="int" value="867" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="96">
+   <properties>
+    <property name="metatile" type="int" value="870" />
+    <property name="terrain" value="TERRAIN_FLOOR_REGULAR" />
+    <property name="terrain_id" type="int" value="23" />
+   </properties>
+  </tile>
+  <tile id="97">
+   <properties>
+    <property name="metatile" type="int" value="896" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="metatile" type="int" value="897" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="metatile" type="int" value="898" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="100">
+   <properties>
+    <property name="metatile" type="int" value="953" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="101">
+   <properties>
+    <property name="metatile" type="int" value="954" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="metatile" type="int" value="955" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="103">
+   <properties>
+    <property name="metatile" type="int" value="956" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="104">
+   <properties>
+    <property name="metatile" type="int" value="957" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="105">
+   <properties>
+    <property name="metatile" type="int" value="963" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="metatile" type="int" value="985" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="107">
+   <properties>
+    <property name="metatile" type="int" value="986" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="108">
+   <properties>
+    <property name="metatile" type="int" value="987" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="109">
+   <properties>
+    <property name="metatile" type="int" value="988" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="110">
+   <properties>
+    <property name="metatile" type="int" value="989" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+  <tile id="111">
+   <properties>
+    <property name="metatile" type="int" value="1015" />
+    <property name="terrain" value="TERRAIN_WALL_REGULAR" />
+    <property name="terrain_id" type="int" value="26" />
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="1" name="terrain" width="22" height="28">
+  <data encoding="csv">
+32,17,17,17,17,17,17,17,28,43,42,38,103,104,105,38,43,42,28,18,17,28,
+37,82,81,81,81,81,81,81,29,101,102,44,109,110,111,44,101,102,29,82,2,29,
+37,79,80,80,80,80,80,80,24,107,108,76,107,112,108,76,107,108,24,79,81,24,
+37,79,28,18,26,28,79,80,29,82,81,34,51,45,57,34,87,81,29,79,2,29,
+28,26,24,82,81,24,79,80,24,79,51,40,58,47,59,40,52,80,24,79,81,24,
+70,20,24,79,80,24,79,80,29,79,58,60,61,47,60,61,59,80,29,79,2,29,
+44,20,29,79,80,24,79,80,38,79,80,58,59,46,58,59,80,80,38,79,81,38,
+76,20,29,79,80,24,21,22,44,38,79,80,58,47,59,80,80,38,44,21,22,44,
+62,54,37,79,80,24,82,81,76,44,21,23,23,23,23,23,22,44,76,21,22,76,
+53,66,37,79,80,24,79,80,34,76,21,23,23,23,23,23,22,76,77,87,81,34,
+64,32,17,26,25,30,79,80,80,34,87,81,81,81,81,81,81,34,71,80,80,80,
+83,37,82,81,81,24,79,80,80,80,80,80,80,80,80,80,80,80,63,79,63,79,
+83,39,79,2,79,33,17,28,79,80,28,18,17,17,17,17,31,79,78,71,78,71,
+83,37,79,81,80,24,96,85,79,80,85,96,95,95,95,95,29,79,80,80,80,80,
+84,37,79,80,80,24,82,34,71,80,34,87,81,81,81,81,33,17,17,17,17,31,
+4,37,79,28,19,30,79,80,80,80,80,80,80,80,80,80,28,96,95,95,95,24,
+6,39,20,44,43,35,17,28,79,80,28,18,17,31,79,80,85,82,81,81,81,24,
+10,39,27,50,98,41,42,44,79,80,44,43,42,29,79,80,34,71,80,80,80,29,
+10,37,91,97,92,99,100,50,21,22,50,98,100,29,79,80,80,80,80,80,80,29,
+6,37,88,90,89,92,93,97,92,93,97,92,93,33,17,17,17,17,31,79,80,29,
+7,28,18,31,88,89,90,63,88,63,88,90,89,24,43,48,49,42,11,79,80,29,
+10,70,43,24,88,89,89,86,94,86,94,89,14,24,98,55,56,28,12,79,80,29,
+6,44,98,28,18,17,17,17,28,18,17,17,17,28,106,68,69,85,13,71,80,29,
+7,76,106,70,43,48,49,42,70,43,48,49,42,70,1,74,73,15,16,80,80,29,
+75,62,5,44,98,55,56,100,44,98,55,56,100,44,1,65,83,16,16,80,80,29,
+64,53,75,76,106,68,69,67,76,106,68,69,67,76,3,65,83,16,28,18,17,36,
+64,64,66,62,8,9,8,10,62,10,10,8,9,62,74,64,83,28,70,43,48,49,
+64,64,64,53,72,53,72,53,72,72,53,53,53,72,64,64,66,70,44,98,55,56
+</data>
+ </layer>
+</map>

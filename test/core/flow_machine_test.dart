@@ -15,7 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// 造一张全平原的小地图（用真实导出的那张，保证地形数据是真的）
 MapGrid _testMap() =>
-    MapGrid.parse(File('assets/maps/prologue.json').readAsStringSync());
+    MapGrid.parse(File('assets/maps/PrologueMap.json').readAsStringSync());
 
 /// 全地形消耗 1，便于手算移动范围
 MovementCostTable _flatCosts() {

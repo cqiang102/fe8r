@@ -174,7 +174,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('LOMA');
+          await s.loadMap(63);
           pc = 9;
           continue;
         case 9:
@@ -206,7 +206,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('LOMA');
+          await s.loadMap(27);
           pc = 17;
           continue;
         case 17:
@@ -789,7 +789,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.placeholder('CLEN');
     s.placeholder('UNIT_COLORS');
     s.setSlot(11, 1048583);
-    s.placeholder('LOMA');
+    await s.loadMap(11);
     s.loadUnits(1, Sym('UnitDef_Ch10ANPC'));
     s.placeholder('ENUN');
     s.loadUnits(1, Sym('UnitDef_Ch10AEnemy_0'));
@@ -1471,7 +1471,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('LOMA');
+          await s.loadMap(65);
           pc = 34;
           continue;
         case 34:
@@ -2700,7 +2700,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 88;
           continue;
         case 88:
-          s.placeholder('LOMA');
+          await s.loadMap(15);
           pc = 89;
           continue;
         case 89:
@@ -4418,7 +4418,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('LOMA');
+          await s.loadMap(64);
           pc = 3;
           continue;
         case 3:
@@ -4542,7 +4542,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('LOMA');
+          await s.loadMap(66);
           pc = 34;
           continue;
         case 34:
@@ -5159,7 +5159,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('LOMA');
+          await s.loadMap(66);
           pc = 13;
           continue;
         case 13:
@@ -5247,7 +5247,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          s.placeholder('LOMA');
+          await s.loadMap(16);
           pc = 35;
           continue;
         case 35:
@@ -5371,7 +5371,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 65;
           continue;
         case 65:
-          s.placeholder('LOMA');
+          await s.loadMap(67);
           pc = 66;
           continue;
         case 66:
@@ -5511,7 +5511,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 100;
           continue;
         case 100:
-          s.placeholder('LOMA');
+          await s.loadMap(16);
           pc = 101;
           continue;
         case 101:
@@ -5623,7 +5623,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 128;
           continue;
         case 128:
-          s.placeholder('LOMA');
+          await s.loadMap(71);
           pc = 129;
           continue;
         case 129:
@@ -5939,7 +5939,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 208;
           continue;
         case 208:
-          s.placeholder('LOMA');
+          await s.loadMap(16);
           pc = 209;
           continue;
         case 209:
@@ -6627,7 +6627,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          s.placeholder('LOMA');
+          await s.loadMap(72);
           pc = 36;
           continue;
         case 36:
@@ -6738,7 +6738,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 63;
           continue;
         case 63:
-          s.placeholder('LOMA');
+          await s.loadMap(19);
           pc = 64;
           continue;
         case 64:
@@ -6752,7 +6752,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 67;
           continue;
         case 67:
-          s.placeholder('LOMA');
+          await s.loadMap(32);
           pc = 68;
           continue;
         case 68:
@@ -10873,7 +10873,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('ASMC');
     s.placeholder('MUSC');
     s.setSlot(11, 262154);
-    s.placeholder('LOMA');
+    await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('BROWNBOXTEXT');
     s.placeholder('CURSOR_AT');
@@ -10881,7 +10881,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('CURE');
     await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(11, 262155);
-    s.placeholder('LOMA');
+    await s.loadMap(9);
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_1'));
     s.placeholder('ENUN');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -10907,7 +10907,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 786452);
-    s.placeholder('LOMA');
+    await s.loadMap(7);
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_1'));
     s.placeholder('ENUN');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -10925,7 +10925,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 458761);
-    s.placeholder('LOMA');
+    await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_2'));
     s.placeholder('ENUN');
@@ -10947,7 +10947,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 458766);
-    s.placeholder('LOMA');
+    await s.loadMap(5);
     s.loadUnits(1, Sym('frontier_df4_banim_b_075_90A050'));
     s.placeholder('ENUN');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -11006,7 +11006,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 262154);
-    s.placeholder('LOMA');
+    await s.loadMap(8);
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_2'));
     s.placeholder('ENUN');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -11799,7 +11799,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
 Future<void> Ch7_EndingScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(11, 0);
-    s.placeholder('LOMA');
+    await s.loadMap(68);
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -11905,7 +11905,7 @@ Future<void> Ch8_10(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 1310734);
-    s.placeholder('LOMA');
+    await s.loadMap(78);
     s.placeholder('UNIT_COLORS');
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_3'));
     s.placeholder('ENUN');
@@ -11941,7 +11941,7 @@ Future<void> Ch8_10(Scene s) async {
     await s.fade(FadeDirection.toWhite, 2);
     s.placeholder('REMA');
     s.setSlot(11, 1310734);
-    s.placeholder('LOMA');
+    await s.loadMap(6);
     s.placeholder('UNIT_COLORS');
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
     s.placeholder('ENUN');
@@ -12353,7 +12353,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('LOMA');
+          await s.loadMap(69);
           pc = 8;
           continue;
         case 8:
@@ -12467,7 +12467,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('LOMA');
+          await s.loadMap(10);
           pc = 37;
           continue;
         case 37:
@@ -13277,7 +13277,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('LOMA');
+          await s.loadMap(65535);
           pc = 10;
           continue;
         case 10:
@@ -14033,7 +14033,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
 /// `EventScr_Prologue_RenaisThroneCutscene`
 Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.setSlot(11, 655374);
-    s.placeholder('LOMA');
+    await s.loadMap(16);
     s.loadUnits(2, Sym('UnitDef_Event_PrologueThroneRoomUnits'));
     s.placeholder('ENUN');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -14110,7 +14110,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 0);
-    s.placeholder('LOMA');
+    await s.loadMap(64);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('UnitDef_Event_PrologueEscapees'));
     s.placeholder('ENUN');
@@ -14203,7 +14203,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 0);
-    s.placeholder('LOMA');
+    await s.loadMap(0);
     await s.fade(FadeDirection.fromBlack, 16);
     return;
 }
@@ -15254,7 +15254,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('LOMA');
+          await s.loadMap(0);
           pc = 5;
           continue;
         case 5:
@@ -15288,7 +15288,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('LOMA');
+          await s.loadMap(1);
           pc = 14;
           continue;
         case 14:
@@ -15322,7 +15322,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('LOMA');
+          await s.loadMap(2);
           pc = 23;
           continue;
         case 23:
@@ -15356,7 +15356,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('LOMA');
+          await s.loadMap(3);
           pc = 32;
           continue;
         case 32:
@@ -15390,7 +15390,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('LOMA');
+          await s.loadMap(4);
           pc = 41;
           continue;
         case 41:
@@ -15424,7 +15424,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 49;
           continue;
         case 49:
-          s.placeholder('LOMA');
+          await s.loadMap(6);
           pc = 50;
           continue;
         case 50:
@@ -15458,7 +15458,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('LOMA');
+          await s.loadMap(7);
           pc = 59;
           continue;
         case 59:
@@ -15492,7 +15492,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 67;
           continue;
         case 67:
-          s.placeholder('LOMA');
+          await s.loadMap(8);
           pc = 68;
           continue;
         case 68:
@@ -15526,7 +15526,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('LOMA');
+          await s.loadMap(9);
           pc = 77;
           continue;
         case 77:
@@ -15560,7 +15560,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 85;
           continue;
         case 85:
-          s.placeholder('LOMA');
+          await s.loadMap(10);
           pc = 86;
           continue;
         case 86:
@@ -15594,7 +15594,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 94;
           continue;
         case 94:
-          s.placeholder('LOMA');
+          await s.loadMap(11);
           pc = 95;
           continue;
         case 95:
@@ -15628,7 +15628,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 103;
           continue;
         case 103:
-          s.placeholder('LOMA');
+          await s.loadMap(12);
           pc = 104;
           continue;
         case 104:
@@ -15662,7 +15662,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 112;
           continue;
         case 112:
-          s.placeholder('LOMA');
+          await s.loadMap(13);
           pc = 113;
           continue;
         case 113:
@@ -15696,7 +15696,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 121;
           continue;
         case 121:
-          s.placeholder('LOMA');
+          await s.loadMap(14);
           pc = 122;
           continue;
         case 122:
@@ -15730,7 +15730,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 130;
           continue;
         case 130:
-          s.placeholder('LOMA');
+          await s.loadMap(15);
           pc = 131;
           continue;
         case 131:
@@ -15764,7 +15764,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 139;
           continue;
         case 139:
-          s.placeholder('LOMA');
+          await s.loadMap(16);
           pc = 140;
           continue;
         case 140:
@@ -15798,7 +15798,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 148;
           continue;
         case 148:
-          s.placeholder('LOMA');
+          await s.loadMap(17);
           pc = 149;
           continue;
         case 149:
@@ -15832,7 +15832,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 157;
           continue;
         case 157:
-          s.placeholder('LOMA');
+          await s.loadMap(18);
           pc = 158;
           continue;
         case 158:
@@ -15866,7 +15866,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 166;
           continue;
         case 166:
-          s.placeholder('LOMA');
+          await s.loadMap(19);
           pc = 167;
           continue;
         case 167:
@@ -15900,7 +15900,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 175;
           continue;
         case 175:
-          s.placeholder('LOMA');
+          await s.loadMap(20);
           pc = 176;
           continue;
         case 176:
@@ -15934,7 +15934,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 184;
           continue;
         case 184:
-          s.placeholder('LOMA');
+          await s.loadMap(21);
           pc = 185;
           continue;
         case 185:
@@ -15968,7 +15968,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 193;
           continue;
         case 193:
-          s.placeholder('LOMA');
+          await s.loadMap(23);
           pc = 194;
           continue;
         case 194:
@@ -16002,7 +16002,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 202;
           continue;
         case 202:
-          s.placeholder('LOMA');
+          await s.loadMap(24);
           pc = 203;
           continue;
         case 203:
@@ -16036,7 +16036,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 211;
           continue;
         case 211:
-          s.placeholder('LOMA');
+          await s.loadMap(25);
           pc = 212;
           continue;
         case 212:
@@ -16070,7 +16070,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 220;
           continue;
         case 220:
-          s.placeholder('LOMA');
+          await s.loadMap(26);
           pc = 221;
           continue;
         case 221:
@@ -16104,7 +16104,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 229;
           continue;
         case 229:
-          s.placeholder('LOMA');
+          await s.loadMap(27);
           pc = 230;
           continue;
         case 230:
@@ -16138,7 +16138,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 238;
           continue;
         case 238:
-          s.placeholder('LOMA');
+          await s.loadMap(28);
           pc = 239;
           continue;
         case 239:
@@ -16172,7 +16172,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 247;
           continue;
         case 247:
-          s.placeholder('LOMA');
+          await s.loadMap(29);
           pc = 248;
           continue;
         case 248:
@@ -16206,7 +16206,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 256;
           continue;
         case 256:
-          s.placeholder('LOMA');
+          await s.loadMap(30);
           pc = 257;
           continue;
         case 257:
@@ -16240,7 +16240,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 265;
           continue;
         case 265:
-          s.placeholder('LOMA');
+          await s.loadMap(31);
           pc = 266;
           continue;
         case 266:
@@ -16274,7 +16274,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 274;
           continue;
         case 274:
-          s.placeholder('LOMA');
+          await s.loadMap(32);
           pc = 275;
           continue;
         case 275:
@@ -16308,7 +16308,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 283;
           continue;
         case 283:
-          s.placeholder('LOMA');
+          await s.loadMap(33);
           pc = 284;
           continue;
         case 284:
@@ -16342,7 +16342,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 292;
           continue;
         case 292:
-          s.placeholder('LOMA');
+          await s.loadMap(34);
           pc = 293;
           continue;
         case 293:
@@ -16369,7 +16369,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 299;
           continue;
         case 299:
-          s.placeholder('LOMA');
+          await s.loadMap(60);
           pc = 300;
           continue;
         case 300:

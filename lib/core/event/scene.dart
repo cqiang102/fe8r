@@ -88,6 +88,36 @@ class ShowText extends SceneEvent {
       '${pageCount > 1 ? ' 第${pageIndex + 1}/$pageCount页' : ''})';
 }
 
+/// 换地图（`LOMA`）。
+///
+/// ## 出处：`src/eventscr_0800F390.c:45-68`（`Event25_ChangeMap`）
+///
+/// ```c
+/// chIndex = current[1];              // ← 操作数是 **chapterIndex**
+/// gPlaySt.chapterIndex = chIndex;
+/// RestartBattleMap();                // 用新章节号重建地图
+/// ```
+///
+/// ⚠️ **不是资产 id。** 序章的 `EventScr_Prologue_RenaisThroneCutscene`
+/// 靠三次 `LOMA` 换三张图：
+///
+///     LOMA(0x10) → 章节 16 (E15) → Ch16Map          ← 王座厅（王宫内）
+///     LOMA(0x40) → 章节 64 (0x40) → GradoCastleMap  ← 王宫外
+///     LOMA(0)    → 章节 0  (L00) → PrologueMap      ← 可玩地图
+///
+/// 我之前把 `LOMA` 当占位，于是**地图从来没换过** —— 一直在画
+/// `PrologueMap`（绿草地），而前两段剧情本该在王座厅和王宫外。
+class LoadMap extends SceneEvent {
+  const LoadMap({required this.chapterIndex, required this.scriptName});
+
+  /// `chapterIndex`（不是资产 id）
+  final int chapterIndex;
+  final String scriptName;
+
+  @override
+  String toString() => 'LoadMap(chapter $chapterIndex)';
+}
+
 /// 是/否选择（`[Yes]`(24) / `[No]`(25)）。
 ///
 /// ## 出处
@@ -384,6 +414,10 @@ class Scene {
   }
 
   Future<void> stall(int frames) => onEvent(Stall(frames));
+
+  /// 换地图（`LOMA`）。操作数是 **chapterIndex**（`src/eventscr_0800F390.c:54`）。
+  Future<void> loadMap(int chapterIndex) =>
+      onEvent(LoadMap(chapterIndex: chapterIndex, scriptName: currentScript));
 
   /// 淡入/淡出。
   ///

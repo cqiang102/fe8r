@@ -4,7 +4,7 @@
 //
 //   graphics/map/layout/PrologueMap.mar              （GBA 二进制）
 //     → tools/pipeline/extract/map_tmx.py            （数据管线）
-//     → prologue.tmx + 图集 PNG                       → flame_tiled → 画面
+//     → PrologueMap.tmx + 图集 PNG                       → flame_tiled → 画面
 //     → prologue.json                                 → lib/core    → 规则
 //
 // ⚠️ 注意这里**两条线是分开的**：
@@ -117,6 +117,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   EventVm? eventVm;
   EventVmState? eventState;
   SceneView? _sceneView;
+
+  /// 当前地图组件（`LOMA` 换图时要换掉它）
+  TiledComponent? _tiled;
+
+  /// 章节表 —— `LOMA` 路由的第一跳（`chapterIndex` → `internalName`）
+  Chapters? chapters;
   final HudView _hudView = const HudView();
   bool _showDialogue = false;
 
@@ -243,7 +249,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     try {
       // 1) 规则层数据（纯 Dart，可单独测试，不依赖 Flame）
       final grid = MapGrid.parse(
-        await rootBundle.loadString('assets/maps/prologue.json'),
+        await rootBundle.loadString('assets/maps/PrologueMap.json'),
       );
       map = grid;
 
@@ -255,12 +261,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 我们统一放在 assets/maps/ 下，所以两个都覆盖掉。
       const assetPrefix = 'assets/maps/';
       final tiled = await TiledComponent.load(
-        'prologue.tmx',
+        'PrologueMap.tmx',
         Vector2.all(metatileSize),
         prefix: assetPrefix,
         images: Images(prefix: assetPrefix),
       );
       world.add(tiled);
+      _tiled = tiled;
 
       // 3) 相机：把整张地图装进视口，保持像素锐利
       final mapSize = Vector2(
@@ -297,6 +304,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _sceneView = SceneView(onHudChanged: _updateHud);
       // 脸编号 → 角色名（表就是可读的 C 源码里的符号名）
       _sceneView!.loadFaceIds('tools/pipeline/out/tables/face_ids.json');
+      _loadChapterMaps();
+      _loadChapters();
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
 
@@ -443,6 +452,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _updateSceneDialogue();
         _sceneWait = Completer<void>();
         await _sceneWait!.future;
+        case LoadMap(:final chapterIndex):
+          // ⚠️ 操作数是 **chapterIndex**（`src/eventscr_0800F390.c:45-68`）。
+          // 路由：chapterIndex → chapters.json 的 internalName
+          //       → chapter_maps.json 的 map 名 → TMX
+          await _loadChapterMap(chapterIndex);
+
         case Choice(:final defaultYes):
           // ⚠️ 结果是 **0=取消 / 1=是 / 2=否**，写进**槽 0xC**
           // （`src/eventscr.c:123` `gEventSlots[0xC] = GetTalkChoiceResult();`）
@@ -497,6 +512,92 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static const String realSceneName = 'EventScr_Prologue_BeginningScene';
 
   /// 把当前这句对白画进对话框
+  /// 换地图：`LOMA(chapterIndex)`。
+  ///
+  /// 两跳查表（都由数据管线产出）：
+  ///   `chapterIndex` → `chapters.json[].internalName`
+  ///                  → `chapter_maps.json[internalName].map` → `out/tmx/<map>.tmx`
+  ///
+  /// 出处：`src/eventscr_0800F390.c:45-68` —— 操作数是 **chapterIndex**，
+  /// 不是资产 id；序章靠三次 `LOMA` 在王座厅 → 王宫外 → 可玩地图之间切。
+  Future<void> _loadChapterMap(int chapterIndex) async {
+    final name = chapterInternalName(chapterIndex);
+    final mapName = chapterMapName(name);
+    if (mapName == null) {
+      sceneMapNote = 'LOMA($chapterIndex) → 章节 $name 没有地图名';
+      _updateHud();
+      return;
+    }
+    // 资源在 `assets/maps/`（与 `TiledComponent` 的默认查找前缀一致）
+    if (!File('assets/maps/$mapName.tmx').existsSync()) {
+      sceneMapNote = 'LOMA($chapterIndex) → assets/maps/$mapName.tmx 不存在';
+      _updateHud();
+      return;
+    }
+    await _swapMap(mapName);
+    sceneMapNote = 'LOMA($chapterIndex) → $mapName';
+    _updateHud();
+  }
+
+  /// 章节号 → 内部名（`chapters.json`）
+  String chapterInternalName(int index) {
+    for (final c in chapters?.list ?? const <ChapterData>[]) {
+      if (c.index == index) return c.internalName;
+    }
+    return '-';
+  }
+
+  /// 内部名 → 地图名（`chapter_maps.json`）
+  String? chapterMapName(String internalName) => _chapterMaps[internalName];
+
+  Map<String, String> _chapterMaps = const {};
+  String sceneMapNote = '';
+
+  /// 加载章节表（ 路由第一跳）
+  void _loadChapters() {
+    final f = File('tools/pipeline/out/tables/chapters.json');
+    if (!f.existsSync()) return;
+    chapters = Chapters.parse(f.readAsStringSync());
+  }
+
+  /// 加载章节→地图表
+  void _loadChapterMaps() {
+    final f = File('tools/pipeline/out/tables/chapter_maps.json');
+    if (!f.existsSync()) return;
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    final ch = d['chapters'] as Map<String, dynamic>;
+    _chapterMaps = {
+      for (final e in ch.entries)
+        e.key: ((e.value as Map<String, dynamic>)['map'] as String),
+    };
+  }
+
+  /// 换掉当前地图组件。
+  ///
+  /// 出处：`src/eventscr_0800F390.c:64-72` 的 `RestartBattleMap()`
+  /// —— 换章节号之后整个战场地图重建，相机也重新居中。
+  Future<void> _swapMap(String mapName) async {
+    const assetPrefix = 'assets/maps/';
+    final t = await TiledComponent.load(
+      '$mapName.tmx',
+      Vector2.all(metatileSize),
+      prefix: assetPrefix,
+      images: Images(prefix: assetPrefix),
+    );
+    final old = _tiled;
+    if (old != null) {
+      // 先加新的再删旧的 —— 反过来有**一帧没有地图**
+      world.add(t);
+      world.remove(old);
+      // 地图层要排在战场层下面
+      t.priority = -10;
+    } else {
+      world.add(t);
+      t.priority = -10;
+    }
+    _tiled = t;
+  }
+
   /// 弹一个"是/否"选择，返回 `TALK_CHOICE_*`（0=取消 / 1=是 / 2=否）。
   ///
   /// 原作是 `StartTalkChoice(gYesNoTalkChoice, ...)`

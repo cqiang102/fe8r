@@ -204,6 +204,15 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '立绘合成', 'true', const [], skip: true, note: decompNote),
 
+    // 章节号 → 地图名（LOMA 的操作数是 chapterIndex）
+    if (hasDecomp())
+      Step('L0', '章节→地图映射', 'python3',
+          ['extract/parse_chapter_maps.py'],
+          cwd: 'tools/pipeline', note: 'LOMA 路由：chapterIndex → internalName → map')
+    else
+      Step('L0', '章节→地图映射（跳过）', 'true', const [], skip: true,
+          note: decompNote),
+
     // 脸编号 → 角色名（表项是**可读的 C 源码**）
     if (hasDecomp())
       Step('L0', '脸编号映射', 'python3',

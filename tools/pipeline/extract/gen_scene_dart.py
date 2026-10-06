@@ -182,6 +182,10 @@ def stmt(op, A):
     if op.startswith("MOVE") and not op.startswith("MOVERANGE"):
         return (f"s.moveUnit('{op}', {lst(A)});", True)
 
+    # 换地图 —— 操作数是 **chapterIndex**（`src/eventscr_0800F390.c:54`）
+    if op == "LOMA":
+        return (f"await s.loadMap({num(A[0]) if A else 0});", False)
+
     if op == "STAL":
         return (f"await s.stall({num(A[0])});", False)
 
