@@ -47,17 +47,33 @@ class UnitComponent extends PositionComponent {
   /// 是否属于当前行动阵营
   bool isActive;
 
-  /// 把新的快照灌进来（组件本身不重建）
+  /// 把新的快照灌进来（组件本身不重建）。
+  ///
+  /// ⚠️ **不直接设 position** —— 位置交给 [moveTo]，那里用 Flame 的
+  /// `MoveToEffect` 做补间。直接赋值会让"逻辑上已经走了格、画面上瞬移"
+  /// 这个现象无法消除。
   void sync({
     required MapUnit next,
     required bool selected,
     required bool active,
-    required Vector2 at,
   }) {
     unit = next;
     isSelected = selected;
     isActive = active;
-    position = at;
+  }
+
+  /// 平滑移动到目标位置。
+  ///
+  /// 用 Flame 的 `MoveToEffect` 而不是自己 `dt` 累加 ——
+  /// 白拿 pause / reset / onComplete，且与光标闪烁风格统一。
+  void moveTo(Vector2 destination, {double seconds = 0.18, bool instant = false}) {
+    // 先把上一个移动效果清掉：不清会两个效果同时改 position，抖。
+    removeAll(children.whereType<MoveToEffect>().toList());
+    if (instant || seconds <= 0) {
+      position = destination;
+      return;
+    }
+    add(MoveToEffect(destination, EffectController(duration: seconds)));
   }
 
   @override

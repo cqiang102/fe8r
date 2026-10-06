@@ -84,8 +84,10 @@ class BattleView {
           next: e.value,
           selected: e.key == s.selectedUnitId,
           active: f.isControllable(e.value),
-          at: at,
         );
+        // 位置变了才补间 —— 否每帧都加效果会互相打断。
+        // 逻辑位置由 `lib/core` 决定，这里只负责"画到那儿去"。
+        if (existing.position != at) existing.moveTo(at);
       } else {
         final c = UnitComponent(
           unit: e.value,

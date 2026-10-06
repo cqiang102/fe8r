@@ -12,6 +12,7 @@ import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
 import 'package:fe8r/game/battle_view.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// 最小可用的地图：10×10，全平原（地形 0 = TERRAIN_PLAINS，移动消耗 1）。
@@ -71,13 +72,13 @@ void main() {
           reason: '组件必须被复用 —— 不 identical 说明又回到"全拆全建"了');
     });
 
-    test('单位移动时只改 position，组件实例不变', () {
+    test('单位移动：实例不变，且**加了补间效果**而不是瞬移', () {
       final v = BattleView(tileSize: 16);
       final f = makeField();
 
       v.sync(makeState(), f, makeFlow());
       final c = unitOf(v, 1)!;
-      final before = c.position.clone();
+      c.position = Vector2(1 * 16, 1 * 16);
 
       // 把单位挪一格（core 的 `moveUnit` 会改坐标）
       f.units.first.x = 3;
@@ -86,8 +87,32 @@ void main() {
 
       final after = unitOf(v, 1)!;
       expect(identical(c, after), isTrue, reason: '实例必须不变');
-      expect(after.position, isNot(before), reason: '位置必须跟着更新');
-      expect(after.position, Vector2(3 * 16, 4 * 16));
+
+      // ⚠️ 位置**不再瞬移** —— 加的是 `MoveToEffect`。
+      // 这条断言是这一轮改动的核心：以前是直接赋 position，
+      // 现在交给 Flame 的效果系统做补间。
+      final fx = after.children.whereType<MoveToEffect>().toList();
+      expect(fx, isNotEmpty,
+          reason: '移动应当加补间效果 —— 空了说明又退回"瞬移"');
+
+      // 还没到位 —— 证明**没有瞬移**（效果要等 `update` 才推进）
+      expect(after.position, isNot(Vector2(3 * 16, 4 * 16)),
+          reason: '刚加效果时不该已经到位（那说明又退回瞬移了）');
+      // 注：这里**不**调 `updateTree` 去推进效果 ——
+      // `MoveToEffect` 需要组件已挂载（`EffectTarget.target` 会取父组件），
+      // 而单测里组件是独立的。推进效果属于 Flame 自己的测试范围。
+    });
+
+    test('瞬移（instant）直接到位，不加效果', () {
+      final c = UnitComponent(
+        unit: MapUnit(id: 9, faction: Faction.blue, x: 0, y: 0, name: 'x'),
+        tileSize: 16,
+        isSelected: false,
+        isActive: true,
+      );
+      c.moveTo(Vector2(32, 48), instant: true);
+      expect(c.position, Vector2(32, 48));
+      expect(c.children.whereType<MoveToEffect>(), isEmpty);
     });
 
     test('单位死亡后组件被移除', () {

@@ -547,6 +547,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
       // 先走 x 再走 y —— 简单的 L 形路径。
       // 真实寻路（绕开障碍）属于后续；M6 验证的是"事件能驱动单位移动"。
+      //
+      // ⚠️ 这里只改**逻辑坐标**。画面上那一步步的移动由 `BattleView`
+      // 的 `MoveToEffect` 补间负责（`_rebuildOverlay` → `BattleView.sync`
+      // 会发现位置变了并加效果）。**逻辑与表现分开**，
+      // 以前是"瞬移一格 + 每 0.18 秒重建一次画面"。
       if (u.x != tx) {
         f.moveUnit(u, u.x + (tx > u.x ? 1 : -1), u.y);
       } else {
