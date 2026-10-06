@@ -154,6 +154,15 @@ def cmd_apply(a):
     return 0
 
 
+def load_non_text():
+    """读"不是文本"的槽位清单（解码错误 / 未使用槽）"""
+    p = os.path.join(HERE, "non_text.json")
+    if not os.path.exists(p):
+        return {}
+    with open(p, encoding="utf-8") as f:
+        return json.load(f).get("ids", {})
+
+
 def cmd_verify(a):
     texts = load_texts()
     if not os.path.exists(OUT):
@@ -176,7 +185,17 @@ def cmd_verify(a):
                 print(f"  ✗ {k} 译文里含控制码：{r[:40]!r}", file=sys.stderr); bad += 1
                 break
 
-    print(f"  已译 {len(msgs)} 条，问题 {bad} 条")
+    # 「不是文本」的槽位不该被翻译 —— 翻了就是把乱码固化进译文
+    nt = load_non_text()
+    for k in nt:
+        if k in msgs:
+            print(f"  ✗ {k} 在 non_text.json 里登记为乱码，却有译文", file=sys.stderr)
+            bad += 1
+
+    total = len([1 for v in texts.values() if any(r.strip() for r in runs_of(v))])
+    cover = len(msgs) * 100 // total if total else 0
+    print(f"  已译 {len(msgs)} / {total}（{cover}%），问题 {bad} 条")
+    print(f"  已登记的乱码槽位 {len(nt)} 个（跳过，不计入未译）")
     return 1 if bad else 0
 
 

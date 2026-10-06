@@ -208,7 +208,9 @@ class TitleView extends PositionComponent {
       case TitleScreen.saveSlot:
         return [
           for (var i = 0; i < 3; i++)
-            MenuEntry(flow.ui('ファイル${i + 1}')),
+            // ⚠️ **全角数字** —— 术语表的 key 是「ファイル１」，
+            // 用半角 `${i + 1}` 拼出来的字符串匹配不上，界面会一直是日文
+            MenuEntry(flow.ui('ファイル${_fullWidth(i + 1)}')),
         ];
       default:
         return const [];
@@ -254,6 +256,10 @@ class TitleView extends PositionComponent {
   String _label(MainMenuItem o) {
     return flow.ui(_labelJp(o));
   }
+
+  /// 半角数字转全角（原作的字面量用全角）
+  static String _fullWidth(int n) =>
+      const ['０', '１', '２', '３', '４', '５', '６', '７', '８', '９'][n];
 
   static String _labelJp(MainMenuItem o) {
     switch (o) {
