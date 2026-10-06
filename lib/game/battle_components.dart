@@ -281,14 +281,23 @@ class DialogueBoxComponent extends PositionComponent {
         ..color = const Color(0xFF8FA8C8),
     );
 
-    final tp = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: TextStyle(color: const Color(0xFFF0F4FA), fontSize: size.y * 0.22),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout(maxWidth: size.x - 16);
-    tp.paint(canvas, const Offset(8, 8));
+    // 按 `\n` 分行画 —— 对白里的 `[LF]` 会变成换行，
+    // 交给 TextPainter 自动折行的话行数不可控、容易溢出框。
+    final fontSize = (size.y * 0.15).clamp(11.0, 18.0);
+    const lineH = 20.0;
+    var y = 10.0;
+    for (final line in text.split('\n')) {
+      if (y + lineH > size.y - 4) break;
+      final tp = TextPainter(
+        text: TextSpan(
+          text: line,
+          style: TextStyle(color: const Color(0xFFF0F4FA), fontSize: fontSize),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout(maxWidth: size.x - 20);
+      tp.paint(canvas, Offset(10, y));
+      y += lineH;
+    }
   }
 
   void _face(Canvas canvas, int? id, int side) {

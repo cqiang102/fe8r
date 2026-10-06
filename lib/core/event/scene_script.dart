@@ -171,9 +171,15 @@ class GameMessage {
   final int id;
   final List<TextSegment> segments;
 
-  /// 去掉控制码的纯文字
-  String get plain =>
-      segments.whereType<TextRun>().map((r) => r.text).join();
+  /// 去掉控制码的纯文字。
+  ///
+  /// `[LF]` 换成换行 —— 它在原文里就是"这一行到此为止"，
+  /// 抹掉会让所有对白挤成一坨。
+  String get plain => segments.map((s) {
+        if (s is TextRun) return s.text;
+        final c = s as TextControl;
+        return c.isLineBreak ? '\n' : '';
+      }).join().trim();
 
   bool get isEmpty => plain.trim().isEmpty;
 }

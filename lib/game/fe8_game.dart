@@ -37,6 +37,31 @@ class Fe8Game extends FlameGame {
   /// 当前地图的**规则层**数据。表现层与规则层在这里汇合。
   MapGrid? map;
 
+  // ---- 场景剧情（从源码解析的真实剧本）----
+  //
+  // 与 `eventVm` 是**两条不同的输入**：
+  //   * `eventVm` 执行打包成字的章节事件表
+  //   * `sceneRunner` 执行从源码逐行解析的场景脚本
+  // 场景脚本这条路没有指针问题（参数就是名字），所以先把它跑起来。
+
+  SceneScripts? sceneScripts;
+  GameTexts? gameTexts;
+  SceneRunner? sceneRunner;
+
+  /// 正在演出的场景：一连串"要显示的对白"
+  List<ShowText> _sceneTexts = const [];
+  int _sceneIndex = 0;
+
+  /// 是否处于场景演出模式（与 `eventVm` 的剧情模式分开）
+  bool get inScene => _sceneTexts.isNotEmpty;
+
+  /// 本次演出的汇总（缺了什么、跳过了什么）—— 供 HUD 显示
+  SceneResult? lastSceneResult;
+
+  /// 当前该显示的对白
+  ShowText? get currentSceneText =>
+      _sceneIndex < _sceneTexts.length ? _sceneTexts[_sceneIndex] : null;
+
   /// 战场（单位 + 回合）
   BattleField? field;
 
@@ -91,6 +116,21 @@ class Fe8Game extends FlameGame {
 
   @override
   Color backgroundColor() => const Color(0xFF101418);
+
+  /// 加载真实剧本与文本（不存在就返回 null —— 不静默用假数据顶替）
+  void _loadSceneData() {
+    try {
+      final sf = File('tools/pipeline/out/tables/scene_scripts.json');
+      final tf = File('tools/pipeline/out/tables/texts.json');
+      if (!sf.existsSync() || !tf.existsSync()) return;
+      sceneScripts = SceneScripts.parse(sf.readAsStringSync());
+      gameTexts = GameTexts.parse(tf.readAsStringSync());
+      sceneRunner = SceneRunner(scenes: sceneScripts!, texts: gameTexts!);
+    } catch (e) {
+      // 读失败就当作没有 —— 但**不吞掉**，写进 status 让人看得见
+      status.value = '剧本加载失败: $e';
+    }
+  }
 
   @override
   Future<void> onLoad() async {
@@ -161,6 +201,8 @@ class Fe8Game extends FlameGame {
       debugPrint('[Fe8Game] 加载失败: $e\n$st');
       rethrow;
     }
+
+    _loadSceneData();
   }
 
   /// 按脚本驱动一串输入（调试 / 视觉验证用）。
@@ -252,10 +294,70 @@ class Fe8Game extends FlameGame {
   }
 
   /// 开始剧情演出
+  ///
+  /// 优先演**真实场景脚本**（如果加载到了），否则退回 `eventVm` 的演示脚本。
   void startDialogue() {
+    final r = _startRealScene();
+    if (r) return;
     if (eventVm == null) return;
     _showDialogue = true;
     _pumpEvent();
+  }
+
+  /// 演出真实场景：序章开场。
+  ///
+  /// 返回 false 表示数据没加载到（那就退回演示脚本，而不是假装成功）。
+  bool _startRealScene() {
+    final runner = sceneRunner;
+    if (runner == null) return false;
+    if (!runner.scenes.scripts.containsKey(realSceneName)) return false;
+
+    lastSceneResult = runner.run(realSceneName);
+    _sceneTexts = lastSceneResult!.texts;
+    if (_sceneTexts.isEmpty) return false;
+
+    _sceneIndex = 0;
+    _showDialogue = true;
+    _updateSceneDialogue();
+    return true;
+  }
+
+  /// 该演的脚本 —— 序章开场。这是原作剧情的第一段。
+  static const String realSceneName = 'EventScr_Prologue_BeginningScene';
+
+  /// 把当前这句对白画进对话框
+  void _updateSceneDialogue() {
+    final layer = _overlayLayer;
+    final cam = camera.viewport.virtualSize;
+    if (layer == null) return;
+
+    if (_dialogue != null) {
+      layer.remove(_dialogue!);
+      _dialogue = null;
+    }
+    final cur = currentSceneText;
+    if (!_showDialogue || cur == null) {
+      _updateHud();
+      return;
+    }
+
+    final m = cur.message;
+    // 立绘：文本里的 `[LoadFace]0xNNN]` 就是脸编号
+    int? face;
+    for (final seg in m.segments.whereType<TextControl>()) {
+      if (seg.isLoadFace && seg.arg != null) face = seg.arg;
+    }
+
+    final boxH = cam.y * 0.30;
+    _dialogue = DialogueBoxComponent(
+      text: m.plain.replaceAll('\n', ''),
+      hostFaceId: face,
+      guestFaceId: null,
+      boxWidth: cam.x * 0.90,
+      boxHeight: boxH,
+    )..position = Vector2(cam.x * 0.05, cam.y * 0.66);
+    layer.add(_dialogue!);
+    _updateHud();
   }
 
   /// 推进剧情：跑引擎直到"等玩家"或结束，然后重画对话框。
@@ -378,6 +480,18 @@ class Fe8Game extends FlameGame {
 
   /// 玩家按键推进对白
   void advanceDialogue() {
+    // 场景模式：按键 → 下一句
+    if (inScene) {
+      if (_sceneIndex + 1 < _sceneTexts.length) {
+        _sceneIndex++;
+        _updateSceneDialogue();
+      } else {
+        _showDialogue = false;
+        _updateSceneDialogue();
+      }
+      return;
+    }
+
     final vm = eventVm;
     final st = eventState;
     if (vm == null || st == null) return;
@@ -682,6 +796,19 @@ class Fe8Game extends FlameGame {
   List<ActionOption> menuOptions(FlowState s, BattleField f) =>
       flow?.availableActions(s, f) ?? const [ActionOption.wait];
 
+  /// HUD 上关于场景的一行（没有场景时为空）
+  String get sceneHudLine {
+    if (!inScene) return '';
+    final cur = currentSceneText;
+    final total = _sceneTexts.length;
+    final miss = lastSceneResult?.missing.length ?? 0;
+    final skip = lastSceneResult?.skipped.length ?? 0;
+    return '剧情 ${_sceneIndex + 1}/$total'
+        '  文本=0x${cur?.message.id.toRadixString(16) ?? '-'}'
+        '${miss > 0 ? '  缺$miss' : ''}'
+        '${skip > 0 ? '  未实现指令$skip种' : ''}';
+  }
+
   void _updateHud() {
     final s = state;
     final f = field;
@@ -694,6 +821,21 @@ class Fe8Game extends FlameGame {
     final menu = s.phase == FlowPhase.actionMenu
         ? '  [${menuOptions(s, f).map((o) => o.label).join(' / ')}]'
         : (s.phase == FlowPhase.selectTarget ? '  选择目标' : '');
+    // ★ 场景模式（真实剧本）优先于演示剧情
+    if (inScene) {
+      final cur = currentSceneText;
+      final r = lastSceneResult;
+      final miss = (r?.missing.toList() ?? const <String>[])..sort();
+      final skip = (r?.skipped.entries.toList() ?? const <MapEntry<String, int>>[])
+        ..sort((a, b) => b.value.compareTo(a.value));
+      hud.value = '$sceneHudLine'
+          '\n【${cur?.scriptName ?? '-'}】'
+          '\n${cur?.message.plain ?? ''}'
+          '${miss.isEmpty ? '' : '\n缺: ${miss.take(3).join(' ')}'}'
+          '${skip.isEmpty ? '' : '\n未实现指令: ${skip.take(4).map((e) => '${e.key}×${e.value}').join(' ')}'}';
+      return;
+    }
+
     final ev = eventState;
     if (_showDialogue && ev != null) {
       // 把单位坐标也放进来：剧情里"角色有没有走到位"是这一轮要验证的核心，

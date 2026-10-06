@@ -41,8 +41,15 @@ DECOMP = os.path.join(REPO, "third_party", "fireemblem8j")
 
 SRC = "texts/jp_texts.txt"
 
-# 控制码：`[Name]` 或 `[Name]` 后跟一个十六进制操作数（如 `[LoadFace]0104]`）
-CTRL = re.compile(r"\[([A-Za-z_][A-Za-z0-9_]*)\](?:([0-9A-Fa-f]{2,8})\])?")
+# 控制码有**两种**写法：
+#   1. `[Name]`        如 `[LF]` / `[A]` / `[OpenMidLeft]`
+#   2. `[Name]<hex>]`  如 `[LoadFace]0104]` —— 带操作数
+#
+# ⚠️ 还有第三种第一版漏掉的：**`[$XXXX]`** —— 形如 `[$0152]`，
+# 名字位置上是一个 `$` 加十六进制。漏掉它的后果在截图里一眼可见：
+# 对话框上原样显示 `[$0152][$016B][$0080]ほ　報告致します！`。
+CTRL = re.compile(
+    r"\[(\$?[0-9A-Fa-f]{2,6}|[A-Za-z_][A-Za-z0-9_]*)\](?:([0-9A-Fa-f]{2,8})\])?")
 
 
 def parse_message(body):
@@ -57,6 +64,7 @@ def parse_message(body):
     for m in CTRL.finditer(body):
         if m.start() > pos:
             segs.append({"t": body[pos:m.start()]})
+        # `[$0152]` 这类也走控制码通道，**不当文字显示出去**
         seg = {"c": m.group(1)}
         if m.group(2):
             seg["arg"] = int(m.group(2), 16)
