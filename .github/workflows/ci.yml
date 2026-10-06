@@ -89,6 +89,13 @@ jobs:
               tail -120 ci.log
               echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
+            # 同时发成 ::error:: 注释 —— 这是**唯一确认能读到**的通道。
+            # job summary 在页面上是动态加载的，抓不到；
+            # annotations 之前能读到（"2 errors, 3 warnings"）。
+            # 注意：::error:: 不能带换行，所以逐行发。
+            tail -40 ci.log | while IFS= read -r line; do
+              echo "::error::${line}"
+            done
           fi
           exit "$status"
 
@@ -141,6 +148,13 @@ jobs:
               tail -120 ci.log
               echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
+            # 同时发成 ::error:: 注释 —— 这是**唯一确认能读到**的通道。
+            # job summary 在页面上是动态加载的，抓不到；
+            # annotations 之前能读到（"2 errors, 3 warnings"）。
+            # 注意：::error:: 不能带换行，所以逐行发。
+            tail -40 ci.log | while IFS= read -r line; do
+              echo "::error::${line}"
+            done
           fi
           exit "$status"
 
