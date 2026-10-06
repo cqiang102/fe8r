@@ -1,0 +1,369 @@
+{
+ "tsa": "graphics/battle_forecast/gBattleForecast_0.tsa.bin",
+ "size": [
+  80,
+  72
+ ],
+ "portraits": {
+  "Aias": {
+   "w": 80,
+   "h": 72
+  },
+  "Amelia": {
+   "w": 80,
+   "h": 72
+  },
+  "Anna": {
+   "w": 80,
+   "h": 72
+  },
+  "Arena": {
+   "w": 80,
+   "h": 72
+  },
+  "Armoury": {
+   "w": 80,
+   "h": 72
+  },
+  "Artur": {
+   "w": 80,
+   "h": 72
+  },
+  "Bandit_1": {
+   "w": 80,
+   "h": 72
+  },
+  "Bazba": {
+   "w": 80,
+   "h": 72
+  },
+  "Beran": {
+   "w": 80,
+   "h": 72
+  },
+  "Binks": {
+   "w": 80,
+   "h": 72
+  },
+  "Bone": {
+   "w": 80,
+   "h": 72
+  },
+  "Breguet": {
+   "w": 80,
+   "h": 72
+  },
+  "Caellach": {
+   "w": 80,
+   "h": 72
+  },
+  "Carlyle": {
+   "w": 80,
+   "h": 72
+  },
+  "Colm": {
+   "w": 80,
+   "h": 72
+  },
+  "Cormag": {
+   "w": 80,
+   "h": 72
+  },
+  "Dozla": {
+   "w": 80,
+   "h": 72
+  },
+  "Duessel": {
+   "w": 80,
+   "h": 72
+  },
+  "Eirika": {
+   "w": 80,
+   "h": 72
+  },
+  "Ephraim": {
+   "w": 80,
+   "h": 72
+  },
+  "Ewan": {
+   "w": 80,
+   "h": 72
+  },
+  "Fado": {
+   "w": 80,
+   "h": 72
+  },
+  "Forde": {
+   "w": 80,
+   "h": 72
+  },
+  "Franz": {
+   "w": 80,
+   "h": 72
+  },
+  "Frelia_Knight": {
+   "w": 80,
+   "h": 72
+  },
+  "Garcia": {
+   "w": 80,
+   "h": 72
+  },
+  "Gerik": {
+   "w": 80,
+   "h": 72
+  },
+  "Gheb": {
+   "w": 80,
+   "h": 72
+  },
+  "Gilliam": {
+   "w": 80,
+   "h": 72
+  },
+  "Glen": {
+   "w": 80,
+   "h": 72
+  },
+  "Hayden": {
+   "w": 80,
+   "h": 72
+  },
+  "Innes": {
+   "w": 80,
+   "h": 72
+  },
+  "Ismaire": {
+   "w": 80,
+   "h": 72
+  },
+  "Joshua": {
+   "w": 80,
+   "h": 72
+  },
+  "Klimt": {
+   "w": 80,
+   "h": 72
+  },
+  "Knoll": {
+   "w": 80,
+   "h": 72
+  },
+  "Kyle": {
+   "w": 80,
+   "h": 72
+  },
+  "L_Arachel": {
+   "w": 80,
+   "h": 72
+  },
+  "Lute": {
+   "w": 80,
+   "h": 72
+  },
+  "Lyon": {
+   "w": 80,
+   "h": 72
+  },
+  "Lyon_evil": {
+   "w": 80,
+   "h": 72
+  },
+  "Man_Unused": {
+   "w": 80,
+   "h": 72
+  },
+  "Mansel": {
+   "w": 80,
+   "h": 72
+  },
+  "Marisa": {
+   "w": 80,
+   "h": 72
+  },
+  "Morva": {
+   "w": 80,
+   "h": 72
+  },
+  "Moulder": {
+   "w": 80,
+   "h": 72
+  },
+  "Murray": {
+   "w": 80,
+   "h": 72
+  },
+  "Myrrh": {
+   "w": 80,
+   "h": 72
+  },
+  "Myrrh_with_wing": {
+   "w": 80,
+   "h": 72
+  },
+  "Mystery_1": {
+   "w": 80,
+   "h": 72
+  },
+  "Mystery_faded": {
+   "w": 80,
+   "h": 72
+  },
+  "Natasha": {
+   "w": 80,
+   "h": 72
+  },
+  "Neimi": {
+   "w": 80,
+   "h": 72
+  },
+  "Novala": {
+   "w": 80,
+   "h": 72
+  },
+  "O_Neill": {
+   "w": 80,
+   "h": 72
+  },
+  "Orson": {
+   "w": 80,
+   "h": 72
+  },
+  "Orson_drugged": {
+   "w": 80,
+   "h": 72
+  },
+  "Pablo": {
+   "w": 80,
+   "h": 72
+  },
+  "Rennac": {
+   "w": 80,
+   "h": 72
+  },
+  "Riev": {
+   "w": 80,
+   "h": 72
+  },
+  "Ross": {
+   "w": 80,
+   "h": 72
+  },
+  "Saar": {
+   "w": 80,
+   "h": 72
+  },
+  "Saleh": {
+   "w": 80,
+   "h": 72
+  },
+  "Saleh_Grandma": {
+   "w": 80,
+   "h": 72
+  },
+  "Secret_Shop": {
+   "w": 80,
+   "h": 72
+  },
+  "Selena": {
+   "w": 80,
+   "h": 72
+  },
+  "Seth": {
+   "w": 80,
+   "h": 72
+  },
+  "Soldier_1": {
+   "w": 80,
+   "h": 72
+  },
+  "Syrene": {
+   "w": 80,
+   "h": 72
+  },
+  "Tana": {
+   "w": 80,
+   "h": 72
+  },
+  "Tethys": {
+   "w": 80,
+   "h": 72
+  },
+  "Tirado": {
+   "w": 80,
+   "h": 72
+  },
+  "Valter": {
+   "w": 80,
+   "h": 72
+  },
+  "Vanessa": {
+   "w": 80,
+   "h": 72
+  },
+  "Vendor": {
+   "w": 80,
+   "h": 72
+  },
+  "Vigarde_dead": {
+   "w": 80,
+   "h": 72
+  },
+  "Vigarde_healthy": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Girl_Black_Hair": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Girl_Brown_Hair": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Girl_Young": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Man_1": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Man_2": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Man_3": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Man_4": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Old_Man": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Old_Woman": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Woman": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Young_Boy": {
+   "w": 80,
+   "h": 72
+  },
+  "Villager_Young_Man": {
+   "w": 80,
+   "h": 72
+  },
+  "Zonta": {
+   "w": 80,
+   "h": 72
+  }
+ }
+}
