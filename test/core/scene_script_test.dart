@@ -130,4 +130,77 @@ void main() {
       expect(withFace, isNotEmpty, reason: '应当有加载立绘的对白');
     });
   });
+
+  _runnerGroup();
+}
+
+// ---------------------------------------------------------------------------
+// 场景执行：这是"序章能不能跑"的**可验证判据**
+//
+// 不用等到渲染接好才知道对不对 —— 走一遍脚本，看头几句话是否按预期出来。
+// ---------------------------------------------------------------------------
+void _runnerGroup() {
+  group('场景执行（序章能不能跑）', () {
+    late SceneScripts scenes;
+    late GameTexts texts;
+    late SceneRunner runner;
+
+    setUpAll(() {
+      scenes = SceneScripts.parse(
+          File('tools/pipeline/out/tables/scene_scripts.json').readAsStringSync());
+      texts = GameTexts.parse(
+          File('tools/pipeline/out/tables/texts.json').readAsStringSync());
+      runner = SceneRunner(scenes: scenes, texts: texts);
+    });
+
+    test('序章开场能走完，并产出对白', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      expect(r.texts, isNotEmpty, reason: '序章开场应当有对白');
+      expect(r.events.last, isA<SceneFinished>());
+    });
+
+    test('产出的文本能对上真实内容', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      final all = r.texts.map((t) => t.message.plain).join('\n');
+      // 序章开场里有"越过前面的桥就是弗蕾莉亚领地"
+      expect(all.contains('フレリア領'), isTrue,
+          reason: '序章开场的对白应当包含フレリア領');
+    });
+
+    test('`[A]` 会变成显式的 WaitForInput（渲染层要知道何时停下等按键）', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      expect(r.events.whereType<WaitForInput>(), isNotEmpty);
+    });
+
+    test('`CALL` 会切进被调用的脚本（王座过场的对白也要出现）', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      final names = r.texts.map((t) => t.scriptName).toSet();
+      expect(names, contains('EventScr_Prologue_RenaisThroneCutscene'),
+          reason: '序章第一句 CALL 就是王座过场，它的对白应当被执行');
+    });
+
+    test('**缺失的引用被如实带出来**（这是跑不通的原因）', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      // 这 3 个在反编译项目里没有定义 —— 通过 SVAL 间接引用
+      expect(r.missing, contains('EventScr_Prologue_EirikaAttacked'));
+      // 但"缺了"不等于"崩了"：脚本仍然走完并产出了对白
+      expect(r.texts, isNotEmpty);
+    });
+
+    test('不认识的指令被记下来，而不是静默吞掉', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      // 真实脚本里必然有些指令执行器还没实现
+      expect(r.skipped, isNotEmpty,
+          reason: '如果这里空了，说明所有指令都实现了 —— 那时该更新结论');
+    });
+
+    test('整条链的产出：序章开场的剧本片段', () {
+      final r = runner.run('EventScr_Prologue_BeginningScene');
+      final t = r.transcript(limit: 6);
+      expect(t, isNotEmpty);
+      // 打印出来供人阅读 —— 这是"理解剧情"这条线的最终产物
+      // ignore: avoid_print
+      print('\n── 序章开场（前 6 段）──\n$t\n');
+    });
+  });
 }
