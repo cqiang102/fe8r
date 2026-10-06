@@ -933,7 +933,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final fl = flow;
     final v = _battleView;
     if (v == null || s == null || f == null || fl == null) return;
-    v.rebuild(s, f, fl);
+    v.sync(s, f, fl);
   }
 
 

@@ -29,101 +29,170 @@ class BattleView {
   /// 战场层 —— 挂在 `world` 里（相机空间，跟着地图走）
   final PositionComponent layer = PositionComponent();
 
-  final List<UnitComponent> _units = [];
+  /// 单位组件按 `unit.id` 复用（不再每次输入全拆全建）
+  final Map<int, UnitComponent> _unitById = {};
+  String? _menuSignature;
   CursorComponent? _cursor;
   MovementRangeComponent? _range;
   ActionMenuComponent? _menu;
   final List<TargetMarkerComponent> _markers = [];
 
   int get componentCount =>
-      _units.length + _markers.length + (_cursor != null ? 1 : 0);
+      _unitById.length + _markers.length + (_cursor != null ? 1 : 0);
 
-  /// 按当前状态重建。
+  /// 把 core 的结论同步到组件树。
   ///
-  /// 刻意**不增量更新** —— 增量更新写错会让画面与状态不一致，
-  /// 而那种 bug 极难查。全量重建的开销在这个规模下可以忽略。
-  void rebuild(FlowState s, BattleField f, FlowMachine fl) {
-    layer.removeAll(_units);
-    _units.clear();
-    if (_cursor != null) {
-      layer.remove(_cursor!);
-      _cursor = null;
-    }
-    if (_range != null) {
-      layer.remove(_range!);
-      _range = null;
-    }
-    if (_menu != null) {
-      layer.remove(_menu!);
-      _menu = null;
-    }
-    layer.removeAll(_markers);
-    _markers.clear();
+  /// ## 为什么是"同步"而不是"重建"
+  ///
+  /// 原来这里是 `rebuild()`：把整棵组件树拆掉重建。
+  /// **那是把 Flame 当画图 API 用** —— 组件本该有自己的状态与生命周期，
+  /// 而且全拆全建会让任何跨帧的表现（移动动画、淡入）都做不了，
+  /// 因为组件在动画进行中就被销毁了。
+  ///
+  /// 现在是**按 id 复用**：
+  ///   * 单位按 `unit.id` 复用 —— 位置变化只是改 `position`，
+  ///     将来接 `MoveToEffect` 就能补间
+  ///   * 光标 / 范围 / 菜单 / 标记是**瞬态**的（只在某个阶段存在），
+  ///     按需建删，但仍然只在"该不该出现"变化时才动组件树
+  void sync(FlowState s, BattleField f, FlowMachine fl) {
+    _syncUnits(s, f);
+    _syncRange(s, fl);
+    _syncTargets(s, f, fl);
+    _syncMenu(s, f, fl);
+    _syncCursor(s, f, fl);
+  }
 
-    // 移动范围画在单位下面
-    final range = fl.currentRange;
-    if (range != null && s.phase == FlowPhase.unitSelected) {
-      _range = MovementRangeComponent(range: range, tileSize: tileSize);
-      layer.add(_range!);
-    }
+  void _syncUnits(FlowState s, BattleField f) {
+    final alive = <int, MapUnit>{
+      for (final u in f.units)
+        if (u.isAlive) u.id: u,
+    };
 
-    for (final u in f.units) {
-      if (!u.isAlive) continue;
-      final c = UnitComponent(
-        unit: u,
-        tileSize: tileSize,
-        isSelected: u.id == s.selectedUnitId,
-        isActive: f.isControllable(u),
-      );
-      c.position = Vector2(u.x * tileSize, u.y * tileSize);
-      layer.add(c);
-      _units.add(c);
-    }
-
-    // 选目标阶段：标出所有可选目标，光标停在当前那个
-    if (s.phase == FlowPhase.selectTarget) {
-      final unit = f.unitById(s.selectedUnitId);
-      if (unit != null) {
-        final ax = s.pendingX ?? unit.x;
-        final ay = s.pendingY ?? unit.y;
-        final targets = fl.validTargets(f, unit, ax, ay);
-        final idx =
-            s.targetIndex.clamp(0, targets.isEmpty ? 0 : targets.length - 1);
-        for (final t in targets) {
-          final m = TargetMarkerComponent(tileSize: tileSize)
-            ..position = Vector2(t.x * tileSize, t.y * tileSize);
-          layer.add(m);
-          _markers.add(m);
-        }
-        if (targets.isNotEmpty) {
-          final t = targets[idx];
-          _cursor = CursorComponent(tileSize: tileSize)
-            ..position = Vector2(t.x * tileSize, t.y * tileSize);
-          layer.add(_cursor!);
-          return;
-        }
+    // 死了的移除
+    for (final id in _unitById.keys.toList()) {
+      if (!alive.containsKey(id)) {
+        layer.remove(_unitById.remove(id)!);
       }
     }
 
-    // 行动菜单：画在"落点那一格"的右边
-    if (s.phase == FlowPhase.actionMenu) {
-      final opts = fl.availableActions(s, f);
-      final px = s.pendingX ?? s.cursorX;
-      final py = s.pendingY ?? s.cursorY;
-      _menu = ActionMenuComponent(
-        options: opts,
-        selectedIndex: s.actionIndex.clamp(0, opts.length - 1),
-        tileSize: tileSize,
-      )..position = Vector2((px + 1) * tileSize, py * tileSize);
-      layer.add(_menu!);
-      _cursor = CursorComponent(tileSize: tileSize)
-        ..position = Vector2(px * tileSize, py * tileSize);
-      layer.add(_cursor!);
+    // 活着的：有就更新，没有就加
+    for (final e in alive.entries) {
+      final at = Vector2(e.value.x * tileSize, e.value.y * tileSize);
+      final existing = _unitById[e.key];
+      if (existing != null) {
+        existing.sync(
+          next: e.value,
+          selected: e.key == s.selectedUnitId,
+          active: f.isControllable(e.value),
+          at: at,
+        );
+      } else {
+        final c = UnitComponent(
+          unit: e.value,
+          tileSize: tileSize,
+          isSelected: e.key == s.selectedUnitId,
+          isActive: f.isControllable(e.value),
+        )..position = at;
+        layer.add(c);
+        _unitById[e.key] = c;
+      }
+    }
+  }
+
+  void _syncRange(FlowState s, FlowMachine fl) {
+    final range = fl.currentRange;
+    final want = range != null && s.phase == FlowPhase.unitSelected;
+    if (!want) {
+      if (_range != null) layer.remove(_range!);
+      _range = null;
       return;
     }
+    if (_range == null) {
+      _range = MovementRangeComponent(range: range, tileSize: tileSize);
+      layer.add(_range!);
+    }
+  }
 
-    _cursor = CursorComponent(tileSize: tileSize)
-      ..position = Vector2(s.cursorX * tileSize, s.cursorY * tileSize);
-    layer.add(_cursor!);
+  void _syncTargets(FlowState s, BattleField f, FlowMachine fl) {
+    final unit = s.phase == FlowPhase.selectTarget
+        ? f.unitById(s.selectedUnitId)
+        : null;
+    final targets = unit == null
+        ? const <MapUnit>[]
+        : fl.validTargets(f, unit, s.pendingX ?? unit.x, s.pendingY ?? unit.y);
+
+    // 目标集合变了才重建（数量与坐标都对比）
+    final same = targets.length == _markers.length &&
+        List.generate(targets.length,
+                (i) => _markers[i].position ==
+                    Vector2(targets[i].x * tileSize, targets[i].y * tileSize))
+            .every((x) => x);
+    if (same) return;
+
+    layer.removeAll(_markers);
+    _markers.clear();
+    for (final t in targets) {
+      final m = TargetMarkerComponent(tileSize: tileSize)
+        ..position = Vector2(t.x * tileSize, t.y * tileSize);
+      layer.add(m);
+      _markers.add(m);
+    }
+  }
+
+  void _syncMenu(FlowState s, BattleField f, FlowMachine fl) {
+    final want = s.phase == FlowPhase.actionMenu;
+    if (!want) {
+      if (_menu != null) layer.remove(_menu!);
+      _menu = null;
+      return;
+    }
+    final px = s.pendingX ?? s.cursorX;
+    final py = s.pendingY ?? s.cursorY;
+    // 菜单的**内容与选中项**会变 —— 但组件一建出来就固定了（它的子组件在
+    // onLoad 里建），所以内容变化时才重建。位置变化不算。
+    final opts = fl.availableActions(s, f);
+    final sig = '${opts.map((o) => o.label).join("|")}#${s.actionIndex}';
+    if (_menu != null && _menuSignature == sig) {
+      _menu!.position = Vector2((px + 1) * tileSize, py * tileSize);
+      return;
+    }
+    if (_menu != null) layer.remove(_menu!);
+    _menu = ActionMenuComponent(
+      options: opts,
+      selectedIndex: s.actionIndex.clamp(0, opts.length - 1),
+      tileSize: tileSize,
+    )..position = Vector2((px + 1) * tileSize, py * tileSize);
+    _menuSignature = sig;
+    layer.add(_menu!);
+  }
+
+  void _syncCursor(FlowState s, BattleField f, FlowMachine fl) {
+    // 光标位置：选目标时停在目标上，否则在 pending 或光标格
+    double cx = s.cursorX.toDouble();
+    double cy = s.cursorY.toDouble();
+    if (s.phase == FlowPhase.selectTarget) {
+      final unit = f.unitById(s.selectedUnitId);
+      if (unit != null) {
+        final targets = fl.validTargets(
+            f, unit, s.pendingX ?? unit.x, s.pendingY ?? unit.y);
+        if (targets.isNotEmpty) {
+          final idx = s.targetIndex.clamp(0, targets.length - 1);
+          cx = targets[idx].x.toDouble();
+          cy = targets[idx].y.toDouble();
+        }
+      }
+    } else if (s.phase == FlowPhase.actionMenu) {
+      cx = (s.pendingX ?? s.cursorX).toDouble();
+      cy = (s.pendingY ?? s.cursorY).toDouble();
+    }
+
+    final at = Vector2(cx * tileSize, cy * tileSize);
+    if (_cursor == null) {
+      _cursor = CursorComponent(tileSize: tileSize)..position = at;
+      layer.add(_cursor!);
+    } else {
+      // 光标是持久的 —— 只改位置。改完就能接 `MoveToEffect` 做平滑移动。
+      _cursor!.position = at;
+    }
   }
 }

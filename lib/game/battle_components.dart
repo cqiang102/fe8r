@@ -33,12 +33,32 @@ class UnitComponent extends PositionComponent {
     required this.isActive,
   }) : super(size: Vector2.all(tileSize));
 
-  final MapUnit unit;
   final double tileSize;
-  final bool isSelected;
+
+  /// ⚠️ **可变**：组件持久存在，状态变化时更新它而不是重建组件。
+  ///
+  /// 原来是 `final`（不可变快照），于是 `BattleView` 每次都得把整棵
+  /// 组件树拆掉重建 —— 那是把 Flame 当画图 API 用。
+  /// 组件本该有自己的状态与生命周期。
+  MapUnit unit;
+
+  bool isSelected;
 
   /// 是否属于当前行动阵营
-  final bool isActive;
+  bool isActive;
+
+  /// 把新的快照灌进来（组件本身不重建）
+  void sync({
+    required MapUnit next,
+    required bool selected,
+    required bool active,
+    required Vector2 at,
+  }) {
+    unit = next;
+    isSelected = selected;
+    isActive = active;
+    position = at;
+  }
 
   @override
   void render(Canvas canvas) {

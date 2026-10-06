@@ -221,8 +221,8 @@ Future<void> main(List<String> argv) async {
     //   chapters / unit_defs / chapter_events / event_vm / class_table /
     //   battle_round / combat / turn_loop / map_grid / movement_oracle /
     //   battle_oracle / phase_oracle / turn_switch_oracle / rng_oracle
-    Step('L1', '单元测试（全部 18 个套件）', 'flutter',
-        ['test', 'test/core'],
+    Step('L1', '单元测试（全部套件）', 'flutter',
+        ['test', 'test/core', 'test/game'],
         note: 'M1–M6：流程状态机 / 事件引擎 / 章节链路 / 战斗结算 / 回合循环'),
 
     // C Oracle 自身的自检：证明"判据"本身是可信的
