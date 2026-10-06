@@ -271,6 +271,26 @@ class GameMessage {
     return out;
   }
 
+  /// 这一页（`segments[..upto)`）里有没有 `[Yes]`(24) / `[No]`(25)。
+  ///
+  /// ⚠️ `[Yes]`/`[No]` 是**文本控制码**，不是事件指令 ——
+  /// 它们出现在 `TEXTSHOW` 的消息正文里，由文本引擎处理
+  /// （`src/TalkInterpret.c:207-231` 的 `StartTalkChoice`）。
+  ///
+  /// 我第一版把它当成事件指令去生成器里找，自然一个都找不到。
+  ///
+  /// 返回 `(有, 默认是否选"是")`：`[Yes]` 默认选是、`[No]` 默认选否。
+  (bool, bool) choiceInPage(int upto) {
+    for (var i = 0; i < upto && i < segments.length; i++) {
+      final seg = segments[i];
+      if (seg is TextControl) {
+        if (seg.name == 'Yes') return (true, true);
+        if (seg.name == 'No') return (true, false);
+      }
+    }
+    return (false, true);
+  }
+
   /// 在 [upto]（页界 token 下标）处结束这一页的，是不是 `[A]`（等按键）？
   ///
   /// `[A]` 等按键、`[CR]` 只是滚动清屏（`src/TalkInterpret.c:86-108`）。

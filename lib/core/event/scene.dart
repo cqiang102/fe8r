@@ -88,6 +88,42 @@ class ShowText extends SceneEvent {
       '${pageCount > 1 ? ' 第${pageIndex + 1}/$pageCount页' : ''})';
 }
 
+/// 是/否选择（`[Yes]`(24) / `[No]`(25)）。
+///
+/// ## 出处
+///
+/// `src/TalkInterpret.c:207-231`：
+///
+/// ```c
+/// case CHFE_L_Yes:
+///     StartTalkChoice(gYesNoTalkChoice, ..., 1, ...);   // 默认选"是"
+/// case CHFE_L_No:
+///     StartTalkChoice(gYesNoTalkChoice, ..., 2, ...);   // 默认选"否"
+/// ```
+///
+/// 结果写在 `sTalkChoiceResult`，文本事件结束时由
+/// `src/eventscr.c:123` 写进 **`gEventSlots[0xC]`**：
+///
+/// ```c
+/// gEventSlots[0xC] = GetTalkChoiceResult();
+/// ```
+///
+/// 取值 `TALK_CHOICE_CANCEL = 0` / `TALK_CHOICE_YES = 1` / `TALK_CHOICE_NO = 2`
+/// （`include/scene.h:39-41`）。
+class Choice extends SceneEvent {
+  const Choice({
+    required this.defaultYes,
+    required this.scriptName,
+  });
+
+  /// 默认选中项：`[Yes]` 为 true、`[No]` 为 false
+  final bool defaultYes;
+  final String scriptName;
+
+  @override
+  String toString() => 'Choice(默认${defaultYes ? '是' : '否'})';
+}
+
 /// 淡入/淡出（`FADU` / `FADI` / `FAWU` / `FAWI`）
 class Fade extends SceneEvent {
   const Fade({

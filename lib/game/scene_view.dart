@@ -41,6 +41,16 @@ class SceneView {
   /// 每个槽位上的立绘（**独立于对话框**）
   final Map<int, PortraitComponent> _portraits = {};
 
+  /// 记录一次选择的结果（`TALK_CHOICE_*`），用于 HUD 与调试。
+  void noteChoice(int answer) {
+    _lastChoice = answer;
+    onHudChanged();
+  }
+
+  int? _lastChoice;
+
+  int? get lastChoice => _lastChoice;
+
   /// 当前说话人的槽位（决定气泡尾巴朝向）。
   ///
   /// 出处：`src/scene_080087A4.c` 的 `StartTalkOpen` —— 它把

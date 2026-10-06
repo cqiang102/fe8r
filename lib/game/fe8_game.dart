@@ -219,6 +219,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       i = FlowInput.startDialogue;
     }
     if (i == null) return KeyEventResult.ignored;
+
+    // ⚠️ 有待决的选择时，Z/X **先**回答选择，不再走常规输入路由 ——
+    // 否则"确认"会被流程层吃掉，选择永远等不到回答。
+    final pending = _pendingChoice;
+    if (pending != null && !pending.isCompleted) {
+      if (i == FlowInput.confirm) {
+        pending.complete(1); // TALK_CHOICE_YES
+        return KeyEventResult.handled;
+      }
+      if (i == FlowInput.cancel) {
+        pending.complete(2); // TALK_CHOICE_NO
+        return KeyEventResult.handled;
+      }
+    }
+
     input(i);
     return KeyEventResult.handled;
   }
@@ -428,6 +443,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _updateSceneDialogue();
         _sceneWait = Completer<void>();
         await _sceneWait!.future;
+        case Choice(:final defaultYes):
+          // ⚠️ 结果是 **0=取消 / 1=是 / 2=否**，写进**槽 0xC**
+          // （`src/eventscr.c:123` `gEventSlots[0xC] = GetTalkChoiceResult();`）
+          // 而**不是**写进某个界面状态 —— 脚本接下来会读这个槽来分支。
+          final answer = await _askYesNo(defaultYes);
+          _sceneView?.noteChoice(answer);
+          eventState?.slots[0xC] = answer;
+
         case Fade(:final dir, :final speed):
           // 脚本阻塞到淡完 —— 见 src/Event17_Fade.c（四个分支都 ADVANCE_YIELD）
           await _sceneView?.fade(dir, speed, camera.viewport.virtualSize);
@@ -474,6 +497,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static const String realSceneName = 'EventScr_Prologue_BeginningScene';
 
   /// 把当前这句对白画进对话框
+  /// 弹一个"是/否"选择，返回 `TALK_CHOICE_*`（0=取消 / 1=是 / 2=否）。
+  ///
+  /// 原作是 `StartTalkChoice(gYesNoTalkChoice, ...)`
+  /// （`src/TalkInterpret.c:207-231`）。这里用 HUD 提示 + 键位：
+  /// **Z = 是、X = 否**（与确认/取消键一致）。
+  Future<int> _askYesNo(bool defaultYes) async {
+    final done = Completer<int>();
+    _pendingChoice = done;
+    _sceneHudExtra = '请选择：Z = 是　X = 否'
+        '（默认 ${defaultYes ? '是' : '否'}）';
+    _updateHud();
+    final r = await done.future;
+    _pendingChoice = null;
+    return r;
+  }
+
+  /// 有待决的选择吗（键盘路由用）
+  Completer<int>? _pendingChoice;
+
   /// 预热当前章节场景里会用到的立绘
   Future<void> _preloadScenePortraits() async {
     final sc = scene;
