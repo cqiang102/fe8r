@@ -386,16 +386,14 @@ class DialogueBoxComponent extends PositionComponent {
     );
     add(clip);
 
-    // 有立绘图就不放编号占位
-    if (guestPortrait == null) _addFaceLabel(guestFaceId, 0);
-    if (hostPortrait == null) _addFaceLabel(hostFaceId, 1);
+
   }
 
   @override
   void render(Canvas canvas) {
     // 立绘占位：左右各一个色块 + 编号
-    _face(canvas, guestFaceId, guestPortrait, 0);
-    _face(canvas, hostFaceId, hostPortrait, 1);
+    // NOTE: portraits are NOT drawn here - they are a separate layer
+    // (portrait_component.dart), positioned by gTalkFaceHPosLut.
 
     final box = Rect.fromLTWH(0, 0, size.x, size.y);
     canvas.drawRRect(
@@ -411,56 +409,5 @@ class DialogueBoxComponent extends PositionComponent {
     );
   }
 
-  void _face(Canvas canvas, int? id, Image? img, int side) {
-    if (id == null) return;
-    // 立绘比占位编号大得多，而且**上缘要探出框外**（原作就是这样，
-    // 人物半身像从对话框后面升起来）。
-    final w = size.x * 0.20;
-    final r = Rect.fromLTWH(
-      // 往外挪一点，别贴着框边被切
-      side == 0 ? size.x * 0.02 : size.x - w - size.x * 0.02,
-      -w * 0.75,
-      w,
-      w,
-    );
-    // 有立绘就画立绘 —— 用 `drawImageRect` 缩放，`FilterQuality.none`
-    // 保住像素风（开了插值会糊）。
-    if (img != null) {
-      canvas.drawImageRect(
-        img,
-        Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
-        Rect.fromLTWH(r.left, r.top, r.width, r.width * 0.9),
-        Paint()..filterQuality = FilterQuality.none,
-      );
-      return;
-    }
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(r, const Radius.circular(4)),
-      Paint()..color = const Color(0xCC2A3A50),
-    );
-    // 编号由 `onLoad` 里建好的 `TextComponent` 画 ——
-    // **不在 render 里建组件**（render 应当是纯的）。
-  }
 
-  /// 立绘占位的编号。用 `TextComponent` + `Anchor.center`，
-  /// 不再手算 `r.center - Offset(tp.width/2, tp.height/2)`。
-  void _addFaceLabel(int? id, int side) {
-    if (id == null) return;
-    final w = size.x * 0.12;
-    final rect = Rect.fromLTWH(
-      side == 0 ? size.x * 0.02 : size.x - w - size.x * 0.02,
-      -w * 0.8,
-      w,
-      w,
-    );
-    add(TextComponent(
-      text: id.toRadixString(16).toUpperCase(),
-      textRenderer: TextPaint(
-        style: TextStyle(color: const Color(0xFFFFFFFF), fontSize: w * 0.3),
-      ),
-      anchor: Anchor.center,
-      position: Vector2(rect.center.dx, rect.center.dy),
-      priority: 1,
-    ));
-  }
 }

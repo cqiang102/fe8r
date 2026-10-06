@@ -75,7 +75,17 @@ class TextControl extends TextSegment {
   ///
   /// **教训：结果对不代表模型对。要去找偏离的样本。**
   ///
-  /// 返回 `null` 表示"不是一次脸编号"（`0xFFFF` 特殊值，或负值）。
+  /// ⚠️ `0xFFFF` 是**特殊值**：表示"取当前单位的立绘"
+  /// （`src/TalkLoadFace.c:46-49` `GetUnitPortraitId(gActiveUnit)`），
+  /// **不是"清空"**。我原来返回 null 并被下游当成"抹掉这张脸"。
+  ///
+  /// 全量 32 处（当前不在播放集 → latent，但语义要写对）。
+  bool get isFaceFromActiveUnit {
+    if (!isFaceSpec) return false;
+    return int.tryParse(name.substring(1), radix: 16) == 0xFFFF;
+  }
+
+  /// 返回 `null` 表示"不是一次脸编号"（负值）。
   bool get isFaceSpec => name.startsWith(r'$');
 
   /// 脸编号 = `raw - 0x100`。见 [isFaceSpec] 的说明。
@@ -259,6 +269,15 @@ class GameMessage {
     final tail = buf.toString().trim();
     if (tail.isNotEmpty) out.add((tail, segments.length));
     return out;
+  }
+
+  /// 在 [upto]（页界 token 下标）处结束这一页的，是不是 `[A]`（等按键）？
+  ///
+  /// `[A]` 等按键、`[CR]` 只是滚动清屏（`src/TalkInterpret.c:86-108`）。
+  bool isWaitForKeyAt(int upto) {
+    if (upto <= 0 || upto > segments.length) return false;
+    final seg = segments[upto - 1];
+    return seg is TextControl && seg.isWaitForKey;
   }
 
   /// 返回每一页的纯文字（已去掉控制码、`[LF]` 已换成换行）。

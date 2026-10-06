@@ -24,6 +24,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
 import 'battle_components.dart';
+import 'portrait_component.dart';
 
 /// 对话框的宿主
 class SceneView {
@@ -36,6 +37,9 @@ class SceneView {
   late final PositionComponent layer = PositionComponent();
 
   DialogueBoxComponent? _box;
+
+  /// 每个槽位上的立绘（**独立于对话框**）
+  final Map<int, PortraitComponent> _portraits = {};
 
   /// 当前显示的对白（null = 没在显示）
   ShowText? current;
@@ -162,24 +166,66 @@ class SceneView {
       layer.remove(_box!);
       _box = null;
     }
+    _screenSize = virtualSize;
     if (text == null || text.isEmpty) {
+      _syncPortraits(const {});
       onHudChanged();
       return;
     }
 
-    // 0.56 + 0.28 = 0.84，下面 16% 留给 HUD
-    final boxH = virtualSize.y * 0.28;
+    // ⚠️ **对话框在屏幕上方**，不是下面。
+    //
+    // 原作 `src/scene_080081A0.c:99-163`（`PutTalkBubble`）：
+    //   `y = (yAnchor - height) + 1 = 3`（图块）→ **像素 24..72**，
+    //   高度 6 图块 = 48px；宽度 = `2 + Div(GetStrTalkLen(...)+7, 8)` 图块
+    //   （**随这一页文字长度变化**）；x 跟着说话人走（`StartTalkOpen` 里
+    //   `GetTalkFaceHPos(talkFace)`，clamp 到 0..30）。
+    //
+    // 我原来是"固定 92% 宽、y=0.56..0.84 的方框" —— 位置和形状都不对。
+    final boxH = virtualSize.y * (48 / 160);          // 6 图块 = 48px
+    final boxY = virtualSize.y * (24 / 160);          // y = 3 图块 = 24px
+    final boxW = virtualSize.x * 0.92;
     _box = DialogueBoxComponent(
       text: text,
       hostFaceId: hostFace,
       guestFaceId: guestFace,
-      hostPortrait: portraitFor(hostFace),
-      guestPortrait: portraitFor(guestFace),
-      boxWidth: virtualSize.x * 0.92,
+      boxWidth: boxW,
       boxHeight: boxH,
-    )..position = Vector2(virtualSize.x * 0.04, virtualSize.y * 0.56);
+    )..position = Vector2(virtualSize.x * 0.04, boxY);
     layer.add(_box!);
     onHudChanged();
+  }
+
+  Vector2 _screenSize = Vector2.zero();
+
+  /// 按槽位表同步立绘组件。
+  ///
+  /// 立绘**不属于对话框** —— 它是独立的一层，位置由
+  /// `gTalkFaceHPosLut` 决定（见 `portrait_component.dart`）。
+  void _syncPortraits(Map<int, int> slots) {
+    if (_screenSize == Vector2.zero()) return;
+    // 移除不再需要的
+    for (final slot in _portraits.keys.toList()) {
+      if (!slots.containsKey(slot)) {
+        layer.remove(_portraits.remove(slot)!);
+      }
+    }
+    // 加上新的 / 换图的
+    slots.forEach((slot, fid) {
+      if (!PortraitComponent.isOnScreen(slot)) return; // 6/7 在屏幕外
+      final img = portraitFor(fid);
+      if (img == null) return;
+      final existing = _portraits[slot];
+      if (existing != null && existing.image == img) return;
+      if (existing != null) layer.remove(existing);
+      final c = PortraitComponent(
+        slot: slot,
+        image: img,
+        screenSize: _screenSize,
+      );
+      layer.add(c);
+      _portraits[slot] = c;
+    });
   }
 
   /// 从一条场景事件更新显示
@@ -229,6 +275,8 @@ class SceneView {
 
     final segs = e.message.segments.take(upto).toList();
     final slots = <int, int>{};
+    // `0xFFFF`（当前单位的立绘）目前无法解析 —— 记下来而不是静默抹掉
+    final unknownFaceSlots = <int>{};
     var activeSlot = 0xFF;
     var pending80 = false;   // 上一个 token 是 $0080 前缀
     var expectFaceArg = false;
@@ -279,9 +327,16 @@ class SceneView {
         if (!expectFaceArg) continue;
         expectFaceArg = false;
         if (activeSlot == 0xFF) activeSlot = 1;   // 与 `TalkLoadFace` 一致
+        if (seg.isFaceFromActiveUnit) {
+          // `0xFFFF` = 取**当前单位**的立绘（`src/TalkLoadFace.c:46-49`），
+          // **不是清空**。当前实现没有"当前单位"这个概念，
+          // 所以明确记成未知而不是静默抹掉 —— 见 HUD 的"未执行"列表。
+          unknownFaceSlots.add(activeSlot);
+          continue;
+        }
         final fid = seg.faceId;
         if (fid == null) {
-          slots.remove(activeSlot);
+          unknownFaceSlots.add(activeSlot);
         } else {
           slots[activeSlot] = fid;
         }
@@ -291,11 +346,20 @@ class SceneView {
     show(
       text: page,
       virtualSize: virtualSize,
-      // 槽位 → 屏幕侧：`gTalkFaceHPosLut = {3,6,9,21,24,27,-8,38}`，
-      // 前半（0..2）在左，后半（3..7）在右
+      // 这两个只用于 HUD 显示与占位编号；真正的绘制走 _syncPortraits
       hostFace: _rightmost(slots),
       guestFace: _leftmost(slots),
     );
+    _syncPortraits(slots);
+    if (unknownFaceSlots.isNotEmpty) {
+      // 出声：这类槽位没有画出来，不是因为"没有脸"
+      assert(() {
+        // ignore: avoid_print
+        print('  [立绘] 这些槽位用了 \$FFFF（当前单位的立绘），本实现暂不支持：'
+            '$unknownFaceSlots');
+        return true;
+      }());
+    }
   }
 
   /// 槽位 → 屏幕 x（**像素，x 是立绘中心**）。

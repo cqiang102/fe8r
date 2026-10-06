@@ -321,8 +321,21 @@ class Scene {
         pageIndex: i,
         pageCount: pages.length,
       ));
-      // 每一页都要玩家按键才继续（最后一页也一样 —— 原作的节奏）
-      await onEvent(WaitForInput(currentScript, 0));
+      // ⚠️ **只有 `[A]` 才等按键，`[CR]` 不等。**
+      //
+      // 原作：
+      //   * `[A]`(3)  → `StartTalkWaitForInput`（`src/TalkInterpret.c:99-108`）**等**
+      //   * `[CR]`(2) → `Proc_StartBlocking(gProcScr_TalkShiftClearAll)`
+      //     （`:86-97`），滚动清屏完就继续 —— **不等按键**
+      //     （`src/TalkShiftClearAll_OnIdle.c:21-33`）
+      //
+      // 我原来对**每一页**都 `await WaitForInput` —— 每个非空 `[CR]` 页
+      // 都会多要一次按键（全量 395 处；播放集 53 条消息含 `[CR]`）。
+      //
+      // 另外：2127/3339 条消息**没有 `[A]`**，它们也不该在最后等按键。
+      if (m.isWaitForKeyAt(pages[i].$2)) {
+        await onEvent(WaitForInput(currentScript, 0));
+      }
     }
   }
 
