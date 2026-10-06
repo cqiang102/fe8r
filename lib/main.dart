@@ -59,9 +59,9 @@ class _GameShellState extends State<_GameShell> {
     super.initState();
     final path = screenshotPathFromEnv();
     if (path != null) {
-      captureWhenReady(_captureKey, path, beforeCapture: () {
+      captureWhenReady(_captureKey, path, beforeCapture: () async {
         final script = inputScriptFromEnv();
-        if (script != null) _game.runScript(script);
+        if (script != null) await _game.runScript(script);
       });
     }
   }

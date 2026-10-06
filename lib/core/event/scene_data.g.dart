@@ -1,7740 +1,17744 @@
 // GENERATED —— 由 tools/pipeline/extract/gen_scene_dart.py 生成。
 // **请勿手改**：改 C 源码或生成器，然后重新生成。
 //
-// 来源：third_party/fireemblem8j/src/**/*.c
-// 脚本 196 个，指令 6348 条
+// 每个脚本编译成一个 `async` 函数 —— **没有指令列表，没有解释器**。
+// 脚本 196 个（直线 103 个 / 有分支 93 个）
 //
-// 这里**没有 JSON** —— 数据直接是类型化的 Dart 代码，
-// 引用了不存在的脚本会在生成时报出来，而不是运行时。
+// 直线脚本是顺序的 async 代码；有分支的用 `while(true){switch(pc)}`，
+// `pc` 是**局部变量**（因为不需要存档）。
 
-// ignore_for_file: prefer_const_constructors, lines_longer_than_80_chars,
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
 
-import 'scene_op.dart';
-
+import 'scene.dart';
 
 /// `EventScr_9EE84C`
-final scr_9EE84C = SceneScript(
-  'EventScr_9EE84C',
-  const <SceneOp>[
-    MiscOp('RANDOMNUMBER', [99]),
-    SetSlot(7, -1),
-    SetSlot(8, 0),
-    Label(0),
-    MiscOp('SDEQUEUE', [9]),
-    SetSlot(1, 1),
-    SlotArith('SADD', 7, 7),
-    SlotArith('SADD', 8, 8),
-    MiscOp('BLE', [0, 8, 12]),
-    SetSlot(13, 0),
-    SetSlot(1, 0),
-    MiscOp('SAVETOQUEUE', []),
-    SetSlot(1, 40),
-    MiscOp('SAVETOQUEUE', []),
-    SetSlot(1, 60),
-    MiscOp('SAVETOQUEUE', []),
-    SetSlot(1, 80),
-    MiscOp('SAVETOQUEUE', []),
-    SetSlot(1, 100),
-    MiscOp('SAVETOQUEUE', []),
-    Label(1),
-    SetSlot(1, 1),
-    SlotArith('SSUB', 7, 7),
-    MiscOp('SDEQUEUE', [2]),
-    MiscOp('BLE', [1, 0, 7]),
-    MiscOp('EvtSetLoadUnitChance', [-1]),
-    SetSlot(13, 0),
-    EndScript(true),
-  ],
-);
+Future<void> scr_9EE84C(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('RANDOMNUMBER');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(7, -1);
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(8, 0);
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('SDEQUEUE');
+          pc = 5;
+          continue;
+        case 5:
+          s.setSlot(1, 1);
+          pc = 6;
+          continue;
+        case 6:
+          s.slotArith('SADD', 7, 7);
+          pc = 7;
+          continue;
+        case 7:
+          s.slotArith('SADD', 8, 8);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('BLE');
+          pc = 9;
+          continue;
+        case 9:
+          s.setSlot(13, 0);
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(1, 0);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('SAVETOQUEUE');
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(1, 40);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SAVETOQUEUE');
+          pc = 14;
+          continue;
+        case 14:
+          s.setSlot(1, 60);
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('SAVETOQUEUE');
+          pc = 16;
+          continue;
+        case 16:
+          s.setSlot(1, 80);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('SAVETOQUEUE');
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(1, 100);
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('SAVETOQUEUE');
+          pc = 20;
+          continue;
+        case 20:
+          pc = 21;
+          continue;
+        case 21:
+          s.setSlot(1, 1);
+          pc = 22;
+          continue;
+        case 22:
+          s.slotArith('SSUB', 7, 7);
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('SDEQUEUE');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('BLE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('EvtSetLoadUnitChance');
+          pc = 26;
+          continue;
+        case 26:
+          s.setSlot(13, 0);
+          pc = 27;
+          continue;
+        case 27:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_9EEA58`
-final scr_9EEA58 = SceneScript(
-  'EventScr_9EEA58',
-  const <SceneOp>[
-    MiscOp('CHECK_EVBIT', [8]),
-    BranchIf(equal: false, slot: 32795, label: 12, opCount: 0),
-    FadeOp('FADI', [16]),
-    Label(32795),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [63]),
-    FadeOp('FADU', [16]),
-    MiscOp('BROWNBOXTEXT', [1524, 8, 8]),
-    CursorOp('CURSOR_AT', [10, 4]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    FadeOp('FADI', [16]),
-    SlotArith('SADD', 11, 2),
-    MiscOp('LOMA', [27]),
-    EndScript(true),
-  ],
-);
+Future<void> scr_9EEA58(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVBIT');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(32795) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('FADI');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('CLEA');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CLEE');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CLEN');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(11, 0);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('LOMA');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('FADU');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CURSOR_AT');
+          pc = 12;
+          continue;
+        case 12:
+          await s.stall(60);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('CURE');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('FADI');
+          pc = 15;
+          continue;
+        case 15:
+          s.slotArith('SADD', 11, 2);
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('LOMA');
+          pc = 17;
+          continue;
+        case 17:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_ApplyTileChangeForFaction`
-final ApplyTileChangeForFaction = SceneScript(
-  'EventScr_ApplyTileChangeForFaction',
-  const <SceneOp>[
-    MiscOp('EVBIT_MODIFY', [1]),
-    MiscOp('CHECK_ALLEGIANCE', [-1]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 2),
-    MiscOp('TILECHANGE', [-2]),
-    Label(0),
-    MiscOp('NoFade', []),
-    EndScript(true),
-  ],
-);
+Future<void> ApplyTileChangeForFaction(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EVBIT_MODIFY');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_ALLEGIANCE');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('TILECHANGE');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('NoFade');
+          pc = 6;
+          continue;
+        case 6:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CallIfCommonMode`
-final CallIfCommonMode = SceneScript(
-  'EventScr_CallIfCommonMode',
-  const <SceneOp>[
-    MiscOp('CHECK_MODE', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 2),
-    SlotArith('SADD', 2, 3),
-    MiscOp('CALL', [-1]),
-    Label(1),
-    EndScript(true),
-  ],
-);
+Future<void> CallIfCommonMode(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_MODE');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.slotArith('SADD', 2, 3);
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CALL');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CallOnChapterNumber`
-final CallOnChapterNumber = SceneScript(
-  'EventScr_CallOnChapterNumber',
-  const <SceneOp>[
-    MiscOp('CHECK_CHAPTER_NUMBER', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 3),
-    MiscOp('CALL', [-1]),
-    Label(0),
-    EndScript(true),
-  ],
-);
+Future<void> CallOnChapterNumber(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_CHAPTER_NUMBER');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CALL');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CallOnHardMode`
-final CallOnHardMode = SceneScript(
-  'EventScr_CallOnHardMode',
-  const <SceneOp>[
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_HARD', []),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CALL', [-1]),
-    Label(0),
-    EndScript(true),
-  ],
-);
+Future<void> CallOnHardMode(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_HARD');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 4; }
+          continue;
+        case 4:
+          s.placeholder('CALL');
+          pc = 5;
+          continue;
+        case 5:
+          pc = 6;
+          continue;
+        case 6:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CallOnTutorialMode`
-final CallOnTutorialMode = SceneScript(
-  'EventScr_CallOnTutorialMode',
-  const <SceneOp>[
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CALL', [-1]),
-    Label(0),
-    EndScript(true),
-  ],
-);
+Future<void> CallOnTutorialMode(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CALL');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CallWithModeCheck`
-final CallWithModeCheck = SceneScript(
-  'EventScr_CallWithModeCheck',
-  const <SceneOp>[
-    MiscOp('CHECK_MODE', []),
-    SetSlot(7, RawArg('CHAPTER_MODE_COMMON')),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 7),
-    SetSlot(7, RawArg('CHAPTER_MODE_EIRIKA')),
-    BranchIf(equal: false, slot: 1, label: 12, opCount: 7),
-    SlotArith('SADD', 2, 3),
-    GoTo(2),
-    Label(1),
-    SlotArith('SADD', 2, 4),
-    Label(2),
-    MiscOp('CALL', [-1]),
-    EndScript(true),
-  ],
-);
+Future<void> CallWithModeCheck(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_MODE');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(7, RawArg('CHAPTER_MODE_COMMON'));
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(2) == 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.setSlot(7, RawArg('CHAPTER_MODE_EIRIKA'));
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(1) != 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.slotArith('SADD', 2, 3);
+          pc = 6;
+          continue;
+        case 6:
+          pc = 9;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.slotArith('SADD', 2, 4);
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CALL');
+          pc = 11;
+          continue;
+        case 11:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch10A_0`
-final Ch10A_0 = SceneScript(
-  'EventScr_Ch10A_0',
-  const <SceneOp>[
-    CameraOp('CAMERA_CAHR', [79]),
-    CursorOp('CURSOR_CHAR', [79]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [20]),
-    TextBoxOp(true),
-    ShowTextOp(2545),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_AT', [16, 1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSI', []),
-    SetSlot(2, 19),
-    SetSlot(3, 2546),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10A_0(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2545);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSI');
+    s.setSlot(2, 19);
+    s.setSlot(3, 2546);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch10A_13`
-final Ch10A_13 = SceneScript(
-  'EventScr_Ch10A_13',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('ENUF', [14]),
-    SetSlot(13, 0),
-    SetSlot(1, 1900557),
-    EnqueueOps(0),
-    SetSlot(1, 1835022),
-    EnqueueOps(0),
-    SetSlot(1, 1900559),
-    EnqueueOps(0),
-    SetSlot(1, 1835024),
-    EnqueueOps(0),
-    SetSlot(1, 1900561),
-    EnqueueOps(0),
-    SetSlot(1, 1966094),
-    EnqueueOps(0),
-    SetSlot(1, 1966096),
-    EnqueueOps(0),
-    SetSlot(1, 1966098),
-    EnqueueOps(0),
-    SetSlot(2, 65536),
-    CallScript(Sym('EventScr_ChangeAIinQueue')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10A_13(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
+    s.placeholder('ENUF');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1900557);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1835022);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1900559);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1835024);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1900561);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1966094);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1966096);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1966098);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(2, 65536);
+    await s.call(Sym('EventScr_ChangeAIinQueue'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch10A_8`
-final Ch10A_8 = SceneScript(
-  'EventScr_Ch10A_8',
-  const <SceneOp>[
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_HARD', []),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    CameraOp('CAMERA', [0, 10]),
-    SetSlot(2, Sym('UnitDef_Ch10AEnemy_5')),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    Label(0),
-    SetSlot(2, Sym('UnitDef_Ch10AEnemy_3')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch10AEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10A_8(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_HARD');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 4; }
+          continue;
+        case 4:
+          s.placeholder('CAMERA');
+          pc = 5;
+          continue;
+        case 5:
+          s.setSlot(2, Sym('UnitDef_Ch10AEnemy_5'));
+          pc = 6;
+          continue;
+        case 6:
+          await s.call(Sym('EventScr_LoadReinforceHardMode'));
+          pc = 7;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.setSlot(2, Sym('UnitDef_Ch10AEnemy_3'));
+          pc = 9;
+          continue;
+        case 9:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(2, Sym('UnitDef_Ch10AEnemy_4'));
+          pc = 11;
+          continue;
+        case 11:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('EVBIT_T');
+          pc = 13;
+          continue;
+        case 13:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch10B_0`
-final Ch10B_0 = SceneScript(
-  'EventScr_Ch10B_0',
-  const <SceneOp>[
-    MusicOp('MUSC', [20]),
-    CameraOp('CAMERA2', [15, 11]),
-    StallOp(15),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_027_917600', 520)),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [67]),
-    CursorOp('CURSOR_AT', [19, 11]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSI', []),
-    SetSlot(2, 23),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2682),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    MiscOp('DISA', [68]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_027_917600', 560)),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [68]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_027_917600', 600)),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_026_916D14', 1464)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2683),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    MoveUnitOp('MOVE', [16, 67, 23, 14]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [67]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10B_0(Scene s) async {
+    s.placeholder('MUSC');
+    s.placeholder('CAMERA2');
+    await s.stall(15);
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 520));
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSI');
+    s.setSlot(2, 23);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2682);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEAN');
+    s.placeholder('DISA');
+    s.placeholder('FADU');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 560));
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 600));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_026_916D14', 1464));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2683);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.moveUnit('MOVE', [16, 67, 23, 14]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch10B_1`
-final Ch10B_1 = SceneScript(
-  'EventScr_Ch10B_1',
-  const <SceneOp>[
-    MiscOp('CHECK_EXISTS', [14]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALLEGIANCE', [14]),
-    SetSlot(1, 0),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MusicOp('MUSC', [20]),
-    CameraOp('CAMERA_CAHR', [14]),
-    StallOp(15),
-    CursorOp('CURSOR_CHAR', [14]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2684),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10B_1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EXISTS');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_ALLEGIANCE');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(1, 0);
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('MUSC');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CAMERA_CAHR');
+          pc = 7;
+          continue;
+        case 7:
+          await s.stall(15);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CURSOR_CHAR');
+          pc = 9;
+          continue;
+        case 9:
+          await s.stall(60);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CURE');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TEXTSTART');
+          pc = 12;
+          continue;
+        case 12:
+          await s.textShow(2684);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('TEXTEND');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('REMA');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('EVBIT_T');
+          pc = 17;
+          continue;
+        case 17:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch10B_2`
-final Ch10B_2 = SceneScript(
-  'EventScr_Ch10B_2',
-  const <SceneOp>[
-    MiscOp('CHECK_EXISTS', [14]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALLEGIANCE', [14]),
-    SetSlot(1, 0),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MusicOp('MUSC', [20]),
-    CameraOp('CAMERA_CAHR', [14]),
-    StallOp(15),
-    CursorOp('CURSOR_CHAR', [14]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2685),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10B_2(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EXISTS');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_ALLEGIANCE');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(1, 0);
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('MUSC');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CAMERA_CAHR');
+          pc = 7;
+          continue;
+        case 7:
+          await s.stall(15);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CURSOR_CHAR');
+          pc = 9;
+          continue;
+        case 9:
+          await s.stall(60);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CURE');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TEXTSTART');
+          pc = 12;
+          continue;
+        case 12:
+          await s.textShow(2685);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('TEXTEND');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('REMA');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch10a_BeginningScene`
-final Ch10a_BeginningScene = SceneScript(
-  'EventScr_Ch10a_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [46]),
-    SetSlot(2, 131087),
-    CallScript(Sym('EventScr_9EEA58')),
-    LoadUnitsOp(1, Sym('frontier_df4_banim_b_077_90DB94', 52)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    MoveUnitOp('MOVE_1STEP', [16, 105, 3]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [107]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2540),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    CameraOp('CAMERA2', [9, 11]),
-    MiscOp('UNIT_COLORS', [2]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_077_90DB94', 212)),
-    EndUnitOp('ENUN'),
-    SetSlot(11, 851975),
-    MiscOp('TILECHANGE', [65535]),
-    FadeOp('FADU', [16]),
-    MiscOp('TILECHANGE', [0]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_077_90DB94', 212)),
-    EndUnitOp('ENUN'),
-    MiscOp('TILEREVERT', [0]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_077_90DB94', 272)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [105]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 17),
-    SetSlot(3, 2541),
-    CallScript(Sym('Event_TextWithBG')),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_077_90DB94', 312)),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSI', []),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 17),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2542),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('UNIT_COLORS', [0]),
-    SetSlot(11, 1048583),
-    MiscOp('LOMA', [11]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch10ANPC')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Ch10AEnemy_0')),
-    EndUnitOp('ENUN'),
-    SetSlot(2, Sym('UnitDef_Ch10AEnemy_1')),
-    SetSlot(3, 1),
-    CallScript(Sym('EventScr_LoadUnitForTutorial')),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [11]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [38]),
-    SetSlot(2, 57),
-    SetSlot(3, 2543),
-    CallScript(Sym('Event_TextWithBG')),
-    CameraOp('CAMERA', [0, 0]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch10AAlly_0')),
-    MiscOp('STAL2', [32]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [1]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [2]),
-    LoadUnitsOp(3, Sym('UnitDef_Ch10AAlly_1')),
-    EndUnitOp('ENUN'),
-    SetSlot(1, 4294967295),
-    MiscOp('SET_STATE', [1]),
-    SetSlot(1, 4294967295),
-    MiscOp('SET_STATE', [2]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2544),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 512)),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10a_BeginningScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, 131087);
+    await s.call(Sym('EventScr_9EEA58'));
+    s.loadUnits(1, Sym('frontier_df4_banim_b_077_90DB94', 52));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.moveUnit('MOVE_1STEP', [16, 105, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2540);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('CAMERA2');
+    s.placeholder('UNIT_COLORS');
+    s.placeholder('EvtSetLoadUnitNoREDA');
+    s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
+    s.placeholder('ENUN');
+    s.setSlot(11, 851975);
+    s.placeholder('TILECHANGE');
+    s.placeholder('FADU');
+    s.placeholder('TILECHANGE');
+    s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
+    s.placeholder('ENUN');
+    s.placeholder('TILEREVERT');
+    s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 272));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 17);
+    s.setSlot(3, 2541);
+    await s.call(Sym('Event_TextWithBG'));
+    s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 312));
+    s.placeholder('ENUN');
+    s.placeholder('MUSI');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 17);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2542);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('UNIT_COLORS');
+    s.setSlot(11, 1048583);
+    s.placeholder('LOMA');
+    s.loadUnits(1, Sym('UnitDef_Ch10ANPC'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Ch10AEnemy_0'));
+    s.placeholder('ENUN');
+    s.setSlot(2, Sym('UnitDef_Ch10AEnemy_1'));
+    s.setSlot(3, 1);
+    await s.call(Sym('EventScr_LoadUnitForTutorial'));
+    s.placeholder('FADU');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.setSlot(2, 57);
+    s.setSlot(3, 2543);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('CAMERA');
+    s.loadUnits(2, Sym('UnitDef_Ch10AAlly_0'));
+    s.placeholder('STAL2');
+    s.setSlot(1, 0);
+    s.placeholder('SET_STATE');
+    s.setSlot(1, 0);
+    s.placeholder('SET_STATE');
+    s.loadUnits(3, Sym('UnitDef_Ch10AAlly_1'));
+    s.placeholder('ENUN');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SET_STATE');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SET_STATE');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 37);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2544);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    await s.call(Sym('data_085B9BBC', 512));
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    return;
+}
 
 /// `EventScr_Ch10a_EndingScene`
-final Ch10a_EndingScene = SceneScript(
-  'EventScr_Ch10a_EndingScene',
-  const <SceneOp>[
-    FadeOp('FADI', [16]),
-    SetSlot(2, 11),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    SetSlot(7, 2),
-    MiscOp('CHECK_EXISTS', [20]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [20]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(1, 1),
-    SlotArith('SSUB', 7, 7),
-    Label(0),
-    MiscOp('CHECK_EXISTS', [21]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [21]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    SetSlot(1, 1),
-    SlotArith('SSUB', 7, 7),
-    Label(1),
-    SetSlot(2, 20),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    BranchIf(equal: true, slot: 2, label: 7, opCount: 0),
-    SetSlot(1, 0),
-    MiscOp('SET_HP', [20]),
-    SetSlot(1, 0),
-    MiscOp('SET_HP', [21]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [20]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [21]),
-    MiscOp('REMU', [20]),
-    MiscOp('REMU', [21]),
-    Label(2),
-    SetSlot(2, 22),
-    CallScript(Sym('EventScr_StrictLoadUniqueAlly')),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MusicOp('MUSC', [46]),
-    CameraOp('CAMERA', [0, 30]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch10AEnemy_6')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    SetSlot(3, 2551),
-    CallScript(Sym('Event_TextWithBG')),
-    MoveUnitOp('MOVE', [16, 67, 3, 30]),
-    SetSlot(11, 1769474),
-    MiscOp('STAL2', [32]),
-    MoveUnitOp('MOVE', [16, 65534, 2, 30]),
-    SetSlot(11, 1769476),
-    MoveUnitOp('MOVE', [16, 65534, 4, 30]),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    CameraOp('CAMERA', [19, 0]),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_AT', [15, 1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 19),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [49]),
-    ShowTextOp(2552),
-    TextBoxOp(false),
-    ClearTextOp(),
-    BranchIf(equal: false, slot: 3, label: 7, opCount: 0),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2553),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(3),
-    SetSlot(2, 2),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [21]),
-    BranchIf(equal: true, slot: 10, label: 12, opCount: 0),
-    MusicOp('MUSI', []),
-    ShowTextOp(2554),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2555),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    GoTo(11),
-    Label(10),
-    ShowTextOp(2556),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(11),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [61]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch10a_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('FADI');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 11);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(7, 2);
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('CHECK_EXISTS');
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 10; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_ALIVE');
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(0) == 12) { pc = 10; } else { pc = 8; }
+          continue;
+        case 8:
+          s.setSlot(1, 1);
+          pc = 9;
+          continue;
+        case 9:
+          s.slotArith('SSUB', 7, 7);
+          pc = 10;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CHECK_EXISTS');
+          pc = 12;
+          continue;
+        case 12:
+          if (s.slotInt(1) == 12) { pc = 10; } else { pc = 13; }
+          continue;
+        case 13:
+          s.placeholder('CHECK_ALIVE');
+          pc = 14;
+          continue;
+        case 14:
+          if (s.slotInt(1) == 12) { pc = 10; } else { pc = 15; }
+          continue;
+        case 15:
+          s.setSlot(1, 1);
+          pc = 16;
+          continue;
+        case 16:
+          s.slotArith('SSUB', 7, 7);
+          pc = 17;
+          continue;
+        case 17:
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(2, 20);
+          pc = 19;
+          continue;
+        case 19:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 20;
+          continue;
+        case 20:
+          s.setSlot(2, 21);
+          pc = 21;
+          continue;
+        case 21:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 22;
+          continue;
+        case 22:
+          if (s.slotInt(2) == 7) { pc = 10; } else { pc = 23; }
+          continue;
+        case 23:
+          s.setSlot(1, 0);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('SET_HP');
+          pc = 25;
+          continue;
+        case 25:
+          s.setSlot(1, 0);
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('SET_HP');
+          pc = 27;
+          continue;
+        case 27:
+          s.setSlot(1, 0);
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('SET_STATE');
+          pc = 29;
+          continue;
+        case 29:
+          s.setSlot(1, 0);
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('SET_STATE');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('REMU');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('REMU');
+          pc = 33;
+          continue;
+        case 33:
+          pc = 34;
+          continue;
+        case 34:
+          s.setSlot(2, 22);
+          pc = 35;
+          continue;
+        case 35:
+          await s.call(Sym('EventScr_StrictLoadUniqueAlly'));
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('CLEA');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('CLEE');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('CLEN');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('MUSC');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('CAMERA');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('FADU');
+          pc = 42;
+          continue;
+        case 42:
+          s.loadUnits(1, Sym('UnitDef_Ch10AEnemy_6'));
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('ENUN');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('CURSOR_CHAR');
+          pc = 45;
+          continue;
+        case 45:
+          await s.stall(60);
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('CURE');
+          pc = 47;
+          continue;
+        case 47:
+          s.setSlot(2, 37);
+          pc = 48;
+          continue;
+        case 48:
+          s.setSlot(3, 2551);
+          pc = 49;
+          continue;
+        case 49:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 50;
+          continue;
+        case 50:
+          s.moveUnit('MOVE', [16, 67, 3, 30]);
+          pc = 51;
+          continue;
+        case 51:
+          s.setSlot(11, 1769474);
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('STAL2');
+          pc = 53;
+          continue;
+        case 53:
+          s.moveUnit('MOVE', [16, 65534, 2, 30]);
+          pc = 54;
+          continue;
+        case 54:
+          s.setSlot(11, 1769476);
+          pc = 55;
+          continue;
+        case 55:
+          s.moveUnit('MOVE', [16, 65534, 4, 30]);
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('FADI');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('ENUN');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('CLEA');
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('CLEE');
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('CLEN');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('CAMERA');
+          pc = 63;
+          continue;
+        case 63:
+          s.placeholder('FADU');
+          pc = 64;
+          continue;
+        case 64:
+          s.placeholder('CURSOR_AT');
+          pc = 65;
+          continue;
+        case 65:
+          await s.stall(60);
+          pc = 66;
+          continue;
+        case 66:
+          s.placeholder('CURE');
+          pc = 67;
+          continue;
+        case 67:
+          s.setSlot(2, 19);
+          pc = 68;
+          continue;
+        case 68:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('MUSC');
+          pc = 70;
+          continue;
+        case 70:
+          await s.textShow(2552);
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('TEXTEND');
+          pc = 72;
+          continue;
+        case 72:
+          s.placeholder('REMA');
+          pc = 73;
+          continue;
+        case 73:
+          if (s.slotInt(3) != 7) { pc = 10; } else { pc = 74; }
+          continue;
+        case 74:
+          s.setSlot(2, 21);
+          pc = 75;
+          continue;
+        case 75:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 76;
+          continue;
+        case 76:
+          await s.textShow(2553);
+          pc = 77;
+          continue;
+        case 77:
+          s.placeholder('TEXTEND');
+          pc = 78;
+          continue;
+        case 78:
+          s.placeholder('REMA');
+          pc = 79;
+          continue;
+        case 79:
+          pc = 80;
+          continue;
+        case 80:
+          s.setSlot(2, 2);
+          pc = 81;
+          continue;
+        case 81:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('CHECK_ALIVE');
+          pc = 83;
+          continue;
+        case 83:
+          if (s.slotInt(10) == 12) { pc = 10; } else { pc = 84; }
+          continue;
+        case 84:
+          s.placeholder('MUSI');
+          pc = 85;
+          continue;
+        case 85:
+          await s.textShow(2554);
+          pc = 86;
+          continue;
+        case 86:
+          s.placeholder('TEXTEND');
+          pc = 87;
+          continue;
+        case 87:
+          s.placeholder('REMA');
+          pc = 88;
+          continue;
+        case 88:
+          s.setSlot(2, 37);
+          pc = 89;
+          continue;
+        case 89:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 90;
+          continue;
+        case 90:
+          await s.textShow(2555);
+          pc = 91;
+          continue;
+        case 91:
+          s.placeholder('TEXTEND');
+          pc = 92;
+          continue;
+        case 92:
+          s.placeholder('REMA');
+          pc = 93;
+          continue;
+        case 93:
+          s.placeholder('MUNO');
+          pc = 94;
+          continue;
+        case 94:
+          pc = 99;
+          continue;
+        case 95:
+          pc = 96;
+          continue;
+        case 96:
+          await s.textShow(2556);
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('TEXTEND');
+          pc = 98;
+          continue;
+        case 98:
+          s.placeholder('REMA');
+          pc = 99;
+          continue;
+        case 99:
+          pc = 100;
+          continue;
+        case 100:
+          s.placeholder('FADI');
+          pc = 101;
+          continue;
+        case 101:
+          s.placeholder('ENUT');
+          pc = 102;
+          continue;
+        case 102:
+          s.placeholder('MNCH');
+          pc = 103;
+          continue;
+        case 103:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch11B_0`
-final Ch11B_0 = SceneScript(
-  'EventScr_Ch11B_0',
-  const <SceneOp>[
-    MusicOp('MUSC', [17]),
-    CameraOp('CAMERA_CAHR', [15]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 13),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2707),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('TILEREVERT', [0]),
-    MiscOp('TILECHANGE', [1]),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA2', [9, 9]),
-    TextBoxOp(true),
-    LoadUnitsOp(1, Sym('UnitDef_Ch11BEnemy_1')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Ch11BEnemy_2')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch11B_0(Scene s) async {
+    s.placeholder('MUSC');
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 13);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2707);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('TILEREVERT');
+    s.placeholder('TILECHANGE');
+    s.placeholder('CLEAN');
+    s.placeholder('CAMERA2');
+    s.placeholder('TEXTSTART');
+    s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_1'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_2'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch11B_1`
-final Ch11B_1 = SceneScript(
-  'EventScr_Ch11B_1',
-  const <SceneOp>[
-    MusicOp('MUSC', [17]),
-    CameraOp('CAMERA2', [9, 9]),
-    MiscOp('EARTHQUAKE_START', [0, 1]),
-    StallOp(30),
-    MiscOp('TILECHANGE', [2]),
-    StallOp(30),
-    MiscOp('EARTHQUAKE_END', []),
-    CameraOp('CAMERA_CAHR', [15]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2708),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch11B_1(Scene s) async {
+    s.placeholder('MUSC');
+    s.placeholder('CAMERA2');
+    s.placeholder('EARTHQUAKE_START');
+    await s.stall(30);
+    s.placeholder('TILECHANGE');
+    await s.stall(30);
+    s.placeholder('EARTHQUAKE_END');
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2708);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch11B_2`
-final Ch11B_2 = SceneScript(
-  'EventScr_Ch11B_2',
-  const <SceneOp>[
-    MusicOp('MUSC', [17]),
-    CameraOp('CAMERA_CAHR', [15]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 13),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2709),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('TILECHANGE', [3]),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA2', [12, 10]),
-    TextBoxOp(true),
-    MiscOp('EARTHQUAKE_START', [0, 1]),
-    FadeOp('FADU', [16]),
-    StallOp(32),
-    MiscOp('EARTHQUAKE_END', []),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_029_9184F0')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [25]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2710),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch11B_2(Scene s) async {
+    s.placeholder('MUSC');
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 13);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2709);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('TILECHANGE');
+    s.placeholder('CLEAN');
+    s.placeholder('CAMERA2');
+    s.placeholder('TEXTSTART');
+    s.placeholder('EARTHQUAKE_START');
+    s.placeholder('FADU');
+    await s.stall(32);
+    s.placeholder('EARTHQUAKE_END');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_029_9184F0'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2710);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch11B_6`
-final Ch11B_6 = SceneScript(
-  'EventScr_Ch11B_6',
-  const <SceneOp>[
-    SetSlot(2, Sym('UnitDef_Ch11BEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_030_918784', 120)),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_030_918784', 180)),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_030_918784', 240)),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch11B_6(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch11BEnemy_4'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_030_918784', 120));
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_030_918784', 180));
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_030_918784', 240));
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch11a_EndingScene`
-final Ch11a_EndingScene = SceneScript(
-  'EventScr_Ch11a_EndingScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    SetSlot(2, 59),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [25]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    ShowTextOp(2571),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    ShowTextOp(2572),
-    TextBoxOp(false),
-    Label(1),
-    FadeOp('FADI', [4]),
-    ClearTextOp(),
-    FadeOp('FADU', [4]),
-    ShowTextOp(2573),
-    TextBoxOp(false),
-    MiscOp('CHECK_ALIVE', [26]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2574]),
-    TextBoxOp(false),
-    Label(2),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    SetSlot(2, 25),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    SetSlot(2, 26),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 655360),
-    MiscOp('LOMA', [65]),
-    MiscOp('EvtChangeFogVision', [0, 0]),
-    MusicOp('MUSC', [74]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_078_90E58C')),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [24]),
-    StallOp(30),
-    CursorOp('CURSOR_AT', [2, 6]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 1),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSI', []),
-    ShowTextOp(2575),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 8]),
-    FadeOp('FADI', [2]),
-    MiscOp('CLEAN', []),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch11AMixed')),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [105]),
-    MiscOp('DISA', [128]),
-    MiscOp('DISA', [129]),
-    FadeOp('FADU', [2]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch11AMixed')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [105]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [46]),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2576),
-    TextBoxOp(false),
-    MusicOp('MUSC', [40]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    MoveUnitOp('MOVE', [0, 23, 13, 0]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 11, 13, 0]),
-    MoveUnitOp('MOVE', [16, 25, 13, 0]),
-    MoveUnitOp('MOVE', [16, 2, 13, 0]),
-    MoveUnitOp('MOVE', [16, 1, 13, 0]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 105, 8, 5]),
-    MoveUnitOp('MOVE', [16, 128, 7, 4]),
-    MoveUnitOp('MOVE', [16, 129, 9, 4]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch11AEnemy_5')),
-    EndUnitOp('ENUN'),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [46]),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2577),
-    TextBoxOp(false),
-    MusicOp('MUSC', [38]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    MoveUnitOp('MOVE_1STEP', [0, 67, 3]),
-    EndUnitOp('ENUN'),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 131072),
-    EnqueueOps(0),
-    SetSlot(1, 91137),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    MiscOp('FIGHT', [105, 67, 0, 0]),
-    MiscOp('KILL', [105]),
-    MiscOp('DISA_IF', [105]),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2579),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(13, 0),
-    SetSlot(1, 131207),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131203),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131075),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [128]),
-    SetSlot(13, 0),
-    SetSlot(1, 131329),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131073),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [129]),
-    MiscOp('STAL2', [15]),
-    SetSlot(13, 0),
-    SetSlot(1, 131206),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131203),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131075),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [102]),
-    SetSlot(13, 0),
-    SetSlot(1, 131329),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131073),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [103]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2580),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('MNC2', [12]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch11a_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 59);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_ALIVE');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 5; }
+          continue;
+        case 5:
+          await s.textShow(2571);
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('TEXTEND');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 11;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          await s.textShow(2572);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('TEXTEND');
+          pc = 11;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('FADI');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('REMA');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('FADU');
+          pc = 15;
+          continue;
+        case 15:
+          await s.textShow(2573);
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('TEXTEND');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('CHECK_ALIVE');
+          pc = 18;
+          continue;
+        case 18:
+          if (s.slotInt(2) == 12) { pc = 8; } else { pc = 19; }
+          continue;
+        case 19:
+          s.placeholder('EvtTextShow2');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('TEXTEND');
+          pc = 21;
+          continue;
+        case 21:
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('REMA');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('FADI');
+          pc = 25;
+          continue;
+        case 25:
+          s.setSlot(2, 25);
+          pc = 26;
+          continue;
+        case 26:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 27;
+          continue;
+        case 27:
+          s.setSlot(2, 26);
+          pc = 28;
+          continue;
+        case 28:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('CLEA');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CLEE');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CLEN');
+          pc = 32;
+          continue;
+        case 32:
+          s.setSlot(11, 655360);
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('LOMA');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('EvtChangeFogVision');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('MUSC');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('FADU');
+          pc = 37;
+          continue;
+        case 37:
+          s.loadUnits(2, Sym('frontier_df4_banim_b_078_90E58C'));
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('ENUN');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('DISA');
+          pc = 40;
+          continue;
+        case 40:
+          await s.stall(30);
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('CURSOR_AT');
+          pc = 42;
+          continue;
+        case 42:
+          await s.stall(60);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('CURE');
+          pc = 44;
+          continue;
+        case 44:
+          s.setSlot(2, 1);
+          pc = 45;
+          continue;
+        case 45:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('MUSI');
+          pc = 47;
+          continue;
+        case 47:
+          await s.textShow(2575);
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('TEXTEND');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('REMA');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('FADI');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('CLEAN');
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('EvtSetLoadUnitNoREDA');
+          pc = 54;
+          continue;
+        case 54:
+          s.loadUnits(2, Sym('UnitDef_Ch11AMixed'));
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('ENUN');
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('DISA');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('DISA');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('DISA');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('FADU');
+          pc = 60;
+          continue;
+        case 60:
+          s.loadUnits(2, Sym('UnitDef_Ch11AMixed'));
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('ENUN');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('CURSOR_CHAR');
+          pc = 63;
+          continue;
+        case 63:
+          await s.stall(60);
+          pc = 64;
+          continue;
+        case 64:
+          s.placeholder('CURE');
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('MUSC');
+          pc = 66;
+          continue;
+        case 66:
+          s.setSlot(2, 37);
+          pc = 67;
+          continue;
+        case 67:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 68;
+          continue;
+        case 68:
+          await s.textShow(2576);
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('TEXTEND');
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('MUSC');
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('TEXTCONT');
+          pc = 72;
+          continue;
+        case 72:
+          s.placeholder('TEXTEND');
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('REMA');
+          pc = 74;
+          continue;
+        case 74:
+          await s.call(Sym('EventScr_TextShowWithFadeIn'));
+          pc = 75;
+          continue;
+        case 75:
+          s.moveUnit('MOVE', [0, 23, 13, 0]);
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('ENUN');
+          pc = 77;
+          continue;
+        case 77:
+          s.moveUnit('MOVE', [16, 11, 13, 0]);
+          pc = 78;
+          continue;
+        case 78:
+          s.moveUnit('MOVE', [16, 25, 13, 0]);
+          pc = 79;
+          continue;
+        case 79:
+          s.moveUnit('MOVE', [16, 2, 13, 0]);
+          pc = 80;
+          continue;
+        case 80:
+          s.moveUnit('MOVE', [16, 1, 13, 0]);
+          pc = 81;
+          continue;
+        case 81:
+          s.placeholder('ENUN');
+          pc = 82;
+          continue;
+        case 82:
+          s.moveUnit('MOVE', [16, 105, 8, 5]);
+          pc = 83;
+          continue;
+        case 83:
+          s.moveUnit('MOVE', [16, 128, 7, 4]);
+          pc = 84;
+          continue;
+        case 84:
+          s.moveUnit('MOVE', [16, 129, 9, 4]);
+          pc = 85;
+          continue;
+        case 85:
+          s.loadUnits(1, Sym('UnitDef_Ch11AEnemy_5'));
+          pc = 86;
+          continue;
+        case 86:
+          s.placeholder('ENUN');
+          pc = 87;
+          continue;
+        case 87:
+          s.placeholder('ENUN');
+          pc = 88;
+          continue;
+        case 88:
+          s.placeholder('CURSOR_CHAR');
+          pc = 89;
+          continue;
+        case 89:
+          await s.stall(60);
+          pc = 90;
+          continue;
+        case 90:
+          s.placeholder('CURE');
+          pc = 91;
+          continue;
+        case 91:
+          s.placeholder('MUSC');
+          pc = 92;
+          continue;
+        case 92:
+          s.setSlot(2, 37);
+          pc = 93;
+          continue;
+        case 93:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 94;
+          continue;
+        case 94:
+          await s.textShow(2577);
+          pc = 95;
+          continue;
+        case 95:
+          s.placeholder('TEXTEND');
+          pc = 96;
+          continue;
+        case 96:
+          s.placeholder('MUSC');
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('TEXTCONT');
+          pc = 98;
+          continue;
+        case 98:
+          s.placeholder('TEXTEND');
+          pc = 99;
+          continue;
+        case 99:
+          s.placeholder('REMA');
+          pc = 100;
+          continue;
+        case 100:
+          await s.call(Sym('EventScr_TextShowWithFadeIn'));
+          pc = 101;
+          continue;
+        case 101:
+          s.moveUnit('MOVE_1STEP', [0, 67, 3]);
+          pc = 102;
+          continue;
+        case 102:
+          s.placeholder('ENUN');
+          pc = 103;
+          continue;
+        case 103:
+          s.setSlot(13, 0);
+          pc = 104;
+          continue;
+        case 104:
+          s.setSlot(1, 1);
+          pc = 105;
+          continue;
+        case 105:
+          s.placeholder('SENQUEUE1');
+          pc = 106;
+          continue;
+        case 106:
+          s.setSlot(1, 131072);
+          pc = 107;
+          continue;
+        case 107:
+          s.placeholder('SENQUEUE1');
+          pc = 108;
+          continue;
+        case 108:
+          s.setSlot(1, 91137);
+          pc = 109;
+          continue;
+        case 109:
+          s.placeholder('SENQUEUE1');
+          pc = 110;
+          continue;
+        case 110:
+          s.setSlot(1, 4294967295);
+          pc = 111;
+          continue;
+        case 111:
+          s.placeholder('SENQUEUE1');
+          pc = 112;
+          continue;
+        case 112:
+          s.placeholder('FIGHT');
+          pc = 113;
+          continue;
+        case 113:
+          s.placeholder('KILL');
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('DISA_IF');
+          pc = 115;
+          continue;
+        case 115:
+          s.placeholder('CURSOR_CHAR');
+          pc = 116;
+          continue;
+        case 116:
+          await s.stall(60);
+          pc = 117;
+          continue;
+        case 117:
+          s.placeholder('CURE');
+          pc = 118;
+          continue;
+        case 118:
+          s.placeholder('TEXTSTART');
+          pc = 119;
+          continue;
+        case 119:
+          await s.textShow(2579);
+          pc = 120;
+          continue;
+        case 120:
+          s.placeholder('TEXTEND');
+          pc = 121;
+          continue;
+        case 121:
+          s.placeholder('REMA');
+          pc = 122;
+          continue;
+        case 122:
+          s.setSlot(13, 0);
+          pc = 123;
+          continue;
+        case 123:
+          s.setSlot(1, 131207);
+          pc = 124;
+          continue;
+        case 124:
+          s.placeholder('SENQUEUE1');
+          pc = 125;
+          continue;
+        case 125:
+          s.setSlot(1, 0);
+          pc = 126;
+          continue;
+        case 126:
+          s.placeholder('SENQUEUE1');
+          pc = 127;
+          continue;
+        case 127:
+          s.setSlot(1, 131203);
+          pc = 128;
+          continue;
+        case 128:
+          s.placeholder('SENQUEUE1');
+          pc = 129;
+          continue;
+        case 129:
+          s.setSlot(1, 0);
+          pc = 130;
+          continue;
+        case 130:
+          s.placeholder('SENQUEUE1');
+          pc = 131;
+          continue;
+        case 131:
+          s.setSlot(1, 131075);
+          pc = 132;
+          continue;
+        case 132:
+          s.placeholder('SENQUEUE1');
+          pc = 133;
+          continue;
+        case 133:
+          s.setSlot(1, 0);
+          pc = 134;
+          continue;
+        case 134:
+          s.placeholder('SENQUEUE1');
+          pc = 135;
+          continue;
+        case 135:
+          s.moveUnit('MOVE_DEFINED', [128]);
+          pc = 136;
+          continue;
+        case 136:
+          s.setSlot(13, 0);
+          pc = 137;
+          continue;
+        case 137:
+          s.setSlot(1, 131329);
+          pc = 138;
+          continue;
+        case 138:
+          s.placeholder('SENQUEUE1');
+          pc = 139;
+          continue;
+        case 139:
+          s.setSlot(1, 0);
+          pc = 140;
+          continue;
+        case 140:
+          s.placeholder('SENQUEUE1');
+          pc = 141;
+          continue;
+        case 141:
+          s.setSlot(1, 131073);
+          pc = 142;
+          continue;
+        case 142:
+          s.placeholder('SENQUEUE1');
+          pc = 143;
+          continue;
+        case 143:
+          s.setSlot(1, 0);
+          pc = 144;
+          continue;
+        case 144:
+          s.placeholder('SENQUEUE1');
+          pc = 145;
+          continue;
+        case 145:
+          s.moveUnit('MOVE_DEFINED', [129]);
+          pc = 146;
+          continue;
+        case 146:
+          s.placeholder('STAL2');
+          pc = 147;
+          continue;
+        case 147:
+          s.setSlot(13, 0);
+          pc = 148;
+          continue;
+        case 148:
+          s.setSlot(1, 131206);
+          pc = 149;
+          continue;
+        case 149:
+          s.placeholder('SENQUEUE1');
+          pc = 150;
+          continue;
+        case 150:
+          s.setSlot(1, 0);
+          pc = 151;
+          continue;
+        case 151:
+          s.placeholder('SENQUEUE1');
+          pc = 152;
+          continue;
+        case 152:
+          s.setSlot(1, 131203);
+          pc = 153;
+          continue;
+        case 153:
+          s.placeholder('SENQUEUE1');
+          pc = 154;
+          continue;
+        case 154:
+          s.setSlot(1, 0);
+          pc = 155;
+          continue;
+        case 155:
+          s.placeholder('SENQUEUE1');
+          pc = 156;
+          continue;
+        case 156:
+          s.setSlot(1, 131075);
+          pc = 157;
+          continue;
+        case 157:
+          s.placeholder('SENQUEUE1');
+          pc = 158;
+          continue;
+        case 158:
+          s.setSlot(1, 0);
+          pc = 159;
+          continue;
+        case 159:
+          s.placeholder('SENQUEUE1');
+          pc = 160;
+          continue;
+        case 160:
+          s.moveUnit('MOVE_DEFINED', [102]);
+          pc = 161;
+          continue;
+        case 161:
+          s.setSlot(13, 0);
+          pc = 162;
+          continue;
+        case 162:
+          s.setSlot(1, 131329);
+          pc = 163;
+          continue;
+        case 163:
+          s.placeholder('SENQUEUE1');
+          pc = 164;
+          continue;
+        case 164:
+          s.setSlot(1, 0);
+          pc = 165;
+          continue;
+        case 165:
+          s.placeholder('SENQUEUE1');
+          pc = 166;
+          continue;
+        case 166:
+          s.setSlot(1, 131073);
+          pc = 167;
+          continue;
+        case 167:
+          s.placeholder('SENQUEUE1');
+          pc = 168;
+          continue;
+        case 168:
+          s.setSlot(1, 0);
+          pc = 169;
+          continue;
+        case 169:
+          s.placeholder('SENQUEUE1');
+          pc = 170;
+          continue;
+        case 170:
+          s.moveUnit('MOVE_DEFINED', [103]);
+          pc = 171;
+          continue;
+        case 171:
+          s.placeholder('ENUN');
+          pc = 172;
+          continue;
+        case 172:
+          s.placeholder('CURSOR_CHAR');
+          pc = 173;
+          continue;
+        case 173:
+          await s.stall(60);
+          pc = 174;
+          continue;
+        case 174:
+          s.placeholder('CURE');
+          pc = 175;
+          continue;
+        case 175:
+          s.placeholder('TEXTSTART');
+          pc = 176;
+          continue;
+        case 176:
+          await s.textShow(2580);
+          pc = 177;
+          continue;
+        case 177:
+          s.placeholder('TEXTEND');
+          pc = 178;
+          continue;
+        case 178:
+          s.placeholder('REMA');
+          pc = 179;
+          continue;
+        case 179:
+          s.placeholder('ENUT');
+          pc = 180;
+          continue;
+        case 180:
+          s.placeholder('MNC2');
+          pc = 181;
+          continue;
+        case 181:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch12A_0`
-final Ch12A_0 = SceneScript(
-  'EventScr_Ch12A_0',
-  const <SceneOp>[
-    MusicOp('MUSI', []),
-    SetSlot(2, 1),
-    SetSlot(3, 2596),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 89),
-    MiscOp('GIVEITEMTO', [65535]),
-    MiscOp('TILECHANGE', [2]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch12A_0(Scene s) async {
+    s.placeholder('MUSI');
+    s.setSlot(2, 1);
+    s.setSlot(3, 2596);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.setSlot(3, 89);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('TILECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch12A_5`
-final Ch12A_5 = SceneScript(
-  'EventScr_Ch12A_5',
-  const <SceneOp>[
-    SetSlot(2, Sym('UnitDef_Ch12AEnemy_5')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch12AEnemy_8')),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    SetSlot(2, Sym('UnitDef_Ch12AEnemy_6')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch12AEnemy_3')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch12A_5(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch12AEnemy_5'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.setSlot(2, Sym('UnitDef_Ch12AEnemy_8'));
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
+    s.setSlot(2, Sym('UnitDef_Ch12AEnemy_6'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.setSlot(2, Sym('UnitDef_Ch12AEnemy_3'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch12B_1`
-final Ch12B_1 = SceneScript(
-  'EventScr_Ch12B_1',
-  const <SceneOp>[
-    CameraOp('CAMERA_CAHR', [83]),
-    MiscOp('SPAWN_ENEMY', [87, 0, 0]),
-    SetSlot(2, 87),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 17, 1]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    CursorOp('CURSOR_CHAR', [83]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2722),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, 87),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    MiscOp('DISA', [87]),
-    MoveUnitOp('MOVE', [24, 83, 17, 0]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [83]),
-    MoveUnitOp('MOVE', [24, 129, 16, 0]),
-    MoveUnitOp('MOVE', [24, 130, 18, 0]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [129]),
-    MiscOp('DISA', [130]),
-    SetSlot(2, Sym('UnitDef_Ch12BEnemy_1')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('STAL2', [30]),
-    SetSlot(2, Sym('UnitDef_Ch12BEnemy_2')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('STAL2', [30]),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_032_91908C')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('STAL2', [30]),
-    SetSlot(2, Sym('UnitDef_Ch12BEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('STAL2', [30]),
-    CameraOp('CAMERA_CAHR', [15]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2723),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch12B_1(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('SPAWN_ENEMY');
+    s.setSlot(2, 87);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 17, 1]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2722);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, 87);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.placeholder('DISA');
+    s.moveUnit('MOVE', [24, 83, 17, 0]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.moveUnit('MOVE', [24, 129, 16, 0]);
+    s.moveUnit('MOVE', [24, 130, 18, 0]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('DISA');
+    s.setSlot(2, Sym('UnitDef_Ch12BEnemy_1'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('STAL2');
+    s.setSlot(2, Sym('UnitDef_Ch12BEnemy_2'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('STAL2');
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_032_91908C'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('STAL2');
+    s.setSlot(2, Sym('UnitDef_Ch12BEnemy_4'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('STAL2');
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2723);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch13A_3`
-final Ch13A_3 = SceneScript(
-  'EventScr_Ch13A_3',
-  const <SceneOp>[
-    MusicOp('MUSC', [20]),
-    SetSlot(2, Sym('UnitDef_Ch13AEnemy_3')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch13AEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    CursorOp('CURSOR_CHAR', [79]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2607),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch13A_3(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, Sym('UnitDef_Ch13AEnemy_3'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.setSlot(2, Sym('UnitDef_Ch13AEnemy_4'));
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2607);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch13A_4`
-final Ch13A_4 = SceneScript(
-  'EventScr_Ch13A_4',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 1),
-    SlotArith('SAND', 12, 12),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, Sym('UnitDef_Ch13AEnemy_5')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch13AEnemy_6')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch13A_4(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 1);
+          pc = 2;
+          continue;
+        case 2:
+          s.slotArith('SAND', 12, 12);
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 4; }
+          continue;
+        case 4:
+          s.setSlot(2, Sym('UnitDef_Ch13AEnemy_5'));
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(2, Sym('UnitDef_Ch13AEnemy_6'));
+          pc = 7;
+          continue;
+        case 7:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch13B_0`
-final Ch13B_0 = SceneScript(
-  'EventScr_Ch13B_0',
-  const <SceneOp>[
-    MiscOp('CHECK_EVENTID', [2]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    SetSlot(2, 15),
-    CallScript(Sym('EventScr_UnTriggerIfNotUnit')),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2740),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch13B_0(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVENTID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 12; } else { pc = 2; }
+          continue;
+        case 2:
+          s.setSlot(2, 0);
+          pc = 3;
+          continue;
+        case 3:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(2, 15);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_UnTriggerIfNotUnit'));
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('MUSI');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('TEXTSTART');
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(2740);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('REMA');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('MUNO');
+          pc = 12;
+          continue;
+        case 12:
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('EVBIT_T');
+          pc = 14;
+          continue;
+        case 14:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch13B_1`
-final Ch13B_1 = SceneScript(
-  'EventScr_Ch13B_1',
-  const <SceneOp>[
-    MiscOp('CHECK_EVENTID', [2]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    SetSlot(2, 29),
-    CallScript(Sym('EventScr_UnTriggerIfNotUnit')),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2741),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch13B_1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVENTID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 12; } else { pc = 2; }
+          continue;
+        case 2:
+          s.setSlot(2, 0);
+          pc = 3;
+          continue;
+        case 3:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(2, 29);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_UnTriggerIfNotUnit'));
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('MUSI');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('TEXTSTART');
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(2741);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('REMA');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('MUNO');
+          pc = 12;
+          continue;
+        case 12:
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('EVBIT_T');
+          pc = 14;
+          continue;
+        case 14:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch13a_EndingScene`
-final Ch13a_EndingScene = SceneScript(
-  'EventScr_Ch13a_EndingScene',
-  const <SceneOp>[
-    MiscOp('CHECK_EVENTID', [2]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    CameraOp('CAMERA_CAHR', [81]),
-    CursorOp('CURSOR_CHAR', [81]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 35),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2614),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    SetSlot(2, 35),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2615),
-    TextBoxOp(false),
-    Label(1),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEE', []),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA', [23, 0]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch13ANPC')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [200]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [15]),
-    TextBoxOp(true),
-    ShowTextOp(2616),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CameraOp('CAMERA_CAHR', [1]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 35),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2617),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    SetSlot(2, 35),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('MUSS', [49]),
-    StallOp(33),
-    MiscOp('CHECK_ALIVE', [26]),
-    BranchIf(equal: true, slot: 10, label: 12, opCount: 0),
-    ShowTextOp(2618),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 5000),
-    MiscOp('GIVEITEMTOMAIN', [0]),
-    ShowTextOp(2619),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    MusicOp('MUSC', [38]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    GoTo(11),
-    Label(10),
-    ShowTextOp(2620),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 5000),
-    MiscOp('GIVEITEMTOMAIN', [0]),
-    ShowTextOp(2621),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    MusicOp('MUSC', [38]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    Label(11),
-    ClearTextOp(),
-    FadeOp('FADI', [4]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('CHECK_EVENTID', [2]),
-    BranchIf(equal: false, slot: 99, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [15]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_000_90F678', 2368)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [4]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_000_90F678', 2408)),
-    EndUnitOp('ENUN'),
-    SetSlot(1, 5),
-    MiscOp('SET_HP', [81]),
-    CursorOp('CURSOR_CHAR', [83]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 73),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [46]),
-    ShowTextOp(2622),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    SetSlot(13, 0),
-    SetSlot(1, 65536),
-    EnqueueOps(0),
-    MiscOp('FIGHT_MAP', [83, 81, 0, 0]),
-    FadeOp('FADI', [4]),
-    Label(99),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [14]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch13a_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVENTID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 11; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CAMERA_CAHR');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CURSOR_CHAR');
+          pc = 4;
+          continue;
+        case 4:
+          await s.stall(60);
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CURE');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(2, 35);
+          pc = 7;
+          continue;
+        case 7:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(2614);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 16;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(2, 35);
+          pc = 13;
+          continue;
+        case 13:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 14;
+          continue;
+        case 14:
+          await s.textShow(2615);
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('TEXTEND');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('REMA');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('FADI');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('CLEE');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('CLEAN');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('CAMERA');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('FADU');
+          pc = 23;
+          continue;
+        case 23:
+          s.loadUnits(1, Sym('UnitDef_Ch13ANPC'));
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('ENUN');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('CURSOR_CHAR');
+          pc = 26;
+          continue;
+        case 26:
+          await s.stall(60);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('CURE');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('MUSC');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('TEXTSTART');
+          pc = 30;
+          continue;
+        case 30:
+          await s.textShow(2616);
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('TEXTEND');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('REMA');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('CAMERA_CAHR');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('CURSOR_CHAR');
+          pc = 35;
+          continue;
+        case 35:
+          await s.stall(60);
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('CURE');
+          pc = 37;
+          continue;
+        case 37:
+          s.setSlot(2, 35);
+          pc = 38;
+          continue;
+        case 38:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 39;
+          continue;
+        case 39:
+          await s.textShow(2617);
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('TEXTEND');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('REMA');
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('FADI');
+          pc = 43;
+          continue;
+        case 43:
+          s.setSlot(2, 35);
+          pc = 44;
+          continue;
+        case 44:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('MUSS');
+          pc = 46;
+          continue;
+        case 46:
+          await s.stall(33);
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('CHECK_ALIVE');
+          pc = 48;
+          continue;
+        case 48:
+          if (s.slotInt(10) == 12) { pc = 11; } else { pc = 49; }
+          continue;
+        case 49:
+          await s.textShow(2618);
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('TEXTEND');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('REMA');
+          pc = 52;
+          continue;
+        case 52:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 53;
+          continue;
+        case 53:
+          s.setSlot(3, 5000);
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('GIVEITEMTOMAIN');
+          pc = 55;
+          continue;
+        case 55:
+          await s.textShow(2619);
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('TEXTEND');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('TEXTCONT');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('TEXTEND');
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('MUSC');
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('TEXTCONT');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('TEXTEND');
+          pc = 63;
+          continue;
+        case 63:
+          pc = 79;
+          continue;
+        case 64:
+          pc = 65;
+          continue;
+        case 65:
+          await s.textShow(2620);
+          pc = 66;
+          continue;
+        case 66:
+          s.placeholder('TEXTEND');
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('REMA');
+          pc = 68;
+          continue;
+        case 68:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 69;
+          continue;
+        case 69:
+          s.setSlot(3, 5000);
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('GIVEITEMTOMAIN');
+          pc = 71;
+          continue;
+        case 71:
+          await s.textShow(2621);
+          pc = 72;
+          continue;
+        case 72:
+          s.placeholder('TEXTEND');
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 74;
+          continue;
+        case 74:
+          s.placeholder('TEXTCONT');
+          pc = 75;
+          continue;
+        case 75:
+          s.placeholder('TEXTEND');
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('MUSC');
+          pc = 77;
+          continue;
+        case 77:
+          s.placeholder('TEXTCONT');
+          pc = 78;
+          continue;
+        case 78:
+          s.placeholder('TEXTEND');
+          pc = 79;
+          continue;
+        case 79:
+          pc = 80;
+          continue;
+        case 80:
+          s.placeholder('REMA');
+          pc = 81;
+          continue;
+        case 81:
+          s.placeholder('FADI');
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('CLEA');
+          pc = 83;
+          continue;
+        case 83:
+          s.placeholder('CLEE');
+          pc = 84;
+          continue;
+        case 84:
+          s.placeholder('CLEN');
+          pc = 85;
+          continue;
+        case 85:
+          s.placeholder('CHECK_EVENTID');
+          pc = 86;
+          continue;
+        case 86:
+          if (s.slotInt(99) != 12) { pc = 11; } else { pc = 87; }
+          continue;
+        case 87:
+          s.setSlot(11, 0);
+          pc = 88;
+          continue;
+        case 88:
+          s.placeholder('LOMA');
+          pc = 89;
+          continue;
+        case 89:
+          s.loadUnits(1, Sym('frontier_df3_unitdef_b_000_90F678', 2368));
+          pc = 90;
+          continue;
+        case 90:
+          s.placeholder('ENUN');
+          pc = 91;
+          continue;
+        case 91:
+          s.placeholder('FADU');
+          pc = 92;
+          continue;
+        case 92:
+          s.loadUnits(1, Sym('frontier_df3_unitdef_b_000_90F678', 2408));
+          pc = 93;
+          continue;
+        case 93:
+          s.placeholder('ENUN');
+          pc = 94;
+          continue;
+        case 94:
+          s.setSlot(1, 5);
+          pc = 95;
+          continue;
+        case 95:
+          s.placeholder('SET_HP');
+          pc = 96;
+          continue;
+        case 96:
+          s.placeholder('CURSOR_CHAR');
+          pc = 97;
+          continue;
+        case 97:
+          await s.stall(60);
+          pc = 98;
+          continue;
+        case 98:
+          s.placeholder('CURE');
+          pc = 99;
+          continue;
+        case 99:
+          s.setSlot(2, 73);
+          pc = 100;
+          continue;
+        case 100:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 101;
+          continue;
+        case 101:
+          s.placeholder('MUSC');
+          pc = 102;
+          continue;
+        case 102:
+          await s.textShow(2622);
+          pc = 103;
+          continue;
+        case 103:
+          s.placeholder('TEXTEND');
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('REMA');
+          pc = 105;
+          continue;
+        case 105:
+          await s.call(Sym('EventScr_TextShowWithFadeIn'));
+          pc = 106;
+          continue;
+        case 106:
+          s.setSlot(13, 0);
+          pc = 107;
+          continue;
+        case 107:
+          s.setSlot(1, 65536);
+          pc = 108;
+          continue;
+        case 108:
+          s.placeholder('SENQUEUE1');
+          pc = 109;
+          continue;
+        case 109:
+          s.placeholder('FIGHT_MAP');
+          pc = 110;
+          continue;
+        case 110:
+          s.placeholder('FADI');
+          pc = 111;
+          continue;
+        case 111:
+          pc = 112;
+          continue;
+        case 112:
+          s.placeholder('ENUT');
+          pc = 113;
+          continue;
+        case 113:
+          s.placeholder('MNCH');
+          pc = 114;
+          continue;
+        case 114:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch13b_EndingScene`
-final Ch13b_EndingScene = SceneScript(
-  'EventScr_Ch13b_EndingScene',
-  const <SceneOp>[
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    CameraOp('CAMERA2', [14, 13]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [30]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [50]),
-    SetSlot(2, 44),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2739),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [27]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch13b_EndingScene(Scene s) async {
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('CAMERA2');
+    s.placeholder('EvtSetLoadUnitNoREDA');
+    s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.setSlot(2, 44);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2739);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('ENUT');
+    s.placeholder('MNCH');
+    return;
+}
 
 /// `EventScr_Ch14A_0`
-final Ch14A_0 = SceneScript(
-  'EventScr_Ch14A_0',
-  const <SceneOp>[
-    CameraOp('CAMERA2', [9, 7]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_003_91066C_residue')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [83]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [38]),
-    TextBoxOp(true),
-    ShowTextOp(2630),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVEONTO', [0, 83, 203]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [8, 203, 2]),
-    MoveUnitOp('MOVE_1STEP', [0, 82, 1]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [83]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2631),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE_1STEP', [0, 82, 0]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVEONTO', [0, 83, 203]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [203]),
-    StallOp(16),
-    MoveUnitOp('MOVE', [0, 83, 9, 8]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [83]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2632),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVEONTO', [0, 83, 64]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [64]),
-    MoveUnitOp('MOVE', [0, 83, 17, 11]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [83]),
-    CameraOp('CAMERA2', [9, 6]),
-    MoveUnitOp('MOVE', [0, 82, 9, 5]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch14AEnemy_6')),
-    EndUnitOp('ENUN'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14A_0(Scene s) async {
+    s.placeholder('CAMERA2');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C_residue'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2630);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVEONTO', [0, 83, 203]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE_1STEP', [8, 203, 2]);
+    s.moveUnit('MOVE_1STEP', [0, 82, 1]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2631);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE_1STEP', [0, 82, 0]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVEONTO', [0, 83, 203]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    await s.stall(16);
+    s.moveUnit('MOVE', [0, 83, 9, 8]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2632);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVEONTO', [0, 83, 64]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.moveUnit('MOVE', [0, 83, 17, 11]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CAMERA2');
+    s.moveUnit('MOVE', [0, 82, 9, 5]);
+    s.loadUnits(1, Sym('UnitDef_Ch14AEnemy_6'));
+    s.placeholder('ENUN');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch14A_1`
-final Ch14A_1 = SceneScript(
-  'EventScr_Ch14A_1',
-  const <SceneOp>[
-    SetSlot(2, 9),
-    SetSlot(3, 28),
-    SetSlot(4, 9980),
-    SetSlot(13, 0),
-    SetSlot(1, 2649),
-    EnqueueOps(0),
-    SetSlot(1, 2650),
-    EnqueueOps(0),
-    SetSlot(1, 2652),
-    EnqueueOps(0),
-    SetSlot(1, 2653),
-    EnqueueOps(0),
-    SetSlot(1, 2654),
-    EnqueueOps(0),
-    SetSlot(1, 2651),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EEAAC')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14A_1(Scene s) async {
+    s.setSlot(2, 9);
+    s.setSlot(3, 28);
+    s.setSlot(4, 9980);
+    s.setSlot(13, 0);
+    s.setSlot(1, 2649);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2650);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2652);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2653);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2654);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2651);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EEAAC'));
+    return;
+}
 
 /// `EventScr_Ch14A_8`
-final Ch14A_8 = SceneScript(
-  'EventScr_Ch14A_8',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    SetSlot(13, 0),
-    SetSlot(1, 458760),
-    EnqueueOps(0),
-    SetSlot(1, 458761),
-    EnqueueOps(0),
-    SetSlot(1, 458762),
-    EnqueueOps(0),
-    SetSlot(2, 65536),
-    CallScript(Sym('EventScr_ChangeAIinQueue')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14A_8(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 458760);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 458761);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 458762);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(2, 65536);
+    await s.call(Sym('EventScr_ChangeAIinQueue'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch14B_12`
-final Ch14B_12 = SceneScript(
-  'EventScr_Ch14B_12',
-  const <SceneOp>[
-    SetSlot(2, Sym('UnitDef_Ch14BEnemy_8')),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    SetSlot(2, Sym('UnitDef_Ch14BEnemy_9')),
-    CallScript(Sym('EventScr_LoadReinforceHardMode')),
-    MiscOp('COUNTER_DEC', [1]),
-    MiscOp('ENUF', [16]),
-    MiscOp('COUNTER_CHECK', [1]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    EndUnitOp('ENUT'),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14B_12(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('UnitDef_Ch14BEnemy_8'));
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('EventScr_LoadReinforceHardMode'));
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(2, Sym('UnitDef_Ch14BEnemy_9'));
+          pc = 3;
+          continue;
+        case 3:
+          await s.call(Sym('EventScr_LoadReinforceHardMode'));
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER_DEC');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENUF');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('COUNTER_CHECK');
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 8; }
+          continue;
+        case 8:
+          s.placeholder('ENUT');
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('EVBIT_T');
+          pc = 11;
+          continue;
+        case 11:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch14B_2`
-final Ch14B_2 = SceneScript(
-  'EventScr_Ch14B_2',
-  const <SceneOp>[
-    SetSlot(2, 10),
-    SetSlot(3, 28),
-    SetSlot(4, 9980),
-    SetSlot(13, 0),
-    SetSlot(1, 2770),
-    EnqueueOps(0),
-    SetSlot(1, 2771),
-    EnqueueOps(0),
-    SetSlot(1, 2773),
-    EnqueueOps(0),
-    SetSlot(1, 2774),
-    EnqueueOps(0),
-    SetSlot(1, 2775),
-    EnqueueOps(0),
-    SetSlot(1, 2772),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EEAAC')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14B_2(Scene s) async {
+    s.setSlot(2, 10);
+    s.setSlot(3, 28);
+    s.setSlot(4, 9980);
+    s.setSlot(13, 0);
+    s.setSlot(1, 2770);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2771);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2773);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2774);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2775);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2772);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EEAAC'));
+    return;
+}
 
 /// `EventScr_Ch14b_BeginningScene`
-final Ch14b_BeginningScene = SceneScript(
-  'EventScr_Ch14b_BeginningScene',
-  const <SceneOp>[
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 240)),
-    EndUnitOp('ENUN'),
-    MiscOp('REMU', [83]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_038_91B948_residue', 240)),
-    EndUnitOp('ENUN'),
-    CameraOp('CAMERA', [0, 21]),
-    MiscOp('CLEAN', []),
-    MusicOp('MUSC', [37]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_038_91B948_residue')),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [15]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [2]),
-    LoadUnitsOp(3, Sym('frontier_df3_unitdef_b_038_91B948_residue', 60)),
-    EndUnitOp('ENUN'),
-    SetSlot(1, 4294967295),
-    MiscOp('SET_STATE', [15]),
-    SetSlot(1, 4294967295),
-    MiscOp('SET_STATE', [2]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 73),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2778),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA', [0, 0]),
-    FadeOp('FADU', [16]),
-    MiscOp('SPAWN_ENEMY', [64, 23, 0]),
-    SetSlot(2, 64),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 5, 2]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    CursorOp('CURSOR_CHAR', [64]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [46]),
-    SetSlot(2, 73),
-    SetSlot(3, 2779),
-    CallScript(Sym('Event_TextWithBG')),
-    SetSlot(2, 64),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    MiscOp('DISA', [64]),
-    MoveUnitOp('MOVE_1STEP', [0, 102, 3]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVEONTO', [0, 102, 83]),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1100)),
-    EndUnitOp('ENUN'),
-    EndUnitOp('ENUN'),
-    MiscOp('REVEAL', [83]),
-    MiscOp('DISA', [102]),
-    FadeOp('FADI', [16]),
-    CallScript(Sym('data_085B9BBC', 512)),
-    CameraOp('CAMERA2', [12, 7]),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [38]),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180)),
-    EndUnitOp('ENUN'),
-    MiscOp('REVEAL', [1]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 73),
-    SetSlot(3, 2781),
-    CallScript(Sym('Event_TextWithBG')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14b_BeginningScene(Scene s) async {
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 240));
+    s.placeholder('ENUN');
+    s.placeholder('REMU');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_038_91B948_residue', 240));
+    s.placeholder('ENUN');
+    s.placeholder('CAMERA');
+    s.placeholder('CLEAN');
+    s.placeholder('MUSC');
+    s.placeholder('FADU');
+    s.loadUnits(2, Sym('frontier_df3_unitdef_b_038_91B948_residue'));
+    s.setSlot(1, 0);
+    s.placeholder('SET_STATE');
+    s.setSlot(1, 0);
+    s.placeholder('SET_STATE');
+    s.loadUnits(3, Sym('frontier_df3_unitdef_b_038_91B948_residue', 60));
+    s.placeholder('ENUN');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SET_STATE');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SET_STATE');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 73);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2778);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FADI');
+    s.placeholder('CLEAN');
+    s.placeholder('CAMERA');
+    s.placeholder('FADU');
+    s.placeholder('SPAWN_ENEMY');
+    s.setSlot(2, 64);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 5, 2]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.setSlot(2, 73);
+    s.setSlot(3, 2779);
+    await s.call(Sym('Event_TextWithBG'));
+    s.setSlot(2, 64);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.placeholder('DISA');
+    s.moveUnit('MOVE_1STEP', [0, 102, 3]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVEONTO', [0, 102, 83]);
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1100));
+    s.placeholder('ENUN');
+    s.placeholder('ENUN');
+    s.placeholder('REVEAL');
+    s.placeholder('DISA');
+    s.placeholder('FADI');
+    await s.call(Sym('data_085B9BBC', 512));
+    s.placeholder('CAMERA2');
+    s.placeholder('FADU');
+    s.placeholder('MUSC');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180));
+    s.placeholder('ENUN');
+    s.placeholder('REVEAL');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 73);
+    s.setSlot(3, 2781);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch14b_EndingScene`
-final Ch14b_EndingScene = SceneScript(
-  'EventScr_Ch14b_EndingScene',
-  const <SceneOp>[
-    CallScript(Sym('EventScr_Ch15A_26')),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [29]),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    SetSlot(2, 0),
-    SetSlot(3, 2806),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 136),
-    MiscOp('GIVEITEMTO', [65535]),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    SetSlot(2, 0),
-    SetSlot(3, 2807),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    SetSlot(2, 0),
-    SetSlot(3, 2808),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MiscOp('MUSS', [39]),
-    StallOp(33),
-    TextBoxOp(true),
-    ShowTextOp(2796),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MURE', [2]),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2802),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2803),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2804),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2805),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1260)),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1320)),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, Sym('UnitDef_Ch15BEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, Sym('UnitDef_Ch15BEnemy_5')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_038_91B948')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    SetSlot(1, 65536),
-    MiscOp('CHAI', [129]),
-    SetSlot(1, 70144),
-    MiscOp('CHAI', [130]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch14b_EndingScene(Scene s) async {
+    await s.call(Sym('EventScr_Ch15A_26'));
+    s.placeholder('ENUT');
+    s.placeholder('MNCH');
+    return;
+    s.placeholder('MUSI');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2806);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.setSlot(3, 136);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSI');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2807);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSI');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2808);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSS');
+    await s.stall(33);
+    s.placeholder('TEXTSTART');
+    await s.textShow(2796);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MURE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSI');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2802);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSI');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2803);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSI');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2804);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSI');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2805);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1260));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1320));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('UnitDef_Ch15BEnemy_4'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('UnitDef_Ch15BEnemy_5'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_038_91B948'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, 0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
+    s.setSlot(1, 65536);
+    s.placeholder('CHAI');
+    s.setSlot(1, 70144);
+    s.placeholder('CHAI');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch15A_0`
-final Ch15A_0 = SceneScript(
-  'EventScr_Ch15A_0',
-  const <SceneOp>[
-    MusicOp('MUSC', [37]),
-    EventBitOp(true, 9),
-    LoadUnitsOp(1, Sym('UnitDef_Ch15AAlly_1')),
-    EndUnitOp('ENUN'),
-    EventBitOp(false, 9),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 73),
-    SetSlot(3, 2780),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('REVEAL', [15]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_0(Scene s) async {
+    s.placeholder('MUSC');
+    s.placeholder('EVBIT_T');
+    s.loadUnits(1, Sym('UnitDef_Ch15AAlly_1'));
+    s.placeholder('ENUN');
+    s.placeholder('EVBIT_F');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 73);
+    s.setSlot(3, 2780);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('REVEAL');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch15A_17`
-final Ch15A_17 = SceneScript(
-  'EventScr_Ch15A_17',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 15),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33196, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33196),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_17(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 15);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33196) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_18`
-final Ch15A_18 = SceneScript(
-  'EventScr_Ch15A_18',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 98),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33212, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33212),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_18(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 98);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33212) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_19`
-final Ch15A_19 = SceneScript(
-  'EventScr_Ch15A_19',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 137),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33228, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33228),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_19(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 137);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33228) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_20`
-final Ch15A_20 = SceneScript(
-  'EventScr_Ch15A_20',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 84),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33244, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33244),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_20(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 84);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33244) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_21`
-final Ch15A_21 = SceneScript(
-  'EventScr_Ch15A_21',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 72),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33260, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33260),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_21(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 72);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33260) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_22`
-final Ch15A_22 = SceneScript(
-  'EventScr_Ch15A_22',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 99),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33276, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33276),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_22(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 99);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33276) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_23`
-final Ch15A_23 = SceneScript(
-  'EventScr_Ch15A_23',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 115),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33292, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33292),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_23(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 115);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33292) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_24`
-final Ch15A_24 = SceneScript(
-  'EventScr_Ch15A_24',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 49),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33308, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33308),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_24(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 49);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33308) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_25`
-final Ch15A_25 = SceneScript(
-  'EventScr_Ch15A_25',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 81),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33324, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33324),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15A_25(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 81);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33324) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15A_26`
-final Ch15A_26 = SceneScript(
-  'EventScr_Ch15A_26',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    SetSlot(2, 73),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    ShowTextOp(2792),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 74),
-    MiscOp('GIVEITEMTO', [1]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 147),
-    MiscOp('GIVEITEMTO', [1]),
-    GoTo(1),
-    Label(0),
-    ShowTextOp(2793),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 145),
-    MiscOp('GIVEITEMTO', [15]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 62),
-    MiscOp('GIVEITEMTO', [15]),
-    Label(1),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    CameraOp('CAMERA2', [12, 5]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_AT', [8, 8]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 59),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2794),
-    TextBoxOp(false),
-    MiscOp('MUSS', [45]),
-    StallOp(33),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    MiscOp('MURE', [4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CHECK_ALIVE', [23]),
-    BranchIf(equal: true, slot: 99, label: 12, opCount: 0),
-    SetSlot(2, 59),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [43]),
-    ShowTextOp(2795),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    Label(99),
-    EndScript(true),
-    MusicOp('MUSI', []),
-    MiscOp('EVENT_WORD', [132416]),
-  ],
-);
+Future<void> Ch15A_26(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 73);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_MODE');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 2);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 26; } else { pc = 6; }
+          continue;
+        case 6:
+          await s.textShow(2792);
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('TEXTEND');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('REMA');
+          pc = 9;
+          continue;
+        case 9:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(3, 74);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('GIVEITEMTO');
+          pc = 12;
+          continue;
+        case 12:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(3, 147);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('GIVEITEMTO');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 26;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          await s.textShow(2793);
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('TEXTEND');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('REMA');
+          pc = 20;
+          continue;
+        case 20:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 21;
+          continue;
+        case 21:
+          s.setSlot(3, 145);
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('GIVEITEMTO');
+          pc = 23;
+          continue;
+        case 23:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 24;
+          continue;
+        case 24:
+          s.setSlot(3, 62);
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('GIVEITEMTO');
+          pc = 26;
+          continue;
+        case 26:
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('FADI');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('CLEA');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('CLEE');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CLEN');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CAMERA2');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('CLEAN');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('FADU');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('CURSOR_AT');
+          pc = 35;
+          continue;
+        case 35:
+          await s.stall(60);
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('CURE');
+          pc = 37;
+          continue;
+        case 37:
+          s.setSlot(2, 59);
+          pc = 38;
+          continue;
+        case 38:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 39;
+          continue;
+        case 39:
+          await s.textShow(2794);
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('TEXTEND');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('MUSS');
+          pc = 42;
+          continue;
+        case 42:
+          await s.stall(33);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('TEXTCONT');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('TEXTEND');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('MURE');
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('TEXTCONT');
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('TEXTEND');
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('REMA');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('FADI');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('CHECK_ALIVE');
+          pc = 52;
+          continue;
+        case 52:
+          if (s.slotInt(99) == 12) { pc = 16; } else { pc = 53; }
+          continue;
+        case 53:
+          s.setSlot(2, 59);
+          pc = 54;
+          continue;
+        case 54:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('MUSC');
+          pc = 56;
+          continue;
+        case 56:
+          await s.textShow(2795);
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('TEXTEND');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('REMA');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('FADI');
+          pc = 60;
+          continue;
+        case 60:
+          pc = 61;
+          continue;
+        case 61:
+          return;
+        case 62:
+          s.placeholder('MUSI');
+          pc = 63;
+          continue;
+        case 63:
+          s.placeholder('EVENT_WORD');
+          pc = 64;
+          continue;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_14`
-final Ch15B_14 = SceneScript(
-  'EventScr_Ch15B_14',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 15),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33118, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33118),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_14(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 15);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33118) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_15`
-final Ch15B_15 = SceneScript(
-  'EventScr_Ch15B_15',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 98),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33134, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33134),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_15(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 98);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33134) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_16`
-final Ch15B_16 = SceneScript(
-  'EventScr_Ch15B_16',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 137),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33150, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33150),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_16(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 137);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33150) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_17`
-final Ch15B_17 = SceneScript(
-  'EventScr_Ch15B_17',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 84),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33166, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33166),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_17(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 84);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33166) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_18`
-final Ch15B_18 = SceneScript(
-  'EventScr_Ch15B_18',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 72),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33182, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33182),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_18(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 72);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33182) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_19`
-final Ch15B_19 = SceneScript(
-  'EventScr_Ch15B_19',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 99),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33198, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33198),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_19(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 99);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33198) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_20`
-final Ch15B_20 = SceneScript(
-  'EventScr_Ch15B_20',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 115),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33214, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33214),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_20(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 115);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33214) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_21`
-final Ch15B_21 = SceneScript(
-  'EventScr_Ch15B_21',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 49),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33230, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33230),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_21(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 49);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33230) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch15B_22`
-final Ch15B_22 = SceneScript(
-  'EventScr_Ch15B_22',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('CHECK_LUCK', [65535]),
-    SlotArith('SADD', 2, 12),
-    SetSlot(3, 81),
-    CallScript(Sym('EventScr_GiveTreasureToLuckyDog')),
-    BranchIf(equal: false, slot: 33246, label: 12, opCount: 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(33246),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch15B_22(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_LUCK');
+          pc = 3;
+          continue;
+        case 3:
+          s.slotArith('SADD', 2, 12);
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(3, 81);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_GiveTreasureToLuckyDog'));
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(33246) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch16A_1`
-final Ch16A_1 = SceneScript(
-  'EventScr_Ch16A_1',
-  const <SceneOp>[
-    SlotArith('SADD', 10, 2),
-    MiscOp('STARTFADE', []),
-    MiscOp('EvtColorFadeSetup', [6, 10, 0, 512, 512, 512]),
-    MiscOp('FAWU', [128]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    MiscOp('EVBIT_MODIFY', [4]),
-    CallScript(Sym('EventScr_Ch16A_1', 84)),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('REMOVEPORTRAITS', []),
-    SlotArith('SADD', 2, 10),
-    MiscOp('BACG', [65535]),
-    MiscOp('FAWU', [4]),
-    MiscOp('EVBIT_MODIFY', [0]),
-    EndScript(true),
-    MiscOp('CHECK_MODE', []),
-    MiscOp('EVENT_WORD', [66880]),
-  ],
-);
+Future<void> Ch16A_1(Scene s) async {
+    s.slotArith('SADD', 10, 2);
+    s.placeholder('STARTFADE');
+    s.placeholder('EvtColorFadeSetup');
+    s.placeholder('FAWU');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.placeholder('EVBIT_MODIFY');
+    await s.call(Sym('EventScr_Ch16A_1', 84));
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('REMOVEPORTRAITS');
+    s.slotArith('SADD', 2, 10);
+    s.placeholder('BACG');
+    s.placeholder('FAWU');
+    s.placeholder('EVBIT_MODIFY');
+    return;
+    s.placeholder('CHECK_MODE');
+    s.placeholder('EVENT_WORD');
+}
 
 /// `EventScr_Ch16A_11`
-final Ch16A_11 = SceneScript(
-  'EventScr_Ch16A_11',
-  const <SceneOp>[
-    MusicOp('MUSC', [71]),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [64]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_5')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2809),
-    TextBoxOp(false),
-    MusicOp('MUSC', [37]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    MoveUnitOp('MOVE_1STEP', [16, 30, 3]),
-    EndUnitOp('ENUN'),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2810),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 786432),
-    MiscOp('LOMA', [66]),
-    MiscOp('UNIT_COLORS', [2]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_012_911C34', 256)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_012_911C34', 316)),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [0]),
-    MoveUnitOp('MOVE', [0, 109, 7, 6]),
-    EndUnitOp('ENUN'),
-    MiscOp('TILEREVERT', [0]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_012_911C34', 356)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 1, label: 12, opCount: 1),
-    SetSlot(2, 19),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2811),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    Label(1),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 1),
-    MusicOp('MUSC', [46]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_8')),
-    EndUnitOp('ENUN'),
-    MiscOp('REMU', [64]),
-    MiscOp('REMU', [87]),
-    FadeOp('FADU', [16]),
-    SetSlot(2, 64),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 7, 11]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    SetSlot(2, 87),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 8, 11]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_8')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [128]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 21),
-    SetSlot(3, 2812),
-    CallScript(Sym('Event_TextWithBG')),
-    MoveUnitOp('MOVE_1STEP', [16, 128, 0]),
-    MoveUnitOp('MOVE_1STEP', [16, 129, 1]),
-    EndUnitOp('ENUN'),
-    Label(2),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 3, label: 12, opCount: 1),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_8')),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [65535, 128, 0]),
-    MoveUnitOp('MOVE_1STEP', [65535, 129, 1]),
-    FadeOp('FADU', [16]),
-    Label(3),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_013_911E38')),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [0]),
-    MoveUnitOp('MOVE', [16, 64, 7, 5]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 87, 8, 6]),
-    EndUnitOp('ENUN'),
-    MiscOp('TILEREVERT', [0]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_013_911E38', 60)),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [16, 128, 1]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [16, 129, 0]),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [46]),
-    CursorOp('CURSOR_CHAR', [128]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 4, label: 12, opCount: 1),
-    ShowTextOp(2813),
-    TextBoxOp(false),
-    GoTo(5),
-    Label(4),
-    ShowTextOp(2814),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    Label(5),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(2, 19),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 6, label: 12, opCount: 1),
-    ShowTextOp(2815),
-    TextBoxOp(false),
-    GoTo(7),
-    Label(6),
-    MusicOp('MUSC', [45]),
-    ShowTextOp(2816),
-    TextBoxOp(false),
-    Label(7),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 8, label: 12, opCount: 1),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA', [0, 0]),
-    MusicOp('MUSC', [45]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_013_911E38', 120)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [87]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 19),
-    SetSlot(3, 2817),
-    CallScript(Sym('Event_TextWithBG')),
-    SetSlot(2, 64),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    SetSlot(2, 87),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    Label(8),
-    MiscOp('UNIT_COLORS', [0]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch16A_11(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(11, 0);
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('LOMA');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('FADU');
+          pc = 4;
+          continue;
+        case 4:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_5'));
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENUN');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CURSOR_CHAR');
+          pc = 7;
+          continue;
+        case 7:
+          await s.stall(60);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CURE');
+          pc = 9;
+          continue;
+        case 9:
+          s.setSlot(2, 37);
+          pc = 10;
+          continue;
+        case 10:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 11;
+          continue;
+        case 11:
+          await s.textShow(2809);
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('TEXTEND');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('MUSC');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TEXTCONT');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('TEXTEND');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('REMA');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('FADI');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('CLEAN');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('FADU');
+          pc = 20;
+          continue;
+        case 20:
+          s.moveUnit('MOVE_1STEP', [16, 30, 3]);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('ENUN');
+          pc = 22;
+          continue;
+        case 22:
+          s.setSlot(2, 37);
+          pc = 23;
+          continue;
+        case 23:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 24;
+          continue;
+        case 24:
+          await s.textShow(2810);
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TEXTEND');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('REMA');
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('FADI');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('CLEA');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CLEE');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CLEN');
+          pc = 32;
+          continue;
+        case 32:
+          s.setSlot(11, 786432);
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('LOMA');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('UNIT_COLORS');
+          pc = 35;
+          continue;
+        case 35:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_012_911C34', 256));
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('ENUN');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('FADU');
+          pc = 38;
+          continue;
+        case 38:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_012_911C34', 316));
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('ENUN');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('SOUN');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('TILECHANGE');
+          pc = 42;
+          continue;
+        case 42:
+          s.moveUnit('MOVE', [0, 109, 7, 6]);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('ENUN');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('TILEREVERT');
+          pc = 45;
+          continue;
+        case 45:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_012_911C34', 356));
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('ENUN');
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('FADI');
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('CLEA');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('CLEE');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('CLEN');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('CHECK_MODE');
+          pc = 52;
+          continue;
+        case 52:
+          s.setSlot(1, 2);
+          pc = 53;
+          continue;
+        case 53:
+          if (s.slotInt(1) != 12) { pc = 61; } else { pc = 54; }
+          continue;
+        case 54:
+          s.setSlot(2, 19);
+          pc = 55;
+          continue;
+        case 55:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 56;
+          continue;
+        case 56:
+          await s.textShow(2811);
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('TEXTEND');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('REMA');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('FADI');
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('CLEAN');
+          pc = 61;
+          continue;
+        case 61:
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('CHECK_MODE');
+          pc = 63;
+          continue;
+        case 63:
+          s.setSlot(1, 2);
+          pc = 64;
+          continue;
+        case 64:
+          if (s.slotInt(2) == 12) { pc = 61; } else { pc = 65; }
+          continue;
+        case 65:
+          s.placeholder('MUSC');
+          pc = 66;
+          continue;
+        case 66:
+          s.placeholder('EvtSetLoadUnitNoREDA');
+          pc = 67;
+          continue;
+        case 67:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_8'));
+          pc = 68;
+          continue;
+        case 68:
+          s.placeholder('ENUN');
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('REMU');
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('REMU');
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('FADU');
+          pc = 72;
+          continue;
+        case 72:
+          s.setSlot(2, 64);
+          pc = 73;
+          continue;
+        case 73:
+          s.moveUnit('MOVE_CLOSEST', [65535, 65533, 7, 11]);
+          pc = 74;
+          continue;
+        case 74:
+          await s.call(Sym('EventScr_UnitWarpIN'));
+          pc = 75;
+          continue;
+        case 75:
+          s.setSlot(2, 87);
+          pc = 76;
+          continue;
+        case 76:
+          s.moveUnit('MOVE_CLOSEST', [65535, 65533, 8, 11]);
+          pc = 77;
+          continue;
+        case 77:
+          await s.call(Sym('EventScr_UnitWarpIN'));
+          pc = 78;
+          continue;
+        case 78:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_8'));
+          pc = 79;
+          continue;
+        case 79:
+          s.placeholder('ENUN');
+          pc = 80;
+          continue;
+        case 80:
+          s.placeholder('CURSOR_CHAR');
+          pc = 81;
+          continue;
+        case 81:
+          await s.stall(60);
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('CURE');
+          pc = 83;
+          continue;
+        case 83:
+          s.setSlot(2, 21);
+          pc = 84;
+          continue;
+        case 84:
+          s.setSlot(3, 2812);
+          pc = 85;
+          continue;
+        case 85:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 86;
+          continue;
+        case 86:
+          s.moveUnit('MOVE_1STEP', [16, 128, 0]);
+          pc = 87;
+          continue;
+        case 87:
+          s.moveUnit('MOVE_1STEP', [16, 129, 1]);
+          pc = 88;
+          continue;
+        case 88:
+          s.placeholder('ENUN');
+          pc = 89;
+          continue;
+        case 89:
+          pc = 90;
+          continue;
+        case 90:
+          s.placeholder('CHECK_MODE');
+          pc = 91;
+          continue;
+        case 91:
+          s.setSlot(1, 2);
+          pc = 92;
+          continue;
+        case 92:
+          if (s.slotInt(3) != 12) { pc = 61; } else { pc = 93; }
+          continue;
+        case 93:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_8'));
+          pc = 94;
+          continue;
+        case 94:
+          s.placeholder('ENUN');
+          pc = 95;
+          continue;
+        case 95:
+          s.moveUnit('MOVE_1STEP', [65535, 128, 0]);
+          pc = 96;
+          continue;
+        case 96:
+          s.moveUnit('MOVE_1STEP', [65535, 129, 1]);
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('FADU');
+          pc = 98;
+          continue;
+        case 98:
+          pc = 99;
+          continue;
+        case 99:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_013_911E38'));
+          pc = 100;
+          continue;
+        case 100:
+          s.placeholder('ENUN');
+          pc = 101;
+          continue;
+        case 101:
+          s.placeholder('SOUN');
+          pc = 102;
+          continue;
+        case 102:
+          s.placeholder('TILECHANGE');
+          pc = 103;
+          continue;
+        case 103:
+          s.moveUnit('MOVE', [16, 64, 7, 5]);
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('ENUN');
+          pc = 105;
+          continue;
+        case 105:
+          s.moveUnit('MOVE', [16, 87, 8, 6]);
+          pc = 106;
+          continue;
+        case 106:
+          s.placeholder('ENUN');
+          pc = 107;
+          continue;
+        case 107:
+          s.placeholder('TILEREVERT');
+          pc = 108;
+          continue;
+        case 108:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_013_911E38', 60));
+          pc = 109;
+          continue;
+        case 109:
+          s.placeholder('ENUN');
+          pc = 110;
+          continue;
+        case 110:
+          s.moveUnit('MOVE_1STEP', [16, 128, 1]);
+          pc = 111;
+          continue;
+        case 111:
+          s.placeholder('ENUN');
+          pc = 112;
+          continue;
+        case 112:
+          s.moveUnit('MOVE_1STEP', [16, 129, 0]);
+          pc = 113;
+          continue;
+        case 113:
+          s.placeholder('ENUN');
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('MUSC');
+          pc = 115;
+          continue;
+        case 115:
+          s.placeholder('CURSOR_CHAR');
+          pc = 116;
+          continue;
+        case 116:
+          await s.stall(60);
+          pc = 117;
+          continue;
+        case 117:
+          s.placeholder('CURE');
+          pc = 118;
+          continue;
+        case 118:
+          s.setSlot(2, 21);
+          pc = 119;
+          continue;
+        case 119:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 120;
+          continue;
+        case 120:
+          s.placeholder('CHECK_MODE');
+          pc = 121;
+          continue;
+        case 121:
+          s.setSlot(1, 2);
+          pc = 122;
+          continue;
+        case 122:
+          if (s.slotInt(4) != 12) { pc = 61; } else { pc = 123; }
+          continue;
+        case 123:
+          await s.textShow(2813);
+          pc = 124;
+          continue;
+        case 124:
+          s.placeholder('TEXTEND');
+          pc = 125;
+          continue;
+        case 125:
+          pc = 130;
+          continue;
+        case 126:
+          pc = 127;
+          continue;
+        case 127:
+          await s.textShow(2814);
+          pc = 128;
+          continue;
+        case 128:
+          s.placeholder('TEXTEND');
+          pc = 129;
+          continue;
+        case 129:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 130;
+          continue;
+        case 130:
+          pc = 131;
+          continue;
+        case 131:
+          s.placeholder('REMA');
+          pc = 132;
+          continue;
+        case 132:
+          s.placeholder('FADI');
+          pc = 133;
+          continue;
+        case 133:
+          s.placeholder('CLEA');
+          pc = 134;
+          continue;
+        case 134:
+          s.placeholder('CLEE');
+          pc = 135;
+          continue;
+        case 135:
+          s.placeholder('CLEN');
+          pc = 136;
+          continue;
+        case 136:
+          s.setSlot(2, 19);
+          pc = 137;
+          continue;
+        case 137:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 138;
+          continue;
+        case 138:
+          s.placeholder('CHECK_MODE');
+          pc = 139;
+          continue;
+        case 139:
+          s.setSlot(1, 2);
+          pc = 140;
+          continue;
+        case 140:
+          if (s.slotInt(6) != 12) { pc = 61; } else { pc = 141; }
+          continue;
+        case 141:
+          await s.textShow(2815);
+          pc = 142;
+          continue;
+        case 142:
+          s.placeholder('TEXTEND');
+          pc = 143;
+          continue;
+        case 143:
+          pc = 148;
+          continue;
+        case 144:
+          pc = 145;
+          continue;
+        case 145:
+          s.placeholder('MUSC');
+          pc = 146;
+          continue;
+        case 146:
+          await s.textShow(2816);
+          pc = 147;
+          continue;
+        case 147:
+          s.placeholder('TEXTEND');
+          pc = 148;
+          continue;
+        case 148:
+          pc = 149;
+          continue;
+        case 149:
+          s.placeholder('REMA');
+          pc = 150;
+          continue;
+        case 150:
+          s.placeholder('FADI');
+          pc = 151;
+          continue;
+        case 151:
+          s.placeholder('CHECK_MODE');
+          pc = 152;
+          continue;
+        case 152:
+          s.setSlot(1, 2);
+          pc = 153;
+          continue;
+        case 153:
+          if (s.slotInt(8) != 12) { pc = 61; } else { pc = 154; }
+          continue;
+        case 154:
+          s.placeholder('CLEAN');
+          pc = 155;
+          continue;
+        case 155:
+          s.placeholder('CAMERA');
+          pc = 156;
+          continue;
+        case 156:
+          s.placeholder('MUSC');
+          pc = 157;
+          continue;
+        case 157:
+          s.placeholder('FADU');
+          pc = 158;
+          continue;
+        case 158:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_013_911E38', 120));
+          pc = 159;
+          continue;
+        case 159:
+          s.placeholder('ENUN');
+          pc = 160;
+          continue;
+        case 160:
+          s.placeholder('CURSOR_CHAR');
+          pc = 161;
+          continue;
+        case 161:
+          await s.stall(60);
+          pc = 162;
+          continue;
+        case 162:
+          s.placeholder('CURE');
+          pc = 163;
+          continue;
+        case 163:
+          s.setSlot(2, 19);
+          pc = 164;
+          continue;
+        case 164:
+          s.setSlot(3, 2817);
+          pc = 165;
+          continue;
+        case 165:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 166;
+          continue;
+        case 166:
+          s.setSlot(2, 64);
+          pc = 167;
+          continue;
+        case 167:
+          await s.call(Sym('EventScr_UnitWarpOUT'));
+          pc = 168;
+          continue;
+        case 168:
+          s.setSlot(2, 87);
+          pc = 169;
+          continue;
+        case 169:
+          await s.call(Sym('EventScr_UnitWarpOUT'));
+          pc = 170;
+          continue;
+        case 170:
+          s.placeholder('FADI');
+          pc = 171;
+          continue;
+        case 171:
+          s.placeholder('CLEA');
+          pc = 172;
+          continue;
+        case 172:
+          s.placeholder('CLEE');
+          pc = 173;
+          continue;
+        case 173:
+          s.placeholder('CLEN');
+          pc = 174;
+          continue;
+        case 174:
+          pc = 175;
+          continue;
+        case 175:
+          s.placeholder('UNIT_COLORS');
+          pc = 176;
+          continue;
+        case 176:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch16A_12`
-final Ch16A_12 = SceneScript(
-  'EventScr_Ch16A_12',
-  const <SceneOp>[
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MusicOp('MUSC', [50]),
-    SetSlot(2, 15),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2825),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [66]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_013_911E38_tail')),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [0]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AMixed_1')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [251]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    SetSlot(2, 19),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2826),
-    TextBoxOp(false),
-    FadeOp('FADI', [4]),
-    ClearTextOp(),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 262158),
-    MiscOp('LOMA', [16]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_0')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [4]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [49]),
-    TextBoxOp(true),
-    ShowTextOp(2827),
-    TextBoxOp(false),
-    ClearTextOp(),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_0')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2828),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [0, 1, 12, 11]),
-    MoveUnitOp('MOVE', [0, 15, 14, 11]),
-    MoveUnitOp('MOVE', [0, 2, 13, 11]),
-    MiscOp('STAL2', [20]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEA', []),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [67]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_015_91206C', 20)),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [149]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_13')),
-    MiscOp('SOLOTEXTBOXSTART', []),
-    SetSlot(11, 4194312),
-    ShowTextOp(2829),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(11, 5767216),
-    ShowTextOp(2830),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(11, 4718720),
-    ShowTextOp(2831),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 15),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2832),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    StallOp(60),
-    SetSlot(11, 262158),
-    MiscOp('LOMA', [16]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_1')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2833),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('STARTFADE', []),
-    MiscOp('EvtColorFadeSetup', [6, 10, 4, 128, 128, 128]),
-    AsmCallOp(Sym('StartMapEventcallFx2', 1)),
-    SetSlot(11, 196621),
-    MiscOp('TILECHANGE', [65535]),
-    SetSlot(11, 196622),
-    MiscOp('TILECHANGE', [65535]),
-    MiscOp('EvtColorFadeSetup', [6, 10, 4, 256, 256, 256]),
-    EventBitOp(true, 6),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_1')),
-    StallOp(20),
-    FadeOp('FADI', [4]),
-    EndUnitOp('ENUN'),
-    EventBitOp(false, 6),
-    MiscOp('CLEA', []),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [71]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_15')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 69),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('EvtBgmFadeIn', [43, 6]),
-    ShowTextOp(2834),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    FadeOp('FADI', [4]),
-    ClearTextOp(),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [4]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 69),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2835),
-    TextBoxOp(false),
-    MiscOp('SOUN', [747]),
-    MiscOp('FAWI', [4]),
-    ClearTextOp(),
-    SetSlot(2, 69),
-    CallScript(Sym('EventScr_Ch16A_1')),
-    MiscOp('EvtBgmFadeIn', [43, 6]),
-    MiscOp('REMOVEPORTRAITS', []),
-    ShowTextOp(2836),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [4]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_016_912198_residue')),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [0]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_016_912198', 60)),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [1]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_016_912198', 100)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 69),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2837),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 146),
-    MiscOp('GIVEITEMTO', [15]),
-    ShowTextOp(2838),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 133),
-    MiscOp('GIVEITEMTO', [1]),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    ShowTextOp(2839),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    ShowTextOp(2840),
-    TextBoxOp(false),
-    Label(1),
-    FadeOp('FADI', [16]),
-    ClearTextOp(),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 262158),
-    MiscOp('LOMA', [16]),
-    SetSlot(11, 196621),
-    MiscOp('TILECHANGE', [65535]),
-    SetSlot(11, 196622),
-    MiscOp('TILECHANGE', [65535]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_010_9119D0')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_3')),
-    EndUnitOp('ENUN'),
-    SetSlot(11, 196621),
-    MiscOp('TILEREVERT', [65535]),
-    SetSlot(11, 196622),
-    MiscOp('TILEREVERT', [65535]),
-    CursorOp('CURSOR_CHAR', [25]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [49]),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 10, label: 12, opCount: 1),
-    TextBoxOp(true),
-    ShowTextOp(2841),
-    TextBoxOp(false),
-    ClearTextOp(),
-    GoTo(11),
-    Label(10),
-    TextBoxOp(true),
-    ShowTextOp(2842),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(11),
-    LoadUnitsOp(2, Sym('UnitDef_Ch16AAlly_4')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUN'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch16A_12(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('FADI');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CLEA');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CLEE');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CLEN');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('MUSC');
+          pc = 5;
+          continue;
+        case 5:
+          s.setSlot(2, 15);
+          pc = 6;
+          continue;
+        case 6:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 7;
+          continue;
+        case 7:
+          await s.textShow(2825);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('TEXTEND');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('REMA');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('FADI');
+          pc = 11;
+          continue;
+        case 11:
+          s.setSlot(11, 0);
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('LOMA');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('FADU');
+          pc = 14;
+          continue;
+        case 14:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_013_911E38_tail'));
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('ENUN');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('SOUN');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('TILECHANGE');
+          pc = 18;
+          continue;
+        case 18:
+          s.loadUnits(2, Sym('UnitDef_Ch16AMixed_1'));
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('ENUN');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('CURSOR_CHAR');
+          pc = 21;
+          continue;
+        case 21:
+          await s.stall(60);
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CURE');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 24;
+          continue;
+        case 24:
+          s.setSlot(2, 19);
+          pc = 25;
+          continue;
+        case 25:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 26;
+          continue;
+        case 26:
+          await s.textShow(2826);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('TEXTEND');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('FADI');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('REMA');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CLEA');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CLEE');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('CLEN');
+          pc = 33;
+          continue;
+        case 33:
+          s.setSlot(11, 262158);
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('LOMA');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('EvtSetLoadUnitNoREDA');
+          pc = 36;
+          continue;
+        case 36:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_0'));
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('ENUN');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('FADU');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('CURSOR_CHAR');
+          pc = 40;
+          continue;
+        case 40:
+          await s.stall(60);
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('CURE');
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('MUSC');
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('TEXTSTART');
+          pc = 44;
+          continue;
+        case 44:
+          await s.textShow(2827);
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('TEXTEND');
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('REMA');
+          pc = 47;
+          continue;
+        case 47:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_0'));
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('ENUN');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('CURSOR_CHAR');
+          pc = 50;
+          continue;
+        case 50:
+          await s.stall(60);
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('CURE');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('TEXTSTART');
+          pc = 53;
+          continue;
+        case 53:
+          await s.textShow(2828);
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('TEXTEND');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('REMA');
+          pc = 56;
+          continue;
+        case 56:
+          s.moveUnit('MOVE', [0, 1, 12, 11]);
+          pc = 57;
+          continue;
+        case 57:
+          s.moveUnit('MOVE', [0, 15, 14, 11]);
+          pc = 58;
+          continue;
+        case 58:
+          s.moveUnit('MOVE', [0, 2, 13, 11]);
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('STAL2');
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('FADI');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('ENUN');
+          pc = 63;
+          continue;
+        case 63:
+          s.placeholder('CLEA');
+          pc = 64;
+          continue;
+        case 64:
+          s.setSlot(11, 0);
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('LOMA');
+          pc = 66;
+          continue;
+        case 66:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_015_91206C', 20));
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('ENUN');
+          pc = 68;
+          continue;
+        case 68:
+          s.placeholder('MUSC');
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('FADU');
+          pc = 70;
+          continue;
+        case 70:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_13'));
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('SOLOTEXTBOXSTART');
+          pc = 72;
+          continue;
+        case 72:
+          s.setSlot(11, 4194312);
+          pc = 73;
+          continue;
+        case 73:
+          await s.textShow(2829);
+          pc = 74;
+          continue;
+        case 74:
+          s.placeholder('TEXTEND');
+          pc = 75;
+          continue;
+        case 75:
+          s.placeholder('REMA');
+          pc = 76;
+          continue;
+        case 76:
+          s.setSlot(11, 5767216);
+          pc = 77;
+          continue;
+        case 77:
+          await s.textShow(2830);
+          pc = 78;
+          continue;
+        case 78:
+          s.placeholder('TEXTEND');
+          pc = 79;
+          continue;
+        case 79:
+          s.placeholder('REMA');
+          pc = 80;
+          continue;
+        case 80:
+          s.setSlot(11, 4718720);
+          pc = 81;
+          continue;
+        case 81:
+          await s.textShow(2831);
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('TEXTEND');
+          pc = 83;
+          continue;
+        case 83:
+          s.placeholder('REMA');
+          pc = 84;
+          continue;
+        case 84:
+          s.placeholder('ENUN');
+          pc = 85;
+          continue;
+        case 85:
+          s.placeholder('CURSOR_CHAR');
+          pc = 86;
+          continue;
+        case 86:
+          await s.stall(60);
+          pc = 87;
+          continue;
+        case 87:
+          s.placeholder('CURE');
+          pc = 88;
+          continue;
+        case 88:
+          s.setSlot(2, 15);
+          pc = 89;
+          continue;
+        case 89:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 90;
+          continue;
+        case 90:
+          await s.textShow(2832);
+          pc = 91;
+          continue;
+        case 91:
+          s.placeholder('TEXTEND');
+          pc = 92;
+          continue;
+        case 92:
+          s.placeholder('REMA');
+          pc = 93;
+          continue;
+        case 93:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 94;
+          continue;
+        case 94:
+          s.placeholder('FADI');
+          pc = 95;
+          continue;
+        case 95:
+          s.placeholder('CLEA');
+          pc = 96;
+          continue;
+        case 96:
+          s.placeholder('CLEE');
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('CLEN');
+          pc = 98;
+          continue;
+        case 98:
+          await s.stall(60);
+          pc = 99;
+          continue;
+        case 99:
+          s.setSlot(11, 262158);
+          pc = 100;
+          continue;
+        case 100:
+          s.placeholder('LOMA');
+          pc = 101;
+          continue;
+        case 101:
+          s.placeholder('EvtSetLoadUnitNoREDA');
+          pc = 102;
+          continue;
+        case 102:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_1'));
+          pc = 103;
+          continue;
+        case 103:
+          s.placeholder('ENUN');
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('FADU');
+          pc = 105;
+          continue;
+        case 105:
+          s.placeholder('CURSOR_CHAR');
+          pc = 106;
+          continue;
+        case 106:
+          await s.stall(60);
+          pc = 107;
+          continue;
+        case 107:
+          s.placeholder('CURE');
+          pc = 108;
+          continue;
+        case 108:
+          s.placeholder('TEXTSTART');
+          pc = 109;
+          continue;
+        case 109:
+          await s.textShow(2833);
+          pc = 110;
+          continue;
+        case 110:
+          s.placeholder('TEXTEND');
+          pc = 111;
+          continue;
+        case 111:
+          s.placeholder('REMA');
+          pc = 112;
+          continue;
+        case 112:
+          s.placeholder('STARTFADE');
+          pc = 113;
+          continue;
+        case 113:
+          s.placeholder('EvtColorFadeSetup');
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('ASMC2');
+          pc = 115;
+          continue;
+        case 115:
+          s.setSlot(11, 196621);
+          pc = 116;
+          continue;
+        case 116:
+          s.placeholder('TILECHANGE');
+          pc = 117;
+          continue;
+        case 117:
+          s.setSlot(11, 196622);
+          pc = 118;
+          continue;
+        case 118:
+          s.placeholder('TILECHANGE');
+          pc = 119;
+          continue;
+        case 119:
+          s.placeholder('EvtColorFadeSetup');
+          pc = 120;
+          continue;
+        case 120:
+          s.placeholder('EVBIT_T');
+          pc = 121;
+          continue;
+        case 121:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_1'));
+          pc = 122;
+          continue;
+        case 122:
+          await s.stall(20);
+          pc = 123;
+          continue;
+        case 123:
+          s.placeholder('FADI');
+          pc = 124;
+          continue;
+        case 124:
+          s.placeholder('ENUN');
+          pc = 125;
+          continue;
+        case 125:
+          s.placeholder('EVBIT_F');
+          pc = 126;
+          continue;
+        case 126:
+          s.placeholder('CLEA');
+          pc = 127;
+          continue;
+        case 127:
+          s.setSlot(11, 0);
+          pc = 128;
+          continue;
+        case 128:
+          s.placeholder('LOMA');
+          pc = 129;
+          continue;
+        case 129:
+          s.placeholder('FADU');
+          pc = 130;
+          continue;
+        case 130:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_15'));
+          pc = 131;
+          continue;
+        case 131:
+          s.placeholder('ENUN');
+          pc = 132;
+          continue;
+        case 132:
+          s.placeholder('CURSOR_CHAR');
+          pc = 133;
+          continue;
+        case 133:
+          await s.stall(60);
+          pc = 134;
+          continue;
+        case 134:
+          s.placeholder('CURE');
+          pc = 135;
+          continue;
+        case 135:
+          s.setSlot(2, 69);
+          pc = 136;
+          continue;
+        case 136:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 137;
+          continue;
+        case 137:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 138;
+          continue;
+        case 138:
+          await s.textShow(2834);
+          pc = 139;
+          continue;
+        case 139:
+          s.placeholder('TEXTEND');
+          pc = 140;
+          continue;
+        case 140:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 141;
+          continue;
+        case 141:
+          s.placeholder('FADI');
+          pc = 142;
+          continue;
+        case 142:
+          s.placeholder('REMA');
+          pc = 143;
+          continue;
+        case 143:
+          s.placeholder('CLEAN');
+          pc = 144;
+          continue;
+        case 144:
+          s.placeholder('FADU');
+          pc = 145;
+          continue;
+        case 145:
+          s.placeholder('CURSOR_CHAR');
+          pc = 146;
+          continue;
+        case 146:
+          await s.stall(60);
+          pc = 147;
+          continue;
+        case 147:
+          s.placeholder('CURE');
+          pc = 148;
+          continue;
+        case 148:
+          s.setSlot(2, 69);
+          pc = 149;
+          continue;
+        case 149:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 150;
+          continue;
+        case 150:
+          await s.textShow(2835);
+          pc = 151;
+          continue;
+        case 151:
+          s.placeholder('TEXTEND');
+          pc = 152;
+          continue;
+        case 152:
+          s.placeholder('SOUN');
+          pc = 153;
+          continue;
+        case 153:
+          s.placeholder('FAWI');
+          pc = 154;
+          continue;
+        case 154:
+          s.placeholder('REMA');
+          pc = 155;
+          continue;
+        case 155:
+          s.setSlot(2, 69);
+          pc = 156;
+          continue;
+        case 156:
+          await s.call(Sym('EventScr_Ch16A_1'));
+          pc = 157;
+          continue;
+        case 157:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 158;
+          continue;
+        case 158:
+          s.placeholder('REMOVEPORTRAITS');
+          pc = 159;
+          continue;
+        case 159:
+          await s.textShow(2836);
+          pc = 160;
+          continue;
+        case 160:
+          s.placeholder('TEXTEND');
+          pc = 161;
+          continue;
+        case 161:
+          s.placeholder('REMA');
+          pc = 162;
+          continue;
+        case 162:
+          s.placeholder('FADI');
+          pc = 163;
+          continue;
+        case 163:
+          s.placeholder('CLEAN');
+          pc = 164;
+          continue;
+        case 164:
+          s.placeholder('FADU');
+          pc = 165;
+          continue;
+        case 165:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_016_912198_residue'));
+          pc = 166;
+          continue;
+        case 166:
+          s.placeholder('ENUN');
+          pc = 167;
+          continue;
+        case 167:
+          s.placeholder('SOUN');
+          pc = 168;
+          continue;
+        case 168:
+          s.placeholder('TILECHANGE');
+          pc = 169;
+          continue;
+        case 169:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_016_912198', 60));
+          pc = 170;
+          continue;
+        case 170:
+          s.placeholder('ENUN');
+          pc = 171;
+          continue;
+        case 171:
+          s.placeholder('SOUN');
+          pc = 172;
+          continue;
+        case 172:
+          s.placeholder('TILECHANGE');
+          pc = 173;
+          continue;
+        case 173:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_016_912198', 100));
+          pc = 174;
+          continue;
+        case 174:
+          s.placeholder('ENUN');
+          pc = 175;
+          continue;
+        case 175:
+          s.placeholder('CURSOR_CHAR');
+          pc = 176;
+          continue;
+        case 176:
+          await s.stall(60);
+          pc = 177;
+          continue;
+        case 177:
+          s.placeholder('CURE');
+          pc = 178;
+          continue;
+        case 178:
+          s.setSlot(2, 69);
+          pc = 179;
+          continue;
+        case 179:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 180;
+          continue;
+        case 180:
+          await s.textShow(2837);
+          pc = 181;
+          continue;
+        case 181:
+          s.placeholder('TEXTEND');
+          pc = 182;
+          continue;
+        case 182:
+          s.placeholder('REMA');
+          pc = 183;
+          continue;
+        case 183:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 184;
+          continue;
+        case 184:
+          s.setSlot(3, 146);
+          pc = 185;
+          continue;
+        case 185:
+          s.placeholder('GIVEITEMTO');
+          pc = 186;
+          continue;
+        case 186:
+          await s.textShow(2838);
+          pc = 187;
+          continue;
+        case 187:
+          s.placeholder('TEXTEND');
+          pc = 188;
+          continue;
+        case 188:
+          s.placeholder('REMA');
+          pc = 189;
+          continue;
+        case 189:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 190;
+          continue;
+        case 190:
+          s.setSlot(3, 133);
+          pc = 191;
+          continue;
+        case 191:
+          s.placeholder('GIVEITEMTO');
+          pc = 192;
+          continue;
+        case 192:
+          s.placeholder('CHECK_MODE');
+          pc = 193;
+          continue;
+        case 193:
+          s.setSlot(1, 2);
+          pc = 194;
+          continue;
+        case 194:
+          if (s.slotInt(0) != 12) { pc = 201; } else { pc = 195; }
+          continue;
+        case 195:
+          await s.textShow(2839);
+          pc = 196;
+          continue;
+        case 196:
+          s.placeholder('TEXTEND');
+          pc = 197;
+          continue;
+        case 197:
+          pc = 201;
+          continue;
+        case 198:
+          pc = 199;
+          continue;
+        case 199:
+          await s.textShow(2840);
+          pc = 200;
+          continue;
+        case 200:
+          s.placeholder('TEXTEND');
+          pc = 201;
+          continue;
+        case 201:
+          pc = 202;
+          continue;
+        case 202:
+          s.placeholder('FADI');
+          pc = 203;
+          continue;
+        case 203:
+          s.placeholder('REMA');
+          pc = 204;
+          continue;
+        case 204:
+          s.placeholder('CLEA');
+          pc = 205;
+          continue;
+        case 205:
+          s.placeholder('CLEE');
+          pc = 206;
+          continue;
+        case 206:
+          s.placeholder('CLEN');
+          pc = 207;
+          continue;
+        case 207:
+          s.setSlot(11, 262158);
+          pc = 208;
+          continue;
+        case 208:
+          s.placeholder('LOMA');
+          pc = 209;
+          continue;
+        case 209:
+          s.setSlot(11, 196621);
+          pc = 210;
+          continue;
+        case 210:
+          s.placeholder('TILECHANGE');
+          pc = 211;
+          continue;
+        case 211:
+          s.setSlot(11, 196622);
+          pc = 212;
+          continue;
+        case 212:
+          s.placeholder('TILECHANGE');
+          pc = 213;
+          continue;
+        case 213:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_010_9119D0'));
+          pc = 214;
+          continue;
+        case 214:
+          s.placeholder('ENUN');
+          pc = 215;
+          continue;
+        case 215:
+          s.placeholder('FADU');
+          pc = 216;
+          continue;
+        case 216:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_3'));
+          pc = 217;
+          continue;
+        case 217:
+          s.placeholder('ENUN');
+          pc = 218;
+          continue;
+        case 218:
+          s.setSlot(11, 196621);
+          pc = 219;
+          continue;
+        case 219:
+          s.placeholder('TILEREVERT');
+          pc = 220;
+          continue;
+        case 220:
+          s.setSlot(11, 196622);
+          pc = 221;
+          continue;
+        case 221:
+          s.placeholder('TILEREVERT');
+          pc = 222;
+          continue;
+        case 222:
+          s.placeholder('CURSOR_CHAR');
+          pc = 223;
+          continue;
+        case 223:
+          await s.stall(60);
+          pc = 224;
+          continue;
+        case 224:
+          s.placeholder('CURE');
+          pc = 225;
+          continue;
+        case 225:
+          s.placeholder('MUSC');
+          pc = 226;
+          continue;
+        case 226:
+          s.placeholder('CHECK_MODE');
+          pc = 227;
+          continue;
+        case 227:
+          s.setSlot(1, 2);
+          pc = 228;
+          continue;
+        case 228:
+          if (s.slotInt(10) != 12) { pc = 201; } else { pc = 229; }
+          continue;
+        case 229:
+          s.placeholder('TEXTSTART');
+          pc = 230;
+          continue;
+        case 230:
+          await s.textShow(2841);
+          pc = 231;
+          continue;
+        case 231:
+          s.placeholder('TEXTEND');
+          pc = 232;
+          continue;
+        case 232:
+          s.placeholder('REMA');
+          pc = 233;
+          continue;
+        case 233:
+          pc = 239;
+          continue;
+        case 234:
+          pc = 235;
+          continue;
+        case 235:
+          s.placeholder('TEXTSTART');
+          pc = 236;
+          continue;
+        case 236:
+          await s.textShow(2842);
+          pc = 237;
+          continue;
+        case 237:
+          s.placeholder('TEXTEND');
+          pc = 238;
+          continue;
+        case 238:
+          s.placeholder('REMA');
+          pc = 239;
+          continue;
+        case 239:
+          pc = 240;
+          continue;
+        case 240:
+          s.loadUnits(2, Sym('UnitDef_Ch16AAlly_4'));
+          pc = 241;
+          continue;
+        case 241:
+          s.placeholder('ENUN');
+          pc = 242;
+          continue;
+        case 242:
+          s.placeholder('FADI');
+          pc = 243;
+          continue;
+        case 243:
+          s.placeholder('ENUN');
+          pc = 244;
+          continue;
+        case 244:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch16A_9`
-final Ch16A_9 = SceneScript(
-  'EventScr_Ch16A_9',
-  const <SceneOp>[
-    SetSlot(2, Sym('UnitDef_Ch16AEnemy_2')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch16AEnemy_3')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    CameraOp('CAMERA', [19, 27]),
-    SetSlot(2, Sym('UnitDef_Ch16AEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_009_91187C')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch16A_9(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch16AEnemy_2'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.setSlot(2, Sym('UnitDef_Ch16AEnemy_3'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('CAMERA');
+    s.setSlot(2, Sym('UnitDef_Ch16AEnemy_4'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_009_91187C'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch16B_3`
-final Ch16B_3 = SceneScript(
-  'EventScr_Ch16B_3',
-  const <SceneOp>[
-    SetSlot(2, Sym('UnitDef_Ch16BEnemy_2')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_039_91BED4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('COUNTER_DEC', [0]),
-    MiscOp('ENUF', [14]),
-    MiscOp('COUNTER_CHECK', [0]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    EndUnitOp('ENUT'),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch16B_3(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('UnitDef_Ch16BEnemy_2'));
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_039_91BED4'));
+          pc = 3;
+          continue;
+        case 3:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER_DEC');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENUF');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('COUNTER_CHECK');
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 8; }
+          continue;
+        case 8:
+          s.placeholder('ENUT');
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('EVBIT_T');
+          pc = 11;
+          continue;
+        case 11:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch16B_5`
-final Ch16B_5 = SceneScript(
-  'EventScr_Ch16B_5',
-  const <SceneOp>[
-    SetSlot(2, Sym('frontier_df3_unitdef_b_040_91BF9C')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    SetSlot(2, Sym('UnitDef_Ch16BEnemy_4')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('COUNTER_DEC', [1]),
-    MiscOp('ENUF', [13]),
-    MiscOp('COUNTER_CHECK', [1]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    EndUnitOp('ENUT'),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch16B_5(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_040_91BF9C'));
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(2, Sym('UnitDef_Ch16BEnemy_4'));
+          pc = 3;
+          continue;
+        case 3:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER_DEC');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENUF');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('COUNTER_CHECK');
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 8; }
+          continue;
+        case 8:
+          s.placeholder('ENUT');
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('EVBIT_T');
+          pc = 11;
+          continue;
+        case 11:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch16b_BeginningScene`
-final Ch16b_BeginningScene = SceneScript(
-  'EventScr_Ch16b_BeginningScene',
-  const <SceneOp>[
-    SetSlot(2, Sym('frontier_df3_unitdef_b_042_91C230')),
-    CallScript(Sym('frontier_df3_eventscr_ch_001_A696D4', 48)),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-    CallScript(Sym('frontier_df3_eventscr_ch_001_A696D4', 996)),
-    MiscOp('MNCH', [31]),
-    EndScript(true),
-    CallScript(Sym('frontier_df3_eventscr_ch_001_A696D4', 1724)),
-    EndScript(true),
-    CallScript(Sym('frontier_df3_eventscr_ch_001_A696D4', 1764)),
-    EndScript(true),
-    CallScript(Sym('frontier_df3_eventscr_ch_001_A696D4', 1804)),
-    EndScript(true),
-    SetSlot(2, Sym('frontier_df3_unitdef_b_042_91C230_residue')),
-    MiscOp('EVENT_WORD', [2624]),
-  ],
-);
+Future<void> Ch16b_BeginningScene(Scene s) async {
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_042_91C230'));
+    await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 48));
+    s.placeholder('ENUT');
+    return;
+    await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 996));
+    s.placeholder('MNCH');
+    return;
+    await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 1724));
+    return;
+    await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 1764));
+    return;
+    await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 1804));
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_042_91C230_residue'));
+    s.placeholder('EVENT_WORD');
+}
 
 /// `EventScr_Ch18A_11`
-final Ch18A_11 = SceneScript(
-  'EventScr_Ch18A_11',
-  const <SceneOp>[
-    MusicOp('MUSC', [73]),
-    SetSlot(2, 76),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    ShowTextOp(2874),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    MusicOp('MUSC', [44]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    ShowTextOp(2875),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    MusicOp('MUSC', [44]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    Label(1),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch18AMixed')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [73]),
-    CursorOp('CURSOR_CHAR', [192]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 76),
-    SetSlot(3, 2876),
-    CallScript(Sym('Event_TextWithBG')),
-    CameraOp('CAMERA2', [12, 15]),
-    StallOp(60),
-    CameraOp('CAMERA', [0, 27]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [37]),
-    SetSlot(2, 76),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2877),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEN', []),
-    CallScript(Sym('data_085B9BBC', 512)),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch18A_11(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 76);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_MODE');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 2);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 24; } else { pc = 6; }
+          continue;
+        case 6:
+          await s.textShow(2874);
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('TEXTEND');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTCONT');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('TEXTEND');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('MUSC');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('TEXTCONT');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('TEXTEND');
+          pc = 14;
+          continue;
+        case 14:
+          pc = 24;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          await s.textShow(2875);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('TEXTEND');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('TEXTCONT');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('TEXTEND');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('MUSC');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('TEXTCONT');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('TEXTEND');
+          pc = 24;
+          continue;
+        case 24:
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('REMA');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('FADI');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('CLEAN');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('FADU');
+          pc = 30;
+          continue;
+        case 30:
+          s.loadUnits(2, Sym('UnitDef_Ch18AMixed'));
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('ENUN');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('MUSC');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('CURSOR_CHAR');
+          pc = 34;
+          continue;
+        case 34:
+          await s.stall(60);
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('CURE');
+          pc = 36;
+          continue;
+        case 36:
+          s.setSlot(2, 76);
+          pc = 37;
+          continue;
+        case 37:
+          s.setSlot(3, 2876);
+          pc = 38;
+          continue;
+        case 38:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('CAMERA2');
+          pc = 40;
+          continue;
+        case 40:
+          await s.stall(60);
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('CAMERA');
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('CURSOR_CHAR');
+          pc = 43;
+          continue;
+        case 43:
+          await s.stall(60);
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('CURE');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('MUSC');
+          pc = 46;
+          continue;
+        case 46:
+          s.setSlot(2, 76);
+          pc = 47;
+          continue;
+        case 47:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 48;
+          continue;
+        case 48:
+          await s.textShow(2877);
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('TEXTEND');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('REMA');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('FADI');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('CLEN');
+          pc = 53;
+          continue;
+        case 53:
+          await s.call(Sym('data_085B9BBC', 512));
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('ENUT');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('ENUT');
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('ENUT');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('ENUT');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('EVBIT_T');
+          pc = 59;
+          continue;
+        case 59:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch18b_BeginningScene`
-final Ch18b_BeginningScene = SceneScript(
-  'EventScr_Ch18b_BeginningScene',
-  const <SceneOp>[
-    SetSlot(2, Sym('frontier_df3_unitdef_b_047_91E280', 1000)),
-    SetSlot(3, Sym('UnitDef_Ch19BNPC_1')),
-    SetSlot(4, Sym('frontier_df3_unitdef_b_047_91E280')),
-    CallScript(Sym('frontier_df3_eventscr_ch_002_A6A06C', 884)),
-    EventBitOp(true, 7),
-    EndScript(true),
-    CameraOp('CAMERA_CAHR', [15]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [17]),
-    MiscOp('EVENT_WORD', [132416]),
-  ],
-);
+Future<void> Ch18b_BeginningScene(Scene s) async {
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280', 1000));
+    s.setSlot(3, Sym('UnitDef_Ch19BNPC_1'));
+    s.setSlot(4, Sym('frontier_df3_unitdef_b_047_91E280'));
+    await s.call(Sym('frontier_df3_eventscr_ch_002_A6A06C', 884));
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.placeholder('EVENT_WORD');
+}
 
 /// `EventScr_Ch19A_11`
-final Ch19A_11 = SceneScript(
-  'EventScr_Ch19A_11',
-  const <SceneOp>[
-    MiscOp('CHECK_OTHERS', []),
-    SlotArith('SADD', 7, 12),
-    MusicOp('MUSC', [49]),
-    SetSlot(2, 15),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    ShowTextOp(2908),
-    TextBoxOp(false),
-    GoTo(3),
-    Label(0),
-    MiscOp('CHECK_EVENTID', [7]),
-    BranchIf(equal: false, slot: 2, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [34]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    ShowTextOp(2909),
-    TextBoxOp(false),
-    GoTo(3),
-    Label(1),
-    ShowTextOp(2910),
-    TextBoxOp(false),
-    GoTo(3),
-    Label(2),
-    ShowTextOp(2911),
-    TextBoxOp(false),
-    Label(3),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('EvtChangeFogVision', [0, 0]),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [72]),
-    FadeOp('FADU', [4]),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_022_915038_tail_p1')),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [0]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch19AAlly_5')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_023_91512C')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [25]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 70),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [43]),
-    ShowTextOp(2912),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 10, label: 12, opCount: 1),
-    SetSlot(11, 1572864),
-    MiscOp('LOMA', [19]),
-    GoTo(11),
-    Label(10),
-    SetSlot(11, 1572864),
-    MiscOp('LOMA', [32]),
-    Label(11),
-    LoadUnitsOp(2, Sym('frontier_df3_unitdef_b_021_914BD8', 860)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch19ANPC_3')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [200]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 23),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [49]),
-    ShowTextOp(2913),
-    TextBoxOp(false),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 20, label: 12, opCount: 1),
-    MiscOp('EvtTextShow2', [2914]),
-    TextBoxOp(false),
-    GoTo(21),
-    Label(20),
-    MiscOp('EvtTextShow2', [2915]),
-    TextBoxOp(false),
-    Label(21),
-    MiscOp('EvtTextShow2', [2916]),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 135),
-    MiscOp('GIVEITEMTO', [0]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 140),
-    MiscOp('GIVEITEMTO', [0]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 10000),
-    MiscOp('GIVEITEMTOMAIN', [0]),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 30, label: 12, opCount: 1),
-    ShowTextOp(2917),
-    TextBoxOp(false),
-    GoTo(31),
-    Label(30),
-    ShowTextOp(2918),
-    TextBoxOp(false),
-    Label(31),
-    ClearTextOp(),
-    SetSlot(8, 6),
-    MiscOp('BLT', [42, 7, 8]),
-    SetSlot(2, 23),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 40, label: 12, opCount: 1),
-    ShowTextOp(2919),
-    TextBoxOp(false),
-    GoTo(41),
-    Label(40),
-    ShowTextOp(2920),
-    TextBoxOp(false),
-    Label(41),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 16),
-    MiscOp('GIVEITEMTO', [0]),
-    Label(42),
-    EndScript(true),
-  ],
-);
+Future<void> Ch19A_11(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_OTHERS');
+          pc = 1;
+          continue;
+        case 1:
+          s.slotArith('SADD', 7, 12);
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('MUSC');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(2, 15);
+          pc = 4;
+          continue;
+        case 4:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CHECK_MODE');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(1, 2);
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(0) != 12) { pc = 19; } else { pc = 8; }
+          continue;
+        case 8:
+          await s.textShow(2908);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 26;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CHECK_EVENTID');
+          pc = 13;
+          continue;
+        case 13:
+          if (s.slotInt(2) != 12) { pc = 11; } else { pc = 14; }
+          continue;
+        case 14:
+          s.placeholder('CHECK_ALIVE');
+          pc = 15;
+          continue;
+        case 15:
+          if (s.slotInt(1) == 12) { pc = 11; } else { pc = 16; }
+          continue;
+        case 16:
+          await s.textShow(2909);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('TEXTEND');
+          pc = 18;
+          continue;
+        case 18:
+          pc = 26;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          await s.textShow(2910);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('TEXTEND');
+          pc = 22;
+          continue;
+        case 22:
+          pc = 26;
+          continue;
+        case 23:
+          pc = 24;
+          continue;
+        case 24:
+          await s.textShow(2911);
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TEXTEND');
+          pc = 26;
+          continue;
+        case 26:
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('REMA');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('FADI');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CLEA');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CLEE');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('CLEN');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('EvtChangeFogVision');
+          pc = 34;
+          continue;
+        case 34:
+          s.setSlot(11, 0);
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('LOMA');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('FADU');
+          pc = 37;
+          continue;
+        case 37:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_022_915038_tail_p1'));
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('ENUN');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('SOUN');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('TILECHANGE');
+          pc = 41;
+          continue;
+        case 41:
+          s.loadUnits(2, Sym('UnitDef_Ch19AAlly_5'));
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('ENUN');
+          pc = 43;
+          continue;
+        case 43:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_023_91512C'));
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('ENUN');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('CURSOR_CHAR');
+          pc = 46;
+          continue;
+        case 46:
+          await s.stall(60);
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('CURE');
+          pc = 48;
+          continue;
+        case 48:
+          s.setSlot(2, 70);
+          pc = 49;
+          continue;
+        case 49:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('MUSC');
+          pc = 51;
+          continue;
+        case 51:
+          await s.textShow(2912);
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('TEXTEND');
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('REMA');
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('FADI');
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('CLEA');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('CLEE');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('CLEN');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('CHECK_MODE');
+          pc = 60;
+          continue;
+        case 60:
+          s.setSlot(1, 2);
+          pc = 61;
+          continue;
+        case 61:
+          if (s.slotInt(10) != 12) { pc = 19; } else { pc = 62; }
+          continue;
+        case 62:
+          s.setSlot(11, 1572864);
+          pc = 63;
+          continue;
+        case 63:
+          s.placeholder('LOMA');
+          pc = 64;
+          continue;
+        case 64:
+          pc = 68;
+          continue;
+        case 65:
+          pc = 66;
+          continue;
+        case 66:
+          s.setSlot(11, 1572864);
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('LOMA');
+          pc = 68;
+          continue;
+        case 68:
+          pc = 69;
+          continue;
+        case 69:
+          s.loadUnits(2, Sym('frontier_df3_unitdef_b_021_914BD8', 860));
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('ENUN');
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('FADU');
+          pc = 72;
+          continue;
+        case 72:
+          s.loadUnits(2, Sym('UnitDef_Ch19ANPC_3'));
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('ENUN');
+          pc = 74;
+          continue;
+        case 74:
+          s.placeholder('CURSOR_CHAR');
+          pc = 75;
+          continue;
+        case 75:
+          await s.stall(60);
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('CURE');
+          pc = 77;
+          continue;
+        case 77:
+          s.setSlot(2, 23);
+          pc = 78;
+          continue;
+        case 78:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 79;
+          continue;
+        case 79:
+          s.placeholder('MUSC');
+          pc = 80;
+          continue;
+        case 80:
+          await s.textShow(2913);
+          pc = 81;
+          continue;
+        case 81:
+          s.placeholder('TEXTEND');
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('CHECK_MODE');
+          pc = 83;
+          continue;
+        case 83:
+          s.setSlot(1, 2);
+          pc = 84;
+          continue;
+        case 84:
+          if (s.slotInt(20) != 12) { pc = 19; } else { pc = 85; }
+          continue;
+        case 85:
+          s.placeholder('EvtTextShow2');
+          pc = 86;
+          continue;
+        case 86:
+          s.placeholder('TEXTEND');
+          pc = 87;
+          continue;
+        case 87:
+          pc = 91;
+          continue;
+        case 88:
+          pc = 89;
+          continue;
+        case 89:
+          s.placeholder('EvtTextShow2');
+          pc = 90;
+          continue;
+        case 90:
+          s.placeholder('TEXTEND');
+          pc = 91;
+          continue;
+        case 91:
+          pc = 92;
+          continue;
+        case 92:
+          s.placeholder('EvtTextShow2');
+          pc = 93;
+          continue;
+        case 93:
+          s.placeholder('TEXTEND');
+          pc = 94;
+          continue;
+        case 94:
+          s.placeholder('REMA');
+          pc = 95;
+          continue;
+        case 95:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 96;
+          continue;
+        case 96:
+          s.setSlot(3, 135);
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('GIVEITEMTO');
+          pc = 98;
+          continue;
+        case 98:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 99;
+          continue;
+        case 99:
+          s.setSlot(3, 140);
+          pc = 100;
+          continue;
+        case 100:
+          s.placeholder('GIVEITEMTO');
+          pc = 101;
+          continue;
+        case 101:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 102;
+          continue;
+        case 102:
+          s.setSlot(3, 10000);
+          pc = 103;
+          continue;
+        case 103:
+          s.placeholder('GIVEITEMTOMAIN');
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('CHECK_MODE');
+          pc = 105;
+          continue;
+        case 105:
+          s.setSlot(1, 2);
+          pc = 106;
+          continue;
+        case 106:
+          if (s.slotInt(30) != 12) { pc = 19; } else { pc = 107; }
+          continue;
+        case 107:
+          await s.textShow(2917);
+          pc = 108;
+          continue;
+        case 108:
+          s.placeholder('TEXTEND');
+          pc = 109;
+          continue;
+        case 109:
+          pc = 113;
+          continue;
+        case 110:
+          pc = 111;
+          continue;
+        case 111:
+          await s.textShow(2918);
+          pc = 112;
+          continue;
+        case 112:
+          s.placeholder('TEXTEND');
+          pc = 113;
+          continue;
+        case 113:
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('REMA');
+          pc = 115;
+          continue;
+        case 115:
+          s.setSlot(8, 6);
+          pc = 116;
+          continue;
+        case 116:
+          s.placeholder('BLT');
+          pc = 117;
+          continue;
+        case 117:
+          s.setSlot(2, 23);
+          pc = 118;
+          continue;
+        case 118:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 119;
+          continue;
+        case 119:
+          s.placeholder('CHECK_MODE');
+          pc = 120;
+          continue;
+        case 120:
+          s.setSlot(1, 2);
+          pc = 121;
+          continue;
+        case 121:
+          if (s.slotInt(40) != 12) { pc = 19; } else { pc = 122; }
+          continue;
+        case 122:
+          await s.textShow(2919);
+          pc = 123;
+          continue;
+        case 123:
+          s.placeholder('TEXTEND');
+          pc = 124;
+          continue;
+        case 124:
+          pc = 128;
+          continue;
+        case 125:
+          pc = 126;
+          continue;
+        case 126:
+          await s.textShow(2920);
+          pc = 127;
+          continue;
+        case 127:
+          s.placeholder('TEXTEND');
+          pc = 128;
+          continue;
+        case 128:
+          pc = 129;
+          continue;
+        case 129:
+          s.placeholder('REMA');
+          pc = 130;
+          continue;
+        case 130:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 131;
+          continue;
+        case 131:
+          s.setSlot(3, 16);
+          pc = 132;
+          continue;
+        case 132:
+          s.placeholder('GIVEITEMTO');
+          pc = 133;
+          continue;
+        case 133:
+          pc = 134;
+          continue;
+        case 134:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch1Tut_BeforeSethMoveToEnemy`
-final Ch1Tut_BeforeSethMoveToEnemy = SceneScript(
-  'EventScr_Ch1Tut_BeforeSethMoveToEnemy',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 393225),
-    EnqueueOps(0),
-    SetSlot(1, 2320),
-    EnqueueOps(0),
-    SetSlot(1, 524296),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_AfterSethMoveToEnemy')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65534]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_BeforeSethMoveToEnemy(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 393225);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2320);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524296);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_AfterSethMoveToEnemy'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch1Tut_ChooseSethTurn1`
-final Ch1Tut_ChooseSethTurn1 = SceneScript(
-  'EventScr_Ch1Tut_ChooseSethTurn1',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2318),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_FLASHING_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(13, 0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 65536),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    MiscOp('FIGHT_SCRIPT', []),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Ch1Tut_SethMoveToEnemy'), 2]),
-    MiscOp('DISABLEOPTIONS', [24576]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2318);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 65536);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.placeholder('FIGHT_SCRIPT');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    return;
+}
 
 /// `EventScr_Ch1Tut_EirikaVisitHouseIdle1`
-final Ch1Tut_EirikaVisitHouseIdle1 = SceneScript(
-  'EventScr_Ch1Tut_EirikaVisitHouseIdle1',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 393229),
-    EnqueueOps(0),
-    SetSlot(1, 2304),
-    EnqueueOps(0),
-    SetSlot(1, 524296),
-    EnqueueOps(0),
-    SetSlot(1, 2303),
-    EnqueueOps(0),
-    SetSlot(1, 524296),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle1')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_EirikaVisitHouseIdle1(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 393229);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2304);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524296);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2303);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524296);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle1'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Ch1Tut_EirikaVisitHouseIdle2`
-final Ch1Tut_EirikaVisitHouseIdle2 = SceneScript(
-  'EventScr_Ch1Tut_EirikaVisitHouseIdle2',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 393229),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseEnd')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65503]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_EirikaVisitHouseIdle2(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 393229);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseEnd'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch1Tut_EirikaVisitHouseInit`
-final Ch1Tut_EirikaVisitHouseInit = SceneScript(
-  'EventScr_Ch1Tut_EirikaVisitHouseInit',
-  const <SceneOp>[
-    MusicOp('MUSC', [9]),
-    TextBoxOp(true),
-    ShowTextOp(2286),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_FLASHING', [13, 6]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    MiscOp('EVENT_WORD_SYM', [Sym('MultiBootImage_08FE0000', 6944)]),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_FLASHING_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle1'), 2]),
-    MiscOp('DISABLEOPTIONS', [16384]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_EirikaVisitHouseInit(Scene s) async {
+    s.placeholder('MUSC');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2286);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    s.placeholder('EVENT_WORD_SYM');
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch1Tut_GuideTerrainHeal`
-final Ch1Tut_GuideTerrainHeal = SceneScript(
-  'EventScr_Ch1Tut_GuideTerrainHeal',
-  const <SceneOp>[
-    MiscOp('IGNORE_KEYS', [0]),
-    CursorOp('CURSOR_FLASHING', [7, 7]),
-    CursorOp('CURSOR_FLASHING', [7, 2]),
-    CursorOp('CURSOR_FLASHING', [2, 2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2306),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('DISABLEOPTIONS', [512]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('CURSOR_FLASHING');
+    s.placeholder('CURSOR_FLASHING');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2306);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch1Tut_OnBeginning`
-final Ch1Tut_OnBeginning = SceneScript(
-  'EventScr_Ch1Tut_OnBeginning',
-  const <SceneOp>[
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2307),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    TextBoxOp(true),
-    MiscOp('EVENT_WORD_SYM', [Sym('battle_terrain_maruta1_tileset', 8)]),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_OnBeginning(Scene s) async {
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2307);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('TEXTSTART');
+    s.placeholder('EVENT_WORD_SYM');
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    return;
+}
 
 /// `EventScr_Ch1Tut_SethMoveToEnemy`
-final Ch1Tut_SethMoveToEnemy = SceneScript(
-  'EventScr_Ch1Tut_SethMoveToEnemy',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 2),
-    EnqueueOps(0),
-    SetSlot(1, 393225),
-    EnqueueOps(0),
-    SetSlot(1, 2320),
-    EnqueueOps(0),
-    SetSlot(1, 524296),
-    EnqueueOps(0),
-    SetSlot(1, 2319),
-    EnqueueOps(0),
-    SetSlot(1, 524296),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_SethMoveToEnemy')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_SethMoveToEnemy(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 2);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 393225);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2320);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524296);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2319);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524296);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_SethMoveToEnemy'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Ch1Tut_TradeSelectGalliamIdle1`
-final Ch1Tut_TradeSelectGalliamIdle1 = SceneScript(
-  'EventScr_Ch1Tut_TradeSelectGalliamIdle1',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 3),
-    EnqueueOps(0),
-    SetSlot(1, 131080),
-    EnqueueOps(0),
-    SetSlot(1, 2311),
-    EnqueueOps(0),
-    SetSlot(1, 4194344),
-    EnqueueOps(0),
-    SetSlot(1, 2310),
-    EnqueueOps(0),
-    SetSlot(1, 4194344),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle1')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    MiscOp('IGNORE_KEYS', [1022]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_TradeSelectGalliamIdle1(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 3);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 131080);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2311);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4194344);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2310);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4194344);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle1'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch1Tut_TradeSelectGalliamIdle2`
-final Ch1Tut_TradeSelectGalliamIdle2 = SceneScript(
-  'EventScr_Ch1Tut_TradeSelectGalliamIdle2',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 131080),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamEnd')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65023]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 131080);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamEnd'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch1_BeginningScene`
-final Ch1_BeginningScene = SceneScript(
-  'EventScr_Ch1_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [37]),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch1Enemy')),
-    EndUnitOp('ENUN'),
-    MiscOp('STAL2', [60]),
-    CursorOp('CURSOR_AT', [2, 2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 57),
-    SetSlot(3, 2281),
-    CallScript(Sym('Event_TextWithBG')),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch1NPC')),
-    EndUnitOp('ENUN'),
-    SetSlot(11, 0),
-    MiscOp('DISA', [65534]),
-    CursorOp('CURSOR_CHAR', [70]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 36),
-    SetSlot(3, 2282),
-    CallScript(Sym('Event_TextWithBG')),
-    MoveUnitOp('MOVE', [0, 70, 2, 3]),
-    EndUnitOp('ENUN'),
-    EndUnitOp('ENUT'),
-    SetSlot(13, 0),
-    SetSlot(1, 70656),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    MiscOp('FIGHT', [70, 192, 0, 0]),
-    MiscOp('ENUF', [1]),
-    SetSlot(11, 131074),
-    MiscOp('KILL', [65534]),
-    MiscOp('DISA_IF', [65534]),
-    CursorOp('CURSOR_CHAR', [70]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    ShowTextOp(2283),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch1Tut_GuideWTA')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    MoveUnitOp('MOVE', [0, 70, 2, 2]),
-    SetSlot(11, 393217),
-    MoveUnitOp('MOVE', [24, 65534, 1, 3]),
-    SetSlot(11, 393219),
-    MoveUnitOp('MOVE', [24, 65534, 3, 3]),
-    SetSlot(11, 524289),
-    MoveUnitOp('MOVE', [24, 65534, 9, 5]),
-    SetSlot(11, 458754),
-    MoveUnitOp('MOVE', [24, 65534, 8, 3]),
-    SetSlot(11, 524291),
-    MoveUnitOp('MOVE', [24, 65534, 4, 7]),
-    SetSlot(11, 589826),
-    MoveUnitOp('MOVE', [24, 65534, 2, 8]),
-    EndUnitOp('ENUN'),
-    MiscOp('STAL2', [60]),
-    CursorOp('CURSOR_AT', [2, 2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 57),
-    SetSlot(3, 2284),
-    CallScript(Sym('Event_TextWithBG')),
-    ClearTextOp(),
-    LoadUnitsOp(2, Sym('UnitDef_Event_Ch1Ally')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2285),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, 2),
-    CallScript(Sym('EventScr_MoveUnitS2ToLeader')),
-    SetSlot(2, Sym('EventScr_Ch1Tut_OnBeginning')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EndUnitOp('ENUT'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1_BeginningScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.loadUnits(1, Sym('UnitDef_Event_Ch1Enemy'));
+    s.placeholder('ENUN');
+    s.placeholder('STAL2');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 57);
+    s.setSlot(3, 2281);
+    await s.call(Sym('Event_TextWithBG'));
+    s.loadUnits(1, Sym('UnitDef_Event_Ch1NPC'));
+    s.placeholder('ENUN');
+    s.setSlot(11, 0);
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 36);
+    s.setSlot(3, 2282);
+    await s.call(Sym('Event_TextWithBG'));
+    s.moveUnit('MOVE', [0, 70, 2, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('ENUT');
+    s.setSlot(13, 0);
+    s.setSlot(1, 70656);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.placeholder('FIGHT');
+    s.placeholder('ENUF');
+    s.setSlot(11, 131074);
+    s.placeholder('KILL');
+    s.placeholder('DISA_IF');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    await s.textShow(2283);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, Sym('EventScr_Ch1Tut_GuideWTA'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.moveUnit('MOVE', [0, 70, 2, 2]);
+    s.setSlot(11, 393217);
+    s.moveUnit('MOVE', [24, 65534, 1, 3]);
+    s.setSlot(11, 393219);
+    s.moveUnit('MOVE', [24, 65534, 3, 3]);
+    s.setSlot(11, 524289);
+    s.moveUnit('MOVE', [24, 65534, 9, 5]);
+    s.setSlot(11, 458754);
+    s.moveUnit('MOVE', [24, 65534, 8, 3]);
+    s.setSlot(11, 524291);
+    s.moveUnit('MOVE', [24, 65534, 4, 7]);
+    s.setSlot(11, 589826);
+    s.moveUnit('MOVE', [24, 65534, 2, 8]);
+    s.placeholder('ENUN');
+    s.placeholder('STAL2');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 57);
+    s.setSlot(3, 2284);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('REMA');
+    s.loadUnits(2, Sym('UnitDef_Event_Ch1Ally'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2285);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, 2);
+    await s.call(Sym('EventScr_MoveUnitS2ToLeader'));
+    s.setSlot(2, Sym('EventScr_Ch1Tut_OnBeginning'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch1_EndingScene`
-final Ch1_EndingScene = SceneScript(
-  'EventScr_Ch1_EndingScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    SetSlot(2, 57),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [3]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    ShowTextOp(2295),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    ShowTextOp(2296),
-    TextBoxOp(false),
-    Label(1),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('REVEAL', [2]),
-    MiscOp('MNCH', [56]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 57);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_ALIVE');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 5; }
+          continue;
+        case 5:
+          await s.textShow(2295);
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('TEXTEND');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 11;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          await s.textShow(2296);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('TEXTEND');
+          pc = 11;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('REMA');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('FADI');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('ENUT');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('ENUT');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('ENUT');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('ENUT');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('ENUT');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('ENUT');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('ENUT');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('ENUT');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('ENUT');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('REVEAL');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('MNCH');
+          pc = 25;
+          continue;
+        case 25:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch1_Turn_AllyReinforceArrive`
-final Ch1_Turn_AllyReinforceArrive = SceneScript(
-  'EventScr_Ch1_Turn_AllyReinforceArrive',
-  const <SceneOp>[
-    MusicOp('MUSC', [84]),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch1AllyReinforce')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [4]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2289),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch1Tut_GilliamBattle')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
+    s.placeholder('MUSC');
+    s.loadUnits(1, Sym('UnitDef_Event_Ch1AllyReinforce'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2289);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, Sym('EventScr_Ch1Tut_GilliamBattle'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch20B_1`
-final Ch20B_1 = SceneScript(
-  'EventScr_Ch20B_1',
-  const <SceneOp>[
-    SetSlot(2, Sym('frontier_df3_unitdef_b_052_91F89C')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('COUNTER_DEC', [0]),
-    MiscOp('ENUF', [11]),
-    MiscOp('COUNTER_CHECK', [0]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    EndUnitOp('ENUT'),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-  ],
-);
+Future<void> Ch20B_1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_052_91F89C'));
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('COUNTER_DEC');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('ENUF');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER_CHECK');
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('ENUT');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('EVBIT_T');
+          pc = 9;
+          continue;
+        case 9:
+          return;
+        case 10:
+          s.setSlot(2, 0);
+          pc = 11;
+          continue;
+        case 11:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 12;
+          continue;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch20B_2`
-final Ch20B_2 = SceneScript(
-  'EventScr_Ch20B_2',
-  const <SceneOp>[
-    SetSlot(2, Sym('frontier_df3_unitdef_b_052_91F89C', 120)),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    MiscOp('COUNTER_DEC', [1]),
-    MiscOp('ENUF', [12]),
-    MiscOp('COUNTER_CHECK', [1]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    EndUnitOp('ENUT'),
-    Label(0),
-    EventBitOp(true, 7),
-    EndScript(true),
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-  ],
-);
+Future<void> Ch20B_2(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_052_91F89C', 120));
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('COUNTER_DEC');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('ENUF');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER_CHECK');
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('ENUT');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('EVBIT_T');
+          pc = 9;
+          continue;
+        case 9:
+          return;
+        case 10:
+          s.setSlot(2, 0);
+          pc = 11;
+          continue;
+        case 11:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 12;
+          continue;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch20b_BeginningScene`
-final Ch20b_BeginningScene = SceneScript(
-  'EventScr_Ch20b_BeginningScene',
-  const <SceneOp>[
-    CallScript(Sym('EventScr_Ch21A_8')),
-    SetSlot(2, 108),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    MiscOp('DISA', [108]),
-    FadeOp('FADI', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch21BEnemy_0')),
-    EndUnitOp('ENUN'),
-    CallScript(Sym('data_085B9BBC', 512)),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch20b_BeginningScene(Scene s) async {
+    await s.call(Sym('EventScr_Ch21A_8'));
+    s.setSlot(2, 108);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.placeholder('DISA');
+    s.placeholder('FADI');
+    s.loadUnits(1, Sym('UnitDef_Ch21BEnemy_0'));
+    s.placeholder('ENUN');
+    await s.call(Sym('data_085B9BBC', 512));
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    return;
+}
 
 /// `EventScr_Ch21A_0`
-final Ch21A_0 = SceneScript(
-  'EventScr_Ch21A_0',
-  const <SceneOp>[
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    FadeOp('FADI', [4]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    CameraOp('CAMERA2', [11, 4]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch21AMixed')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [4]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch21AMixed')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [64]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2949),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [68, 6]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    CallScript(Sym('EventScr_Ch21A_9')),
-    MiscOp('MNC3', [22]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch21A_0(Scene s) async {
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('CAMERA2');
+    s.placeholder('EvtSetLoadUnitNoREDA');
+    s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2949);
+    s.placeholder('TEXTEND');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('TEXTCONT');
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EvtBgmFadeIn');
+    await s.call(Sym('EventScr_Ch21A_9'));
+    s.placeholder('MNC3');
+    return;
+}
 
 /// `EventScr_Ch21A_8`
-final Ch21A_8 = SceneScript(
-  'EventScr_Ch21A_8',
-  const <SceneOp>[
-    MiscOp('REMOVEPORTRAITS', []),
-    MiscOp('BACG', [79]),
-    MiscOp('FAWI', [2]),
-    MiscOp('BACG', [26]),
-    MiscOp('FAWU', [2]),
-    MiscOp('EvtBgmFadeIn', [44, 6]),
-    MiscOp('BROWNBOXTEXT', [406, 8, 8]),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    ShowTextOp(2938),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    ShowTextOp(2939),
-    TextBoxOp(false),
-    Label(1),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 8]),
-    MiscOp('FAWI', [2]),
-    MiscOp('CLEAN', []),
-    LoadUnitsOp(1, Sym('frontier_df3_unitdef_b_023_91512C', 2792)),
-    EndUnitOp('ENUN'),
-    MiscOp('FAWU', [2]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch21AAlly_1')),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 0, 11, 20]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [0]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('CHECK_MODE', []),
-    SetSlot(1, 2),
-    BranchIf(equal: false, slot: 10, label: 12, opCount: 1),
-    MusicOp('MUSC', [68]),
-    TextBoxOp(true),
-    ShowTextOp(2940),
-    TextBoxOp(false),
-    ClearTextOp(),
-    GoTo(11),
-    Label(10),
-    TextBoxOp(true),
-    ShowTextOp(2942),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(11),
-    MiscOp('STARTFADE', []),
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    MiscOp('EvtColorFadeSetup', [6, 10, 8, 128, 128, 128]),
-    MiscOp('EvtColorFadeSetup', [29, 1, 4, 0, 0, 0]),
-    SetSlot(2, 64),
-    CallScript(Sym('EventScr_UnitFlushingOUT')),
-    MiscOp('DISA', [64]),
-    StallOp(30),
-    MiscOp('SPAWN_ENEMY', [108, 0, 0]),
-    MiscOp('EvtColorFadeSetup', [29, 1, 0, 256, 256, 256]),
-    SetSlot(2, 108),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 11, 18]),
-    CallScript(Sym('EventScr_UnitFlushingIN')),
-    MiscOp('EvtColorFadeSetup', [6, 10, 8, 256, 256, 256]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch21A_8(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('REMOVEPORTRAITS');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('BACG');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('FAWI');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('BACG');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('FAWU');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('CHECK_MODE');
+          pc = 8;
+          continue;
+        case 8:
+          s.setSlot(1, 2);
+          pc = 9;
+          continue;
+        case 9:
+          if (s.slotInt(0) != 12) { pc = 16; } else { pc = 10; }
+          continue;
+        case 10:
+          await s.textShow(2938);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TEXTEND');
+          pc = 12;
+          continue;
+        case 12:
+          pc = 16;
+          continue;
+        case 13:
+          pc = 14;
+          continue;
+        case 14:
+          await s.textShow(2939);
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('TEXTEND');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('REMA');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('FAWI');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('CLEAN');
+          pc = 21;
+          continue;
+        case 21:
+          s.loadUnits(1, Sym('frontier_df3_unitdef_b_023_91512C', 2792));
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('ENUN');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('FAWU');
+          pc = 24;
+          continue;
+        case 24:
+          s.loadUnits(2, Sym('UnitDef_Ch21AAlly_1'));
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('ENUN');
+          pc = 26;
+          continue;
+        case 26:
+          s.moveUnit('MOVE', [16, 0, 11, 20]);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('ENUN');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('CURSOR_CHAR');
+          pc = 29;
+          continue;
+        case 29:
+          await s.stall(60);
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CURE');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CHECK_MODE');
+          pc = 32;
+          continue;
+        case 32:
+          s.setSlot(1, 2);
+          pc = 33;
+          continue;
+        case 33:
+          if (s.slotInt(10) != 12) { pc = 16; } else { pc = 34; }
+          continue;
+        case 34:
+          s.placeholder('MUSC');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('TEXTSTART');
+          pc = 36;
+          continue;
+        case 36:
+          await s.textShow(2940);
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('TEXTEND');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('REMA');
+          pc = 39;
+          continue;
+        case 39:
+          pc = 45;
+          continue;
+        case 40:
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('TEXTSTART');
+          pc = 42;
+          continue;
+        case 42:
+          await s.textShow(2942);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('TEXTEND');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('REMA');
+          pc = 45;
+          continue;
+        case 45:
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('STARTFADE');
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('EvtColorFadeSetup');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('EvtColorFadeSetup');
+          pc = 50;
+          continue;
+        case 50:
+          s.setSlot(2, 64);
+          pc = 51;
+          continue;
+        case 51:
+          await s.call(Sym('EventScr_UnitFlushingOUT'));
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('DISA');
+          pc = 53;
+          continue;
+        case 53:
+          await s.stall(30);
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('SPAWN_ENEMY');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('EvtColorFadeSetup');
+          pc = 56;
+          continue;
+        case 56:
+          s.setSlot(2, 108);
+          pc = 57;
+          continue;
+        case 57:
+          s.moveUnit('MOVE_CLOSEST', [65535, 65533, 11, 18]);
+          pc = 58;
+          continue;
+        case 58:
+          await s.call(Sym('EventScr_UnitFlushingIN'));
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('EvtColorFadeSetup');
+          pc = 60;
+          continue;
+        case 60:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch21A_9`
-final Ch21A_9 = SceneScript(
-  'EventScr_Ch21A_9',
-  const <SceneOp>[
-    MiscOp('STARTFADE', []),
-    MiscOp('EvtColorFadeSetup', [6, 10, 4, 0, 0, 0]),
-    StallOp(30),
-    MoveUnitOp('MOVE_1STEP', [2, 64, 3]),
-    EndUnitOp('ENUN'),
-    MiscOp('STAL2', [30]),
-    SetSlot(2, 64),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    MiscOp('DISA', [64]),
-    TextBoxOp(true),
-    ShowTextOp(2951),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('SOLOTEXTBOXSTART', []),
-    SetSlot(11, 8388632),
-    ShowTextOp(2952),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndScript(true),
-  ],
-);
+Future<void> Ch21A_9(Scene s) async {
+    s.placeholder('STARTFADE');
+    s.placeholder('EvtColorFadeSetup');
+    await s.stall(30);
+    s.moveUnit('MOVE_1STEP', [2, 64, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('STAL2');
+    s.setSlot(2, 64);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.placeholder('DISA');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2951);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('SOLOTEXTBOXSTART');
+    s.setSlot(11, 8388632);
+    await s.textShow(2952);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    return;
+}
 
 /// `EventScr_Ch21b_BeginningScene`
-final Ch21b_BeginningScene = SceneScript(
-  'EventScr_Ch21b_BeginningScene',
-  const <SceneOp>[
-    CallScript(Sym('frontier_df3_eventscr_ch_005_A6B460', 300)),
-    EndScript(true),
-    CallScript(Sym('UnitDef_Ch21BEnemy_1')),
-    MiscOp('MNC4', []),
-    EndScript(true),
-    AsmCallOp(Sym('InitTowerDungeonState', 1)),
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-  ],
-);
+Future<void> Ch21b_BeginningScene(Scene s) async {
+    await s.call(Sym('frontier_df3_eventscr_ch_005_A6B460', 300));
+    return;
+    await s.call(Sym('UnitDef_Ch21BEnemy_1'));
+    s.placeholder('MNC4');
+    return;
+    s.placeholder('ASMC');
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+}
 
 /// `EventScr_Ch21b_EndingScene`
-final Ch21b_EndingScene = SceneScript(
-  'EventScr_Ch21b_EndingScene',
-  const <SceneOp>[
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    FadeOp('FADI', [4]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    CameraOp('CAMERA2', [11, 4]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch21BMixed')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [4]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch21BMixed')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [64]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2950),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [68, 6]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    CallScript(Sym('EventScr_Ch21A_9')),
-    MiscOp('MNC3', [35]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch21b_EndingScene(Scene s) async {
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('CAMERA2');
+    s.placeholder('EvtSetLoadUnitNoREDA');
+    s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2950);
+    s.placeholder('TEXTEND');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('TEXTCONT');
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EvtBgmFadeIn');
+    await s.call(Sym('EventScr_Ch21A_9'));
+    s.placeholder('MNC3');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial11`
-final Ch2Tutorial11 = SceneScript(
-  'EventScr_Ch2Tutorial11',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 6),
-    EnqueueOps(0),
-    SetSlot(1, 262152),
-    EnqueueOps(0),
-    SetSlot(1, 2358),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, 2356),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial12')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial11')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    MiscOp('IGNORE_KEYS', [1022]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial11(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 6);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 262152);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2358);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2356);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial12'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial11'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial12`
-final Ch2Tutorial12 = SceneScript(
-  'EventScr_Ch2Tutorial12',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 262152),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial13')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial12')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65519]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial12(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 262152);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial13'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial12'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial14`
-final Ch2Tutorial14 = SceneScript(
-  'EventScr_Ch2Tutorial14',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    MusicOp('MUSC', [9]),
-    TextBoxOp(true),
-    ShowTextOp(2334),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('DISABLEOPTIONS', [0]),
-    MiscOp('SHOW_ATTACK_RANGE', [6]),
-    CursorOp('CURSOR_FLASHING', [9, 4]),
-    StallOp(60),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 5767184),
-    ShowTextOp(2359),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('CURE', []),
-    MiscOp('IGNORE_KEYS', [266]),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Ch2Tutorial15'), 3]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial14(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('MUSC');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2334);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('SHOW_ATTACK_RANGE');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 5767184);
+    await s.textShow(2359);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURE');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial15`
-final Ch2Tutorial15 = SceneScript(
-  'EventScr_Ch2Tutorial15',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 262153),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial16')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial15')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial15(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 262153);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial16'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial15'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial18`
-final Ch2Tutorial18 = SceneScript(
-  'EventScr_Ch2Tutorial18',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    CameraOp('CAMERA_CAHR', [5]),
-    SetSlot(13, 0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 196615),
-    EnqueueOps(0),
-    SetSlot(1, 2361),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, 2360),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial19')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial18')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    MiscOp('IGNORE_KEYS', [1022]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial18(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('CAMERA_CAHR');
+    s.setSlot(13, 0);
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 196615);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2361);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2360);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial19'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial18'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial2`
-final Ch2Tutorial2 = SceneScript(
-  'EventScr_Ch2Tutorial2',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 327689),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial3')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial2')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65527]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial2(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 327689);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial3'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial2'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial21`
-final Ch2Tutorial21 = SceneScript(
-  'EventScr_Ch2Tutorial21',
-  const <SceneOp>[
-    MiscOp('IGNORE_KEYS', [0]),
-    TextBoxOp(true),
-    ShowTextOp(2335),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2365),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('DISABLEOPTIONS', [0]),
-    MiscOp('EvtEnqueueCallDirectly', [Sym('EventScr_Ch2_7')]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial21(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2335);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2365);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EvtEnqueueCallDirectly');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial22`
-final Ch2Tutorial22 = SceneScript(
-  'EventScr_Ch2Tutorial22',
-  const <SceneOp>[
-    MiscOp('IGNORE_KEYS', [0]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2332),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2368),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_FLASHING_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Ch2Tutorial23'), 2]),
-    MiscOp('DISABLEOPTIONS', [16384]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial22(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2332);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2368);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial23`
-final Ch2Tutorial23 = SceneScript(
-  'EventScr_Ch2Tutorial23',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 131076),
-    EnqueueOps(0),
-    SetSlot(1, 2370),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, 2369),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial24')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial23')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial23(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 131076);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2370);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2369);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial24'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial23'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Ch2Tutorial24`
-final Ch2Tutorial24 = SceneScript(
-  'EventScr_Ch2Tutorial24',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 131076),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial25')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial24')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65503]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial24(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 131076);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial25'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial24'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial27`
-final Ch2Tutorial27 = SceneScript(
-  'EventScr_Ch2Tutorial27',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    CameraOp('CAMERA_CAHR', [1]),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 262150),
-    EnqueueOps(0),
-    SetSlot(1, 2374),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, 2373),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial28')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial27')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial27(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('CAMERA_CAHR');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 262150);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2374);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2373);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial28'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial27'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Ch2Tutorial28`
-final Ch2Tutorial28 = SceneScript(
-  'EventScr_Ch2Tutorial28',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 262150),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial29')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial28')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65471]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial28(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 262150);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial29'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial28'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial4`
-final Ch2Tutorial4 = SceneScript(
-  'EventScr_Ch2Tutorial4',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    MusicOp('MUSI', []),
-    TextBoxOp(true),
-    ShowTextOp(2333),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    MiscOp('DISABLEOPTIONS', [0]),
-    MiscOp('SHOW_ATTACK_RANGE', [6]),
-    CursorOp('CURSOR_FLASHING', [8, 4]),
-    StallOp(60),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 5767184),
-    ShowTextOp(2355),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('CURE', []),
-    MiscOp('IGNORE_KEYS', [266]),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Ch2Tutorial5'), 3]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial4(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('MUSI');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2333);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('SHOW_ATTACK_RANGE');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 5767184);
+    await s.textShow(2355);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURE');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial5`
-final Ch2Tutorial5 = SceneScript(
-  'EventScr_Ch2Tutorial5',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 262152),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial6')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial5')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial5(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 262152);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial6'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial5'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2Tutorial8`
-final Ch2Tutorial8 = SceneScript(
-  'EventScr_Ch2Tutorial8',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 196615),
-    EnqueueOps(0),
-    SetSlot(1, 2364),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, 2363),
-    EnqueueOps(0),
-    SetSlot(1, 5767200),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial9')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial8')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial8(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 196615);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2364);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2363);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5767200);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial9'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial8'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Ch2Tutorial9`
-final Ch2Tutorial9 = SceneScript(
-  'EventScr_Ch2Tutorial9',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 196615),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial10')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Ch2Tutorial9')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65531]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2Tutorial9(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 196615);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial10'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial9'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ch2_10`
-final Ch2_10 = SceneScript(
-  'EventScr_Ch2_10',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2376),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_AT', [5, 7]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2377),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2_10(Scene s) async {
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2376);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2377);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch2_8`
-final Ch2_8 = SceneScript(
-  'EventScr_Ch2_8',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2366),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2378),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2_8(Scene s) async {
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2366);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2378);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch2_BeginningScene`
-final Ch2_BeginningScene = SceneScript(
-  'EventScr_Ch2_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [36]),
-    SetSlot(2, 30),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2324),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch2Ally')),
-    EndUnitOp('ENUN'),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch2Enemy_0')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Ch2Enemy_2')),
-    EndUnitOp('ENUN'),
-    MiscOp('STAL2', [60]),
-    MusicOp('MUSC', [26]),
-    CursorOp('CURSOR_CHAR', [71]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2325),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [24, 72, 14, 9]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [72]),
-    CursorOp('CURSOR_AT', [12, 3]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [37]),
-    SetSlot(2, 2),
-    SetSlot(3, 2326),
-    CallScript(Sym('Event_TextWithBG')),
-    CursorOp('CURSOR_CHAR', [71]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2327),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [24, 71, 9, 14]),
-    EndUnitOp('ENUN'),
-    SetSlot(11, 327692),
-    MoveUnitOp('MOVE', [0, 65534, 12, 3]),
-    EndUnitOp('ENUN'),
-    MiscOp('SOUN', [171]),
-    SetSlot(11, 131084),
-    MiscOp('TILECHANGE', [65535]),
-    MiscOp('SOUN', [92]),
-    MiscOp('NOTIFY', [1762, 0]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch2NPC')),
-    EndUnitOp('ENUN'),
-    SetSlot(1, 5),
-    MiscOp('SET_HP', [7]),
-    CursorOp('CURSOR_CHAR', [7]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    SetSlot(3, 2328),
-    CallScript(Sym('Event_TextWithBG')),
-    SetSlot(2, Sym('EventScr_Ch2_Village2', 192)),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch2Ally')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [6]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2329),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [24, 6, 2, 3]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [6]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2330),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch2_Village2', 224)),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    CursorOp('CURSOR_CHAR', [5]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2331),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [24, 6, 6, 3]),
-    EndUnitOp('ENUN'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2_BeginningScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, 30);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2324);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEAN');
+    s.placeholder('FADU');
+    s.loadUnits(1, Sym('UnitDef_Ch2Ally'));
+    s.placeholder('ENUN');
+    s.placeholder('EvtBgmFadeIn');
+    s.loadUnits(1, Sym('UnitDef_Ch2Enemy_0'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Ch2Enemy_2'));
+    s.placeholder('ENUN');
+    s.placeholder('STAL2');
+    s.placeholder('MUSC');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2325);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [24, 72, 14, 9]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.setSlot(2, 2);
+    s.setSlot(3, 2326);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2327);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [24, 71, 9, 14]);
+    s.placeholder('ENUN');
+    s.setSlot(11, 327692);
+    s.moveUnit('MOVE', [0, 65534, 12, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('SOUN');
+    s.setSlot(11, 131084);
+    s.placeholder('TILECHANGE');
+    s.placeholder('SOUN');
+    s.placeholder('NOTIFY');
+    s.loadUnits(1, Sym('UnitDef_Ch2NPC'));
+    s.placeholder('ENUN');
+    s.setSlot(1, 5);
+    s.placeholder('SET_HP');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 37);
+    s.setSlot(3, 2328);
+    await s.call(Sym('Event_TextWithBG'));
+    s.setSlot(2, Sym('EventScr_Ch2_Village2', 192));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.loadUnits(1, Sym('UnitDef_Event_Ch2Ally'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2329);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [24, 6, 2, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2330);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, Sym('EventScr_Ch2_Village2', 224));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2331);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [24, 6, 6, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch2_EndingScene`
-final Ch2_EndingScene = SceneScript(
-  'EventScr_Ch2_EndingScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    MiscOp('CHECK_ALIVE', [10]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [7]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2338),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    SetSlot(2, 7),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    Label(0),
-    SetSlot(2, 6),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2339),
-    TextBoxOp(false),
-    FadeOp('FADI', [4]),
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    ClearTextOp(),
-    MiscOp('REMOVEPORTRAITS', []),
-    MiscOp('BACG', [41]),
-    FadeOp('FADU', [2]),
-    ShowTextOp(2340),
-    TextBoxOp(false),
-    MiscOp('FAWI', [2]),
-    ClearTextOp(),
-    MiscOp('BACG', [28]),
-    MiscOp('FAWU', [2]),
-    MusicOp('MUSC', [82]),
-    MiscOp('BROWNBOXTEXT', [408, 8, 8]),
-    ShowTextOp(2341),
-    TextBoxOp(false),
-    MiscOp('FAWI', [2]),
-    MiscOp('EvtBgmFadeIn', [32767, 8]),
-    ClearTextOp(),
-    MiscOp('BACG', [41]),
-    MiscOp('FAWU', [2]),
-    MiscOp('EvtBgmFadeIn', [74, 8]),
-    ShowTextOp(2342),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [3]),
-    SetSlot(2, 7),
-    CallScript(Sym('EventScr_StrictLoadUniqueAlly')),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_StrictLoadUniqueAlly')),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_ALIVE');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_ALIVE');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 5; }
+          continue;
+        case 5:
+          s.setSlot(2, 37);
+          pc = 6;
+          continue;
+        case 6:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 7;
+          continue;
+        case 7:
+          await s.textShow(2338);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('TEXTEND');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('REMA');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('FADI');
+          pc = 11;
+          continue;
+        case 11:
+          s.setSlot(2, 10);
+          pc = 12;
+          continue;
+        case 12:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(2, 7);
+          pc = 14;
+          continue;
+        case 14:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          s.setSlot(2, 6);
+          pc = 17;
+          continue;
+        case 17:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 18;
+          continue;
+        case 18:
+          await s.textShow(2339);
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('TEXTEND');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('FADI');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('REMA');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('REMOVEPORTRAITS');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('BACG');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('FADU');
+          pc = 26;
+          continue;
+        case 26:
+          await s.textShow(2340);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('TEXTEND');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('FAWI');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('REMA');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('BACG');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('FAWU');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('MUSC');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 34;
+          continue;
+        case 34:
+          await s.textShow(2341);
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('TEXTEND');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('FAWI');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('REMA');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('BACG');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('FAWU');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 42;
+          continue;
+        case 42:
+          await s.textShow(2342);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('TEXTEND');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('REMA');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('FADI');
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('ENUT');
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('ENUT');
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('ENUT');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('ENUT');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('ENUT');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('ENUT');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('ENUT');
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('ENUT');
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('ENUT');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('ENUT');
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('ENUT');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('ENUT');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('MNCH');
+          pc = 59;
+          continue;
+        case 59:
+          s.setSlot(2, 7);
+          pc = 60;
+          continue;
+        case 60:
+          await s.call(Sym('EventScr_StrictLoadUniqueAlly'));
+          pc = 61;
+          continue;
+        case 61:
+          s.setSlot(2, 10);
+          pc = 62;
+          continue;
+        case 62:
+          await s.call(Sym('EventScr_StrictLoadUniqueAlly'));
+          pc = 63;
+          continue;
+        case 63:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch2_Village1`
-final Ch2_Village1 = SceneScript(
-  'EventScr_Ch2_Village1',
-  const <SceneOp>[
-    MiscOp('IGNORE_KEYS', [0]),
-    MiscOp('CHECK_ACTIVE', []),
-    SetSlot(1, 1),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    MusicOp('MUSI', []),
-    SetSlot(2, 2),
-    SetSlot(3, 2345),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    GoTo(1),
-    Label(0),
-    MusicOp('MUSI', []),
-    SetSlot(2, 2),
-    SetSlot(3, 2346),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    Label(1),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 118),
-    MiscOp('GIVEITEMTO', [65535]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch2_Village1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('IGNORE_KEYS');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_ACTIVE');
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(1, 1);
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) != 12) { pc = 16; } else { pc = 4; }
+          continue;
+        case 4:
+          s.placeholder('MUSI');
+          pc = 5;
+          continue;
+        case 5:
+          s.setSlot(2, 2);
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(3, 2345);
+          pc = 7;
+          continue;
+        case 7:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('MUNO');
+          pc = 9;
+          continue;
+        case 9:
+          pc = 16;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('MUSI');
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(2, 2);
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(3, 2346);
+          pc = 14;
+          continue;
+        case 14:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('MUNO');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(3, 118);
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('GIVEITEMTO');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('EVBIT_T');
+          pc = 21;
+          continue;
+        case 21:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch3_0`
-final Ch3_0 = SceneScript(
-  'EventScr_Ch3_0',
-  const <SceneOp>[
-    CameraOp('CAMERA2', [7, 7]),
-    StallOp(15),
-    SetSlot(13, 0),
-    SetSlot(1, 196610),
-    EnqueueOps(0),
-    SetSlot(1, 655366),
-    EnqueueOps(0),
-    SetSlot(1, 327690),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_FormatFlashingCursor')),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2381),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CameraOp('CAMERA2', [7, 10]),
-    StallOp(15),
-    SetSlot(13, 0),
-    SetSlot(1, 589828),
-    EnqueueOps(0),
-    SetSlot(1, 786436),
-    EnqueueOps(0),
-    SetSlot(1, 524296),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_FormatFlashingCursor')),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2395),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch3_0(Scene s) async {
+    s.placeholder('CAMERA2');
+    await s.stall(15);
+    s.setSlot(13, 0);
+    s.setSlot(1, 196610);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 655366);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 327690);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_FormatFlashingCursor'));
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2381);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CAMERA2');
+    await s.stall(15);
+    s.setSlot(13, 0);
+    s.setSlot(1, 589828);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 786436);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524296);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_FormatFlashingCursor'));
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2395);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    return;
+}
 
 /// `EventScr_Ch3_5`
-final Ch3_5 = SceneScript(
-  'EventScr_Ch3_5',
-  const <SceneOp>[
-    CursorOp('CURSOR_CHAR', [8]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2383),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [0, 8, 3, 9]),
-    EndUnitOp('ENUN'),
-    SetSlot(13, 0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    SetSlot(11, 589829),
-    MiscOp('FIGHT', [8, 65535, 0, 0]),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2399),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndScript(true),
-  ],
-);
+Future<void> Ch3_5(Scene s) async {
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2383);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [0, 8, 3, 9]);
+    s.placeholder('ENUN');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(11, 589829);
+    s.placeholder('FIGHT');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2399);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    return;
+}
 
 /// `EventScr_Ch3_BeginningScene`
-final Ch3_BeginningScene = SceneScript(
-  'EventScr_Ch3_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [37]),
-    SetSlot(2, 30),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2379),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2380),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    LoadUnitsOp(1, Sym('UnitDef_Ch3Enemy_0')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Event_Ch3Ally')),
-    EndUnitOp('ENUN'),
-    SetSlot(2, Sym('EventScr_Ch3_0')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    CursorOp('CURSOR_CHAR', [8]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2382),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(0),
-    SetSlot(2, Sym('EventScr_Ch3_5')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    SetSlot(2, 2),
-    CallScript(Sym('EventScr_MoveUnitS2ToLeader')),
-    FadeOp('FADI', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch3Ally')),
-    EndUnitOp('ENUN'),
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 1, label: 12, opCount: 0),
-    GoTo(2),
-    Label(1),
-    MoveUnitOp('MOVE', [65535, 8, 3, 9]),
-    Label(2),
-    CameraOp('CAMERA_CAHR', [72]),
-    FadeOp('FADU', [16]),
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 10, label: 12, opCount: 0),
-    MusicOp('MUSC', [19]),
-    CursorOp('CURSOR_CHAR', [72]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2384),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(10),
-    SetSlot(2, Sym('EventScr_Ch3_1')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    SetSlot(2, Sym('EventScr_Ch3_4')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch3_BeginningScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 30);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          await s.textShow(2379);
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('TEXTEND');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('REMA');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(2, 37);
+          pc = 7;
+          continue;
+        case 7:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(2380);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('REMA');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('FADI');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CLEAN');
+          pc = 13;
+          continue;
+        case 13:
+          s.loadUnits(1, Sym('UnitDef_Ch3Enemy_0'));
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('ENUN');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('FADU');
+          pc = 16;
+          continue;
+        case 16:
+          s.loadUnits(2, Sym('UnitDef_Event_Ch3Ally'));
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('ENUN');
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(2, Sym('EventScr_Ch3_0'));
+          pc = 19;
+          continue;
+        case 19:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 21;
+          continue;
+        case 21:
+          if (s.slotInt(0) != 12) { pc = 29; } else { pc = 22; }
+          continue;
+        case 22:
+          s.placeholder('CURSOR_CHAR');
+          pc = 23;
+          continue;
+        case 23:
+          await s.stall(60);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CURE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TEXTSTART');
+          pc = 26;
+          continue;
+        case 26:
+          await s.textShow(2382);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('TEXTEND');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('REMA');
+          pc = 29;
+          continue;
+        case 29:
+          pc = 30;
+          continue;
+        case 30:
+          s.setSlot(2, Sym('EventScr_Ch3_5'));
+          pc = 31;
+          continue;
+        case 31:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 32;
+          continue;
+        case 32:
+          s.setSlot(2, 2);
+          pc = 33;
+          continue;
+        case 33:
+          await s.call(Sym('EventScr_MoveUnitS2ToLeader'));
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('FADI');
+          pc = 35;
+          continue;
+        case 35:
+          s.loadUnits(1, Sym('UnitDef_Event_Ch3Ally'));
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('ENUN');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 38;
+          continue;
+        case 38:
+          if (s.slotInt(1) != 12) { pc = 29; } else { pc = 39; }
+          continue;
+        case 39:
+          pc = 42;
+          continue;
+        case 40:
+          pc = 41;
+          continue;
+        case 41:
+          s.moveUnit('MOVE', [65535, 8, 3, 9]);
+          pc = 42;
+          continue;
+        case 42:
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('CAMERA_CAHR');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('FADU');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 46;
+          continue;
+        case 46:
+          if (s.slotInt(10) != 12) { pc = 29; } else { pc = 47; }
+          continue;
+        case 47:
+          s.placeholder('MUSC');
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('CURSOR_CHAR');
+          pc = 49;
+          continue;
+        case 49:
+          await s.stall(60);
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('CURE');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('TEXTSTART');
+          pc = 52;
+          continue;
+        case 52:
+          await s.textShow(2384);
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('TEXTEND');
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('REMA');
+          pc = 55;
+          continue;
+        case 55:
+          pc = 56;
+          continue;
+        case 56:
+          s.setSlot(2, Sym('EventScr_Ch3_1'));
+          pc = 57;
+          continue;
+        case 57:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 58;
+          continue;
+        case 58:
+          s.setSlot(2, Sym('EventScr_Ch3_4'));
+          pc = 59;
+          continue;
+        case 59:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('EVBIT_T');
+          pc = 61;
+          continue;
+        case 61:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch3_EndingScene`
-final Ch3_EndingScene = SceneScript(
-  'EventScr_Ch3_EndingScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    MiscOp('CHECK_ALIVE', [9]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [8]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, 60),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2389),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    SetSlot(2, 9),
-    CallScript(Sym('EventScr_LoadUniqueAlly')),
-    GoTo(1),
-    Label(0),
-    SetSlot(2, 9),
-    CallScript(Sym('EventScr_StrictLoadUniqueAlly')),
-    Label(1),
-    SetSlot(2, 62),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2390),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    FadeOp('FADI', [4]),
-    SetSlot(2, 131087),
-    CallScript(Sym('EventScr_9EEA58')),
-    SetSlot(2, 17),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2391),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    LoadUnitsOp(1, Sym('UnitDef_Ch3Enemy_1')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [46]),
-    CursorOp('CURSOR_CHAR', [107]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2392),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('SOUN', [177]),
-    MiscOp('TILECHANGE', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 65806),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 65804),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [29]),
-    MoveUnitOp('MOVE_1STEP', [16, 105, 0]),
-    MoveUnitOp('MOVE_1STEP', [16, 68, 1]),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Ch3Enemy_2')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [107]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2393),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('REVEAL', [2]),
-    MiscOp('MNCH', [4]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch3_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_ALIVE');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 14; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_ALIVE');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 14; } else { pc = 5; }
+          continue;
+        case 5:
+          s.setSlot(2, 60);
+          pc = 6;
+          continue;
+        case 6:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 7;
+          continue;
+        case 7:
+          await s.textShow(2389);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('TEXTEND');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('REMA');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('FADI');
+          pc = 11;
+          continue;
+        case 11:
+          s.setSlot(2, 9);
+          pc = 12;
+          continue;
+        case 12:
+          await s.call(Sym('EventScr_LoadUniqueAlly'));
+          pc = 13;
+          continue;
+        case 13:
+          pc = 17;
+          continue;
+        case 14:
+          pc = 15;
+          continue;
+        case 15:
+          s.setSlot(2, 9);
+          pc = 16;
+          continue;
+        case 16:
+          await s.call(Sym('EventScr_StrictLoadUniqueAlly'));
+          pc = 17;
+          continue;
+        case 17:
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(2, 62);
+          pc = 19;
+          continue;
+        case 19:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 20;
+          continue;
+        case 20:
+          await s.textShow(2390);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('TEXTEND');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('REMA');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('FADI');
+          pc = 25;
+          continue;
+        case 25:
+          s.setSlot(2, 131087);
+          pc = 26;
+          continue;
+        case 26:
+          await s.call(Sym('EventScr_9EEA58'));
+          pc = 27;
+          continue;
+        case 27:
+          s.setSlot(2, 17);
+          pc = 28;
+          continue;
+        case 28:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 29;
+          continue;
+        case 29:
+          await s.textShow(2391);
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('TEXTEND');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('REMA');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('FADI');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('CLEAN');
+          pc = 34;
+          continue;
+        case 34:
+          s.loadUnits(1, Sym('UnitDef_Ch3Enemy_1'));
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('ENUN');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('FADU');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('MUSC');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('CURSOR_CHAR');
+          pc = 39;
+          continue;
+        case 39:
+          await s.stall(60);
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('CURE');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('TEXTSTART');
+          pc = 42;
+          continue;
+        case 42:
+          await s.textShow(2392);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('TEXTEND');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('REMA');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('SOUN');
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('TILECHANGE');
+          pc = 47;
+          continue;
+        case 47:
+          s.setSlot(13, 0);
+          pc = 48;
+          continue;
+        case 48:
+          s.setSlot(1, 65806);
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('SENQUEUE1');
+          pc = 50;
+          continue;
+        case 50:
+          s.setSlot(1, 0);
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('SENQUEUE1');
+          pc = 52;
+          continue;
+        case 52:
+          s.setSlot(1, 65804);
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('SENQUEUE1');
+          pc = 54;
+          continue;
+        case 54:
+          s.setSlot(1, 0);
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('SENQUEUE1');
+          pc = 56;
+          continue;
+        case 56:
+          s.moveUnit('MOVE_DEFINED', [29]);
+          pc = 57;
+          continue;
+        case 57:
+          s.moveUnit('MOVE_1STEP', [16, 105, 0]);
+          pc = 58;
+          continue;
+        case 58:
+          s.moveUnit('MOVE_1STEP', [16, 68, 1]);
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('ENUN');
+          pc = 60;
+          continue;
+        case 60:
+          s.loadUnits(1, Sym('UnitDef_Ch3Enemy_2'));
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('ENUN');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('CURSOR_CHAR');
+          pc = 63;
+          continue;
+        case 63:
+          await s.stall(60);
+          pc = 64;
+          continue;
+        case 64:
+          s.placeholder('CURE');
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('TEXTSTART');
+          pc = 66;
+          continue;
+        case 66:
+          await s.textShow(2393);
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('TEXTEND');
+          pc = 68;
+          continue;
+        case 68:
+          s.placeholder('REMA');
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('FADI');
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('ENUT');
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('ENUT');
+          pc = 72;
+          continue;
+        case 72:
+          s.placeholder('ENUT');
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('ENUT');
+          pc = 74;
+          continue;
+        case 74:
+          s.placeholder('ENUT');
+          pc = 75;
+          continue;
+        case 75:
+          s.placeholder('ENUT');
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('REVEAL');
+          pc = 77;
+          continue;
+        case 77:
+          s.placeholder('MNCH');
+          pc = 78;
+          continue;
+        case 78:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch3_Turn1Npc`
-final Ch3_Turn1Npc = SceneScript(
-  'EventScr_Ch3_Turn1Npc',
-  const <SceneOp>[
-    CameraOp('CAMERA', [0, 0]),
-    StallOp(15),
-    LoadUnitsOp(1, Sym('UnitDef_Ch3NPC')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [15]),
-    CursorOp('CURSOR_CHAR', [9]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2386),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch3_2')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    MoveUnitOp('MOVE_CLOSEST', [0, 9, 2, 4]),
-    EndUnitOp('ENUN'),
-    SetSlot(2, Sym('EventScr_Ch3_3')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch3_Turn1Npc(Scene s) async {
+    s.placeholder('CAMERA');
+    await s.stall(15);
+    s.loadUnits(1, Sym('UnitDef_Ch3NPC'));
+    s.placeholder('ENUN');
+    s.placeholder('MUSC');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2386);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, Sym('EventScr_Ch3_2'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.moveUnit('MOVE_CLOSEST', [0, 9, 2, 4]);
+    s.placeholder('ENUN');
+    s.setSlot(2, Sym('EventScr_Ch3_3'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch4_0`
-final Ch4_0 = SceneScript(
-  'EventScr_Ch4_0',
-  const <SceneOp>[
-    CameraOp('CAMERA2', [7, 0]),
-    StallOp(15),
-    LoadUnitsOp(1, Sym('UnitDef_Ch4NPC_0')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [42]),
-    CursorOp('CURSOR_CHAR', [25]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2412),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [24, 25, 15, 2]),
-    MoveUnitOp('MOVE', [24, 26, 15, 1]),
-    MoveUnitOp('MOVE', [24, 28, 15, 1]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEN', []),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch4_0(Scene s) async {
+    s.placeholder('CAMERA2');
+    await s.stall(15);
+    s.loadUnits(1, Sym('UnitDef_Ch4NPC_0'));
+    s.placeholder('ENUN');
+    s.placeholder('MUSC');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2412);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [24, 25, 15, 2]);
+    s.moveUnit('MOVE', [24, 26, 15, 1]);
+    s.moveUnit('MOVE', [24, 28, 15, 1]);
+    s.placeholder('ENUN');
+    s.placeholder('CLEN');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch4_1`
-final Ch4_1 = SceneScript(
-  'EventScr_Ch4_1',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    MiscOp('CHECK_EXISTS', [12]),
-    BranchIf(equal: false, slot: 10, label: 12, opCount: 0),
-    SetSlot(2, 2),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [19]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, 2413),
-    GoTo(1),
-    Label(0),
-    SetSlot(2, 2414),
-    Label(1),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch4Ally_2')),
-    EndUnitOp('ENUN'),
-    Label(10),
-    MusicOp('MUSC', [50]),
-    SetSlot(2, 30),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [19]),
-    BranchIf(equal: true, slot: 11, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [12]),
-    BranchIf(equal: true, slot: 11, label: 12, opCount: 0),
-    SetSlot(2, 2415),
-    GoTo(12),
-    Label(11),
-    SetSlot(2, 2416),
-    Label(12),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA2', [7, 7]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch4Ally_3')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch4NPC_1')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [42]),
-    CursorOp('CURSOR_CHAR', [25]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 30),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2417),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [6]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch4_1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_EXISTS');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(10) != 12) { pc = 9; } else { pc = 3; }
+          continue;
+        case 3:
+          s.setSlot(2, 2);
+          pc = 4;
+          continue;
+        case 4:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CHECK_ALIVE');
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(0) == 12) { pc = 9; } else { pc = 7; }
+          continue;
+        case 7:
+          s.setSlot(2, 2413);
+          pc = 8;
+          continue;
+        case 8:
+          pc = 11;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(2, 2414);
+          pc = 11;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          await s.textShow(65535);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('TEXTEND');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('REMA');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('FADI');
+          pc = 16;
+          continue;
+        case 16:
+          s.loadUnits(1, Sym('UnitDef_Ch4Ally_2'));
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('ENUN');
+          pc = 18;
+          continue;
+        case 18:
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('MUSC');
+          pc = 20;
+          continue;
+        case 20:
+          s.setSlot(2, 30);
+          pc = 21;
+          continue;
+        case 21:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CHECK_ALIVE');
+          pc = 23;
+          continue;
+        case 23:
+          if (s.slotInt(11) == 12) { pc = 9; } else { pc = 24; }
+          continue;
+        case 24:
+          s.placeholder('CHECK_ALIVE');
+          pc = 25;
+          continue;
+        case 25:
+          if (s.slotInt(11) == 12) { pc = 9; } else { pc = 26; }
+          continue;
+        case 26:
+          s.setSlot(2, 2415);
+          pc = 27;
+          continue;
+        case 27:
+          pc = 30;
+          continue;
+        case 28:
+          pc = 29;
+          continue;
+        case 29:
+          s.setSlot(2, 2416);
+          pc = 30;
+          continue;
+        case 30:
+          pc = 31;
+          continue;
+        case 31:
+          await s.textShow(65535);
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('TEXTEND');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('REMA');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('FADI');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('CLEAN');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('CAMERA2');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('CLEA');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('CLEE');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('CLEN');
+          pc = 41;
+          continue;
+        case 41:
+          s.loadUnits(2, Sym('UnitDef_Ch4Ally_3'));
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('ENUN');
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('FADU');
+          pc = 44;
+          continue;
+        case 44:
+          s.loadUnits(1, Sym('UnitDef_Ch4NPC_1'));
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('ENUN');
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('MUSC');
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('CURSOR_CHAR');
+          pc = 48;
+          continue;
+        case 48:
+          await s.stall(60);
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('CURE');
+          pc = 50;
+          continue;
+        case 50:
+          s.setSlot(2, 30);
+          pc = 51;
+          continue;
+        case 51:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 52;
+          continue;
+        case 52:
+          await s.textShow(2417);
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('TEXTEND');
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('REMA');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('ENUT');
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('ENUT');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('ENUT');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('ENUT');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('ENUT');
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('ENUT');
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('MNCH');
+          pc = 62;
+          continue;
+        case 62:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch4_10`
-final Ch4_10 = SceneScript(
-  'EventScr_Ch4_10',
-  const <SceneOp>[
-    MoveUnitOp('MOVE', [0, 19, 6, 3]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [19]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2410),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2411),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2425),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch4_10(Scene s) async {
+    s.moveUnit('MOVE', [0, 19, 6, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2410);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2411);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2425);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    return;
+}
 
 /// `EventScr_Ch4_2`
-final Ch4_2 = SceneScript(
-  'EventScr_Ch4_2',
-  const <SceneOp>[
-    MiscOp('MUSS', [48]),
-    StallOp(33),
-    MiscOp('CHECK_ACTIVE', []),
-    SetSlot(7, 19),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 7),
-    SetSlot(7, 1),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 7),
-    SetSlot(2, 2),
-    SetSlot(3, 2420),
-    CallScript(Sym('Event_TextWithBG')),
-    GoTo(2),
-    Label(0),
-    SetSlot(2, 2),
-    SetSlot(3, 2418),
-    CallScript(Sym('Event_TextWithBG')),
-    GoTo(2),
-    Label(1),
-    SetSlot(2, 2),
-    SetSlot(3, 2419),
-    CallScript(Sym('Event_TextWithBG')),
-    Label(2),
-    MiscOp('MURE', [4]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch4Ally_2')),
-    EndUnitOp('ENUN'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch4_2(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSS');
+          pc = 1;
+          continue;
+        case 1:
+          await s.stall(33);
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('CHECK_ACTIVE');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(7, 19);
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.setSlot(7, 1);
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(1) == 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          s.setSlot(2, 2);
+          pc = 8;
+          continue;
+        case 8:
+          s.setSlot(3, 2420);
+          pc = 9;
+          continue;
+        case 9:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 10;
+          continue;
+        case 10:
+          pc = 20;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(2, 2);
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(3, 2418);
+          pc = 14;
+          continue;
+        case 14:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 15;
+          continue;
+        case 15:
+          pc = 20;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.setSlot(2, 2);
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(3, 2419);
+          pc = 19;
+          continue;
+        case 19:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 20;
+          continue;
+        case 20:
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('MURE');
+          pc = 22;
+          continue;
+        case 22:
+          s.loadUnits(1, Sym('UnitDef_Ch4Ally_2'));
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('ENUN');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('EVBIT_T');
+          pc = 25;
+          continue;
+        case 25:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch4_BeginningScene`
-final Ch4_BeginningScene = SceneScript(
-  'EventScr_Ch4_BeginningScene',
-  const <SceneOp>[
-    LoadUnitsOp(2, Sym('UnitDef_Ch4Ally_0')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [82]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 46),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2403),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    LoadUnitsOp(1, Sym('UnitDef_Ch4Enemy_0')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [37]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2404),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    CameraOp('CAMERA', [0, 14]),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSI', []),
-    CursorOp('CURSOR_AT', [1, 11]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 2),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2405),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    SetSlot(2, Sym('EventScr_Ch4_7')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA', [0, 0]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch4Ally_1')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [19]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2406),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(11, 393227),
-    MoveUnitOp('MOVE', [0, 65534, 9, 3]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [19]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2407),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(13, 0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 65536),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    SetSlot(11, 196617),
-    MiscOp('FIGHT', [19, 65535, 63, 0]),
-    SetSlot(11, 196617),
-    MiscOp('KILL', [65534]),
-    MiscOp('DISA_IF', [65534]),
-    SetSlot(2, Sym('EventScr_Ch4_8')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2408),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch4_9')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    CallScript(Sym('data_085B9BBC', 512)),
-    CameraOp('CAMERA', [0, 0]),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [9]),
-    CursorOp('CURSOR_CHAR', [19]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2409),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch4_10')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EndUnitOp('ENUT'),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch4_BeginningScene(Scene s) async {
+    s.loadUnits(2, Sym('UnitDef_Ch4Ally_0'));
+    s.placeholder('ENUN');
+    s.placeholder('MUSC');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 46);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2403);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEAN');
+    s.loadUnits(1, Sym('UnitDef_Ch4Enemy_0'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('MUSC');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2404);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CAMERA');
+    s.placeholder('FADU');
+    s.placeholder('MUSI');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 2);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2405);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MUNO');
+    s.setSlot(2, Sym('EventScr_Ch4_7'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('FADI');
+    s.placeholder('CLEAN');
+    s.placeholder('CAMERA');
+    s.placeholder('FADU');
+    s.loadUnits(1, Sym('UnitDef_Ch4Ally_1'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2406);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(11, 393227);
+    s.moveUnit('MOVE', [0, 65534, 9, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2407);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 65536);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(11, 196617);
+    s.placeholder('FIGHT');
+    s.setSlot(11, 196617);
+    s.placeholder('KILL');
+    s.placeholder('DISA_IF');
+    s.setSlot(2, Sym('EventScr_Ch4_8'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2408);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, Sym('EventScr_Ch4_9'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    await s.call(Sym('data_085B9BBC', 512));
+    s.placeholder('CAMERA');
+    s.placeholder('FADU');
+    s.placeholder('MUSC');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2409);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, Sym('EventScr_Ch4_10'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch5_0`
-final Ch5_0 = SceneScript(
-  'EventScr_Ch5_0',
-  const <SceneOp>[
-    MusicOp('MUSI', []),
-    SetSlot(2, 0),
-    SetSlot(3, 2445),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 14),
-    MiscOp('GIVEITEMTO', [65535]),
-    SetSlot(2, Sym('EventScr_Ch5_9')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5_0(Scene s) async {
+    s.placeholder('MUSI');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2445);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.setSlot(3, 14);
+    s.placeholder('GIVEITEMTO');
+    s.setSlot(2, Sym('EventScr_Ch5_9'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch5_10`
-final Ch5_10 = SceneScript(
-  'EventScr_Ch5_10',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2451),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CameraOp('CAMERA', [2, 1]),
-    CursorOp('CURSOR_FLASHING', [2, 1]),
-    StallOp(60),
-    CameraOp('CAMERA', [6, 10]),
-    CursorOp('CURSOR_FLASHING', [6, 10]),
-    StallOp(60),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2452),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('CURE', []),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5_10(Scene s) async {
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2451);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CAMERA');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('CAMERA');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2452);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('CURE');
+    return;
+}
 
 /// `EventScr_Ch5_11`
-final Ch5_11 = SceneScript(
-  'EventScr_Ch5_11',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2453),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CameraOp('CAMERA', [12, 6]),
-    CursorOp('CURSOR_FLASHING', [12, 6]),
-    StallOp(60),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2454),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    MiscOp('CURE', []),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5_11(Scene s) async {
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2453);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CAMERA');
+    s.placeholder('CURSOR_FLASHING');
+    await s.stall(60);
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2454);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('CURE');
+    return;
+}
 
 /// `EventScr_Ch5_5`
-final Ch5_5 = SceneScript(
-  'EventScr_Ch5_5',
-  const <SceneOp>[
-    SetSlot(2, Sym('EventScr_Ch5_10')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    MusicOp('MUSC', [19]),
-    SetSlot(2, Sym('frontier_df4_banim_b_074_909DE8')),
-    CallScript(Sym('EventScr_LoadReinforce')),
-    CursorOp('CURSOR_AT', [14, 16]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2437),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5_5(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Ch5_10'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('MUSC');
+    s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8'));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2437);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch5_BeginningScene`
-final Ch5_BeginningScene = SceneScript(
-  'EventScr_Ch5_BeginningScene',
-  const <SceneOp>[
-    MiscOp('CHECK_EVENTID', [136]),
-    BranchIf(equal: true, slot: 32800, label: 12, opCount: 0),
-    CallScript(Sym('EventScr_Ch8_10')),
-    Label(32800),
-    MusicOp('MUSC', [37]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_074_909DE8', 220)),
-    EndUnitOp('ENUN'),
-    SetSlot(2, 10),
-    SetSlot(3, 2426),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('DISA', [32]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_074_909DE8', 220)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [32]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2427),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('CLEAN', []),
-    MusicOp('MUSC', [46]),
-    LoadUnitsOp(1, Sym('frontier_df4_banim_b_074_909DE8', 280)),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [105]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 10),
-    SetSlot(3, 2428),
-    CallScript(Sym('Event_TextWithBG')),
-    MoveUnitOp('MOVE', [0, 74, 9, 4]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [16, 14, 3]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [105]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 10),
-    SetSlot(3, 2429),
-    CallScript(Sym('Event_TextWithBG')),
-    SetSlot(13, 0),
-    SetSlot(1, 457),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 459),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 267),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [105]),
-    SetSlot(13, 0),
-    SetSlot(1, 456),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 459),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 267),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [14]),
-    MiscOp('STAL2', [30]),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(2, 47),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [36]),
-    ShowTextOp(2430),
-    TextBoxOp(false),
-    MusicOp('MUSI', []),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MUNO', []),
-    ShowTextOp(2431),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('STAL3', [32]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    LoadUnitsOp(1, Sym('frontier_df4_banim_b_074_909DE8', 360)),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5Enemy_0')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [38]),
-    TextBoxOp(true),
-    ShowTextOp(2432),
-    TextBoxOp(false),
-    ClearTextOp(),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5Enemy_1')),
-    EndUnitOp('ENUN'),
-    EndUnitOp('ENUN'),
-    CameraOp('CAMERA2', [7, 14]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_074_909DE8', 400)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2433),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [0, 13, 6, 15]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2434),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch4Ally')),
-    EndUnitOp('ENUN'),
-    CallScript(Sym('data_085B9BBC', 512)),
-    FadeOp('FADU', [16]),
-    CameraOp('CAMERA', [0, 0]),
-    MusicOp('MUSC', [19]),
-    CursorOp('CURSOR_AT', [12, 6]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    LoadUnitsOp(1, Sym('frontier_df4_banim_b_074_909DE8', 180)),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [0, 32, 9, 7]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [32]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2435),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch5_11')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    CameraOp('CAMERA', [5, 18]),
-    MusicOp('MUSC', [9]),
-    CursorOp('CURSOR_CHAR', [13]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2436),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Ch5_8')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5_BeginningScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVENTID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(32800) == 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_Ch8_10'));
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('MUSC');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('EvtSetLoadUnitNoREDA');
+          pc = 6;
+          continue;
+        case 6:
+          s.loadUnits(2, Sym('frontier_df4_banim_b_074_909DE8', 220));
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('ENUN');
+          pc = 8;
+          continue;
+        case 8:
+          s.setSlot(2, 10);
+          pc = 9;
+          continue;
+        case 9:
+          s.setSlot(3, 2426);
+          pc = 10;
+          continue;
+        case 10:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('DISA');
+          pc = 12;
+          continue;
+        case 12:
+          s.loadUnits(2, Sym('frontier_df4_banim_b_074_909DE8', 220));
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('ENUN');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('CURSOR_CHAR');
+          pc = 15;
+          continue;
+        case 15:
+          await s.stall(60);
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('CURE');
+          pc = 17;
+          continue;
+        case 17:
+          s.setSlot(2, 10);
+          pc = 18;
+          continue;
+        case 18:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 19;
+          continue;
+        case 19:
+          await s.textShow(2427);
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('TEXTEND');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('REMA');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('FADI');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('CLEA');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CLEE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('CLEN');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('CLEAN');
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('MUSC');
+          pc = 28;
+          continue;
+        case 28:
+          s.loadUnits(1, Sym('frontier_df4_banim_b_074_909DE8', 280));
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('ENUN');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('FADU');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('CURSOR_CHAR');
+          pc = 32;
+          continue;
+        case 32:
+          await s.stall(60);
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('CURE');
+          pc = 34;
+          continue;
+        case 34:
+          s.setSlot(2, 10);
+          pc = 35;
+          continue;
+        case 35:
+          s.setSlot(3, 2428);
+          pc = 36;
+          continue;
+        case 36:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 37;
+          continue;
+        case 37:
+          s.moveUnit('MOVE', [0, 74, 9, 4]);
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('ENUN');
+          pc = 39;
+          continue;
+        case 39:
+          s.moveUnit('MOVE_1STEP', [16, 14, 3]);
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('ENUN');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('CURSOR_CHAR');
+          pc = 42;
+          continue;
+        case 42:
+          await s.stall(60);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('CURE');
+          pc = 44;
+          continue;
+        case 44:
+          s.setSlot(2, 10);
+          pc = 45;
+          continue;
+        case 45:
+          s.setSlot(3, 2429);
+          pc = 46;
+          continue;
+        case 46:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 47;
+          continue;
+        case 47:
+          s.setSlot(13, 0);
+          pc = 48;
+          continue;
+        case 48:
+          s.setSlot(1, 457);
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('SENQUEUE1');
+          pc = 50;
+          continue;
+        case 50:
+          s.setSlot(1, 0);
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('SENQUEUE1');
+          pc = 52;
+          continue;
+        case 52:
+          s.setSlot(1, 459);
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('SENQUEUE1');
+          pc = 54;
+          continue;
+        case 54:
+          s.setSlot(1, 0);
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('SENQUEUE1');
+          pc = 56;
+          continue;
+        case 56:
+          s.setSlot(1, 267);
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('SENQUEUE1');
+          pc = 58;
+          continue;
+        case 58:
+          s.setSlot(1, 0);
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('SENQUEUE1');
+          pc = 60;
+          continue;
+        case 60:
+          s.moveUnit('MOVE_DEFINED', [105]);
+          pc = 61;
+          continue;
+        case 61:
+          s.setSlot(13, 0);
+          pc = 62;
+          continue;
+        case 62:
+          s.setSlot(1, 456);
+          pc = 63;
+          continue;
+        case 63:
+          s.placeholder('SENQUEUE1');
+          pc = 64;
+          continue;
+        case 64:
+          s.setSlot(1, 0);
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('SENQUEUE1');
+          pc = 66;
+          continue;
+        case 66:
+          s.setSlot(1, 459);
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('SENQUEUE1');
+          pc = 68;
+          continue;
+        case 68:
+          s.setSlot(1, 0);
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('SENQUEUE1');
+          pc = 70;
+          continue;
+        case 70:
+          s.setSlot(1, 267);
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('SENQUEUE1');
+          pc = 72;
+          continue;
+        case 72:
+          s.setSlot(1, 0);
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('SENQUEUE1');
+          pc = 74;
+          continue;
+        case 74:
+          s.moveUnit('MOVE_DEFINED', [14]);
+          pc = 75;
+          continue;
+        case 75:
+          s.placeholder('STAL2');
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('FADI');
+          pc = 77;
+          continue;
+        case 77:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 78;
+          continue;
+        case 78:
+          s.placeholder('ENUN');
+          pc = 79;
+          continue;
+        case 79:
+          s.placeholder('CLEA');
+          pc = 80;
+          continue;
+        case 80:
+          s.placeholder('CLEE');
+          pc = 81;
+          continue;
+        case 81:
+          s.placeholder('CLEN');
+          pc = 82;
+          continue;
+        case 82:
+          s.setSlot(2, 47);
+          pc = 83;
+          continue;
+        case 83:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 84;
+          continue;
+        case 84:
+          s.placeholder('MUSC');
+          pc = 85;
+          continue;
+        case 85:
+          await s.textShow(2430);
+          pc = 86;
+          continue;
+        case 86:
+          s.placeholder('TEXTEND');
+          pc = 87;
+          continue;
+        case 87:
+          s.placeholder('MUSI');
+          pc = 88;
+          continue;
+        case 88:
+          s.placeholder('TEXTCONT');
+          pc = 89;
+          continue;
+        case 89:
+          s.placeholder('TEXTEND');
+          pc = 90;
+          continue;
+        case 90:
+          s.placeholder('REMA');
+          pc = 91;
+          continue;
+        case 91:
+          s.placeholder('MUNO');
+          pc = 92;
+          continue;
+        case 92:
+          await s.textShow(2431);
+          pc = 93;
+          continue;
+        case 93:
+          s.placeholder('TEXTEND');
+          pc = 94;
+          continue;
+        case 94:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 95;
+          continue;
+        case 95:
+          s.placeholder('STAL3');
+          pc = 96;
+          continue;
+        case 96:
+          s.placeholder('TEXTCONT');
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('TEXTEND');
+          pc = 98;
+          continue;
+        case 98:
+          s.placeholder('REMA');
+          pc = 99;
+          continue;
+        case 99:
+          await s.call(Sym('EventScr_TextShowWithFadeIn'));
+          pc = 100;
+          continue;
+        case 100:
+          s.loadUnits(1, Sym('frontier_df4_banim_b_074_909DE8', 360));
+          pc = 101;
+          continue;
+        case 101:
+          s.placeholder('ENUN');
+          pc = 102;
+          continue;
+        case 102:
+          s.loadUnits(1, Sym('UnitDef_Ch5Enemy_0'));
+          pc = 103;
+          continue;
+        case 103:
+          s.placeholder('ENUN');
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('MUSC');
+          pc = 105;
+          continue;
+        case 105:
+          s.placeholder('TEXTSTART');
+          pc = 106;
+          continue;
+        case 106:
+          await s.textShow(2432);
+          pc = 107;
+          continue;
+        case 107:
+          s.placeholder('TEXTEND');
+          pc = 108;
+          continue;
+        case 108:
+          s.placeholder('REMA');
+          pc = 109;
+          continue;
+        case 109:
+          s.loadUnits(1, Sym('UnitDef_Ch5Enemy_1'));
+          pc = 110;
+          continue;
+        case 110:
+          s.placeholder('ENUN');
+          pc = 111;
+          continue;
+        case 111:
+          s.placeholder('ENUN');
+          pc = 112;
+          continue;
+        case 112:
+          s.placeholder('CAMERA2');
+          pc = 113;
+          continue;
+        case 113:
+          s.loadUnits(2, Sym('frontier_df4_banim_b_074_909DE8', 400));
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('ENUN');
+          pc = 115;
+          continue;
+        case 115:
+          s.placeholder('CURSOR_CHAR');
+          pc = 116;
+          continue;
+        case 116:
+          await s.stall(60);
+          pc = 117;
+          continue;
+        case 117:
+          s.placeholder('CURE');
+          pc = 118;
+          continue;
+        case 118:
+          s.placeholder('TEXTSTART');
+          pc = 119;
+          continue;
+        case 119:
+          await s.textShow(2433);
+          pc = 120;
+          continue;
+        case 120:
+          s.placeholder('TEXTEND');
+          pc = 121;
+          continue;
+        case 121:
+          s.placeholder('REMA');
+          pc = 122;
+          continue;
+        case 122:
+          s.moveUnit('MOVE', [0, 13, 6, 15]);
+          pc = 123;
+          continue;
+        case 123:
+          s.placeholder('ENUN');
+          pc = 124;
+          continue;
+        case 124:
+          s.placeholder('CURSOR_CHAR');
+          pc = 125;
+          continue;
+        case 125:
+          await s.stall(60);
+          pc = 126;
+          continue;
+        case 126:
+          s.placeholder('CURE');
+          pc = 127;
+          continue;
+        case 127:
+          s.placeholder('TEXTSTART');
+          pc = 128;
+          continue;
+        case 128:
+          await s.textShow(2434);
+          pc = 129;
+          continue;
+        case 129:
+          s.placeholder('TEXTEND');
+          pc = 130;
+          continue;
+        case 130:
+          s.placeholder('REMA');
+          pc = 131;
+          continue;
+        case 131:
+          s.placeholder('FADI');
+          pc = 132;
+          continue;
+        case 132:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 133;
+          continue;
+        case 133:
+          s.loadUnits(1, Sym('UnitDef_Event_Ch4Ally'));
+          pc = 134;
+          continue;
+        case 134:
+          s.placeholder('ENUN');
+          pc = 135;
+          continue;
+        case 135:
+          await s.call(Sym('data_085B9BBC', 512));
+          pc = 136;
+          continue;
+        case 136:
+          s.placeholder('FADU');
+          pc = 137;
+          continue;
+        case 137:
+          s.placeholder('CAMERA');
+          pc = 138;
+          continue;
+        case 138:
+          s.placeholder('MUSC');
+          pc = 139;
+          continue;
+        case 139:
+          s.placeholder('CURSOR_AT');
+          pc = 140;
+          continue;
+        case 140:
+          await s.stall(60);
+          pc = 141;
+          continue;
+        case 141:
+          s.placeholder('CURE');
+          pc = 142;
+          continue;
+        case 142:
+          s.loadUnits(1, Sym('frontier_df4_banim_b_074_909DE8', 180));
+          pc = 143;
+          continue;
+        case 143:
+          s.placeholder('ENUN');
+          pc = 144;
+          continue;
+        case 144:
+          s.moveUnit('MOVE', [0, 32, 9, 7]);
+          pc = 145;
+          continue;
+        case 145:
+          s.placeholder('ENUN');
+          pc = 146;
+          continue;
+        case 146:
+          s.placeholder('CURSOR_CHAR');
+          pc = 147;
+          continue;
+        case 147:
+          await s.stall(60);
+          pc = 148;
+          continue;
+        case 148:
+          s.placeholder('CURE');
+          pc = 149;
+          continue;
+        case 149:
+          s.placeholder('TEXTSTART');
+          pc = 150;
+          continue;
+        case 150:
+          await s.textShow(2435);
+          pc = 151;
+          continue;
+        case 151:
+          s.placeholder('TEXTEND');
+          pc = 152;
+          continue;
+        case 152:
+          s.placeholder('REMA');
+          pc = 153;
+          continue;
+        case 153:
+          s.setSlot(2, Sym('EventScr_Ch5_11'));
+          pc = 154;
+          continue;
+        case 154:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 155;
+          continue;
+        case 155:
+          s.placeholder('CAMERA');
+          pc = 156;
+          continue;
+        case 156:
+          s.placeholder('MUSC');
+          pc = 157;
+          continue;
+        case 157:
+          s.placeholder('CURSOR_CHAR');
+          pc = 158;
+          continue;
+        case 158:
+          await s.stall(60);
+          pc = 159;
+          continue;
+        case 159:
+          s.placeholder('CURE');
+          pc = 160;
+          continue;
+        case 160:
+          s.placeholder('TEXTSTART');
+          pc = 161;
+          continue;
+        case 161:
+          await s.textShow(2436);
+          pc = 162;
+          continue;
+        case 162:
+          s.placeholder('TEXTEND');
+          pc = 163;
+          continue;
+        case 163:
+          s.placeholder('REMA');
+          pc = 164;
+          continue;
+        case 164:
+          s.setSlot(2, Sym('EventScr_Ch5_8'));
+          pc = 165;
+          continue;
+        case 165:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 166;
+          continue;
+        case 166:
+          s.placeholder('EVBIT_T');
+          pc = 167;
+          continue;
+        case 167:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch5_EndingScene`
-final Ch5_EndingScene = SceneScript(
-  'EventScr_Ch5_EndingScene',
-  const <SceneOp>[
-    FadeOp('FADI', [16]),
-    SetSlot(2, 32),
-    CallScript(Sym('EventScr_StrictLoadUniqueAlly')),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [13]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MusicOp('MUSC', [49]),
-    ShowTextOp(2441),
-    TextBoxOp(false),
-    GoTo(1),
-    Label(0),
-    MusicOp('MUSC', [50]),
-    ShowTextOp(2442),
-    TextBoxOp(false),
-    Label(1),
-    ClearTextOp(),
-    MiscOp('CHECK_EVENTID', [8]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    MiscOp('CHECK_EVENTID', [9]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    MiscOp('CHECK_EVENTID', [10]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    MiscOp('CHECK_EVENTID', [11]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2443),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 104),
-    MiscOp('GIVEITEMTO', [0]),
-    Label(2),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('MNC2', [5]),
-    MiscOp('EVENT_WORD', [42560]),
-    MiscOp('EVENT_WORD', [524288]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('FADI');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 32);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_StrictLoadUniqueAlly'));
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(2, 10);
+          pc = 4;
+          continue;
+        case 4:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CHECK_ALIVE');
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(0) == 12) { pc = 11; } else { pc = 7; }
+          continue;
+        case 7:
+          s.placeholder('MUSC');
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(2441);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 15;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('MUSC');
+          pc = 13;
+          continue;
+        case 13:
+          await s.textShow(2442);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TEXTEND');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('REMA');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('CHECK_EVENTID');
+          pc = 18;
+          continue;
+        case 18:
+          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 19; }
+          continue;
+        case 19:
+          s.placeholder('CHECK_EVENTID');
+          pc = 20;
+          continue;
+        case 20:
+          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 21; }
+          continue;
+        case 21:
+          s.placeholder('CHECK_EVENTID');
+          pc = 22;
+          continue;
+        case 22:
+          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 23; }
+          continue;
+        case 23:
+          s.placeholder('CHECK_EVENTID');
+          pc = 24;
+          continue;
+        case 24:
+          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 25; }
+          continue;
+        case 25:
+          s.setSlot(2, 10);
+          pc = 26;
+          continue;
+        case 26:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 27;
+          continue;
+        case 27:
+          await s.textShow(2443);
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('TEXTEND');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('REMA');
+          pc = 30;
+          continue;
+        case 30:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 31;
+          continue;
+        case 31:
+          s.setSlot(3, 104);
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('GIVEITEMTO');
+          pc = 33;
+          continue;
+        case 33:
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('ENUT');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('ENUT');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('ENUT');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('ENUT');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('ENUT');
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('MNC2');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('EVENT_WORD');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('EVENT_WORD');
+          pc = 42;
+          continue;
+        case 42:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch5x_BeginningScene`
-final Ch5x_BeginningScene = SceneScript(
-  'EventScr_Ch5x_BeginningScene',
-  const <SceneOp>[
-    AsmCallOp(Sym('HandleCh5xUnits_Start', 1)),
-    MusicOp('MUSC', [46]),
-    SetSlot(11, 262154),
-    MiscOp('LOMA', [8]),
-    FadeOp('FADU', [16]),
-    MiscOp('BROWNBOXTEXT', [1513, 8, 8]),
-    CursorOp('CURSOR_AT', [9, 4]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    FadeOp('FADI', [16]),
-    SetSlot(11, 262155),
-    MiscOp('LOMA', [9]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5xEnemy_1')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    MiscOp('SPAWN_ENEMY', [67, 10, 10]),
-    MoveUnitOp('MOVE', [16, 67, 10, 4]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 77, 9, 3]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 67, 10, 2]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [16, 77, 10, 3]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [77]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2455),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 786452),
-    MiscOp('LOMA', [7]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch5xAlly_1')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 45),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [37]),
-    ShowTextOp(2456),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 458761),
-    MiscOp('LOMA', [8]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch5xAlly_2')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 44),
-    SetSlot(3, 2457),
-    CallScript(Sym('Event_TextWithBG')),
-    MoveUnitOp('MOVE', [0, 15, 9, 4]),
-    MiscOp('STAL2', [8]),
-    MoveUnitOp('MOVE', [0, 16, 9, 5]),
-    MoveUnitOp('MOVE', [0, 17, 8, 5]),
-    MoveUnitOp('MOVE', [0, 66, 8, 6]),
-    MiscOp('STAL2', [8]),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 458766),
-    MiscOp('LOMA', [5]),
-    LoadUnitsOp(1, Sym('frontier_df4_banim_b_075_90A050')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [106]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    ShowTextOp(2458),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CameraOp('CAMERA', [0, 18]),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch5xAlly')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2459),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 2]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5x_BeginningScene(Scene s) async {
+    s.placeholder('ASMC');
+    s.placeholder('MUSC');
+    s.setSlot(11, 262154);
+    s.placeholder('LOMA');
+    s.placeholder('FADU');
+    s.placeholder('BROWNBOXTEXT');
+    s.placeholder('CURSOR_AT');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('FADI');
+    s.setSlot(11, 262155);
+    s.placeholder('LOMA');
+    s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_1'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('SPAWN_ENEMY');
+    s.moveUnit('MOVE', [16, 67, 10, 4]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [16, 77, 9, 3]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [16, 67, 10, 2]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [16, 77, 10, 3]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2455);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 786452);
+    s.placeholder('LOMA');
+    s.loadUnits(2, Sym('UnitDef_Ch5xAlly_1'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 45);
+    await s.call(Sym('EventScr_SetBackground'));
+    s.placeholder('MUSC');
+    await s.textShow(2456);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 458761);
+    s.placeholder('LOMA');
+    s.placeholder('FADU');
+    s.loadUnits(2, Sym('UnitDef_Ch5xAlly_2'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 44);
+    s.setSlot(3, 2457);
+    await s.call(Sym('Event_TextWithBG'));
+    s.moveUnit('MOVE', [0, 15, 9, 4]);
+    s.placeholder('STAL2');
+    s.moveUnit('MOVE', [0, 16, 9, 5]);
+    s.moveUnit('MOVE', [0, 17, 8, 5]);
+    s.moveUnit('MOVE', [0, 66, 8, 6]);
+    s.placeholder('STAL2');
+    s.placeholder('FADI');
+    s.placeholder('ENUN');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 458766);
+    s.placeholder('LOMA');
+    s.loadUnits(1, Sym('frontier_df4_banim_b_075_90A050'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    await s.textShow(2458);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CAMERA');
+    s.loadUnits(1, Sym('UnitDef_Event_Ch5xAlly'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 21);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2459);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EvtBgmFadeIn');
+    return;
+}
 
 /// `EventScr_Ch5x_EndingScene`
-final Ch5x_EndingScene = SceneScript(
-  'EventScr_Ch5x_EndingScene',
-  const <SceneOp>[
-    AsmCallOp(Sym('HandleCh5xUnits_End', 1)),
-    MusicOp('MUSC', [49]),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2465),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA2', [13, 9]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch5xAlly_0')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5xAlly_0')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [16]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2466),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 262154),
-    MiscOp('LOMA', [8]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5xEnemy_2')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    EventBitOp(true, 9),
-    LoadUnitsOp(2, Sym('UnitDef_Ch5xAlly_3')),
-    EndUnitOp('ENUN'),
-    EventBitOp(false, 9),
-    MusicOp('MUSC', [38]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5xEnemy_3')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Ch5xEnemy_4')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [67]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 44),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2467),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('EVENT_WORD', [42560]),
-    MiscOp('EVENT_WORD', [327680]),
-    MiscOp('MNCH', [7]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch5x_EndingScene(Scene s) async {
+    s.placeholder('ASMC');
+    s.placeholder('MUSC');
+    s.setSlot(2, 21);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2465);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('CLEAN');
+    s.placeholder('CAMERA2');
+    s.placeholder('EvtSetLoadUnitNoREDA');
+    s.loadUnits(2, Sym('UnitDef_Ch5xAlly_0'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.loadUnits(1, Sym('UnitDef_Ch5xAlly_0'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2466);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 262154);
+    s.placeholder('LOMA');
+    s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_2'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('EVBIT_T');
+    s.loadUnits(2, Sym('UnitDef_Ch5xAlly_3'));
+    s.placeholder('ENUN');
+    s.placeholder('EVBIT_F');
+    s.placeholder('MUSC');
+    s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_3'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_4'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 44);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2467);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('EVENT_WORD');
+    s.placeholder('EVENT_WORD');
+    s.placeholder('MNCH');
+    return;
+}
 
 /// `EventScr_Ch6_0`
-final Ch6_0 = SceneScript(
-  'EventScr_Ch6_0',
-  const <SceneOp>[
-    MiscOp('CHECK_ALIVE', [249]),
-    BranchIf(equal: true, slot: 99, label: 12, opCount: 0),
-    MiscOp('CHECK_INAREA', [249, 24, 9, 4, 6]),
-    BranchIf(equal: true, slot: 4, label: 12, opCount: 0),
-    SetSlot(2, 176),
-    CallScript(Sym('EventScr_UnTriggerIfNotUnit')),
-    MusicOp('MUSC', [24]),
-    CameraOp('CAMERA_CAHR', [249]),
-    CursorOp('CURSOR_CHAR', [249]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('RANDOMNUMBER', [2]),
-    SetSlot(7, 1),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 7),
-    SetSlot(7, 2),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 7),
-    Label(0),
-    SetSlot(2, 2476),
-    GoTo(3),
-    Label(1),
-    SetSlot(2, 2477),
-    GoTo(3),
-    Label(2),
-    SetSlot(2, 2478),
-    Label(3),
-    TextBoxOp(true),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(4),
-    CallScript(Sym('UnitDef_Ch14BAlly_7', 28)),
-    Label(99),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch6_0(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_ALIVE');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(99) == 12) { pc = 16; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_INAREA');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(4) == 12) { pc = 16; } else { pc = 4; }
+          continue;
+        case 4:
+          s.setSlot(2, 176);
+          pc = 5;
+          continue;
+        case 5:
+          await s.call(Sym('EventScr_UnTriggerIfNotUnit'));
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('MUSC');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('CAMERA_CAHR');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CURSOR_CHAR');
+          pc = 9;
+          continue;
+        case 9:
+          await s.stall(60);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CURE');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('RANDOMNUMBER');
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(7, 1);
+          pc = 13;
+          continue;
+        case 13:
+          if (s.slotInt(1) == 12) { pc = 14; } else { pc = 14; }
+          continue;
+        case 14:
+          s.setSlot(7, 2);
+          pc = 15;
+          continue;
+        case 15:
+          if (s.slotInt(2) == 12) { pc = 16; } else { pc = 16; }
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.setSlot(2, 2476);
+          pc = 18;
+          continue;
+        case 18:
+          pc = 24;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          s.setSlot(2, 2477);
+          pc = 21;
+          continue;
+        case 21:
+          pc = 24;
+          continue;
+        case 22:
+          pc = 23;
+          continue;
+        case 23:
+          s.setSlot(2, 2478);
+          pc = 24;
+          continue;
+        case 24:
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TEXTSTART');
+          pc = 26;
+          continue;
+        case 26:
+          await s.textShow(65535);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('TEXTEND');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('REMA');
+          pc = 29;
+          continue;
+        case 29:
+          pc = 30;
+          continue;
+        case 30:
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
+          pc = 31;
+          continue;
+        case 31:
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('EVBIT_T');
+          pc = 33;
+          continue;
+        case 33:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch6_1`
-final Ch6_1 = SceneScript(
-  'EventScr_Ch6_1',
-  const <SceneOp>[
-    MusicOp('MUSI', []),
-    SetSlot(2, 0),
-    SetSlot(3, 2484),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 111),
-    MiscOp('GIVEITEMTO', [65535]),
-    SetSlot(2, Sym('EventScr_Ch6_3')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch6_1(Scene s) async {
+    s.placeholder('MUSI');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2484);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.setSlot(3, 111);
+    s.placeholder('GIVEITEMTO');
+    s.setSlot(2, Sym('EventScr_Ch6_3'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch6_2`
-final Ch6_2 = SceneScript(
-  'EventScr_Ch6_2',
-  const <SceneOp>[
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA2', [7, 8]),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [17]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 34),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2474),
-    TextBoxOp(false),
-    MiscOp('CHECK_ALIVE', [9]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2475]),
-    TextBoxOp(false),
-    Label(0),
-    ClearTextOp(),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2485),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch6_2(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CLEAN');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CAMERA2');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('FADU');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('MUSC');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('CURSOR_CHAR');
+          pc = 5;
+          continue;
+        case 5:
+          await s.stall(60);
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CURE');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(2, 34);
+          pc = 8;
+          continue;
+        case 8:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 9;
+          continue;
+        case 9:
+          await s.textShow(2474);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('TEXTEND');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CHECK_ALIVE');
+          pc = 12;
+          continue;
+        case 12:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 13; }
+          continue;
+        case 13:
+          s.placeholder('EvtTextShow2');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TEXTEND');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('REMA');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('TUTORIALTEXTBOXSTART');
+          pc = 18;
+          continue;
+        case 18:
+          s.setSlot(11, 4294967295);
+          pc = 19;
+          continue;
+        case 19:
+          await s.textShow(2485);
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('TEXTEND');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('REMA');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('ENUT');
+          pc = 23;
+          continue;
+        case 23:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch6_BeginningScene`
-final Ch6_BeginningScene = SceneScript(
-  'EventScr_Ch6_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [46]),
-    SetSlot(2, 34),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2468),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    EventBitOp(true, 9),
-    LoadUnitsOp(2, Sym('UnitDef_Ch6Ally_0')),
-    EndUnitOp('ENUN'),
-    EventBitOp(false, 9),
-    CameraOp('CAMERA2', [7, 7]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch6Mixed')),
-    EndUnitOp('ENUN'),
-    SetSlot(2, 75),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 5, 8]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    SetSlot(2, 249),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 6, 8]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    MoveUnitOp('MOVE_1STEP', [0, 1, 0]),
-    MoveUnitOp('MOVE_1STEP', [0, 2, 0]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [75]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 34),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2469),
-    TextBoxOp(false),
-    MusicOp('MUSC', [38]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, 34),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2470),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, 34),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2471),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    MoveUnitOp('MOVE', [65535, 251, 20, 5]),
-    SetSlot(2, 75),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    SetSlot(2, 249),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    CameraOp('CAMERA2', [19, 5]),
-    SetSlot(2, 75),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 19, 6]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    SetSlot(2, 249),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 20, 6]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    CursorOp('CURSOR_CHAR', [75]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 39),
-    SetSlot(3, 2472),
-    CallScript(Sym('Event_TextWithBG')),
-    StallOp(60),
-    SetSlot(2, 249),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    SetSlot(2, 251),
-    CallScript(Sym('EventScr_UnitWarpOUT')),
-    CameraOp('CAMERA2', [21, 11]),
-    SetSlot(2, 249),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 26, 12]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    SetSlot(2, 251),
-    MoveUnitOp('MOVE_CLOSEST', [65535, 65533, 25, 12]),
-    CallScript(Sym('EventScr_UnitWarpIN')),
-    CursorOp('CURSOR_CHAR', [249]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 39),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2473),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    SetSlot(2, Sym('EventScr_Ch6_2')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    CallScript(Sym('data_085B9BBC', 512)),
-    EndScript(true),
-  ],
-);
+Future<void> Ch6_BeginningScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, 34);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2468);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EvtBgmFadeIn');
+    await s.call(Sym('EventScr_TextShowWithFadeIn'));
+    s.placeholder('EVBIT_T');
+    s.loadUnits(2, Sym('UnitDef_Ch6Ally_0'));
+    s.placeholder('ENUN');
+    s.placeholder('EVBIT_F');
+    s.placeholder('CAMERA2');
+    s.loadUnits(1, Sym('UnitDef_Ch6Mixed'));
+    s.placeholder('ENUN');
+    s.setSlot(2, 75);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 5, 8]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.setSlot(2, 249);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 6, 8]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.moveUnit('MOVE_1STEP', [0, 1, 0]);
+    s.moveUnit('MOVE_1STEP', [0, 2, 0]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 34);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2469);
+    s.placeholder('TEXTEND');
+    s.placeholder('MUSC');
+    s.placeholder('TEXTCONT');
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, 34);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2470);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(2, 34);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2471);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    await s.call(Sym('EventScr_TextShowWithFadeIn'));
+    s.moveUnit('MOVE', [65535, 251, 20, 5]);
+    s.setSlot(2, 75);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.setSlot(2, 249);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.placeholder('CAMERA2');
+    s.setSlot(2, 75);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 19, 6]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.setSlot(2, 249);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 20, 6]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 39);
+    s.setSlot(3, 2472);
+    await s.call(Sym('Event_TextWithBG'));
+    await s.stall(60);
+    s.setSlot(2, 249);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.setSlot(2, 251);
+    await s.call(Sym('EventScr_UnitWarpOUT'));
+    s.placeholder('CAMERA2');
+    s.setSlot(2, 249);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 26, 12]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.setSlot(2, 251);
+    s.moveUnit('MOVE_CLOSEST', [65535, 65533, 25, 12]);
+    await s.call(Sym('EventScr_UnitWarpIN'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 39);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2473);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.setSlot(2, Sym('EventScr_Ch6_2'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    await s.call(Sym('data_085B9BBC', 512));
+    return;
+}
 
 /// `EventScr_Ch6_EndingScene`
-final Ch6_EndingScene = SceneScript(
-  'EventScr_Ch6_EndingScene',
-  const <SceneOp>[
-    MiscOp('EvtBgmFadeIn', [32767, 2]),
-    SetSlot(2, 34),
-    CallScript(Sym('EventScr_SetBackground')),
-    MiscOp('CHECK_ALIVE', [250]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [251]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [249]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MusicOp('MUSC', [49]),
-    ShowTextOp(2482),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 102),
-    MiscOp('GIVEITEMTO', [1]),
-    Label(0),
-    ClearTextOp(),
-    MusicOp('MUSC', [43]),
-    ShowTextOp(2483),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 6]),
-    StallOp(60),
-    MiscOp('EvtBgmFadeIn', [50, 6]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [8]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch6_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 34);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_ALIVE');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 17; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('CHECK_ALIVE');
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(0) == 12) { pc = 17; } else { pc = 7; }
+          continue;
+        case 7:
+          s.placeholder('CHECK_ALIVE');
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 17; } else { pc = 9; }
+          continue;
+        case 9:
+          s.placeholder('MUSC');
+          pc = 10;
+          continue;
+        case 10:
+          await s.textShow(2482);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TEXTEND');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('REMA');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 14;
+          continue;
+        case 14:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 15;
+          continue;
+        case 15:
+          s.setSlot(3, 102);
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('GIVEITEMTO');
+          pc = 17;
+          continue;
+        case 17:
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('REMA');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('MUSC');
+          pc = 20;
+          continue;
+        case 20:
+          await s.textShow(2483);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('TEXTEND');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 23;
+          continue;
+        case 23:
+          await s.stall(60);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TEXTCONT');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('TEXTEND');
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('REMA');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('ENUT');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('ENUT');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('MNCH');
+          pc = 31;
+          continue;
+        case 31:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch7_BeginningScene`
-final Ch7_BeginningScene = SceneScript(
-  'EventScr_Ch7_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [37]),
-    LoadUnitsOp(1, Sym('frontier_df4_banim_b_076_90B4DC')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(3, Sym('UnitDef_Event_Ch7Ally')),
-    EndUnitOp('ENUN'),
-    StallOp(15),
-    CameraOp('CAMERA2', [9, 4]),
-    CursorOp('CURSOR_AT', [9, 4]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    CameraOp('CAMERA', [0, 21]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 44),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2487),
-    TextBoxOp(false),
-    MiscOp('CHECK_ALIVE', [4]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2488]),
-    TextBoxOp(false),
-    Label(0),
-    MiscOp('CHECK_ALIVE', [3]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [5]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [6]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2489]),
-    TextBoxOp(false),
-    Label(1),
-    MiscOp('CHECK_ALIVE', [7]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [10]),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2490]),
-    TextBoxOp(false),
-    Label(2),
-    MiscOp('CHECK_ALIVE', [9]),
-    BranchIf(equal: true, slot: 3, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [8]),
-    BranchIf(equal: true, slot: 3, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2491]),
-    TextBoxOp(false),
-    Label(3),
-    MiscOp('CHECK_ALIVE', [12]),
-    BranchIf(equal: true, slot: 4, label: 12, opCount: 0),
-    MiscOp('CHECK_ALIVE', [19]),
-    BranchIf(equal: true, slot: 4, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2492]),
-    TextBoxOp(false),
-    Label(4),
-    MiscOp('CHECK_ALIVE', [32]),
-    BranchIf(equal: true, slot: 5, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2493]),
-    TextBoxOp(false),
-    Label(5),
-    MiscOp('CHECK_ALIVE', [13]),
-    BranchIf(equal: true, slot: 6, label: 12, opCount: 0),
-    MiscOp('EvtTextShow2', [2494]),
-    TextBoxOp(false),
-    Label(6),
-    MiscOp('EvtTextShow2', [2495]),
-    TextBoxOp(false),
-    CallScript(Sym('data_085B9BBC', 512)),
-    MusicOp('MUSC', [9]),
-    FadeOp('FADU', [16]),
-    SetSlot(2, Sym('EventScr_Ch7_3')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch7_BeginningScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.loadUnits(1, Sym('frontier_df4_banim_b_076_90B4DC'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('ENUN');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('FADU');
+          pc = 4;
+          continue;
+        case 4:
+          s.loadUnits(3, Sym('UnitDef_Event_Ch7Ally'));
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENUN');
+          pc = 6;
+          continue;
+        case 6:
+          await s.stall(15);
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('CAMERA2');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CURSOR_AT');
+          pc = 9;
+          continue;
+        case 9:
+          await s.stall(60);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CURE');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CAMERA');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CURSOR_CHAR');
+          pc = 13;
+          continue;
+        case 13:
+          await s.stall(60);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('CURE');
+          pc = 15;
+          continue;
+        case 15:
+          s.setSlot(2, 44);
+          pc = 16;
+          continue;
+        case 16:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 17;
+          continue;
+        case 17:
+          await s.textShow(2487);
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('TEXTEND');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('CHECK_ALIVE');
+          pc = 20;
+          continue;
+        case 20:
+          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 21; }
+          continue;
+        case 21:
+          s.placeholder('EvtTextShow2');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('TEXTEND');
+          pc = 23;
+          continue;
+        case 23:
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CHECK_ALIVE');
+          pc = 25;
+          continue;
+        case 25:
+          if (s.slotInt(1) == 12) { pc = 23; } else { pc = 26; }
+          continue;
+        case 26:
+          s.placeholder('CHECK_ALIVE');
+          pc = 27;
+          continue;
+        case 27:
+          if (s.slotInt(1) == 12) { pc = 23; } else { pc = 28; }
+          continue;
+        case 28:
+          s.placeholder('CHECK_ALIVE');
+          pc = 29;
+          continue;
+        case 29:
+          if (s.slotInt(1) == 12) { pc = 23; } else { pc = 30; }
+          continue;
+        case 30:
+          s.placeholder('EvtTextShow2');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('TEXTEND');
+          pc = 32;
+          continue;
+        case 32:
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('CHECK_ALIVE');
+          pc = 34;
+          continue;
+        case 34:
+          if (s.slotInt(2) == 12) { pc = 23; } else { pc = 35; }
+          continue;
+        case 35:
+          s.placeholder('CHECK_ALIVE');
+          pc = 36;
+          continue;
+        case 36:
+          if (s.slotInt(2) == 12) { pc = 23; } else { pc = 37; }
+          continue;
+        case 37:
+          s.placeholder('EvtTextShow2');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('TEXTEND');
+          pc = 39;
+          continue;
+        case 39:
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('CHECK_ALIVE');
+          pc = 41;
+          continue;
+        case 41:
+          if (s.slotInt(3) == 12) { pc = 23; } else { pc = 42; }
+          continue;
+        case 42:
+          s.placeholder('CHECK_ALIVE');
+          pc = 43;
+          continue;
+        case 43:
+          if (s.slotInt(3) == 12) { pc = 23; } else { pc = 44; }
+          continue;
+        case 44:
+          s.placeholder('EvtTextShow2');
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('TEXTEND');
+          pc = 46;
+          continue;
+        case 46:
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('CHECK_ALIVE');
+          pc = 48;
+          continue;
+        case 48:
+          if (s.slotInt(4) == 12) { pc = 23; } else { pc = 49; }
+          continue;
+        case 49:
+          s.placeholder('CHECK_ALIVE');
+          pc = 50;
+          continue;
+        case 50:
+          if (s.slotInt(4) == 12) { pc = 23; } else { pc = 51; }
+          continue;
+        case 51:
+          s.placeholder('EvtTextShow2');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('TEXTEND');
+          pc = 53;
+          continue;
+        case 53:
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('CHECK_ALIVE');
+          pc = 55;
+          continue;
+        case 55:
+          if (s.slotInt(5) == 12) { pc = 23; } else { pc = 56; }
+          continue;
+        case 56:
+          s.placeholder('EvtTextShow2');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('TEXTEND');
+          pc = 58;
+          continue;
+        case 58:
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('CHECK_ALIVE');
+          pc = 60;
+          continue;
+        case 60:
+          if (s.slotInt(6) == 12) { pc = 23; } else { pc = 61; }
+          continue;
+        case 61:
+          s.placeholder('EvtTextShow2');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('TEXTEND');
+          pc = 63;
+          continue;
+        case 63:
+          pc = 64;
+          continue;
+        case 64:
+          s.placeholder('EvtTextShow2');
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('TEXTEND');
+          pc = 66;
+          continue;
+        case 66:
+          await s.call(Sym('data_085B9BBC', 512));
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('MUSC');
+          pc = 68;
+          continue;
+        case 68:
+          s.placeholder('FADU');
+          pc = 69;
+          continue;
+        case 69:
+          s.setSlot(2, Sym('EventScr_Ch7_3'));
+          pc = 70;
+          continue;
+        case 70:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('EVBIT_T');
+          pc = 72;
+          continue;
+        case 72:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch7_EndingScene`
-final Ch7_EndingScene = SceneScript(
-  'EventScr_Ch7_EndingScene',
-  const <SceneOp>[
-    FadeOp('FADI', [16]),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [68]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [83]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_076_90B4DC', 440)),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2501),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE_1STEP', [0, 2, 1]),
-    MoveUnitOp('MOVE_1STEP', [0, 1, 0]),
-    LoadUnitsOp(2, Sym('frontier_df4_banim_b_076_90B4DC', 500)),
-    EndUnitOp('ENUN'),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [66]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSI', []),
-    SetSlot(2, 21),
-    SetSlot(3, 2502),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    MoveUnitOp('MOVE_1STEP', [0, 66, 0]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [0, 66, 9, 0]),
-    SetSlot(13, 0),
-    SetSlot(1, 265),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 9),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [1]),
-    SetSlot(13, 0),
-    SetSlot(1, 266),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 10),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [2]),
-    MiscOp('STAL2', [8]),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUN'),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [9]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch7_EndingScene(Scene s) async {
+    s.placeholder('FADI');
+    s.setSlot(11, 0);
+    s.placeholder('LOMA');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('FADU');
+    s.placeholder('MUSC');
+    s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 440));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2501);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE_1STEP', [0, 2, 1]);
+    s.moveUnit('MOVE_1STEP', [0, 1, 0]);
+    s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 500));
+    s.placeholder('ENUN');
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSI');
+    s.setSlot(2, 21);
+    s.setSlot(3, 2502);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MUNO');
+    s.moveUnit('MOVE_1STEP', [0, 66, 0]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [0, 66, 9, 0]);
+    s.setSlot(13, 0);
+    s.setSlot(1, 265);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 9);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [1]);
+    s.setSlot(13, 0);
+    s.setSlot(1, 266);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 10);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [2]);
+    s.placeholder('STAL2');
+    s.placeholder('FADI');
+    s.placeholder('ENUN');
+    s.placeholder('ENUT');
+    s.placeholder('MNCH');
+    return;
+}
 
 /// `EventScr_Ch8_0`
-final Ch8_0 = SceneScript(
-  'EventScr_Ch8_0',
-  const <SceneOp>[
-    CameraOp('CAMERA', [0, 23]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch8Ally_0')),
-    EndUnitOp('ENUN'),
-    MiscOp('REVEAL', [15]),
-    MiscOp('REVEAL', [16]),
-    MiscOp('REVEAL', [17]),
-    SetSlot(1, 1),
-    MiscOp('SET_STATE', [15]),
-    SetSlot(1, 1),
-    MiscOp('SET_STATE', [16]),
-    SetSlot(1, 1),
-    MiscOp('SET_STATE', [17]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [37]),
-    TextBoxOp(true),
-    ShowTextOp(2510),
-    TextBoxOp(false),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch8_0(Scene s) async {
+    s.placeholder('CAMERA');
+    s.loadUnits(1, Sym('UnitDef_Ch8Ally_0'));
+    s.placeholder('ENUN');
+    s.placeholder('REVEAL');
+    s.placeholder('REVEAL');
+    s.placeholder('REVEAL');
+    s.setSlot(1, 1);
+    s.placeholder('SET_STATE');
+    s.setSlot(1, 1);
+    s.placeholder('SET_STATE');
+    s.setSlot(1, 1);
+    s.placeholder('SET_STATE');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2510);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch8_10`
-final Ch8_10 = SceneScript(
-  'EventScr_Ch8_10',
-  const <SceneOp>[
-    CameraOp('CAMERA', [14, 20]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch8Ally_2')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [76]),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(3010),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 8]),
-    MiscOp('FAWI', [2]),
-    ClearTextOp(),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 1310734),
-    MiscOp('LOMA', [78]),
-    MiscOp('UNIT_COLORS', [4]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch8Ally_3')),
-    EndUnitOp('ENUN'),
-    MiscOp('EvtBgmFadeIn', [44, 8]),
-    MiscOp('FAWU', [2]),
-    MiscOp('BROWNBOXTEXT', [406, 8, 8]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('REMOVEPORTRAITS', []),
-    MiscOp('FAWI', [16]),
-    MiscOp('BACG', [11]),
-    MiscOp('FAWU', [16]),
-    ShowTextOp(3011),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('FAWI', [16]),
-    MiscOp('CLEAN', []),
-    MiscOp('FAWU', [16]),
-    MoveUnitOp('MOVE', [0, 1, 0, 16]),
-    MiscOp('STAL2', [32]),
-    MiscOp('FAWI', [16]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('REMOVEPORTRAITS', []),
-    MiscOp('BACG', [11]),
-    MiscOp('FAWU', [16]),
-    ShowTextOp(3012),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 8]),
-    MiscOp('FAWI', [2]),
-    ClearTextOp(),
-    SetSlot(11, 1310734),
-    MiscOp('LOMA', [6]),
-    MiscOp('UNIT_COLORS', [0]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch8Ally_2')),
-    EndUnitOp('ENUN'),
-    MusicOp('MUSC', [76]),
-    MiscOp('FAWU', [2]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 10),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(3013),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('MNCH', [56]),
-    MiscOp('ENDB', []),
-  ],
-);
+Future<void> Ch8_10(Scene s) async {
+    s.placeholder('CAMERA');
+    s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
+    s.placeholder('ENUN');
+    s.placeholder('MUSC');
+    s.placeholder('FADU');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 10);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(3010);
+    s.placeholder('TEXTEND');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FAWI');
+    s.placeholder('REMA');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 1310734);
+    s.placeholder('LOMA');
+    s.placeholder('UNIT_COLORS');
+    s.loadUnits(2, Sym('UnitDef_Ch8Ally_3'));
+    s.placeholder('ENUN');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FAWU');
+    s.placeholder('BROWNBOXTEXT');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('REMOVEPORTRAITS');
+    s.placeholder('FAWI');
+    s.placeholder('BACG');
+    s.placeholder('FAWU');
+    await s.textShow(3011);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FAWI');
+    s.placeholder('CLEAN');
+    s.placeholder('FAWU');
+    s.moveUnit('MOVE', [0, 1, 0, 16]);
+    s.placeholder('STAL2');
+    s.placeholder('FAWI');
+    s.placeholder('ENUN');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.placeholder('REMOVEPORTRAITS');
+    s.placeholder('BACG');
+    s.placeholder('FAWU');
+    await s.textShow(3012);
+    s.placeholder('TEXTEND');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('FAWI');
+    s.placeholder('REMA');
+    s.setSlot(11, 1310734);
+    s.placeholder('LOMA');
+    s.placeholder('UNIT_COLORS');
+    s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
+    s.placeholder('ENUN');
+    s.placeholder('MUSC');
+    s.placeholder('FAWU');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 10);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(3013);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('MNCH');
+    s.placeholder('ENDB');
+}
 
 /// `EventScr_Ch8_11`
-final Ch8_11 = SceneScript(
-  'EventScr_Ch8_11',
-  const <SceneOp>[
-    SlotArith('SADD', 7, 2),
-    SlotArith('SADD', 8, 3),
-    SlotArith('SADD', 9, 4),
-    SetSlot(2, 131087),
-    CallScript(Sym('EventScr_9EEA58')),
-    MiscOp('TILECHANGE', [0]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch9AEnemy_11')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    CursorOp('CURSOR_CHAR', [107]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SlotArith('SADD', 2, 7),
-    TextBoxOp(true),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [16, 105, 13, 10]),
-    MoveUnitOp('MOVE', [16, 67, 15, 10]),
-    MoveUnitOp('MOVE', [16, 83, 13, 5]),
-    SetSlot(13, 0),
-    SetSlot(1, 65873),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 65871),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [87]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [105]),
-    MiscOp('DISA', [67]),
-    CursorOp('CURSOR_CHAR', [107]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SlotArith('SADD', 2, 8),
-    TextBoxOp(true),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [16, 83, 13, 10]),
-    MoveUnitOp('MOVE', [16, 87, 15, 10]),
-    MoveUnitOp('MOVE', [16, 68, 15, 5]),
-    SetSlot(13, 0),
-    SetSlot(1, 65867),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 65869),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [29]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [83]),
-    MiscOp('DISA', [87]),
-    CursorOp('CURSOR_CHAR', [107]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SlotArith('SADD', 2, 9),
-    TextBoxOp(true),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [16, 29, 13, 10]),
-    MoveUnitOp('MOVE', [16, 68, 15, 10]),
-    MiscOp('STAL2', [15]),
-    FadeOp('FADI', [16]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    EndScript(true),
-  ],
-);
+Future<void> Ch8_11(Scene s) async {
+    s.slotArith('SADD', 7, 2);
+    s.slotArith('SADD', 8, 3);
+    s.slotArith('SADD', 9, 4);
+    s.setSlot(2, 131087);
+    await s.call(Sym('EventScr_9EEA58'));
+    s.placeholder('TILECHANGE');
+    s.loadUnits(1, Sym('UnitDef_Ch9AEnemy_11'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.slotArith('SADD', 2, 7);
+    s.placeholder('TEXTSTART');
+    await s.textShow(65535);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [16, 105, 13, 10]);
+    s.moveUnit('MOVE', [16, 67, 15, 10]);
+    s.moveUnit('MOVE', [16, 83, 13, 5]);
+    s.setSlot(13, 0);
+    s.setSlot(1, 65873);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 65871);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [87]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.slotArith('SADD', 2, 8);
+    s.placeholder('TEXTSTART');
+    await s.textShow(65535);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [16, 83, 13, 10]);
+    s.moveUnit('MOVE', [16, 87, 15, 10]);
+    s.moveUnit('MOVE', [16, 68, 15, 5]);
+    s.setSlot(13, 0);
+    s.setSlot(1, 65867);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 65869);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [29]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.slotArith('SADD', 2, 9);
+    s.placeholder('TEXTSTART');
+    await s.textShow(65535);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [16, 29, 13, 10]);
+    s.moveUnit('MOVE', [16, 68, 15, 10]);
+    s.placeholder('STAL2');
+    s.placeholder('FADI');
+    s.placeholder('ENUN');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    return;
+}
 
 /// `EventScr_Ch8_BeginningScene`
-final Ch8_BeginningScene = SceneScript(
-  'EventScr_Ch8_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [37]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch8Ally_1')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [66]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2505),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    CallScript(Sym('EventScr_TextShowWithFadeIn')),
-    LoadUnitsOp(1, Sym('UnitDef_Ch8Enemy_3')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [77]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [38]),
-    TextBoxOp(true),
-    ShowTextOp(2506),
-    TextBoxOp(false),
-    ClearTextOp(),
-    StallOp(30),
-    MiscOp('CUSE', [66]),
-    CursorOp('CURSOR_CHAR', [66]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MoveUnitOp('MOVE', [0, 66, 20, 19]),
-    SetSlot(11, 1048596),
-    MoveUnitOp('MOVE_1STEP', [0, 65534, 1]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [0, 66, 20, 15]),
-    EndUnitOp('ENUN'),
-    SetSlot(11, 1048597),
-    MoveUnitOp('MOVE_1STEP', [0, 65534, 0]),
-    MoveUnitOp('MOVE', [0, 66, 19, 10]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [66]),
-    CursorOp('CURSOR_CHAR', [77]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 21),
-    SetSlot(3, 2507),
-    CallScript(Sym('Event_TextWithBG')),
-    SetSlot(11, 1048595),
-    MoveUnitOp('MOVE_1STEP', [0, 65534, 0]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [0, 77, 19, 14]),
-    EndUnitOp('ENUN'),
-    SetSlot(11, 1048594),
-    MoveUnitOp('MOVE_1STEP', [0, 65534, 1]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE', [0, 77, 19, 14]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [77]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2508),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(11, 1376276),
-    MiscOp('SOUN', [171]),
-    MiscOp('TILECHANGE', [65535]),
-    MoveUnitOp('MOVE', [0, 77, 19, 10]),
-    SetSlot(11, 1048595),
-    MoveUnitOp('MOVE', [16, 65534, 19, 11]),
-    SetSlot(11, 1048596),
-    MoveUnitOp('MOVE', [16, 65534, 20, 11]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEE', []),
-    LoadUnitsOp(1, Sym('UnitDef_Ch8Enemy_0')),
-    EndUnitOp('ENUN'),
-    SetSlot(2, Sym('UnitDef_Ch8Enemy_4')),
-    SetSlot(3, 1),
-    CallScript(Sym('EventScr_LoadUnitForTutorial')),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 21),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2509),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 512)),
-    EndUnitOp('ENUT'),
-    EndScript(true),
-  ],
-);
+Future<void> Ch8_BeginningScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.loadUnits(2, Sym('UnitDef_Ch8Ally_1'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 21);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2505);
+    s.placeholder('TEXTEND');
+    s.placeholder('EvtBgmFadeIn');
+    s.placeholder('TEXTCONT');
+    s.placeholder('TEXTEND');
+    await s.call(Sym('EventScr_TextShowWithFadeIn'));
+    s.loadUnits(1, Sym('UnitDef_Ch8Enemy_3'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('MUSC');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2506);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    await s.stall(30);
+    s.placeholder('CUSE');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.moveUnit('MOVE', [0, 66, 20, 19]);
+    s.setSlot(11, 1048596);
+    s.moveUnit('MOVE_1STEP', [0, 65534, 1]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [0, 66, 20, 15]);
+    s.placeholder('ENUN');
+    s.setSlot(11, 1048597);
+    s.moveUnit('MOVE_1STEP', [0, 65534, 0]);
+    s.moveUnit('MOVE', [0, 66, 19, 10]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 21);
+    s.setSlot(3, 2507);
+    await s.call(Sym('Event_TextWithBG'));
+    s.setSlot(11, 1048595);
+    s.moveUnit('MOVE_1STEP', [0, 65534, 0]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [0, 77, 19, 14]);
+    s.placeholder('ENUN');
+    s.setSlot(11, 1048594);
+    s.moveUnit('MOVE_1STEP', [0, 65534, 1]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE', [0, 77, 19, 14]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2508);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(11, 1376276);
+    s.placeholder('SOUN');
+    s.placeholder('TILECHANGE');
+    s.moveUnit('MOVE', [0, 77, 19, 10]);
+    s.setSlot(11, 1048595);
+    s.moveUnit('MOVE', [16, 65534, 19, 11]);
+    s.setSlot(11, 1048596);
+    s.moveUnit('MOVE', [16, 65534, 20, 11]);
+    s.placeholder('ENUN');
+    s.placeholder('CLEE');
+    s.loadUnits(1, Sym('UnitDef_Ch8Enemy_0'));
+    s.placeholder('ENUN');
+    s.setSlot(2, Sym('UnitDef_Ch8Enemy_4'));
+    s.setSlot(3, 1);
+    await s.call(Sym('EventScr_LoadUnitForTutorial'));
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 21);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2509);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    await s.call(Sym('data_085B9BBC', 512));
+    s.placeholder('ENUT');
+    return;
+}
 
 /// `EventScr_Ch9A_2`
-final Ch9A_2 = SceneScript(
-  'EventScr_Ch9A_2',
-  const <SceneOp>[
-    MiscOp('MUSS', [42]),
-    StallOp(33),
-    SetSlot(2, 0),
-    SetSlot(3, 2538),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MURE', [2]),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 96),
-    MiscOp('GIVEITEMTO', [65535]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch9A_2(Scene s) async {
+    s.placeholder('MUSS');
+    await s.stall(33);
+    s.setSlot(2, 0);
+    s.setSlot(3, 2538);
+    await s.call(Sym('Event_TextWithBG'));
+    s.placeholder('MURE');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.setSlot(3, 96);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+}
 
 /// `EventScr_Ch9A_4`
-final Ch9A_4 = SceneScript(
-  'EventScr_Ch9A_4',
-  const <SceneOp>[
-    MiscOp('CHECK_ALIVE', [18]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALLEGIANCE', [18]),
-    SetSlot(1, 0),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    CameraOp('CAMERA_CAHR', [18]),
-    CursorOp('CURSOR_CHAR', [18]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('MUSS', [20]),
-    StallOp(33),
-    TextBoxOp(true),
-    ShowTextOp(2528),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [24, 18, 2, 23]),
-    MoveUnitOp('MOVE', [24, 131, 2, 23]),
-    MoveUnitOp('MOVE', [24, 132, 2, 23]),
-    MoveUnitOp('MOVE', [24, 133, 2, 23]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [18]),
-    MiscOp('DISA', [131]),
-    MiscOp('DISA', [132]),
-    MiscOp('DISA', [133]),
-    MiscOp('CHECK_ENEMIES', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    CallScript(Sym('EventScr_Ch9a_EndingScene')),
-    MiscOp('ENDB', []),
-  ],
-);
+Future<void> Ch9A_4(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_ALIVE');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_ALLEGIANCE');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(1, 0);
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('CAMERA_CAHR');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CURSOR_CHAR');
+          pc = 7;
+          continue;
+        case 7:
+          await s.stall(60);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CURE');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('MUSS');
+          pc = 10;
+          continue;
+        case 10:
+          await s.stall(33);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TEXTSTART');
+          pc = 12;
+          continue;
+        case 12:
+          await s.textShow(2528);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('TEXTEND');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('REMA');
+          pc = 15;
+          continue;
+        case 15:
+          s.moveUnit('MOVE', [24, 18, 2, 23]);
+          pc = 16;
+          continue;
+        case 16:
+          s.moveUnit('MOVE', [24, 131, 2, 23]);
+          pc = 17;
+          continue;
+        case 17:
+          s.moveUnit('MOVE', [24, 132, 2, 23]);
+          pc = 18;
+          continue;
+        case 18:
+          s.moveUnit('MOVE', [24, 133, 2, 23]);
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('ENUN');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('DISA');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('DISA');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('DISA');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('DISA');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CHECK_ENEMIES');
+          pc = 25;
+          continue;
+        case 25:
+          if (s.slotInt(0) != 12) { pc = 26; } else { pc = 26; }
+          continue;
+        case 26:
+          await s.call(Sym('EventScr_Ch9a_EndingScene'));
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('ENDB');
+          pc = 28;
+          continue;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch9B_9`
-final Ch9B_9 = SceneScript(
-  'EventScr_Ch9B_9',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('UnitDef_Ch14BAlly_7')),
-    MiscOp('COUNTER_SET', [3, 1]),
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_HARD', []),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('COUNTER_SET', [3, 3]),
-    Label(0),
-    MiscOp('ENUF', [14]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ch9B_9(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, 0);
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('COUNTER_SET');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) != 12) { pc = 8; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('CHECK_HARD');
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 7; }
+          continue;
+        case 7:
+          s.placeholder('COUNTER_SET');
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('ENUF');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('EVBIT_T');
+          pc = 11;
+          continue;
+        case 11:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch9a_BeginningScene`
-final Ch9a_BeginningScene = SceneScript(
-  'EventScr_Ch9a_BeginningScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [46]),
-    SetSlot(2, 2519),
-    SetSlot(3, 2520),
-    SetSlot(4, 2521),
-    CallScript(Sym('EventScr_Ch8_11')),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [69]),
-    MiscOp('CHECK_EXISTS', [34]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [34]),
-    Label(0),
-    SetSlot(1, 1),
-    MiscOp('SET_STATE', [1]),
-    LoadUnitsOp(3, Sym('UnitDef_Ch9AAlly_2')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch9AAlly_3')),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [0, 1, 0]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [34]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [36]),
-    SetSlot(2, 36),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2522),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 262162),
-    MiscOp('LOMA', [10]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch9AAlly_0')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 12),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2523),
-    TextBoxOp(false),
-    MusicOp('MUSI', []),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch9AMixed_0')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [25]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('MUSS', [42]),
-    StallOp(33),
-    SetSlot(2, 12),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2524),
-    TextBoxOp(false),
-    MiscOp('MURE', [4]),
-    MiscOp('TEXTCONT', []),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    MoveUnitOp('MOVE', [0, 25, 9, 2]),
-    MiscOp('STAL2', [16]),
-    SetSlot(13, 0),
-    SetSlot(1, 145),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 137),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [26]),
-    SetSlot(13, 0),
-    SetSlot(1, 147),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 137),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [28]),
-    EndUnitOp('ENUN'),
-    MiscOp('CLEN', []),
-    MoveUnitOp('MOVE_1STEP', [16, 1, 0]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2525),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    CameraOp('CAMERA2', [14, 4]),
-    LoadUnitsOp(1, Sym('UnitDef_Ch9AEnemy_10')),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [0, 2, 0]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [197]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [38]),
-    SetSlot(2, 12),
-    SetSlot(3, 2526),
-    CallScript(Sym('Event_TextWithBG')),
-    LoadUnitsOp(1, Sym('UnitDef_Ch9AEnemy_0')),
-    EndUnitOp('ENUN'),
-    SetSlot(2, Sym('UnitDef_Ch9AEnemy_1')),
-    SetSlot(3, 1),
-    CallScript(Sym('EventScr_LoadUnitForTutorial')),
-    FadeOp('FADI', [16]),
-    MiscOp('DISA', [197]),
-    MiscOp('CLEA', []),
-    LoadUnitsOp(1, Sym('UnitDef_Event_Ch9aAlly')),
-    EndUnitOp('ENUN'),
-    SetSlot(1, 1),
-    MiscOp('SET_STATE', [34]),
-    CallScript(Sym('data_085B9BBC', 512)),
-    EndScript(true),
-  ],
-);
+Future<void> Ch9a_BeginningScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 2519);
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(3, 2520);
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(4, 2521);
+          pc = 4;
+          continue;
+        case 4:
+          await s.call(Sym('EventScr_Ch8_11'));
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(11, 0);
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('LOMA');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CHECK_EXISTS');
+          pc = 9;
+          continue;
+        case 9:
+          if (s.slotInt(0) == 12) { pc = 12; } else { pc = 10; }
+          continue;
+        case 10:
+          s.setSlot(1, 0);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('SET_STATE');
+          pc = 12;
+          continue;
+        case 12:
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(1, 1);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('SET_STATE');
+          pc = 15;
+          continue;
+        case 15:
+          s.loadUnits(3, Sym('UnitDef_Ch9AAlly_2'));
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('ENUN');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('FADU');
+          pc = 18;
+          continue;
+        case 18:
+          s.loadUnits(2, Sym('UnitDef_Ch9AAlly_3'));
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('ENUN');
+          pc = 20;
+          continue;
+        case 20:
+          s.moveUnit('MOVE_1STEP', [0, 1, 0]);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('ENUN');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CURSOR_CHAR');
+          pc = 23;
+          continue;
+        case 23:
+          await s.stall(60);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CURE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('MUSC');
+          pc = 26;
+          continue;
+        case 26:
+          s.setSlot(2, 36);
+          pc = 27;
+          continue;
+        case 27:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 28;
+          continue;
+        case 28:
+          await s.textShow(2522);
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('TEXTEND');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('REMA');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('FADI');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('CLEA');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('CLEE');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('CLEN');
+          pc = 35;
+          continue;
+        case 35:
+          s.setSlot(11, 262162);
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('LOMA');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('FADU');
+          pc = 38;
+          continue;
+        case 38:
+          s.loadUnits(2, Sym('UnitDef_Ch9AAlly_0'));
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('ENUN');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('CURSOR_CHAR');
+          pc = 41;
+          continue;
+        case 41:
+          await s.stall(60);
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('CURE');
+          pc = 43;
+          continue;
+        case 43:
+          s.setSlot(2, 12);
+          pc = 44;
+          continue;
+        case 44:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 45;
+          continue;
+        case 45:
+          await s.textShow(2523);
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('TEXTEND');
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('MUSI');
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('TEXTCONT');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('TEXTEND');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('REMA');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('FADI');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('CLEAN');
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('FADU');
+          pc = 54;
+          continue;
+        case 54:
+          s.loadUnits(2, Sym('UnitDef_Ch9AMixed_0'));
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('ENUN');
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('CURSOR_CHAR');
+          pc = 57;
+          continue;
+        case 57:
+          await s.stall(60);
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('CURE');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('MUSS');
+          pc = 60;
+          continue;
+        case 60:
+          await s.stall(33);
+          pc = 61;
+          continue;
+        case 61:
+          s.setSlot(2, 12);
+          pc = 62;
+          continue;
+        case 62:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 63;
+          continue;
+        case 63:
+          await s.textShow(2524);
+          pc = 64;
+          continue;
+        case 64:
+          s.placeholder('TEXTEND');
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('MURE');
+          pc = 66;
+          continue;
+        case 66:
+          s.placeholder('TEXTCONT');
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('TEXTEND');
+          pc = 68;
+          continue;
+        case 68:
+          s.placeholder('REMA');
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('FADI');
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('CLEAN');
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('FADU');
+          pc = 72;
+          continue;
+        case 72:
+          s.moveUnit('MOVE', [0, 25, 9, 2]);
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('STAL2');
+          pc = 74;
+          continue;
+        case 74:
+          s.setSlot(13, 0);
+          pc = 75;
+          continue;
+        case 75:
+          s.setSlot(1, 145);
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('SENQUEUE1');
+          pc = 77;
+          continue;
+        case 77:
+          s.setSlot(1, 0);
+          pc = 78;
+          continue;
+        case 78:
+          s.placeholder('SENQUEUE1');
+          pc = 79;
+          continue;
+        case 79:
+          s.setSlot(1, 137);
+          pc = 80;
+          continue;
+        case 80:
+          s.placeholder('SENQUEUE1');
+          pc = 81;
+          continue;
+        case 81:
+          s.setSlot(1, 0);
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('SENQUEUE1');
+          pc = 83;
+          continue;
+        case 83:
+          s.moveUnit('MOVE_DEFINED', [26]);
+          pc = 84;
+          continue;
+        case 84:
+          s.setSlot(13, 0);
+          pc = 85;
+          continue;
+        case 85:
+          s.setSlot(1, 147);
+          pc = 86;
+          continue;
+        case 86:
+          s.placeholder('SENQUEUE1');
+          pc = 87;
+          continue;
+        case 87:
+          s.setSlot(1, 0);
+          pc = 88;
+          continue;
+        case 88:
+          s.placeholder('SENQUEUE1');
+          pc = 89;
+          continue;
+        case 89:
+          s.setSlot(1, 137);
+          pc = 90;
+          continue;
+        case 90:
+          s.placeholder('SENQUEUE1');
+          pc = 91;
+          continue;
+        case 91:
+          s.setSlot(1, 0);
+          pc = 92;
+          continue;
+        case 92:
+          s.placeholder('SENQUEUE1');
+          pc = 93;
+          continue;
+        case 93:
+          s.moveUnit('MOVE_DEFINED', [28]);
+          pc = 94;
+          continue;
+        case 94:
+          s.placeholder('ENUN');
+          pc = 95;
+          continue;
+        case 95:
+          s.placeholder('CLEN');
+          pc = 96;
+          continue;
+        case 96:
+          s.moveUnit('MOVE_1STEP', [16, 1, 0]);
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('ENUN');
+          pc = 98;
+          continue;
+        case 98:
+          s.placeholder('CURSOR_CHAR');
+          pc = 99;
+          continue;
+        case 99:
+          await s.stall(60);
+          pc = 100;
+          continue;
+        case 100:
+          s.placeholder('CURE');
+          pc = 101;
+          continue;
+        case 101:
+          s.placeholder('TEXTSTART');
+          pc = 102;
+          continue;
+        case 102:
+          await s.textShow(2525);
+          pc = 103;
+          continue;
+        case 103:
+          s.placeholder('TEXTEND');
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('REMA');
+          pc = 105;
+          continue;
+        case 105:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 106;
+          continue;
+        case 106:
+          s.placeholder('CAMERA2');
+          pc = 107;
+          continue;
+        case 107:
+          s.loadUnits(1, Sym('UnitDef_Ch9AEnemy_10'));
+          pc = 108;
+          continue;
+        case 108:
+          s.placeholder('ENUN');
+          pc = 109;
+          continue;
+        case 109:
+          s.moveUnit('MOVE_1STEP', [0, 2, 0]);
+          pc = 110;
+          continue;
+        case 110:
+          s.placeholder('ENUN');
+          pc = 111;
+          continue;
+        case 111:
+          s.placeholder('CURSOR_CHAR');
+          pc = 112;
+          continue;
+        case 112:
+          await s.stall(60);
+          pc = 113;
+          continue;
+        case 113:
+          s.placeholder('CURE');
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('MUSC');
+          pc = 115;
+          continue;
+        case 115:
+          s.setSlot(2, 12);
+          pc = 116;
+          continue;
+        case 116:
+          s.setSlot(3, 2526);
+          pc = 117;
+          continue;
+        case 117:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 118;
+          continue;
+        case 118:
+          s.loadUnits(1, Sym('UnitDef_Ch9AEnemy_0'));
+          pc = 119;
+          continue;
+        case 119:
+          s.placeholder('ENUN');
+          pc = 120;
+          continue;
+        case 120:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_1'));
+          pc = 121;
+          continue;
+        case 121:
+          s.setSlot(3, 1);
+          pc = 122;
+          continue;
+        case 122:
+          await s.call(Sym('EventScr_LoadUnitForTutorial'));
+          pc = 123;
+          continue;
+        case 123:
+          s.placeholder('FADI');
+          pc = 124;
+          continue;
+        case 124:
+          s.placeholder('DISA');
+          pc = 125;
+          continue;
+        case 125:
+          s.placeholder('CLEA');
+          pc = 126;
+          continue;
+        case 126:
+          s.loadUnits(1, Sym('UnitDef_Event_Ch9aAlly'));
+          pc = 127;
+          continue;
+        case 127:
+          s.placeholder('ENUN');
+          pc = 128;
+          continue;
+        case 128:
+          s.setSlot(1, 1);
+          pc = 129;
+          continue;
+        case 129:
+          s.placeholder('SET_STATE');
+          pc = 130;
+          continue;
+        case 130:
+          await s.call(Sym('data_085B9BBC', 512));
+          pc = 131;
+          continue;
+        case 131:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ch9a_EndingScene`
-final Ch9a_EndingScene = SceneScript(
-  'EventScr_Ch9a_EndingScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [50]),
-    SetSlot(2, 12),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2531),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    MiscOp('CLEAN', []),
-    CameraOp('CAMERA2', [20, 7]),
-    MiscOp('EvtSetLoadUnitNoREDA', []),
-    LoadUnitsOp(2, Sym('UnitDef_Ch9AMixed_1')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Ch9AMixed_1')),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [0, 167, 2]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 12),
-    SetSlot(3, 2532),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    MoveUnitOp('MOVE_1STEP', [16, 2, 3]),
-    EndUnitOp('ENUN'),
-    SetSlot(13, 0),
-    SetSlot(1, 197076),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 196628),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [167]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSC', [40]),
-    SetSlot(2, 12),
-    SetSlot(3, 2533),
-    CallScript(Sym('Event_TextWithBG')),
-    LoadUnitsOp(2, Sym('UnitDef_Ch9AAlly_1')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [204]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 12),
-    CallScript(Sym('EventScr_SetBackground')),
-    MusicOp('MUSC', [38]),
-    ShowTextOp(2534),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('CHECK_EVENTID', [8]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_EVENTID', [9]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    SetSlot(2, 12),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 91),
-    MiscOp('GIVEITEMTO', [0]),
-    Label(0),
-    EndUnitOp('ENUT'),
-    MiscOp('MNCH', [11]),
-    EndScript(true),
-  ],
-);
+Future<void> Ch9a_EndingScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 12);
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 3;
+          continue;
+        case 3:
+          await s.textShow(2531);
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('TEXTEND');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('REMA');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('FADI');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('CLEA');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CLEE');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('CLEN');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CLEAN');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CAMERA2');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('EvtSetLoadUnitNoREDA');
+          pc = 13;
+          continue;
+        case 13:
+          s.loadUnits(2, Sym('UnitDef_Ch9AMixed_1'));
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('ENUN');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('FADU');
+          pc = 16;
+          continue;
+        case 16:
+          s.loadUnits(2, Sym('UnitDef_Ch9AMixed_1'));
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('ENUN');
+          pc = 18;
+          continue;
+        case 18:
+          s.moveUnit('MOVE_1STEP', [0, 167, 2]);
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('ENUN');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('CURSOR_CHAR');
+          pc = 21;
+          continue;
+        case 21:
+          await s.stall(60);
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CURE');
+          pc = 23;
+          continue;
+        case 23:
+          s.setSlot(2, 12);
+          pc = 24;
+          continue;
+        case 24:
+          s.setSlot(3, 2532);
+          pc = 25;
+          continue;
+        case 25:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 27;
+          continue;
+        case 27:
+          s.moveUnit('MOVE_1STEP', [16, 2, 3]);
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('ENUN');
+          pc = 29;
+          continue;
+        case 29:
+          s.setSlot(13, 0);
+          pc = 30;
+          continue;
+        case 30:
+          s.setSlot(1, 197076);
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('SENQUEUE1');
+          pc = 32;
+          continue;
+        case 32:
+          s.setSlot(1, 0);
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('SENQUEUE1');
+          pc = 34;
+          continue;
+        case 34:
+          s.setSlot(1, 196628);
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('SENQUEUE1');
+          pc = 36;
+          continue;
+        case 36:
+          s.setSlot(1, 0);
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('SENQUEUE1');
+          pc = 38;
+          continue;
+        case 38:
+          s.moveUnit('MOVE_DEFINED', [167]);
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('ENUN');
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('CURSOR_CHAR');
+          pc = 41;
+          continue;
+        case 41:
+          await s.stall(60);
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('CURE');
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('MUSC');
+          pc = 44;
+          continue;
+        case 44:
+          s.setSlot(2, 12);
+          pc = 45;
+          continue;
+        case 45:
+          s.setSlot(3, 2533);
+          pc = 46;
+          continue;
+        case 46:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 47;
+          continue;
+        case 47:
+          s.loadUnits(2, Sym('UnitDef_Ch9AAlly_1'));
+          pc = 48;
+          continue;
+        case 48:
+          s.placeholder('ENUN');
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('CURSOR_CHAR');
+          pc = 50;
+          continue;
+        case 50:
+          await s.stall(60);
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('CURE');
+          pc = 52;
+          continue;
+        case 52:
+          s.setSlot(2, 12);
+          pc = 53;
+          continue;
+        case 53:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('MUSC');
+          pc = 55;
+          continue;
+        case 55:
+          await s.textShow(2534);
+          pc = 56;
+          continue;
+        case 56:
+          s.placeholder('TEXTEND');
+          pc = 57;
+          continue;
+        case 57:
+          s.placeholder('REMA');
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('CHECK_EVENTID');
+          pc = 59;
+          continue;
+        case 59:
+          if (s.slotInt(0) == 12) { pc = 70; } else { pc = 60; }
+          continue;
+        case 60:
+          s.placeholder('CHECK_EVENTID');
+          pc = 61;
+          continue;
+        case 61:
+          if (s.slotInt(0) == 12) { pc = 70; } else { pc = 62; }
+          continue;
+        case 62:
+          s.setSlot(2, 12);
+          pc = 63;
+          continue;
+        case 63:
+          await s.call(Sym('EventScr_SetBackground'));
+          pc = 64;
+          continue;
+        case 64:
+          await s.textShow(2535);
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('TEXTEND');
+          pc = 66;
+          continue;
+        case 66:
+          s.placeholder('REMA');
+          pc = 67;
+          continue;
+        case 67:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 68;
+          continue;
+        case 68:
+          s.setSlot(3, 91);
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('GIVEITEMTO');
+          pc = 70;
+          continue;
+        case 70:
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('ENUT');
+          pc = 72;
+          continue;
+        case 72:
+          s.placeholder('MNCH');
+          pc = 73;
+          continue;
+        case 73:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_ConfigHardModeLoadUnitHard`
-final ConfigHardModeLoadUnitHard = SceneScript(
-  'EventScr_ConfigHardModeLoadUnitHard',
-  const <SceneOp>[
-    MiscOp('CHECK_HARD', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    MiscOp('EvtSetLoadUnitCount', [-1]),
-    GoTo(1),
-    Label(0),
-    MiscOp('EvtSetLoadUnitCount', [0]),
-    Label(1),
-    EndScript(true),
-  ],
-);
+Future<void> ConfigHardModeLoadUnitHard(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_HARD');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 4; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('EvtSetLoadUnitCount');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 6;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('EvtSetLoadUnitCount');
+          pc = 6;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CutsceneExecEnd_Sub0`
-final CutsceneExecEnd_Sub0 = SceneScript(
-  'EventScr_CutsceneExecEnd_Sub0',
-  const <SceneOp>[
-    MiscOp('CHECK_EVBIT', [8]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_EVBIT', [7]),
-    BranchIf(equal: false, slot: 99, label: 12, opCount: 0),
-    FadeOp('FADI', [16]),
-    Label(0),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    Label(99),
-    EndScript(true),
-  ],
-);
+Future<void> CutsceneExecEnd_Sub0(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVBIT');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_EVBIT');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(99) != 12) { pc = 5; } else { pc = 4; }
+          continue;
+        case 4:
+          s.placeholder('FADI');
+          pc = 5;
+          continue;
+        case 5:
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CLEAN');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('FADU');
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_CutsceneExecEnd_Sub1`
-final CutsceneExecEnd_Sub1 = SceneScript(
-  'EventScr_CutsceneExecEnd_Sub1',
-  const <SceneOp>[
-    MiscOp('CHECK_EVBIT', [8]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    FadeOp('FADI', [16]),
-    Label(0),
-    MiscOp('CHECK_EVBIT', [11]),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 0),
-    MiscOp('CHECK_CHAPTER_NUMBER', []),
-    SlotArith('SADD', 2, 12),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [65535]),
-    Label(1),
-    EndScript(true),
-  ],
-);
+Future<void> CutsceneExecEnd_Sub1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVBIT');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('FADI');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('CHECK_EVBIT');
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(1) == 12) { pc = 3; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_CHAPTER_NUMBER');
+          pc = 7;
+          continue;
+        case 7:
+          s.slotArith('SADD', 2, 12);
+          pc = 8;
+          continue;
+        case 8:
+          s.setSlot(11, 0);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('LOMA');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_FloorClearInTower`
-final FloorClearInTower = SceneScript(
-  'EventScr_FloorClearInTower',
-  const <SceneOp>[
-    MiscOp('EVBIT_MODIFY', [4]),
-    AsmCallOp(Sym('DisplayMapClearMapAnim', 1)),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2239),
-    TextBoxOp(false),
-    SetSlot(7, 1),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 7),
-    MiscOp('MNCH', [65535]),
-    AsmCallOp(Sym('StartRetreatProcessing', 1)),
-    GoTo(1),
-    Label(0),
-    SlotArith('SADD', 2, 3),
-    MiscOp('MNC3', [65535]),
-    AsmCallOp(Sym('UnlockPostgameAllyByEnemyCount', 1)),
-    Label(1),
-    EndScript(true),
-  ],
-);
+Future<void> FloorClearInTower(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EVBIT_MODIFY');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('ASMC');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('TUTORIALTEXTBOXSTART');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(11, 4294967295);
+          pc = 4;
+          continue;
+        case 4:
+          await s.textShow(2239);
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('TEXTEND');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(7, 1);
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
+          continue;
+        case 8:
+          s.placeholder('MNCH');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('ASMC');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 15;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.slotArith('SADD', 2, 3);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('MNC3');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('ASMC');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_FormatFlashingCursor`
-final FormatFlashingCursor = SceneScript(
-  'EventScr_FormatFlashingCursor',
-  const <SceneOp>[
-    Label(0),
-    MiscOp('BLE', [1, 13, 0]),
-    MiscOp('SDEQUEUE', [11]),
-    CursorOp('CURSOR_FLASHING', [-1, -1]),
-    GoTo(0),
-    Label(1),
-    EndScript(true),
-  ],
-);
+Future<void> FormatFlashingCursor(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('BLE');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('SDEQUEUE');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CURSOR_FLASHING');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 0;
+          continue;
+        case 5:
+          pc = 6;
+          continue;
+        case 6:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_FormatMoveUnit`
-final FormatMoveUnit = SceneScript(
-  'EventScr_FormatMoveUnit',
-  const <SceneOp>[
-    MiscOp('CHECK_ALIVE', [-3]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_DEPLOYED', [-3]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MoveUnitOp('MOVE_NEXTTO', [0, -3, 0]),
-    GoTo(99),
-    Label(0),
-    MiscOp('CHECK_COORDS', [0]),
-    SlotArith('SADD', 11, 12),
-    MiscOp('SPAWN_CUTSCENE_ALLY', [-3, -1, -1]),
-    SetSlot(7, RawArg('FACING_UP')),
-    BranchIf(equal: false, slot: 1, label: 7, opCount: 3),
-    MoveUnitOp('MOVE_1STEP', [0, -3, RawArg('FACING_UP')]),
-    GoTo(99),
-    Label(1),
-    SetSlot(7, RawArg('FACING_DOWN')),
-    BranchIf(equal: false, slot: 2, label: 7, opCount: 3),
-    MoveUnitOp('MOVE_1STEP', [0, -3, RawArg('FACING_DOWN')]),
-    GoTo(99),
-    Label(2),
-    SetSlot(7, RawArg('FACING_LEFT')),
-    BranchIf(equal: false, slot: 3, label: 7, opCount: 3),
-    MoveUnitOp('MOVE_1STEP', [0, -3, RawArg('FACING_LEFT')]),
-    GoTo(99),
-    Label(3),
-    MoveUnitOp('MOVE_1STEP', [0, -3, RawArg('FACING_RIGHT')]),
-    Label(99),
-    EndUnitOp('ENUN'),
-    EndScript(true),
-  ],
-);
+Future<void> FormatMoveUnit(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_ALIVE');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_DEPLOYED');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 4; }
+          continue;
+        case 4:
+          s.moveUnit('MOVE_NEXTTO', [0, -3, 0]);
+          pc = 5;
+          continue;
+        case 5:
+          pc = 26;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('CHECK_COORDS');
+          pc = 8;
+          continue;
+        case 8:
+          s.slotArith('SADD', 11, 12);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('SPAWN_CUTSCENE_ALLY');
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(7, RawArg('FACING_UP'));
+          pc = 11;
+          continue;
+        case 11:
+          if (s.slotInt(1) != 7) { pc = 24; } else { pc = 12; }
+          continue;
+        case 12:
+          s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_UP')]);
+          pc = 13;
+          continue;
+        case 13:
+          pc = 26;
+          continue;
+        case 14:
+          pc = 15;
+          continue;
+        case 15:
+          s.setSlot(7, RawArg('FACING_DOWN'));
+          pc = 16;
+          continue;
+        case 16:
+          if (s.slotInt(2) != 7) { pc = 24; } else { pc = 17; }
+          continue;
+        case 17:
+          s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_DOWN')]);
+          pc = 18;
+          continue;
+        case 18:
+          pc = 26;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          s.setSlot(7, RawArg('FACING_LEFT'));
+          pc = 21;
+          continue;
+        case 21:
+          if (s.slotInt(3) != 7) { pc = 24; } else { pc = 22; }
+          continue;
+        case 22:
+          s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_LEFT')]);
+          pc = 23;
+          continue;
+        case 23:
+          pc = 26;
+          continue;
+        case 24:
+          pc = 25;
+          continue;
+        case 25:
+          s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_RIGHT')]);
+          pc = 26;
+          continue;
+        case 26:
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('ENUN');
+          pc = 28;
+          continue;
+        case 28:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_GiveTreasureToLuckyDog`
-final GiveTreasureToLuckyDog = SceneScript(
-  'EventScr_GiveTreasureToLuckyDog',
-  const <SceneOp>[
-    MiscOp('CHECK_CLASS', [65535]),
-    SetSlot(7, 13),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 7),
-    SetSlot(7, 51),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 7),
-    MiscOp('RANDOMNUMBER', [100]),
-    MiscOp('BLT', [1, 2, 12]),
-    Label(0),
-    CallScript(Sym('data_085B9BBC', 360)),
-    MiscOp('GIVEITEMTO', [65535]),
-    SetSlot(12, 1),
-    GoTo(2),
-    Label(1),
-    SetSlot(12, 0),
-    Label(2),
-    EndScript(true),
-  ],
-);
+Future<void> GiveTreasureToLuckyDog(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_CLASS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(7, 13);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.setSlot(7, 51);
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('RANDOMNUMBER');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('BLT');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          await s.call(Sym('data_085B9BBC', 360));
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('GIVEITEMTO');
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(12, 1);
+          pc = 11;
+          continue;
+        case 11:
+          pc = 14;
+          continue;
+        case 12:
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(12, 0);
+          pc = 14;
+          continue;
+        case 14:
+          pc = 15;
+          continue;
+        case 15:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_LoadUniqueAlly`
-final LoadUniqueAlly = SceneScript(
-  'EventScr_LoadUniqueAlly',
-  const <SceneOp>[
-    MiscOp('CHECK_EXISTS', [RawArg('CHAR_EVT_SLOT2')]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_ALLEGIANCE', [RawArg('CHAR_EVT_SLOT2')]),
-    SetSlot(1, RawArg('FACTION_ID_BLUE')),
-    BranchIf(equal: true, slot: 1, label: 12, opCount: 1),
-    MiscOp('CUSA', [RawArg('CHAR_EVT_SLOT2')]),
-    GoTo(1),
-    Label(0),
-    MiscOp('SPAWN_ALLY', [RawArg('CHAR_EVT_SLOT2'), 0, 0]),
-    SetSlot(1, 0),
-    MiscOp('SET_HP', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [RawArg('CHAR_EVT_SLOT2')]),
-    Label(1),
-    EndScript(true),
-  ],
-);
+Future<void> LoadUniqueAlly(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EXISTS');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_ALLEGIANCE');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(1, RawArg('FACTION_ID_BLUE'));
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(1) == 12) { pc = 14; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('CUSA');
+          pc = 6;
+          continue;
+        case 6:
+          pc = 14;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('SPAWN_ALLY');
+          pc = 9;
+          continue;
+        case 9:
+          s.setSlot(1, 0);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('SET_HP');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('REMU');
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(1, 0);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SET_STATE');
+          pc = 14;
+          continue;
+        case 14:
+          pc = 15;
+          continue;
+        case 15:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_MapSupportConversation`
-final MapSupportConversation = SceneScript(
-  'EventScr_MapSupportConversation',
-  const <SceneOp>[
-    MiscOp('EVBIT_MODIFY', [3]),
-    BranchIf(equal: true, slot: 0, label: 2, opCount: 0),
-    MusicOp('MUSC', [65535]),
-    GoTo(1),
-    Label(0),
-    MusicOp('MUSI', []),
-    Label(1),
-    SlotArith('SADD', 2, 3),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('NOTIFY', [2058, 90]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> MapSupportConversation(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EVBIT_MODIFY');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 2) { pc = 4; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('MUSC');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 6;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('MUSI');
+          pc = 6;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
+          s.slotArith('SADD', 2, 3);
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(65535);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('TEXTEND');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('REMA');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('NOTIFY');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('EVBIT_T');
+          pc = 13;
+          continue;
+        case 13:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_MoveUnitS2ToLeader`
-final MoveUnitS2ToLeader = SceneScript(
-  'EventScr_MoveUnitS2ToLeader',
-  const <SceneOp>[
-    MiscOp('CHECK_ALIVE', [-3]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    MiscOp('CHECK_DEPLOYED', [-3]),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    GoTo(99),
-    Label(0),
-    MoveUnitOp('MOVEONTO', [0, -3, 0]),
-    EndUnitOp('ENUN'),
-    MiscOp('REMU', [-3]),
-    Label(99),
-    EndScript(true),
-  ],
-);
+Future<void> MoveUnitS2ToLeader(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_ALIVE');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECK_DEPLOYED');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 4; }
+          continue;
+        case 4:
+          pc = 9;
+          continue;
+        case 5:
+          pc = 6;
+          continue;
+        case 6:
+          s.moveUnit('MOVEONTO', [0, -3, 0]);
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('ENUN');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('REMU');
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Prologue_BeginningScene`
-final Prologue_BeginningScene = SceneScript(
-  'EventScr_Prologue_BeginningScene',
-  const <SceneOp>[
-    CallScript(Sym('EventScr_Prologue_RenaisThroneCutscene')),
-    SetSlot(2, Sym('EventScr_Prologue_EirikaAttacked')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    MiscOp('CHECK_TUTORIAL', []),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    AsmCallOp(Sym('BmGuideTextSetAllGreen', 1)),
-    Label(0),
-    EndUnitOp('ENUT'),
-    LoadUnitsOp(1, Sym('UnitDef_Event_PrologueAlly')),
-    EndUnitOp('ENUN'),
-    SetSlot(1, 13),
-    MiscOp('SET_HP', [2]),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MusicOp('MUSI', []),
-    SetSlot(2, 37),
-    SetSlot(3, 2253),
-    CallScript(Sym('Event_TextWithBG')),
-    MiscOp('MUNO', []),
-    MoveUnitOp('MOVE', [24, 2, 4, 4]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2254),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(2, Sym('EventScr_Prologue_ExecTut')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    MoveUnitOp('MOVE_CLOSEST', [0, 1, 4, 5]),
-    EndUnitOp('ENUN'),
-    CallScript(Sym('EventScr_Prologue_GiveRapier')),
-    CallScript(Sym('EventScr_Prologue_ONeillSpawn')),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_BeginningScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          await s.call(Sym('EventScr_Prologue_RenaisThroneCutscene'));
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, Sym('EventScr_Prologue_EirikaAttacked'));
+          pc = 2;
+          continue;
+        case 2:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_TUTORIAL');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) != 12) { pc = 6; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('ASMC');
+          pc = 6;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('ENUT');
+          pc = 8;
+          continue;
+        case 8:
+          s.loadUnits(1, Sym('UnitDef_Event_PrologueAlly'));
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('ENUN');
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(1, 13);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('SET_HP');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CURSOR_CHAR');
+          pc = 13;
+          continue;
+        case 13:
+          await s.stall(60);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('CURE');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('MUSI');
+          pc = 16;
+          continue;
+        case 16:
+          s.setSlot(2, 37);
+          pc = 17;
+          continue;
+        case 17:
+          s.setSlot(3, 2253);
+          pc = 18;
+          continue;
+        case 18:
+          await s.call(Sym('Event_TextWithBG'));
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('MUNO');
+          pc = 20;
+          continue;
+        case 20:
+          s.moveUnit('MOVE', [24, 2, 4, 4]);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('ENUN');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CURSOR_CHAR');
+          pc = 23;
+          continue;
+        case 23:
+          await s.stall(60);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CURE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TEXTSTART');
+          pc = 26;
+          continue;
+        case 26:
+          await s.textShow(2254);
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('TEXTEND');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('REMA');
+          pc = 29;
+          continue;
+        case 29:
+          s.setSlot(2, Sym('EventScr_Prologue_ExecTut'));
+          pc = 30;
+          continue;
+        case 30:
+          await s.call(Sym('EventScr_CallOnTutorialMode'));
+          pc = 31;
+          continue;
+        case 31:
+          s.moveUnit('MOVE_CLOSEST', [0, 1, 4, 5]);
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('ENUN');
+          pc = 33;
+          continue;
+        case 33:
+          await s.call(Sym('EventScr_Prologue_GiveRapier'));
+          pc = 34;
+          continue;
+        case 34:
+          await s.call(Sym('EventScr_Prologue_ONeillSpawn'));
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('EVBIT_T');
+          pc = 36;
+          continue;
+        case 36:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Prologue_EndingScene`
-final Prologue_EndingScene = SceneScript(
-  'EventScr_Prologue_EndingScene',
-  const <SceneOp>[
-    MusicOp('MUSC', [49]),
-    SetSlot(2, 37),
-    CallScript(Sym('EventScr_SetBackground')),
-    ShowTextOp(2264),
-    TextBoxOp(false),
-    FadeOp('FADI', [16]),
-    ClearTextOp(),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    EndUnitOp('ENUT'),
-    MiscOp('MNC2', [1]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_EndingScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, 37);
+    await s.call(Sym('EventScr_SetBackground'));
+    await s.textShow(2264);
+    s.placeholder('TEXTEND');
+    s.placeholder('FADI');
+    s.placeholder('REMA');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('MNC2');
+    return;
+}
 
 /// `EventScr_Prologue_GiveRapier`
-final Prologue_GiveRapier = SceneScript(
-  'EventScr_Prologue_GiveRapier',
-  const <SceneOp>[
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2255),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CallScript(Sym('data_085B9BBC', 360)),
-    SetSlot(3, 9),
-    MiscOp('GIVEITEMTO', [1]),
-    SetSlot(2, Sym('EventScr_Prologue_9EF828')),
-    CallScript(Sym('EventScr_CallOnTutorialMode')),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_GiveRapier(Scene s) async {
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2255);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    await s.call(Sym('data_085B9BBC', 360));
+    s.setSlot(3, 9);
+    s.placeholder('GIVEITEMTO');
+    s.setSlot(2, Sym('EventScr_Prologue_9EF828'));
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
+    return;
+}
 
 /// `EventScr_Prologue_OneEnemyLeft`
-final Prologue_OneEnemyLeft = SceneScript(
-  'EventScr_Prologue_OneEnemyLeft',
-  const <SceneOp>[
-    MiscOp('CHECK_ENEMIES', []),
-    SetSlot(7, 1),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 7),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    MiscOp('EVENT_WORD_SYM', [Sym('banim_pekf_sp1_sheet_0', 152)]),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('ENUF', [8]),
-    GoTo(1),
-    Label(0),
-    MiscOp('CHECK_TRIG_EVENTID', []),
-    SlotArith('SADD', 2, 12),
-    MiscOp('ENUF', [65535]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_OneEnemyLeft(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_ENEMIES');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(7, 1);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CURSOR_CHAR');
+          pc = 4;
+          continue;
+        case 4:
+          await s.stall(60);
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CURE');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('TEXTSTART');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('EVENT_WORD_SYM');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('TEXTEND');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('REMA');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('ENUF');
+          pc = 11;
+          continue;
+        case 11:
+          pc = 16;
+          continue;
+        case 12:
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('CHECK_TRIG_EVENTID');
+          pc = 14;
+          continue;
+        case 14:
+          s.slotArith('SADD', 2, 12);
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('ENUF');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('EVBIT_T');
+          pc = 18;
+          continue;
+        case 18:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Prologue_RenaisThroneCutscene`
-final Prologue_RenaisThroneCutscene = SceneScript(
-  'EventScr_Prologue_RenaisThroneCutscene',
-  const <SceneOp>[
-    SetSlot(11, 655374),
-    MiscOp('LOMA', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Event_PrologueThroneRoomUnits')),
-    EndUnitOp('ENUN'),
-    FadeOp('FADU', [16]),
-    MusicOp('MUSC', [38]),
-    MiscOp('BROWNBOXTEXT', [1526, 8, 8]),
-    LoadUnitsOp(1, Sym('UnitDef_Event_PrologueMessager')),
-    EndUnitOp('ENUN'),
-    CameraOp('CAMERA', [14, 0]),
-    CursorOp('CURSOR_CHAR', [15]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2243),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [0, 15, 13, 11]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [15]),
-    MoveUnitOp('MOVE_1STEP', [0, 1, 0]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2244),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVEONTO', [0, 2, 1]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [1]),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2245),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE', [0, 2, 13, 11]),
-    SetSlot(13, 0),
-    SetSlot(1, 268),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 716),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [4]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [2]),
-    MiscOp('DISA', [4]),
-    MoveUnitOp('MOVE', [0, 5, 11, 4]),
-    MoveUnitOp('MOVE', [0, 6, 15, 4]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [0, 5, 1]),
-    MoveUnitOp('MOVE_1STEP', [0, 6, 0]),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Event_PrologueGradoShamans')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Event_PrologueGradoCavalry')),
-    EndUnitOp('ENUN'),
-    LoadUnitsOp(1, Sym('UnitDef_Event_PrologueGradoRoyals')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [197]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2246),
-    TextBoxOp(false),
-    FadeOp('FADI', [2]),
-    ClearTextOp(),
-    EventBitOp(false, 2),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [64]),
-    FadeOp('FADU', [16]),
-    LoadUnitsOp(2, Sym('UnitDef_Event_PrologueEscapees')),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    SetSlot(3, 2247),
-    CallScript(Sym('Event_TextWithBG')),
-    SetSlot(13, 0),
-    SetSlot(1, 260),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 132),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 128),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [4]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [4]),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    SetSlot(3, 2248),
-    CallScript(Sym('Event_TextWithBG')),
-    LoadUnitsOp(1, Sym('UnitDef_Event_PrologueValterGroup')),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [0, 2, 1]),
-    EndUnitOp('ENUN'),
-    MoveUnitOp('MOVE_1STEP', [0, 1, 0]),
-    EndUnitOp('ENUN'),
-    CursorOp('CURSOR_CHAR', [69]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(2, 37),
-    SetSlot(3, 2249),
-    CallScript(Sym('Event_TextWithBG')),
-    MoveUnitOp('MOVE_1STEP', [0, 69, 0]),
-    EndUnitOp('ENUN'),
-    SetSlot(13, 0),
-    SetSlot(1, 131072),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    MiscOp('FIGHT', [2, 69, 0, 0]),
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2251),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MoveUnitOp('MOVE_1STEP', [8, 2, 0]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [1]),
-    SetSlot(13, 0),
-    SetSlot(1, 98564),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 98436),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 98432),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    MoveUnitOp('MOVE_DEFINED', [2]),
-    EndUnitOp('ENUN'),
-    MiscOp('DISA', [2]),
-    CursorOp('CURSOR_CHAR', [69]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2252),
-    TextBoxOp(false),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    EventBitOp(false, 2),
-    MiscOp('CLEA', []),
-    MiscOp('CLEE', []),
-    MiscOp('CLEN', []),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [0]),
-    FadeOp('FADU', [16]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
+    s.setSlot(11, 655374);
+    s.placeholder('LOMA');
+    s.loadUnits(2, Sym('UnitDef_Event_PrologueThroneRoomUnits'));
+    s.placeholder('ENUN');
+    s.placeholder('FADU');
+    s.placeholder('MUSC');
+    s.placeholder('BROWNBOXTEXT');
+    s.loadUnits(1, Sym('UnitDef_Event_PrologueMessager'));
+    s.placeholder('ENUN');
+    s.placeholder('CAMERA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2243);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [0, 15, 13, 11]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.moveUnit('MOVE_1STEP', [0, 1, 0]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2244);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVEONTO', [0, 2, 1]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2245);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE', [0, 2, 13, 11]);
+    s.setSlot(13, 0);
+    s.setSlot(1, 268);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 716);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [4]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('DISA');
+    s.moveUnit('MOVE', [0, 5, 11, 4]);
+    s.moveUnit('MOVE', [0, 6, 15, 4]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE_1STEP', [0, 5, 1]);
+    s.moveUnit('MOVE_1STEP', [0, 6, 0]);
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Event_PrologueGradoShamans'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Event_PrologueGradoCavalry'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Event_PrologueGradoRoyals'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2246);
+    s.placeholder('TEXTEND');
+    s.placeholder('FADI');
+    s.placeholder('REMA');
+    s.placeholder('EVBIT_F');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 0);
+    s.placeholder('LOMA');
+    s.placeholder('FADU');
+    s.loadUnits(2, Sym('UnitDef_Event_PrologueEscapees'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 37);
+    s.setSlot(3, 2247);
+    await s.call(Sym('Event_TextWithBG'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 260);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 132);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 128);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [4]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 37);
+    s.setSlot(3, 2248);
+    await s.call(Sym('Event_TextWithBG'));
+    s.loadUnits(1, Sym('UnitDef_Event_PrologueValterGroup'));
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE_1STEP', [0, 2, 1]);
+    s.placeholder('ENUN');
+    s.moveUnit('MOVE_1STEP', [0, 1, 0]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(2, 37);
+    s.setSlot(3, 2249);
+    await s.call(Sym('Event_TextWithBG'));
+    s.moveUnit('MOVE_1STEP', [0, 69, 0]);
+    s.placeholder('ENUN');
+    s.setSlot(13, 0);
+    s.setSlot(1, 131072);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.placeholder('FIGHT');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2251);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.moveUnit('MOVE_1STEP', [8, 2, 0]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.setSlot(13, 0);
+    s.setSlot(1, 98564);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 98436);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 98432);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.moveUnit('MOVE_DEFINED', [2]);
+    s.placeholder('ENUN');
+    s.placeholder('DISA');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2252);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('FADI');
+    s.placeholder('EVBIT_F');
+    s.placeholder('CLEA');
+    s.placeholder('CLEE');
+    s.placeholder('CLEN');
+    s.setSlot(11, 0);
+    s.placeholder('LOMA');
+    s.placeholder('FADU');
+    return;
+}
 
 /// `EventScr_Prologue_TutEirikaAttack`
-final Prologue_TutEirikaAttack = SceneScript(
-  'EventScr_Prologue_TutEirikaAttack',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2275),
-    TextBoxOp(false),
-    ClearTextOp(),
-    CursorOp('CURSOR_FLASHING_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    SetSlot(13, 0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 65536),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    MiscOp('FIGHT_SCRIPT', []),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Prologue_TutorialA'), 2]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_TutEirikaAttack(Scene s) async {
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2275);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 65536);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.placeholder('FIGHT_SCRIPT');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
 
 /// `EventScr_Prologue_TutMessageTurn2`
-final Prologue_TutMessageTurn2 = SceneScript(
-  'EventScr_Prologue_TutMessageTurn2',
-  const <SceneOp>[
-    CursorOp('CURSOR_CHAR', [2]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    TextBoxOp(true),
-    ShowTextOp(2257),
-    TextBoxOp(false),
-    ClearTextOp(),
-    SetSlot(13, 0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 131073),
-    EnqueueOps(0),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 4294967295),
-    EnqueueOps(0),
-    MiscOp('FIGHT_SCRIPT', []),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2274),
-    TextBoxOp(false),
-    ClearTextOp(),
-    MiscOp('ENUF', [102]),
-    EndUnitOp('ENUT'),
-    CursorOp('CURSOR_FLASHING_CHAR', [1]),
-    StallOp(60),
-    MiscOp('CURE', []),
-    MiscOp('EvtEnqueueConditionalTutCall', [Sym('EventScr_Prologue_Tutorial4'), 2]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_TutMessageTurn2(Scene s) async {
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('TEXTSTART');
+    await s.textShow(2257);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 131073);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4294967295);
+    s.placeholder('SENQUEUE1');
+    s.placeholder('FIGHT_SCRIPT');
+    s.placeholder('TUTORIALTEXTBOXSTART');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2274);
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    s.placeholder('ENUF');
+    s.placeholder('ENUT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('CURE');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
 
 /// `EventScr_Prologue_Tutorial0`
-final Prologue_Tutorial0 = SceneScript(
-  'EventScr_Prologue_Tutorial0',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 327684),
-    EnqueueOps(0),
-    SetSlot(1, 2267),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, 2266),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_Tutorial1')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_Tutorial0')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_Tutorial0(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 327684);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2267);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2266);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_Tutorial1'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_Tutorial0'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Prologue_Tutorial1`
-final Prologue_Tutorial1 = SceneScript(
-  'EventScr_Prologue_Tutorial1',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 327684),
-    EnqueueOps(0),
-    SetSlot(1, 2268),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_Tutorial2')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_Tutorial1')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65531]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_Tutorial1(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 327684);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2268);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_Tutorial2'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_Tutorial1'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Prologue_Tutorial4`
-final Prologue_Tutorial4 = SceneScript(
-  'EventScr_Prologue_Tutorial4',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 327684),
-    EnqueueOps(0),
-    SetSlot(1, 2270),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, 2271),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_Tutorial5')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_Tutorial4')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    MiscOp('IGNORE_KEYS', [1022]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_Tutorial4(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 327684);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2270);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2271);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_Tutorial5'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_Tutorial4'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Prologue_TutorialA`
-final Prologue_TutorialA = SceneScript(
-  'EventScr_Prologue_TutorialA',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    SetSlot(13, 0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 393224),
-    EnqueueOps(0),
-    SetSlot(1, 2277),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, 2276),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_TutorialB')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_TutorialA')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec0')),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_TutorialA(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 393224);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2277);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2276);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_TutorialB'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_TutorialA'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
 
 /// `EventScr_Prologue_TutorialB`
-final Prologue_TutorialB = SceneScript(
-  'EventScr_Prologue_TutorialB',
-  const <SceneOp>[
-    EventBitOp(true, 7),
-    MiscOp('IGNORE_KEYS', [0]),
-    SetSlot(13, 0),
-    SetSlot(1, 393224),
-    EnqueueOps(0),
-    SetSlot(1, 2277),
-    EnqueueOps(0),
-    SetSlot(1, 524376),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_TutorialC')),
-    EnqueueOps(0),
-    SetSlot(1, Sym('EventScr_Prologue_TutorialB')),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_Tutorial_Exec1')),
-    MiscOp('DISABLEOPTIONS', [65534]),
-    MiscOp('IGNORE_KEYS', [266]),
-    EndScript(true),
-  ],
-);
+Future<void> Prologue_TutorialB(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(13, 0);
+    s.setSlot(1, 393224);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2277);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 524376);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_TutorialC'));
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, Sym('EventScr_Prologue_TutorialB'));
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_Tutorial_Exec1'));
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    return;
+}
 
 /// `EventScr_Ruin_37`
-final Ruin_37 = SceneScript(
-  'EventScr_Ruin_37',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 1),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 10),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 20),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA', [0, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [0]),
-    CameraOp('CAMERA2', [12, 12]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [7]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_37(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 1);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 10);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 20);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 9; }
+          continue;
+        case 9:
+          pc = 19;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CAMERA');
+          pc = 12;
+          continue;
+        case 12:
+          await s.stall(15);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SOUN');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TILECHANGE');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('CAMERA2');
+          pc = 16;
+          continue;
+        case 16:
+          await s.stall(15);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('SOUN');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('TILECHANGE');
+          pc = 19;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('EVBIT_T');
+          pc = 21;
+          continue;
+        case 21:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_38`
-final Ruin_38 = SceneScript(
-  'EventScr_Ruin_38',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 6),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 15),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA', [0, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [0]),
-    CameraOp('CAMERA2', [12, 12]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [7]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_38(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 6);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 15);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 6; }
+          continue;
+        case 6:
+          pc = 16;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CAMERA');
+          pc = 9;
+          continue;
+        case 9:
+          await s.stall(15);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('SOUN');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TILEREVERT');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CAMERA2');
+          pc = 13;
+          continue;
+        case 13:
+          await s.stall(15);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('SOUN');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('TILEREVERT');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('EVBIT_T');
+          pc = 18;
+          continue;
+        case 18:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_39`
-final Ruin_39 = SceneScript(
-  'EventScr_Ruin_39',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 2),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 8),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 14),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 20),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA2', [7, 10]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [1]),
-    CameraOp('CAMERA2', [10, 10]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [5]),
-    CameraOp('CAMERA', [19, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [8]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_39(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 2);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 8);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 14);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 9; }
+          continue;
+        case 9:
+          s.placeholder('CHECK_TURNS');
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(1, 20);
+          pc = 11;
+          continue;
+        case 11:
+          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 12; }
+          continue;
+        case 12:
+          pc = 26;
+          continue;
+        case 13:
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('CAMERA2');
+          pc = 15;
+          continue;
+        case 15:
+          await s.stall(15);
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('SOUN');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('TILECHANGE');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('CAMERA2');
+          pc = 19;
+          continue;
+        case 19:
+          await s.stall(15);
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('SOUN');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('TILECHANGE');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CAMERA');
+          pc = 23;
+          continue;
+        case 23:
+          await s.stall(15);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('SOUN');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('TILECHANGE');
+          pc = 26;
+          continue;
+        case 26:
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('EVBIT_T');
+          pc = 28;
+          continue;
+        case 28:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_40`
-final Ruin_40 = SceneScript(
-  'EventScr_Ruin_40',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 5),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 11),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 17),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA2', [7, 10]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [1]),
-    CameraOp('CAMERA2', [10, 10]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [5]),
-    CameraOp('CAMERA', [19, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [8]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_40(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 5);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 11);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 17);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 9; }
+          continue;
+        case 9:
+          pc = 23;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CAMERA2');
+          pc = 12;
+          continue;
+        case 12:
+          await s.stall(15);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SOUN');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TILEREVERT');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('CAMERA2');
+          pc = 16;
+          continue;
+        case 16:
+          await s.stall(15);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('SOUN');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('TILEREVERT');
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('CAMERA');
+          pc = 20;
+          continue;
+        case 20:
+          await s.stall(15);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('SOUN');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('TILEREVERT');
+          pc = 23;
+          continue;
+        case 23:
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('EVBIT_T');
+          pc = 25;
+          continue;
+        case 25:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_41`
-final Ruin_41 = SceneScript(
-  'EventScr_Ruin_41',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 5),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 13),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 20),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA', [0, 0]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [2]),
-    CameraOp('CAMERA', [19, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [9]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_41(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 5);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 13);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 20);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 9; }
+          continue;
+        case 9:
+          pc = 19;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CAMERA');
+          pc = 12;
+          continue;
+        case 12:
+          await s.stall(15);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SOUN');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TILECHANGE');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('CAMERA');
+          pc = 16;
+          continue;
+        case 16:
+          await s.stall(15);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('SOUN');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('TILECHANGE');
+          pc = 19;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('EVBIT_T');
+          pc = 21;
+          continue;
+        case 21:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_42`
-final Ruin_42 = SceneScript(
-  'EventScr_Ruin_42',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 9),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 17),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA', [0, 0]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [2]),
-    CameraOp('CAMERA', [19, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [9]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_42(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 9);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 17);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 6; }
+          continue;
+        case 6:
+          pc = 16;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('CAMERA');
+          pc = 9;
+          continue;
+        case 9:
+          await s.stall(15);
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('SOUN');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TILEREVERT');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CAMERA');
+          pc = 13;
+          continue;
+        case 13:
+          await s.stall(15);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('SOUN');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('TILEREVERT');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('EVBIT_T');
+          pc = 18;
+          continue;
+        case 18:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_45`
-final Ruin_45 = SceneScript(
-  'EventScr_Ruin_45',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 1),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 5),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 9),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 13),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 17),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 20),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA2', [10, 15]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [4]),
-    CameraOp('CAMERA2', [12, 6]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [10]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_45(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 1);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 5);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 9);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 9; }
+          continue;
+        case 9:
+          s.placeholder('CHECK_TURNS');
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(1, 13);
+          pc = 11;
+          continue;
+        case 11:
+          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 12; }
+          continue;
+        case 12:
+          s.placeholder('CHECK_TURNS');
+          pc = 13;
+          continue;
+        case 13:
+          s.setSlot(1, 17);
+          pc = 14;
+          continue;
+        case 14:
+          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 15; }
+          continue;
+        case 15:
+          s.placeholder('CHECK_TURNS');
+          pc = 16;
+          continue;
+        case 16:
+          s.setSlot(1, 20);
+          pc = 17;
+          continue;
+        case 17:
+          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 18; }
+          continue;
+        case 18:
+          pc = 28;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('CAMERA2');
+          pc = 21;
+          continue;
+        case 21:
+          await s.stall(15);
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('SOUN');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('TILECHANGE');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('CAMERA2');
+          pc = 25;
+          continue;
+        case 25:
+          await s.stall(15);
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('SOUN');
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('TILECHANGE');
+          pc = 28;
+          continue;
+        case 28:
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('EVBIT_T');
+          pc = 30;
+          continue;
+        case 30:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_47`
-final Ruin_47 = SceneScript(
-  'EventScr_Ruin_47',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 6),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 12),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 18),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 20),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA', [0, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BE')]),
-    MiscOp('TILECHANGE', [11]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_47(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 6);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 12);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 18);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 9; }
+          continue;
+        case 9:
+          s.placeholder('CHECK_TURNS');
+          pc = 10;
+          continue;
+        case 10:
+          s.setSlot(1, 20);
+          pc = 11;
+          continue;
+        case 11:
+          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 12; }
+          continue;
+        case 12:
+          pc = 18;
+          continue;
+        case 13:
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('CAMERA');
+          pc = 15;
+          continue;
+        case 15:
+          await s.stall(15);
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('SOUN');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('TILECHANGE');
+          pc = 18;
+          continue;
+        case 18:
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('EVBIT_T');
+          pc = 20;
+          continue;
+        case 20:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_48`
-final Ruin_48 = SceneScript(
-  'EventScr_Ruin_48',
-  const <SceneOp>[
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 7),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 13),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    MiscOp('CHECK_TURNS', []),
-    SetSlot(1, 19),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 1),
-    GoTo(1),
-    Label(0),
-    CameraOp('CAMERA', [0, 20]),
-    StallOp(15),
-    MiscOp('SOUN', [RawArg('SONG_BD')]),
-    MiscOp('TILEREVERT', [11]),
-    Label(1),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_48(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_TURNS');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(1, 7);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('CHECK_TURNS');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(1, 13);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 19);
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 9; }
+          continue;
+        case 9:
+          pc = 15;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CAMERA');
+          pc = 12;
+          continue;
+        case 12:
+          await s.stall(15);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SOUN');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('TILEREVERT');
+          pc = 15;
+          continue;
+        case 15:
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('EVBIT_T');
+          pc = 17;
+          continue;
+        case 17:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_54`
-final Ruin_54 = SceneScript(
-  'EventScr_Ruin_54',
-  const <SceneOp>[
-    FadeOp('FADI', [64]),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32898, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [0]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [232, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32898),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32899, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [1]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [233, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32899),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32900, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [2]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [234, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32900),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32901, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [3]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [235, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32901),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32902, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [4]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [236, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32902),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32903, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [6]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [238, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32903),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32904, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [7]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [239, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32904),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32905, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [8]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [240, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32905),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32906, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [9]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [241, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32906),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32907, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [10]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [242, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32907),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32908, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [11]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [243, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32908),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32909, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [12]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [244, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32909),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32910, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [13]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [245, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32910),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32911, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [14]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [246, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32911),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32912, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [15]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [247, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32912),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32913, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [16]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [248, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32913),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32914, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [17]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [249, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32914),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32915, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [18]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [250, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32915),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32916, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [19]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [251, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32916),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32917, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [20]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [252, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32917),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32918, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [21]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [253, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32918),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32919, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [23]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [255, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32919),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32920, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [24]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [256, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32920),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32921, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [25]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [257, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32921),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32922, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [26]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [258, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32922),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32923, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [27]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [259, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32923),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32924, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [28]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [260, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32924),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32925, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [29]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [261, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32925),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32926, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [30]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [262, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32926),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32927, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [31]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [263, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32927),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32928, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [32]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [264, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32928),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32929, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [33]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [265, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32929),
-    MiscOp('CHECK_EVBIT', [2]),
-    BranchIf(equal: false, slot: 32930, label: 12, opCount: 0),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [34]),
-    FadeOp('FADU', [64]),
-    MiscOp('BROWNBOXTEXT', [266, 8, 8]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [64]),
-    Label(32930),
-    SetSlot(11, 0),
-    MiscOp('LOMA', [60]),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_54(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('FADI');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_EVBIT');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(32898) != 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.setSlot(11, 0);
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('LOMA');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('FADU');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('STAL1');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('FADI');
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CHECK_EVBIT');
+          pc = 11;
+          continue;
+        case 11:
+          if (s.slotInt(32899) != 12) { pc = 12; } else { pc = 12; }
+          continue;
+        case 12:
+          s.setSlot(11, 0);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('LOMA');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('FADU');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('STAL1');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('FADI');
+          pc = 18;
+          continue;
+        case 18:
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('CHECK_EVBIT');
+          pc = 20;
+          continue;
+        case 20:
+          if (s.slotInt(32900) != 12) { pc = 21; } else { pc = 21; }
+          continue;
+        case 21:
+          s.setSlot(11, 0);
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('LOMA');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('FADU');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('STAL1');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('FADI');
+          pc = 27;
+          continue;
+        case 27:
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('CHECK_EVBIT');
+          pc = 29;
+          continue;
+        case 29:
+          if (s.slotInt(32901) != 12) { pc = 30; } else { pc = 30; }
+          continue;
+        case 30:
+          s.setSlot(11, 0);
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('LOMA');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('FADU');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('STAL1');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('FADI');
+          pc = 36;
+          continue;
+        case 36:
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('CHECK_EVBIT');
+          pc = 38;
+          continue;
+        case 38:
+          if (s.slotInt(32902) != 12) { pc = 39; } else { pc = 39; }
+          continue;
+        case 39:
+          s.setSlot(11, 0);
+          pc = 40;
+          continue;
+        case 40:
+          s.placeholder('LOMA');
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('FADU');
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('STAL1');
+          pc = 44;
+          continue;
+        case 44:
+          s.placeholder('FADI');
+          pc = 45;
+          continue;
+        case 45:
+          pc = 46;
+          continue;
+        case 46:
+          s.placeholder('CHECK_EVBIT');
+          pc = 47;
+          continue;
+        case 47:
+          if (s.slotInt(32903) != 12) { pc = 48; } else { pc = 48; }
+          continue;
+        case 48:
+          s.setSlot(11, 0);
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('LOMA');
+          pc = 50;
+          continue;
+        case 50:
+          s.placeholder('FADU');
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('STAL1');
+          pc = 53;
+          continue;
+        case 53:
+          s.placeholder('FADI');
+          pc = 54;
+          continue;
+        case 54:
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('CHECK_EVBIT');
+          pc = 56;
+          continue;
+        case 56:
+          if (s.slotInt(32904) != 12) { pc = 57; } else { pc = 57; }
+          continue;
+        case 57:
+          s.setSlot(11, 0);
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('LOMA');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('FADU');
+          pc = 60;
+          continue;
+        case 60:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('STAL1');
+          pc = 62;
+          continue;
+        case 62:
+          s.placeholder('FADI');
+          pc = 63;
+          continue;
+        case 63:
+          pc = 64;
+          continue;
+        case 64:
+          s.placeholder('CHECK_EVBIT');
+          pc = 65;
+          continue;
+        case 65:
+          if (s.slotInt(32905) != 12) { pc = 66; } else { pc = 66; }
+          continue;
+        case 66:
+          s.setSlot(11, 0);
+          pc = 67;
+          continue;
+        case 67:
+          s.placeholder('LOMA');
+          pc = 68;
+          continue;
+        case 68:
+          s.placeholder('FADU');
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 70;
+          continue;
+        case 70:
+          s.placeholder('STAL1');
+          pc = 71;
+          continue;
+        case 71:
+          s.placeholder('FADI');
+          pc = 72;
+          continue;
+        case 72:
+          pc = 73;
+          continue;
+        case 73:
+          s.placeholder('CHECK_EVBIT');
+          pc = 74;
+          continue;
+        case 74:
+          if (s.slotInt(32906) != 12) { pc = 75; } else { pc = 75; }
+          continue;
+        case 75:
+          s.setSlot(11, 0);
+          pc = 76;
+          continue;
+        case 76:
+          s.placeholder('LOMA');
+          pc = 77;
+          continue;
+        case 77:
+          s.placeholder('FADU');
+          pc = 78;
+          continue;
+        case 78:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 79;
+          continue;
+        case 79:
+          s.placeholder('STAL1');
+          pc = 80;
+          continue;
+        case 80:
+          s.placeholder('FADI');
+          pc = 81;
+          continue;
+        case 81:
+          pc = 82;
+          continue;
+        case 82:
+          s.placeholder('CHECK_EVBIT');
+          pc = 83;
+          continue;
+        case 83:
+          if (s.slotInt(32907) != 12) { pc = 84; } else { pc = 84; }
+          continue;
+        case 84:
+          s.setSlot(11, 0);
+          pc = 85;
+          continue;
+        case 85:
+          s.placeholder('LOMA');
+          pc = 86;
+          continue;
+        case 86:
+          s.placeholder('FADU');
+          pc = 87;
+          continue;
+        case 87:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 88;
+          continue;
+        case 88:
+          s.placeholder('STAL1');
+          pc = 89;
+          continue;
+        case 89:
+          s.placeholder('FADI');
+          pc = 90;
+          continue;
+        case 90:
+          pc = 91;
+          continue;
+        case 91:
+          s.placeholder('CHECK_EVBIT');
+          pc = 92;
+          continue;
+        case 92:
+          if (s.slotInt(32908) != 12) { pc = 93; } else { pc = 93; }
+          continue;
+        case 93:
+          s.setSlot(11, 0);
+          pc = 94;
+          continue;
+        case 94:
+          s.placeholder('LOMA');
+          pc = 95;
+          continue;
+        case 95:
+          s.placeholder('FADU');
+          pc = 96;
+          continue;
+        case 96:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 97;
+          continue;
+        case 97:
+          s.placeholder('STAL1');
+          pc = 98;
+          continue;
+        case 98:
+          s.placeholder('FADI');
+          pc = 99;
+          continue;
+        case 99:
+          pc = 100;
+          continue;
+        case 100:
+          s.placeholder('CHECK_EVBIT');
+          pc = 101;
+          continue;
+        case 101:
+          if (s.slotInt(32909) != 12) { pc = 102; } else { pc = 102; }
+          continue;
+        case 102:
+          s.setSlot(11, 0);
+          pc = 103;
+          continue;
+        case 103:
+          s.placeholder('LOMA');
+          pc = 104;
+          continue;
+        case 104:
+          s.placeholder('FADU');
+          pc = 105;
+          continue;
+        case 105:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 106;
+          continue;
+        case 106:
+          s.placeholder('STAL1');
+          pc = 107;
+          continue;
+        case 107:
+          s.placeholder('FADI');
+          pc = 108;
+          continue;
+        case 108:
+          pc = 109;
+          continue;
+        case 109:
+          s.placeholder('CHECK_EVBIT');
+          pc = 110;
+          continue;
+        case 110:
+          if (s.slotInt(32910) != 12) { pc = 111; } else { pc = 111; }
+          continue;
+        case 111:
+          s.setSlot(11, 0);
+          pc = 112;
+          continue;
+        case 112:
+          s.placeholder('LOMA');
+          pc = 113;
+          continue;
+        case 113:
+          s.placeholder('FADU');
+          pc = 114;
+          continue;
+        case 114:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 115;
+          continue;
+        case 115:
+          s.placeholder('STAL1');
+          pc = 116;
+          continue;
+        case 116:
+          s.placeholder('FADI');
+          pc = 117;
+          continue;
+        case 117:
+          pc = 118;
+          continue;
+        case 118:
+          s.placeholder('CHECK_EVBIT');
+          pc = 119;
+          continue;
+        case 119:
+          if (s.slotInt(32911) != 12) { pc = 120; } else { pc = 120; }
+          continue;
+        case 120:
+          s.setSlot(11, 0);
+          pc = 121;
+          continue;
+        case 121:
+          s.placeholder('LOMA');
+          pc = 122;
+          continue;
+        case 122:
+          s.placeholder('FADU');
+          pc = 123;
+          continue;
+        case 123:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 124;
+          continue;
+        case 124:
+          s.placeholder('STAL1');
+          pc = 125;
+          continue;
+        case 125:
+          s.placeholder('FADI');
+          pc = 126;
+          continue;
+        case 126:
+          pc = 127;
+          continue;
+        case 127:
+          s.placeholder('CHECK_EVBIT');
+          pc = 128;
+          continue;
+        case 128:
+          if (s.slotInt(32912) != 12) { pc = 129; } else { pc = 129; }
+          continue;
+        case 129:
+          s.setSlot(11, 0);
+          pc = 130;
+          continue;
+        case 130:
+          s.placeholder('LOMA');
+          pc = 131;
+          continue;
+        case 131:
+          s.placeholder('FADU');
+          pc = 132;
+          continue;
+        case 132:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 133;
+          continue;
+        case 133:
+          s.placeholder('STAL1');
+          pc = 134;
+          continue;
+        case 134:
+          s.placeholder('FADI');
+          pc = 135;
+          continue;
+        case 135:
+          pc = 136;
+          continue;
+        case 136:
+          s.placeholder('CHECK_EVBIT');
+          pc = 137;
+          continue;
+        case 137:
+          if (s.slotInt(32913) != 12) { pc = 138; } else { pc = 138; }
+          continue;
+        case 138:
+          s.setSlot(11, 0);
+          pc = 139;
+          continue;
+        case 139:
+          s.placeholder('LOMA');
+          pc = 140;
+          continue;
+        case 140:
+          s.placeholder('FADU');
+          pc = 141;
+          continue;
+        case 141:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 142;
+          continue;
+        case 142:
+          s.placeholder('STAL1');
+          pc = 143;
+          continue;
+        case 143:
+          s.placeholder('FADI');
+          pc = 144;
+          continue;
+        case 144:
+          pc = 145;
+          continue;
+        case 145:
+          s.placeholder('CHECK_EVBIT');
+          pc = 146;
+          continue;
+        case 146:
+          if (s.slotInt(32914) != 12) { pc = 147; } else { pc = 147; }
+          continue;
+        case 147:
+          s.setSlot(11, 0);
+          pc = 148;
+          continue;
+        case 148:
+          s.placeholder('LOMA');
+          pc = 149;
+          continue;
+        case 149:
+          s.placeholder('FADU');
+          pc = 150;
+          continue;
+        case 150:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 151;
+          continue;
+        case 151:
+          s.placeholder('STAL1');
+          pc = 152;
+          continue;
+        case 152:
+          s.placeholder('FADI');
+          pc = 153;
+          continue;
+        case 153:
+          pc = 154;
+          continue;
+        case 154:
+          s.placeholder('CHECK_EVBIT');
+          pc = 155;
+          continue;
+        case 155:
+          if (s.slotInt(32915) != 12) { pc = 156; } else { pc = 156; }
+          continue;
+        case 156:
+          s.setSlot(11, 0);
+          pc = 157;
+          continue;
+        case 157:
+          s.placeholder('LOMA');
+          pc = 158;
+          continue;
+        case 158:
+          s.placeholder('FADU');
+          pc = 159;
+          continue;
+        case 159:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 160;
+          continue;
+        case 160:
+          s.placeholder('STAL1');
+          pc = 161;
+          continue;
+        case 161:
+          s.placeholder('FADI');
+          pc = 162;
+          continue;
+        case 162:
+          pc = 163;
+          continue;
+        case 163:
+          s.placeholder('CHECK_EVBIT');
+          pc = 164;
+          continue;
+        case 164:
+          if (s.slotInt(32916) != 12) { pc = 165; } else { pc = 165; }
+          continue;
+        case 165:
+          s.setSlot(11, 0);
+          pc = 166;
+          continue;
+        case 166:
+          s.placeholder('LOMA');
+          pc = 167;
+          continue;
+        case 167:
+          s.placeholder('FADU');
+          pc = 168;
+          continue;
+        case 168:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 169;
+          continue;
+        case 169:
+          s.placeholder('STAL1');
+          pc = 170;
+          continue;
+        case 170:
+          s.placeholder('FADI');
+          pc = 171;
+          continue;
+        case 171:
+          pc = 172;
+          continue;
+        case 172:
+          s.placeholder('CHECK_EVBIT');
+          pc = 173;
+          continue;
+        case 173:
+          if (s.slotInt(32917) != 12) { pc = 174; } else { pc = 174; }
+          continue;
+        case 174:
+          s.setSlot(11, 0);
+          pc = 175;
+          continue;
+        case 175:
+          s.placeholder('LOMA');
+          pc = 176;
+          continue;
+        case 176:
+          s.placeholder('FADU');
+          pc = 177;
+          continue;
+        case 177:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 178;
+          continue;
+        case 178:
+          s.placeholder('STAL1');
+          pc = 179;
+          continue;
+        case 179:
+          s.placeholder('FADI');
+          pc = 180;
+          continue;
+        case 180:
+          pc = 181;
+          continue;
+        case 181:
+          s.placeholder('CHECK_EVBIT');
+          pc = 182;
+          continue;
+        case 182:
+          if (s.slotInt(32918) != 12) { pc = 183; } else { pc = 183; }
+          continue;
+        case 183:
+          s.setSlot(11, 0);
+          pc = 184;
+          continue;
+        case 184:
+          s.placeholder('LOMA');
+          pc = 185;
+          continue;
+        case 185:
+          s.placeholder('FADU');
+          pc = 186;
+          continue;
+        case 186:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 187;
+          continue;
+        case 187:
+          s.placeholder('STAL1');
+          pc = 188;
+          continue;
+        case 188:
+          s.placeholder('FADI');
+          pc = 189;
+          continue;
+        case 189:
+          pc = 190;
+          continue;
+        case 190:
+          s.placeholder('CHECK_EVBIT');
+          pc = 191;
+          continue;
+        case 191:
+          if (s.slotInt(32919) != 12) { pc = 192; } else { pc = 192; }
+          continue;
+        case 192:
+          s.setSlot(11, 0);
+          pc = 193;
+          continue;
+        case 193:
+          s.placeholder('LOMA');
+          pc = 194;
+          continue;
+        case 194:
+          s.placeholder('FADU');
+          pc = 195;
+          continue;
+        case 195:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 196;
+          continue;
+        case 196:
+          s.placeholder('STAL1');
+          pc = 197;
+          continue;
+        case 197:
+          s.placeholder('FADI');
+          pc = 198;
+          continue;
+        case 198:
+          pc = 199;
+          continue;
+        case 199:
+          s.placeholder('CHECK_EVBIT');
+          pc = 200;
+          continue;
+        case 200:
+          if (s.slotInt(32920) != 12) { pc = 201; } else { pc = 201; }
+          continue;
+        case 201:
+          s.setSlot(11, 0);
+          pc = 202;
+          continue;
+        case 202:
+          s.placeholder('LOMA');
+          pc = 203;
+          continue;
+        case 203:
+          s.placeholder('FADU');
+          pc = 204;
+          continue;
+        case 204:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 205;
+          continue;
+        case 205:
+          s.placeholder('STAL1');
+          pc = 206;
+          continue;
+        case 206:
+          s.placeholder('FADI');
+          pc = 207;
+          continue;
+        case 207:
+          pc = 208;
+          continue;
+        case 208:
+          s.placeholder('CHECK_EVBIT');
+          pc = 209;
+          continue;
+        case 209:
+          if (s.slotInt(32921) != 12) { pc = 210; } else { pc = 210; }
+          continue;
+        case 210:
+          s.setSlot(11, 0);
+          pc = 211;
+          continue;
+        case 211:
+          s.placeholder('LOMA');
+          pc = 212;
+          continue;
+        case 212:
+          s.placeholder('FADU');
+          pc = 213;
+          continue;
+        case 213:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 214;
+          continue;
+        case 214:
+          s.placeholder('STAL1');
+          pc = 215;
+          continue;
+        case 215:
+          s.placeholder('FADI');
+          pc = 216;
+          continue;
+        case 216:
+          pc = 217;
+          continue;
+        case 217:
+          s.placeholder('CHECK_EVBIT');
+          pc = 218;
+          continue;
+        case 218:
+          if (s.slotInt(32922) != 12) { pc = 219; } else { pc = 219; }
+          continue;
+        case 219:
+          s.setSlot(11, 0);
+          pc = 220;
+          continue;
+        case 220:
+          s.placeholder('LOMA');
+          pc = 221;
+          continue;
+        case 221:
+          s.placeholder('FADU');
+          pc = 222;
+          continue;
+        case 222:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 223;
+          continue;
+        case 223:
+          s.placeholder('STAL1');
+          pc = 224;
+          continue;
+        case 224:
+          s.placeholder('FADI');
+          pc = 225;
+          continue;
+        case 225:
+          pc = 226;
+          continue;
+        case 226:
+          s.placeholder('CHECK_EVBIT');
+          pc = 227;
+          continue;
+        case 227:
+          if (s.slotInt(32923) != 12) { pc = 228; } else { pc = 228; }
+          continue;
+        case 228:
+          s.setSlot(11, 0);
+          pc = 229;
+          continue;
+        case 229:
+          s.placeholder('LOMA');
+          pc = 230;
+          continue;
+        case 230:
+          s.placeholder('FADU');
+          pc = 231;
+          continue;
+        case 231:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 232;
+          continue;
+        case 232:
+          s.placeholder('STAL1');
+          pc = 233;
+          continue;
+        case 233:
+          s.placeholder('FADI');
+          pc = 234;
+          continue;
+        case 234:
+          pc = 235;
+          continue;
+        case 235:
+          s.placeholder('CHECK_EVBIT');
+          pc = 236;
+          continue;
+        case 236:
+          if (s.slotInt(32924) != 12) { pc = 237; } else { pc = 237; }
+          continue;
+        case 237:
+          s.setSlot(11, 0);
+          pc = 238;
+          continue;
+        case 238:
+          s.placeholder('LOMA');
+          pc = 239;
+          continue;
+        case 239:
+          s.placeholder('FADU');
+          pc = 240;
+          continue;
+        case 240:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 241;
+          continue;
+        case 241:
+          s.placeholder('STAL1');
+          pc = 242;
+          continue;
+        case 242:
+          s.placeholder('FADI');
+          pc = 243;
+          continue;
+        case 243:
+          pc = 244;
+          continue;
+        case 244:
+          s.placeholder('CHECK_EVBIT');
+          pc = 245;
+          continue;
+        case 245:
+          if (s.slotInt(32925) != 12) { pc = 246; } else { pc = 246; }
+          continue;
+        case 246:
+          s.setSlot(11, 0);
+          pc = 247;
+          continue;
+        case 247:
+          s.placeholder('LOMA');
+          pc = 248;
+          continue;
+        case 248:
+          s.placeholder('FADU');
+          pc = 249;
+          continue;
+        case 249:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 250;
+          continue;
+        case 250:
+          s.placeholder('STAL1');
+          pc = 251;
+          continue;
+        case 251:
+          s.placeholder('FADI');
+          pc = 252;
+          continue;
+        case 252:
+          pc = 253;
+          continue;
+        case 253:
+          s.placeholder('CHECK_EVBIT');
+          pc = 254;
+          continue;
+        case 254:
+          if (s.slotInt(32926) != 12) { pc = 255; } else { pc = 255; }
+          continue;
+        case 255:
+          s.setSlot(11, 0);
+          pc = 256;
+          continue;
+        case 256:
+          s.placeholder('LOMA');
+          pc = 257;
+          continue;
+        case 257:
+          s.placeholder('FADU');
+          pc = 258;
+          continue;
+        case 258:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 259;
+          continue;
+        case 259:
+          s.placeholder('STAL1');
+          pc = 260;
+          continue;
+        case 260:
+          s.placeholder('FADI');
+          pc = 261;
+          continue;
+        case 261:
+          pc = 262;
+          continue;
+        case 262:
+          s.placeholder('CHECK_EVBIT');
+          pc = 263;
+          continue;
+        case 263:
+          if (s.slotInt(32927) != 12) { pc = 264; } else { pc = 264; }
+          continue;
+        case 264:
+          s.setSlot(11, 0);
+          pc = 265;
+          continue;
+        case 265:
+          s.placeholder('LOMA');
+          pc = 266;
+          continue;
+        case 266:
+          s.placeholder('FADU');
+          pc = 267;
+          continue;
+        case 267:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 268;
+          continue;
+        case 268:
+          s.placeholder('STAL1');
+          pc = 269;
+          continue;
+        case 269:
+          s.placeholder('FADI');
+          pc = 270;
+          continue;
+        case 270:
+          pc = 271;
+          continue;
+        case 271:
+          s.placeholder('CHECK_EVBIT');
+          pc = 272;
+          continue;
+        case 272:
+          if (s.slotInt(32928) != 12) { pc = 273; } else { pc = 273; }
+          continue;
+        case 273:
+          s.setSlot(11, 0);
+          pc = 274;
+          continue;
+        case 274:
+          s.placeholder('LOMA');
+          pc = 275;
+          continue;
+        case 275:
+          s.placeholder('FADU');
+          pc = 276;
+          continue;
+        case 276:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 277;
+          continue;
+        case 277:
+          s.placeholder('STAL1');
+          pc = 278;
+          continue;
+        case 278:
+          s.placeholder('FADI');
+          pc = 279;
+          continue;
+        case 279:
+          pc = 280;
+          continue;
+        case 280:
+          s.placeholder('CHECK_EVBIT');
+          pc = 281;
+          continue;
+        case 281:
+          if (s.slotInt(32929) != 12) { pc = 282; } else { pc = 282; }
+          continue;
+        case 282:
+          s.setSlot(11, 0);
+          pc = 283;
+          continue;
+        case 283:
+          s.placeholder('LOMA');
+          pc = 284;
+          continue;
+        case 284:
+          s.placeholder('FADU');
+          pc = 285;
+          continue;
+        case 285:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 286;
+          continue;
+        case 286:
+          s.placeholder('STAL1');
+          pc = 287;
+          continue;
+        case 287:
+          s.placeholder('FADI');
+          pc = 288;
+          continue;
+        case 288:
+          pc = 289;
+          continue;
+        case 289:
+          s.placeholder('CHECK_EVBIT');
+          pc = 290;
+          continue;
+        case 290:
+          if (s.slotInt(32930) != 12) { pc = 291; } else { pc = 291; }
+          continue;
+        case 291:
+          s.setSlot(11, 0);
+          pc = 292;
+          continue;
+        case 292:
+          s.placeholder('LOMA');
+          pc = 293;
+          continue;
+        case 293:
+          s.placeholder('FADU');
+          pc = 294;
+          continue;
+        case 294:
+          s.placeholder('BROWNBOXTEXT');
+          pc = 295;
+          continue;
+        case 295:
+          s.placeholder('STAL1');
+          pc = 296;
+          continue;
+        case 296:
+          s.placeholder('FADI');
+          pc = 297;
+          continue;
+        case 297:
+          pc = 298;
+          continue;
+        case 298:
+          s.setSlot(11, 0);
+          pc = 299;
+          continue;
+        case 299:
+          s.placeholder('LOMA');
+          pc = 300;
+          continue;
+        case 300:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_56`
-final Ruin_56 = SceneScript(
-  'EventScr_Ruin_56',
-  const <SceneOp>[
-    FadeOp('FADI', [16]),
-    SetSlot(2, 1),
-    SetSlot(3, 115),
-    MiscOp('REMOVEPORTRAITS', []),
-    Label(0),
-    MiscOp('BACG', [81]),
-    FadeOp('FADU', [16]),
-    MiscOp('FACE_SHOW', [1, 65535]),
-    TextBoxOp(false),
-    MiscOp('STAL1', [65535]),
-    ClearTextOp(),
-    FadeOp('FADI', [16]),
-    SetSlot(1, 1),
-    SlotArith('SADD', 2, 2),
-    MiscOp('BLT', [0, 2, 3]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_56(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('FADI');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 1);
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(3, 115);
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('REMOVEPORTRAITS');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('BACG');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('FADU');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('FACE_SHOW');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('TEXTEND');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('STAL1');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('REMA');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('FADI');
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(1, 1);
+          pc = 13;
+          continue;
+        case 13:
+          s.slotArith('SADD', 2, 2);
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('BLT');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('CLEAN');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('FADU');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('EVBIT_T');
+          pc = 18;
+          continue;
+        case 18:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_58`
-final Ruin_58 = SceneScript(
-  'EventScr_Ruin_58',
-  const <SceneOp>[
-    FadeOp('FADI', [16]),
-    SetSlot(2, 0),
-    SetSlot(3, 79),
-    MiscOp('REMOVEPORTRAITS', []),
-    Label(0),
-    MiscOp('BACG', [65535]),
-    FadeOp('FADU', [16]),
-    MiscOp('STAL1', [65535]),
-    FadeOp('FADI', [16]),
-    SetSlot(1, 1),
-    SlotArith('SADD', 2, 2),
-    MiscOp('BLT', [0, 2, 3]),
-    MiscOp('CLEAN', []),
-    FadeOp('FADU', [16]),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_58(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('FADI');
+          pc = 1;
+          continue;
+        case 1:
+          s.setSlot(2, 0);
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(3, 79);
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('REMOVEPORTRAITS');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('BACG');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('FADU');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('STAL1');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('FADI');
+          pc = 9;
+          continue;
+        case 9:
+          s.setSlot(1, 1);
+          pc = 10;
+          continue;
+        case 10:
+          s.slotArith('SADD', 2, 2);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('BLT');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CLEAN');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('FADU');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('EVBIT_T');
+          pc = 15;
+          continue;
+        case 15:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Ruin_60`
-final Ruin_60 = SceneScript(
-  'EventScr_Ruin_60',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 2),
-    EnqueueOps(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_60(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2);
+    s.placeholder('SENQUEUE1');
+    return;
+}
 
 /// `EventScr_Ruin_62`
-final Ruin_62 = SceneScript(
-  'EventScr_Ruin_62',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_62(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    return;
+}
 
 /// `EventScr_Ruin_64`
-final Ruin_64 = SceneScript(
-  'EventScr_Ruin_64',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 2),
-    EnqueueOps(0),
-    SetSlot(1, 3),
-    EnqueueOps(0),
-    SetSlot(1, 4),
-    EnqueueOps(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_64(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 3);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4);
+    s.placeholder('SENQUEUE1');
+    return;
+}
 
 /// `EventScr_Ruin_66`
-final Ruin_66 = SceneScript(
-  'EventScr_Ruin_66',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_66(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    return;
+}
 
 /// `EventScr_Ruin_68`
-final Ruin_68 = SceneScript(
-  'EventScr_Ruin_68',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 2),
-    EnqueueOps(0),
-    SetSlot(1, 3),
-    EnqueueOps(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_68(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 3);
+    s.placeholder('SENQUEUE1');
+    return;
+}
 
 /// `EventScr_Ruin_70`
-final Ruin_70 = SceneScript(
-  'EventScr_Ruin_70',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    MiscOp('EvtChangeFogVision', [0, 0]),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_70(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.placeholder('EvtChangeFogVision');
+    return;
+}
 
 /// `EventScr_Ruin_72`
-final Ruin_72 = SceneScript(
-  'EventScr_Ruin_72',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 2),
-    EnqueueOps(0),
-    SetSlot(1, 3),
-    EnqueueOps(0),
-    SetSlot(1, 6),
-    EnqueueOps(0),
-    SetSlot(1, 7),
-    EnqueueOps(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_72(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 2);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 3);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 6);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 7);
+    s.placeholder('SENQUEUE1');
+    return;
+}
 
 /// `EventScr_Ruin_74`
-final Ruin_74 = SceneScript(
-  'EventScr_Ruin_74',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    SetSlot(1, 0),
-    EnqueueOps(0),
-    SetSlot(1, 1),
-    EnqueueOps(0),
-    SetSlot(1, 4),
-    EnqueueOps(0),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_74(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    s.setSlot(1, 0);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 1);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 4);
+    s.placeholder('SENQUEUE1');
+    return;
+}
 
 /// `EventScr_Ruin_76`
-final Ruin_76 = SceneScript(
-  'EventScr_Ruin_76',
-  const <SceneOp>[
-    SetSlot(2, 0),
-    CallScript(Sym('EventScr_ConfigHardModeLoadUnitHard')),
-    SetSlot(13, 0),
-    SetSlot(1, 50),
-    EnqueueOps(0),
-    SetSlot(1, 25),
-    EnqueueOps(0),
-    SetSlot(1, 15),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    SetSlot(1, 5),
-    EnqueueOps(0),
-    CallScript(Sym('EventScr_9EE84C')),
-    EndScript(true),
-  ],
-);
+Future<void> Ruin_76(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
+    s.setSlot(13, 0);
+    s.setSlot(1, 50);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 25);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 15);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    s.setSlot(1, 5);
+    s.placeholder('SENQUEUE1');
+    await s.call(Sym('EventScr_9EE84C'));
+    return;
+}
 
 /// `EventScr_SetFlagIfPlayedThrough`
-final SetFlagIfPlayedThrough = SceneScript(
-  'EventScr_SetFlagIfPlayedThrough',
-  const <SceneOp>[
-    MiscOp('CHECK_POSTGAME', []),
-    BranchIf(equal: true, slot: 0, label: 12, opCount: 0),
-    EndUnitOp('ENUT'),
-    Label(0),
-    EndScript(true),
-  ],
-);
+Future<void> SetFlagIfPlayedThrough(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_POSTGAME');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('ENUT');
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_SkirmishRetreat`
-final SkirmishRetreat = SceneScript(
-  'EventScr_SkirmishRetreat',
-  const <SceneOp>[
-    MiscOp('EVBIT_MODIFY', [4]),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    SetSlot(11, 4294967295),
-    ShowTextOp(2238),
-    TextBoxOp(false),
-    SetSlot(7, 1),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 7),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [4]),
-    MiscOp('MNCH', [65535]),
-    MiscOp('CHECK_SKIRMISH', []),
-    SetSlot(1, 1),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 1),
-    AsmCallOp(Sym('StartRetreatProcessing', 1)),
-    Label(0),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> SkirmishRetreat(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EVBIT_MODIFY');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('TUTORIALTEXTBOXSTART');
+          pc = 2;
+          continue;
+        case 2:
+          s.setSlot(11, 4294967295);
+          pc = 3;
+          continue;
+        case 3:
+          await s.textShow(2238);
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('TEXTEND');
+          pc = 5;
+          continue;
+        case 5:
+          s.setSlot(7, 1);
+          pc = 6;
+          continue;
+        case 6:
+          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 7; }
+          continue;
+        case 7:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('FADI');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('MNCH');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('CHECK_SKIRMISH');
+          pc = 11;
+          continue;
+        case 11:
+          s.setSlot(1, 1);
+          pc = 12;
+          continue;
+        case 12:
+          if (s.slotInt(0) != 12) { pc = 13; } else { pc = 13; }
+          continue;
+        case 13:
+          s.placeholder('ASMC');
+          pc = 14;
+          continue;
+        case 14:
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('REMA');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('EVBIT_T');
+          pc = 17;
+          continue;
+        case 17:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_StrictLoadUniqueAlly`
-final StrictLoadUniqueAlly = SceneScript(
-  'EventScr_StrictLoadUniqueAlly',
-  const <SceneOp>[
-    MiscOp('CHECK_EXISTS', [RawArg('CHAR_EVT_SLOT2')]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 0),
-    MiscOp('SPAWN_ALLY', [RawArg('CHAR_EVT_SLOT2'), 0, 0]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    GoTo(1),
-    Label(0),
-    MiscOp('CHECK_ALLEGIANCE', [RawArg('CHAR_EVT_SLOT2')]),
-    SetSlot(1, RawArg('FACTION_ID_BLUE')),
-    BranchIf(equal: true, slot: 2, label: 12, opCount: 1),
-    MiscOp('CUSA', [RawArg('CHAR_EVT_SLOT2')]),
-    Label(1),
-    SetSlot(1, 0),
-    MiscOp('SET_HP', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    SetSlot(1, 0),
-    MiscOp('SET_STATE', [RawArg('CHAR_EVT_SLOT2')]),
-    Label(2),
-    EndScript(true),
-  ],
-);
+Future<void> StrictLoadUniqueAlly(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EXISTS');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('SPAWN_ALLY');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('REMU');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 10;
+          continue;
+        case 5:
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CHECK_ALLEGIANCE');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, RawArg('FACTION_ID_BLUE'));
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(2) == 12) { pc = 10; } else { pc = 9; }
+          continue;
+        case 9:
+          s.placeholder('CUSA');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.setSlot(1, 0);
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('SET_HP');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('REMU');
+          pc = 14;
+          continue;
+        case 14:
+          s.setSlot(1, 0);
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('SET_STATE');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_SuspendPrompt`
-final SuspendPrompt = SceneScript(
-  'EventScr_SuspendPrompt',
-  const <SceneOp>[
-    MiscOp('EVBIT_MODIFY', [4]),
-    TextBoxOp(true),
-    ShowTextOp(2079),
-    TextBoxOp(false),
-    SetSlot(7, 1),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 7),
-    AsmCallOp(Sym('WriteSuspendPlayerIdle')),
-    MiscOp('EVENT_WORD_SYM', [Sym('voicegroup031', 645)]),
-    TextBoxOp(false),
-    MiscOp('EvtBgmFadeIn', [32767, 4]),
-    FadeOp('FADI', [4]),
-    MiscOp('MNTS', [0]),
-    Label(0),
-    ClearTextOp(),
-    EventBitOp(true, 7),
-    EndScript(true),
-  ],
-);
+Future<void> SuspendPrompt(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EVBIT_MODIFY');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('TEXTSTART');
+          pc = 2;
+          continue;
+        case 2:
+          await s.textShow(2079);
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('TEXTEND');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(7, 1);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 6; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('ASMC');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('EVENT_WORD_SYM');
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('TEXTEND');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EvtBgmFadeIn');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('FADI');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('MNTS');
+          pc = 12;
+          continue;
+        case 12:
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('REMA');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('EVBIT_T');
+          pc = 15;
+          continue;
+        case 15:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Tutorial_Exec0`
-final Tutorial_Exec0 = SceneScript(
-  'EventScr_Tutorial_Exec0',
-  const <SceneOp>[
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    MiscOp('CHECK_ACTIVE', []),
-    MiscOp('SDEQUEUE', [2]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 2),
-    MiscOp('SHOW_ATTACK_RANGE', [RawArg('CHAR_EVT_ACTIVE_UNIT')]),
-    MiscOp('SDEQUEUE', [11]),
-    CursorOp('CURSOR_FLASHING', [-1, -1]),
-    StallOp(18),
-    MiscOp('SDEQUEUE', [2]),
-    MiscOp('SDEQUEUE', [11]),
-    ShowTextOp(-1),
-    TextBoxOp(false),
-    MiscOp('CURE', []),
-    MiscOp('IGNORE_KEYS', [RawArg('R_BUTTON | START_BUTTON | B_BUTTON')]),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [2]),
-    GoTo(1),
-    Label(0),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [12]),
-    CursorOp('CURSOR_FLASHING_CHAR', [RawArg('CHAR_EVT_SLOT2')]),
-    StallOp(8),
-    MiscOp('SET_ACTIVE', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('SDEQUEUE', [2]),
-    MiscOp('SDEQUEUE', [11]),
-    ShowTextOp(-1),
-    TextBoxOp(false),
-    MiscOp('CURE', []),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [2]),
-    Label(1),
-    ClearTextOp(),
-    EndScript(true),
-  ],
-);
+Future<void> Tutorial_Exec0(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('TUTORIALTEXTBOXSTART');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('CHECK_ACTIVE');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('SDEQUEUE');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) != 12) { pc = 4; } else { pc = 4; }
+          continue;
+        case 4:
+          s.placeholder('SHOW_ATTACK_RANGE');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('SDEQUEUE');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('CURSOR_FLASHING');
+          pc = 7;
+          continue;
+        case 7:
+          await s.stall(18);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('SDEQUEUE');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('SDEQUEUE');
+          pc = 10;
+          continue;
+        case 10:
+          await s.textShow(-1);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('TEXTEND');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CURE');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('IGNORE_KEYS');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('SDEQUEUE');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('SDEQUEUE');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('SDEQUEUE');
+          pc = 17;
+          continue;
+        case 17:
+          pc = 32;
+          continue;
+        case 18:
+          pc = 19;
+          continue;
+        case 19:
+          s.placeholder('SDEQUEUE');
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('SDEQUEUE');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('SDEQUEUE');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('CURSOR_FLASHING_CHAR');
+          pc = 23;
+          continue;
+        case 23:
+          await s.stall(8);
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('SET_ACTIVE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('SDEQUEUE');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('SDEQUEUE');
+          pc = 27;
+          continue;
+        case 27:
+          await s.textShow(-1);
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('TEXTEND');
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('CURE');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('SDEQUEUE');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('SDEQUEUE');
+          pc = 32;
+          continue;
+        case 32:
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('REMA');
+          pc = 34;
+          continue;
+        case 34:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_Tutorial_Exec1`
-final Tutorial_Exec1 = SceneScript(
-  'EventScr_Tutorial_Exec1',
-  const <SceneOp>[
-    MiscOp('CHECK_CURSOR', []),
-    MiscOp('SDEQUEUE', [11]),
-    BranchIf(equal: false, slot: 0, label: 12, opCount: 11),
-    AsmCallOp(Sym('PlayPhaseForcePressAButtonInRangeDisp', 1)),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [2]),
-    MiscOp('EvtEnqueueConditionalTutCall', [4294967295, 4]),
-    SetSlot(12, 1),
-    GoTo(2),
-    Label(0),
-    MiscOp('SET_CURSOR', [255, 255]),
-    CameraOp('CAMERA', [255, 255]),
-    CursorOp('CURSOR_FLASHING', [255, 255]),
-    MiscOp('STAL3', [8]),
-    MiscOp('TUTORIALTEXTBOXSTART', []),
-    MiscOp('SDEQUEUE', [2]),
-    MiscOp('SDEQUEUE', [11]),
-    BranchIf(equal: true, slot: 1, label: 2, opCount: 0),
-    ShowTextOp(65535),
-    TextBoxOp(false),
-    ClearTextOp(),
-    Label(1),
-    MiscOp('CURE', []),
-    MiscOp('SDEQUEUE', [12]),
-    MiscOp('SDEQUEUE', [2]),
-    MiscOp('EvtEnqueueConditionalTutCall', [4294967295, 3]),
-    SetSlot(12, 0),
-    Label(2),
-    EndScript(true),
-  ],
-);
+Future<void> Tutorial_Exec1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_CURSOR');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('SDEQUEUE');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('ASMC');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('SDEQUEUE');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('SDEQUEUE');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('SDEQUEUE');
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('EvtEnqueueConditionalTutCall');
+          pc = 8;
+          continue;
+        case 8:
+          s.setSlot(12, 1);
+          pc = 9;
+          continue;
+        case 9:
+          pc = 28;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('SET_CURSOR');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('CAMERA');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('CURSOR_FLASHING');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('STAL3');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('TUTORIALTEXTBOXSTART');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('SDEQUEUE');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('SDEQUEUE');
+          pc = 18;
+          continue;
+        case 18:
+          if (s.slotInt(1) == 2) { pc = 10; } else { pc = 19; }
+          continue;
+        case 19:
+          await s.textShow(65535);
+          pc = 20;
+          continue;
+        case 20:
+          s.placeholder('TEXTEND');
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('REMA');
+          pc = 22;
+          continue;
+        case 22:
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('CURE');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('SDEQUEUE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('SDEQUEUE');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('EvtEnqueueConditionalTutCall');
+          pc = 27;
+          continue;
+        case 27:
+          s.setSlot(12, 0);
+          pc = 28;
+          continue;
+        case 28:
+          pc = 29;
+          continue;
+        case 29:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_UnitFlushingIN`
-final UnitFlushingIN = SceneScript(
-  'EventScr_UnitFlushingIN',
-  const <SceneOp>[
-    CameraOp('CAMERA_CAHR', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [4]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [4]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    EndScript(true),
-  ],
-);
+Future<void> UnitFlushingIN(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    return;
+}
 
 /// `EventScr_UnitFlushingOUT`
-final UnitFlushingOUT = SceneScript(
-  'EventScr_UnitFlushingOUT',
-  const <SceneOp>[
-    CameraOp('CAMERA_CAHR', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [4]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [6]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('STAL2', [2]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    EndScript(true),
-  ],
-);
+Future<void> UnitFlushingOUT(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    return;
+}
 
 /// `EventScr_UnitWarpIN`
-final UnitWarpIN = SceneScript(
-  'EventScr_UnitWarpIN',
-  const <SceneOp>[
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    CameraOp('CAMERA_CAHR', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('CHECK_COORDS', [RawArg('CHAR_EVT_SLOT2')]),
-    SlotArith('SADD', 11, 12),
-    MiscOp('WARP_IN', [-1, -1]),
-    MiscOp('STAL2', [10]),
-    MiscOp('REVEAL', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('ENDWARP', []),
-    EndScript(true),
-  ],
-);
+Future<void> UnitWarpIN(Scene s) async {
+    s.placeholder('REMU');
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CHECK_COORDS');
+    s.slotArith('SADD', 11, 12);
+    s.placeholder('WARP_IN');
+    s.placeholder('STAL2');
+    s.placeholder('REVEAL');
+    s.placeholder('ENDWARP');
+    return;
+}
 
 /// `EventScr_UnitWarpOUT`
-final UnitWarpOUT = SceneScript(
-  'EventScr_UnitWarpOUT',
-  const <SceneOp>[
-    CameraOp('CAMERA_CAHR', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('CHECK_COORDS', [RawArg('CHAR_EVT_SLOT2')]),
-    SlotArith('SADD', 11, 12),
-    MiscOp('WARP_OUT', [-1, -1]),
-    MiscOp('STAL2', [20]),
-    MiscOp('REMU', [RawArg('CHAR_EVT_SLOT2')]),
-    MiscOp('ENDWARP', []),
-    EndScript(true),
-  ],
-);
+Future<void> UnitWarpOUT(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('CHECK_COORDS');
+    s.slotArith('SADD', 11, 12);
+    s.placeholder('WARP_OUT');
+    s.placeholder('STAL2');
+    s.placeholder('REMU');
+    s.placeholder('ENDWARP');
+    return;
+}
 
-/// 全部脚本：名字 → 脚本
-final Map<String, SceneScript> allSceneScripts = {
+/// ⚠️ `EventScr_9EEAAC` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_9EEAAC(Scene s) async {
+  s.missing.add('EventScr_9EEAAC');
+}
+
+/// ⚠️ `EventScr_Ch1Tut_AfterSethMoveToEnemy` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_AfterSethMoveToEnemy(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_AfterSethMoveToEnemy');
+}
+
+/// ⚠️ `EventScr_Ch1Tut_EirikaVisitHouseEnd` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_EirikaVisitHouseEnd(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_EirikaVisitHouseEnd');
+}
+
+/// ⚠️ `EventScr_Ch1Tut_GilliamBattle` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_GilliamBattle(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_GilliamBattle');
+}
+
+/// ⚠️ `EventScr_Ch1Tut_GuideWTA` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_GuideWTA(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_GuideWTA');
+}
+
+/// ⚠️ `EventScr_Ch1Tut_TradeSelectGalliamEnd` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_TradeSelectGalliamEnd(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_TradeSelectGalliamEnd');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial10` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial10(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial10');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial13` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial13(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial13');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial16` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial16(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial16');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial19` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial19(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial19');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial25` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial25(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial25');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial29` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial29(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial29');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial3` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial3(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial3');
+}
+
+/// ⚠️ `EventScr_Ch2Tutorial6` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2Tutorial6(Scene s) async {
+  s.missing.add('EventScr_Ch2Tutorial6');
+}
+
+/// ⚠️ `EventScr_Ch2_7` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2_7(Scene s) async {
+  s.missing.add('EventScr_Ch2_7');
+}
+
+/// ⚠️ `EventScr_Ch2_Village2` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2_Village2(Scene s) async {
+  s.missing.add('EventScr_Ch2_Village2');
+}
+
+/// ⚠️ `EventScr_Ch3_1` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch3_1(Scene s) async {
+  s.missing.add('EventScr_Ch3_1');
+}
+
+/// ⚠️ `EventScr_Ch3_2` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch3_2(Scene s) async {
+  s.missing.add('EventScr_Ch3_2');
+}
+
+/// ⚠️ `EventScr_Ch3_3` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch3_3(Scene s) async {
+  s.missing.add('EventScr_Ch3_3');
+}
+
+/// ⚠️ `EventScr_Ch3_4` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch3_4(Scene s) async {
+  s.missing.add('EventScr_Ch3_4');
+}
+
+/// ⚠️ `EventScr_Ch4_7` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch4_7(Scene s) async {
+  s.missing.add('EventScr_Ch4_7');
+}
+
+/// ⚠️ `EventScr_Ch4_8` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch4_8(Scene s) async {
+  s.missing.add('EventScr_Ch4_8');
+}
+
+/// ⚠️ `EventScr_Ch4_9` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch4_9(Scene s) async {
+  s.missing.add('EventScr_Ch4_9');
+}
+
+/// ⚠️ `EventScr_Ch5_8` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch5_8(Scene s) async {
+  s.missing.add('EventScr_Ch5_8');
+}
+
+/// ⚠️ `EventScr_Ch5_9` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch5_9(Scene s) async {
+  s.missing.add('EventScr_Ch5_9');
+}
+
+/// ⚠️ `EventScr_Ch6_3` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch6_3(Scene s) async {
+  s.missing.add('EventScr_Ch6_3');
+}
+
+/// ⚠️ `EventScr_Ch7_3` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch7_3(Scene s) async {
+  s.missing.add('EventScr_Ch7_3');
+}
+
+/// ⚠️ `EventScr_ChangeAIinQueue` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_ChangeAIinQueue(Scene s) async {
+  s.missing.add('EventScr_ChangeAIinQueue');
+}
+
+/// ⚠️ `EventScr_LoadReinforce` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_LoadReinforce(Scene s) async {
+  s.missing.add('EventScr_LoadReinforce');
+}
+
+/// ⚠️ `EventScr_LoadReinforceHardMode` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_LoadReinforceHardMode(Scene s) async {
+  s.missing.add('EventScr_LoadReinforceHardMode');
+}
+
+/// ⚠️ `EventScr_LoadUnitForTutorial` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_LoadUnitForTutorial(Scene s) async {
+  s.missing.add('EventScr_LoadUnitForTutorial');
+}
+
+/// ⚠️ `EventScr_Prologue_9EF828` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_9EF828(Scene s) async {
+  s.missing.add('EventScr_Prologue_9EF828');
+}
+
+/// ⚠️ `EventScr_Prologue_EirikaAttacked` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_EirikaAttacked(Scene s) async {
+  s.missing.add('EventScr_Prologue_EirikaAttacked');
+}
+
+/// ⚠️ `EventScr_Prologue_ExecTut` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_ExecTut(Scene s) async {
+  s.missing.add('EventScr_Prologue_ExecTut');
+}
+
+/// ⚠️ `EventScr_Prologue_ONeillSpawn` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_ONeillSpawn(Scene s) async {
+  s.missing.add('EventScr_Prologue_ONeillSpawn');
+}
+
+/// ⚠️ `EventScr_Prologue_Tutorial2` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_Tutorial2(Scene s) async {
+  s.missing.add('EventScr_Prologue_Tutorial2');
+}
+
+/// ⚠️ `EventScr_Prologue_Tutorial5` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_Tutorial5(Scene s) async {
+  s.missing.add('EventScr_Prologue_Tutorial5');
+}
+
+/// ⚠️ `EventScr_Prologue_TutorialC` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Prologue_TutorialC(Scene s) async {
+  s.missing.add('EventScr_Prologue_TutorialC');
+}
+
+/// ⚠️ `EventScr_SetBackground` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_SetBackground(Scene s) async {
+  s.missing.add('EventScr_SetBackground');
+}
+
+/// ⚠️ `EventScr_TextShowWithFadeIn` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_TextShowWithFadeIn(Scene s) async {
+  s.missing.add('EventScr_TextShowWithFadeIn');
+}
+
+/// ⚠️ `EventScr_UnTriggerIfNotUnit` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_UnTriggerIfNotUnit(Scene s) async {
+  s.missing.add('EventScr_UnTriggerIfNotUnit');
+}
+
+/// **真正被 carve 出来**的脚本名。
+///
+/// ⚠️ 与 `allSceneFns` 的键**不一样**：后者还包含下面那些
+/// 占位函数。存在性检查必须用本集合 —— 用 `allSceneFns` 的话
+/// 占位让「缺失」看起来「存在」，检查就失效了（踩过）。
+final Set<String> definedSceneScripts = {
+  'EventScr_9EE84C',
+  'EventScr_9EEA58',
+  'EventScr_ApplyTileChangeForFaction',
+  'EventScr_CallIfCommonMode',
+  'EventScr_CallOnChapterNumber',
+  'EventScr_CallOnHardMode',
+  'EventScr_CallOnTutorialMode',
+  'EventScr_CallWithModeCheck',
+  'EventScr_Ch10A_0',
+  'EventScr_Ch10A_13',
+  'EventScr_Ch10A_8',
+  'EventScr_Ch10B_0',
+  'EventScr_Ch10B_1',
+  'EventScr_Ch10B_2',
+  'EventScr_Ch10a_BeginningScene',
+  'EventScr_Ch10a_EndingScene',
+  'EventScr_Ch11B_0',
+  'EventScr_Ch11B_1',
+  'EventScr_Ch11B_2',
+  'EventScr_Ch11B_6',
+  'EventScr_Ch11a_EndingScene',
+  'EventScr_Ch12A_0',
+  'EventScr_Ch12A_5',
+  'EventScr_Ch12B_1',
+  'EventScr_Ch13A_3',
+  'EventScr_Ch13A_4',
+  'EventScr_Ch13B_0',
+  'EventScr_Ch13B_1',
+  'EventScr_Ch13a_EndingScene',
+  'EventScr_Ch13b_EndingScene',
+  'EventScr_Ch14A_0',
+  'EventScr_Ch14A_1',
+  'EventScr_Ch14A_8',
+  'EventScr_Ch14B_12',
+  'EventScr_Ch14B_2',
+  'EventScr_Ch14b_BeginningScene',
+  'EventScr_Ch14b_EndingScene',
+  'EventScr_Ch15A_0',
+  'EventScr_Ch15A_17',
+  'EventScr_Ch15A_18',
+  'EventScr_Ch15A_19',
+  'EventScr_Ch15A_20',
+  'EventScr_Ch15A_21',
+  'EventScr_Ch15A_22',
+  'EventScr_Ch15A_23',
+  'EventScr_Ch15A_24',
+  'EventScr_Ch15A_25',
+  'EventScr_Ch15A_26',
+  'EventScr_Ch15B_14',
+  'EventScr_Ch15B_15',
+  'EventScr_Ch15B_16',
+  'EventScr_Ch15B_17',
+  'EventScr_Ch15B_18',
+  'EventScr_Ch15B_19',
+  'EventScr_Ch15B_20',
+  'EventScr_Ch15B_21',
+  'EventScr_Ch15B_22',
+  'EventScr_Ch16A_1',
+  'EventScr_Ch16A_11',
+  'EventScr_Ch16A_12',
+  'EventScr_Ch16A_9',
+  'EventScr_Ch16B_3',
+  'EventScr_Ch16B_5',
+  'EventScr_Ch16b_BeginningScene',
+  'EventScr_Ch18A_11',
+  'EventScr_Ch18b_BeginningScene',
+  'EventScr_Ch19A_11',
+  'EventScr_Ch1Tut_BeforeSethMoveToEnemy',
+  'EventScr_Ch1Tut_ChooseSethTurn1',
+  'EventScr_Ch1Tut_EirikaVisitHouseIdle1',
+  'EventScr_Ch1Tut_EirikaVisitHouseIdle2',
+  'EventScr_Ch1Tut_EirikaVisitHouseInit',
+  'EventScr_Ch1Tut_GuideTerrainHeal',
+  'EventScr_Ch1Tut_OnBeginning',
+  'EventScr_Ch1Tut_SethMoveToEnemy',
+  'EventScr_Ch1Tut_TradeSelectGalliamIdle1',
+  'EventScr_Ch1Tut_TradeSelectGalliamIdle2',
+  'EventScr_Ch1_BeginningScene',
+  'EventScr_Ch1_EndingScene',
+  'EventScr_Ch1_Turn_AllyReinforceArrive',
+  'EventScr_Ch20B_1',
+  'EventScr_Ch20B_2',
+  'EventScr_Ch20b_BeginningScene',
+  'EventScr_Ch21A_0',
+  'EventScr_Ch21A_8',
+  'EventScr_Ch21A_9',
+  'EventScr_Ch21b_BeginningScene',
+  'EventScr_Ch21b_EndingScene',
+  'EventScr_Ch2Tutorial11',
+  'EventScr_Ch2Tutorial12',
+  'EventScr_Ch2Tutorial14',
+  'EventScr_Ch2Tutorial15',
+  'EventScr_Ch2Tutorial18',
+  'EventScr_Ch2Tutorial2',
+  'EventScr_Ch2Tutorial21',
+  'EventScr_Ch2Tutorial22',
+  'EventScr_Ch2Tutorial23',
+  'EventScr_Ch2Tutorial24',
+  'EventScr_Ch2Tutorial27',
+  'EventScr_Ch2Tutorial28',
+  'EventScr_Ch2Tutorial4',
+  'EventScr_Ch2Tutorial5',
+  'EventScr_Ch2Tutorial8',
+  'EventScr_Ch2Tutorial9',
+  'EventScr_Ch2_10',
+  'EventScr_Ch2_8',
+  'EventScr_Ch2_BeginningScene',
+  'EventScr_Ch2_EndingScene',
+  'EventScr_Ch2_Village1',
+  'EventScr_Ch3_0',
+  'EventScr_Ch3_5',
+  'EventScr_Ch3_BeginningScene',
+  'EventScr_Ch3_EndingScene',
+  'EventScr_Ch3_Turn1Npc',
+  'EventScr_Ch4_0',
+  'EventScr_Ch4_1',
+  'EventScr_Ch4_10',
+  'EventScr_Ch4_2',
+  'EventScr_Ch4_BeginningScene',
+  'EventScr_Ch5_0',
+  'EventScr_Ch5_10',
+  'EventScr_Ch5_11',
+  'EventScr_Ch5_5',
+  'EventScr_Ch5_BeginningScene',
+  'EventScr_Ch5_EndingScene',
+  'EventScr_Ch5x_BeginningScene',
+  'EventScr_Ch5x_EndingScene',
+  'EventScr_Ch6_0',
+  'EventScr_Ch6_1',
+  'EventScr_Ch6_2',
+  'EventScr_Ch6_BeginningScene',
+  'EventScr_Ch6_EndingScene',
+  'EventScr_Ch7_BeginningScene',
+  'EventScr_Ch7_EndingScene',
+  'EventScr_Ch8_0',
+  'EventScr_Ch8_10',
+  'EventScr_Ch8_11',
+  'EventScr_Ch8_BeginningScene',
+  'EventScr_Ch9A_2',
+  'EventScr_Ch9A_4',
+  'EventScr_Ch9B_9',
+  'EventScr_Ch9a_BeginningScene',
+  'EventScr_Ch9a_EndingScene',
+  'EventScr_ConfigHardModeLoadUnitHard',
+  'EventScr_CutsceneExecEnd_Sub0',
+  'EventScr_CutsceneExecEnd_Sub1',
+  'EventScr_FloorClearInTower',
+  'EventScr_FormatFlashingCursor',
+  'EventScr_FormatMoveUnit',
+  'EventScr_GiveTreasureToLuckyDog',
+  'EventScr_LoadUniqueAlly',
+  'EventScr_MapSupportConversation',
+  'EventScr_MoveUnitS2ToLeader',
+  'EventScr_Prologue_BeginningScene',
+  'EventScr_Prologue_EndingScene',
+  'EventScr_Prologue_GiveRapier',
+  'EventScr_Prologue_OneEnemyLeft',
+  'EventScr_Prologue_RenaisThroneCutscene',
+  'EventScr_Prologue_TutEirikaAttack',
+  'EventScr_Prologue_TutMessageTurn2',
+  'EventScr_Prologue_Tutorial0',
+  'EventScr_Prologue_Tutorial1',
+  'EventScr_Prologue_Tutorial4',
+  'EventScr_Prologue_TutorialA',
+  'EventScr_Prologue_TutorialB',
+  'EventScr_Ruin_37',
+  'EventScr_Ruin_38',
+  'EventScr_Ruin_39',
+  'EventScr_Ruin_40',
+  'EventScr_Ruin_41',
+  'EventScr_Ruin_42',
+  'EventScr_Ruin_45',
+  'EventScr_Ruin_47',
+  'EventScr_Ruin_48',
+  'EventScr_Ruin_54',
+  'EventScr_Ruin_56',
+  'EventScr_Ruin_58',
+  'EventScr_Ruin_60',
+  'EventScr_Ruin_62',
+  'EventScr_Ruin_64',
+  'EventScr_Ruin_66',
+  'EventScr_Ruin_68',
+  'EventScr_Ruin_70',
+  'EventScr_Ruin_72',
+  'EventScr_Ruin_74',
+  'EventScr_Ruin_76',
+  'EventScr_SetFlagIfPlayedThrough',
+  'EventScr_SkirmishRetreat',
+  'EventScr_StrictLoadUniqueAlly',
+  'EventScr_SuspendPrompt',
+  'EventScr_Tutorial_Exec0',
+  'EventScr_Tutorial_Exec1',
+  'EventScr_UnitFlushingIN',
+  'EventScr_UnitFlushingOUT',
+  'EventScr_UnitWarpIN',
+  'EventScr_UnitWarpOUT',
+};
+
+/// 脚本名 → 入口函数
+final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_9EE84C': scr_9EE84C,
   'EventScr_9EEA58': scr_9EEA58,
   'EventScr_ApplyTileChangeForFaction': ApplyTileChangeForFaction,
@@ -7931,52 +17935,45 @@ final Map<String, SceneScript> allSceneScripts = {
   'EventScr_UnitFlushingOUT': UnitFlushingOUT,
   'EventScr_UnitWarpIN': UnitWarpIN,
   'EventScr_UnitWarpOUT': UnitWarpOUT,
-};
-
-/// 被引用但**上游尚未 carve**的脚本名。
-///
-/// 生成器把它们列出来而不是让运行时去发现 ——
-/// 调用方据此决定「留空继续」还是「报错停止」。
-const Set<String> missingSceneScripts = {
-  'EventScr_9EEAAC',
-  'EventScr_Ch1Tut_AfterSethMoveToEnemy',
-  'EventScr_Ch1Tut_EirikaVisitHouseEnd',
-  'EventScr_Ch1Tut_GilliamBattle',
-  'EventScr_Ch1Tut_GuideWTA',
-  'EventScr_Ch1Tut_TradeSelectGalliamEnd',
-  'EventScr_Ch2Tutorial10',
-  'EventScr_Ch2Tutorial13',
-  'EventScr_Ch2Tutorial16',
-  'EventScr_Ch2Tutorial19',
-  'EventScr_Ch2Tutorial25',
-  'EventScr_Ch2Tutorial29',
-  'EventScr_Ch2Tutorial3',
-  'EventScr_Ch2Tutorial6',
-  'EventScr_Ch2_7',
-  'EventScr_Ch2_Village2',
-  'EventScr_Ch3_1',
-  'EventScr_Ch3_2',
-  'EventScr_Ch3_3',
-  'EventScr_Ch3_4',
-  'EventScr_Ch4_7',
-  'EventScr_Ch4_8',
-  'EventScr_Ch4_9',
-  'EventScr_Ch5_8',
-  'EventScr_Ch5_9',
-  'EventScr_Ch6_3',
-  'EventScr_Ch7_3',
-  'EventScr_ChangeAIinQueue',
-  'EventScr_LoadReinforce',
-  'EventScr_LoadReinforceHardMode',
-  'EventScr_LoadUnitForTutorial',
-  'EventScr_Prologue_9EF828',
-  'EventScr_Prologue_EirikaAttacked',
-  'EventScr_Prologue_ExecTut',
-  'EventScr_Prologue_ONeillSpawn',
-  'EventScr_Prologue_Tutorial2',
-  'EventScr_Prologue_Tutorial5',
-  'EventScr_Prologue_TutorialC',
-  'EventScr_SetBackground',
-  'EventScr_TextShowWithFadeIn',
-  'EventScr_UnTriggerIfNotUnit',
+  'EventScr_9EEAAC': missing_EventScr_9EEAAC,
+  'EventScr_Ch1Tut_AfterSethMoveToEnemy': missing_EventScr_Ch1Tut_AfterSethMoveToEnemy,
+  'EventScr_Ch1Tut_EirikaVisitHouseEnd': missing_EventScr_Ch1Tut_EirikaVisitHouseEnd,
+  'EventScr_Ch1Tut_GilliamBattle': missing_EventScr_Ch1Tut_GilliamBattle,
+  'EventScr_Ch1Tut_GuideWTA': missing_EventScr_Ch1Tut_GuideWTA,
+  'EventScr_Ch1Tut_TradeSelectGalliamEnd': missing_EventScr_Ch1Tut_TradeSelectGalliamEnd,
+  'EventScr_Ch2Tutorial10': missing_EventScr_Ch2Tutorial10,
+  'EventScr_Ch2Tutorial13': missing_EventScr_Ch2Tutorial13,
+  'EventScr_Ch2Tutorial16': missing_EventScr_Ch2Tutorial16,
+  'EventScr_Ch2Tutorial19': missing_EventScr_Ch2Tutorial19,
+  'EventScr_Ch2Tutorial25': missing_EventScr_Ch2Tutorial25,
+  'EventScr_Ch2Tutorial29': missing_EventScr_Ch2Tutorial29,
+  'EventScr_Ch2Tutorial3': missing_EventScr_Ch2Tutorial3,
+  'EventScr_Ch2Tutorial6': missing_EventScr_Ch2Tutorial6,
+  'EventScr_Ch2_7': missing_EventScr_Ch2_7,
+  'EventScr_Ch2_Village2': missing_EventScr_Ch2_Village2,
+  'EventScr_Ch3_1': missing_EventScr_Ch3_1,
+  'EventScr_Ch3_2': missing_EventScr_Ch3_2,
+  'EventScr_Ch3_3': missing_EventScr_Ch3_3,
+  'EventScr_Ch3_4': missing_EventScr_Ch3_4,
+  'EventScr_Ch4_7': missing_EventScr_Ch4_7,
+  'EventScr_Ch4_8': missing_EventScr_Ch4_8,
+  'EventScr_Ch4_9': missing_EventScr_Ch4_9,
+  'EventScr_Ch5_8': missing_EventScr_Ch5_8,
+  'EventScr_Ch5_9': missing_EventScr_Ch5_9,
+  'EventScr_Ch6_3': missing_EventScr_Ch6_3,
+  'EventScr_Ch7_3': missing_EventScr_Ch7_3,
+  'EventScr_ChangeAIinQueue': missing_EventScr_ChangeAIinQueue,
+  'EventScr_LoadReinforce': missing_EventScr_LoadReinforce,
+  'EventScr_LoadReinforceHardMode': missing_EventScr_LoadReinforceHardMode,
+  'EventScr_LoadUnitForTutorial': missing_EventScr_LoadUnitForTutorial,
+  'EventScr_Prologue_9EF828': missing_EventScr_Prologue_9EF828,
+  'EventScr_Prologue_EirikaAttacked': missing_EventScr_Prologue_EirikaAttacked,
+  'EventScr_Prologue_ExecTut': missing_EventScr_Prologue_ExecTut,
+  'EventScr_Prologue_ONeillSpawn': missing_EventScr_Prologue_ONeillSpawn,
+  'EventScr_Prologue_Tutorial2': missing_EventScr_Prologue_Tutorial2,
+  'EventScr_Prologue_Tutorial5': missing_EventScr_Prologue_Tutorial5,
+  'EventScr_Prologue_TutorialC': missing_EventScr_Prologue_TutorialC,
+  'EventScr_SetBackground': missing_EventScr_SetBackground,
+  'EventScr_TextShowWithFadeIn': missing_EventScr_TextShowWithFadeIn,
+  'EventScr_UnTriggerIfNotUnit': missing_EventScr_UnTriggerIfNotUnit,
 };

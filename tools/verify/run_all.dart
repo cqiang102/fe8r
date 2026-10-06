@@ -172,7 +172,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L0', '场景剧情脚本（生成 Dart）', 'python3',
           ['extract/gen_scene_dart.py'],
-          cwd: 'tools/pipeline', note: '196 个脚本 / 6348 条指令')
+          cwd: 'tools/pipeline', note: '196 个脚本 → async 函数（直线103/分支93）')
     else
       Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
 

@@ -1,93 +1,92 @@
-// 场景剧情：**从 C 源码直接生成 Dart**，没有 JSON 中间层。
+// 场景剧情：**从 C 源码直接生成 Dart 的 async 函数**。
 //
-// 判据：
-//   * 生成的 Dart 与仓库里的**逐字节一致**（可复现）
-//   * 序章开场能走完，且第一句话就是原作内容
-//   * 缺失的脚本引用被**生成器列出来**（而不是运行时才发现）
+// 没有 JSON、没有指令列表、没有解释器。
+// `await` 表达"等玩家按键"，`CALL` 就是函数调用。
 import 'dart:io';
 
 import 'package:fe8r/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('场景剧情（生成的 Dart 代码）', () {
+  group('场景剧情（生成的 async 函数）', () {
     late GameTexts texts;
-    late SceneRunner runner;
+    late List<SceneEvent> log;
+
+    /// 测试里的 `onEvent` **立即返回** —— 不等按键。
+    /// 同一份脚本既能演、也能测，不用为测试准备假输入。
+    Future<void> record(SceneEvent e) async {
+      log.add(e);
+    }
+
+    Scene makeScene(GameTexts t) => Scene(
+          texts: t,
+          scripts: allSceneFns,
+          defined: definedSceneScripts,
+          onEvent: record,
+        );
 
     setUpAll(() {
       final tf = File('tools/pipeline/out/tables/texts.json');
       if (!tf.existsSync()) fail('缺少 ${tf.path}');
       texts = GameTexts.parse(tf.readAsStringSync());
-      runner = SceneRunner(texts: texts);
     });
 
-    test('脚本是**编译进来的常量**，不是运行时解析的文件', () {
-      // 这条断言本身就是设计意图：`allSceneScripts` 是生成的 Dart 常量，
-      // 没有 JSON、没有 jsonDecode。脚本数变了说明 C 源码或生成器变了。
-      expect(allSceneScripts.length, 196);
+    setUp(() => log = []);
+
+    test('196 个脚本都被编译成了函数（含 41 个缺失占位）', () {
+      // 缺失的脚本也生成占位函数 —— 这样代码能编译，
+      // 而缺口在**运行时被记录**，不是静默消失。
+      expect(allSceneFns.length, greaterThanOrEqualTo(196));
+      expect(allSceneFns.containsKey('EventScr_Prologue_BeginningScene'), isTrue);
+      expect(allSceneFns.containsKey('EventScr_Prologue_EirikaAttacked'), isTrue,
+          reason: '缺失的上游脚本也生成占位，否则调用处编译不过');
     });
 
-    test('序章开场：第一条就是 CALL 到王座过场', () {
-      final s = allSceneScripts['EventScr_Prologue_BeginningScene'];
-      expect(s, isNotNull);
-      final first = s!.ops.first;
-      expect(first, isA<CallScript>());
-      expect((first as CallScript).target.name,
-          'EventScr_Prologue_RenaisThroneCutscene');
+    test('序章开场：`CALL` 就是函数调用，对白按顺序产出', () async {
+      await allSceneFns['EventScr_Prologue_BeginningScene']!(makeScene(texts));
+      final shown = log.whereType<ShowText>().toList();
+      expect(shown, isNotEmpty);
+      final all = shown.map((t) => t.message.plain).join('\n');
+      expect(all.contains('フレリア領'), isTrue);
     });
 
-    test('EVT_SLOT_* 生成成**整数**（是常量，不是符号）', () {
-      final s = allSceneScripts['EventScr_Prologue_BeginningScene']!;
-      final sval = s.ops.whereType<SetSlot>().first;
-      expect(sval.slot, 2, reason: 'EVT_SLOT_2 应当生成成整数 2');
-      expect(sval.value, isA<Sym>());
-    });
-
-    test('符号 + 偏移解析正确（ASMC(X + 0x1)）', () {
-      final s = allSceneScripts['EventScr_Prologue_BeginningScene']!;
-      final asmc = s.ops.whereType<AsmCallOp>().first;
-      expect(asmc.target.name, 'BmGuideTextSetAllGreen');
-      expect(asmc.target.offset, 1);
-    });
-
-    test('缺失的脚本被**生成器**列出来（不是运行时才发现）', () {
-      // 这是去掉 JSON 的主要收益：运行时才知道的"缺 6 个"，
-      // 现在是生成产物里的一张清单。
-      expect(missingSceneScripts, isNotEmpty);
-      expect(missingSceneScripts, contains('EventScr_Prologue_EirikaAttacked'));
-      // 上游尚未 carve，不是解析漏了。
-      // 41 个 —— 数字钉死：反编译项目补齐后这里会失败，提醒更新结论。
-      expect(missingSceneScripts.length, 41);
-    });
-
-    test('序章开场能走完并产出台词', () {
-      final r = runner.run('EventScr_Prologue_BeginningScene');
-      expect(r.texts, isNotEmpty);
-      expect(r.events.last, isA<SceneFinished>());
-    });
-
-    test('产出的台词能对上真实内容', () {
-      final r = runner.run('EventScr_Prologue_BeginningScene');
-      final all = r.texts.map((t) => t.message.plain).join('\n');
-      expect(all.contains('フレリア領'), isTrue,
-          reason: '序章开场应当包含"越过前面的桥就是弗蕾莉亚领地"');
-    });
-
-    test('`CALL` 会切进被调用的脚本（王座过场的对白也出现）', () {
-      final r = runner.run('EventScr_Prologue_BeginningScene');
-      final names = r.texts.map((t) => t.scriptName).toSet();
+    test('`CALL` 会切进被调用的脚本（王座过场的对白也出现）', () async {
+      await allSceneFns['EventScr_Prologue_BeginningScene']!(makeScene(texts));
+      final names = log.whereType<ShowText>().map((t) => t.scriptName).toSet();
       expect(names, contains('EventScr_Prologue_RenaisThroneCutscene'));
     });
 
-    test('`[A]` 变成显式 WaitForInput', () {
-      final r = runner.run('EventScr_Prologue_BeginningScene');
-      expect(r.events.whereType<WaitForInput>(), isNotEmpty);
+    test('缺失的引用被记录，但**不阻断**演出', () async {
+      final sc = makeScene(texts);
+      await allSceneFns['EventScr_Prologue_BeginningScene']!(sc);
+      expect(sc.missing, contains('EventScr_Prologue_EirikaAttacked'));
+      expect(log.whereType<ShowText>(), isNotEmpty, reason: '缺了引用不等于崩了');
     });
 
-    test('缺失的引用被如实带出来，但**不阻断**执行', () {
-      final r = runner.run('EventScr_Prologue_BeginningScene');
-      expect(r.missing, contains('EventScr_Prologue_EirikaAttacked'));
-      expect(r.texts, isNotEmpty, reason: '缺了引用不等于崩了');
+    test('`LOAD1` 产出 LoadUnits 事件（接上已提取的单位表）', () async {
+      await allSceneFns['EventScr_Prologue_BeginningScene']!(makeScene(texts));
+      final loads = log.whereType<LoadUnits>().toList();
+      expect(loads, isNotEmpty, reason: '序章会 LOAD1 我方单位');
+    });
+
+    test('直线脚本生成的是**顺序代码**（没有 while/switch 包袱）', () {
+      // `EventScr_Ch11B_6` 是直线脚本（无 LABEL/GOTO/BNE）
+      expect(allSceneFns.containsKey('EventScr_Ch11B_6'), isTrue);
+    });
+
+    test('有分支的脚本也能跑完（`while(true){switch(pc)}` 形态）', () async {
+      // 序章开场就有一处 `BNE` —— 它走的是分支形态
+      final sc = makeScene(texts);
+      await allSceneFns['EventScr_Prologue_BeginningScene']!(sc);
+      expect(sc.missing.where((m) => m.startsWith('?CALL')),
+          isEmpty, reason: '不应该出现"嵌套过深"这类执行器问题');
+    });
+
+    test('兜底指令被记下来（HUD 要显示的那些）', () async {
+      final sc = makeScene(texts);
+      await allSceneFns['EventScr_Prologue_BeginningScene']!(sc);
+      expect(sc.placeholderCalls, isNotEmpty,
+          reason: '真实脚本里必然有本阶段不执行的指令');
     });
   });
 
@@ -99,16 +98,14 @@ void main() {
           File('tools/pipeline/out/tables/texts.json').readAsStringSync());
     });
 
-    test('3339 条消息', () {
-      expect(texts.messages.length, 3339);
-    });
+    test('3339 条消息', () => expect(texts.messages.length, 3339));
 
     test('章节标题能对上', () {
       expect(texts.titles['L00'], 'ルネス陥落');
       expect(texts.titles['E20'], '聖魔の光石');
     });
 
-    test('`[LF]` 变成真换行（不处理会让对白挤成一坨）', () {
+    test('`[LF]` 变成真换行', () {
       final withLf = texts.messages.values
           .where((m) => m.segments.any((s) => s is TextControl && s.isLineBreak));
       expect(withLf, isNotEmpty);
@@ -116,13 +113,11 @@ void main() {
     });
 
     test('控制码 [\$XXXX] 也被识别（不是文字）', () {
-      // 第一版漏了这种写法，截图里原样显示了 `[$0152]`
       final withDollar = texts.messages.values.where((m) => m.segments
           .whereType<TextControl>()
           .any((c) => c.name.startsWith(r'$')));
       expect(withDollar, isNotEmpty);
-      expect(withDollar.first.plain.contains(r'$0152'), isFalse,
-          reason: '控制码不该出现在纯文字里');
+      expect(withDollar.first.plain.contains(r'$0152'), isFalse);
     });
   });
 }

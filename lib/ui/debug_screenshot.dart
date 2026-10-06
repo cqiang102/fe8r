@@ -40,7 +40,7 @@ Future<void> captureWhenReady(
   GlobalKey key,
   String path, {
   int waitFrames = 30,
-  void Function()? beforeCapture,
+  Future<void> Function()? beforeCapture,
 }) async {
   // 等足够多的帧，确保异步加载（地图 / 图集）已经完成并画出来了
   for (var i = 0; i < waitFrames; i++) {
@@ -48,7 +48,7 @@ Future<void> captureWhenReady(
   }
 
   // 抓帧前把交互驱动到目标状态
-  beforeCapture?.call();
+  await beforeCapture?.call();
   // 再等两帧让新状态画出来
   for (var i = 0; i < 3; i++) {
     await Future<void>.delayed(const Duration(milliseconds: 100));
