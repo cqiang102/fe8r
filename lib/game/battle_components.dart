@@ -328,6 +328,7 @@ class DialogueBoxComponent extends PositionComponent {
     required this.boxWidth,
     required this.boxHeight,
     this.timePerChar = 0.02,
+    this.waitingForInput = false,
   }) : super(size: Vector2(boxWidth, boxHeight));
 
   final String text;
@@ -341,6 +342,17 @@ class DialogueBoxComponent extends PositionComponent {
   final Image? guestPortrait;
   final double boxWidth;
   final double boxHeight;
+
+  /// 是否正在等玩家按键（`[A]`）。为真时画**闪烁箭头**。
+  ///
+  /// 出处：`src/scene_080079AC.c:98-112`（`TalkWaitForInput_OnIdle`）——
+  /// 每 2 帧取一次 `gPressKeyArrowSpriteLut[frame]`，
+  /// 即在对话框右下角画一个**闪烁的向下箭头**。
+  ///
+  /// ⚠️ 我原来完全没有这个提示 —— 玩家不知道"该按键了"。
+  final bool waitingForInput;
+
+  PolygonComponent? _arrow;
 
   /// 逐字显示的速度（秒/字）。0 表示一次性显示。
   final double timePerChar;
@@ -385,6 +397,29 @@ class DialogueBoxComponent extends PositionComponent {
       children: [_textBox..position = Vector2(m - 2, m - 2)],
     );
     add(clip);
+
+    // 等待按键的闪烁箭头（右下角）
+    if (waitingForInput) {
+      // 原作的 `gPressKeyArrowSpriteLut` 是**向下的箭头**精灵，
+      // 这里用三角形近似（`PolygonComponent` + 三个顶点）。
+      final s = size.x * 0.028;
+      _arrow = PolygonComponent(
+        [
+          Vector2(0, 0),
+          Vector2(s, 0),
+          Vector2(s / 2, s * 0.8),
+        ],
+        position: Vector2(size.x * 0.94, size.y * 0.70),
+        paint: Paint()..color = const Color(0xFFFFE066),
+        priority: 2,
+      );
+      // 用 Flame 的 `OpacityEffect` 做闪烁（`duration: 0.25` × 交替 ≈ 2 帧 @60fps 的观感）
+      _arrow!.add(OpacityEffect.to(
+        0.15,
+        EffectController(duration: 0.25, infinite: true, alternate: true),
+      ));
+      add(_arrow!);
+    }
 
 
   }

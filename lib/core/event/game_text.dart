@@ -275,8 +275,13 @@ class GameMessage {
   ///
   /// `[A]` 等按键、`[CR]` 只是滚动清屏（`src/TalkInterpret.c:86-108`）。
   bool isWaitForKeyAt(int upto) {
-    if (upto <= 0 || upto > segments.length) return false;
-    final seg = segments[upto - 1];
+    // ⚠️ `pageSpans` 存的是**分页控制码本身**的下标
+    // （`out.add((t, i))` 里的 `i` 就是那个控制码的位置），
+    // 所以要看 `segments[upto]`，**不是 `upto - 1`**。
+    // 我第一版写成 `upto - 1`，差一位 → 箭头永远画不出来
+    // （截图字节与改动前完全一致，是"根本没变"的信号）。
+    if (upto < 0 || upto >= segments.length) return false;
+    final seg = segments[upto];
     return seg is TextControl && seg.isWaitForKey;
   }
 

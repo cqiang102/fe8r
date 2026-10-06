@@ -161,6 +161,7 @@ class SceneView {
     required Vector2 virtualSize,
     int? hostFace,
     int? guestFace,
+    bool waitingForInput = false,
   }) {
     if (_box != null) {
       layer.remove(_box!);
@@ -191,6 +192,7 @@ class SceneView {
       guestFaceId: guestFace,
       boxWidth: boxW,
       boxHeight: boxH,
+      waitingForInput: waitingForInput,
     )..position = Vector2(virtualSize.x * 0.04, boxY);
     layer.add(_box!);
     onHudChanged();
@@ -349,6 +351,8 @@ class SceneView {
       // 这两个只用于 HUD 显示与占位编号；真正的绘制走 _syncPortraits
       hostFace: _rightmost(slots),
       guestFace: _leftmost(slots),
+      // 这一页是靠 `[A]` 结束的 → 画闪烁箭头提示玩家按键
+      waitingForInput: e.message.isWaitForKeyAt(upto),
     );
     _syncPortraits(slots);
     if (unknownFaceSlots.isNotEmpty) {
