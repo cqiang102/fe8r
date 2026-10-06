@@ -19,6 +19,9 @@ import 'dart:math' as math;
 
 import 'package:fe8r/core/core.dart';
 import 'package:flame/components.dart';
+// `ClipComponent` 的 `ShapeBuilder` 要求 Flame 的 `Shape`，
+// 具体形状（`Rectangle`）在 experimental 里 —— 这是官方文档给的用法。
+import 'package:flame/experimental.dart' show Rectangle;
 import 'package:flutter/painting.dart';
 
 /// 一个单位在地图上的表现。
@@ -246,6 +249,23 @@ class TargetMarkerComponent extends PositionComponent {
 ///
 /// 立绘/背景暂时用色块 + 文字占位：真实素材属于 M11 美术管线，
 /// 现在画占位图只会掩盖"引擎对不对"这个真正要验证的东西。
+/// 对话框：**GBA 风格的底框 + Flame 的 [TextBoxComponent] 负责文字**。
+///
+/// ## 为什么不自己画文字
+///
+/// 第一版这里是一个手写的 `PositionComponent`：`Canvas.drawRRect` 画框、
+/// `TextPainter` 自己折行、自己算能放几行。
+/// **那些全是 Flame 已经做好了的**：
+///
+///   * `TextBoxComponent` —— 自动折行、自动重排（`maxWidth` 变了会 reflow）
+///   * `TextBoxConfig.timePerChar` —— **逐字显示**（原作就是这么演的）
+///   * `TextPaint` —— 文字样式与渲染
+///
+/// 我手写那一版在两个地方翻过车：抹掉换行导致整段变一行、
+/// 算行数把文字算到一个字都不显示。**这些坑 Flame 已经填过了。**
+///
+/// 这里只保留真正需要自己做的事：**画 GBA 那个底框**
+/// （将来换成九宫格贴图 `NineTileBoxComponent`）。
 class DialogueBoxComponent extends PositionComponent {
   DialogueBoxComponent({
     required this.text,
@@ -253,6 +273,7 @@ class DialogueBoxComponent extends PositionComponent {
     required this.guestFaceId,
     required this.boxWidth,
     required this.boxHeight,
+    this.timePerChar = 0.02,
   }) : super(size: Vector2(boxWidth, boxHeight));
 
   final String text;
@@ -261,13 +282,57 @@ class DialogueBoxComponent extends PositionComponent {
   final double boxWidth;
   final double boxHeight;
 
+  /// 逐字显示的速度（秒/字）。0 表示一次性显示。
+  final double timePerChar;
+
+  late final TextBoxComponent _textBox;
+
+  @override
+  Future<void> onLoad() async {
+    final m = (size.y * 0.10).clamp(6.0, 16.0);
+    final fontSize = (size.y * 0.13).clamp(11.0, 18.0);
+    _textBox = TextBoxComponent(
+      text: text,
+      textRenderer: TextPaint(
+        style: TextStyle(
+          color: const Color(0xFFF0F4FA),
+          fontSize: fontSize,
+          height: 1.3,
+        ),
+      ),
+      boxConfig: TextBoxConfig(
+        // `maxWidth` 会自动折行并 reflow —— 不用自己算
+        maxWidth: size.x - m * 2,
+        margins: EdgeInsets.all(m),
+        // 逐字显示，像原作
+        timePerChar: timePerChar,
+      ),
+      size: size.clone(),
+    );
+
+    // ⚠️ 必须**裁进框内**。
+    //
+    // `TextBoxComponent` 会按内容自己撑高（`updateBounds`），
+    // 文字比框高时就画到框外面去（截图里第三行压到了边框上）。
+    // Flame 自带 `ClipComponent` 正是干这个的。
+    final clip = ClipComponent(
+      // ShapeBuilder 的签名是 `Shape Function(Vector2 size)`，
+      // 返回的是 Flame 的 `Shape`（用 `Rectangle`，圆角靠底框自己画）
+      builder: (s) => Rectangle.fromRect(Offset.zero & s.toSize()),
+      size: Vector2(size.x - 8, size.y - 8),
+      position: Vector2(4, 4),
+      priority: 1,
+      children: [_textBox..position = Vector2(m - 2, m - 2)],
+    );
+    add(clip);
+  }
+
   @override
   void render(Canvas canvas) {
     // 立绘占位：左右各一个色块 + 编号
     _face(canvas, guestFaceId, 0);
     _face(canvas, hostFaceId, 1);
 
-    // 对话框
     final box = Rect.fromLTWH(0, 0, size.x, size.y);
     canvas.drawRRect(
       RRect.fromRectAndRadius(box, const Radius.circular(4)),
@@ -280,46 +345,28 @@ class DialogueBoxComponent extends PositionComponent {
         ..strokeWidth = 2
         ..color = const Color(0xFF8FA8C8),
     );
-
-    // 按 `\n` 分行画 —— 对白里的 `[LF]` 会变成换行，
-    // 交给 TextPainter 自动折行的话行数不可控、容易溢出框。
-    final fontSize = (size.y * 0.15).clamp(11.0, 18.0);
-    const lineH = 20.0;
-    var y = 10.0;
-    for (final line in text.split('\n')) {
-      if (y + lineH > size.y - 4) break;
-      final tp = TextPainter(
-        text: TextSpan(
-          text: line,
-          style: TextStyle(color: const Color(0xFFF0F4FA), fontSize: fontSize),
-        ),
-        textDirection: TextDirection.ltr,
-      )..layout(maxWidth: size.x - 20);
-      tp.paint(canvas, Offset(10, y));
-      y += lineH;
-    }
   }
 
   void _face(Canvas canvas, int? id, int side) {
     if (id == null) return;
-    final w = size.x * 0.16;
-    final x = side == 0 ? size.x * 0.06 : size.x - size.x * 0.06 - w;
-    final r = Rect.fromLTWH(x, -size.y * 0.9, w, size.y * 0.85);
-    canvas.drawRect(r, Paint()..color = const Color(0xCC3A6FB4));
-    canvas.drawRect(
-      r.deflate(1),
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
-        ..color = const Color(0xFFD8DEE9),
+    final w = size.x * 0.12;
+    final r = Rect.fromLTWH(
+      side == 0 ? size.x * 0.02 : size.x - w - size.x * 0.02,
+      -w * 0.8,
+      w,
+      w,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(4)),
+      Paint()..color = const Color(0xCC2A3A50),
     );
     final tp = TextPainter(
       text: TextSpan(
-        text: '脸$id',
+        text: id.toRadixString(16).toUpperCase(),
         style: TextStyle(color: const Color(0xFFFFFFFF), fontSize: w * 0.3),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, Offset(r.left + (w - tp.width) / 2, r.top + 6));
+    tp.paint(canvas, r.center - Offset(tp.width / 2, tp.height / 2));
   }
 }

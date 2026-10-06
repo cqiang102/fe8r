@@ -19,19 +19,39 @@ import 'dart:io';
 import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
-import 'package:fe8r/game/battle_components.dart';
+import 'package:fe8r/game/battle_view.dart';
 import 'package:fe8r/game/demo_event.dart';
+import 'package:fe8r/game/hud_view.dart';
+import 'package:fe8r/game/scene_view.dart';
 // FixedResolutionViewport 只在 flame/camera.dart 里导出
-import 'package:flame/components.dart' show PositionComponent;
 import 'package:flame/camera.dart' show FixedResolutionViewport;
 import 'package:flame/cache.dart' show Images;
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
+// `LogicalKeyboardKey` / `KeyDownEvent` / `KeyRepeatEvent` 都在 services 里；
+// `KeyEvent` / `KeyEventResult` 在 widgets（Flutter 焦点体系）。两处都要。
+import 'package:flutter/services.dart'
+    show KeyDownEvent, KeyRepeatEvent, LogicalKeyboardKey, rootBundle;
+import 'package:flutter/widgets.dart' show KeyEvent, KeyEventResult;
 
 /// FE8 重制版主游戏对象。
-class Fe8Game extends FlameGame {
+/// ⚠️ **必须混 `KeyboardEvents`**，否则真实键盘一个键都收不到。
+///
+/// `GameWidget` 内部有自己的 `FocusNode`（`autofocus` 默认 true，会抢走主焦点），
+/// 它的 `_handleKeyEvent` 逻辑是：
+///
+///     if (!_focusNode.hasPrimaryFocus) return ignored;
+///     if (game is KeyboardEvents) return game.onKeyEvent(...);
+///     return KeyEventResult.handled;      // ← 没混就吞掉一切
+///
+/// 而 Flutter 的按键派发是"主焦点 → 祖先，遇到非 ignored 就停"，
+/// 所以在 `GameWidget` 外面再包一层 `Focus(onKeyEvent:)` **永远不会被调用**。
+///
+/// 这个 bug 被藏了很久，因为**视觉验证全走 `FE8R_SCRIPT` 直接注入输入**，
+/// 从没经过真实键盘路径。教训：验证脚本绕过的路径，等于没验证。
+class Fe8Game extends FlameGame with KeyboardEvents {
   /// 左上角状态文字（M0 阶段的调试信息）
   final ValueNotifier<String> status = ValueNotifier<String>('启动中…');
 
@@ -96,7 +116,8 @@ class Fe8Game extends FlameGame {
   /// 剧情引擎（M6）：手写演示脚本 + 虚拟机
   EventVm? eventVm;
   EventVmState? eventState;
-  DialogueBoxComponent? _dialogue;
+  SceneView? _sceneView;
+  final HudView _hudView = const HudView();
   bool _showDialogue = false;
 
   /// 正在播的剧情移动：单位 id → 目标格
@@ -110,12 +131,16 @@ class Fe8Game extends FlameGame {
   final ValueNotifier<String> hud = ValueNotifier<String>('');
 
   /// 单位与光标的渲染组件，按单位 id / 状态重建
-  final List<UnitComponent> _unitComponents = [];
-  CursorComponent? _cursor;
-  MovementRangeComponent? _rangeComp;
-  ActionMenuComponent? _menuComp;
-  final List<TargetMarkerComponent> _targetMarkers = [];
-  PositionComponent? _overlayLayer;
+  BattleView? _battleView;
+
+  /// **屏幕空间**的 UI 层（对话框等）。
+  ///
+  /// ⚠️ 与 `_overlayLayer` 的区别很重要：
+  ///   * `_overlayLayer` 加在 `world` 里 → **相机空间**，跟着地图缩放
+  ///   * `_uiLayer` 加在 game 根节点 → **屏幕空间**，固定不动
+  ///
+  /// 对话框属于后者。第一版把它放进 `_overlayLayer`，
+  /// 结果它随地图分辨率缩放，位置和大小都对不上（截图里框跑到屏幕外）。
 
   /// 地图的 metatile 尺寸（像素）
   static const double metatileSize = 16;
@@ -144,6 +169,52 @@ class Fe8Game extends FlameGame {
       // 读失败就当作没有 —— 但**不吞掉**，写进 status 让人看得见
       status.value = '剧本加载失败: $e';
     }
+  }
+
+  /// 按键 → 流程输入。
+  ///
+  /// 放在 game 里而不是外层 `Focus` —— 见类文档。
+  /// 测试钩子：允许测试观察 `input()` 被调用（不改变生产行为）。
+  void Function(FlowInput)? onInputForTest;
+
+  @override
+  KeyEventResult onKeyEvent(
+    KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    // KeyDown 与 KeyRepeat 都要响应；KeyUp 忽略
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    final k = event.logicalKey;
+
+    FlowInput? i;
+    if (k == LogicalKeyboardKey.arrowUp || k == LogicalKeyboardKey.keyW) {
+      i = FlowInput.up;
+    } else if (k == LogicalKeyboardKey.arrowDown ||
+        k == LogicalKeyboardKey.keyS) {
+      i = FlowInput.down;
+    } else if (k == LogicalKeyboardKey.arrowLeft ||
+        k == LogicalKeyboardKey.keyA) {
+      i = FlowInput.left;
+    } else if (k == LogicalKeyboardKey.arrowRight ||
+        k == LogicalKeyboardKey.keyD) {
+      i = FlowInput.right;
+    } else if (k == LogicalKeyboardKey.keyZ ||
+        k == LogicalKeyboardKey.enter ||
+        k == LogicalKeyboardKey.space) {
+      i = FlowInput.confirm;
+    } else if (k == LogicalKeyboardKey.keyX ||
+        k == LogicalKeyboardKey.escape) {
+      i = FlowInput.cancel;
+    } else if (k == LogicalKeyboardKey.keyE) {
+      i = FlowInput.endTurn;
+    } else if (k == LogicalKeyboardKey.keyD && keysPressed.isEmpty) {
+      i = FlowInput.startDialogue;
+    }
+    if (i == null) return KeyEventResult.ignored;
+    input(i);
+    return KeyEventResult.handled;
   }
 
   @override
@@ -198,8 +269,12 @@ class Fe8Game extends FlameGame {
         faction: field!.activeFaction,
       );
 
-      _overlayLayer = PositionComponent();
-      world.add(_overlayLayer!);
+      _battleView = BattleView(tileSize: metatileSize.toDouble());
+      world.add(_battleView!.layer);
+
+      // 场景表现层挂 viewport —— 见 scene_view.dart 里的说明
+      _sceneView = SceneView(onHudChanged: _updateHud);
+      _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
 
       // 剧情引擎：脚本用真实编码手写（见 demo_event.dart）
@@ -262,6 +337,7 @@ class Fe8Game extends FlameGame {
   ///
   /// **所有规则判断都在 `FlowMachine` 里**，这里只负责把新状态搬到画面上。
   void input(FlowInput i) {
+    onInputForTest?.call(i);
     // 剧情演出期间，confirm 用来推进对白，而不是操作战场。
     // 这个优先级放在**调用点**而不是状态机里：剧情与战场是两个独立的
     // 状态机，谁优先是外壳层的策略，不该污染任何一方。
@@ -383,38 +459,12 @@ class Fe8Game extends FlameGame {
 
   /// 把当前这句对白画进对话框
   void _updateSceneDialogue() {
-    final layer = _overlayLayer;
-    final cam = camera.viewport.virtualSize;
-    if (layer == null) return;
-
-    if (_dialogue != null) {
-      layer.remove(_dialogue!);
-      _dialogue = null;
-    }
-    final cur = _currentText;
-    if (!_showDialogue || cur == null) {
-      _updateHud();
-      return;
-    }
-
-    final m = cur.message;
-    // 立绘：文本里的 `[LoadFace]0xNNN]` 就是脸编号
-    int? face;
-    for (final seg in m.segments.whereType<TextControl>()) {
-      if (seg.isLoadFace && seg.arg != null) face = seg.arg;
-    }
-
-    final boxH = cam.y * 0.30;
-    _dialogue = DialogueBoxComponent(
-      text: m.plain.replaceAll('\n', ''),
-      hostFaceId: face,
-      guestFaceId: null,
-      boxWidth: cam.x * 0.90,
-      boxHeight: boxH,
-    )..position = Vector2(cam.x * 0.05, cam.y * 0.66);
-    layer.add(_dialogue!);
-    _updateHud();
+    _sceneView?.applyEvent(
+      _showDialogue ? _currentText : null,
+      camera.viewport.virtualSize,
+    );
   }
+
 
 
 
@@ -556,33 +606,22 @@ class Fe8Game extends FlameGame {
   }
 
   void _rebuildDialogue() {
+    // 旧事件引擎的剧情也走同一个 SceneView —— 原来这里是**第二条平行路径**，
+    // 两条都写 `_dialogue` 却挂在不同父节点上，路径交错会直接 assert 崩。
     final st = eventState;
-    final layer = _overlayLayer;
-    if (layer == null) return;
-
-    if (_dialogue != null) {
-      layer.remove(_dialogue!);
-      _dialogue = null;
-    }
-    if (!_showDialogue || st == null) {
-      _updateHud();
+    if (st == null) {
+      _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
       return;
     }
-
     final pres = st.presentation;
-    final cam = camera.viewport.virtualSize;
-    final boxH = cam.y * 0.26;
-
-    _dialogue = DialogueBoxComponent(
-      text: st.lastText,
-      hostFaceId: pres.faces[0],
-      guestFaceId: pres.faces[1],
-      boxWidth: cam.x * 0.86,
-      boxHeight: boxH,
-    )..position = Vector2(cam.x * 0.07, cam.y * 0.68);
-    layer.add(_dialogue!);
-    _updateHud();
+    _sceneView?.show(
+      text: _showDialogue ? st.lastText : null,
+      virtualSize: camera.viewport.virtualSize,
+      hostFace: pres.faces[0],
+      guestFace: pres.faces[1],
+    );
   }
+
 
   /// 结束当前回合：推进阶段，若轮到非玩家阵营就跑 AI，直到回到玩家回合。
   ///
@@ -842,169 +881,61 @@ class Fe8Game extends FlameGame {
       flow?.availableActions(s, f) ?? const [ActionOption.wait];
 
   /// HUD 上关于场景的一行（没有场景时为空）
-  String get sceneHudLine {
-    if (!inScene) return '';
-    final cur = _currentText;
-    final sc = scene;
-    return '剧情 第$_sceneShown句'
-        '  文本=0x${cur?.message.id.toRadixString(16) ?? '-'}'
-        '${(sc?.missing.length ?? 0) > 0 ? '  缺${sc!.missing.length}' : ''}'
-        '${(sc?.placeholderCalls.length ?? 0) > 0 ? '  未执行指令${sc!.placeholderCalls.length}种' : ''}'
-        '${_sceneHudExtra.isEmpty ? '' : '  $_sceneHudExtra'}';
-  }
+
 
   void _updateHud() {
     final s = state;
     final f = field;
     if (s == null || f == null) return;
-    final who = f.activeFaction == Faction.red ? '敌方' : '我方';
-    final hp = f.units
-        .where((u) => u.isAlive)
-        .map((u) => '${u.name.isEmpty ? u.id : u.name}:${u.hp}')
-        .join(' ');
-    final menu = s.phase == FlowPhase.actionMenu
-        ? '  [${menuOptions(s, f).map((o) => o.label).join(' / ')}]'
-        : (s.phase == FlowPhase.selectTarget ? '  选择目标' : '');
+
     // ★ 场景模式（真实剧本）优先于演示剧情
     if (inScene) {
-      final cur = _currentText;
       final sc = scene;
-      final miss = (sc?.missing.toList() ?? const <String>[])..sort();
-      final skip = (sc?.placeholderCalls.entries.toList() ??
-              const <MapEntry<String, int>>[])
-          ..sort((a, b) => b.value.compareTo(a.value));
-      hud.value = '$sceneHudLine'
-          '\n【${cur?.scriptName ?? '-'}】'
-          '\n${cur?.message.plain ?? ''}'
-          '${miss.isEmpty ? '' : '\n缺: ${miss.take(3).join(' ')}'}'
-          '${skip.isEmpty ? '' : '\n未执行指令: ${skip.take(5).map((e) => '${e.key}×${e.value}').join(' ')}'}';
+      hud.value = _hudView
+          .scene(
+            shown: _sceneShown,
+            current: _currentText,
+            missing: sc?.missing ?? const {},
+            placeholder: sc?.placeholderCalls ?? const {},
+            extra: _sceneHudExtra,
+          )
+          .value;
       return;
     }
 
     final ev = eventState;
     if (_showDialogue && ev != null) {
-      // 把单位坐标也放进来：剧情里"角色有没有走到位"是这一轮要验证的核心，
-      // 只靠看像素判断不了。
-      final pos = f.units
-          .where((u) => u.isAlive)
-          .map((u) => '${u.name.isEmpty ? u.id : u.name}(${u.x},${u.y})')
-          .join(' ');
-      hud.value = '剧情  ${ev.done ? '结束' : (ev.waitingForPlayer ? '等按键（Z / 回车）' : '演出中')}'
-          '  背景 ${ev.presentation.backgroundId ?? '-'}'
-          '  立绘 ${ev.presentation.faces.values.join(',')}'
-          '  镜头 ${ev.cameraX ?? '-'},${ev.cameraY ?? '-'}'
-          '  待移动 ${_eventMoveTargets.length}'
-          '\n${ev.lastText}'
-          '\n$pos';
+      hud.value = _hudView
+          .event(st: ev, field: f, pendingMoves: _eventMoveTargets.length)
+          .value;
       return;
     }
-    hud.value = '回合 ${f.turn}  $who  '
-        '可行动 ${f.actionableCount}  '
-        '光标 (${s.cursorX},${s.cursorY})  '
-        '${s.phase.name}$menu  '
-        '乱数 ${tracker.consumed}\n'
-        'HP  $hp'
-        '${lastCombat.isEmpty ? '' : '\n$lastCombat'}';
+
+    hud.value = _hudView
+        .battle(
+          field: f,
+          state: s,
+          rnConsumed: tracker.consumed,
+          menu: menuOptions(s, f),
+          lastCombat: lastCombat,
+        )
+        .value;
   }
+
 
   /// 按当前流程状态重建叠加层。
   ///
   /// 每次输入都整体重建，而不是增量更新——这个规模（十几到几十个组件）
   /// 重建的开销远小于"增量更新写错导致画面与状态不一致"的风险。
   void _rebuildOverlay() {
-    final layer = _overlayLayer;
     final s = state;
     final f = field;
     final fl = flow;
-    if (layer == null || s == null || f == null || fl == null) return;
-
-    layer.removeAll(_unitComponents);
-    _unitComponents.clear();
-    if (_cursor != null) {
-      layer.remove(_cursor!);
-      _cursor = null;
-    }
-    if (_rangeComp != null) {
-      layer.remove(_rangeComp!);
-      _rangeComp = null;
-    }
-    if (_menuComp != null) {
-      layer.remove(_menuComp!);
-      _menuComp = null;
-    }
-    layer.removeAll(_targetMarkers);
-    _targetMarkers.clear();
-
-    // 移动范围画在单位下面
-    final range = fl.currentRange;
-    if (range != null && s.phase == FlowPhase.unitSelected) {
-      _rangeComp = MovementRangeComponent(range: range, tileSize: metatileSize);
-      layer.add(_rangeComp!);
-    }
-
-    for (final u in f.units) {
-      if (!u.isAlive) continue;
-      final c = UnitComponent(
-        unit: u,
-        tileSize: metatileSize,
-        isSelected: u.id == s.selectedUnitId,
-        isActive: f.isControllable(u),
-      );
-      c.position = Vector2(u.x * metatileSize, u.y * metatileSize);
-      layer.add(c);
-      _unitComponents.add(c);
-    }
-
-    // 选目标阶段：把所有可选目标标出来，当前那个用实心准星
-    if (s.phase == FlowPhase.selectTarget) {
-      final unit = f.unitById(s.selectedUnitId);
-      if (unit != null) {
-        final ax = s.pendingX ?? unit.x;
-        final ay = s.pendingY ?? unit.y;
-        final targets = fl.validTargets(f, unit, ax, ay);
-        final idx = s.targetIndex.clamp(0, targets.isEmpty ? 0 : targets.length - 1);
-        for (var i = 0; i < targets.length; i++) {
-          final m = TargetMarkerComponent(tileSize: metatileSize)
-            ..position =
-                Vector2(targets[i].x * metatileSize, targets[i].y * metatileSize);
-          layer.add(m);
-          _targetMarkers.add(m);
-        }
-        // 光标停在当前目标上，玩家才知道自己在选谁
-        if (targets.isNotEmpty) {
-          final t = targets[idx];
-          _cursor = CursorComponent(tileSize: metatileSize)
-            ..position = Vector2(t.x * metatileSize, t.y * metatileSize);
-          layer.add(_cursor!);
-          return;
-        }
-      }
-    }
-
-    // 行动菜单：画在"落点那一格"的右边
-    if (s.phase == FlowPhase.actionMenu) {
-      final opts = fl.availableActions(s, f);
-      final px = s.pendingX ?? s.cursorX;
-      final py = s.pendingY ?? s.cursorY;
-      _menuComp = ActionMenuComponent(
-        options: opts,
-        selectedIndex: s.actionIndex.clamp(0, opts.length - 1),
-        tileSize: metatileSize,
-      )..position = Vector2(
-          (px + 1) * metatileSize,
-          py * metatileSize,
-        );
-      layer.add(_menuComp!);
-      _cursor = CursorComponent(tileSize: metatileSize)
-        ..position = Vector2(px * metatileSize, py * metatileSize);
-      layer.add(_cursor!);
-      return;
-    }
-
-    _cursor = CursorComponent(tileSize: metatileSize)
-      ..position = Vector2(s.cursorX * metatileSize, s.cursorY * metatileSize);
-    layer.add(_cursor!);
+    final v = _battleView;
+    if (v == null || s == null || f == null || fl == null) return;
+    v.rebuild(s, f, fl);
   }
+
 
   /// M5 阶段用的演示战场。
   ///

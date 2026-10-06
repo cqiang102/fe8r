@@ -8,12 +8,10 @@
 //
 // 依赖方向只能 core ← game ← ui，反向依赖会被架构检查拦下。
 
-import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/fe8_game.dart';
 import 'package:fe8r/ui/debug_screenshot.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(
@@ -66,100 +64,70 @@ class _GameShellState extends State<_GameShell> {
     }
   }
 
-  /// 键盘 → 流程输入的映射。
-  ///
-  /// 用 `KeyEventResult.handled` 明确吃掉事件，避免方向键同时被
-  /// Flutter 的焦点系统拿去滚动。桌面端这类"两套输入系统抢事件"
-  /// 的问题不处理会表现为"按了键但偶尔没反应"。
-  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
-    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
-      return KeyEventResult.ignored;
-    }
-    final k = event.logicalKey;
-    FlowInput? i;
-    if (k == LogicalKeyboardKey.arrowUp || k == LogicalKeyboardKey.keyW) {
-      i = FlowInput.up;
-    } else if (k == LogicalKeyboardKey.arrowDown ||
-        k == LogicalKeyboardKey.keyS) {
-      i = FlowInput.down;
-    } else if (k == LogicalKeyboardKey.arrowLeft ||
-        k == LogicalKeyboardKey.keyA) {
-      i = FlowInput.left;
-    } else if (k == LogicalKeyboardKey.arrowRight ||
-        k == LogicalKeyboardKey.keyD) {
-      i = FlowInput.right;
-    } else if (k == LogicalKeyboardKey.keyZ ||
-        k == LogicalKeyboardKey.enter ||
-        k == LogicalKeyboardKey.space) {
-      i = FlowInput.confirm;
-    } else if (k == LogicalKeyboardKey.keyX ||
-        k == LogicalKeyboardKey.escape) {
-      i = FlowInput.cancel;
-    } else if (k == LogicalKeyboardKey.keyE) {
-      i = FlowInput.endTurn;
-    }
-    if (i == null) return KeyEventResult.ignored;
-    _game.input(i);
-    return KeyEventResult.handled;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Focus(
-        autofocus: true,
-        onKeyEvent: _onKey,
-        child: RepaintBoundary(
-          key: _captureKey,
-          child: Stack(
-        children: [
-          GameWidget(game: _game),
-          // 左上角信息条：M0 阶段用来确认版本与加载状态
-          Positioned(
-            left: 12,
-            top: 12,
-            child: DefaultTextStyle(
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white70,
-                fontFamily: 'monospace',
+      // ⚠️ **不要在这里包 `Focus`**。
+      //
+      // `GameWidget` 内部有自己的 FocusNode（autofocus 默认 true，会抢走主焦点），
+      // 而 Flutter 的按键派发是「主焦点 → 祖先，遇到非 ignored 就停」，
+      // 所以包在外面的 `Focus(onKeyEvent:)` **永远不会被调用** ——
+      // 真实键盘一个键都收不到。这个 bug 藏了很久，因为视觉验证全走
+      // `FE8R_SCRIPT` 直接注入输入，从没经过真实键盘路径。
+      //
+      // 键盘现在由 `Fe8Game with KeyboardEvents` 处理（见 fe8_game.dart）。
+      body: RepaintBoundary(
+        key: _captureKey,
+        child: Stack(
+          children: [
+            GameWidget(game: _game),
+            // 左上角信息条：确认版本与加载状态
+            Positioned(
+              left: 12,
+              top: 12,
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white70,
+                  fontFamily: 'monospace',
+                ),
+                child: ValueListenableBuilder<String>(
+                  valueListenable: _game.status,
+                  builder: (context, status, _) => Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(status),
+                  ),
+                ),
               ),
+            ),
+            // 底部 HUD：回合 / 阵营 / 可行动数 / 光标 / 阶段
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
               child: ValueListenableBuilder<String>(
-                valueListenable: _game.status,
-                builder: (context, status, _) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(status),
-                ),
-              ),
-            ),
-          ),
-          // 底部 HUD：回合 / 阵营 / 可行动数 / 光标 / 阶段
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: ValueListenableBuilder<String>(
-              valueListenable: _game.hud,
-              builder: (context, t, _) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                color: Colors.black87,
-                child: Text(
-                  t,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.white,
-                    fontFamily: 'monospace',
+                valueListenable: _game.hud,
+                builder: (context, t, _) => Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  color: Colors.black87,
+                  child: Text(
+                    t,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.white,
+                      fontFamily: 'monospace',
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-          ),
+          ],
         ),
       ),
     );

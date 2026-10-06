@@ -318,6 +318,11 @@ def main():
                            for op, _ in scripts[n])]
 
     lines = [
+        "// arch-exempt: R4 「完全可序列化」这条约束已由用户明确取消"
+        "（不需要随时存档），",
+        "//            所以场景脚本用 async 函数直接表达「等玩家按键」，"
+        "不再用可序列化的状态机。",
+        "//",
         "// GENERATED —— 由 tools/pipeline/extract/gen_scene_dart.py 生成。",
         "// **请勿手改**：改 C 源码或生成器，然后重新生成。",
         "//",

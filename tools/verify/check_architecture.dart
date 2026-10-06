@@ -7,9 +7,29 @@
 // 用法：dart run tools/verify/check_architecture.dart
 // 有违规时退出码 1。
 //
+// ⚠️⚠️ **必须用 `exit()` 而不是 `return`。**
+//
+// `dart run` **不会传递 `main` 的返回值**（实测：`int main() { return 1; }`
+// 退出码是 0；`exit(1)` 才是非零）。这个文件原本写的是 `return 1`，
+// 于是它**打印了违规却永远退出 0** —— 门禁静默通过，而所有人（包括我）
+// 都以为"架构检查通过"。它自己上面写着"一个从不报错的 lint 比没有 lint
+// 更危险"，结果自己就是那个 lint。
+//
 // ⚠️ 改这个文件后**务必重新跑一次误报/漏报自检**：构造一个违规文件确认被拦下，
-// 再确认注释和字符串里的同名内容不会被误报。一个从不报错的 lint 比没有 lint
-// 更危险——它会让人以为约束被守住了。
+// 再确认注释和字符串里的同名内容不会被误报。
+//
+// ## 豁免机制
+//
+// 规则会随设计演进而需要例外（比如"完全可序列化"这条：用户明确说不需要
+// 随时存档之后，事件引擎改用 `async` 就是**有意的设计变更**）。
+//
+// 没有豁免机制时，唯一的办法是**改规则源码** —— 那会让规则烂掉、
+// 门禁长红，最后没人再看它。所以这里提供一个显式豁免：
+//
+//     文件顶部写：// arch-exempt: R4 <理由>
+//
+// 豁免**必须带理由**，且会在通过时打印出来 —— 不是把问题藏起来，
+// 是把"这是有意为之"记在案。
 import 'dart:io';
 
 /// 规则的匹配范围
@@ -302,10 +322,25 @@ List<Violation> check(List<Rule> rules) {
 int main(List<String> args) {
   if (!Directory('lib').existsSync()) {
     stderr.writeln('错误：请在仓库根目录运行（找不到 lib/）');
-    return 2;
+    // ⚠️ 用 `exit` 而不是 `return` —— 见文件头的说明
+    exit(2);
   }
 
-  final violations = check(rules);
+  final ex = exemptions();
+  // 无理由的豁免视为无效 —— 报出来而不是默默放过
+  final noReason = ex.where((e) => e.$3.isEmpty).toList();
+  if (noReason.isNotEmpty) {
+    stderr.writeln('豁免必须带理由（// arch-exempt: <规则ID> <理由>）：');
+    for (final e in noReason) {
+      stderr.writeln('  ${e.$1}  ${e.$2}');
+    }
+    exit(1);
+  }
+  final exempt = {for (final e in ex) '${e.$1}|${e.$2}'};
+
+  final violations = check(rules)
+      .where((v) => !exempt.contains('${v.file}|${v.rule.id}'))
+      .toList();
 
   if (violations.isEmpty) {
     stdout.writeln('架构检查通过（扫描 ${dartFilesUnder('lib').length} 个 Dart 文件，'
@@ -313,7 +348,14 @@ int main(List<String> args) {
     for (final r in rules) {
       stdout.writeln('  ${r.id}  ${r.description}');
     }
-    return 0;
+    final ex = exemptions();
+    if (ex.isNotEmpty) {
+      stdout.writeln('\n豁免（有意为之，带理由）:');
+      for (final e in ex) {
+        stdout.writeln('  ${e.$1}  ${e.$2}  ${e.$3}');
+      }
+    }
+    exit(0);
   }
 
   stderr.writeln('架构检查失败：${violations.length} 处违规\n');
@@ -322,5 +364,22 @@ int main(List<String> args) {
   }
   stderr.writeln('\n共 ${violations.length} 处。'
       '规则说明见 tools/verify/check_architecture.dart');
-  return 1;
+  exit(1);
+}
+
+/// 读全部 `// arch-exempt: <规则ID> <理由>` 声明。
+///
+/// 返回 `(文件, 规则ID, 理由)`。理由为空视为**无效豁免**（会在下面报错）。
+List<(String, String, String)> exemptions() {
+  final out = <(String, String, String)>[];
+  for (final f in dartFilesUnder('lib')) {
+    final lines = File(f).readAsLinesSync();
+    for (final l in lines.take(40)) {
+      final m = RegExp(r'//\s*arch-exempt:\s*(\w+)\s*(.*)').firstMatch(l);
+      if (m != null) {
+        out.add((f, m.group(1)!, m.group(2)!.trim()));
+      }
+    }
+  }
+  return out;
 }
