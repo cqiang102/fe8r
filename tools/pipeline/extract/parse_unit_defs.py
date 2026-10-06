@@ -66,10 +66,20 @@ HOST = os.path.join(REPO, "tools", "oracle", "host")
 # 第 3 批是踩坑补上的：`UnitDef_Event_PrologueAlly`（序章的我方单位）
 # 定义在 `data_prologue_event_udefs.c`，不是任何 `_ref` 目录，
 # 只按 `_ref` 扫会漏掉它 —— 表现为"章节 0 装配不出来"。
+# ⚠️ **必须覆盖整个 src/data/ 树。**
+#
+# 我第一版只列了三个模式（`UnitDef_Event_*_ref/` 等），结果**少扫了一大批**：
+# `UnitDef_Event_PrologueThroneRoomUnits` 定义在
+# `src/data/worldmap_gmapunit/dat_worldmap_gmapunit_p1311.c` ——
+# 目录名和单位毫无关系，靠"猜目录名"必然漏。
+#
+# 后果：脚本里的 `LOAD1(1, UnitDef_Event_PrologueThroneRoomUnits)`
+# 在游戏里报"缺单位表"，**序章王座厅的单位根本放不出来**。
+#
+# 现在改成**全树扫描**（凡 `src/data/**/*.c`），并用独立的
+# `check_independent_counts()` 交叉校验 —— 不再依赖我猜的目录名。
 SRC_GLOBS = [
-    "src/data/frontier_df3_unitdef_b/frontier_df3_unitdef_b.c",
-    "src/data/UnitDef_Event_*_ref/*.c",
-    "src/data/data_prologue_event_udefs.c",
+    "src/data/**/*.c",
 ]
 
 
@@ -97,6 +107,89 @@ def reda_names_from_includes():
                 t):
             names.add(m.group(1))
     return names
+
+
+def strip_redas(text):
+    """剥掉 `.redas=...` 初始化项（用括号配平扫描，不用正则）。
+
+    ## 为什么可以剥
+
+    我们只取 `UnitDefinition` 的
+    `charIndex/classIndex/level/x/y/items/...` —— **`redas`（增援数据）
+    不在输出里**。而它正是全部编译冲突的来源。
+
+    ## 为什么不能用 `\w+` 正则
+
+    源码里的写法是**强制转换表达式**，不是标识符：
+
+        .redas=(const struct REDA *)((const u8 *)REDA_PrologueGradoCavalry2)
+
+    我第一版用 `\.redas\s*=\s*\w+` 匹配，于是这一行**原样留下**，
+    报错照旧（`use of undeclared identifier`）。
+
+    这里改成**扫描到括号配平的末尾**（顶层遇到 `,` 或 `}` 就停）。
+    """
+    # ⚠️ 先去掉注释 —— `.redas` 在注释里也出现过，
+    # 直接剥会破坏块注释，报 `unterminated /* comment`。
+    text = re.sub(r"/\*.*?\*/", " ", text, flags=re.S)
+    text = re.sub(r"//[^\n]*", " ", text)
+
+    out = []
+    i = 0
+    while True:
+        j = text.find(".redas", i)
+        if j < 0:
+            out.append(text[i:])
+            break
+        out.append(text[i:j])
+        k = text.find("=", j)
+        if k < 0:
+            out.append(text[j:])
+            break
+        k += 1
+        depth = 0
+        while k < len(text):
+            c = text[k]
+            if c == "(":
+                depth += 1
+            elif c == ")":
+                depth -= 1
+            elif depth == 0 and c in ",}":
+                break
+            k += 1
+        # 停在 `,` -> 保留逗号并吃掉它；停在 `}` -> 什么都不加。
+        # （我第一版反了：停在 `}` 时补了个逗号，于是 `.foo=1,}` 语法错。）
+        out.append(".redas=0")
+        if k < len(text) and text[k] == ",":
+            out.append(",")
+            k += 1
+        i = k
+    return "".join(out)
+
+
+def reda_decls(text):
+    """为所有被引用的 `REDA_*` 生成 extern 声明。
+
+    ⚠️ **不要减去 `reda_names_from_includes()` 的结果。**
+    我第一版减了，理由是"这些在 `eventcall.h` 里已经声明过" ——
+    但**探针 C 只 include 了 `global.h` 和 `bmunit.h`，没有 include
+    `eventcall.h`**，所以那些名字在探针里同样未声明。
+
+    症状：`use of undeclared identifier 'REDA_Ch10AEnemy_4_2'` 照旧。
+    类型一致时重复声明无害，所以这里**全都补上**。
+    """
+    refd = set(re.findall(r"\b(REDA\w*)\b", text))
+    # 源码里**已经有定义**的不要重复声明 —— 它们的类型可能是 `u8[]`
+    # （`strip_conflicting_externs` 把冲突的名字改成了 `..._u32`），
+    # 再补一个 `struct REDA[]` 会报 redeclaration with a different type。
+    defined = set(re.findall(r"\b(REDA\w*)\s*\[?[^;=]*\]?\s*=", text))
+    # `_u32` 后缀是 `strip_conflicting_externs` 改名产生的 ——
+    # 那些名字已经有 `u32[]` 定义，再补 `struct REDA[]` 会报
+    # `redefinition with a different type`。
+    skip = {n for n in refd if n.endswith("_u32")}
+    return "\n".join(
+        f"extern struct REDA {n}[];" for n in sorted(refd - defined - skip)
+    )
 
 
 def strip_conflicting_externs(text):
@@ -217,6 +310,18 @@ PROBE = r"""
 #include "bmunit.h"
 #include <stdio.h>
 
+/* ★ 补上被引用但没声明的 REDA 数组。
+ *
+ * 为什么需要：`UnitDefinition.redas` 指向 `struct REDA` 增援数据，
+ * 而哪些 `REDA_*` 在 `eventcall.h` 里声明过**并不完整** ——
+ * 全树扫描之后出现了 `REDA_Ch10AEnemy_4_2` 这类"被引用但未声明"的
+ * （报 `use of undeclared identifier`）。
+ *
+ * 我们要的只是 `UnitDefinition` 的字段，REDA 的具体内容无关紧要 ——
+ * 所以给未声明的补一个 extern 就够，**不改任何数据**。
+ */
+@REDA_DECLS@
+
 int main(void)
 {
     printf("SIZEOF %zu\n", sizeof(struct UnitDefinition));
@@ -233,7 +338,7 @@ def host_sizeof(tmp, src, stub_syms):
     写死会在换平台时静默算错元素个数。
     """
     cpath = os.path.join(tmp, "szof.c")
-    open(cpath, "w").write(src + PROBE.replace("@BODY@", ""))
+    open(cpath, "w").write(src + PROBE.replace("@BODY@", "").replace("@REDA_DECLS@", reda_decls(src)))
     # ⚠️ 桩要在这里自己生成 —— 之前指望调用方先生成，
     # 结果 sizeof 探针先跑，链接器报 "no such file or directory"。
     stub = os.path.join(tmp, "stubs_szof.c")
@@ -289,7 +394,7 @@ def build_probe(tmp, src, names, stub_syms, counts):
         body.append(f'    printf("END {n} %d\\n", i); }}')
 
     cpath = os.path.join(tmp, "probe.c")
-    open(cpath, "w").write(src + PROBE.replace("@BODY@", "\n".join(body)))
+    open(cpath, "w").write(src + PROBE.replace("@BODY@", "\n".join(body)).replace("@REDA_DECLS@", reda_decls(src)))
 
     stub = os.path.join(tmp, "stubs.c")
     with open(stub, "w") as f:
@@ -334,7 +439,13 @@ def main():
     import glob as _glob
     files = []
     for g in SRC_GLOBS:
-        files.extend(sorted(_glob.glob(os.path.join(DECOMP, g))))
+        # ⚠️ **必须 `recursive=True`** —— 否则 `**` 不递归展开，
+        # `src/data/**/*.c` 只等价于 `src/data/*/*.c`，
+        # **直接放在 `src/data/` 下的文件全被漏掉**
+        # （`data_prologue_event_udefs.c` 就是其中之一 ——
+        #   `UnitDef_Event_PrologueAlly` 因此消失）。
+        files.extend(sorted(_glob.glob(os.path.join(DECOMP, g),
+                                       recursive=True)))
     if not files:
         print("错误：没找到任何单位配置源文件", file=sys.stderr)
         return 1
@@ -360,7 +471,13 @@ def main():
         return 1
 
     with tempfile.TemporaryDirectory() as tmp:
-        src = strip_section_attrs(raw)
+        # ★ 把被引用但未声明的 `REDA_*` 的 extern 声明**拼进源本身**。
+        #
+        # 只在 PROBE 模板里替换是不够的 —— `compile_obj` 写的是**纯 src**，
+        # 而报错（`use of undeclared identifier`）正是发生在这一步。
+        # 我第一版只改了 PROBE，于是错误照旧。
+        src = (reda_decls(raw) + "\n"
+               + strip_redas(strip_section_attrs(raw)))
         obj = compile_obj(tmp, src)
         if obj is None:
             return 1

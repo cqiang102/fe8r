@@ -326,6 +326,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _sceneView!.loadFaceIds('tools/pipeline/out/tables/face_ids.json');
       _loadChapterMaps();
       _loadChapterLinks();
+      _loadUnitDefs();
       _loadChapters();
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
@@ -566,8 +567,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       case WaitForInput():
         break; // ShowText 已经等过了
-      case LoadUnits():
-        _sceneHudExtra = '载入单位 ${e.table}';
+      case LoadUnits(:final table, :final group):
+        _loadUnitsFromTable(table, group);
       case Stall():
         await Future<void>.delayed(Duration(milliseconds: e.frames * 16));
       case MoveUnitInScene():
@@ -581,6 +582,24 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 返回 false 表示数据没加载到（那就退回演示脚本，而不是假装成功）。
   Future<void> _startRealScene() async {
+    // ★ **清掉演示单位**，只留空战场。
+    //
+    // 章节的真实单位由脚本里的 `LOAD1/LOAD2/LOAD3` 放进来
+    // （序章开场就有 `LOAD1(1, UnitDef_Event_PrologueAlly)`）。
+    //
+    // ⚠️ 之前不清，于是 `_makeDemoField` 那 7 个手写单位一直留在图上 ——
+    // 和真实单位混在一起，位置与外观都不对（用户看到的"角色不太对"）。
+    final g = map;
+    if (g != null) {
+      field = BattleField(
+        width: g.width,
+        height: g.height,
+        turn: 1,
+        activeFaction: Faction.blue,
+        units: const [],
+      );
+    }
+
     // 先把这一章用到的立绘全部解码好。
     //
     // ⚠️ 立绘解码是异步的、渲染是同步的 —— 不预热的话第一页画不出人像。
@@ -635,6 +654,87 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   String? get realSceneName {
     final v = _chapterGroup?['beginningSceneEvents'];
     return v is String && v != '0' ? v : null;
+  }
+
+  /// 单位定义表（`unit_defs.json`）—— `LOAD1/LOAD2/LOAD3` 用它
+  Map<String, dynamic> _unitDefs = const {};
+
+  void _loadUnitDefs() {
+    final f = File('tools/pipeline/out/tables/unit_defs.json');
+    if (!f.existsSync()) return;
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    _unitDefs = d['tables'] as Map<String, dynamic>;
+  }
+
+  /// 把一个 `UnitDef` 表里的单位放进战场。
+  ///
+  /// ## 出处：`UnitDefinition`（`include/bmunit.h`）与 `LOAD1`
+  ///
+  /// 序章开场的脚本：
+  ///
+  /// ```c
+  /// LOAD1(1, UnitDef_Event_PrologueAlly)
+  /// ```
+  ///
+  /// **⚠️ 之前这里只写了个 HUD 字符串，单位根本没载入** ——
+  /// 于是画面上一直是 `_makeDemoField` 里那 7 个手写的演示单位
+  /// （Mage / Fighter / Brigand / Archer 之类），位置和外观都不对。
+  /// 用户正是看到这个才说"地图上的角色不太对"。
+  void _loadUnitsFromTable(String name, int group) {
+    final list = _unitDefs[name];
+    if (list is! List) {
+      _sceneHudExtra = '缺单位表 $name';
+      return;
+    }
+    final cur = field;
+    if (cur == null) return;
+
+    final added = <MapUnit>[];
+    for (final e in list) {
+      final m = e as Map<String, dynamic>;
+      // `{0}` 是表的终止项 —— 跳过，不要当成单位
+      if ((m['charIndex'] ?? 0) == 0 &&
+          (m['classIndex'] ?? 0) == 0 &&
+          (m['x'] ?? 0) == 0 &&
+          (m['y'] ?? 0) == 0) {
+        continue;
+      }
+      final cls = (m['classIndex'] as num?)?.toInt() ?? 0;
+      added.add(MapUnit(
+        id: 0x100 + added.length,          // 蓝色方，编号从 0x100 起
+        // `allegiance`：0=蓝 1=红 2=绿（原作的 FACTION_*）
+        faction: switch ((m['allegiance'] as num?)?.toInt() ?? 0) {
+          1 => Faction.red,
+          2 => Faction.green,
+          _ => Faction.blue,
+        },
+        x: (m['x'] as num?)?.toInt() ?? 0,
+        y: (m['y'] as num?)?.toInt() ?? 0,
+        classId: cls,
+        level: (m['level'] as num?)?.toInt() ?? 1,
+        // 职业名走 `classes.json`，这里只用编号占位（名字不是规则层的输入）
+        name: 'C$cls',
+      ));
+    }
+    _addUnits(added);
+    _sceneHudExtra = '载入 $name（${added.length} 个单位）';
+  }
+
+  /// 往战场里加单位（并同步到画面）
+  void _addUnits(List<MapUnit> units) {
+    final cur = field;
+    if (cur == null || units.isEmpty) return;
+    final all = [...cur.units, ...units];
+    field = BattleField(
+      width: cur.width,
+      height: cur.height,
+      turn: cur.turn,
+      activeFaction: cur.activeFaction,
+      units: all,
+    );
+    // 画面刷新交给主循环（`update` 里每帧 `sync`），这里只改规则层，
+    // 免得在这里重复一次带 FlowState / FlowMachine 的三参调用。
+    _updateHud();
   }
 
   void _loadChapterLinks() {
