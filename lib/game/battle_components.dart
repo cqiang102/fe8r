@@ -15,10 +15,10 @@
 // 现在画占位图只会掩盖"位置/层级/交互"这些真正需要先验证的东西。
 // 地形沿用 M0 就验证过的 Tiled 地图。
 
-import 'dart:math' as math;
 
 import 'package:fe8r/core/core.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 // `ClipComponent` 的 `ShapeBuilder` 要求 Flame 的 `Shape`，
 // 具体形状（`Rectangle`）在 experimental 里 —— 这是官方文档给的用法。
 import 'package:flame/experimental.dart' show Rectangle;
@@ -104,32 +104,36 @@ class UnitComponent extends PositionComponent {
 }
 
 /// 光标
-class CursorComponent extends PositionComponent {
+class CursorComponent extends PositionComponent with HasPaint {
   CursorComponent({required double tileSize})
       : super(size: Vector2.all(tileSize));
 
-  /// 闪烁相位（渲染层的时间表现，不影响规则）
-  double _t = 0;
-
   @override
-  void update(double dt) {
-    _t += dt;
+  Future<void> onLoad() async {
+    // 呼吸式闪烁交给 Flame 的 `OpacityEffect`，不再自己 `_t += dt` + sin 手算。
+    //
+    // 用 Effect 白拿的能力：pause / reset / onComplete，
+    // 而且和项目其它动画（移动补间）风格统一。
+    //
+    // `OpacityEffect` 需要 `OpacityProvider` —— `HasPaint` 就提供了它。
+    add(OpacityEffect.to(
+      0.55,
+      EffectController(duration: 0.4, infinite: true, alternate: true),
+    ));
   }
 
   @override
   void render(Canvas canvas) {
-    // 呼吸式闪烁：规则层没有"光标动画"这个概念，这纯粹是表现
-    final a = 0.55 + 0.45 * (0.5 + 0.5 * math.sin(_t * 4));
-    final stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2
-      ..color = Color.fromRGBO(255, 224, 102, a);
+    // 圆角框：Flame 没有圆角矩形组件，手绘有理由。
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(0, 0, size.x, size.y).deflate(0.5),
         const Radius.circular(3),
       ),
-      stroke,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..color = const Color(0xFFFFE066),
     );
   }
 }
@@ -185,26 +189,21 @@ class ActionMenuComponent extends PositionComponent {
   final double tileSize;
 
   @override
-  void render(Canvas canvas) {
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 0, size.x, size.y),
-        const Radius.circular(3),
-      ),
-      Paint()..color = const Color(0xE0101820),
-    );
+  Future<void> onLoad() async {
+    // 选中行的高亮用 `RectangleComponent`，不再手绘
+    add(RectangleComponent(
+      position: Vector2(0, selectedIndex * tileSize),
+      size: Vector2(size.x, tileSize),
+      paint: Paint()..color = const Color(0x66FFE066),
+      priority: 0,
+    ));
 
+    // 每行文字用 `TextComponent` —— 它自己量尺寸、自己按 anchor 定位，
+    // 不用手算 `(tileSize - tp.height) / 2` 这种居中偏移。
     for (var i = 0; i < options.length; i++) {
-      final y = i * tileSize;
-      if (i == selectedIndex) {
-        canvas.drawRect(
-          Rect.fromLTWH(0, y, size.x, tileSize),
-          Paint()..color = const Color(0x66FFE066),
-        );
-      }
-      final tp = TextPainter(
-        text: TextSpan(
-          text: options[i].label,
+      add(TextComponent(
+        text: options[i].label,
+        textRenderer: TextPaint(
           style: TextStyle(
             color: i == selectedIndex
                 ? const Color(0xFFFFE066)
@@ -212,10 +211,25 @@ class ActionMenuComponent extends PositionComponent {
             fontSize: tileSize * 0.52,
           ),
         ),
-        textDirection: TextDirection.ltr,
-      )..layout();
-      tp.paint(canvas, Offset(4, y + (tileSize - tp.height) / 2));
+        // 垂直居中靠 anchor，不靠手算
+        anchor: Anchor.centerLeft,
+        position: Vector2(4, i * tileSize + tileSize / 2),
+        priority: 1,
+      ));
     }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    // 圆角框：Flame 没有圆角矩形组件（只有 `RectangleComponent` 画直角），
+    // 这一处手绘是有理由的。
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.x, size.y),
+        const Radius.circular(3),
+      ),
+      Paint()..color = const Color(0xE0101820),
+    );
   }
 }
 
@@ -325,6 +339,9 @@ class DialogueBoxComponent extends PositionComponent {
       children: [_textBox..position = Vector2(m - 2, m - 2)],
     );
     add(clip);
+
+    _addFaceLabel(guestFaceId, 0);
+    _addFaceLabel(hostFaceId, 1);
   }
 
   @override
@@ -360,13 +377,29 @@ class DialogueBoxComponent extends PositionComponent {
       RRect.fromRectAndRadius(r, const Radius.circular(4)),
       Paint()..color = const Color(0xCC2A3A50),
     );
-    final tp = TextPainter(
-      text: TextSpan(
-        text: id.toRadixString(16).toUpperCase(),
+    // 编号由 `onLoad` 里建好的 `TextComponent` 画 ——
+    // **不在 render 里建组件**（render 应当是纯的）。
+  }
+
+  /// 立绘占位的编号。用 `TextComponent` + `Anchor.center`，
+  /// 不再手算 `r.center - Offset(tp.width/2, tp.height/2)`。
+  void _addFaceLabel(int? id, int side) {
+    if (id == null) return;
+    final w = size.x * 0.12;
+    final rect = Rect.fromLTWH(
+      side == 0 ? size.x * 0.02 : size.x - w - size.x * 0.02,
+      -w * 0.8,
+      w,
+      w,
+    );
+    add(TextComponent(
+      text: id.toRadixString(16).toUpperCase(),
+      textRenderer: TextPaint(
         style: TextStyle(color: const Color(0xFFFFFFFF), fontSize: w * 0.3),
       ),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    tp.paint(canvas, r.center - Offset(tp.width / 2, tp.height / 2));
+      anchor: Anchor.center,
+      position: Vector2(rect.center.dx, rect.center.dy),
+      priority: 1,
+    ));
   }
 }
