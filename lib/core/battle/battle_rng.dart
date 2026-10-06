@@ -30,6 +30,26 @@ import '../rng/game_rng.dart';
 class BattleHitAttr {
   static const int crit = 1 << 0;
   static const int miss = 1 << 1;
+
+  /// `BATTLE_HIT_ATTR_BRAVE = (1 << 4)`（`include/bmbattle.h:117`）。
+  ///
+  /// ⚠️ **本实现只把它当"武器属性"，没有建模跨次命中的累积。**
+  ///
+  /// C（`src/bmbattle.c:218-236`）：
+  /// ```c
+  /// attrs = gBattleHitIterator->attributes;
+  /// count = GetBattleUnitHitCount(attacker);   // 内部会 |BATTLE_HIT_ATTR_BRAVE
+  /// for (i = 0; i < count; ++i) { gBattleHitIterator->attributes |= attrs; ... }
+  /// ```
+  /// `src/BattleCheckBraveEffect.c` 会往 attributes 里置 brave，
+  /// 并被 `attrs` 快照带到**第二次**命中。
+  ///
+  /// 而 Dart 的 `battleUnitHitCount(weaponAttributes)` 直接看武器属性，
+  /// `BattleHitAttr` 里也没有跨 step 的 hit-iterator 状态。
+  ///
+  /// **影响面：只影响动画标志位，不影响伤害与乱数** —— 所以列为
+  /// "结构性简化"而不是数值错误（审计的判定，我认同）。
+  static const int brave = 1 << 4;
   static const int silencer = 1 << 11;
   static const int sureshot = 1 << 14;
   static const int greatShield = 1 << 15;

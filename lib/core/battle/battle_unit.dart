@@ -236,9 +236,51 @@ class BattleUnit {
 // ---------------------------------------------------------------- 道具表
 
 /// `struct ItemStatBonuses` 的子集
+/// `struct ItemStatBonuses`（`include/bmitem.h:6-15`）—— **每个字段都是 `s8`**。
+///
+/// ```c
+/// struct ItemStatBonuses {
+///     /* 00 */ s8 hpBonus;
+///     /* 01 */ s8 powBonus;
+///     /* 02 */ s8 sklBonus;
+///     /* 03 */ s8 spdBonus;
+///     /* 04 */ s8 defBonus;
+///     /* 05 */ s8 resBonus;
+///     /* 06 */ s8 lckBonus;
+///     ...
+/// };
+/// ```
+///
+/// ⚠️ 我原来 `defBonus` 是普通 int、无截断。目前 `lib/` 里**没有任何地方
+/// 构造** `ItemStatBonuses`（这条路还没接通），所以暂时没有实际影响 ——
+/// 但一旦加载器把 ROM 里的 `0xFF`（= s8 的 -1）原样写进来，
+/// `def + 255` 会差 **256**。
+///
+/// 现在按 `s8` 存 —— 与 `BattleUnitSide` 的 `asS8` 一致。
 class ItemStatBonuses {
-  ItemStatBonuses({this.defBonus = 0});
+  ItemStatBonuses({
+    int hpBonus = 0,
+    int powBonus = 0,
+    int sklBonus = 0,
+    int spdBonus = 0,
+    int defBonus = 0,
+    int resBonus = 0,
+    int lckBonus = 0,
+  })  : hpBonus = asS8(hpBonus),
+        powBonus = asS8(powBonus),
+        sklBonus = asS8(sklBonus),
+        spdBonus = asS8(spdBonus),
+        defBonus = asS8(defBonus),
+        resBonus = asS8(resBonus),
+        lckBonus = asS8(lckBonus);
+
+  final int hpBonus;
+  final int powBonus;
+  final int sklBonus;
+  final int spdBonus;
   final int defBonus;
+  final int resBonus;
+  final int lckBonus;
 }
 
 /// `struct ItemData` 的子集

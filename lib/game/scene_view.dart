@@ -443,12 +443,9 @@ class SceneView {
     0: 24, 1: 48, 2: 72, 3: 168, 4: 192, 5: 216, 6: -64, 7: 304,
   };
 
-  /// 屏幕内的槽位，按 x 从左到右
-  static const onScreenSlots = [0, 1, 2, 3, 4, 5];
-
   /// 最靠右的**可见**立绘
   int? _rightmost(Map<int, int> slots) {
-    for (final s in onScreenSlots.reversed) {
+    for (final s in PortraitComponent.onScreenSlots.reversed) {
       if (slots.containsKey(s)) return slots[s];
     }
     return null;
@@ -456,7 +453,7 @@ class SceneView {
 
   /// 最靠左的**可见**立绘
   int? _leftmost(Map<int, int> slots) {
-    for (final s in onScreenSlots) {
+    for (final s in PortraitComponent.onScreenSlots) {
       if (slots.containsKey(s)) return slots[s];
     }
     return null;

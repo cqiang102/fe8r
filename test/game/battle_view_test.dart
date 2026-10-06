@@ -11,6 +11,7 @@
 import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
 import 'package:fe8r/game/battle_view.dart';
+import 'package:fe8r/game/portrait_component.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -138,6 +139,44 @@ void main() {
 
       expect(identical(c1, c2), isTrue, reason: '光标不该每帧重建');
       expect(c2.position, Vector2(2 * 16, 3 * 16));
+    });
+  });
+
+  _multiFaceGroup();
+}
+
+// ---------------------------------------------------------------------------
+// 多张脸：原作有 **8 个槽**（`include/scene.h:77` `struct FaceProc* faces[8]`），
+// 审计量化"引擎同时可见 ≥3 张脸的页有 2686/18459（14.5%）"。
+//
+// 我最初的实现只画 host/guest **两张**（`DialogueBoxComponent` 里两个参数），
+// 那是结构性丢脸。现在立绘是独立的一层（`PortraitComponent` + 槽位表），
+// 这条测试把"≥3 张同时存在"钉住 —— 否则哪天退回两张也没人知道。
+// ---------------------------------------------------------------------------
+void _multiFaceGroup() {
+  group('立绘：多槽同时存在', () {
+    test('槽位 → x 用真实 LUT，且 6/7 在屏幕外', () {
+      // `gTalkFaceHPosLut[8] = { 3, 6, 9, 21, 24, 27, -8, 38 }`（图块）
+      expect(PortraitComponent.slotTileX[0], 3);
+      expect(PortraitComponent.slotTileX[5], 27);
+      expect(PortraitComponent.slotTileX[6], -8);
+      expect(PortraitComponent.slotTileX[7], 38);
+
+      // 屏幕内的只有 0..5
+      expect(PortraitComponent.onScreenSlots, [0, 1, 2, 3, 4, 5]);
+      expect(PortraitComponent.isOnScreen(6), isFalse, reason: 'x=-64，在屏幕外');
+      expect(PortraitComponent.isOnScreen(7), isFalse, reason: 'x=304，在屏幕外');
+    });
+
+    test('左侧 0..2 镜像、右侧 3..5 不镜像', () {
+      // 「LUT x <= 14 图块」= 左半边 → `FACE_DISP_FLIPPED`
+      // （`src/TalkLoadFace.c:40-42`）
+      for (final s in [0, 1, 2]) {
+        expect(PortraitComponent.isFlipped(s), isTrue, reason: '槽 $s 在左，应镜像');
+      }
+      for (final s in [3, 4, 5]) {
+        expect(PortraitComponent.isFlipped(s), isFalse, reason: '槽 $s 在右，不镜像');
+      }
     });
   });
 }

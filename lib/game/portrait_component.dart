@@ -56,8 +56,14 @@ class PortraitComponent extends PositionComponent {
     0: 3, 1: 6, 2: 9, 3: 21, 4: 24, 5: 27, 6: -8, 7: 38,
   };
 
-  /// 这个槽位在屏幕上可见吗（6/7 在屏幕外）
-  static bool isOnScreen(int slot) => slot >= 0 && slot <= 5;
+  /// 屏幕内的槽位（按 x 从左到右）。
+  ///
+  /// 槽 6/7 的 x 是 −64 / 304 图块 —— **完全在屏幕外**，
+  /// 它们是先载入再移动进来的暂存位（序章的传令兵就是这么进场的）。
+  static const onScreenSlots = [0, 1, 2, 3, 4, 5];
+
+  /// 这个槽位在屏幕上可见吗
+  static bool isOnScreen(int slot) => onScreenSlots.contains(slot);
 
   /// 是否镜像（`GetTalkFaceHPos <= 14` 图块 → 左半边）
   static bool isFlipped(int slot) => (slotTileX[slot] ?? 99) <= 14;
