@@ -185,7 +185,20 @@ class SceneView {
     // 我原来是"固定 92% 宽、y=0.56..0.84 的方框" —— 位置和形状都不对。
     final boxH = virtualSize.y * (48 / 160);          // 6 图块 = 48px
     final boxY = virtualSize.y * (24 / 160);          // y = 3 图块 = 24px
-    final boxW = virtualSize.x * 0.92;
+
+    // ⚠️ 宽度**随这一页文字长度变化**，不是固定 92%。
+    //
+    // `src/scene_080087A4.c:23-43`（`StartTalkOpen`）：
+    //     proc->unk68 = activeWidth;
+    // 而 `activeWidth = 2 + Div(GetStrTalkLen(str, ...) + 7, 8)`
+    // （`src/TalkInterpret.c:40-43`，**单位是图块**）。
+    // `src/scene_080081A0.c:99-155`（`PutTalkBubble`）用它算气泡的 x 与宽。
+    //
+    // 「2 + ceil(行长/8)」= 左右各留 1 图块内边距，中间放文字。
+    // 每行最多 8 图块 = 64px（`xText = x + 1`，`src/scene_080081A0.c:163`）。
+    final linePx = _maxLinePx(text);
+    final boxTiles = (2 + ((linePx + 7) ~/ 8)).clamp(6, 28).toDouble();
+    final boxW = virtualSize.x * (boxTiles * 8 / 240);
     _box = DialogueBoxComponent(
       text: text,
       hostFaceId: hostFace,
@@ -199,6 +212,30 @@ class SceneView {
   }
 
   Vector2 _screenSize = Vector2.zero();
+
+  /// 这一页最长一行的**像素宽**。
+  ///
+  /// ⚠️ `GetStrTalkLen` 返回的是**像素**（`src/sub_8008A40.c:244`
+  /// `currentLineLen += chrLen`，`chrLen` 来自 `GetCharTextLen`），
+  /// 调用方再 `Div(x + 7, 8)` 转成图块。
+  ///
+  /// 我第一版把"字符数"当成了像素，于是 11 个全角字只算出 5 图块 = 40px，
+  /// **文字被裁成「城門が突破さ」**（截图一眼可见）。
+  ///
+  /// FE 的字体是 12px 高：全角 12px、半角（ASCII）6px。
+  static int _maxLinePx(String text) {
+    var best = 0;
+    var cur = 0;
+    for (final rune in text.runes) {
+      if (rune == 0x0A) {
+        if (cur > best) best = cur;
+        cur = 0;
+        continue;
+      }
+      cur += rune < 0x80 ? 6 : 12;
+    }
+    return cur > best ? cur : best;
+  }
 
   /// 按槽位表同步立绘组件。
   ///
