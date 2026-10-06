@@ -25,8 +25,13 @@ void main() {
           File('tools/pipeline/out/tables/texts.json').readAsStringSync());
     });
 
-    test('解析出 166 个场景脚本', () {
-      expect(scenes.scripts.length, 166);
+    test('解析出 196 个场景脚本', () {
+      // ⚠️ 166 → 196 是**修正**：第一版按文件名扫
+      //（`src/data/EventScr_*`），漏掉了定义在
+      // `worldmap_gmapunit/dat_worldmap_gmapunit_p1542.c` 里的
+      // `EventScr_CallOnTutorialMode` —— 而序章第 3 条就 CALL 它。
+      // **按文件名猜内容，就会漏。**
+      expect(scenes.scripts.length, 196);
     });
 
     test('序章开场脚本：37 条指令，第一条是 CALL 到王座过场', () {
@@ -66,12 +71,19 @@ void main() {
         expect(scenes.scripts.containsKey(d), isTrue);
       }
 
-      // ⚠️ 这是**跑序章会断在哪** —— 如实记录，不要过滤掉。
-      // `EventScr_CallOnTutorialMode` 被 CALL 引用，但不在解析出的
-      // 166 个脚本里（它定义在别处 / 尚未被 carve 出来）。
+      // `EventScr_CallOnTutorialMode` 现在找到了（扩大扫描范围之后）。
+      expect(scenes.scripts.containsKey('EventScr_CallOnTutorialMode'), isTrue);
+
+      // ⚠️ 但仍有 3 个**在整个反编译项目里都没有定义** ——
+      // 是上游尚未 carve 出来的，不是解析漏了。
+      // 如实记录：**这就是序章跑起来会缺的地方**。
       final missing = scenes.missingOf(pro);
-      expect(missing, contains('EventScr_CallOnTutorialMode'),
-          reason: '这条缺口是真实的：序章跑到那里会断');
+      expect(missing, contains('EventScr_Prologue_EirikaAttacked'));
+      expect(missing, contains('EventScr_Prologue_ONeillSpawn'));
+      expect(missing, contains('EventScr_Prologue_ExecTut'));
+      // 它们都是通过 `SVAL(槽位, 脚本)` 间接引用的，
+      // 所以运行时的表现是"某个槽位指向一个不存在的脚本"，
+      // 而不是"直接 CALL 不存在的脚本" —— 处理方式不同。
     });
 
     test('**序章开场的实际对白能读出来**（这条是整条链的终点）', () {

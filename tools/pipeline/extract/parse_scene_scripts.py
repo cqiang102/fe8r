@@ -55,9 +55,19 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 DECOMP = os.path.join(REPO, "third_party", "fireemblem8j")
 
+# ⚠️ **不要按文件名猜哪个文件装脚本。**
+#
+# 第一版只扫 `src/data/EventScr_*`，结果漏掉了
+# `EventScr_CallOnTutorialMode` —— 它定义在
+# `src/data/worldmap_gmapunit/dat_worldmap_gmapunit_p1542.c`，
+# 文件名和 `EventScr_` 毫不相干。
+#
+# 漏掉它的后果很具体：序章开场第 3 条就 `CALL(EventScr_CallOnTutorialMode)`，
+# 于是"序章跑不起来"。**按文件名猜内容，就会漏。**
+#
+# 所以扫**整个 src/**，靠内容找（正则匹配定义），不靠路径。
 SRC_GLOBS = [
-    "src/data/EventScr_*_ref/*.c",
-    "src/data/EventScr_*.c",
+    "src/**/*.c",
 ]
 
 # 一眼是"宏/常量"而不是符号名的写法：全大写 + 下划线
@@ -167,7 +177,9 @@ def parse_body(body):
             continue
         m = re.fullmatch(r"([A-Za-z_]\w*)\s*(?:\((.*)\))?", line, re.S)
         if not m:
-            out.append({"op": "?", "raw": line[:120]})
+            # ⚠️ 兜底分支也要带 `args` —— 否则 Dart 侧读 `args` 会拿到 null。
+            # 结构统一比"省一个空数组"重要得多。
+            out.append({"op": "?", "args": [], "raw": line[:120]})
             continue
         op = m.group(1)
         args_s = m.group(2)
@@ -183,7 +195,10 @@ def main():
 
     files = []
     for g in SRC_GLOBS:
-        files.extend(sorted(glob.glob(os.path.join(DECOMP, g))))
+        # ⚠️ 必须 `recursive=True` —— 否则 `**` 不展开，
+        # 上面那行会只匹配到 16 个文件（而不是 src 下全部 .c）。
+        files.extend(sorted(
+            glob.glob(os.path.join(DECOMP, g), recursive=True)))
     files = sorted(set(files))
     if not files:
         print("错误：没找到场景脚本源文件", file=sys.stderr)

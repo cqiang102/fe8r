@@ -1,10 +1,9 @@
 {
  "source": [
-  "src/data/EventScr_*_ref/*.c",
-  "src/data/EventScr_*.c"
+  "src/**/*.c"
  ],
  "note": "从源码逐行解析；参数为 int 或 {sym}/{sym,off}/{raw}",
- "scriptCount": 166,
+ "scriptCount": 196,
  "scripts": {
   "EventScr_9EEA58": [
    {
@@ -35582,6 +35581,3161 @@
     "op": "LABEL",
     "args": [
      2
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CallOnTutorialMode": [
+   {
+    "op": "CHECK_TUTORIAL",
+    "args": []
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CALL",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CallOnHardMode": [
+   {
+    "op": "CHECK_TUTORIAL",
+    "args": []
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CHECK_HARD",
+    "args": []
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CALL",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CallOnChapterNumber": [
+   {
+    "op": "CHECK_CHAPTER_NUMBER",
+    "args": []
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     3
+    ]
+   },
+   {
+    "op": "CALL",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CallIfCommonMode": [
+   {
+    "op": "CHECK_MODE",
+    "args": []
+   },
+   {
+    "op": "BNE",
+    "args": [
+     {
+      "raw": "CHAPTER_MODE_COMMON"
+     },
+     12,
+     2
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     2,
+     3,
+     0
+    ]
+   },
+   {
+    "op": "CALL",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CallWithModeCheck": [
+   {
+    "op": "CHECK_MODE",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     7,
+     {
+      "raw": "CHAPTER_MODE_COMMON"
+     }
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     2,
+     12,
+     7
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     7,
+     {
+      "raw": "CHAPTER_MODE_EIRIKA"
+     }
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     1,
+     12,
+     7
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     2,
+     3,
+     0
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     2,
+     4,
+     0
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "CALL",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_SetFlagIfPlayedThrough": [
+   {
+    "op": "CHECK_POSTGAME",
+    "args": []
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "ENUT",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_ApplyTileChangeForFaction": [
+   {
+    "op": "EVBIT_MODIFY",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "CHECK_ALLEGIANCE",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     2
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     -2
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "NoFade",
+    "args": []
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_FormatFlashingCursor": [
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "BLE",
+    "args": [
+     1,
+     13,
+     0
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "CURSOR_FLASHING",
+    "args": [
+     -1,
+     -1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_MoveUnitS2ToLeader": [
+   {
+    "op": "CHECK_ALIVE",
+    "args": [
+     -3
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CHECK_DEPLOYED",
+    "args": [
+     -3
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "MOVEONTO",
+    "args": [
+     0,
+     -3,
+     0
+    ]
+   },
+   {
+    "op": "ENUN",
+    "args": []
+   },
+   {
+    "op": "REMU",
+    "args": [
+     -3
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_FormatMoveUnit": [
+   {
+    "op": "CHECK_ALIVE",
+    "args": [
+     -3
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CHECK_DEPLOYED",
+    "args": [
+     -3
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "MOVE_NEXTTO",
+    "args": [
+     0,
+     -3,
+     0
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CHECK_COORDS",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     11,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "SPAWN_CUTSCENE_ALLY",
+    "args": [
+     -3,
+     -1,
+     -1
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     7,
+     {
+      "raw": "FACING_UP"
+     }
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     1,
+     7,
+     3
+    ]
+   },
+   {
+    "op": "MOVE_1STEP",
+    "args": [
+     0,
+     -3,
+     {
+      "raw": "FACING_UP"
+     }
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     7,
+     {
+      "raw": "FACING_DOWN"
+     }
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     2,
+     7,
+     3
+    ]
+   },
+   {
+    "op": "MOVE_1STEP",
+    "args": [
+     0,
+     -3,
+     {
+      "raw": "FACING_DOWN"
+     }
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     7,
+     {
+      "raw": "FACING_LEFT"
+     }
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     3,
+     7,
+     3
+    ]
+   },
+   {
+    "op": "MOVE_1STEP",
+    "args": [
+     0,
+     -3,
+     {
+      "raw": "FACING_LEFT"
+     }
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     3
+    ]
+   },
+   {
+    "op": "MOVE_1STEP",
+    "args": [
+     0,
+     -3,
+     {
+      "raw": "FACING_RIGHT"
+     }
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "ENUN",
+    "args": []
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_LoadUniqueAlly": [
+   {
+    "op": "CHECK_EXISTS",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CHECK_ALLEGIANCE",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     {
+      "raw": "FACTION_ID_BLUE"
+     }
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     1,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CUSA",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "SPAWN_ALLY",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     },
+     0,
+     0
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     0
+    ]
+   },
+   {
+    "op": "SET_HP",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     0
+    ]
+   },
+   {
+    "op": "SET_STATE",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_UnitWarpIN": [
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "CAMERA_CAHR",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "CHECK_COORDS",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     11,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "WARP_IN",
+    "args": [
+     -1,
+     -1
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     10
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "ENDWARP",
+    "args": []
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_UnitWarpOUT": [
+   {
+    "op": "CAMERA_CAHR",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "CHECK_COORDS",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     11,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "WARP_OUT",
+    "args": [
+     -1,
+     -1
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     20
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "ENDWARP",
+    "args": []
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_UnitFlushingIN": [
+   {
+    "op": "CAMERA_CAHR",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     4
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     4
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_UnitFlushingOUT": [
+   {
+    "op": "CAMERA_CAHR",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     4
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     6
+    ]
+   },
+   {
+    "op": "REVEAL",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL2",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_StrictLoadUniqueAlly": [
+   {
+    "op": "CHECK_EXISTS",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "SPAWN_ALLY",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     },
+     0,
+     0
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CHECK_ALLEGIANCE",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     {
+      "raw": "FACTION_ID_BLUE"
+     }
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     2,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CUSA",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     0
+    ]
+   },
+   {
+    "op": "SET_HP",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "REMU",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     0
+    ]
+   },
+   {
+    "op": "SET_STATE",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Tutorial_Exec0": [
+   {
+    "op": "TUTORIALTEXTBOXSTART",
+    "args": []
+   },
+   {
+    "op": "CHECK_ACTIVE",
+    "args": []
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     2
+    ]
+   },
+   {
+    "op": "SHOW_ATTACK_RANGE",
+    "args": [
+     {
+      "raw": "CHAR_EVT_ACTIVE_UNIT"
+     }
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "CURSOR_FLASHING",
+    "args": [
+     -1,
+     -1
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     18
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "TEXTSHOW",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "TEXTEND",
+    "args": []
+   },
+   {
+    "op": "CURE",
+    "args": []
+   },
+   {
+    "op": "IGNORE_KEYS",
+    "args": [
+     {
+      "raw": "R_BUTTON | START_BUTTON | B_BUTTON"
+     }
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     12
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     12
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "?",
+    "args": [],
+    "raw": "EvtEnqueueConditionalTutCall("
+   },
+   {
+    "op": "?",
+    "args": [],
+    "raw": "-1"
+   },
+   {
+    "op": "?",
+    "args": [],
+    "raw": "TUTORIAL_EVT_TYPE_DESTSELECTED)"
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     12
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     12
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     12
+    ]
+   },
+   {
+    "op": "CURSOR_FLASHING_CHAR",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     8
+    ]
+   },
+   {
+    "op": "SET_ACTIVE",
+    "args": [
+     {
+      "raw": "CHAR_EVT_SLOT2"
+     }
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "TEXTSHOW",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "TEXTEND",
+    "args": []
+   },
+   {
+    "op": "CURE",
+    "args": []
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     12
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "?",
+    "args": [],
+    "raw": "EvtEnqueueConditionalTutCall("
+   },
+   {
+    "op": "?",
+    "args": [],
+    "raw": "-1"
+   },
+   {
+    "op": "?",
+    "args": [],
+    "raw": "TUTORIAL_EVT_TYPE_ONSELECT)"
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "REMA",
+    "args": []
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_ConfigHardModeLoadUnitHard": [
+   {
+    "op": "CHECK_HARD",
+    "args": []
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "EvtSetLoadUnitCount",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "EvtSetLoadUnitCount",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_9EE84C": [
+   {
+    "op": "RANDOMNUMBER",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     7,
+     -1
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     8,
+     0
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     9
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     1
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     7,
+     7,
+     1
+    ]
+   },
+   {
+    "op": "SADD",
+    "args": [
+     8,
+     8,
+     9
+    ]
+   },
+   {
+    "op": "BLE",
+    "args": [
+     0,
+     8,
+     12
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     13,
+     0
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     0
+    ]
+   },
+   {
+    "op": "SAVETOQUEUE",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     40
+    ]
+   },
+   {
+    "op": "SAVETOQUEUE",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     60
+    ]
+   },
+   {
+    "op": "SAVETOQUEUE",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     80
+    ]
+   },
+   {
+    "op": "SAVETOQUEUE",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     100
+    ]
+   },
+   {
+    "op": "SAVETOQUEUE",
+    "args": []
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     1
+    ]
+   },
+   {
+    "op": "SSUB",
+    "args": [
+     7,
+     7,
+     1
+    ]
+   },
+   {
+    "op": "SDEQUEUE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "BLE",
+    "args": [
+     1,
+     0,
+     7
+    ]
+   },
+   {
+    "op": "EvtSetLoadUnitChance",
+    "args": [
+     -1
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     13,
+     0
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_37": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     1
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     10
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     20
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     0,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     12,
+     12
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_38": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     6
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     15
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     0,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     12,
+     12
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_39": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     2
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     8
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     14
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     20
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     7,
+     10
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     10,
+     10
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     5
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     19,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     8
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_40": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     5
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     11
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     17
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     7,
+     10
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     10,
+     10
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     5
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     19,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     8
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_41": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     5
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     13
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     20
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     19,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     9
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_42": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     9
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     17
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     0,
+     0
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     2
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     19,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     9
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_45": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     1
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     5
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     9
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     13
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     17
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     20
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     10,
+     15
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     4
+    ]
+   },
+   {
+    "op": "CAMERA2",
+    "args": [
+     12,
+     6
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     10
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_47": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     6
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     12
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     18
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     20
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     0,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BE"
+     }
+    ]
+   },
+   {
+    "op": "TILECHANGE",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_Ruin_48": [
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     7
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     13
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "CHECK_TURNS",
+    "args": []
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     1,
+     19
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     0,
+     12,
+     1
+    ]
+   },
+   {
+    "op": "GOTO",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CAMERA",
+    "args": [
+     0,
+     20
+    ]
+   },
+   {
+    "op": "STAL",
+    "args": [
+     15
+    ]
+   },
+   {
+    "op": "SOUN",
+    "args": [
+     {
+      "raw": "SONG_BD"
+     }
+    ]
+   },
+   {
+    "op": "TILEREVERT",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
+    ]
+   },
+   {
+    "op": "EVBIT_T",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CutsceneExecEnd_Sub0": [
+   {
+    "op": "CHECK_EVBIT",
+    "args": [
+     8
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CHECK_EVBIT",
+    "args": [
+     7
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     99,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "FADI",
+    "args": [
+     16
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CLEAN",
+    "args": []
+   },
+   {
+    "op": "FADU",
+    "args": [
+     16
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     99
+    ]
+   },
+   {
+    "op": "ENDA",
+    "args": []
+   }
+  ],
+  "EventScr_CutsceneExecEnd_Sub1": [
+   {
+    "op": "CHECK_EVBIT",
+    "args": [
+     8
+    ]
+   },
+   {
+    "op": "BNE",
+    "args": [
+     0,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "FADI",
+    "args": [
+     16
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     0
+    ]
+   },
+   {
+    "op": "CHECK_EVBIT",
+    "args": [
+     11
+    ]
+   },
+   {
+    "op": "BEQ",
+    "args": [
+     1,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "CHECK_CHAPTER_NUMBER",
+    "args": []
+   },
+   {
+    "op": "SADD",
+    "args": [
+     2,
+     12,
+     0
+    ]
+   },
+   {
+    "op": "SVAL",
+    "args": [
+     11,
+     0
+    ]
+   },
+   {
+    "op": "LOMA",
+    "args": [
+     65535
+    ]
+   },
+   {
+    "op": "LABEL",
+    "args": [
+     1
     ]
    },
    {

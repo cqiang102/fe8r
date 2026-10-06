@@ -172,7 +172,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L0', '场景剧情脚本（源码解析）', 'python3',
           ['extract/parse_scene_scripts.py', '--out', 'out/tables'],
-          cwd: 'tools/pipeline', note: '166 个脚本 / 130 种指令名')
+          cwd: 'tools/pipeline', note: '196 个脚本 / 130 种指令名')
     else
       Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
 

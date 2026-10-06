@@ -84,7 +84,9 @@ class SceneScript {
           final m = e as Map<String, dynamic>;
           return SceneInstruction(
             op: m['op'] as String,
-            args: (m['args'] as List<dynamic>).map(_arg).toList(),
+            // `args` 允许缺失 —— 解析器那边已经保证总是输出，
+            // 但读的一端不该因为少一个字段就整个崩掉。
+            args: ((m['args'] as List<dynamic>?) ?? const []).map(_arg).toList(),
           );
         }).toList(),
       );
