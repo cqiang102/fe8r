@@ -254,9 +254,25 @@ def main():
         links.append(entry)
 
     print(f"\n章节 {len(links)} 条，解析出事件组 {len(groups)} 个")
-    if problems:
-        print(f"⚠️  {len(problems)} 处未解析:", file=sys.stderr)
-        for p in problems[:6]:
+    # ⚠️ **未解析必须失败，不能只警告。**
+    #
+    # 原来这里只 `print("⚠️ N 处未解析")` 然后 `return 0`（:281）。
+    # `_ref` 目录改名、`shift[]` 正则失配 → 事件组静默变少而脚本仍绿。
+    # 唯一的兜底是 `chapter_loader_test.dart:46` 钉死"只有 8 章能完整装配"——
+    # 那是**下游**的兜底，提取器自己不该静默。
+    # ⚠️ **判据要精确：跳过是跳过，问题才是问题。**
+    #
+    # "资产 0 无名"是**合法的** —— 下标 0 是空占位
+    # （`gChapterDataAssetTable[0]` 就是 NULL，见 carved_rom.tsv 的注释）。
+    # 我第一版把所有 problems 都当失败，误伤了这 3 处。
+    benign = [p for p in problems if "资产 0 无名" in str(p)]
+    real = [p for p in problems if "资产 0 无名" not in str(p)]
+    if benign:
+        print(f"  （{len(benign)} 处'资产 0 无名'是合法的空占位，不计）")
+    if real:
+        print(f"\n❌ {len(real)} 处未解析 —— 提取器不该静默通过:",
+              file=sys.stderr)
+        for p in real[:20]:
             print(f"   {p}", file=sys.stderr)
 
     # 抽查：Prologue 的盟友单位表
@@ -278,7 +294,7 @@ def main():
     with open(dst, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
     print(f"\n→ {dst}  ({os.path.getsize(dst) // 1024} KB)")
-    return 0
+    return 1 if real else 0
 
 
 if __name__ == "__main__":

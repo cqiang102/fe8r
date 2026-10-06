@@ -152,16 +152,17 @@
   "EV_CMD_WM_WAITFORTEXT": 177
  },
  "encoding": {
+  "lengthMask": 15,
   "lengthShift": 4,
   "macros": {
    "EVT_CMD_ARGV": "((const s16 *)(scr) + 1)",
    "EVT_CMD_LEN": "((*((const u16 *)(scr)) >> 0x4) & 0xF)",
    "EVT_SUB_CMD": "(*((const u8 *)(scr)) & 0xF)"
   },
-  "note": "word[0] = (cmd<<8) | (len<<4) | sub；见 _EvtCmd 宏",
   "opcodeShift": 8,
   "subCmdMask": 15
  },
+ "note": "word[0] = (cmd<<opcodeShift) | (len<<lengthShift) | sub",
  "source": "include/eventscript.h",
  "subCommands": {
   "EVSUBCMD_0x1A22": 2,

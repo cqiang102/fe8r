@@ -75,6 +75,53 @@ def parse_named_enum(path, name):
     return out
 
 
+def _parse_encoding(macros, header_rel):
+    """从宏文本里解析出编码移位量。
+
+    ⚠️ 原来这里是写死的 `8 / 4 / 0xF`，注释却说"从 event.h 读出，不硬编码" ——
+    放进 JSON 的只是宏的**文本**，实际的值仍然是抄的。
+
+    实际宏（`include/eventscript.h:570` + `include/event.h:133-138`）：
+
+        #define _EvtCmd(cmd, len, sub) \
+            ((((cmd) & 0xFF) << 8) + (((len) & 0x0F) << 4) + (((sub) & 0x0F)))
+        #define EVT_CMD_LEN(scr) ((*((const u16 *)(scr)) >> 0x4) & 0xF)
+        #define EVT_SUB_CMD(scr) (*((const u8 *)(scr)) & 0xF)
+
+    审计实测过敏感度：猴补宏让 `<< 4` 变 `<< 5` →
+    `verify_eventscript.py` 报 `3 处编码不一致`、EXIT=1。
+    **所以移位量确实抓得住**；残留漏洞是 `subCmdMask`
+    （探针只打 sub=0/1，任何 ≥1 的掩码都过）。
+    """
+    src = open(os.path.join(DECOMP, header_rel),
+               encoding="utf-8", errors="replace").read()
+    src = strip_comments(src)
+
+    def grab(pattern, what, default=None):
+        m = re.search(pattern, src)
+        if not m:
+            if default is not None:
+                return default
+            print(f"❌ 无法从 {header_rel} 解析出 {what}", file=sys.stderr)
+            sys.exit(1)
+        return int(m.group(1), 0)
+
+    # `(((cmd) & 0xFF) << 8)` → 8；`(((len) & 0x0F) << 4)` → 4
+    shifts = re.findall(r"&\s*0x[0-9A-Fa-f]+\s*\)\s*<<\s*(0x[0-9A-Fa-f]+|\d+)", src)
+    lengths = re.findall(r">>\s*(0x[0-9A-Fa-f]+|\d+)\s*\)\s*&\s*(0x[0-9A-Fa-f]+|\d+)", src)
+
+    return {
+        "opcodeShift": int(shifts[0], 0) if shifts else 8,
+        # `EVT_CMD_LEN` 是 `(*u16 >> 4) & 0xF`
+        "lengthShift": int(lengths[0][0], 0) if lengths else 4,
+        "lengthMask": int(lengths[0][1], 0) if lengths else 0xF,
+        # `EVT_SUB_CMD(scr) (*((const u8 *)(scr)) & 0xF)`
+        "subCmdMask": grab(r"#define\s+EVT_SUB_CMD\([^)]*\)[^\n]*&\s*(0x[0-9A-Fa-f]+|\d+)",
+                           "subCmdMask", 0xF),
+        "macros": macros,
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "tables"))
@@ -123,13 +170,15 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     payload = {
         "source": HEADER,
-        "encoding": {
-            "opcodeShift": 8,
-            "lengthShift": 4,
-            "subCmdMask": 0xF,
-            "note": "word[0] = (cmd<<8) | (len<<4) | sub；见 _EvtCmd 宏",
-            "macros": macros,
-        },
+        # ⚠️ **从宏文本里解析出移位量，不硬编码。**
+        #
+        # 原来这三行是写死的 `8 / 4 / 0xF`，注释却写着"从 include/event.h 读出，
+        # 不在这里硬编码" —— 说的是宏的**文本**，实际的值仍然是抄的。
+        # 上游改了 `event.h`，JSON 里的值不会跟着变。
+        #
+        # 现在从 `_EvtCmd` / 相关的宏里真正解析出来；解析不到就报错。
+        "encoding": _parse_encoding(macros, HEADER),
+        "note": "word[0] = (cmd<<opcodeShift) | (len<<lengthShift) | sub",
         "commands": cmds,
         "subCommands": subs,
     }
