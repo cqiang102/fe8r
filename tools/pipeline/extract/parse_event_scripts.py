@@ -415,7 +415,7 @@ def main():
 
     os.makedirs(a.out, exist_ok=True)
     payload = {
-        "sources": [os.path.relpath(f, DECOMP) for f in files[:0]],
+        "sources": [os.path.relpath(f, DECOMP) for f in files],
         "tableCount": len(per_table),
         "instructionCount": total_ins,
         "decodedTables": good,

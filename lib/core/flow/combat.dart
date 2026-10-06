@@ -30,6 +30,9 @@ import '../battle/weapon_triangle.dart';
 import '../rng/game_rng.dart';
 import 'battle_field.dart';
 
+/// `CA_CRITBONUS = 1 << 6`（`include/bmunit.h:317`）
+const int caCritBonus = 1 << 6;
+
 /// 一个单位参与战斗所需的静态数据（职业/武器）。
 ///
 /// 这些数据来自章节配置与职业表——目前是调用方喂进来的，
@@ -38,6 +41,7 @@ class CombatProfile {
   const CombatProfile({
     this.classId = 0,
     this.level = 1,
+    this.classAttributes = 0,
     this.pow = 0,
     this.skl = 0,
     this.spd = 0,
@@ -53,6 +57,10 @@ class CombatProfile {
 
   final int classId;
   final int level;
+
+  /// 职业属性位（`CA_*`，`include/bmunit.h:311-338`）。
+  /// 目前只用到 `CA_CRITBONUS`（1<<6）。
+  final int classAttributes;
   final int pow;
   final int skl;
   final int spd;
@@ -156,6 +164,9 @@ class CombatResolver {
       pow: p.pow,
       skl: p.skl,
       classId: p.classId,
+      // 判定阈值要用真实等级 —— 见 `_toCombatant` 的说明
+      level: p.level,
+      classAttributes: p.classAttributes,
     );
     bu.weapon = p.weaponItem;
     bu.weaponBefore = p.weaponItem;
@@ -288,8 +299,10 @@ class CombatResolver {
     // ---- 1. 数值 ----
     BattleStats.computeAttack(atk, def, items,
         monsterClassList: monsterClassList);
-    BattleStats.computeBaseDefense(atk);
-    BattleStats.computeBaseDefense(def);
+    // ⚠️ 主路径用 `ComputeBattleUnitDefense`（看武器是否带 IA_MAGIC*），
+    // **不是** `ComputeBattleUnitBaseDefense` —— 后者只用于道具/杖效果路径。
+    BattleStats.computeDefense(atk, def);
+    BattleStats.computeDefense(def, atk);
     BattleStats.computeSpeed(atk, items);
     BattleStats.computeSpeed(def, items);
     computeHitRate(atk, items);
@@ -304,8 +317,18 @@ class CombatResolver {
     BattleStats.computeEffectiveHitRate(atk, def);
 
     // 必杀率要在回避/幸运算完之后再算
+    // ⚠️ 必杀率还要加 `CA_CRITBONUS`（+15）。
+    //
+    // `src/bmbattle_0802AB88.c:29-34`（`ComputeBattleUnitCritRate`）：
+    //     if (UNIT_CATTRIBUTES(unit) & CA_CRITBONUS) battleCritRate += 15;
+    // `CA_CRITBONUS = 1 << 6`（`include/bmunit.h:317`）。
+    //
+    // 我原来是内联 `items.critOf(...) + skl ~/ 2`，**整个 +15 没了**。
     atk.battleCritRate =
         items.critOf(attackerProfile.weaponItem) + (atk.unit.skl ~/ 2);
+    if (atk.unit.classAttributes & caCritBonus != 0) {
+      atk.battleCritRate += 15;
+    }
     BattleStats.computeEffectiveCritRate(atk, def, items);
     BattleStats.computeSilencerRate(atk, def);
 
@@ -361,9 +384,19 @@ class CombatResolver {
     );
   }
 
+  /// ⚠️ `level` **必须取自单位**，不能硬编码。
+  ///
+  /// C 的 SureShot / GreatShield / Pierce 三次判定都用 `attacker->unit.level`
+  /// 当阈值：`src/bmbattle_0802B164.c:54`（SureShot）、`:80`（Pierce）、
+  /// `:111`（GreatShield）。而 `battle_rng.dart:181/235/246` 确实传了
+  /// `attacker.level`（`CombatProfile` 也有 `level` 字段）——
+  /// **但我这里永远给 1**，于是等级 20 的狙击手/翼骑士/将军
+  /// 判定阈值恒为 1 → 这些职业特色几乎必定失败。
+  ///
+  /// （判定各消耗 1 个 RN，所以**乱数消耗次数不变**，但成功与否全错。）
   static BattleCombatant _toCombatant(BattleUnit bu) => BattleCombatant(
         classId: bu.unit.classId ?? 0,
-        level: 1,
+        level: bu.unit.level,
         items: bu.unit.items,
       );
 }

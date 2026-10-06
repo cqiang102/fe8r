@@ -81,8 +81,11 @@ void main() {
     test('与 GBA 原始 .mar 逐格一致', () {
       final mar = File(_marPath);
       if (!mar.existsSync()) {
-        markTestSkipped('缺少 ${mar.path}（需要 clone fireemblem8j 到 third_party/）');
-        return;
+        // ⚠️ 这里原本是 `markTestSkipped` + `return` —— 而
+        // `flutter test` 对 skip 返回 **0**，于是"唯一的 ROM 字节对照测试"
+        // 被跳过时，整步仍记 `✓ 通过`（审计实测：`+180 ~1: All tests passed!`）。
+        // 缺数据是**失败**，不是跳过。
+        fail('缺少 ${mar.path}（需要 clone fireemblem8j 到 third_party/）');
       }
 
       // GBA 格式：每格 2 字节小端 u16，metatileIndex = 值 >> 5

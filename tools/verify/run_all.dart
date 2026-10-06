@@ -176,7 +176,7 @@ Future<void> main(List<String> argv) async {
       Step('L0', '场景剧情脚本 + opcode 覆盖率', 'python3',
           ['extract/parse_event_scripts.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline',
-          note: '166 张 / 5843 条指令 / 当前覆盖 62.2%')
+          note: '指令数与覆盖率由事件脚本测试断言')
     else
       Step('L0', '场景剧情脚本', 'true', const [], skip: true, note: decompNote),
 
@@ -229,7 +229,7 @@ Future<void> main(List<String> argv) async {
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
-          cwd: 'tools/pipeline', note: '135 张表 / 7008 个值 vs clang')
+          cwd: 'tools/pipeline', note: '表数与值总数由独立判据断言（不再靠自由文本）')
     else
       Step('L0', '数据表逐字节校验', 'true', const [], skip: true, note: decompNote),
 
@@ -404,7 +404,7 @@ Future<void> main(List<String> argv) async {
 
   stdout.writeln('\n[—] 尚未实现');
 
-  stdout.writeln('      L1 事件引擎的其余指令（150 条里已实现 27 条）');
+  stdout.writeln('      L1 事件引擎的其余指令（已实现条数由 event_scripts_test 断言）');
   stdout.writeln('      L1 章节触发条件与剧情数据管线');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');

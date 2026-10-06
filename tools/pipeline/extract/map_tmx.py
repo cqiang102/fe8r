@@ -307,6 +307,7 @@ def main():
             f[:-4] for f in os.listdir(os.path.join(mr.MAPS, "layout"))
             if f.endswith(".mar"))
         ok = bad = 0
+        skipped = 0
         for n in names:
             try:
                 if export_one(n, a.out) == 0:
@@ -314,14 +315,30 @@ def main():
                 else:
                     bad += 1
             except SystemExit as e:
+                # ⚠️ 这里是**合法的跳过**：地图没被任何章节使用、
+                # 或资产下标反查不到符号名（`MapChanges`/`Events` 那类查不到）。
+                #
+                # 真正的问题是**空集门禁**（见下面的 `ok == 0`）：
+                # 原来 `--verify-all --maps DefinitelyNotAMap` 会报
+                # "0 张通过，0 张失败" 并**退出 0**（审计实测）。
+                #
+                # 我第一版把这里也改成 `bad += 1`，结果误伤了两张本来
+                # 就该跳过的地图（AnotherShrineMap / Ch10EphraimMap）。
+                # **判据要精确：跳过是跳过，空集才是失败。**
                 print(f"  – {n}: {e}")
+                skipped += 1
             except Exception as e:
                 import traceback
                 tb = traceback.extract_tb(e.__traceback__)[-1]
                 print(f"  ✗ {n}: {type(e).__name__}: {e}"
                       f"   [{os.path.basename(tb.filename)}:{tb.lineno}]")
                 bad += 1
-        print(f"\n导出并验证：{ok} 张通过，{bad} 张失败")
+        print(f"\n导出并验证：{ok} 张通过，{bad} 张失败"
+              f"{f'，{skipped} 张跳过' if skipped else ''}")
+        # ⚠️ "验证了 0 个"不能算通过（空集门禁）
+        if ok == 0:
+            print("❌ 一张都没有验证 —— 空集不算通过")
+            return 1
         return 1 if bad else 0
 
     if not a.map:

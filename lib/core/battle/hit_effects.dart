@@ -94,24 +94,50 @@ HitEffectResult applyHitEffects({
   var devil = false;
   var drained = 0;
 
+  // ---------------------------------------------------------------------
+  // ⚠️ 结构与 C **必须一致**：`src/BattleGenerateHitEffects.c:15-40`
+  //
+  //   if (未命中) {
+  //       if (defender 不是魔王) { switch (武器特效) { 中毒 / 半血 } }   ← 魔王判定
+  //                                                                      只包这里
+  //       if (武器特效 == 恶魔 && BattleRoll1RN(31 - lck, FALSE)) { ... }  ← **独立**
+  //   }
+  //
+  // 我原来加了**两道多余的门**：
+  //   1. `if (damage != 0)` 把恶魔判定也包进去了
+  //   2. `&& !isDemonKing` 又包了一层
+  //
+  // 两处都会**少消耗一个乱数** → 之后所有 RN 序列整体错位。
+  //
+  // 反例 a：恶魔武器打魔王（class 0x66），命中且伤害 12
+  //         → C 消耗 1 个 RN（可能反噬），我消耗 **0**
+  // 反例 b：恶魔武器、命中但 damage == 0（防御 ≥ 攻击）
+  //         → C 消耗 1 个 RN，我消耗 **0**
+  // ---------------------------------------------------------------------
+
+  // 魔王只免疫"状态附加"，不免疫恶魔反噬
+  final isDemonKing = defender.unit.classId == classDemonKing;
+  if (!isDemonKing) {
+    // 状态附加（中毒 / 半血）—— 属于状态系统（M6），
+    // 但分支本身要保留，否则将来接状态时会漏。
+    switch (weaponEffect) {
+      case WeaponEffect.poison:
+      case WeaponEffect.hpHalve:
+        break; // TODO(M6)：写回状态
+    }
+  }
+
+  // 恶魔反噬：**独立判定，与魔王、与伤害是否为 0 都无关**
+  if (weaponEffect == WeaponEffect.devil &&
+      _battleRoll1Rn(tracker, config, 31 - attacker.unit.lck, false)) {
+    devil = true;
+  }
+
   if (damage != 0) {
-    // 魔石（魔物专用的"石化"武器）不参与这里的伤害流程
-    final isDemonKing = defender.unit.classId == classDemonKing;
-
-    if (weaponEffect == WeaponEffect.devil && !isDemonKing) {
-      // ⚠️ 恶魔武器判定会消耗 1 个乱数，且**与是否命中/必杀无关**
-      final threshold = 31 - attacker.unit.lck;
-      final backfire = _battleRoll1Rn(tracker, config, threshold, false);
-
-      if (backfire) {
-        devil = true;
-        aHp -= dealt;
-        if (aHp < 0) aHp = 0;
-      } else {
-        if (dealt > dHp) dealt = dHp; // ★ 先钳位
-        dHp -= dealt;
-        if (dHp < 0) dHp = 0;
-      }
+    if (devil) {
+      // 反噬：攻击者扣自己的伤害值
+      aHp -= dealt;
+      if (aHp < 0) aHp = 0;
     } else {
       if (dealt > dHp) dealt = dHp; // ★ 先钳位
       dHp -= dealt;

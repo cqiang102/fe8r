@@ -209,7 +209,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       i = FlowInput.cancel;
     } else if (k == LogicalKeyboardKey.keyE) {
       i = FlowInput.endTurn;
-    } else if (k == LogicalKeyboardKey.keyD && keysPressed.isEmpty) {
+    } else if (k == LogicalKeyboardKey.keyC) {
+      // ⚠️ 原来这里写的是 `keyD`，但**上面 keyD 已经映射成 right 了** ——
+      // 同一个 `else if` 链里先到先得，所以 `startDialogue`
+      // **从真实键盘永远不可达**（只有脚本/字符串通路能到）。
+      // 而 `test/game/keyboard_test.dart` 只测 arrowDown/keyZ，覆盖不到。
+      //
+      // 换成 `keyC`（原来的 `keyD` 与移动键冲突）。
       i = FlowInput.startDialogue;
     }
     if (i == null) return KeyEventResult.ignored;

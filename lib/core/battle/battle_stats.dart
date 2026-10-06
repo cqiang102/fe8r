@@ -11,14 +11,46 @@
 import 'battle_unit.dart';
 
 /// 战斗数值计算。
+/// `IA_MAGIC = 1 << 1`、`IA_MAGICDAMAGE = 1 << 6`（`include/bmitem.h:56,61`）
+const int iaMagic = 1 << 1;
+const int iaMagicDamage = 1 << 6;
+
 class BattleStats {
   const BattleStats._();
 
-  /// `ComputeBattleUnitBaseDefense`
+  /// `ComputeBattleUnitBaseDefense` —— **只用于道具/杖效果路径**
+  /// （`src/bmbattle_0802CA5C.c:46,72`），不是战斗主路径。
   ///
-  /// C 里没有钳位：`terrainDefense + unit.def` 直接相加。
+  /// ⚠️ 战斗主路径要用 [computeDefense]，见那里的说明。
   static void computeBaseDefense(BattleUnit bu) {
     bu.battleDefense = bu.terrainDefense + bu.unit.def;
+  }
+
+  /// `ComputeBattleUnitDefense` —— **战斗主路径用的那个**。
+  ///
+  /// `src/bmbattle_0802A914.c:51-59`：
+  ///
+  /// ```c
+  /// if (GetItemAttributes(defender->weapon) & IA_MAGICDAMAGE)
+  ///     attacker->battleDefense = attacker->terrainResistance + attacker->unit.res;
+  /// else if (GetItemAttributes(defender->weapon) & IA_MAGIC)
+  ///     attacker->battleDefense = attacker->terrainResistance + attacker->unit.res;
+  /// else
+  ///     attacker->battleDefense = attacker->terrainDefense + attacker->unit.def;
+  /// ```
+  ///
+  /// ⚠️ 我原来在 `combat.dart` 里调的是 `computeBaseDefense` ——
+  /// **移植了错误的函数**（文件头自己写着 PORT OF `BaseDefense.c`，移植没错，
+  /// 错在调用点）。后果：用魔法武器攻击时防御算错，`res` 从来没被用过。
+  ///
+  /// `IA_MAGIC = 1 << 1` / `IA_MAGICDAMAGE = 1 << 6`（`include/bmitem.h:56,61`）。
+  static void computeDefense(BattleUnit attacker, BattleUnit defender) {
+    final wa = defender.weaponAttributes;
+    if (wa & iaMagicDamage != 0 || wa & iaMagic != 0) {
+      attacker.battleDefense = attacker.terrainResistance + attacker.unit.res;
+    } else {
+      attacker.battleDefense = attacker.terrainDefense + attacker.unit.def;
+    }
   }
 
   /// `ComputeBattleUnitDodgeRate` —— 就是幸运值

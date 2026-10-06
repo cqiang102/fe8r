@@ -172,9 +172,85 @@ def verify_one(json_name):
     return 1
 
 
+# ---------------------------------------------------------------------------
+# ⚠️ **独立判据：数源文件里到底有多少个数组定义**
+#
+# 为什么需要这个：`verify_one` 只遍历 **JSON 里已有的**表 ——
+# 如果解析器漏匹配了一张表，那张表**根本不在 JSON 里**，
+# verify 自然也不会检查它，于是"少了一张表"这件事**永远发现不了**。
+#
+# 审计实测（这是它的原话）：
+#   * 给 `parse_c_tables.py` 的 `ARRAY_RX` 加个名字过滤，
+#     只放行 `TerrainTable_Avo_*` → `✅ 2 张表 / 130 个值…逐字节一致`，**EXIT=0**
+#   * 更狠的一次：只排除**一张真表** `TerrainTable_HealAmount`（地形回血，65 个值）
+#     → `✅ 103 张表 / 6695 个值…逐字节一致` EXIT=0，
+#     而且整套 Dart 测试 `+181 All tests passed!`
+#     **一张 65 个值的游戏规则表凭空消失，全绿。**
+#
+# 所以这里用**另一条更简单的正则**（与 `ARRAY_RX` 不同，故意写得笨一点）
+# 数源文件里的数组定义，断言两边数量一致。
+# 判据独立，解析器退化就会被抓住。
+# ---------------------------------------------------------------------------
+
+# 故意写得比 `ARRAY_RX` 宽松且不同：只要 `名字[] = {` 就算一个数组定义
+_ANY_ARRAY_RX = re.compile(r"\b(\w+)\s*\[\s*\]\s*=")
+
+
+def count_arrays_in_source(source_rel):
+    """源文件里 `某个名字[] =` 的出现次数（独立判据）"""
+    path = os.path.join(DECOMP, source_rel)
+    if not os.path.exists(path):
+        return None
+    text = open(path, encoding="utf-8", errors="replace").read()
+    # 去掉注释，避免注释里的例子被算进来
+    text = re.sub(r"/\*.*?\*/", " ", text, flags=re.S)
+    text = re.sub(r"//[^\n]*", " ", text)
+    return len(_ANY_ARRAY_RX.findall(text))
+
+
+def check_independent_counts():
+    """用独立判据核对"表数"，返回失败数"""
+    baseline = os.path.join(HERE, "..", "out", "tables")
+    # 与 `parse_c_tables.py` 的 SOURCES 对应
+    expect = [
+        ("terrains.json", "src/data/data_terrains.c"),
+        ("itemuse.json", "src/data/data_itemuse.c"),
+    ]
+    failed = 0
+    for json_name, src_rel in expect:
+        jp = os.path.join(baseline, json_name)
+        if not os.path.exists(jp):
+            print(f"  ❌ {json_name} 不存在（提取器没产出）")
+            failed += 1
+            continue
+        data = json.load(open(jp, encoding="utf-8"))
+        have = len(data["tables"])
+        want = count_arrays_in_source(src_rel)
+        if want is None:
+            print(f"  ⚠️ 找不到源文件 {src_rel}，跳过独立核对")
+            continue
+        if have == 0:
+            print(f"  ❌ {json_name} 里**一张表都没有** —— 解析器明显坏了")
+            failed += 1
+            continue
+        if have != want:
+            print(f"  ❌ {json_name}: 提取到 {have} 张表，"
+                  f"但源文件里有 {want} 个数组定义 "
+                  f"（**差 {want - have} 张，解析器漏了**）")
+            failed += 1
+            continue
+        print(f"  ✅ {json_name}: {have} 张表 == 源文件里的 {want} 个数组定义")
+    return failed
+
+
 def main():
     sources = ["terrains.json", "itemuse.json"]
     failed = 0
+
+    print()
+    print("── 独立判据：表数是否与源文件一致 ──")
+    failed += check_independent_counts()
+
     for name in sources:
         if verify_one(name) != 0:
             failed += 1

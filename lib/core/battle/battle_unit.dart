@@ -75,6 +75,8 @@ class BattleUnitSide {
     int skl = 0,
     this.classId,
     this.classAttributes = 0,
+    this.level = 1,
+    int res = 0,
     List<int>? items,
   })  : _pow = asS8(pow),
         _skl = asS8(skl),
@@ -97,11 +99,22 @@ class BattleUnitSide {
   /// 携带道具，`u16`
   final List<int> items;
 
+  int _res = 0;
+
   /// `pClassData->number`；null 表示没有职业数据（C 里的 NULL 指针）
   int? classId;
 
   /// `UNIT_CATTRIBUTES(unit)` = 角色属性 | 职业属性
   final int classAttributes;
+
+  /// 单位等级。`SureShot` / `GreatShield` / `Pierce` 用它当判定阈值
+  /// （`src/bmbattle_0802B164.c:54/80/111`）。
+  final int level;
+
+  /// 魔防（`unit.res`），`s8`。魔法武器攻击时用它代替 `def`
+  /// （`src/bmbattle_0802A914.c:51-59`）。
+  int get res => _res;
+  set res(int v) => _res = asS8(v);
 
   /// 力量（`pow`），`s8`
   int get pow => _pow;
@@ -150,6 +163,7 @@ class BattleUnit {
   int _battleSilencerRate = 0;
   int _terrainAvoid = 0;
   int _terrainDefense = 0;
+  int _terrainResistance = 0;
 
   /// `short` 字段：赋值即按 16 位截断
   int get battleAttack => _battleAttack;
@@ -205,6 +219,10 @@ class BattleUnit {
   /// `s8` 字段
   int get terrainAvoid => _terrainAvoid;
   set terrainAvoid(int v) => _terrainAvoid = asS8(v);
+
+  /// 地形魔防（`terrainResistance`）
+  int get terrainResistance => _terrainResistance;
+  set terrainResistance(int v) => _terrainResistance = asS8(v);
 
   int get terrainDefense => _terrainDefense;
   set terrainDefense(int v) => _terrainDefense = asS8(v);

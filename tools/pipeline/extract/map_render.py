@@ -419,6 +419,10 @@ def cmd_roundtrip():
             bad += 1
             print(f"  ✗ {f}")
     print(f"往返自检：{ok} 张无损，{bad} 张失败（共 {total} 个瓦片值）")
+    # ⚠️ 空集不算通过（扫到 0 个 .mar 也退出 0 是假绿）
+    if ok == 0:
+        print("❌ 一张都没有检查 —— 空集不算通过")
+        return 1
     return 1 if bad else 0
 
 

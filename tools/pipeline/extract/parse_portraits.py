@@ -166,6 +166,10 @@ def main():
         ok += 1
 
     print(f"合成 {ok} 张（跳过 {skip}）")
+    # ⚠️ 空集不算通过：一张都没合成出来必定是素材路径或 TSA 解析坏了
+    if ok == 0:
+        print("❌ 一张都没合成出来 —— 空集不算通过", file=sys.stderr)
+        return 1
     with open(os.path.join(a.out, "index.json"), "w", encoding="utf-8") as f:
         json.dump({"tsa": os.path.relpath(TSA_PATH, DECOMP),
                    "size": [tsa[0] * 8, tsa[1] * 8],
