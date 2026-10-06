@@ -30,6 +30,42 @@ List<int> ins(int cmd, int len, int sub, [List<int> args = const []]) {
 
 List<int> script(List<List<int>> parts) => [for (final p in parts) ...p];
 
+// ---------------------------------------------------------------------------
+// ⚠️ 下面这几个辅助函数对应 **C 的真实编码**。
+//
+// 起因：审计发现 `event_vm_test.dart` 用的是**自造编码** ——
+//   * SVAL 写成 `len=3`（C 是 `len=4`，值是 32 位）
+//   * SLOT_OPS 写成 `len=4, args=[dst, src]`（C 是 `len=2` 的**打包字**）
+//   * BRANCH 写成 `[slot, 立即数, 跳转偏移]`（C 是 `[label, slot1, slot2]`）
+//
+// 于是**测试锁住的是错误模型**：实现错、测试绿。
+// 修实现之后这些测试立刻全红 —— 那正是它们该有的反应。
+//
+// 现在按 `src/masked_0800da04.c`（SVAL）、`src/eventscr_0800DA1C.c`（SLOT_OPS）、
+// `src/Event0C_Branch.c`（BRANCH）、`src/exact_0800dc08.c`（GOTO/CALL）重写。
+// ---------------------------------------------------------------------------
+
+/// `SVAL(slot, value)` —— **4 个字**，值是 32 位**小端**（args[1]=低，args[2]=高）
+List<int> sval(int slot, int value) =>
+    ins(0x05, 4, 0, [slot, value & 0xFFFF, (value >> 16) & 0xFFFF]);
+
+/// `SLOT_OPS` —— **2 个字**，一个打包字：`dest | src1<<4 | src2<<8`
+List<int> slotOp(int sub, int dest, int src1, int src2) =>
+    ins(0x06, 2, sub, [dest | (src1 << 4) | (src2 << 8)]);
+
+/// `BRANCH` —— `[label, slot1, slot2]`，比较的是**两个插槽**
+List<int> branch(int sub, int label, int s1, int s2) =>
+    ins(0x0C, 4, sub, [label, s1, s2]);
+
+/// `GOTO(label)` —— 操作数是**标签号**，不是字偏移
+List<int> goToLabel(int label) => ins(0x09, 2, 0, [label]);
+
+/// `LABEL(n)`
+List<int> label(int n) => ins(0x08, 2, 0, [n]); // EV_CMD_LABEL = 0x08
+
+/// `CALL(label)` —— 同样按标签号
+List<int> callLabel(int label) => ins(0x0A, 2, 0, [label]);
+
 void main() {
   group('指令编码（位打包）', () {
     test('编码位置：opcode<<8 | len<<4 | sub', () {
@@ -55,13 +91,15 @@ void main() {
     });
 
     test('参数按 s16 解释（负数正确）', () {
-      final s = EventScript.decode(ins(0x05, 3, 0, [1, -1]));
-      expect(s.instructions[0].args, [1, -1]);
+      // 0xFFFF 作为字读进来是 s16 的 -1（`EventScript.decode` 做符号扩展）
+      final s = EventScript.decode(ins(0x05, 4, 0, [1, 0xFFFF, 0xFFFF]));
+      expect(s.instructions[0].args[0], 1);
+      expect(s.instructions[0].args[1], -1);
     });
 
     test('编码往返一致', () {
       final words = script([
-        ins(0x05, 3, 0, [0, 42]),
+        sval(0, 42),
         ins(0x0E, 2, 0, [5]),
         ins(0x01, 2, 1),
       ]);
@@ -104,21 +142,29 @@ void main() {
       expect(st.done, isTrue);
     });
 
-    test('GOTO 跳到指定字偏移', () {
+    test('GOTO 跳到指定**标签**（不是字偏移）', () {
       final vm = EventVm();
       // 0: goto 6     (2 字)
       // 2: nop        (2 字)  ← 应当被跳过
       // 4: nop        (2 字)  ← 应当被跳过
       // 6: end all    (2 字)
+      // ⚠️ GOTO 的操作数是**标签号**，不是字偏移（`src/exact_0800dc08.c`）
       final st = fresh(script([
-        ins(0x09, 2, 0, [6]),
-        ins(0x00, 2, 0),
-        ins(0x00, 2, 0),
-        ins(0x01, 2, 1),
+        goToLabel(7),        // 0: goto 标签 7
+        ins(0x00, 2, 0),     // 2: nop  ← 应被跳过
+        ins(0x00, 2, 0),     // 4: nop  ← 应被跳过
+        label(7),            // 6: LABEL 7
+        ins(0x01, 2, 1),     // 8: end all
       ]));
       final steps = vm.run(st);
-      expect(steps.length, 2, reason: 'goto 之后直接到 end，中间两条 nop 不该执行');
       expect(st.done, isTrue);
+      final visited = steps
+          .map((e) => e.instruction?.offset)
+          .whereType<int>()
+          .toSet();
+      expect(visited.contains(2), isFalse, reason: 'goto 应当跳过 @2 的 nop');
+      expect(visited.contains(4), isFalse, reason: 'goto 应当跳过 @4 的 nop');
+      expect(visited.contains(6), isTrue, reason: '应当落在 LABEL 上');
     });
 
     test('CALL / END(A) 成对：调用后能返回', () {
@@ -128,12 +174,14 @@ void main() {
       // 4: end all    (2 字)
       // 6: nop        (2 字)  ← 被调用
       // 8: end(A)     (2 字)  ← 返回
+      // CALL 的操作数也是**标签号**
       final st = fresh(script([
-        ins(0x0A, 2, 0, [6]),
-        ins(0x00, 2, 0),
-        ins(0x01, 2, 1),
-        ins(0x00, 2, 0),
-        ins(0x01, 2, 0), // EVSUBCMD_ENDA
+        callLabel(9),        // 0: call 标签 9
+        ins(0x00, 2, 0),     // 2: nop ← 返回点
+        ins(0x01, 2, 1),     // 4: end all
+        ins(0x00, 2, 0),     // 6: （对齐用）
+        label(9),            // 8: LABEL 9
+        ins(0x01, 2, 0),     // 10: end(A) ← 返回
       ]));
       vm.run(st);
       expect(st.done, isTrue);
@@ -171,19 +219,28 @@ void main() {
     });
 
     test('BRANCH 按条件跳转（六种比较）', () {
-      // 布局（按**字**算偏移，注意 SVAL 占 3 字、BRANCH 占 4 字）：
-      //   @0  SVAL slot1 = a          (3 字)
-      //   @3  BRANCH sub [1, b, 11]   (4 字) → 跳转目标 @11
-      //   @7  NOP                     (2 字) ← **只有不跳转时才会执行**
-      //   @9  END all                 (2 字)
-      //   @11 END all                 (2 字)
-      // 判据用"@7 这条 NOP 有没有被执行"，比看最终 PC 可靠：
+      // ⚠️ 布局按 **C 的真实编码**：
+      //   * SVAL 是 **4 字**（`src/masked_0800da04.c`：值是 32 位）
+      //   * BRANCH 是 **4 字**，操作数 `[label, slot1, slot2]`
+      //     （`src/Event0C_Branch.c:52-62`：**两个都是插槽下标**）
+      //
+      //   @0  SVAL slot1 = a                    (4 字)
+      //   @4  SVAL slot2 = b                    (4 字)
+      //   @8  BRANCH sub, label=9, slot1, slot2 (4 字)
+      //   @12 NOP                               (2 字) ← **只有不跳转才执行**
+      //   @14 END all                           (2 字)
+      //   @16 LABEL 9                           (2 字)
+      //   @18 END all                           (2 字)
+      //
+      // 判据用"@12 这条 NOP 有没有被执行"，比看最终 PC 可靠：
       // 两条路径都结束在 END，最终 PC 一样。
       List<int> build(int a, int b, int sub) => script([
-            ins(0x05, 3, 0, [1, a]),
-            ins(0x0C, 4, sub, [1, b, 11]),
-            ins(0x00, 2, 0), // @7 只有不跳转才走到
+            sval(1, a),
+            sval(2, b),
+            branch(sub, 9, 1, 2),
+            ins(0x00, 2, 0), // @12 只有不跳转才走到
             ins(0x01, 2, 1),
+            label(9),
             ins(0x01, 2, 1),
           ]);
 
@@ -210,9 +267,9 @@ void main() {
             .map((e) => e.instruction?.offset)
             .whereType<int>()
             .toSet();
-        expect(visited.contains(7), !expectTaken,
+        expect(visited.contains(12), !expectTaken,
             reason: 'sub=$sub a=$a b=$b 期望 take=$expectTaken，'
-                '访问过的偏移=$visited');
+                '实际访问过的偏移 $visited');
       }
     });
 
@@ -242,10 +299,11 @@ void main() {
     test('SVAL 设置插槽，SLOT_OPS 做算术', () {
       final vm = EventVm();
       final st = fresh(script([
-        ins(0x05, 3, 0, [1, 10]), // slot1 = 10
-        ins(0x05, 3, 0, [2, 3]), // slot2 = 3
-        ins(0x06, 4, SlotOpSubCommand.add, [1, 2]), // slot1 += slot2
-        ins(0x06, 4, SlotOpSubCommand.mul, [1, 2]), // slot1 *= slot2
+        sval(1, 10), // slot1 = 10
+        sval(2, 3), //  slot2 = 3
+        // SLOT_OPS 是 **2 字**的打包字：dest | src1<<4 | src2<<8
+        slotOp(SlotOpSubCommand.add, 1, 1, 2), // slot1 = slot1 + slot2
+        slotOp(SlotOpSubCommand.mul, 1, 1, 2), // slot1 = slot1 * slot2
         ins(0x01, 2, 1),
       ]));
       vm.run(st);
@@ -526,12 +584,14 @@ void main() {
 
   group('可序列化（剧情中途存档）', () {
     test('状态编码再解码等价', () {
+      // 布局：CALL 的操作数是**标签号**，所以要有对应的 LABEL
       final words = script([
-        ins(0x05, 3, 0, [1, 42]),
-        ins(0x02, 2, EvSetSubCommand.setEventBit, [3]),
-        ins(0x0A, 2, 0, [8]), // call 8，栈里留一个返回地址
-        ins(0x01, 2, 1),
-        ins(0x01, 2, 0),
+        sval(1, 42),               // @0
+        ins(0x02, 2, EvSetSubCommand.setEventBit, [3]), // @4
+        callLabel(8),              // @6  call 标签 8，栈里留一个返回地址
+        ins(0x01, 2, 1),           // @8  （不可达，仅占位）
+        label(8),                  // @10 LABEL 8
+        ins(0x01, 2, 0),           // @12 end(A)
       ]);
       final sc = EventScript.decode(words);
       final vm = EventVm();
@@ -573,11 +633,12 @@ void main() {
     });
 
     test('解档后能继续跑完（不是只能读的死状态）', () {
+      // 正确编码：SVAL 4 字、SLOT_OPS 2 字打包字
       final words = script([
-        ins(0x05, 3, 0, [1, 5]),
-        ins(0x0E, 2, 0, [2]), // stall 2
-        ins(0x06, 4, SlotOpSubCommand.add, [1, 1]), // slot1 *= 2
-        ins(0x01, 2, 1),
+        sval(1, 5),                                // @0 slot1 = 5
+        ins(0x0E, 2, 0, [2]),                      // @4 stall 2
+        slotOp(SlotOpSubCommand.add, 1, 1, 1),     // @6 slot1 = slot1 + slot1
+        ins(0x01, 2, 1),                           // @8 end all
       ]);
       final sc = EventScript.decode(words);
       final st = EventVmState(script: sc);

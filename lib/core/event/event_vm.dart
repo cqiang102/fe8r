@@ -31,7 +31,17 @@ import 'dart:convert';
 import 'event_script.dart';
 
 /// 插槽数量（`EV_SLOT_IDX_*`）
-const int eventSlotCount = 0x10;
+/// ⚠️ **0xE（14），不是 0x10。**
+///
+/// `include/event.h:115-116`：
+/// ```c
+/// #define EVENT_SLOT_COUNT 0xE
+/// extern u32 gEventSlots[EVENT_SLOT_COUNT];
+/// ```
+///
+/// 我原来写 16 —— 槽 14/15 在 C 里是**越界读写**，在 Dart 里却静默可用。
+/// （`& 0xF` 的掩码本身没错，错的是数组规模。）
+const int eventSlotCount = 0xE;
 
 /// 移动目标怎么解析
 enum MoveTargetMode {
@@ -457,16 +467,41 @@ class EventVm {
 
       case EventOpcodes.goTo:
         _requireArgs(inst, 1);
-        state.pc = inst.args[0];
+        // ⚠️ 操作数是 **label 号**，不是字偏移。
+        //
+        // `src/exact_0800dc08.c:74-101`：
+        //     u32 ref = (arg << 0x10) | (EV_CMD_LABEL << 0x08) | 0x20;
+        //     while (scr != ref) cur += EVT_CMD_LEN(cur);   // 扫到 LABEL 指令
+        //
+        // 而 `EventScript.labels`（`event_script.dart:132`
+        // `labels['label_${rawArgs[0]}'] = i`）**早就建好了，却从没用过**。
+        //
+        // 真实数据里 `(字偏移, label号)` 是 `(220,0) (256,1) (608,10)…`，
+        // 而 `goto 1` 出现在偏移 218 —— 把 1 当偏移会直接崩。
+        final target = state.script.labels['label_${inst.args[0]}'];
+        if (target == null) {
+          throw StateError('GOTO 指向不存在的标签 ${inst.args[0]}'
+              '（偏移 ${inst.offset}）');
+        }
+        state.pc = target;
         return EventStep(instruction: inst, advanced: true,
-            note: '跳到 ${inst.args[0]}');
+            note: '跳到标签 ${inst.args[0]}');
 
       case EventOpcodes.call:
         _requireArgs(inst, 1);
+        // CALL 的实参在真实数据里是 **32 位指针**（`src/sub_800DC40.c:8`
+        // 读 `EVT_CMD_ARG32_BE`），形如 `args=[0, ptrLo, ptrHi]`。
+        // 雕刻后的脚本用标签表达，所以先按标签查；查不到就明确报错，
+        // **不要**像原来那样把 args[0]=0 当偏移用（那会自跳成死循环）。
+        final callee = state.script.labels['label_${inst.args[0]}'];
+        if (callee == null) {
+          throw StateError('CALL 目标 ${inst.args[0]} 未解析为标签'
+              '（偏移 ${inst.offset}，参数 ${{inst.args}}）');
+        }
         state.callStack.add(_nextOffset(state, idx));
-        state.pc = inst.args[0];
+        state.pc = callee;
         return EventStep(instruction: inst, advanced: true,
-            note: '调用 ${inst.args[0]}（栈深 ${state.callStack.length}）');
+            note: '调用标签 ${inst.args[0]}（栈深 ${state.callStack.length}）');
 
       case EventOpcodes.end:
         if (inst.subCommand == EndSubCommand.endAll) {
@@ -508,8 +543,27 @@ class EventVm {
             note: '检查 ${inst.args[0]} → ${state.slots[0]}');
 
       case EventOpcodes.sVal:
-        _requireArgs(inst, 2);
-        state.slots[inst.args[0] % eventSlotCount] = inst.args[1];
+        // ⚠️ 值是 **32 位**（两个字的低端读法），不是 16 位。
+        //
+        // `src/masked_0800da04.c:74-80`：
+        //     u16 index = EVT_CMD_ARGV(...)[0];
+        //     u32 value = EVT_CMD_ARG32_LE(...);   // 读 argv[1..2]
+        //     gEventSlots[index] = value;
+        // 宏 `EvtSetSlot(slot,value)` 是 `len=4`。
+        //
+        // 真实数据佐证：`chapter_events.json` 里 **391 条 SVAL 全是 len=4**，
+        // args 形如 `[3, 2852, 0]`（第 3 个是高位字）。
+        //
+        // 我原来只取 `args[1]` 且按 s16 解码 —— 高位字丢失，
+        // 且 `>= 0x8000` 的值会变成负数（`EventScript.decode` 做了符号扩展）。
+        final slot = inst.args[0];
+        if (slot >= eventSlotCount) {
+          throw StateError('SVAL 插槽越界：$slot'
+              '（上限 ${eventSlotCount - 1}，偏移 ${inst.offset}）');
+        }
+        final lo = inst.args[1] & 0xFFFF;
+        final hi = inst.args.length > 2 ? (inst.args[2] & 0xFFFF) : 0;
+        state.slots[slot] = ((hi << 16) | lo) & 0xFFFFFFFF;
         state.pc = _nextOffset(state, idx);
         return EventStep(instruction: inst, advanced: true);
 
@@ -849,41 +903,108 @@ class EventVm {
     }
   }
 
+  /// 插槽运算。
+  ///
+  /// ## ⚠️ 操作数是**一个打包字**，不是两个参数
+  ///
+  /// `src/eventscr_0800DA1C.c:74-100`：
+  ///
+  /// ```c
+  /// u8 slotDest = (((u16)EVT_CMD_ARGV(...)[0]) >> 0) & 0xF;
+  /// u8 slotSrc1 = (((u16)EVT_CMD_ARGV(...)[0]) >> 4) & 0xF;
+  /// u8 slotSrc2 = (((u16)EVT_CMD_ARGV(...)[0]) >> 8) & 0xF;
+  /// gEventSlots[slotDest] = gEventSlots[slotSrc1] + gEventSlots[slotSrc2];
+  /// ```
+  ///
+  /// 宏是 `_EvtSubParam16u4`（`include/eventscript.h:565-566`），
+  /// **指令长度 2**。真实数据里 SLOT_OPS 全是 `len=2`，例如
+  /// `sub=5 args=[460]`（460=0x1CC → dest=0xC, src1=0xC, src2=0x1）。
+  ///
+  /// 我原来写的是 `_requireArgs(inst, 2)` + `slots[a] OP slots[b]` ——
+  /// **三操作数形式整个丢了，而且 `args.length == 1` 会直接抛 `FormatException`**。
+  ///
+  /// ⚠️ 槽是 **u32**（`include/event.h:116` `extern u32 gEventSlots[]`），
+  /// 所以每一步都要按 32 位无符号回绕：
+  ///
+  ///   * `SDIV` 是**无符号**除法：`-1 / 2` → C `2147483647`，Dart `-1 ~/ 2` = 0
+  ///   * `SMOD` 用 `remainder`（Dart 的 `%` 是欧几里得）
+  ///   * `SLSR` 是**逻辑**右移：`-1 >> 1` → C `2147483647`，Dart `-1`
+  ///   * `SADD/SSUB/SMUL/SLSL` 每步 mod 2^32
   void _slotOp(EventVmState state, EventInstruction inst) {
-    _requireArgs(inst, 2);
-    final dst = inst.args[0] % eventSlotCount;
-    final src = inst.args[1] % eventSlotCount;
-    final a = state.slots[dst];
-    final b = state.slots[src];
-    // ⚠️ 除零：原版会崩；这里明确报错而不是给个"看起来合理"的 0，
-    // 因为除零一定是脚本有问题。
+    _requireArgs(inst, 1);
+    final packed = inst.args[0];
+    final dst = packed & 0xF;
+    final s1 = (packed >> 4) & 0xF;
+    final s2 = (packed >> 8) & 0xF;
+    if (dst >= eventSlotCount || s1 >= eventSlotCount || s2 >= eventSlotCount) {
+      throw StateError('插槽运算越界：槽 $dst/$s1/$s2，'
+          '上限 ${eventSlotCount - 1}（偏移 ${inst.offset}）');
+    }
+    final a = state.slots[s1];
+    final b = state.slots[s2];
     if ((inst.subCommand == SlotOpSubCommand.div ||
             inst.subCommand == SlotOpSubCommand.mod) &&
         b == 0) {
       throw StateError('插槽运算除零：指令偏移 ${inst.offset}');
     }
-    state.slots[dst] = switch (inst.subCommand) {
-      SlotOpSubCommand.add => a + b,
-      SlotOpSubCommand.sub => a - b,
-      SlotOpSubCommand.mul => a * b,
-      SlotOpSubCommand.div => a ~/ b,
-      SlotOpSubCommand.mod => a % b,
-      SlotOpSubCommand.and => a & b,
-      SlotOpSubCommand.or => a | b,
-      SlotOpSubCommand.xor => a ^ b,
-      SlotOpSubCommand.lsl => a << b,
-      SlotOpSubCommand.lsr => a >> b,
-      _ => throw UnimplementedError(
-          '插槽运算子命令 ${inst.subCommand} 未实现'),
+    // u32 语义：先掩到 32 位，再算，再掩回来
+    const m = 0xFFFFFFFF;
+    final au = a & m;
+    final bu = b & m;
+    final r = switch (inst.subCommand) {
+      SlotOpSubCommand.add => (au + bu) & m,
+      SlotOpSubCommand.sub => (au - bu) & m,
+      SlotOpSubCommand.mul => (au * bu) & m,
+      // 无符号除法：C 的 u32 除法
+      SlotOpSubCommand.div => au ~/ bu,
+      // ⚠️ Dart 的 `%` 是欧几里得，C 是截断 —— 必须用 `remainder`
+      SlotOpSubCommand.mod => au.remainder(bu),
+      SlotOpSubCommand.and => au & bu,
+      SlotOpSubCommand.or => au | bu,
+      SlotOpSubCommand.xor => au ^ bu,
+      // 逻辑左移/右移（u32）
+      SlotOpSubCommand.lsl => (au << bu) & m,
+      SlotOpSubCommand.lsr => au >> bu,
+      _ => throw UnimplementedError('插槽运算子命令 ${inst.subCommand} 未实现'),
     };
+    state.slots[dst] = r & m;
   }
 
+
+  /// 条件跳转。
+  ///
+  /// ## ⚠️ 操作数是 `[label, slot1, slot2]`
+  ///
+  /// `src/Event0C_Branch.c:52-62`：
+  ///
+  /// ```c
+  /// val1 = (u16)EVT_CMD_ARGV(proc->pEventCurrent)[1];
+  /// val2 = (u16)EVT_CMD_ARGV(proc->pEventCurrent)[2];
+  /// val1 = gEventSlots[val1];        // ← **两个都是插槽下标**
+  /// val2 = gEventSlots[val2];
+  /// ...
+  ///     return Event09_Goto(proc);   // ← argv[0] 是 **label 号**
+  /// ```
+  ///
+  /// 宏 `EvtBEQ(label, s1, s2)`（`include/eventscript.h:610-615`），
+  /// 用法见 `include/EA_Standard_Library/Conditional_Helpers.h:3`：
+  /// `BEQ(label, EVT_SLOT_C, EVT_SLOT_7)`。
+  ///
+  /// 我原来按 `[slot, 立即数, 跳转偏移]` 解 —— **三个操作数全错位**。
+  /// 真实数据里 10 条 BRANCH 无一例外（例如偏移 180 处
+  /// `args=[0,12,1]`：C 是"若 `slots[12] != slots[1]` 则跳到标签 0"，
+  /// 我原来算成"比较 `slots[0]` 与 12、跳 pc=1"，而 1 不是指令起点 → 直接崩）。
   void _branch(EventVmState state, EventInstruction inst, int idx) {
-    // 参数：slotA, value, target
     _requireArgs(inst, 3);
-    final a = state.slots[inst.args[0] % eventSlotCount];
-    final b = inst.args[1];
-    final target = inst.args[2];
+    final label = inst.args[0];
+    final s1 = inst.args[1];
+    final s2 = inst.args[2];
+    if (s1 >= eventSlotCount || s2 >= eventSlotCount) {
+      throw StateError('分支比较的插槽越界：$s1/$s2'
+          '（上限 ${eventSlotCount - 1}，偏移 ${inst.offset}）');
+    }
+    final a = state.slots[s1];
+    final b = state.slots[s2];
 
     final take = switch (inst.subCommand) {
       BranchSubCommand.eq => a == b,
@@ -895,6 +1016,16 @@ class EventVm {
       _ => throw UnimplementedError('跳转子命令 ${inst.subCommand} 未实现'),
     };
 
-    state.pc = take ? target : _nextOffset(state, idx);
+    if (!take) {
+      state.pc = _nextOffset(state, idx);
+      return;
+    }
+    // 条件成立 → 走 GOTO 的语义（查标签，不是当偏移）
+    final target = state.script.labels['label_$label'];
+    if (target == null) {
+      throw StateError('分支指向不存在的标签 $label（偏移 ${inst.offset}）');
+    }
+    state.pc = target;
   }
+
 }

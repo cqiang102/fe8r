@@ -261,10 +261,31 @@ class CombatResolver {
     final atk = buildBattleUnit(attackerUnit, attackerProfile);
     final def = buildBattleUnit(defenderUnit, defenderProfile);
 
-    // ---- 1. 数值 ----
     atk.setTerrain(
         defense: attackerTerrainDefense, avoid: attackerTerrainAvoid);
     def.setTerrain(defense: terrainDefense, avoid: terrainAvoid);
+
+    // ---- 0. 武器三角必须**最先**应用 ----
+    //
+    // ⚠️ 我原来把它放在 `computeAttack` / `computeHitRate` **之后**，
+    // 于是 `wTriangleDmgBonus` / `wTriangleHitBonus` 写进 BattleUnit 时，
+    // 攻击力和命中率**已经算完了** —— 加成全部丢失。
+    //
+    // `src/bmbattle_0802A0C8.c:53,82`：`BattleApplyWeaponTriangleEffect`
+    // 在 `SetBattleUnitTerrainBonusesAuto` / `BattleGenerate` /
+    // `ComputeBattleUnitStats` **之前**调用；而
+    // `ComputeBattleUnitAttack`（`src/ComputeBattleUnitAttack.c:11`）与
+    // `ComputeBattleUnitHitRate`（`src/bmbattle_0802AB1C.c:29-30`）
+    // 内部都要读这两个字段。
+    //
+    // 反例（审计给的）：剑 vs 斧 `{+15 hit, +1 atk}`，
+    // skl=5 / 回避=10 / 武器命中 85 →
+    //   C：  10+85+0+15 = 110 → 有效命中 **100**（上限钳位）
+    //   原来：10+85+0+0  =  95 → 有效命中 **85**
+    // 差 15 点命中 + 1 点伤害，而且 100 与 85 经 `Roll2RN` 的分布不同。
+    triangle.apply(atk, def);
+
+    // ---- 1. 数值 ----
     BattleStats.computeAttack(atk, def, items,
         monsterClassList: monsterClassList);
     BattleStats.computeBaseDefense(atk);
@@ -276,9 +297,6 @@ class CombatResolver {
     BattleStats.computeAvoidRate(atk);
     BattleStats.computeAvoidRate(def);
     BattleStats.computeDodgeRate(def);
-
-    // ---- 2. 武器三角 ----
-    triangle.apply(atk, def);
 
     // ⚠️ 必须走规则层的 computeEffectiveHitRate，不能自己写减法 ——
     // 它带着**上限 100** 的钳位。我第一版就是自己写的减法，
