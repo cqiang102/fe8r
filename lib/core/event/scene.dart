@@ -58,6 +58,7 @@ class ShowText extends SceneEvent {
     required this.scriptName,
     required this.step,
     this.page,
+    this.upto,
     this.pageIndex = 0,
     this.pageCount = 1,
   });
@@ -66,8 +67,14 @@ class ShowText extends SceneEvent {
   final String scriptName;
   final int step;
 
-  /// **这一页**的文字（一条消息可能有好几页，见 `GameMessage.pages`）
+  /// **这一页**的文字（一条消息可能有好几页，见 `GameMessage.pageSpans`）
   final String? page;
+
+  /// 这一页在 `message.segments` 里的结束下标。
+  ///
+  /// ⚠️ 有它就不必"拿文字去反查页界" —— 那个做法在含 `[LF]` 的页上
+  /// 永远匹配不到，退了会退化成"用整条消息的脸状态"。
+  final int? upto;
   final int pageIndex;
   final int pageCount;
 
@@ -294,7 +301,7 @@ class Scene {
     //
     // 一条消息里 `[A]` / `[CR]` 把正文切成多页（序章开场那条就有好几页）。
     // 第一版不分页，结果只显示前两行、后面全被裁掉。
-    final pages = m.pages;
+    final pages = m.pageSpans;
     if (pages.isEmpty) {
       await onEvent(ShowText(
         message: m,
@@ -308,7 +315,9 @@ class Scene {
         message: m,
         scriptName: currentScript,
         step: 0,
-        page: pages[i],
+        page: pages[i].$1,
+        // ⚠️ 页界**按 token 序号**给，下游不再"拿文字反查" —— 见 pageSpans 的说明
+        upto: pages[i].$2,
         pageIndex: i,
         pageCount: pages.length,
       ));

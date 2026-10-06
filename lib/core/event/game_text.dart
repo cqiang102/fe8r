@@ -119,7 +119,49 @@ class TextControl extends TextSegment {
   }
 
   bool get isLineBreak => name == 'LF';
+  /// token 的**码值**（u16）。
+  ///
+  /// ⚠️ `[$0080]` 之后的"子码"**可以是具名 token**。
+  ///
+  /// 语料实测：`[$0080]` 的子码分布是
+  /// `$0021`×640、`[....]`×235、**`[OpenRight]`×137**、`$0025`×108、
+  /// **`[OpenFarFarLeft]`×105**、`[OpenFarRight]`×83、`[FastPrint2]`×72、
+  /// `[OpenMidRight]`×70 … —— **一半以上是具名控制码**。
+  ///
+  /// 我第一版只按 `[$XXXX]` 解析子码，遇到 `[OpenFarFarLeft]` 就得到 null，
+  /// 于是序章的 `[$0080][OpenFarFarLeft]`（= 传到槽 4）整个丢掉，
+  /// 结果**国王在屏幕左右两侧各画一次**。
+  ///
+  /// 映射来自 `texts/jp_textdefs.txt`（dumper 用的就是这张表）。
+  int? get codeValue {
+    if (isFaceSpec) return int.tryParse(name.substring(1), radix: 16);
+    return _codeByName[name];
+  }
+
+  static const _codeByName = <String, int>{
+    'X': 0, 'LF': 1, 'CR': 2, 'A': 3,
+    '....': 4, '.....': 5, '......': 6, '.......': 7,
+    'OpenFarLeft': 8, 'OpenMidLeft': 9, 'OpenLeft': 10, 'OpenRight': 11,
+    'OpenMidRight': 12, 'OpenFarRight': 13, 'OpenFarFarLeft': 14,
+    'OpenFarFarRight': 15,
+    'LoadFace': 16, 'ClearFace': 17,
+    'NormalPrint': 18, 'FastPrint': 19,
+    'CloseSpeechFast': 20, 'CloseSpeechSlow': 21,
+    'ToggleMouthMove': 22, 'ToggleSmile': 23,
+    'Yes': 24, 'No': 25, 'BuySell': 26, 'ShopContinue': 27,
+    'SendToBack': 28, 'FastPrint2': 29, '.': 31,
+    'HASH': 0x23, 'DashedLine': 0x7F, 'AccentedE': 0xE9,
+  };
+
   bool get isLoadFace => name == 'LoadFace';
+
+  /// `[ClearFace]`(17) —— 清空**活动槽**（淡出）。
+  ///
+  /// `src/TalkInterpret.c:167-176`：
+  /// `StartFaceFadeOut(faces[activeFaceSlot]); faces[activeFaceSlot] = 0;`
+  ///
+  /// 全量 398 次，其中 5 次其实是 `[$0080]` 的移动子码 0x11 → **393 次真命令**。
+  bool get isClearFace => name == 'ClearFace';
   bool get isFacePosition =>
       faceSlotSelect != null || name.startsWith('Close');
 
@@ -185,30 +227,44 @@ class GameMessage {
   /// 而当时我甚至没意识到"分页"是个概念 —— 直到去读
   /// `texts/jp_textdefs.txt`（反编译项目把控制码的语义也写下来了）。
   ///
-  /// 返回每一页的纯文字（已去掉控制码、`[LF]` 已换成换行）。
-  List<String> get pages {
-    final out = <String>[];
+  /// 每一页：`(文字, 该页在 segments 里的结束下标)`。
+  ///
+  /// ⚠️ **必须连下标一起给。**
+  ///
+  /// 原来下游靠"拿这一页的文字去 `segments` 里比对"反推结束位置
+  /// （`scene_view.dart` 的 `_indexOfPage`），而那个比对**把 `[LF]` 当成了
+  /// 不在文字里的东西** —— 只要这一页含换行就永不匹配，于是退化成
+  /// "用整条消息的脸状态"。
+  ///
+  /// 审计量化：18459 页里 **646 页纯粹因为这个 bug 选错立绘**。
+  ///
+  /// 按 token 序号直接给，就没有"比对"这一步，也就没有这个 bug。
+  List<(String, int)> get pageSpans {
+    final out = <(String, int)>[];
     final buf = StringBuffer();
-    for (final seg in segments) {
+    for (var i = 0; i < segments.length; i++) {
+      final seg = segments[i];
       if (seg is TextRun) {
         buf.write(seg.text);
-      } else {
-        final c = seg as TextControl;
-        if (c.isPageBreak) {
-          // `[A]` / `[CR]` 都是"这一页到此为止"
-          out.add(buf.toString().trim());
+      } else if (seg is TextControl) {
+        if (seg.isPageBreak) {
+          final t = buf.toString().trim();
+          if (t.isNotEmpty) out.add((t, i));
           buf.clear();
-        } else if (c.isLineBreak) {
+        } else if (seg.isLineBreak) {
           buf.write('\n');
         }
-        // 其余控制码（立绘位置、加载脸…）不进正文
       }
     }
     final tail = buf.toString().trim();
-    if (tail.isNotEmpty) out.add(tail);
-    // 全空的页（连续两个 `[A]`）去掉
-    return out.where((p) => p.isNotEmpty).toList();
+    if (tail.isNotEmpty) out.add((tail, segments.length));
+    return out;
   }
+
+  /// 返回每一页的纯文字（已去掉控制码、`[LF]` 已换成换行）。
+  List<String> get pages => [for (final p in pageSpans) p.$1];
+
+
 }
 
 /// 全部游戏文本

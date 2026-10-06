@@ -116,8 +116,19 @@ class SceneView {
       ..paint.color = dir.isWhite
           ? const Color(0xFFFFFFFF)
           : const Color(0xFF000000);
-    // 速度值是"越大越慢"（原作语义），换算成一个能看的秒数
-    final secs = (speed.clamp(1, 32)) * 0.02 + 0.1;
+    // ⚠️ **越大越快**，我原来写反了。
+    //
+    // 原作参数名是 `q4_speed`（`src/bmlib_08013D88.c:67-77`），是**每帧步进量**：
+    // `src/bmlib_08013BAC.c:104-117`  `unk66 -= unk64; blendY = unk66 >> 4;`
+    // 初值 0x100 → **帧数 = 0x100 / q4_speed**。
+    //
+    // 旁证：Fast = 0x40 → 4 帧；Mid = 0x10 → 16 帧；Slow = 0x04 → 64 帧
+    // （`src/exact_08013eb8.c:58-60`、`src/exact_08013e98.c:58-60`、
+    //   `src/StartSlowLockingFadeFromBlack.c:17`）。
+    //
+    // 按 60fps 折算成秒。
+    final frames = speed <= 0 ? 16.0 : (256.0 / speed).clamp(2.0, 120.0);
+    final secs = frames / 60.0;
     _fadeOverlay.removeAll(_fadeOverlay.children.whereType<OpacityEffect>());
     _fadeOverlay.add(OpacityEffect.to(
       dir.endsVisible ? 0 : 1,
@@ -192,18 +203,72 @@ class SceneView {
     //
     // 偏离样本 `$0080` 才是探针：它根本不是脸编号，是 `0x80`(face-ctrl 前缀)
     // + 子命令 `0x00`，被 dumper 按 u16 合并写成 `[$0080]`。
+    // 逐页回放。**出处：`src/TalkInterpret.c:140-341`**
+    //
+    // 三个机制，全部作用于「活动槽」：
+    //
+    //   `[OpenXXX]`(8..15)  →  SetActiveTalkFace(code - 8)，**只选槽**
+    //   `[LoadFace]`(16)+u16 →  载入活动槽，脸号 = u16 - 0x100
+    //   `[ClearFace]`(17)   →  清空活动槽
+    //   `[$0080]`+下一token →  **0x80 前缀**，下一 token 的值才是子码：
+    //                          0x0A..0x11 → MoveTalkFace(active, sub-10) + 改 active
+    //                          其它      → 表情/眨眼/数值代入等，与立绘位置无关
+    //
+    // ⚠️ **`[$0080]` 不是"清空"、也不是脸编号**。我先后错过三次。
+    // 它是 dumper 把一个**字节对**（`0x80` + 子码）写成了 u16 token，
+    // 所以它**必须和后面那个 token 成对读**。
+    //
+    // 序章 0x8C3 的真实轨迹（靠这一条才对）：
+    //
+    //     OpenMidLeft   LoadFace $0152  → slot1 = Fado（x=48，左）
+    //     OpenFarFarRight LoadFace $016B → slot7 = 传令兵（x=304，**屏幕外暂存**）
+    //     OpenFarFarRight $0080 + 0x0E   → MoveTalkFace(7→4)，即**滑到屏幕内右侧**
     final page = e.page ?? e.message.plain;
-    final upto = _indexOfPage(e.message, page);
+    // 用上游给的 token 序号，不再拿文字反查
+    final upto = e.upto ?? e.message.segments.length;
 
-    // 逐页回放：槽位 0..7 → 脸编号
+    final segs = e.message.segments.take(upto).toList();
     final slots = <int, int>{};
-    var activeSlot = 0xFF; // `TalkLoadFace` 里 0xFF 会被改成 1
+    var activeSlot = 0xFF;
+    var pending80 = false;   // 上一个 token 是 $0080 前缀
     var expectFaceArg = false;
-    for (final seg in e.message.segments.take(upto)) {
-      if (seg is! TextControl) continue;
+    for (final seg in segs) {
+      if (seg is! TextControl) {
+        pending80 = false;
+        // 文字不会打断"等 LoadFace 参数"，但会清掉 0x80 前缀
+        continue;
+      }
+
+      // ---- 0x80 前缀：当前 token 是**子码** ----
+      if (pending80) {
+        pending80 = false;
+        final sub = seg.codeValue;
+        if (sub != null && sub >= 0x0A && sub <= 0x11) {
+          // MoveTalkFace(active, sub - 10) + SetActiveTalkFace(sub - 10)
+          final dest = sub - 10;
+          if (activeSlot != 0xFF && slots.containsKey(activeSlot)) {
+            slots[dest] = slots.remove(activeSlot)!;
+          }
+          activeSlot = dest;
+        }
+        // 其它子码（表情/眨眼/数值代入）与位置无关，忽略
+        continue;
+      }
+
+      // ---- $0080：进入前缀态 ----
+      if (seg.isFaceSpec && seg.codeValue == 0x0080) {
+        pending80 = true;
+        continue;
+      }
+
       final sel = seg.faceSlotSelect;
       if (sel != null) {
         activeSlot = sel;
+        expectFaceArg = false;   // 位置码会打断"等脸参数"
+        continue;
+      }
+      if (seg.isClearFace) {
+        if (activeSlot != 0xFF) slots.remove(activeSlot);
         continue;
       }
       if (seg.isLoadFace) {
@@ -211,12 +276,9 @@ class SceneView {
         continue;
       }
       if (seg.isFaceSpec) {
-        if (!expectFaceArg) {
-          // `$0080` 这类：不是脸编号，是 face-ctrl 前缀 —— **跳过**
-          continue;
-        }
+        if (!expectFaceArg) continue;
         expectFaceArg = false;
-        if (activeSlot == 0xFF) activeSlot = 1; // 与 `TalkLoadFace` 一致
+        if (activeSlot == 0xFF) activeSlot = 1;   // 与 `TalkLoadFace` 一致
         final fid = seg.faceId;
         if (fid == null) {
           slots.remove(activeSlot);
@@ -236,37 +298,45 @@ class SceneView {
     );
   }
 
-  /// 槽位表里最靠右的那个脸
+  /// 槽位 → 屏幕 x（**像素，x 是立绘中心**）。
+  ///
+  /// ## 出处：`src/data/worldmap_gmapunit/dat_worldmap_gmapunit_p680.c:11`
+  ///
+  /// ```c
+  /// int gTalkFaceHPosLut[8] = { 3, 6, 9, 21, 24, 27, -8, 38 };   /* 单位：图块 */
+  /// ```
+  ///
+  /// `src/TalkLoadFace.c:37-58`：`StartFaceAuto(fid, GetTalkFaceHPos(active)*8, 80, ...)`
+  /// —— **x 是立绘中心**，包围盒 96×80（`gSprite_Face96x96`），y = 80..160。
+  ///
+  /// ⚠️ **slot 6 / 7 完全在屏幕外**（x = −64 / 304），它们在原作里是
+  /// "先载入再移动进来"的**暂存位** —— 不该直接画。
+  ///
+  /// 我原来用自造顺序 `[5,4,3,7,6,2,1,0]` 挑"最右"，与真实 x 序不符：
+  /// 真实是 `6 < 0 < 1 < 2 < 3 < 4 < 5 < 7`。
+  static const faceSlotX = <int, double>{
+    0: 24, 1: 48, 2: 72, 3: 168, 4: 192, 5: 216, 6: -64, 7: 304,
+  };
+
+  /// 屏幕内的槽位，按 x 从左到右
+  static const onScreenSlots = [0, 1, 2, 3, 4, 5];
+
+  /// 最靠右的**可见**立绘
   int? _rightmost(Map<int, int> slots) {
-    for (final s in const [5, 4, 3, 7, 6, 2, 1, 0]) {
+    for (final s in onScreenSlots.reversed) {
       if (slots.containsKey(s)) return slots[s];
     }
     return null;
   }
 
-  /// 槽位表里最靠左的那个脸
+  /// 最靠左的**可见**立绘
   int? _leftmost(Map<int, int> slots) {
-    for (final s in const [0, 1, 2, 6, 3, 4, 5, 7]) {
+    for (final s in onScreenSlots) {
       if (slots.containsKey(s)) return slots[s];
     }
     return null;
   }
 
-  /// 这一页在整条消息里的结束位置（用于"只看这一页之前的脸"）
-  int _indexOfPage(GameMessage m, String page) {
-    // 简单做法：按分页标记累计，找到哪一段的文字等于本页
-    final buf = StringBuffer();
-    for (var i = 0; i < m.segments.length; i++) {
-      final seg = m.segments[i];
-      if (seg is TextRun) {
-        buf.write(seg.text);
-      } else if (seg is TextControl && seg.isPageBreak) {
-        if (buf.toString().trim() == page.trim()) return i;
-        buf.clear();
-      }
-    }
-    return m.segments.length;
-  }
 }
 
 /// 淡入/淡出的**表现层**属性。
