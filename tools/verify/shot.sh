@@ -33,7 +33,9 @@ NEEDS_BUILD=0
 [ -x "$BIN" ] || NEEDS_BUILD=1
 if [ "$NEEDS_BUILD" = 0 ]; then
   # 找比二进制新的源文件（排除 build/ 与 third_party/）
-  NEWER=$(find "$ROOT/lib" "$ROOT/pubspec.yaml" -newer "$BIN" 2>/dev/null | head -1)
+  # ⚠️ **必须也看 assets/** —— 只盯 lib/ 的话，换了素材不会重新打包，
+  # 于是改了没生效（我踩过一次，截出来字节完全相同）。
+  NEWER=$(find "$ROOT/lib" "$ROOT/assets" "$ROOT/pubspec.yaml" -newer "$BIN" 2>/dev/null | head -1)
   [ -n "$NEWER" ] && NEEDS_BUILD=1
 fi
 if [ "$NEEDS_BUILD" = 1 ]; then

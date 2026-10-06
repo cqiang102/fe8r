@@ -36,6 +36,18 @@ class TitleView extends PositionComponent {
   /// 「图没显示」和「图被黑幕盖住」在截图里长得一样。
   double fade = 1;
 
+  /// ② 开场动画：`OpAnimScrollBg.png` 是 **240×800** 的滚动背景。
+  ///
+  /// 出处：`preview/tsa/MANIFEST.tsv` ——
+  /// 「Assembled 240x800 preview of 100 scroll-bg bands (opanim1-100);
+  ///   each band is 240x8 GBA-screen-width; **bands loop during opaque animation**」
+  ///
+  /// 所以是"整张长图在滚"，不是逐条播放。
+  double _scrollY = 0;
+
+  /// 滚动速度（像素/秒）。原作是逐帧滚动，这里取一个视觉接近的值。
+  static const double scrollSpeed = 20;
+
   /// 当前画面已经淡了多久（帧）
   int _fadeFrame = 0;
   TitleScreen? _fadeScreen;
@@ -68,7 +80,12 @@ class TitleView extends PositionComponent {
   /// 每个画面用哪张现成素材（没有的留空，退回纯色底）
   static const _assetFor = <TitleScreen, String>{
     TitleScreen.intelligentSystems: 'IntelligentSystems.png',
-    // 存档菜单背景在反编译里只有裸条（`Img_SaveMenuBG.png`），先不用
+    // ⚠️ **不要用 `OpAnimScrollBg.png`** —— 它是 240×800 的滚动背景，
+    // 但**素材本身就是噪点**（反编译项目自己组装出来的预览就是那样）。
+    // 用角色立绘 —— 职业介绍本来就是介绍角色，而且那批是干净的。
+    //
+    // （滚动背景那张可能是片头转场用的"雪花"效果，也可能组装有问题；
+    //   没查清之前不用它。）
     TitleScreen.classReel: 'OpAnimEirika.png',
   };
 
@@ -197,6 +214,11 @@ class TitleView extends PositionComponent {
     if (_fadeScreen != flow.screen) {
       _fadeScreen = flow.screen;
       _fadeFrame = 0;
+      _scrollY = 0;
+    }
+    // 开场动画的滚动背景
+    if (flow.screen == TitleScreen.classReel) {
+      _scrollY += scrollSpeed * dt;
     }
     if (_fadeFrame < fadeFrames) {
       _fadeFrame++;
@@ -314,15 +336,29 @@ class TitleView extends PositionComponent {
     final name = _assetFor[flow.screen];
     final img = name == null ? null : _images[name];
     if (img != null) {
-      // 素材是 GBA 分辨率（240×160 或 256×160），铺满视口
-      final scale = size.y / img.height;
-      final w = img.width * scale;
-      canvas.drawImageRect(
-        img,
-        Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
-        Rect.fromLTWH((size.x - w) / 2, 0, w, size.y),
-        Paint()..filterQuality = FilterQuality.none,
-      );
+      final iw = img.width.toDouble();
+      final ih = img.height.toDouble();
+      if (ih > iw) {
+        // 长图（滚动背景）：按 `_scrollY` 取一屏，**循环**
+        final viewH = iw * (size.y / size.x);          // 一屏在原图里的高度
+        final y = _scrollY % (ih - viewH);
+        canvas.drawImageRect(
+          img,
+          Rect.fromLTWH(0, y, iw, viewH),
+          Rect.fromLTWH(0, 0, size.x, size.y),
+          Paint()..filterQuality = FilterQuality.none,
+        );
+      } else {
+        // 单屏素材：铺满（保持比例，居中）
+        final scale = size.y / ih;
+        final w = iw * scale;
+        canvas.drawImageRect(
+          img,
+          Rect.fromLTWH(0, 0, iw, ih),
+          Rect.fromLTWH((size.x - w) / 2, 0, w, size.y),
+          Paint()..filterQuality = FilterQuality.none,
+        );
+      }
     }
     // ---- 菜单：带框的列表 + 行高亮 ----
     final items = menuItems;

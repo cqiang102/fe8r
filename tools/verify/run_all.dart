@@ -204,6 +204,11 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '立绘合成', 'true', const [], skip: true, note: decompNote),
 
+    // 现成素材复制（去掉 Img_ 前缀 + 洋红转透明）
+    Step('L0', '标题素材复制', 'python3',
+        ['extract/copy_title_assets.py'], cwd: 'tools/pipeline',
+        note: '反编译里 X.png 是合成版、Img_X.png 是裸条'),
+
     // 章节号 → 地图名（LOMA 的操作数是 chapterIndex）
     if (hasDecomp())
       Step('L0', '章节→地图映射', 'python3',
