@@ -130,16 +130,45 @@ enum MainMenuItem {
   final int spriteIndex;
 }
 
-/// 难度（`SaveMenu_PostDifficultHandler.c:32-36`：`difficulty == 3` 走单独分支）
+/// 难度。
+///
+/// ## ★ 说明文字是**真实消息**，ID 来自源码
+///
+/// `src/DrawDifficultyModeText.c:29`：
+///
+/// ```c
+/// str = GetStringFromIndex(gTextIds_DifficultyDescription[proc->current_selection]);
+/// ```
+///
+/// `gTextIds_DifficultyDescription` 没有命名符号，但
+/// `layout/baseline_syms.d/cfbind_difficultymenu.tsv` 给出了地址
+/// **`08A9D970`** —— 落在 `data_08A9D904.c` 的 residue
+/// `[08A9D94C,08A9D978)` 里：
+///
+/// ```c
+/// 0x00006000,      // 08A9D96C
+/// 0x08330832,      // 08A9D970  ← ★ u16 小端拆开 = 0x0832, 0x0833
+/// 0x00000834,      // 08A9D974      u16 = 0x0834
+/// ```
+///
+/// **所以是 `[0x0832, 0x0833, 0x0834]` = 消息 2098 / 2099 / 2100。**
+///
+/// `SaveMenu_PostDifficultHandler.c:32-36` 里 `difficulty == 3` 走单独分支
+/// —— 对应本枚举的 index 2（困难）。
 enum Difficulty {
-  /// 新手（说明文案见消息 2100 一类）
-  easy,
+  /// 新手 —— 说明文字 = 消息 **2098**
+  easy(0x0832),
 
-  /// 普通
-  normal,
+  /// 普通 —— 消息 **2099**
+  normal(0x0833),
 
-  /// 困难
-  hard,
+  /// 困难 —— 消息 **2100**
+  hard(0x0834);
+
+  const Difficulty(this.descriptionMsgId);
+
+  /// `gTextIds_DifficultyDescription[index]`
+  final int descriptionMsgId;
 }
 
 /// 每个画面的停留帧数（60fps）
@@ -200,6 +229,11 @@ class TitleFlow {
 
   /// 「スタートを押すと始まります」—— 消息 1749
   String get pressStart => texts.byId(1749)?.plain.trim() ?? 'スタートを押すと始まります';
+
+  /// 当前难度的**说明文字** —— `gTextIds_DifficultyDescription[选择]`
+  /// （消息 2098 / 2099 / 2100，出处见 [Difficulty]）
+  String get difficultyDescription =>
+      texts.byId(difficulty.descriptionMsgId)?.plain.trim() ?? '';
 
   /// 主菜单**实际会出现哪些项** —— 逐条对应 `src/InitSaveMenuChoice.c:23-62`。
   ///

@@ -195,7 +195,8 @@ class TitleView extends PositionComponent {
       case TitleScreen.mainMenu:
         return ('開始', null);
       case TitleScreen.difficulty:
-        return ('難易度', null);
+        // 说明文字是**真实消息**（2098/2099/2100，见 `Difficulty` 的出处）
+        return ('難易度', flow.difficultyDescription);
       case TitleScreen.saveSlot:
         return ('セーブ', null);
     }
@@ -298,7 +299,9 @@ class TitleView extends PositionComponent {
     final items = menuItems;
     if (items.isNotEmpty) {
       _menuTexts.clear();
-      final m = _MenuMetrics(size, count: items.length);
+      final m = _MenuMetrics(size,
+          // 名字**始终在左**；难度画面的说明文字在右。
+        count: items.length, left: true);
       for (var i = 0; i < items.length; i++) {
         final t = TextComponent(
           text: items[i],
@@ -326,17 +329,23 @@ class TitleView extends PositionComponent {
     }
 
     if (sub != null) {
+      // 难度画面的说明文字要放到**右边**（源码在 BG0 第 18 列），
+      // 否则会和左边的名字叠在一起。
+      final isDiff = flow.screen == TitleScreen.difficulty;
       _sub = TextComponent(
         text: sub,
         textRenderer: TextPaint(
           style: TextStyle(
             color: const Color(0xFFB8C4D4),
-            fontSize: screenSize.x * 0.045,
+            fontSize: screenSize.x * (isDiff ? 0.032 : 0.045),
             height: 1.4,
           ),
         ),
-        anchor: Anchor.topCenter,
-        position: Vector2(cx, screenSize.y * 0.56),
+        anchor: isDiff ? Anchor.topLeft : Anchor.topCenter,
+        position: Vector2(
+          isDiff ? screenSize.x * 0.50 : cx,
+          screenSize.y * (isDiff ? 0.42 : 0.56),
+        ),
       );
       add(_sub!);
     }
@@ -381,7 +390,9 @@ class TitleView extends PositionComponent {
     // ---- 菜单：带框的列表 + 行高亮 ----
     final items = menuItems;
     if (items.isNotEmpty) {
-      final m = _MenuMetrics(size, count: items.length);
+      final m = _MenuMetrics(size,
+          // 名字**始终在左**；难度画面的说明文字在右。
+        count: items.length, left: true);
       final w = m.boxW(size);
       final h = m.boxH();
       final rect = RRect.fromRectAndRadius(
@@ -426,9 +437,16 @@ class TitleView extends PositionComponent {
 
 /// 菜单的绘制参数（**从视口尺寸算，不写死像素**）
 class _MenuMetrics {
-  _MenuMetrics(Vector2 screen, {required this.count})
+  _MenuMetrics(Vector2 screen, {required this.count, this.left = true})
       : tile = screen.x / 30,          // GBA 是 30 图块宽
         originY = screen.y * 0.42;
+
+  /// 菜单框靠左还是靠右。
+  ///
+  /// 难度画面**说明文字在右边**（`DifficultySelect_PutModeText` 把它放在
+  /// `TILEMAP_LOCATED(gBG0TilemapBuffer, 18, 7)`），所以名字要放左边，
+  /// 否则两边会叠在一起（截图里一眼可见）。
+  final bool left;
 
   /// 一个图块多少像素（GBA 是 8px）
   final double tile;
@@ -439,7 +457,8 @@ class _MenuMetrics {
   double get rowH => tile * 2.2;
 
   /// 框的宽：够放下最长的一项
-  double boxW(Vector2 screen) => screen.x * 0.52;
+  /// 框宽：难度画面要给右边的说明文字留位置
+  double boxW(Vector2 screen) => screen.x * (left ? 0.40 : 0.52);
   double boxH() => rowH * count + tile * 1.4;
-  double get boxX => tile * 3;
+  double get boxX => left ? tile * 3 : tile * 16;
 }

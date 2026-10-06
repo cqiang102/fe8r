@@ -239,6 +239,16 @@ void main() {
     });
   });
 
+  group('★ 难度的说明文字 ID 来自源码（gTextIds_DifficultyDescription）', () {
+    test('三个 ID = 0x0832 / 0x0833 / 0x0834（消息 2098/2099/2100）', () {
+      expect(Difficulty.easy.descriptionMsgId, 0x0832);
+      expect(Difficulty.normal.descriptionMsgId, 0x0833);
+      expect(Difficulty.hard.descriptionMsgId, 0x0834);
+      expect(Difficulty.easy.descriptionMsgId, 2098);
+      expect(Difficulty.hard.descriptionMsgId, 2100);
+    });
+  });
+
   test('标题文字用的是**真实消息表**（253 / 1749）', () {
     final f = fresh();
     // `GameTexts.empty()` 时退回硬编码的原文，仍然是那一句
