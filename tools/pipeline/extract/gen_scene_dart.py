@@ -182,6 +182,10 @@ def stmt(op, A):
     if op.startswith("MOVE") and not op.startswith("MOVERANGE"):
         return (f"s.moveUnit('{op}', {lst(A)});", True)
 
+    # 换章节 —— `MNC2(n)` = `EvtChangeChapterBM(n)`（`include/eventscript.h:681`）
+    if op == "MNC2":
+        return (f"await s.changeChapter({num(A[0]) if A else 0});", False)
+
     # 换地图 —— 操作数是 **chapterIndex**（`src/eventscr_0800F390.c:54`）
     if op == "LOMA":
         return (f"await s.loadMap({num(A[0]) if A else 0});", False)

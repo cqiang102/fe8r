@@ -88,6 +88,30 @@ class ShowText extends SceneEvent {
       '${pageCount > 1 ? ' 第${pageIndex + 1}/$pageCount页' : ''})';
 }
 
+/// 换章节（`MNC2`）。
+///
+/// ## 出处：`include/eventscript.h:681`
+///
+/// ```c
+/// #define EvtChangeChapterBM(chapter) \
+///     _EvtArg0(EV_CMD_CHANGECHAPTER, 2, EVSUBCMD_MNC2, (chapter))
+/// ```
+///
+/// **序章的结束脚本里就是 `MNC2(1)`** —— 显式切到第 1 章。
+///
+/// ⚠️ 我第一版把它当占位（`s.placeholder('MNC2')`），
+/// **结果游戏永远停在序章** —— 第 1 章根本到不了。
+class ChangeChapter extends SceneEvent {
+  const ChangeChapter({required this.chapterIndex, required this.scriptName});
+
+  /// 目标 `chapterIndex`
+  final int chapterIndex;
+  final String scriptName;
+
+  @override
+  String toString() => 'ChangeChapter($chapterIndex)';
+}
+
 /// 换地图（`LOMA`）。
 ///
 /// ## 出处：`src/eventscr_0800F390.c:45-68`（`Event25_ChangeMap`）
@@ -415,6 +439,10 @@ class Scene {
   void moveUnit(String op, List<Object> args) {
     onEvent(MoveUnitInScene(op, args));
   }
+
+  /// 换章节（`MNC2`）—— 序章结束时会切到第 1 章
+  Future<void> changeChapter(int chapterIndex) => onEvent(
+      ChangeChapter(chapterIndex: chapterIndex, scriptName: currentScript));
 
   Future<void> stall(int frames) => onEvent(Stall(frames));
 

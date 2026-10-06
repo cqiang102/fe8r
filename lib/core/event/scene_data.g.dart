@@ -2059,7 +2059,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 180;
           continue;
         case 180:
-          s.placeholder('MNC2');
+          await s.changeChapter(12);
           pc = 181;
           continue;
         case 181:
@@ -10849,7 +10849,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('MNC2');
+          await s.changeChapter(5);
           pc = 40;
           continue;
         case 40:
@@ -13928,7 +13928,7 @@ Future<void> Prologue_EndingScene(Scene s) async {
     s.placeholder('ENUT');
     s.placeholder('ENUT');
     s.placeholder('ENUT');
-    s.placeholder('MNC2');
+    await s.changeChapter(1);
     return;
 }
 

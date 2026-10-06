@@ -325,6 +325,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 脸编号 → 角色名（表就是可读的 C 源码里的符号名）
       _sceneView!.loadFaceIds('tools/pipeline/out/tables/face_ids.json');
       _loadChapterMaps();
+      _loadChapterLinks();
       _loadChapters();
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
@@ -353,6 +354,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 之前直接从序章开场演起，跳过了 ① Press Start / ④ 标题 /
     // ⑤ 主菜单/难度/存档槽（用户指出）。
     if (gameTexts != null) {
+      // 调试：`FE8R_CHAPTER=1` 直接跳到某一章（验证章节系统用）
+      final ch = Platform.environment['FE8R_CHAPTER'];
+      if (ch != null) {
+        final n = int.tryParse(ch);
+        if (n != null) sceneChapter = n;
+      }
       final forced = Platform.environment['FE8R_TITLE'];
       titleFlow = TitleFlow(texts: gameTexts!);
       final jump = forced == null ? null : TitleFlow.screenByName(forced);
@@ -535,6 +542,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _updateSceneDialogue();
         _sceneWait = Completer<void>();
         await _sceneWait!.future;
+        case ChangeChapter(:final chapterIndex):
+          // `MNC2(n)` —— 切到第 n 章（序章结束时会切到第 1 章）
+          await _gotoChapter(chapterIndex);
+
         case LoadMap(:final chapterIndex):
           // ⚠️ 操作数是 **chapterIndex**（`src/eventscr_0800F390.c:45-68`）。
           // 路由：chapterIndex → chapters.json 的 internalName
@@ -575,8 +586,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // ⚠️ 立绘解码是异步的、渲染是同步的 —— 不预热的话第一页画不出人像。
     await _preloadScenePortraits();
     final sc = scene;
-    final fn = allSceneFns[realSceneName];
-    if (sc == null || fn == null) return;
+    final name = realSceneName;
+    final fn = name == null ? null : allSceneFns[name];
+    if (sc == null || fn == null) {
+      status.value = '第 $sceneChapter 章没有开场脚本（${name ?? "缺事件组"}）';
+      return;
+    }
 
     _sceneRunning = true;
     _sceneShown = 0;
@@ -591,8 +606,58 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _updateSceneDialogue();
   }
 
-  /// 该演的脚本 —— 序章开场。这是原作剧情的第一段。
-  static const String realSceneName = 'EventScr_Prologue_BeginningScene';
+  /// ★ **当前章节号** —— 由 `MNC2` 推进（序章结束时切到第 1 章）。
+  ///
+  /// 出处：`chapter_links.json`（由 `gChapterDataTable.mapEventDataId`
+  /// → `gChDAsset_<id>` → `ChapterEventGroup` 提取）：
+  ///
+  ///     [0] L00 -> PrologueEvents   beginningSceneEvents = EventScr_Prologue_BeginningScene
+  ///     [1] L01 -> Ch1Events        beginningSceneEvents = EventScr_Ch1_BeginningScene
+  ///
+  /// ⚠️ 我第一版把 `realSceneName` 硬编码成序章开场、且把 `MNC2` 当占位 ——
+  /// **结果游戏永远停在序章，第 1 章根本到不了。**
+  int sceneChapter = 0;
+
+  /// 章节号 → 事件组（`chapter_links.json` 的 `links`）
+  List<Map<String, dynamic>> _chapterLinks = const [];
+  Map<String, dynamic> _eventGroups = const {};
+
+  /// 当前章节的事件组字段
+  Map<String, dynamic>? get _chapterGroup {
+    if (sceneChapter < 0 || sceneChapter >= _chapterLinks.length) return null;
+    final name = _chapterLinks[sceneChapter]['eventGroupName'] as String?;
+    if (name == null) return null;
+    final g = _eventGroups[name];
+    return g is Map<String, dynamic> ? g : null;
+  }
+
+  /// 当前章节的**开场脚本**名（`beginningSceneEvents`）
+  String? get realSceneName {
+    final v = _chapterGroup?['beginningSceneEvents'];
+    return v is String && v != '0' ? v : null;
+  }
+
+  void _loadChapterLinks() {
+    final f = File('tools/pipeline/out/tables/chapter_links.json');
+    if (!f.existsSync()) return;
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    _chapterLinks = [
+      for (final e in (d['links'] as List<dynamic>))
+        (e as Map<String, dynamic>),
+    ];
+    _eventGroups = d['eventGroups'] as Map<String, dynamic>;
+  }
+
+  /// 切到某一章：重建地图与单位，然后演这一章的**开场脚本**。
+  ///
+  /// 出处：`src/gamecontrol_08009CF8.c:53`（`gPlaySt.chapterIndex = proc->nextChapter;`）
+  /// 与 `src/Event2A_MoveToChapter.c:39`（`EVSUBCMD_MNC2`）。
+  Future<void> _gotoChapter(int chapterIndex) async {
+    if (chapterIndex < 0 || chapterIndex >= _chapterLinks.length) return;
+    sceneChapter = chapterIndex;
+    await _loadChapterMap(chapterIndex);
+    await _startRealScene();
+  }
 
   /// 把当前这句对白画进对话框
   /// 换地图：`LOMA(chapterIndex)`。
