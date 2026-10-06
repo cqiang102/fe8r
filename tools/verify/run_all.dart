@@ -168,6 +168,22 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
 
+    // 场景剧情：**从源码逐行解析**，不走编译（参数就是名字，没有指针）
+    if (hasDecomp())
+      Step('L0', '场景剧情脚本（源码解析）', 'python3',
+          ['extract/parse_scene_scripts.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '166 个脚本 / 130 种指令名')
+    else
+      Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
+
+    // 游戏文本：反编译项目已解码成纯文本，不用碰 Huffman
+    if (hasDecomp())
+      Step('L0', '游戏文本 + 章节标题', 'python3',
+          ['extract/parse_text.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '3339 条消息 / 61 个章节标题')
+    else
+      Step('L0', '游戏文本（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '章节链路（资产 / 事件组）', 'python3',
           ['extract/parse_chapter_links.py', '--out', 'out/tables'],

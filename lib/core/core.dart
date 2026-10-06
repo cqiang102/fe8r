@@ -17,6 +17,7 @@ export 'battle/battle_rng.dart';
 export 'battle/battle_round.dart';
 export 'class/class_table.dart';
 export 'event/chapter_events.dart';
+export 'event/scene_script.dart';
 export 'event/event_script.dart';
 export 'event/event_vm.dart';
 export 'battle/battle_stats.dart';
