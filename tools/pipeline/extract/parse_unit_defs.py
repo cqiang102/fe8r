@@ -532,6 +532,25 @@ def main():
         return 1
     print("\n✅ 自洽性检查通过（坐标 0..63、阵营 0..2）")
 
+    # ★ **合并汇编里的表**。
+    #
+    # 有一批单位表没有 C 定义，只在 `src/data/data/*.s` 里以裸 `.4byte` 存在
+    # （`UnitDef_Event_PrologueMessager` 等 37 张、94 个单位）。
+    # 它们由 `parse_unit_defs_asm.py` 解出。
+    #
+    # 不合并的后果：脚本里的 `LOAD1(1, UnitDef_Event_PrologueMessager)`
+    # 在游戏里报"缺单位表"，**序章王座厅会少一个传令兵**。
+    asm = os.path.join(a.out, "unit_defs_asm.json")
+    if os.path.exists(asm):
+        with open(asm, encoding="utf-8") as f:
+            extra = json.load(f).get("tables", {})
+        n = 0
+        for k, v in extra.items():
+            if k not in tables:
+                tables[k] = v
+                n += 1
+        print(f"  合并汇编表 {n} 张（共 {len(tables)} 张）")
+
     os.makedirs(a.out, exist_ok=True)
     payload = {
         "sources": [os.path.relpath(f, DECOMP) for f in files],

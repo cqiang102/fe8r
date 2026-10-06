@@ -32,7 +32,7 @@ void main() {
     });
 
     test('能装配的章节数（钉死：数据覆盖范围变了这里会失败）', () {
-      // ⚠️ **14，不是 8** —— 这个数字刚从 8 涨上来。
+      // ⚠️ **15** —— 从 8 -> 14（补全 C 里的单位表）-> 15（再并入汇编里的 37 张）。
       //
       // 原因：`parse_unit_defs.py` 原来只扫三个目录模式，
       // 漏掉了一大批单位表（125 -> 369 张）。补全之后，
@@ -44,7 +44,7 @@ void main() {
       for (final c in chapters.list) {
         if (loader.canLoad(c.index)) can++;
       }
-      expect(can, 14, reason: '79 章里目前有 14 章能完整装配');
+      expect(can, 15, reason: '79 章里目前有 15 章能完整装配');
     });
 
     test('装配不出来的章节返回 null，而不是空战场', () {
@@ -59,7 +59,7 @@ void main() {
         }
         expect(f.units, isNotEmpty, reason: '${c.internalName} 装配出了空战场');
       }
-      expect(nullCount, 79 - 13);
+      expect(nullCount, 65);
     });
 
     test('装配出的单位落在真实坐标上', () {

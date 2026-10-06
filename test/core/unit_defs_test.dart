@@ -22,7 +22,7 @@ void main() {
       defs = UnitDefs.parse(f.readAsStringSync());
     });
 
-    test('369 张表 / 真实单位数（全树扫描）', () {
+    test('406 张表 / 真实单位数（C 全树 + 汇编）', () {
       // ⚠️ 数字从 125 变成 369 —— 因为提取器原来只扫三个目录模式，
       // 漏了 `src/data/` 下的直接文件与 `worldmap_gmapunit/` 等目录。
       // **测试抓到了这个变化**，这正是它该做的。
@@ -32,14 +32,14 @@ void main() {
       //
       // 元素个数现在由探针的 `sizeof` 算（不靠 nm 的地址差），
       // 已实测 Linux 与 macOS 逐条一致 —— 所以这一步可以进 CI。
-      expect(defs.tables.length, 369);
+      expect(defs.tables.length, 406);
       final entries =
           defs.tables.values.fold<int>(0, (s, t) => s + t.entries.length);
       final seps = defs.tables.values
           .fold<int>(0, (s, t) => s + t.entries.where((e) => e.isGroupSeparator).length);
       expect(entries, greaterThan(2887));
-      expect(seps, 629);
-      expect(defs.totalUnits, 4541);
+      expect(seps, 630);
+      expect(defs.totalUnits, 4634);
       expect(entries, defs.totalUnits + seps);
     });
 

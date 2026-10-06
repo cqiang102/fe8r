@@ -155,10 +155,20 @@ Future<void> main(List<String> argv) async {
     // 不靠 `nm` 的地址差 —— 后者在 ELF 与 Mach-O 上取法不同
     // （实测 Linux 2629 / macOS 2796）。现在两边逐条一致，
     // 所以这一步**可以**进 CI。
+    // ⚠️ **顺序要紧**：汇编里的表要先解出来，
+    // `parse_unit_defs.py` 会把它们合并进 `unit_defs.json`。
+    if (hasDecomp())
+      Step('L0', '单位表（汇编）', 'python3',
+          ['extract/parse_unit_defs_asm.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: 'C 里没有、只在 .s 里的 UnitDefinition')
+    else
+      Step('L0', '单位表（汇编）', 'true', const [], skip: true, note: decompNote),
+
     if (hasDecomp())
       Step('L0', '章节单位配置提取', 'python3',
           ['extract/parse_unit_defs.py', '--out', 'out/tables'],
-          cwd: 'tools/pipeline', note: '125 张表 / 2887 个条目（编译器算长度）')
+          cwd: 'tools/pipeline',
+          note: '369 张 C 表 + 37 张汇编表（编译器算长度）')
     else
       Step('L0', '章节单位配置提取', 'true', const [], skip: true, note: decompNote),
 
@@ -170,6 +180,12 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '章节配置提取', 'true', const [], skip: true, note: decompNote),
 
+    if (hasDecomp())
+      Step('L0', '文本表', 'python3',
+          ['extract/parse_text.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '3339 条消息 / 61 个章节标题')
+    else
+      Step('L0', '游戏文本', 'true', const [], skip: true, note: decompNote),
     // 章节 → 资产 → 事件组/单位表：**全程文本**（反编译项目已去指针化）
     // 场景剧情脚本：纯线性指令流，用来统计**真实 opcode 覆盖率**
     if (hasDecomp())
@@ -227,12 +243,6 @@ Future<void> main(List<String> argv) async {
       Step('L0', '脸编号映射', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
-      Step('L0', '游戏文本 + 章节标题', 'python3',
-          ['extract/parse_text.py', '--out', 'out/tables'],
-          cwd: 'tools/pipeline', note: '3339 条消息 / 61 个章节标题')
-    else
-      Step('L0', '游戏文本', 'true', const [], skip: true, note: decompNote),
-
     // 汉化：段数校验 —— **必须排在文本表生成之后**（它读 texts.json）
     Step('L0', '汉化校验', 'python3', ['i18n.py', 'verify'],
         cwd: 'tools/i18n', note: '段数不符就拒绝，不静默错版'),
