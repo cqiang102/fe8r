@@ -260,10 +260,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
     }
 
-    // 开场流程没跑完时，输入全给它
-    if (inTitleFlow && _titleInput(i)) return KeyEventResult.handled;
-
-    input(i);
+    routeInput(i);
     return KeyEventResult.handled;
   }
 
@@ -374,6 +371,23 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
   }
 
+  /// **唯一的输入路由** —— 真实按键与调试脚本都走这里。
+  ///
+  /// ## 为什么必须只有一条路
+  ///
+  /// 之前调试脚本直接调 `input()`，绕过了 `onKeyEvent` 里的开场流程分支，
+  /// 于是 `FE8R_SCRIPT="confirm"` **推不动开场流程** ——
+  /// 截图一直停在同一个画面，而我还以为是流程卡住了。
+  ///
+  /// 这和文档里记过的那次是**同一类 bug**：
+  /// 「视觉验证经由 `FE8R_SCRIPT` 绕过了真实按键路径」。
+  /// 修法不是再补一处，而是**让两条路合并**。
+  void routeInput(FlowInput i) {
+    // 开场流程没跑完时，输入全给它
+    if (inTitleFlow && _titleInput(i)) return;
+    input(i);
+  }
+
   /// 按脚本驱动一串输入（调试 / 视觉验证用）。
   ///
   /// 交互流程是纯状态机，所以"录一串按键再回放"天然可行——
@@ -388,6 +402,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     for (final raw in script.split(',')) {
       final t = raw.trim().toLowerCase();
       if (t.isEmpty) continue;
+      // `wait` = 多等一会儿。**场景/地图是异步加载的**，
+      // 紧跟其后的按键会在加载完成前发出而丢掉
+      // （截图里验证过：加了按键但画面字节完全相同）。
+      if (t == 'wait') {
+        await Future<void>.delayed(const Duration(milliseconds: 900));
+        continue;
+      }
       final i = switch (t) {
         'up' => FlowInput.up,
         'down' => FlowInput.down,
@@ -400,7 +421,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _ => null,
       };
       if (i != null) {
-        input(i);
+        routeInput(i);   // ← 与真实按键同一条路
         await Future<void>.delayed(const Duration(milliseconds: 60));
       }
     }

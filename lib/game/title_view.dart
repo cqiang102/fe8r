@@ -207,7 +207,8 @@ class TitleView extends PositionComponent {
         ];
       case TitleScreen.saveSlot:
         return [
-          for (var i = 0; i < 3; i++) MenuEntry('ファイル${i + 1}'),
+          for (var i = 0; i < 3; i++)
+            MenuEntry(flow.ui('ファイル${i + 1}')),
         ];
       default:
         return const [];
