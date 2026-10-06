@@ -190,59 +190,24 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', 'TMX 全量往返（跳过）', 'true', const [], note: decompNote),
 
-    // 交互流程状态机：这一层没有 C Oracle（是重写不是移植），
-    // 判据是"状态迁移符合设计 + 完全可序列化 + 不产生非法状态"
-    Step('L1', '交互流程状态机（可序列化）', 'flutter',
-        ['test', 'test/core/flow_machine_test.dart'],
-        note: '19 用例：迁移 / 存档往返 / 玩家侧攻击'),
-
-    Step('L1', '重定位读取（指针归一化的前提）', 'flutter',
-        ['test', 'test/core/relocations_test.dart'],
-        note: '1 用例：otool -rv / readelf -r 两条路径'),
-
-    Step('L1', '场景剧情脚本（真实数据）', 'flutter',
-        ['test', 'test/core/event_scripts_test.dart'],
-        note: '5 用例：166 张表 / 覆盖率曲线 / 当前 62.2%'),
-
-    Step('L1', '章节装配（链路的首个消费者）', 'flutter',
-        ['test', 'test/core/chapter_loader_test.dart'],
-        note: '6 用例：79 章 → 8 章可装配'),
-
-    Step('L1', '章节配置表（真实数据）', 'flutter',
-        ['test', 'test/core/chapters_test.dart'],
-        note: '6 用例：79 章 / 名字格式 / 事件组索引'),
-
-    Step('L1', '章节单位配置（真实数据）', 'flutter',
-        ['test', 'test/core/unit_defs_test.dart'],
-        note: '6 用例：111 张表 / 位域范围 / 分组分隔符'),
-
-    Step('L1', '章节事件脚本（真实数据）', 'flutter',
-        ['test', 'test/core/chapter_events_test.dart'],
-        note: '6 用例：21 张表 / 与宏展开逐字一致'),
-
-    Step('L1', '事件引擎（指令解码 + 虚拟机）', 'flutter',
-        ['test', 'test/core/event_vm_test.dart'],
-        note: '39 用例：位打包 / 控制流 / 表现类 / 单位移动 / 可序列化'),
-
-    Step('L1', '职业表与武器射程', 'flutter',
-        ['test', 'test/core/class_table_test.dart'],
-        note: '9 用例：按职业查地形 / s8→u8 / 编码射程'),
-
-    Step('L1', '交战序列（反击 / 追击 / 勇气）', 'flutter',
-        ['test', 'test/core/battle_round_test.dart'],
-        note: '14 用例 + effective_hit 84 条 C Oracle 对照'),
-
-    Step('L1', '战斗结算（M4→M5 桥接）', 'flutter',
-        ['test', 'test/core/combat_test.dart'],
-        note: '5 用例：伤害钳位 / 乱数消耗语义 / 确定性'),
-
-    Step('L1', '回合循环与敌方 AI', 'flutter',
-        ['test', 'test/core/turn_loop_test.dart'],
-        note: '15 用例：阶段推进 / 灰化清除 / AI 确定性'),
-
-    Step('L1', '地图语义形式', 'flutter',
-        ['test', 'test/core/map_grid_test.dart'],
-        note: '含与 .mar 二进制逐格对照'),
+    // ⚠️ **所有 Dart 测试合并成一次 `flutter test`。**
+    //
+    // 曾经是 14 个独立步骤，每个一次 `flutter test` —— 而每次调用要
+    // 起一遍 Flutter 引擎（约 1.5 秒），14 次就是 ~21 秒，
+    // 其中绝大部分是**启动开销，不是测试本身**。
+    //
+    // 合并之后共用一次引擎启动。代价是"哪个套件挂了"不再由步骤名体现，
+    // 但 `flutter test` 的输出本来就会逐文件报结果，
+    // 失败时下面会把输出打出来，定位不受影响。
+    //
+    // 覆盖的套件（18 个文件）：
+    //   flow_machine / relocations / event_scripts / chapter_loader /
+    //   chapters / unit_defs / chapter_events / event_vm / class_table /
+    //   battle_round / combat / turn_loop / map_grid / movement_oracle /
+    //   battle_oracle / phase_oracle / turn_switch_oracle / rng_oracle
+    Step('L1', '单元测试（全部 18 个套件）', 'flutter',
+        ['test', 'test/core'],
+        note: 'M1–M6：流程状态机 / 事件引擎 / 章节链路 / 战斗结算 / 回合循环'),
 
     // C Oracle 自身的自检：证明"判据"本身是可信的
     // （golden 对照 + 独立 Python 交叉校验，会真的编译反编译 C）
