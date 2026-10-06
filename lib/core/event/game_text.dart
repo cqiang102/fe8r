@@ -315,6 +315,14 @@ class GameMessage {
 class GameTexts {
   GameTexts({required this.messages, required this.titles});
 
+  /// 空表 —— 给"不依赖数据文件"的单测用（例如开场流程的状态机）。
+  ///
+  /// ⚠️ 数据管线没跑时**不要**拿它当兜底：那会静默丢掉全部文案。
+  /// 它只用于"本来就不需要文案"的测试。
+  const GameTexts.empty()
+      : messages = const {},
+        titles = const {};
+
   final Map<int, GameMessage> messages;
 
   /// 章节内部名 → 标题

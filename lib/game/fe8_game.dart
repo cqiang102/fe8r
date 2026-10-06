@@ -23,6 +23,8 @@ import 'package:fe8r/game/battle_view.dart';
 import 'package:fe8r/game/demo_event.dart';
 import 'package:fe8r/game/hud_view.dart';
 import 'package:fe8r/game/scene_view.dart';
+import 'package:fe8r/game/title_flow.dart';
+import 'package:fe8r/game/title_view.dart';
 // FixedResolutionViewport 只在 flame/camera.dart 里导出
 import 'package:flame/camera.dart' show FixedResolutionViewport;
 import 'package:flame/cache.dart' show Images;
@@ -123,6 +125,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 章节表 —— `LOMA` 路由的第一跳（`chapterIndex` → `internalName`）
   Chapters? chapters;
+
+  /// 开场流程（① Press Start → ④ 标题 → ⑤ 菜单）
+  ///
+  /// ⚠️ 在它跑完之前**不演序章** —— 之前直接从序章开场演起，
+  /// 跳过了整条开机链路（用户指出）。
+  TitleFlow? titleFlow;
+  TitleView? _titleView;
+
+  /// 开场流程是否已完成
+  bool get inTitleFlow => titleFlow != null;
   final HudView _hudView = const HudView();
   bool _showDialogue = false;
 
@@ -240,6 +252,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
     }
 
+    // 开场流程没跑完时，输入全给它
+    if (inTitleFlow && _titleInput(i)) return KeyEventResult.handled;
+
     input(i);
     return KeyEventResult.handled;
   }
@@ -325,12 +340,24 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     _loadSceneData();
 
-    // ⚠️ 序章是**进章就演**的，不需要玩家先按键。
+    // ⚠️ **先跑开场流程**（① Press Start → ④ 标题 → ⑤ 菜单）。
     //
-    // 第一版把它挂在"按 dialogue 键"上，结果：进游戏后画面一直不动，
-    // 直到按键才开始 —— 而脚本里 `STAL(60)` 之类还要再等一秒。
-    // 而且序章第一段对白在剧本里本来就排在开头，不该等输入。
-    if (scene != null) unawaited(_startRealScene());
+    // 出处：`src/gamecontrol_08009E68.c:36` 的 `gProcScr_GameControl` ——
+    // 序章（`LGAMECTRL_EXEC_BM`）排在整条开机链路**之后**。
+    //
+    // 之前直接从序章开场演起，跳过了 ① Press Start / ④ 标题 /
+    // ⑤ 主菜单/难度/存档槽（用户指出）。
+    if (gameTexts != null) {
+      titleFlow = TitleFlow(texts: gameTexts!);
+      _titleView = TitleView(
+        flow: titleFlow!,
+        screenSize: camera.viewport.virtualSize,
+      );
+      camera.viewport.add(_titleView!);
+    } else if (scene != null) {
+      // 没有文案数据时不硬撑流程（会是一片空白），直接演序章
+      unawaited(_startRealScene());
+    }
   }
 
   /// 按脚本驱动一串输入（调试 / 视觉验证用）。
@@ -423,6 +450,28 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (r.endTurn) endTurn();
   }
 
+  /// 开场流程的输入（在它跑完之前，输入全给它）
+  bool _titleInput(FlowInput i) {
+    final f = titleFlow;
+    if (f == null) return false;
+    if (f.tick(
+      confirm: i == FlowInput.confirm,
+      cancel: i == FlowInput.cancel,
+      up: i == FlowInput.up,
+      down: i == FlowInput.down,
+    )) {
+      // 流程跑完 → 拆掉画面，开始演序章
+      final v = _titleView;
+      if (v != null) {
+        camera.viewport.remove(v);
+        _titleView = null;
+      }
+      titleFlow = null;
+      unawaited(_startRealScene());
+    }
+    return true;
+  }
+
   @override
   void update(double dt) {
     // 剧情演出的移动是**按帧推进**的：VM 已经因为 waitingForMove 停住，
@@ -436,7 +485,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 优先演**真实场景脚本**（如果加载到了），否则退回 `eventVm` 的演示脚本。
   void startDialogue() {
     if (_sceneRunning) return;
-    unawaited(_startRealScene());
   }
 
   /// 演出中发生一件事时调用。
