@@ -177,6 +177,22 @@ Future<void> main(List<String> argv) async {
       Step('L0', '场景剧情脚本（跳过）', 'true', const [], note: decompNote),
 
     // 游戏文本：反编译项目已解码成纯文本，不用碰 Huffman
+    // 立绘：索引色图块条 + GBA 调色板 + TSA 排列 → 可显示 PNG
+    if (hasDecomp())
+      Step('L0', '立绘合成', 'python3',
+          ['extract/parse_portraits.py', '--out', 'out/portraits'],
+          cwd: 'tools/pipeline', note: '90 个角色 / 80×72')
+    else
+      Step('L0', '立绘合成（跳过）', 'true', const [], note: decompNote),
+
+    // 脸编号 → 角色名（表项是**可读的 C 源码**）
+    if (hasDecomp())
+      Step('L0', '脸编号映射', 'python3',
+          ['extract/parse_face_ids.py'],
+          cwd: 'tools/pipeline', note: '174 项 / 117 个有名字')
+    else
+      Step('L0', '脸编号映射（跳过）', 'true', const [], note: decompNote),
+
     if (hasDecomp())
       Step('L0', '游戏文本 + 章节标题', 'python3',
           ['extract/parse_text.py', '--out', 'out/tables'],

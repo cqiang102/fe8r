@@ -12,6 +12,25 @@
 
 所以 **表项下标 + 1 = 脸编号**。
 
+## ⚠️ 关于"有没有代码可读"——我查清了
+
+`struct FaceData` 在反编译项目里**从未被定义过**，只有前向声明
+（`include/face.h` 里到处是 `const struct FaceData*`，但没有 `struct FaceData { ... }`）。
+
+所以那张表**真的就是个裸的 `u32[]`**，里面全是符号引用：
+
+    (u32)&portrait_Eirika_tileset, (u32)&portrait_Eirika_chibi,
+    (u32)&portrait_Eirika_palette, (u32)&portrait_Eirika_mouth,
+    0x00000000, 0x04030602, 0x00000001,
+
+**"读代码"在这里能读到的只有符号名**（那已经是代码的一部分了）；
+字段的分组只能推断 —— 每项 7 个字的依据是
+`layout/baseline_syms.d/data_face_portrait.tsv` 里的注释
+`sizeof(struct FaceData)=0x1C`（= 28 字节 = 7 个 u32）。
+
+分组**验证过**：174 项里 57 个空项的第 0 字干净地全是 `0x00000000`，
+且 1218 ÷ 7 = 174.00 整除 —— 错位不会这么整齐。
+
 ## ★ 文本里的 `[$XXXX]` = **(槽位 << 8) | 脸编号**
 
 不是纯脸编号。序章开场实测：
