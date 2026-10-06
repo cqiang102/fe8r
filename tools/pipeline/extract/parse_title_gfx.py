@@ -64,62 +64,36 @@ def load_bin_palette(path):
 
 
 def load_one_tileset(path):
-    """把 `L` 模式的 8×N PNG 还原成 8×8 图块列表（**4bpp**）。
+    """把 `L` 模式的 8×N PNG 还原成 8×8 图块列表。
 
-    ## ⚠️ 这里我错过一次，值得写下来
+    ## ★ 图块数由**装载地址**定，不是猜的
 
-    这些 PNG 是**原始字节的逐字节转写**（一个灰度像素 = 一个字节）。
-    而 4bpp 图块**一个字节装两个像素索引**（低 nibble 在前）。
+    `src/Title_SetupMainGraphics.c`：
 
-    所以：
+    ```c
+    case 0: Decompress(gGfx_TitleMainBackground_1, (void*)0x06000000);  // VRAM tile 0
+    case 1: Decompress(gGfx_TitleMainBackground_2, (void*)0x06003000);  // VRAM tile 0x180 = 384
+    ```
 
-        一个 4bpp 的 8×8 图块 = 32 字节 = **4 行 PNG**
-        一行 PNG（8 字节）  = 16 个 nibble = **2 个图块行**
+    而 `_1.png` 是 **8×3072 像素 = 3072 行**；一个 8×8 图块 **8 行**：
 
-    我第一版按"一个字节 = 一个索引"读，于是：
-      * 索引值域变成 0..255（4bpp 只该有 0..15）
-      * 一半以上的查表越界 → **整片洋红**（我的越界兜底色）
+        3072 / 8 = **384 图块**    ← 与 `_2` 的装载地址 tile 384 **正好接上**
 
-    这也解释了为什么"图块数"算出来是 384 —— 实际是 768，
-    而 TSA 只引用到 600，所以拼接后仍然是错的。
+    **这就是判据** —— 不用试参数就能确认"8 行一个图块、像素值就是 4bpp 的索引"。
+
+    （我一度改成"4 行一个图块 + 解 nibble"，那是**错的**：
+    那样 `_1` 会变成 768 块，与 tile 384 的装载地址矛盾。）
     """
     im = Image.open(path).convert("L")
     w, h = im.size
     if w != 8:
         raise SystemExit(f"{path}: 期望 8 像素宽，实得 {w}")
     px = im.load()
-
-    # 先把整份字节读出来
-    data = [px[x, y] for y in range(h) for x in range(8)]
-    if len(data) % 32 != 0:
-        # 尾部不足一个图块就丢掉（素材里偶有对齐填充）
-        data = data[: len(data) // 32 * 32]
-
+    if h % 8 != 0:
+        raise SystemExit(f"{path}: 高度 {h} 不是 8 的整数倍")
     tiles = []
-    for t in range(len(data) // 32):
-        chunk = data[t * 32:(t + 1) * 32]
-        tile = [[0] * 8 for _ in range(8)]
-        for r in range(4):            # 4 行 PNG
-            for b in range(8):        # 每行 8 字节
-                byte = chunk[r * 8 + b]
-                lo = byte & 0xF
-                hi = (byte >> 4) & 0xF
-                # 一行 16 个 nibble = 两个图块行
-                tile[r * 2][b] = lo if b < 4 else tile[r * 2][b]
-                # 简化：按"低 nibble 在前、8 个一行"排
-                pass
-        # 上面的写法容易绕，改成直白的两趟
-        tile = [[0] * 8 for _ in range(8)]
-        for r in range(4):
-            nibbles = []
-            for b in range(8):
-                byte = chunk[r * 8 + b]
-                # 4bpp 的字节内次序：**高 nibble 是左像素**
-                nibbles.append((byte >> 4) & 0xF)
-                nibbles.append(byte & 0xF)
-            for x in range(8):
-                tile[r * 2][x] = nibbles[x]
-                tile[r * 2 + 1][x] = nibbles[8 + x]
+    for ty in range(h // 8):
+        tile = [[px[x, ty * 8 + y] for x in range(8)] for y in range(8)]
         tiles.append(tile)
     return tiles
 
@@ -141,13 +115,37 @@ def load_tiles_4bpp(paths):
     return tiles
 
 
-def compose(tsa_path, tiles_paths, pal_path, width, height=None):
+def compose(tsa_path, tiles_paths, pal_path, width, height=None, bank=0):
+    """合成一张 BG 画面。
+
+    ## ★ 调色板 bank 来自**装载代码**，不是 TSA 里的值
+
+    `src/Title_SetupMainGraphics.c` 的 `case 1`：
+
+    ```c
+    Decompress(gGfx_TitleMainBackground_1, (void*)0x06000000);   // tile 0
+    Decompress(gGfx_TitleMainBackground_2, (void*)0x06003000);   // tile 0x180 = 384
+    Decompress(gTsa_TitleMainBackground, gBG1TilemapBuffer);
+    ApplyPalette(gPal_TitleMainBackground, 0xE);                 // 调到 bank 14
+    for (i = 0; i < 0x280; i++)
+        gBG1TilemapBuffer[i] += 0xE000;                          // ★ 项 += 0xE000
+    ```
+
+    **TSA 里读出来的 bank 全是 0，但装载时被统一加了 `0xE000`** ——
+    实际用的是**调色板 bank 14**。我一直按 bank 0 查色，所以颜色全错。
+
+    同理 `case 2`（恶魔王前景）是 `+= 0xF280`
+    —— 基址 tile `0x280 = 640`、bank `0xF = 15`。
+
+    所以每个素材的 bank 与基址**都要从这段装载代码里读**，不能猜。
+    """
     tsa = open(tsa_path, "rb").read()
     n = len(tsa) // 2
     if height is None:
         height = n // width
+    # `src/Title_SetupMainGraphics.c` 用的是 `for (i = 0; i < 0x280; i++)`
+    # —— **640 项**（0x280），正好 32×20。屏幕 30×20=600，多出的 40 项在右边。
     if width * height != n:
-        # 多出来的项忽略（TSA 常比屏幕大）
         pass
     entries = [struct.unpack("<H", tsa[i * 2:i * 2 + 2])[0] for i in range(n)]
     tiles = load_tiles_4bpp(tiles_paths)
@@ -160,7 +158,10 @@ def compose(tsa_path, tiles_paths, pal_path, width, height=None):
         tile = e & 0x3FF
         hf = (e >> 10) & 1
         vf = (e >> 11) & 1
-        bank = (e >> 12) & 0xF
+        # ⚠️ **不要用 `bank` 这个名字** —— 它和函数参数同名，
+        # 会遮蔽掉调用方从装载代码里读出来的值。
+        # 我在这里犯过一次：改了参数却"字节完全相同"，因为参数根本没被用到。
+        tsa_bank = (e >> 12) & 0xF
         if tile >= len(tiles):
             continue
         t = tiles[tile]
@@ -169,8 +170,11 @@ def compose(tsa_path, tiles_paths, pal_path, width, height=None):
                 idx = t[7 - y if vf else y][7 - x if hf else x]
                 if idx == 0:
                     continue
-                # 4bpp：每个图块用调色板的**一个 16 色 bank**
-                k = bank * 16 + idx
+                # 4bpp：每个图块用调色板的**一个 16 色 bank**。
+                # ⚠️ `ApplyPalette(gPal_X, 0xE)` 是把**源调色板装到** bank 14，
+                # 所以查色仍然是 `pal[idx]` —— bank 只决定"装到哪"。
+                # （我一度写成 `(bank + tsa_bank) * 16 + idx`，那是越界的。）
+                k = idx
                 c = pal[k] if k < len(pal) else (255, 0, 255)
                 op[(i % width) * 8 + x, (i // width) * 8 + y] = c
     return out
@@ -182,26 +186,31 @@ def main():
     a = ap.parse_args()
 
     # `(名字, gfx, tsa, pal, 宽度)`
-    # `(名字, [图块条...], tsa, pal, 宽度)` —— 图块条**有序**，按 TSA 的编号拼
+    # `(名字, [图块条...], tsa, pal, 宽度, 调色板 bank)`
+    #
+    # bank 全部来自 `src/Title_SetupMainGraphics.c` 的装载代码
+    # （`gBGxTilemapBuffer[i] += <bank><tilebase>`），**不能猜**。
     jobs = [
+        # case 1: += 0xE000
         ("TitleMainBackground",
          ["gGfx_TitleMainBackground_1.png", "gGfx_TitleMainBackground_2.png"],
-         "gTsa_TitleMainBackground.bin", "gPal_TitleMainBackground.pal", 32),
+         "gTsa_TitleMainBackground.bin", "gPal_TitleMainBackground.pal", 32, 0xE),
+        # case 2: += 0xF280 —— 基址 0x280、bank 0xF
         ("TitleDragonForeground", ["gGfx_TitleDragonForeground.png"],
-         "gTsa_TitleDragonForeground.bin", "gPal_TitleDragonForeground.pal", 32),
+         "gTsa_TitleDragonForeground.bin", "gPal_TitleDragonForeground.pal", 32, 0xF),
         ("TitleDemonKing", ["gGfx_TitleDemonKing.png"],
-         "gTsa_TitleDemonKing.bin", "gPal_TitleDemonKing.pal", 32),
+         "gTsa_TitleDemonKing.bin", "gPal_TitleDemonKing.pal", 32, 0xF),
     ]
     os.makedirs(a.out, exist_ok=True)
     ok = 0
-    for name, gfx_list, tsa, pal, w in jobs:
+    for name, gfx_list, tsa, pal, w, bank in jobs:
         gps = [os.path.join(GFX, x) for x in gfx_list]
         tp, pp = (os.path.join(GFX, x) for x in (tsa, pal))
         if not all(os.path.exists(x) for x in (gps + [tp, pp])):
             print(f"  – {name}: 素材不全，跳过")
             continue
         try:
-            im = compose(tp, gps, pp, w)
+            im = compose(tp, gps, pp, w, bank=bank)
         except SystemExit as e:
             print(f"  ✗ {name}: {e}")
             continue
