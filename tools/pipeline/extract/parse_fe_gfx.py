@@ -1,42 +1,42 @@
 #!/usr/bin/env python3
 """
-FE 图形素材（`Img_*.png` / `gGfx_*.png`）的合成。
+FE 图形素材的合成 —— **格式由项目自带的 `tsa_generator.py` 定义并验证**。
 
-# ★★★ 核心规则：`L` 模式 PNG 是 **4bpp 数据按 ×17 展开成 8bpp** 的
+# 格式（已往返验证 100%）
 
-这些 PNG 是 `L`（灰度）模式、8 位一像素。但它们的**唯一取值全是 17 的倍数**：
+`scripts/gfxtools/tsa_generator.py` 是**正向**工具（PNG -> feimg4 + fetsa4）。
+把它跑一遍、再把结果拼回去，就能确定格式 —— **这是判据，不是猜测**：
 
-    0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
-    0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
+    tsa_generator.py IntelligentSystems.png out.feimg4.bin out.fetsa4.bin
+    -> 用 out 拼回 240x160
+    -> 与原图逐像素比对: 38400/38400 = 100%
 
-因为 `gbagfx` 把 4bpp 的 nibble `n` 展开成一个字节时写的是 `n * 17`
-（两个 nibble 相同 = 灰度等价）。
+读它的源码（`extract_tiles` / `convert_to_4bpp`）得到：
 
-**所以：像素的 4bpp 索引 = 字节 / 17。**
+    * 输入必须是 **P 模式**（索引调色板）PNG，**像素值就是 4bpp 索引**
+    * 图块 8x8、**行优先**
+    * 打包：`byte = (低 nibble) | (高 nibble << 4)` —— **第一个像素在低 nibble**
+    * `feimg4.bin` = 去重后的图块串接，每个 32 字节
+    * `fetsa4.bin` = **小端** u16：tile=bit0-9、hflip=bit10、vflip=bit11、bank=bit12-15
 
-## 我在这一点上错了很久
+# ⚠️ 两类 PNG 要分开处理
 
-标题（`gGfx_TitleMainBackground_1` 等）和菜单（`Img_DifficultyMenuObjs`）
-两处我都合不出来，根因是同一个：**把字节当成了索引**（值域 0..255，
-而 4bpp 只该有 0..15），于是大部分查表越界或落到错误的颜色。
+    X.png       **P 模式** —— 可编辑的合成源图，像素值 = 索引
+    Img_X.png   **L 模式** —— `gbagfx` 把灰度 PNG 当**裸字节**，所以它
+                就是 `feimg4.bin` 的内容（已经打包好的 4bpp 字节）
 
-实测三张素材，**非 17 倍数的取值一个都没有**：
+# ⚠️ 我在这里错过两次，都值得记下来
 
-    Img_DifficultyMenuObjs.png         15 种值   非17倍数 0
-    gGfx_TitleMainBackground_1.png     14 种值   非17倍数 0
-    gGfx_TitleDragonForeground.png     14 种值   非17倍数 0
+1. 把 `L` 模式的**字节**当成索引（值域 0..255，而 4bpp 只该有 0..15）
+2. 看到字节全是 17 的倍数，就以为 `gbagfx` 把 nibble 展开了 `n*17`，
+   于是搞出个 `÷17` —— **那只是"两个 nibble 相同"**：
 
-## 还差什么
+       (1 & 0xF) | ((1 & 0xF) << 4) = 0x11 = 17
 
-图块的**排布**还没对上（TSA 项 -> 屏幕格子）。已经确认无误的部分：
+   **÷17 对平色区域碰巧成立，一般情况是错的。**
 
-* TSA 自洽：`Tsa_DifficultyMenuObjs.tsa.bin` 头 `0x0B0C` = 13x12 = 156 项，
-  文件 314 字节 = 2 + 156*2 ✓
-* 调色板：`graphics/gmapunit/Pal_DifficultyMenuObjs.pal`，
-  `ApplyPalettes(Pal_DifficultyMenuObjs, 17, 10)` -> 装到 bank 17、共 10 bank
-* `Img_DifficultyMenuObjs` 在 ROM 里是 LZ77（0xAEB 字节），PNG 是解压后的样子
-
-**判据是"看得出是新手/普通/困难三个词"，不是"有结构"。**
+**教训**：格式要**用工具定义**（跑一遍、往返验证），
+不是对着数据看规律。规律会骗人。
 """
 import argparse
 import os
@@ -54,9 +54,6 @@ REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 DECOMP = os.path.join(REPO, "third_party", "fireemblem8j")
 GFX = os.path.join(DECOMP, "graphics")
 
-# 展开系数：gbagfx 把 nibble n 写成 n * 17
-NIBBLE_EXPAND = 17
-
 
 def bgr555(v):
     r = (v & 0x1F) << 3
@@ -71,96 +68,82 @@ def load_palette(path):
             for i in range(0, len(d) - 1, 2)]
 
 
-def load_pixels(path):
-    """读 `L` 模式 PNG，返回**4bpp 索引**的二维表。
+def load_tiles_from_bytes(data, per_tile=32):
+    """把**打包好的 4bpp 字节**切成图块（`Img_*.png` / `feimg4.bin` 用）。
 
-    ★ 关键：每个字节除以 17。见模块开头的说明。
+    每个图块 32 字节 = 8 行 × 4 字节；每字节两个像素，**低 nibble 在前**。
+    """
+    tiles = []
+    for t in range(len(data) // per_tile):
+        c = data[t * per_tile:(t + 1) * per_tile]
+        tile = [[0] * 8 for _ in range(8)]
+        for y in range(8):
+            for b in range(4):
+                byte = c[y * 4 + b]
+                tile[y][b * 2] = byte & 0xF
+                tile[y][b * 2 + 1] = (byte >> 4) & 0xF
+        tiles.append(tile)
+    return tiles
+
+
+def load_tiles_from_lpng(path):
+    """`Img_*.png`（L 模式）—— **逐字节**读，不要当索引。
+
+    依据：`gbagfx` 对灰度 PNG 是**直通**（把它当裸数据），
+    所以文件里的字节就是 `feimg4.bin` 的内容。
     """
     im = Image.open(path).convert("L")
     px = im.load()
     w, h = im.size
-    return [[px[x, y] // NIBBLE_EXPAND for x in range(w)] for y in range(h)]
+    return load_tiles_from_bytes([px[x, y] for y in range(h) for x in range(w)])
 
 
-def check_expand(path):
-    """检查是否所有取值都是 17 的倍数 —— **这是判据，不是猜测**。"""
-    pix = load_pixels_raw = None
-    im = Image.open(path).convert("L")
+def load_tiles_from_ppng(path):
+    """`X.png`（P 模式）—— 像素值就是索引（`extract_tiles` 的语义）。"""
+    im = Image.open(path)
+    if im.mode != "P":
+        raise ValueError(f"{path}: 期望 P 模式，实得 {im.mode}")
     px = im.load()
     w, h = im.size
-    bad = 0
-    seen = set()
-    for y in range(h):
-        for x in range(w):
-            v = px[x, y]
-            seen.add(v)
-            if v % NIBBLE_EXPAND != 0:
-                bad += 1
-    return len(seen), bad
-
-
-def load_tiles(path, tile_w=8, tile_h=8):
-    """把像素表切成图块（行优先，每行 `w//8` 个）。"""
-    pix = load_pixels(path)
-    h = len(pix)
-    w = len(pix[0]) if h else 0
-    tw = w // tile_w
     tiles = []
-    for ty in range(h // tile_h):
-        for tx in range(tw):
-            tiles.append([[pix[ty * tile_h + y][tx * tile_w + x]
-                           for x in range(tile_w)] for y in range(tile_h)])
-    return tiles, tw, h // tile_h
+    for ty in range(h // 8):
+        for tx in range(w // 8):
+            tiles.append([[px[tx * 8 + x, ty * 8 + y] & 0xF for x in range(8)]
+                          for y in range(8)])
+    return tiles
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "fe_gfx"))
-    a = ap.parse_args()
-    os.makedirs(a.out, exist_ok=True)
+def load_tsa(path):
+    """读 TSA。**有 2 字节尺寸头**时返回 (w, h, entries)，否则 (None, None, entries)。"""
+    d = open(path, "rb").read()
+    n = len(d) // 2
+    # `.tsa.bin` 有 [w-1, h-1] 头；`fetsa4.bin` 没有
+    if path.endswith(".tsa.bin"):
+        w, h = d[0] + 1, d[1] + 1
+        d = d[2:]
+        if w * h != len(d) // 2:
+            return None, None, [struct.unpack("<H", d[i * 2:i * 2 + 2])[0]
+                                for i in range(len(d) // 2)]
+        ent = [struct.unpack("<H", d[i * 2:i * 2 + 2])[0] for i in range(len(d) // 2)]
+        return w, h, ent
+    return None, None, [struct.unpack("<H", d[i * 2:i * 2 + 2])[0]
+                        for i in range(len(d) // 2)]
 
-    checks = [
-        "frontier_df4_menu/Img_DifficultyMenuObjs.png",
-        "frontier_df4_menu/Img_GameMainMenuObjs.png",
-        "misc_gfx/gGfx_TitleMainBackground_1.png",
-        "misc_gfx/gGfx_TitleDragonForeground.png",
-    ]
-    print("  [×17 判据] 非 17 倍数应为 0：")
-    ok = True
-    for rel in checks:
-        p = os.path.join(GFX, rel)
-        if not os.path.exists(p):
-            print(f"    – {rel}: 缺")
-            continue
-        seen, bad = check_expand(p)
-        mark = "✓" if bad == 0 else "✗"
-        print(f"    {mark} {os.path.basename(rel):<36} {seen:>3} 种值  非17倍数 {bad}")
-        if bad:
-            ok = False
 
-    # 难度菜单：图集 + TSA + 调色板 都已确证自洽，先合成出来看
-    tsa = os.path.join(GFX, "frontier_df4_menu/Tsa_DifficultyMenuObjs.tsa.bin")
-    img = os.path.join(GFX, "frontier_df4_menu/Img_DifficultyMenuObjs.png")
-    pal = os.path.join(GFX, "gmapunit/Pal_DifficultyMenuObjs.pal")
-    if not all(os.path.exists(p) for p in (tsa, img, pal)):
-        print("  – 难度菜单素材不全", file=sys.stderr)
-        return 1 if not ok else 0
+def compose(tiles, entries, cols, width, height=None, tileref=0):
+    """按 TSA 拼图。
 
-    d = open(tsa, "rb").read()
-    tw, th = d[0] + 1, d[1] + 1
-    ent = [struct.unpack("<H", d[2 + i * 2:4 + i * 2])[0]
-           for i in range((len(d) - 2) // 2)]
-    if len(ent) != tw * th:
-        print(f"  ✗ TSA 项数 {len(ent)} != {tw}x{th}", file=sys.stderr)
-        return 1
-
-    tiles, sw, sh = load_tiles(img)
-    cols = load_palette(pal)
-    print(f"  TSA {tw}x{th} = {len(ent)} 项；图集 {sw}x{sh} = {len(tiles)} 图块")
-
-    out = Image.new("RGBA", (tw * 8, th * 8), (0, 0, 0, 0))
+    `tileref` = `CallARM_FillTileRect(dest, tsa, tileref)` 的第三个参数，
+    **会加到每一项上**（`src/difficultymenu_080B0B38.c:52` 用 `0x1000`）。
+    """
+    if height is None:
+        height = len(entries) // width
+    out = Image.new("RGBA", (width * 8, height * 8), (0, 0, 0, 0))
     op = out.load()
-    for i, e in enumerate(ent):
+    for i, e0 in enumerate(entries):
+        if i >= width * height:
+            break
+        e = e0 + tileref
         t = e & 0x3FF
         hf = (e >> 10) & 1
         vf = (e >> 11) & 1
@@ -174,15 +157,60 @@ def main():
                 if v == 0:
                     continue
                 k = bank * 16 + v
-                op[(i % tw) * 8 + x, (i // tw) * 8 + y] = (
+                op[(i % width) * 8 + x, (i // width) * 8 + y] = (
                     *(cols[k] if k < len(cols) else (255, 0, 255)), 255)
+    return out
 
-    dst = os.path.join(a.out, "DifficultyMenuObjs.png")
-    out.resize((tw * 8 * 4, th * 8 * 4), Image.NEAREST).save(dst)
-    print(f"  → {dst}")
 
-    print("  ⚠️ 排布**还没对上** —— 判据是'看得出是新手/普通/困难'，不是'有结构'。",
-          file=sys.stderr)
+def selfcheck():
+    """用 `IntelligentSystems.png` 做**往返验证** —— 格式的自检。"""
+    src_png = os.path.join(GFX, "misc_gfx3/IntelligentSystems.png")
+    if not os.path.exists(src_png):
+        print("  – 自检跳过（缺 IntelligentSystems.png）")
+        return True
+
+    import subprocess
+    import tempfile
+    tool = os.path.join(DECOMP, "scripts/gfxtools/tsa_generator.py")
+    with tempfile.TemporaryDirectory() as td:
+        fe = os.path.join(td, "x.feimg4.bin")
+        ts = os.path.join(td, "x.fetsa4.bin")
+        r = subprocess.run([sys.executable, tool, src_png, fe, ts],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            print(f"  ✗ tsa_generator 失败：{r.stderr.strip()[:160]}")
+            return False
+
+        tiles = load_tiles_from_bytes(open(fe, "rb").read())
+        _, _, ent = load_tsa(ts)
+        src = Image.open(src_png)
+        pal = src.getpalette()
+        cols = [(pal[i * 3], pal[i * 3 + 1], pal[i * 3 + 2])
+                for i in range(len(pal) // 3)]
+        got = compose(tiles, ent, cols, 30, 20)
+
+        a = src.convert("RGB")
+        b = got.convert("RGB")
+        same = sum(1 for y in range(160) for x in range(240)
+                   if a.getpixel((x, y)) == b.getpixel((x, y)))
+        pct = same * 100 // (240 * 160)
+        ok = same == 240 * 160
+        print(f"  {'✓' if ok else '✗'} 往返验证：{same}/38400 = {pct}%")
+        return ok
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "fe_gfx"))
+    a = ap.parse_args()
+    os.makedirs(a.out, exist_ok=True)
+
+    print("  [格式自检] tsa_generator 往返：")
+    if not selfcheck():
+        return 1
+
+    print("  ⚠️ 难度菜单的「图块 -> 屏幕」映射仍未对上。")
+    print("     格式（上表）已由工具定义并验证；剩下的是 TSA/OAM 的摆放语义。")
     return 1
 
 
