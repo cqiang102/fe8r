@@ -21,6 +21,10 @@ on:
     branches: [main, master]
   pull_request:
   workflow_dispatch:
+  # 每周一凌晨跑一次全量覆盖率 —— 它是**移植进度指标**，
+  # 不是每次提交的正确性判据，所以不挡在 push 的关键路径上。
+  schedule:
+    - cron: '0 18 * * 0'   # UTC 周日 18:00 = 北京时间周一 02:00
 
 # 同一分支的新 push 取消上一次未跑完的任务
 concurrency:
@@ -99,13 +103,22 @@ jobs:
           fi
           exit "$status"
 
-  # 全量编译覆盖率单独一个 job：它会把反编译项目里 6213 个 C 文件逐个试着编译，
-  # 约 80 秒，不适合塞进每次 push 的快反馈里。
+  # 全量编译覆盖率单独一个 job：它会把反编译项目里 6213 个 C 文件逐个试着编译。
+  #
+  # ⚠️ **只在手动触发和每周定时跑**，不在 push 上跑。
+  #
+  # 理由：这个指标衡量的是"移植进度"（6213 个文件里有多少已被覆盖），
+  # 而不是"这次提交对不对"。**正确性由 verify 里的 1104 条 C Oracle 向量守着**，
+  # 那些每次 push 都跑。
+  #
+  # 实测：它在关键路径上是 4m32s（整条流水线又跑一遍 ≈1m50s
+  # + 6213 个文件编译 ≈2m40s），而 push 的墙钟时间就是它决定的。
+  # 移出关键路径后，push 的墙钟时间由 macOS 构建决定（≈2m09s）。
   coverage:
     name: C Oracle 全量编译覆盖率
     runs-on: macos-latest
     timeout-minutes: 30
-    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
 
     steps:
       - name: 检出代码
