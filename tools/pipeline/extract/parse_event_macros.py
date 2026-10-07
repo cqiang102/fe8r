@@ -256,7 +256,14 @@ def main():
             #   `EvtColorFadeSetup(...) = _EvtArg0(..., 6, ...), _EvtParams2(speed, r),
             #    _EvtParams2(g, b)`（`include/eventscript.h:641`）
             # 我先前把 `extraWords`（数 `EventListScr`）也加上 ⇒ 重复计数、切分反而变差。
-            w = max(1, e["len"] // 2) + int(e.get("extraParamWords") or 0)
+            # ★ `len` **就是这条命令的总半字数**（`_EvtArg0` 只出 1 个字，
+            # `_EvtParams2` 各出 1 个字，它们的和就是 `len//2`）：
+            #   `EvtBNE`   = `_EvtArg0(..., 4, ...), _EvtParams2(...)`  ⇒ 1+1 = 2 字，len 4 ✓
+            #   `EvtColorFadeSetup` = `_EvtArg0(..., 6, ...), _EvtParams2, _EvtParams2`
+            #                        ⇒ 1+1+1 = **3 字**，len 6 ✓
+            # 实证：ch_016 的引用偏移 3/9/15 只有在"EVENT_WORD=1、BNE=2"下才全部落在边界上。
+            # 我上一轮额外加了 `extraParamWords` ⇒ **重复计数**（BNE 被算成 3 字）。
+            w = max(1, e["len"] // 2)
             words_by_name[e["macro"]] = w
             if e.get("aliasOf"):
                 words_by_name[e["aliasOf"]] = w

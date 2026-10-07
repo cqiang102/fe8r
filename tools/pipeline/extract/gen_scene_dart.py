@@ -444,7 +444,13 @@ def main():
         for _specs in _mx["byCmdSub"].values():
             for _sp in _specs:
                 macro_words.setdefault(_sp["macro"], max(1, _sp["len"] // 2))
-    macro_words.setdefault("EVENT_WORD", 2)   # 命令字 + 指针
+    # ⚠️ `EVENT_WORD(w)` 是 carve 侧的宏：`#define EVENT_WORD(w) (EventListScr)(w),`
+    #（`third_party/fireemblem8j/scripts/eventscr_disasm.py:505`）⇒ **1 个字**。
+    # 而 `EVENT_WORD_SYM(s)` = `(EventListScr)(s),` 也是 1 个字（值就是那个词）。
+    # 我原来写死 2 ⇒ 数组里每个 `EVENT_WORD` 都多算一个字、后面全部错位
+    #（ch_016 的首个引用偏移是 3，只有在 EVENT_WORD=1 时才对得上）。
+    macro_words.setdefault("EVENT_WORD", 1)
+    macro_words.setdefault("EVENT_WORD_SYM", 1)
     # `CALL` 是 `_EvtAutoCmdLen4(EV_CMD_CALL), (EventListScr)(scr),`
     #（`include/eventscript.h:607`）⇒ 4 半字 = 2 字。它不走 `_EvtArg0`，宏表里没有。
     macro_words.setdefault("CALL", 2)
