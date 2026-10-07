@@ -217,6 +217,15 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '事件列表', 'true', const [], skip: true, note: decompNote),
 
+    // 职业战斗动画映射（M2）：只收 carve 里确有的 24 张 AnimConf（layout 里是 77）
+    if (hasDecomp())
+      Step('L0', '战斗动画定义表（AnimConf）', 'python3',
+          ['extract/parse_banim_conf.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline',
+          note: 'carve 24/77 张；抽查 AnimConf_24[0].index = 0x26')
+    else
+      Step('L0', '战斗动画定义表', 'true', const [], skip: true, note: decompNote),
+
     // 大地图表：节点（29 条，按 `struct GMapNodeData` 解）+ 路径（20 条）
     if (hasDecomp())
       Step('L0', '大地图表（节点/路径）', 'python3',

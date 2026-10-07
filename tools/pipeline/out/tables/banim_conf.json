@@ -1,0 +1,615 @@
+{
+ "note": "职业 → 战斗动画定义表 → 按武器类型的动画编号。下一个跳（index → 帧图 sheet）还没解。",
+ "confs": {
+  "AnimConf_24": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 38
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 39
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_REGULAR",
+    "index": 159
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_LONG",
+    "index": 159
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_KILLER",
+    "index": 159
+   }
+  ],
+  "AnimConf_25": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 40
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 41
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_REGULAR",
+    "index": 202
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_LONG",
+    "index": 202
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_KILLER",
+    "index": 202
+   }
+  ],
+  "AnimConf_26": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 42
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 43
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_REGULAR",
+    "index": 203
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_LONG",
+    "index": 203
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_KILLER",
+    "index": 203
+   }
+  ],
+  "AnimConf_27": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 44
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 45
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_REGULAR",
+    "index": 204
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_LONG",
+    "index": 204
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_BALLISTA_KILLER",
+    "index": 204
+   }
+  ],
+  "AnimConf_28": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 47
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_SWORD",
+    "index": 46
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 48
+   }
+  ],
+  "AnimConf_29": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 50
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_SWORD",
+    "index": 49
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 51
+   }
+  ],
+  "AnimConf_36": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 107
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 107
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 107
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 107
+   }
+  ],
+  "AnimConf_37": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 108
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 108
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 108
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 108
+   }
+  ],
+  "AnimConf_38": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 109
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 109
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 109
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 109
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 110
+   }
+  ],
+  "AnimConf_39": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 111
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 111
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 111
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 111
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 112
+   }
+  ],
+  "AnimConf_40": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 114
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 113
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 113
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 113
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 113
+   }
+  ],
+  "AnimConf_41": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 116
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 115
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 115
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 115
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 115
+   }
+  ],
+  "AnimConf_42": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 130
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 130
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 130
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 130
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 129
+   }
+  ],
+  "AnimConf_43": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 131
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 131
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 131
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 131
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 132
+   }
+  ],
+  "AnimConf_44": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 117
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 117
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 117
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 117
+   }
+  ],
+  "AnimConf_45": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 118
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 118
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 118
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 118
+   }
+  ],
+  "AnimConf_46": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 119
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 119
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 119
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 119
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 120
+   }
+  ],
+  "AnimConf_47": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 121
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 121
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 121
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 121
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_STAFF",
+    "index": 122
+   }
+  ],
+  "AnimConf_61": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_AXE",
+    "index": 25
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 27
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HANDAXE",
+    "index": 26
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_TOMAHAWK",
+    "index": 26
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HATCHET",
+    "index": 26
+   }
+  ],
+  "AnimConf_62": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_AXE",
+    "index": 28
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 31
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_BOW",
+    "index": 30
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HANDAXE",
+    "index": 29
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_TOMAHAWK",
+    "index": 29
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HATCHET",
+    "index": 29
+   }
+  ],
+  "AnimConf_63": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_AXE",
+    "index": 32
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 34
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HANDAXE",
+    "index": 33
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_TOMAHAWK",
+    "index": 33
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HATCHET",
+    "index": 33
+   }
+  ],
+  "AnimConf_64": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_AXE",
+    "index": 154
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 156
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HANDAXE",
+    "index": 155
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_TOMAHAWK",
+    "index": 155
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HATCHET",
+    "index": 155
+   }
+  ],
+  "AnimConf_65": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_AXE",
+    "index": 35
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 37
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HANDAXE",
+    "index": 36
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_TOMAHAWK",
+    "index": 36
+   },
+   {
+    "wtype": 0,
+    "wtypeRaw": "ITEM_AXE_HATCHET",
+    "index": 36
+   }
+  ],
+  "AnimConf_66": [
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ANIMA",
+    "index": 125
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_LIGHT",
+    "index": 125
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_DARK",
+    "index": 125
+   },
+   {
+    "wtype": 256,
+    "wtypeRaw": "0x0100 | ITYPE_ITEM",
+    "index": 125
+   }
+  ]
+ },
+ "confsInLayout": 77,
+ "note2": "class→AnimConf 的链接**没解出来**（职业块正则不可靠，见文件头）；index→帧图 sheet 也还没解。"
+}
