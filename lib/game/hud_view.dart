@@ -34,13 +34,19 @@ class HudView {
     required Set<String> missing,
     required Map<String, int> placeholder,
     required String extra,
+    List<String> trace = const [],
   }) {
     final script = current?.scriptName ?? '-';
     final miss = missing.isEmpty ? '' : '  缺${missing.length}';
     final skip = placeholder.isEmpty
         ? ''
         : '  未执行${placeholder.keys.take(3).join('/')}';
+    // 轨迹：最后几条执行的指令 —— "停在哪"一眼可见
+    final tail = trace.length <= 3
+        ? trace
+        : trace.sublist(trace.length - 3);
     return HudText([
+      if (tail.isNotEmpty) '→ ${tail.join("  →  ")}',
       '剧情 第$shown句  文本=0x${current?.message.id.toRadixString(16) ?? '-'}'
           '$miss$skip${extra.isEmpty ? '' : '  $extra'}',
       '【$script】',

@@ -551,7 +551,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// **每句话都等按键** —— 场景执行到这里会挂起，
   /// `advanceDialogue()` 放行后继续。这就是 `async/await` 的价值：
   /// "等玩家"不需要状态机来表达。
+  /// 最近执行的指令（环形缓冲）—— **诊断"脚本停在哪"**。
+  ///
+  /// 为什么需要：`loadMap(0)` 明明写在过场结尾却没执行，
+  /// 而 HUD 只能告诉我"脚本名"和"第几句"，**看不到走到哪条指令**。
+  /// 有了它，"停在哪"是一眼的事，不用猜。
+  final List<String> _trace = [];
+
   Future<void> _onSceneEvent(SceneEvent e) async {
+    if (_trace.length >= 12) _trace.removeAt(0);
+    _trace.add('${e.runtimeType}(${e.toString()})');
     switch (e) {
       case ShowText():
         _currentText = e;
@@ -1509,6 +1518,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             shown: _sceneShown,
             current: _currentText,
             missing: sc?.missing ?? const {},
+            trace: _trace,
             placeholder: sc?.placeholderCalls ?? const {},
             extra: _sceneHudExtra,
           )
