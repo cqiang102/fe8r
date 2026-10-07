@@ -405,8 +405,14 @@ void _tutorialListTests() {
     expect(pro.first, 'EventScr_Prologue_Tutorial0');
     expect(pro.last, 'EventScr_Prologue_TutorialE');
     // 这个文件的语义就是"教学表"：不许混进别的 EventListScr
+    //（两种拼写都合法：单数 `_Tutorial` 与**复数** `_Tutorials`）
     for (final k in ls.keys) {
-      expect(k.endsWith('_Tutorial'), isTrue, reason: '$k 不该出现在教学表文件里');
+      expect(k.endsWith('_Tutorial') || k.endsWith('_Tutorials'), isTrue,
+          reason: '$k 不该出现在教学表文件里');
     }
+    // ⚠️ **不要**断言"提取数 == 源码里的教学表数"：源码里有 label 定义的 14 张，
+    // 其中 **13 张在 carve 里就是 `.4byte 0x00000000`（空表）** —— 实测
+    // `data_08A5AAA8.s:71-73`（Ch3_Tutorials）与 `data_08A5AF38.s:49-51`（Ch7_Tutorial）。
+    // 那是 carve 侧的缺口（与 `gGuideTable` 同类），提取器会把它们**响亮列出来**。
   });
 }
