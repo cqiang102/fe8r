@@ -563,6 +563,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastSubMenuText': lastSubMenuText,
       'lastTradeMenuText': lastTradeMenuText,
       'lastTrade': lastTrade,
+      'lastVisit': lastVisit,
+      'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
       'discardPromptDefault': discardPromptDefault,
       'usableItemSlots': _usableSlots,
@@ -1369,6 +1371,39 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「訪問」：跑那条 VILL 脚本 + 置 `doneFlag`（`StartAvailableTileEvent`）
+    final visitAt = r.visitAt;
+    if (visitAt != null) {
+      final parts = visitAt.split(',');
+      final vx = int.tryParse(parts.isNotEmpty ? parts[0] : '') ?? -1;
+      final vy = int.tryParse(parts.length > 1 ? parts[1] : '') ?? -1;
+      final ev = availableTileEvent(_locationEvents, vx, vy, eventFlags);
+      final f0 = field;
+      final u0 = f0?.unitById(s.selectedUnitId ?? -1);
+      if (ev != null && u0 != null) {
+        if (ev.doneFlag != 0) eventFlags.add(ev.doneFlag);
+        lastVisit = {
+          'unit': u0.id,
+          'x': vx,
+          'y': vy,
+          'cmd': ev.cmd,
+          'doneFlag': ev.doneFlag,
+          'script': ev.script,
+        };
+        debugPrint('[VISIT] $lastVisit');
+        final fn = ev.script == null ? null : allSceneFns[ev.script!];
+        if (fn != null) {
+          unawaited(runSceneScript(fn));
+        } else if (ev.script != null) {
+          _sceneHudExtra = '訪問：脚本 ${ev.script} 不在场景表里';
+        }
+      }
+      // 與"道具/待机"同一条尾巴：提交这次行动
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     final pickIdx = r.itemUseIndex;
     if (pickIdx != null && _usableSlots.isNotEmpty) {
       final slot = _usableSlots[pickIdx.clamp(0, _usableSlots.length - 1)];
@@ -2444,6 +2479,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           sceneChapter < _chapterLinks.length
               ? _chapterLinks[sceneChapter]['eventGroupName'] as String?
               : null;
+      // ★ 「訪問」要用的 Location 列表（同一套命名约定：`EventListScr_<base>_Location`）
+      if (ev != null) {
+        final base0 = ev.replaceAll('Events', '');
+        final loc = lists['EventListScr_${base0}_Location'];
+        if (loc is List) {
+          _locationEvents = [
+            for (final e in loc.cast<Map<String, dynamic>>())
+              if (e['cmd'] == 'VILL' || e['cmd'] == 'LOCA')
+                LocationEvent(
+                  cmd: '${e['cmd']}',
+                  x: (e['x'] as num?)?.toInt() ?? 0,
+                  y: (e['y'] as num?)?.toInt() ?? 0,
+                  cmdId: (e['cmdId'] as num?)?.toInt() ?? 0,
+                  doneFlag: (e['doneFlag'] as num?)?.toInt() ?? 0,
+                  script: e['script'] as String?,
+                ),
+          ];
+        }
+      }
       if (ev != null) {
         final base = ev.replaceAll('Events', '');
         final key = 'EventListScr_${base}_Misc';
@@ -2638,6 +2692,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 见 `_loadObjectives` 的说明），所以测试里单独载一次。
   @visibleForTesting
   void loadChapterLinksForTest() => _loadChapterLinks();
+
+  /// 测试钩子：直接给本章的 `locationBasedEvents`（正常路径从 `event_lists.json` 读）
+  @visibleForTesting
+  set locationEventsForTest(List<LocationEvent> v) => _locationEvents = v;
 
   /// 建剧情 `Scene`（`onLoad` 里走 `_loadSceneData`；测试要单独来一次）
   @visibleForTesting
@@ -4673,6 +4731,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   Map<String, Object?>? lastForecast;
   BattleForecastComponent? _forecastComp;
 
+  /// 本章的 `locationBasedEvents` 条目（`EventListScr_<章节>_Location`）
+  List<LocationEvent> _locationEvents = const [];
+
+  /// 最近一次「訪問」的记录（判据用）
+  Map<String, Object?>? lastVisit;
+
   /// 职业编号 → 职业名（判 `CLASS_PHANTOM` 用；`classes.json`）
   final Map<int, String> _classNameByNumber = {};
 
@@ -5622,6 +5686,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 所以由游戏层算好注入（状态机不持有道具表）。
     _usableSlots = itemMenuSlots(unit);
     fl.hasUsableItem = _usableSlots.isNotEmpty;
+    // ★ 「訪問」的判定交给规则层（`tile_events.dart`）：地形 + 该格有可用的 VILL 事件
+    fl.visitAvailableAt = (x, y) {
+      final ev = availableTileEvent(_locationEvents, x, y, eventFlags);
+      return visitAvailable(
+        terrainId: _terrainAt(x, y),
+        isPhantom: _classNameByNumber[unit.classId] == 'CLASS_PHANTOM',
+        hasActed: unit.hasActed,
+        hasAvailableVill: ev != null && ev.cmdId == kTileCommandVisit,
+      );
+    };
     fl.itemSlotCount = _usableSlots.length;
   }
 

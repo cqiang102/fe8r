@@ -54,7 +54,11 @@ enum ActionOption {
   /// 道具（回复类）。**顺序**：原作行动菜单的完整表在
   /// `src/menu_def.c` 的 `gUnitActionMenuItems`，它的**逐项顺序与可用性**我没核对
   /// ⇒ 这里与原有两项并列，顺序按"待机/攻击/道具"，**未与源码对齐**。
-  item('道具');
+  item('道具'),
+
+  /// 訪問（村/家）。可用性照 `VisitCommandUsability`（`src/bmmenu_08022F50.c:89-118`），
+  /// 由 [FlowMachine.visitAvailableAt] 注入判定。
+  visit('訪問');
 
   const ActionOption(this.label);
   final String label;
@@ -233,6 +237,7 @@ class FlowResult {
     this.endTurn = false,
     this.attack,
     this.itemUseIndex,
+    this.visitAt,
   });
 
   final FlowState state;
@@ -245,6 +250,9 @@ class FlowResult {
 
   /// 本次输入是否请求结束回合
   final bool endTurn;
+
+  /// 本次输入是否请求**訪問**（值是"x,y"，调用方据此在那格上跑 VILL 事件）。
+  final String? visitAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -473,6 +481,10 @@ class FlowMachine {
           ));
         }
 
+        if (picked == ActionOption.visit) {
+          return FlowResult(s, visitAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -637,12 +649,20 @@ class FlowMachine {
     if (hasUsableItem) {
       out.add(ActionOption.item);
     }
+    final canVisit = visitAvailableAt?.call(x, y) ?? false;
+    if (canVisit) {
+      out.add(ActionOption.visit);
+    }
     return out;
   }
 
   /// 这个单位**有没有可用道具**（决定行动菜单里出不出现「道具」）——
   /// 同样由调用方注入（要道具表 + 当前 HP）。
   bool hasUsableItem = false;
+
+  /// "站在 (x,y) 上能不能「訪問」" —— 由调用方注入（要地形表 + 本章 Location 事件
+  /// + 事件旗）。规则层的判据在 `tile_events.dart`（`visitAvailable`）。
+  bool Function(int x, int y)? visitAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///
