@@ -347,6 +347,14 @@ class WaitForInput extends SceneEvent {
 /// `SetFlag` / `ClearFlag`（章节旗）—— 由 `ENUT`/`ENUF` 产生
 ///
 /// 出处：`src/Event02_EvBitAndIdMod.c:31-34`（`sub_cmd_lo == 1` 那一支）。
+/// `CLEA`/`CLEN`/`CLEE` —— 把某个阵营的单位全部藏起来
+class HideFaction extends SceneEvent {
+  const HideFaction(this.faction);
+
+  /// `blue` / `green` / `red`
+  final String faction;
+}
+
 /// `TEXTEND`（`EV_CMD_ENDTEXT`）—— 收起/锁定文本框
 class EndText extends SceneEvent {
   const EndText(this.scriptName);
@@ -611,6 +619,13 @@ class Scene {
       _ => a,
     };
   }
+
+  /// `CLEA`/`CLEN`/`CLEE`：把某个阵营的单位全部"藏起来"
+  ///
+  /// 出处：`src/eventscr_080103F4.c:60-135`（`Event34_MessWithUnitState`）——
+  /// `CLEA` 遍历**蓝色**阵营、`CLEN` 绿色、`CLEE` 红色；
+  /// "remove" 用的状态位与 `REMU` 相同（`US_HIDDEN | US_BIT16 | US_BIT26`，`:110-111`）。
+  void hideFaction(String faction) => onEvent(HideFaction(faction));
 
   /// `TEXTEND` = `EvtTextWaitLock`（`EV_CMD_ENDTEXT`，`include/eventscript.h:664`）
   ///

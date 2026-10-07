@@ -46,4 +46,24 @@ void main() {
         reason: '对应 `US_HAS_MOVED`');
     expect(talkAvailable(hasActed: false, hasTarget: false), isFalse);
   });
+  _hideFactionTests();
+}
+
+// `CLEA`/`CLEN`/`CLEE`（`src/eventscr_080103F4.c:60-135`）—— 阵营级隐藏
+void _hideFactionTests() {
+  test('★ 藏起某阵营：只动那一阵营、返回个数、且从"可见单位"里消失', () {
+    final blue = u(1, x: 0, y: 0);
+    final blue2 = u(2, x: 1, y: 0);
+    final green = u(3, x: 2, y: 0, f: Faction.green);
+    final red = u(4, x: 3, y: 0, f: Faction.red);
+    final f = BattleField(width: 6, height: 6, units: [blue, blue2, green, red]);
+    expect(visibleUnits(f).length, 4);
+    expect(hideFactionUnits(f, Faction.red), 1, reason: '只有 1 个红方');
+    expect(red.isHidden, isTrue);
+    expect(blue.isHidden, isFalse, reason: '别的阵营不动');
+    expect(visibleUnits(f).map((x) => x.id).toList(), [1, 2, 3]);
+    expect(hideFactionUnits(f, Faction.blue), 2, reason: '两个蓝方');
+    expect(visibleUnits(f).map((x) => x.id).toList(), [3]);
+    expect(hideFactionUnits(f, Faction.blue), 0, reason: '★ 已经藏过的不重复计数');
+  });
 }

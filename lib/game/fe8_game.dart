@@ -1876,6 +1876,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           eventFlags.remove(flag);
         }
         debugPrint('[EVFLAG] $flag = $value');
+      case HideFaction(:final faction):
+        // `CLEA`/`CLEN`/`CLEE`：该阵营全部隐藏（等于 `REMU` 的状态位）
+        final bit = switch (faction) {
+          'blue' => Faction.blue,
+          'green' => Faction.green,
+          'red' => Faction.red,
+          _ => Faction.blue,
+        };
+        final n = field == null ? 0 : hideFactionUnits(field!, bit);
+        _sceneHudExtra = '藏起 $faction 阵营 $n 个单位';
+        debugPrint('[HIDEFACTION] $faction -> $n');
       case EndText():
         // `TEXTEND`（`EV_CMD_ENDTEXT`）：文本锁定 ⇒ 收起/锁定文本框
         _sceneHudExtra = '文本框锁定';

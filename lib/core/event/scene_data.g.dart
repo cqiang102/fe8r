@@ -807,15 +807,15 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 7;
           continue;
         case 7:
@@ -1727,9 +1727,9 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     await s.cameraTo(9, 11, centered: true);
     s.placeholder('UNIT_COLORS');
     s.placeholder('EvtSetLoadUnitNoREDA');
@@ -1762,9 +1762,9 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.placeholder('UNIT_COLORS');
     s.setSlot(11, 1048583);
     await s.loadMap(11);
@@ -1952,15 +1952,15 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 37;
           continue;
         case 37:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 38;
           continue;
         case 38:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 39;
           continue;
         case 39:
@@ -2044,15 +2044,15 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 60;
           continue;
         case 60:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 61;
           continue;
         case 61:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 62;
           continue;
         case 62:
@@ -2535,7 +2535,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 54;
           continue;
         case 54:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 55;
           continue;
         case 55:
@@ -2726,15 +2726,15 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 32;
           continue;
         case 32:
@@ -3898,7 +3898,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 20;
           continue;
         case 20:
@@ -4146,15 +4146,15 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 82;
           continue;
         case 82:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 83;
           continue;
         case 83:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 84;
           continue;
         case 84:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 85;
           continue;
         case 85:
@@ -4283,9 +4283,9 @@ Future<void> Ch13a_EndingScene(Scene s) async {
 Future<void> Ch13b_EndingScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     await s.cameraTo(14, 13, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
@@ -4303,9 +4303,9 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.evBitMod('flag', true, 117);
     await s.changeChapter(27, subcmd: 1);
     return;
@@ -4611,9 +4611,9 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 458762);
     await s.loadMap(14);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_001_91020C'));
@@ -5531,15 +5531,15 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 29;
           continue;
         case 29:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 31;
           continue;
         case 31:
@@ -6324,15 +6324,15 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 32;
           continue;
         case 32:
@@ -6400,15 +6400,15 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 49;
           continue;
         case 49:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 50;
           continue;
         case 50:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 51;
           continue;
         case 51:
@@ -6730,15 +6730,15 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 133;
           continue;
         case 133:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 134;
           continue;
         case 134:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 135;
           continue;
         case 135:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 136;
           continue;
         case 136:
@@ -6877,15 +6877,15 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 171;
           continue;
         case 171:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 172;
           continue;
         case 172:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 173;
           continue;
         case 173:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 174;
           continue;
         case 174:
@@ -6913,15 +6913,15 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 4;
           continue;
         case 4:
@@ -7029,15 +7029,15 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 32;
           continue;
         case 32:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 33;
           continue;
         case 33:
@@ -7161,7 +7161,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 63;
           continue;
         case 63:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 64;
           continue;
         case 64:
@@ -7289,15 +7289,15 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 95;
           continue;
         case 95:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 96;
           continue;
         case 96:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 97;
           continue;
         case 97:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 98;
           continue;
         case 98:
@@ -7413,7 +7413,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 126;
           continue;
         case 126:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 127;
           continue;
         case 127:
@@ -7721,15 +7721,15 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 204;
           continue;
         case 204:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 205;
           continue;
         case 205:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 206;
           continue;
         case 206:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 207;
           continue;
         case 207:
@@ -8021,7 +8021,7 @@ Future<void> Ch16a_BeginningScene(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch16AEnemy_1'));
     s.setSlot(3, 1);
     await s.call(Sym('EventScr_LoadUnitForTutorial'));
-    s.placeholder('CLEA');
+    s.hideFaction('blue');
     await s.call(Sym('data_085B9BBC', 512));
     s.evBitMod('flag', true, 12);
     return;
@@ -8256,7 +8256,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 53;
           continue;
         case 53:
@@ -8423,15 +8423,15 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 32;
           continue;
         case 32:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 33;
           continue;
         case 33:
@@ -8527,15 +8527,15 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 56;
           continue;
         case 56:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 57;
           continue;
         case 57:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 58;
           continue;
         case 58:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 59;
           continue;
         case 59:
@@ -9610,9 +9610,9 @@ Future<void> Ch20b_BeginningScene(Scene s) async {
 Future<void> Ch21A_0(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toBlack, 4);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     await s.cameraTo(11, 4, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
@@ -9922,9 +9922,9 @@ Future<void> Ch21b_BeginningScene(Scene s) async {
 Future<void> Ch21b_EndingScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toBlack, 4);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     await s.cameraTo(11, 4, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
@@ -11799,7 +11799,7 @@ Future<void> Ch4_0(Scene s) async {
     s.moveUnit('MOVE', [24, 26, 15, 1]);
     s.moveUnit('MOVE', [24, 28, 15, 1]);
     await s.waitUnitMoving();
-    s.placeholder('CLEN');
+    s.hideFaction('green');
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -11951,15 +11951,15 @@ Future<void> Ch4_1(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 39;
           continue;
         case 39:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 40;
           continue;
         case 40:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 41;
           continue;
         case 41:
@@ -12562,15 +12562,15 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 25;
           continue;
         case 25:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 26;
           continue;
         case 26:
@@ -12786,15 +12786,15 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 79;
           continue;
         case 79:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 80;
           continue;
         case 80:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 81;
           continue;
         case 81:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 82;
           continue;
         case 82:
@@ -13352,9 +13352,9 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 786452);
     await s.loadMap(7);
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_1'));
@@ -13370,9 +13370,9 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 458761);
     await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
@@ -13392,9 +13392,9 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 458766);
     await s.loadMap(5);
     s.loadUnits(1, Sym('frontier_df4_banim_b_075_90A050'));
@@ -13432,9 +13432,9 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.placeholder('CLEAN');
     await s.cameraTo(13, 9, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
@@ -13451,9 +13451,9 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 262154);
     await s.loadMap(8);
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_2'));
@@ -14290,9 +14290,9 @@ Future<void> Ch7_EndingScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(11, 0);
     await s.loadMap(68);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 440));
@@ -14391,9 +14391,9 @@ Future<void> Ch8_10(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toWhite, 2);
     s.textRemoveAll();
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 1310734);
     await s.loadMap(78);
     s.placeholder('UNIT_COLORS');
@@ -14419,9 +14419,9 @@ Future<void> Ch8_10(Scene s) async {
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toWhite, 16);
     await s.waitUnitMoving();
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.placeholder('REMOVEPORTRAITS');
     s.placeholder('BACG');
     await s.fade(FadeDirection.fromWhite, 16);
@@ -14521,9 +14521,9 @@ Future<void> Ch8_11(Scene s) async {
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     return;
 }
 
@@ -14601,7 +14601,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     s.setSlot(11, 1048596);
     s.moveUnit('MOVE', [16, 65534, 20, 11]);
     await s.waitUnitMoving();
-    s.placeholder('CLEE');
+    s.hideFaction('red');
     s.loadUnits(1, Sym('UnitDef_Ch8Enemy_0'));
     await s.waitUnitMoving();
     s.setSlot(2, Sym('UnitDef_Ch8Enemy_4'));
@@ -15180,15 +15180,15 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 33;
           continue;
         case 33:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 34;
           continue;
         case 34:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 35;
           continue;
         case 35:
@@ -15432,7 +15432,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 95;
           continue;
         case 95:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 96;
           continue;
         case 96:
@@ -15552,7 +15552,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 125;
           continue;
         case 125:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 126;
           continue;
         case 126:
@@ -15617,15 +15617,15 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('CLEA');
+          s.hideFaction('blue');
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CLEE');
+          s.hideFaction('red');
           pc = 9;
           continue;
         case 9:
-          s.placeholder('CLEN');
+          s.hideFaction('green');
           pc = 10;
           continue;
         case 10:
@@ -17079,9 +17079,9 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 2);
     s.textRemoveAll();
     s.evBitMod('evbit', false, 2);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 0);
     await s.loadMap(64);
     await s.fade(FadeDirection.fromBlack, 16);
@@ -17172,9 +17172,9 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
     s.evBitMod('evbit', false, 2);
-    s.placeholder('CLEA');
-    s.placeholder('CLEE');
-    s.placeholder('CLEN');
+    s.hideFaction('blue');
+    s.hideFaction('red');
+    s.hideFaction('green');
     s.setSlot(11, 0);
     await s.loadMap(0);
     await s.fade(FadeDirection.fromBlack, 16);

@@ -394,5 +394,29 @@ class BattleField {
 /// `UnitRescue`（`src/exact_08018060.c:37-46`）会给被救者置 `US_HIDDEN`
 /// —— 被扛在肩上的人**不该画在地图上**。渲染层与转储自检**都用这一个定义**，
 /// 免得"画出来的"和"判据说该有的"各算各的（这个仓库为此吃过亏）。
+/// `CLEA`/`CLEN`/`CLEE`：把某阵营的单位全部藏起来（等价于 `REMU` 的状态位）。
+///
+/// 出处：`src/eventscr_080103F4.c:60-135`（`Event34_MessWithUnitState`）——
+/// `CLEA` 遍历**蓝色**阵营（`for (i = FACTION_BLUE + 1; i < FACTION_GREEN; i++)`）、
+/// `CLEN` 绿色、`CLEE` 红色；"remove" 用的位与 `REMU` 相同
+/// （`unit->state |= US_HIDDEN | US_BIT16 | US_BIT26`，`:110-111`）。
+///
+/// 返回**被藏起来的个数**（判据用；0 也是有意义的结果）。
+/// ⚠️ 这里**不能用 `factionBit`**：它是 `faction & 0x80`，**分不出蓝方和绿方**
+///（`Faction.green = 0x40` ⇒ `0x40 & 0x80 == 0`，和蓝方同值）。既有代码拿它做
+/// "同盟判定"是对的（蓝绿互为友军、红方是敌人），但**阵营级**操作要更细的键
+/// ⇒ 用 `faction & 0xC0`（即 FE 的 `FACTION_BLUE/GREEN/RED`）。
+/// 这个坑是这轮写判据时抓出来的（"藏蓝方"把绿方也数进去了）。
+int hideFactionUnits(BattleField f, int faction) {
+  var n = 0;
+  for (final u in f.units) {
+    if ((u.faction & 0xC0) == (faction & 0xC0) && !u.isHidden) {
+      u.isHidden = true;
+      n++;
+    }
+  }
+  return n;
+}
+
 List<MapUnit> visibleUnits(BattleField f) =>
     [for (final u in f.units) if (u.isAlive && !u.isHidden) u];

@@ -186,6 +186,18 @@ def stmt(op, A):
                 return (f"await s.call({lit(a)});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 阵营级的"藏起来" —— `EV_CMD_CHANGESTATE`（`src/eventscr_080103F4.c:60-135`）。
+    #   `CLEA` = `EvtHideAllAlliess`（`include/EAstdlib.h:146`）⇒ 遍历**蓝色**阵营
+    #            （源码：`for (i = FACTION_BLUE + 1; i < FACTION_GREEN; i++)`）
+    #   `CLEN` = `EvtRemoveAllNpcs`   ⇒ 绿色（NPC）
+    #   `CLEE` = `EvtRemoveAllEimies` ⇒ 红色（敌军）
+    # ★ "remove" 在这套指令里的**实际状态位**就是 `REMU` 用的那三个
+    #   （`src/eventscr_080103F4.c:110-111`：`unit->state |= US_HIDDEN | US_BIT16 | US_BIT26`）
+    #   ⇒ 对应我们模型里的 `isHidden`（`visibleUnits` 已尊重它）。
+    if op in ("CLEA", "CLEN", "CLEE"):
+        faction = {"CLEA": "blue", "CLEN": "green", "CLEE": "red"}[op]
+        return (f"s.hideFaction('{faction}');", True)
+
     # 条件槽：`CHECK_EVBIT` / `CHECK_EVENTID` 写 `gEventSlots[0xC]`，
     # 紧跟的 `BEQ`/`BNE` 读它 —— 生成器**早就**支持 BEQ/BNE 了（`cmp = "==" / "!="`），
     # 缺的一直是"往槽里写值"的这一半。
