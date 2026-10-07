@@ -27,6 +27,7 @@ export 'battle/battle_compute.dart';
 export 'battle/hit_effects.dart';
 export 'battle/phase.dart';
 export 'flow/combat.dart';
+export 'flow/autolevel.dart';
 export 'flow/class_attributes.dart';
 export 'flow/rescue.dart';
 export 'flow/staff_use.dart';
