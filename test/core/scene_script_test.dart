@@ -8,6 +8,8 @@ import 'package:fe8r/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  _chapterChainTests();
+
   group('场景剧情（生成的 async 函数）', () {
     late GameTexts texts;
     late List<SceneEvent> log;
@@ -173,5 +175,98 @@ void _pagingGroup() {
       expect(keys.any((k) => k == 'CR'), isTrue,
           reason: '应当有 `[CR]`（换页）出现');
     });
+  });
+}
+
+// ---------------------------------------------------------------- 第 ④ 步
+//
+// 「击破首领 -> EndingScene -> MNC2 -> 第 1 章」这条链的**场景级判据**。
+//
+// 上一组测试证明了「首领阵亡 -> 命中 EndingScene」（纯逻辑）。
+// 这一组证明**那个脚本真的会切章** —— 两半拼起来，链就闭合了。
+void _chapterChainTests() {
+  // ⚠️ 用**真实文本表** —— 结束脚本里有对白，空表会让
+  // `localized()` 抛「没有消息」，测试会以"场景异常"的形式失败。
+  late GameTexts realTexts;
+  setUpAll(() {
+    final f = File('tools/pipeline/out/tables/texts.json');
+    if (!f.existsSync()) fail('缺少 ${f.path}');
+    realTexts = GameTexts.parse(f.readAsStringSync());
+  });
+
+  Scene makeScene(GameTexts t, List<SceneEvent> log) => Scene(
+        texts: t,
+        scripts: allSceneFns,
+        defined: definedSceneScripts,
+        onEvent: (e) async => log.add(e),
+      );
+
+  test('★★ EndingScene 会切到第 1 章（MNC2(1)）', () async {
+    final log = <SceneEvent>[];
+    // 用真实文本 —— 结束脚本里有对白，空表会抛「没有消息」
+    final t = realTexts;
+    await allSceneFns['EventScr_Prologue_EndingScene']!(makeScene(t, log));
+
+    final ch = log.whereType<ChangeChapter>().toList();
+    expect(ch, isNotEmpty,
+        reason: '序章结束脚本里必须有 MNC2 —— 否则永远到不了第 1 章');
+    expect(ch.first.chapterIndex, 1, reason: 'MNC2(1) = 切到第 1 章');
+  });
+
+  test('★★ 完整链：首领阵亡 -> 命中 EndingScene -> 真的切到第 1 章', () async {
+    // ① 从战场现状推导标志（首领 = CHARACTER_ONEILL = 104）
+    final flags = deriveEventFlags(
+      units: const [
+        BattleUnitView(charIndex: 104, faction: Faction.red, alive: false),
+        BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true),
+      ],
+      chapterIndex: 0,
+      defeatTalk: const [
+        DefeatTalkEntry(
+          pid: 'CHARACTER_ONEILL',
+          chapter: 'CHAPTER_L_PROLOGUE',
+          flag: 'EVFLAG_DEFEAT_BOSS',
+        ),
+      ],
+      charNameOf: (i) => i == 104 ? 'CHARACTER_ONEILL' : 'CHARACTER_X',
+    );
+
+    // ② 序章的真实 Misc 列表
+    final objectives = ChapterObjectives([
+      const ChapterObjective(
+        cmd: EventListCmd.flag,
+        script: 'EventScr_Prologue_EndingScene',
+        doneFlag: EventFlags.win,
+        checkFlag: EventFlags.defeatBoss,
+      ),
+      const ChapterObjective(
+        cmd: EventListCmd.flag,
+        script: 'EventScr_Prologue_OneEnemyLeft',
+        doneFlag: 7,
+        checkFlag: 0,
+      ),
+      const ChapterObjective(
+        cmd: EventListCmd.flag,
+        script: 'EventScr_GameOver',
+        doneFlag: 0,
+        checkFlag: EventFlags.gameOver,
+      ),
+      const ChapterObjective(
+          cmd: EventListCmd.end, script: null, doneFlag: 0, checkFlag: 0),
+    ]);
+
+    // ③ 命中哪条
+    final hit = objectives.firstMatch(flags.contains);
+    expect(hit!.script, 'EventScr_Prologue_EndingScene');
+
+    // ④ 真的跑那个脚本，看它切不切章
+    final log = <SceneEvent>[];
+    // 用真实文本 —— 结束脚本里有对白，空表会抛「没有消息」
+    final t = realTexts;
+    await allSceneFns[hit.script!]!(makeScene(t, log));
+
+    final ch = log.whereType<ChangeChapter>().toList();
+    expect(ch, isNotEmpty, reason: '结束脚本应当触发换章');
+    expect(ch.first.chapterIndex, 1, reason: '第 1 章');
   });
 }
