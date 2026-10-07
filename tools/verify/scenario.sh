@@ -64,7 +64,8 @@ case "$SCENARIO" in
     # 它同时依赖：
     #   * 序章我方在 (4,4)/(4,5)、奥尼尔在 (14,8)
     #   * 赛特移动力 8（`CLASS_PALADIN.baseMov`）、奥尼尔 5
-    #   * 移动消耗表（**目前是演示表**：除 0 号地形外全 1）
+    #   * 移动消耗表：**真实表**（`pMovCostTable`，按职业 × 天气）——
+    #     所以山峰不可通行，路线只有"穿过艾莉卡"那一条
     # 这些只要变，这段脚本就会**红**（这正是不该静默的地方）。
     #
     # 分段：
@@ -77,8 +78,12 @@ case "$SCENARIO" in
     TITLE=""
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
     SCRIPT="$SCRIPT,$(python3 -c "print(','.join(['left']*10+['up']*4))")"
-    SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,right,confirm,down,confirm,endturn"
-    SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,up,confirm,down,confirm,confirm,endturn"
+    # 第 1 回合：光标 (14,8)→赛特 (4,4)，选中，沿 (4,5) 穿过艾莉卡往东走，
+    #              落在 (8,5)（山峰不可通行，真实消耗表下能到的就这一条路），待机
+    SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,confirm,down,confirm,endturn"
+    # 第 2 回合：走 (9,5)→(9,6 林)→(9,7)→(10,7 林)，打奥尼尔一下（-14）
+    SCRIPT="$SCRIPT,confirm,right,down,down,right,confirm,down,confirm,confirm,endturn"
+    # 第 3 回合：原地再打一下（-14），奥尼尔阵亡
     SCRIPT="$SCRIPT,confirm,confirm,down,confirm,confirm,endturn"
     # 第 1 章的开场脚本会先淡到黑；再跳一次过场 + 等两拍，
     # 截图才看得到地图（判据看的是转储，不看这张图）。

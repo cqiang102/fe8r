@@ -1,0 +1,160 @@
+{
+ "chapter": 1,
+ "map": {
+  "width": 15,
+  "height": 10,
+  "id": "Ch1Map"
+ },
+ "camera": {
+  "x": 0.0,
+  "y": 0.0
+ },
+ "phase": "freeCursor",
+ "cursor": {
+  "x": 10,
+  "y": 8
+ },
+ "turn": 1,
+ "activeFaction": 0,
+ "selectedUnitId": null,
+ "units": [],
+ "unitIdsUnique": true,
+ "render": {
+  "unitComponents": 2,
+  "markerComponents": 0,
+  "cursorComponents": 1,
+  "total": 3,
+  "aliveUnits": 0,
+  "matches": false
+ },
+ "eventFlags": [],
+ "scene": {
+  "running": false,
+  "objectiveRunning": true,
+  "showDialogue": false,
+  "script": "",
+  "shown": 61,
+  "currentTextId": 2264,
+  "hudExtra": "ENUN: 移动已完成（瞬移）",
+  "slots": {
+   "1": "13",
+   "2": "37",
+   "3": "9"
+  },
+  "missing": [
+   "Event_TextWithBG",
+   "data_085B9BBC"
+  ],
+  "placeholders": [
+   "MUSC",
+   "BROWNBOXTEXT",
+   "TEXTSTART",
+   "TEXTEND",
+   "REMA",
+   "SENQUEUE1",
+   "EVBIT_F",
+   "CLEA",
+   "CLEE",
+   "CLEN",
+   "FIGHT",
+   "CHECK_TUTORIAL",
+   "CALL",
+   "ENUT",
+   "MUSI",
+   "MUNO",
+   "DISPLAYCURSOR",
+   "SETTEXTTYPE",
+   "ENDTEXT",
+   "DISPLAYTEXT",
+   "ENUF",
+   "EVBIT_T",
+   "CHECK_ENEMIES",
+   "EVENT_WORD_SYM",
+   "CHECK_EVBIT",
+   "BACG"
+  ]
+ },
+ "titleFlow": null,
+ "objectiveHit": "EventScr_Prologue_EndingScene",
+ "objectivesNote": "胜负条件 EventListScr_Prologue_Misc：4 条",
+ "moveCostsNote": "",
+ "moveCostsWeather": "normal",
+ "range": {
+  "count": 21,
+  "tiles": [
+   "6,5",
+   "7,5",
+   "8,5",
+   "9,5",
+   "8,6",
+   "9,6",
+   "9,7",
+   "10,7",
+   "11,7",
+   "12,7",
+   "13,7",
+   "14,7",
+   "10,8",
+   "11,8",
+   "12,8",
+   "13,8",
+   "14,8",
+   "11,9",
+   "12,9",
+   "13,9",
+   "14,9"
+  ]
+ },
+ "objectives": {
+  "chapter": 1,
+  "count": 4,
+  "entries": [
+   {
+    "cmd": 1,
+    "doneFlag": 3,
+    "checkFlag": 2,
+    "script": "EventScr_Prologue_EndingScene"
+   },
+   {
+    "cmd": 1,
+    "doneFlag": 7,
+    "checkFlag": 0,
+    "script": "EventScr_Prologue_OneEnemyLeft"
+   },
+   {
+    "cmd": 1,
+    "doneFlag": 0,
+    "checkFlag": 101,
+    "script": "EventScr_GameOver"
+   },
+   {
+    "cmd": 0,
+    "doneFlag": 0,
+    "checkFlag": 0,
+    "script": null
+   }
+  ],
+  "derivedFlags": [],
+  "firstMatch": "EventScr_Prologue_OneEnemyLeft"
+ },
+ "mapHistory": "Ch16Map RenaisCastleMap PrologueMap Ch1Map",
+ "mapNote": "LOMA(1) → Ch1Map",
+ "mapLoadFailures": [],
+ "trace": [
+  "ShowText(ShowText(0x8d8 第11/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d8 第12/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d8 第13/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d8 第14/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d8 第15/15页))",
+  "WaitForInput(WaitForInput)",
+  "Fade(Fade(toBlack, speed=16))",
+  "ChangeChapter(ChangeChapter(1))"
+ ],
+ "lastCombat": "角色128 vs SETH（2 段，消耗 5 乱数）\n角色128 → SETH  AttackResult(未命中 13->13 (-0) 消耗 2 个乱数)\nSETH → 角色128  AttackResult(命中 6->0 (-6) 消耗 3 个乱数)",
+ "hud": "回合 1  我方  可行动 0  光标 (10,8)  freeCursor  乱数 30\nHP  \n角色128 vs SETH（2 段，消耗 5 乱数）\n角色128 → SETH  AttackResult(未命中 13->13 (-0) 消耗 2 个乱数)\nSETH → 角色128  AttackResult(命中 6->0 (-6) 消耗 3 个乱数)",
+ "status": "Ch1Map  15×10  PLAINS×86 CLIFF×22 PEAK×13"
+}

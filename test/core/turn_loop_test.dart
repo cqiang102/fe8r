@@ -215,4 +215,44 @@ void main() {
       expect(hops, 3, reason: '三跳都空就放弃，不能无限转');
     });
   });
+
+  _secondEnemyPhaseTests();
+}
+
+void _secondEnemyPhaseTests() {
+  test('★ 连续两个敌方阶段都能动（灰化在阶段结束时清）', () {
+    final f = BattleField(
+      width: 10,
+      height: 10,
+      activeFaction: Faction.blue,
+      units: [
+        MapUnit(id: 1, faction: Faction.blue, x: 1, y: 1, movement: 5),
+        MapUnit(id: 0x81, faction: Faction.red, x: 8, y: 8, movement: 5),
+        MapUnit(id: 0x82, faction: Faction.red, x: 9, y: 9, movement: 5),
+      ],
+    );
+
+    // 第 1 回合：我方行动完 → 结束回合
+    f.unitById(1)!.hasActed = true;
+    advanceToNextActivePhase(f);
+    expect(f.activeFaction, Faction.red);
+    expect(f.phaseAbleCount(Faction.red), 2, reason: '第 1 个敌方阶段有人能动');
+
+    // 敌方全部行动完 → 结束回合
+    for (final u in f.units.where((u) => u.faction == Faction.red)) {
+      u.hasActed = true;
+    }
+    advanceToNextActivePhase(f);
+    expect(f.activeFaction, Faction.blue);
+    expect(f.unitById(1)!.hasActed, isFalse, reason: '新回合我方恢复');
+
+    // 我方再行动完 → **第 2 个敌方阶段**
+    f.unitById(1)!.hasActed = true;
+    final hops = advanceToNextActivePhase(f);
+    expect(hops, lessThanOrEqualTo(3));
+    expect(f.activeFaction, Faction.red,
+        reason: '第 2 个回合也应该轮到敌方（不是被跳过）');
+    expect(f.phaseAbleCount(Faction.red), 2,
+        reason: '★ 第 2 个敌方阶段敌人必须还能动 —— 这条曾经红过');
+  });
 }

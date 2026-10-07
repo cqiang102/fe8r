@@ -341,4 +341,60 @@ void main() {
       expect(m2.currentRange!.canReach(2, 2), isTrue);
     });
   });
+
+  _cursorThroughAllyTests();
+}
+
+// ---------------------------------------------------------------------------
+// 光标能不能**穿过友军**？
+//
+// 出处：`src/UpdatePathArrowWithCursor.c:31-33`
+//
+//     SetWorkingBmMap(gBmMapMovement);
+//     if (GetBmMapPointAtCursor() == -1) return;   // 只看在不在移动范围内
+//
+// 原作的路径箭头只看"在不在范围内"，友军格子照走（穿过去）；
+// "不能停在别人身上"是**确认时**的规则。
+//
+// ⚠️ 我原来把两者写在光标移动里 —— 后果不是"多按一下方向键"，
+// 而是**友军把路堵死**：序章开局艾莉卡站在 (4,5)，那是赛特通往东侧的
+// 唯一一格（另外三面是山峰），于是赛特一步都走不出去。
+// ---------------------------------------------------------------------------
+void _cursorThroughAllyTests() {
+  test('★ 光标能穿过友军格（到它后面的格子）', () {
+    // 真实序章地图：赛特 (4,4)、艾莉卡 (4,5)。
+    // (4,5) 是赛特通往东侧的唯一一格（其余三面是山峰）。
+    final map = _testMap();
+    final field = BattleField(
+      width: 15,
+      height: 10,
+      activeFaction: Faction.blue,
+      units: [
+        MapUnit(id: 1, faction: Faction.blue, x: 4, y: 4, movement: 8),
+        MapUnit(id: 2, faction: Faction.blue, x: 4, y: 5, movement: 5),
+      ],
+    );
+    // 平地消耗，单独验证"占用"这件事（地形由别的用例管）
+    final m = FlowMachine(map: map, costsOf: uniformCosts(_flatCosts()));
+
+    var s = FlowState(
+        phase: FlowPhase.freeCursor, cursorX: 4, cursorY: 4, turn: 1);
+    s = m.advance(s, field, FlowInput.confirm).state; // 选中赛特
+    expect(s.phase, FlowPhase.unitSelected);
+
+    // 往下一格：那是艾莉卡站的地方 —— **光标要能过去**
+    s = m.advance(s, field, FlowInput.down).state;
+    expect((s.cursorX, s.cursorY), (4, 5), reason: '友军格挡不住光标');
+
+    // 再往下一格：友军后面 —— 也应能到
+    s = m.advance(s, field, FlowInput.down).state;
+    expect((s.cursorX, s.cursorY), (4, 6));
+
+    // 但**确认**在友军格上不生效（不能停在别人身上）
+    s = m.advance(s, field, FlowInput.up).state;
+    expect((s.cursorX, s.cursorY), (4, 5));
+    final after = m.advance(s, field, FlowInput.confirm).state;
+    expect(after.phase, FlowPhase.unitSelected,
+        reason: '友军格不能作为落点（确认时应被拒绝）');
+  });
 }

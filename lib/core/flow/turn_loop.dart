@@ -72,10 +72,32 @@ bool shouldAutoEndPhase(BattleField field, {bool disableAutoEndTurns = false}) {
   return field.phaseAbleCount(field.activeFaction) == 0;
 }
 
-/// 开始一个阶段：清掉该阵营的灰化标记，让单位能行动。
+/// 清掉**当前**阵营的灰化标记。
 ///
-/// 对应 `ClearActiveFactionGrayedStates`。**必须在每个阶段开始时调用**，
-/// 否则第二个回合起所有单位都会保持"已行动"，游戏直接卡死。
+/// 对应 `ClearActiveFactionGrayedStates`（`src/ClearActiveFactionGrayedStates.c:29`）：
+///
+/// ```c
+/// for (i = gPlaySt.faction + 1; i < gPlaySt.faction + 0x40; ++i) {
+///     struct Unit* unit = GetUnit(i);
+///     if (UNIT_IS_VALID(unit))
+///         unit->state &= ~(US_UNSELECTABLE | US_HAS_MOVED | US_HAS_MOVED_AI);
+/// }
+/// ```
+///
+/// ## ⚠️ 它是**阶段结束时**调的，不是开始时
+///
+/// `src/bm_08015434.c:82-95` `BmMain_ChangePhase`：
+///
+/// ```c
+/// ClearActiveFactionGrayedStates();   // ← 清的是**当前**（即将结束的）阵营
+/// RefreshUnitSprites();
+/// SwitchPhases();                     // ← 然后才切阵营
+/// ```
+///
+/// 于是每个阵营的灰化都在**自己阶段结束时**被清掉，轮到它时自然都能动。
+/// 我原来的注释写的是"必须在每个阶段开始时调用"，实现的也是"清**新**阵营、
+/// 而且只在它还有能动的人时才清" —— 后果是**被跳过的阵营永远保持全灰**：
+/// 第 2 回合起敌人一步都不动（第 1 回合是正常的，因为单位刚载入还没灰）。
 void beginPhase(BattleField field) {
   field.clearActiveFactionGrayedStates();
 }
@@ -94,10 +116,12 @@ int advanceToNextActivePhase(
 }) {
   var hops = 0;
   for (var i = 0; i < maxHops; i++) {
+    // ★ 先清**当前**阵营的灰化（= 它的阶段结束），再切阵营。
+    // 顺序与 `BmMain_ChangePhase` 一致（`src/bm_08015434.c:85-87`）。
+    beginPhase(field);
     switchPhases(field);
     hops += 1;
     if (!shouldAutoEndPhase(field, disableAutoEndTurns: disableAutoEndTurns)) {
-      beginPhase(field);
       return hops;
     }
   }

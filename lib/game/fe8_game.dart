@@ -427,7 +427,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               'tiles': [
                 for (var y = 0; y < (field?.height ?? 0); y++)
                   for (var x = 0; x < (field?.width ?? 0); x++)
-                    if (flow!.currentRange!.canReach(x, y)) '\$x,\$y',
+                    if (flow!.currentRange!.canReach(x, y)) '$x,$y',
               ],
             },
       'objectives': _objectives == null

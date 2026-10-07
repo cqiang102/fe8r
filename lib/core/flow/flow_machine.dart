@@ -345,15 +345,33 @@ class FlowMachine {
       case FlowInput.right:
         final (nx, ny) = _moveCursor(s.cursorX, s.cursorY, input);
         // 光标只能在移动范围内走——这是原版的行为，
-        // 也是"能不能走到"与"能不能选"共用同一份数据的体现
+        // 也是"能不能走到"与"能不能选"共用同一份数据的体现。
+        //
+        // ⚠️ **这里不能检查"格子上有没有人"。**
+        //
+        // 出处：`src/UpdatePathArrowWithCursor.c:31-33`
+        //
+        // ```c
+        // SetWorkingBmMap(gBmMapMovement);
+        // if (GetBmMapPointAtCursor() == -1) return;   // -1 = 不在移动范围内
+        // ```
+        //
+        // 原作的路径箭头只看**在不在移动范围内**，友军格子照走（穿过友军）。
+        // "不能停在别人身上"是**确认时**的规则，不是光标移动时的规则。
+        //
+        // 我原来把两者写在了一起 —— 后果不是"多按一下方向键"：
+        // **友军会把路堵死**。序章开局艾莉卡站在 (4,5)，而那是赛特通往
+        // 东侧战场的唯一一格（其余三面是山峰），于是赛特**一步都走不出去**。
         if (_range != null && !_range!.canReach(nx, ny)) {
           return FlowResult(s);
         }
-        // 不能停在已被占据的格子上
-        if (field.unitAt(nx, ny) != null) return FlowResult(s);
         return FlowResult(s.copyWith(cursorX: nx, cursorY: ny));
 
       case FlowInput.confirm:
+        // 不能停在已被占据的格子上 —— **确认**时才判（同上，原作如此）
+        if (field.unitAt(s.cursorX, s.cursorY) != null) {
+          return FlowResult(s);
+        }
         return FlowResult(s.copyWith(
           phase: FlowPhase.actionMenu,
           pendingX: s.cursorX,

@@ -1,0 +1,289 @@
+{
+ "chapter": 0,
+ "map": {
+  "width": 15,
+  "height": 10,
+  "id": "PrologueMap"
+ },
+ "camera": {
+  "x": 0.0,
+  "y": 0.0
+ },
+ "phase": "freeCursor",
+ "cursor": {
+  "x": 8,
+  "y": 5
+ },
+ "turn": 2,
+ "activeFaction": 0,
+ "selectedUnitId": null,
+ "units": [
+  {
+   "id": 13,
+   "name": "SETH",
+   "charIndex": 2,
+   "classId": 7,
+   "faction": 0,
+   "x": 8,
+   "y": 5,
+   "hp": 13,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    7683,
+    5143,
+    876,
+    0,
+    0
+   ],
+   "held": [
+    7683,
+    5143,
+    876
+   ],
+   "itemNames": [
+    "SWORD_STEEL",
+    "LANCE_SILVER",
+    "VULNERARY"
+   ]
+  },
+  {
+   "id": 14,
+   "name": "EIRIKA",
+   "charIndex": 1,
+   "classId": 2,
+   "faction": 0,
+   "x": 4,
+   "y": 5,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    876,
+    10249,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    876,
+    10249
+   ],
+   "itemNames": [
+    "VULNERARY",
+    "SWORD_RAPIER"
+   ]
+  },
+  {
+   "id": 144,
+   "name": "ONEILL",
+   "charIndex": 104,
+   "classId": 63,
+   "faction": 128,
+   "x": 11,
+   "y": 7,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11551,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11551
+   ],
+   "itemNames": [
+    "AXE_IRON"
+   ]
+  },
+  {
+   "id": 145,
+   "name": "角色130",
+   "charIndex": 130,
+   "classId": 63,
+   "faction": 128,
+   "x": 12,
+   "y": 7,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11551,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11551
+   ],
+   "itemNames": [
+    "AXE_IRON"
+   ]
+  },
+  {
+   "id": 146,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 63,
+   "faction": 128,
+   "x": 11,
+   "y": 8,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11551,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11551
+   ],
+   "itemNames": [
+    "AXE_IRON"
+   ]
+  }
+ ],
+ "unitIdsUnique": true,
+ "render": {
+  "unitComponents": 5,
+  "markerComponents": 0,
+  "cursorComponents": 1,
+  "total": 6,
+  "aliveUnits": 5,
+  "matches": true
+ },
+ "eventFlags": [],
+ "scene": {
+  "running": false,
+  "objectiveRunning": false,
+  "showDialogue": false,
+  "script": "",
+  "shown": 46,
+  "currentTextId": null,
+  "hudExtra": "ENUN: 移动已完成（瞬移）",
+  "slots": {
+   "1": "13",
+   "2": "EventScr_Prologue_9EF828",
+   "3": "9"
+  },
+  "missing": [
+   "Event_TextWithBG",
+   "data_085B9BBC"
+  ],
+  "placeholders": [
+   "MUSC",
+   "BROWNBOXTEXT",
+   "TEXTSTART",
+   "TEXTEND",
+   "REMA",
+   "SENQUEUE1",
+   "EVBIT_F",
+   "CLEA",
+   "CLEE",
+   "CLEN",
+   "FIGHT",
+   "CHECK_TUTORIAL",
+   "CALL",
+   "ENUT",
+   "MUSI",
+   "MUNO",
+   "DISPLAYCURSOR",
+   "SETTEXTTYPE",
+   "ENDTEXT",
+   "DISPLAYTEXT",
+   "ENUF",
+   "EVBIT_T",
+   "CHECK_ENEMIES",
+   "EVENT_WORD_SYM"
+  ]
+ },
+ "titleFlow": null,
+ "objectiveHit": "EventScr_Prologue_OneEnemyLeft",
+ "objectivesNote": "胜负条件 EventListScr_Prologue_Misc：4 条",
+ "moveCostsNote": "",
+ "moveCostsWeather": "normal",
+ "range": {
+  "count": 20,
+  "tiles": [
+   "0,0",
+   "1,0",
+   "1,1",
+   "1,2",
+   "3,2",
+   "0,3",
+   "1,3",
+   "2,3",
+   "3,3",
+   "4,3",
+   "2,4",
+   "3,4",
+   "4,4",
+   "4,5",
+   "5,5",
+   "6,5",
+   "7,5",
+   "8,5",
+   "9,5",
+   "8,6"
+  ]
+ },
+ "objectives": {
+  "chapter": 0,
+  "count": 4,
+  "entries": [
+   {
+    "cmd": 1,
+    "doneFlag": 3,
+    "checkFlag": 2,
+    "script": "EventScr_Prologue_EndingScene"
+   },
+   {
+    "cmd": 1,
+    "doneFlag": 7,
+    "checkFlag": 0,
+    "script": "EventScr_Prologue_OneEnemyLeft"
+   },
+   {
+    "cmd": 1,
+    "doneFlag": 0,
+    "checkFlag": 101,
+    "script": "EventScr_GameOver"
+   },
+   {
+    "cmd": 0,
+    "doneFlag": 0,
+    "checkFlag": 0,
+    "script": null
+   }
+  ],
+  "derivedFlags": [],
+  "firstMatch": "EventScr_Prologue_OneEnemyLeft"
+ },
+ "mapHistory": "Ch16Map RenaisCastleMap PrologueMap",
+ "mapNote": "LOMA(0) → PrologueMap",
+ "mapLoadFailures": [],
+ "trace": [
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d0 第3/6页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d0 第4/6页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d0 第5/6页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d0 第6/6页))",
+  "WaitForInput(WaitForInput)",
+  "ShowCursor(ShowCursor(unit 2))",
+  "Stall(Stall(60))",
+  "EndCursor(EndCursor)"
+ ],
+ "lastCombat": "",
+ "hud": "回合 2  我方  可行动 2  光标 (8,5)  freeCursor  乱数 0\nHP  SETH(8,5):13 EIRIKA(4,5):20 ONEILL(11,7):20 角色130(12,7):20 角色128(11,8):20",
+ "status": "胜负条件命中 -> EventScr_Prologue_OneEnemyLeft"
+}
