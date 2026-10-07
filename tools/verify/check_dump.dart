@@ -422,9 +422,10 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     //      不在本章表里`，那是一条 `EventListScr`，还没接进本章表）；
     //   * 固定脚本撞角落得到的格子被教学脚本挪过，`actionLog` 里只留下
     //     "单位 18 在 (6,0) 原地待机"这一条 ⇒ 玩家一次都没动。
-    // 所以"选中 → 移动 → 攻撃 → 预测面板"这条链**本轮的判据在核心层**：
-    // `test/core/combat_test.dart` 直接对照 `forecast` 与 `resolveCombat`
-    //（预测的伤害/出手次数 == 实战）；面板的"看得见"仍只到"代码路径存在"。
+    // 所以"选中 → 移动 → 攻撃 → 预测面板"这条链的判据不在这里：
+    //   * **核心层**：`test/core/combat_test.dart`（预测 == 实战）；
+    //   * **游戏层**（第 37 轮补上）：`test/game/player_attack_test.dart`
+    //     程序化构造盘面并驱动 `routeInput`，走完整条链（含预测面板）。
     // 这里只如实检查字段的结构，不写一条永远看不到值的断言（欠账 21 的老坑）。
     final pac = (d['playerAttackCount'] as num?)?.toInt() ?? -1;
     ok(pac >= 0, '出手计数是个数字（0 = 本局玩家没出手，符合预期）',
