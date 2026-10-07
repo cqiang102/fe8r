@@ -248,6 +248,17 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 场景光标移到角色：`CUMO_CHAR` = `CURSOR_CHAR` = `EvtDisplayCursorAtUnit`
+    #   （`include/EAstdlib.h:166`，`EV_CMD_DISPLAYCURSOR` subcmd `EVSUBCMD_CURSOR_UNIT`=1）
+    #   处理函数 `Event3B_DisplayCursor`（`src/Event3B_DisplayCursor.c:51-59`）：
+    #   `unit = GetUnitStructFromEventParameter(ARGV[0])`；**找不到 => EVC_ERROR**；
+    #   光标画在 `unit->xPos/yPos`（注意这是**场景光标**，不是玩家的地图光标）。
+    if op == "CUMO_CHAR":
+        a2 = A[0] if A else 0
+        if isinstance(a2, int):
+            return (f"s.displayCursorAtUnit({num(a2)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 镜头移到**角色**：`CAMERA_CAHR` = `EvtMoveCameraToChar(pid)`
     #   （`include/EAstdlib.h:99`，`EV_CMD_CAMERACONTROL` subcmd 1）
     #   处理函数 `Event26_CameraControl`（`src/eventscr_0800F41C.c:10-35`）：

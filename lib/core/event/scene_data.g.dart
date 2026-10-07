@@ -2335,7 +2335,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CUMO_CHAR');
+          s.displayCursorAtUnit(24);
           pc = 4;
           continue;
         case 4:
@@ -2402,7 +2402,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 20; } else { pc = 20; }
           continue;
         case 20:
-          s.placeholder('CUMO_CHAR');
+          s.displayCursorAtUnit(21);
           pc = 21;
           continue;
         case 21:
@@ -2440,7 +2440,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CUMO_CHAR');
+          s.displayCursorAtUnit(11);
           pc = 31;
           continue;
         case 31:
@@ -2555,7 +2555,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('CUMO_CHAR');
+          s.displayCursorAtUnit(25);
           pc = 60;
           continue;
         case 60:
@@ -3675,7 +3675,7 @@ Future<void> Ch13A_7(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_9'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(14);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -4592,7 +4592,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.fromWhite, 2);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_004_91075C_p5'));
     await s.waitUnitMoving();
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(2);
     await s.stall(60);
     await s.endCursor();
     s.setSlot(2, 73);
@@ -4624,7 +4624,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.fromBlack, 16);
     s.moveUnit('MOVEUNIT', [16]);
     await s.waitUnitMoving();
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(82);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSC');
@@ -4638,7 +4638,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.cameraToChar(28);
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(28);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSI');
@@ -6141,7 +6141,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_005_9109A8_residue_p5'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(2);
     await s.stall(60);
     await s.endCursor();
     s.setSlot(2, 73);
@@ -6159,7 +6159,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.setSlot(2, 87);
     s.moveUnit('MOVEUNIT', [65535]);
     await s.call(Sym('EventScr_UnitWarpIN'));
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(87);
     await s.stall(60);
     await s.endCursor();
     s.setSlot(2, 73);
@@ -9018,7 +9018,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.moveUnit('MOVE_CLOSEST', [0, 17301508, 12320, 277281, 3935776]);
     await s.waitUnitMoving();
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(4);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSI');
@@ -9105,7 +9105,7 @@ Future<void> Ch1Tut_OnBeginning(Scene s) async {
 
 /// `EventScr_Ch1Tut_PostTradeAndItemUseAction`
 Future<void> Ch1Tut_PostTradeAndItemUseAction(Scene s) async {
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(4);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -9468,7 +9468,7 @@ Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
     s.placeholder('MUSI');
     s.setSlot(2, Sym('UnitDef_Event_Ch1EnemyReinforce'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(131);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -14933,7 +14933,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('CUMO_CHAR');
+          s.displayCursorAtUnit(18);
           pc = 30;
           continue;
         case 30:
@@ -16888,7 +16888,7 @@ Future<void> Prologue_GiveRapier(Scene s) async {
 Future<void> Prologue_ONeillSpawn(Scene s) async {
     s.loadUnits(1, Sym('UnitDef_Event_PrologueEnemy'));
     await s.waitUnitMoving();
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(104);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSC');
@@ -16993,7 +16993,7 @@ Future<void> Prologue_OneillSethBattle(Scene s) async {
     s.setSlot(1, 4294967295);
     s.placeholder('SENQUEUE1');
     s.placeholder('FIGHT');
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(2);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -17407,7 +17407,7 @@ Future<void> Prologue_Tutorial7(Scene s) async {
 /// `EventScr_Prologue_Tutorial8`
 Future<void> Prologue_Tutorial8(Scene s) async {
     s.setKeyIgnore(0);
-    s.placeholder('CUMO_CHAR');
+    s.displayCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');

@@ -582,6 +582,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastSteal': lastSteal,
       'lastPopup': lastPopup,
       'lastCamera': lastCamera,
+      'lastSceneCursor': lastSceneCursor,
       'scriptErrors': scene?.scriptErrors ?? 0,
       'popupComponents': popupComponentCount,
       'ignoredInputCount': ignoredInputCount,
@@ -1899,6 +1900,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           if (scene?.skipping == true) break;
           await Future<void>.delayed(const Duration(milliseconds: 16));
         }
+      case DisplayCursorAtUnit(:final pid):
+        // `CUMO_CHAR`：场景光标画到那个单位上（**场景光标**，不是玩家光标）
+        final tgt = field?.units
+            .where((x) => x.charIndex == pid && x.isAlive)
+            .toList();
+        if (tgt == null || tgt.isEmpty) {
+          // 源码在找不到单位时是 `EVC_ERROR` ⇒ 真计数（我第一版写成了一句空操作）
+          final sc0 = scene;
+          if (sc0 != null) sc0.scriptErrors++;
+          debugPrint('[SCENECURSOR] pid=$pid 找不到单位（EVC_ERROR）');
+          break;
+        }
+        lastSceneCursor = {'pid': pid, 'x': tgt.first.x, 'y': tgt.first.y};
+        debugPrint('[SCENECURSOR] $lastSceneCursor');
       case CameraToChar(:final pid):
         // `CAMERA_CAHR`：把镜头移到那个角色所在的格（**复用** `_adjustCameraTo`）
         final target = field?.units
@@ -5498,6 +5513,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 最近一次「踊る」的记录（判据用）
   Map<String, Object?>? lastDance;
+
+  /// 最近一次场景光标（`CUMO_CHAR`；判据用）
+  Map<String, Object?>? lastSceneCursor;
 
   /// 最近一次"镜头移到角色"（判据用）
   Map<String, Object?>? lastCamera;

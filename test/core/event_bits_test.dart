@@ -73,4 +73,13 @@ void main() {
     expect(t.contains("s.placeholder('CHECK_LUCK')"), isFalse,
         reason: '这一条**全部**接上了（18 处、0 处占位）');
   });
+
+  test('★ 场景光标（`CUMO_CHAR`，第 81 轮）', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    // `CUMO_CHAR` = `EvtDisplayCursorAtUnit(pid)`（include/EAstdlib.h:166；
+    //  src/Event3B_DisplayCursor.c:51-59：找不到单位 => EVC_ERROR，
+    //  光标画在 unit->xPos/yPos —— 是**场景光标**，不是玩家地图光标）
+    expect(RegExp(r's\.displayCursorAtUnit\(').allMatches(t).length, 17,
+        reason: '接上的处数（参数是符号的会退回占位）');
+  });
 }

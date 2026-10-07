@@ -354,6 +354,13 @@ class KeyIgnore extends SceneEvent {
   final int mask;
 }
 
+/// `CUMO_CHAR` —— 场景光标画到某个单位上
+class DisplayCursorAtUnit extends SceneEvent {
+  const DisplayCursorAtUnit(this.pid);
+
+  final int pid;
+}
+
 /// `CAMERA_CAHR` —— 把镜头移到某个角色（游戏侧解析坐标后调 `cameraTo`）
 class CameraToChar extends SceneEvent {
   const CameraToChar(this.pid);
@@ -655,6 +662,18 @@ class Scene {
       'SORR' => a | b,
       _ => a,
     };
+  }
+
+  /// `CUMO_CHAR` = `EvtDisplayCursorAtUnit(pid)`（`include/EAstdlib.h:166`；
+  /// `src/Event3B_DisplayCursor.c:51-59`）：把**场景光标**画到那个单位所在的格。
+  /// ⚠️ 这是**场景光标**（`ProcScr_EventDisplayCursor`），不是玩家的地图光标。
+  /// 找不到单位 ⇒ 源码是 `EVC_ERROR` ⇒ 我们记一次 `scriptErrors`。
+  void displayCursorAtUnit(int pid) {
+    if (unitAliveReader == null) {
+      scriptErrors++;
+      return;
+    }
+    onEvent(DisplayCursorAtUnit(pid));
   }
 
   /// `CAMERA_CAHR` = `EvtMoveCameraToChar(pid)`（`include/EAstdlib.h:99`）
