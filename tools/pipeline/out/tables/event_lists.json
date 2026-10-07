@@ -1,0 +1,1949 @@
+{
+ "note": "事件列表。Misc 里的 FLAG 条目就是胜负条件（见文件头）。",
+ "cmdTable": {
+  "0": [
+   "END",
+   1
+  ],
+  "1": [
+   "FLAG",
+   3
+  ],
+  "2": [
+   "TURN",
+   3
+  ],
+  "3": [
+   "CHAR",
+   4
+  ],
+  "4": [
+   "CHARASM",
+   4
+  ],
+  "5": [
+   "LOCA",
+   3
+  ],
+  "6": [
+   "VILL",
+   3
+  ],
+  "7": [
+   "CHES",
+   3
+  ],
+  "8": [
+   "DOOR",
+   3
+  ],
+  "9": [
+   "DRAWBRIDGE",
+   3
+  ],
+  "10": [
+   "SHOP",
+   3
+  ],
+  "11": [
+   "AREA",
+   3
+  ],
+  "12": [
+   "NEVER_C",
+   3
+  ],
+  "13": [
+   "NEVER_D",
+   3
+  ],
+  "14": [
+   "E",
+   3
+  ],
+  "15": [
+   "F",
+   3
+  ],
+  "16": [
+   "10",
+   3
+  ]
+ },
+ "lists": {
+  "EventListScr_Ch14b_Location": [
+   {
+    "i": 0,
+    "cmd": "VILL",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 15,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch15b_Misc": [
+   {
+    "i": 0,
+    "cmd": "AREA",
+    "doneFlag": 11
+   },
+   {
+    "i": 3,
+    "cmd": "AREA",
+    "doneFlag": 12
+   },
+   {
+    "i": 6,
+    "cmd": "AREA",
+    "doneFlag": 12
+   },
+   {
+    "i": 9,
+    "cmd": "AREA",
+    "doneFlag": 11
+   },
+   {
+    "i": 12,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 15,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch16b_Location": [
+   {
+    "i": 0,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch17b_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 8
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 10
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 12
+   },
+   {
+    "i": 12,
+    "cmd": "TURN",
+    "doneFlag": 14
+   },
+   {
+    "i": 15,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch18b_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x1C",
+    "checkFlag": 2
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch18b_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 3
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 15,
+    "cmd": "TURN",
+    "raw": "0x2",
+    "truncated": true
+   }
+  ],
+  "EventListScr_Ch19b_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 10
+   },
+   {
+    "i": 12,
+    "cmd": "TURN",
+    "doneFlag": 12
+   },
+   {
+    "i": 15,
+    "cmd": "TURN",
+    "doneFlag": 14
+   },
+   {
+    "i": 18,
+    "cmd": "TURN",
+    "doneFlag": 16
+   },
+   {
+    "i": 21,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 24,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 27,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch20b_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 13
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 11
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 12
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_Location": [
+   {
+    "i": 0,
+    "cmd": "VILL",
+    "doneFlag": 9
+   },
+   {
+    "i": 3,
+    "cmd": "LOCA",
+    "doneFlag": 9
+   },
+   {
+    "i": 6,
+    "cmd": "VILL",
+    "doneFlag": 10
+   },
+   {
+    "i": 9,
+    "cmd": "LOCA",
+    "doneFlag": 10
+   },
+   {
+    "i": 12,
+    "cmd": "VILL",
+    "doneFlag": 11
+   },
+   {
+    "i": 15,
+    "cmd": "LOCA",
+    "doneFlag": 11
+   },
+   {
+    "i": 18,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 21,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_Location": [
+   {
+    "i": 0,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "VILL",
+    "doneFlag": 8
+   },
+   {
+    "i": 9,
+    "cmd": "LOCA",
+    "doneFlag": 8
+   },
+   {
+    "i": 12,
+    "cmd": "VILL",
+    "doneFlag": 9
+   },
+   {
+    "i": 15,
+    "cmd": "LOCA",
+    "doneFlag": 9
+   },
+   {
+    "i": 18,
+    "cmd": "VILL",
+    "doneFlag": 10
+   },
+   {
+    "i": 21,
+    "cmd": "LOCA",
+    "doneFlag": 10
+   },
+   {
+    "i": 24,
+    "cmd": "VILL",
+    "doneFlag": 11
+   },
+   {
+    "i": 27,
+    "cmd": "LOCA",
+    "doneFlag": 11
+   },
+   {
+    "i": 30,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 7
+   },
+   {
+    "i": 4,
+    "cmd": "CHAR",
+    "doneFlag": 7
+   },
+   {
+    "i": 8,
+    "cmd": "CHAR",
+    "doneFlag": 8
+   },
+   {
+    "i": 12,
+    "cmd": "CHAR",
+    "doneFlag": 8
+   },
+   {
+    "i": 16,
+    "cmd": "CHAR",
+    "doneFlag": 9
+   },
+   {
+    "i": 20,
+    "cmd": "CHAR",
+    "doneFlag": 9
+   },
+   {
+    "i": 24,
+    "cmd": "CHAR",
+    "doneFlag": 10
+   },
+   {
+    "i": 28,
+    "cmd": "CHAR",
+    "doneFlag": 10
+   },
+   {
+    "i": 32,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_Location": [
+   {
+    "i": 0,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "VILL",
+    "doneFlag": 8
+   },
+   {
+    "i": 6,
+    "cmd": "LOCA",
+    "doneFlag": 8
+   },
+   {
+    "i": 9,
+    "cmd": "VILL",
+    "doneFlag": 9
+   },
+   {
+    "i": 12,
+    "cmd": "LOCA",
+    "doneFlag": 9
+   },
+   {
+    "i": 15,
+    "cmd": "SHOP",
+    "doneFlag": 0
+   },
+   {
+    "i": 18,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 15,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 18,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 21,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 24,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 27,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 8
+   },
+   {
+    "i": 12,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_Location": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Prologue_EndingScene",
+    "checkFlag": 2
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 7,
+    "script": "EventScr_Prologue_OneEnemyLeft",
+    "checkFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "EventScr_GameOver",
+    "checkFlag": 101
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Prologue_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 11
+   },
+   {
+    "i": 12,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_Location": [
+   {
+    "i": 0,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "LOCA",
+    "doneFlag": 3
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 7,
+    "script": "EventScr_Ch1_Misc_DefeatBoss",
+    "checkFlag": 2
+   },
+   {
+    "i": 3,
+    "cmd": "AREA",
+    "doneFlag": 10
+   },
+   {
+    "i": 6,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch1_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 7
+   },
+   {
+    "i": 4,
+    "cmd": "CHAR",
+    "doneFlag": 8
+   },
+   {
+    "i": 8,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch2_EndingScene",
+    "checkFlag": 6
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch2_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 7
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 8
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 9
+   },
+   {
+    "i": 4,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_Location": [
+   {
+    "i": 0,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "LOCA",
+    "doneFlag": 3
+   },
+   {
+    "i": 15,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 18,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 21,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 24,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 3,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch3_Tutorials": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 8
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_Location": [
+   {
+    "i": 0,
+    "cmd": "VILL",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "VILL",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch4_1",
+    "checkFlag": 6
+   },
+   {
+    "i": 3,
+    "cmd": "AREA",
+    "doneFlag": 7
+   },
+   {
+    "i": 6,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch4_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 7
+   },
+   {
+    "i": 4,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch5_EndingScene",
+    "checkFlag": 2
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_Turn": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_Location": [
+   {
+    "i": 0,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "LOCA",
+    "doneFlag": 3
+   },
+   {
+    "i": 15,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 3,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch5x_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_Location": [
+   {
+    "i": 0,
+    "cmd": "VILL",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch6_EndingScene",
+    "checkFlag": 2
+   },
+   {
+    "i": 3,
+    "cmd": "AREA",
+    "doneFlag": 7
+   },
+   {
+    "i": 6,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch6_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_Location": [
+   {
+    "i": 0,
+    "cmd": "LOCA",
+    "doneFlag": 3
+   },
+   {
+    "i": 3,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "LOCA",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 3,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch7_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 12
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_Location": [
+   {
+    "i": 0,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "LOCA",
+    "doneFlag": 3
+   },
+   {
+    "i": 15,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 18,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_Misc": [
+   {
+    "i": 0,
+    "cmd": "AREA",
+    "doneFlag": 11
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch8_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 7
+   },
+   {
+    "i": 4,
+    "cmd": "CHAR",
+    "doneFlag": 7
+   },
+   {
+    "i": 8,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch9a_EndingScene",
+    "checkFlag": 6
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch9a_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch10a_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 13
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 14
+   },
+   {
+    "i": 12,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch10a_Misc": [
+   {
+    "i": 0,
+    "cmd": "AREA",
+    "doneFlag": 7
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch10a_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch10a_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch10a_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch10a_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 10
+   },
+   {
+    "i": 4,
+    "cmd": "CHAR",
+    "doneFlag": 11
+   },
+   {
+    "i": 8,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_Location": [
+   {
+    "i": 0,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 3,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "CHES",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 15,
+    "cmd": "DOOR",
+    "doneFlag": 0
+   },
+   {
+    "i": 18,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch11a_EndingScene",
+    "checkFlag": 6
+   },
+   {
+    "i": 3,
+    "cmd": "AREA",
+    "doneFlag": 7
+   },
+   {
+    "i": 6,
+    "cmd": "AREA",
+    "doneFlag": 8
+   },
+   {
+    "i": 9,
+    "cmd": "AREA",
+    "doneFlag": 9
+   },
+   {
+    "i": 12,
+    "cmd": "AREA",
+    "doneFlag": 9
+   },
+   {
+    "i": 15,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 18,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch11a_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch16b_Turn": [
+   {
+    "i": 0,
+    "cmd": "TURN",
+    "doneFlag": 14
+   },
+   {
+    "i": 3,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 6,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 9,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 12,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 15,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 18,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 21,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 24,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 27,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 30,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 33,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 36,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 39,
+    "cmd": "TURN",
+    "doneFlag": 0
+   },
+   {
+    "i": 42,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch16b_Character": [
+   {
+    "i": 0,
+    "cmd": "CHAR",
+    "doneFlag": 9
+   },
+   {
+    "i": 4,
+    "cmd": "CHAR",
+    "doneFlag": 9
+   },
+   {
+    "i": 8,
+    "cmd": "CHAR",
+    "doneFlag": 9
+   },
+   {
+    "i": 12,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch18b_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch19b_Character": [
+   {
+    "i": 0,
+    "cmd": 2827,
+    "raw": "0x110b0b",
+    "unknown": true
+   }
+  ],
+  "EventListScr_Ch19b_Misc": [
+   {
+    "i": 0,
+    "cmd": "AREA",
+    "doneFlag": 9
+   },
+   {
+    "i": 3,
+    "cmd": "AREA",
+    "doneFlag": 11
+   },
+   {
+    "i": 6,
+    "cmd": "AREA",
+    "doneFlag": 13
+   },
+   {
+    "i": 9,
+    "cmd": "AREA",
+    "doneFlag": 15
+   },
+   {
+    "i": 12,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 15,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch19b_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch19b_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch19b_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch19b_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch20b_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch20b_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch20b_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch20b_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch20b_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_Turn": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_Character": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_Location": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_Misc": [
+   {
+    "i": 0,
+    "cmd": "FLAG",
+    "doneFlag": 3,
+    "script": "EventScr_Ch21b_BeginningScene + 0xC",
+    "checkFlag": 2
+   },
+   {
+    "i": 3,
+    "cmd": "FLAG",
+    "doneFlag": 0,
+    "script": "data_085B9EE8",
+    "checkFlag": 101
+   },
+   {
+    "i": 6,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_SelectUnit": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_SelectDestination": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_UnitMove": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ],
+  "EventListScr_Ch21b_Tutorial": [
+   {
+    "i": 0,
+    "cmd": "END"
+   }
+  ]
+ }
+}

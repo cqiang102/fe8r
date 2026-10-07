@@ -181,6 +181,13 @@ Future<void> main(List<String> argv) async {
       Step('L0', '章节配置提取', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
+      Step('L0', '事件列表（胜负条件）', 'python3',
+          ['extract/parse_event_lists.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: 'Misc 里的 FLAG 条目就是胜负条件')
+    else
+      Step('L0', '事件列表', 'true', const [], skip: true, note: decompNote),
+
+    if (hasDecomp())
       Step('L0', '文本表', 'python3',
           ['extract/parse_text.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '3339 条消息 / 61 个章节标题')
