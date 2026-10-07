@@ -590,6 +590,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               .toList()
           : null,
       'actionIndex': state?.actionIndex,
+      // ★ 光标所指单位的**信息窗**内容（原作 `struct UnitInfoWindowProc`：
+      //   名字 + 最多 5 行道具，行数 = 道具数且至少 1。
+      //   出处：`src/StartUnitHpInfoWindow.c:22-26`、`src/RefreshUnitInventoryInfoWindow.c:41-47`）
+      'unitInfo': _unitInfoOfCursor(),
       'chapterModeIndex': chapterModeIndex,
       'unresolvedAttributes': _unresolvedAttributes.length,
       'autolevelMisses': _autolevelMisses,
@@ -5481,6 +5485,32 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// `UNIT_CATTRIBUTES(aUnit) = pCharacterData->attributes | pClassData->attributes`
   /// （`include/bmunit.h:479`）—— **位是两边凑的**。
+  /// 光标所指单位的信息窗内容（`unitInfo`；没有单位则 null）
+  ///
+  /// 形状照原作：`name` + `lines`（**道具数**行，至少 1 行 —— 见
+  /// `RefreshUnitInventoryInfoWindow.c:41-47` 的 `itemCount != 0 ? itemCount : 1`）。
+  Map<String, Object?>? _unitInfoOfCursor() {
+    final st = state;
+    final f = field;
+    if (st == null || f == null) return null;
+    final u = f.unitAt(st.cursorX, st.cursorY);
+    if (u == null) return null;
+    final items = <String>[
+      for (final w in u.items)
+        if (w != 0) _itemLabel(w),
+    ];
+    return {
+      'unit': u.id,
+      'name': u.name,
+      'hp': u.hp,
+      'maxHp': u.maxHp,
+      'className': _classNameByNumber[u.classId],
+      'itemCount': items.length,
+      // 行数 = 道具数，**至少 1 行**（空手时也要有一行位置）
+      'lines': items.isEmpty ? ['—'] : items,
+    };
+  }
+
   /// 这件道具的 `GetItemType`（就是 `items.json` 的 `weaponType`）
   int _itemTypeOf(int item) =>
       _itemStats[ItemTable.itemIndex(item)]?.weaponType ?? -1;
