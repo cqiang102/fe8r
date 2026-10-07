@@ -52,7 +52,7 @@ UnitComponent? unitOf(BattleView v, int id) => v.layer.children
 
 FlowMachine makeFlow() => FlowMachine(
       map: makeMap(),
-      costTable: MovementCostTable(List.filled(64, 1)),
+      costsOf: uniformCosts(MovementCostTable(List.filled(64, 1))),
     );
 
 void main() {

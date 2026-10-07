@@ -130,7 +130,7 @@ void main() {
     late EnemyAi ai;
 
     setUp(() {
-      ai = EnemyAi(map: _map(), costTable: _flat());
+      ai = EnemyAi(map: _map(), costsOf: uniformCosts(_flat()));
     });
 
     test('同一局面重复决策结果完全相同', () {

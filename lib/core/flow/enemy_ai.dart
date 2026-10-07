@@ -26,6 +26,7 @@
 import '../battle/phase.dart';
 import '../map/map_grid.dart';
 import '../map/movement_range.dart';
+import 'move_costs.dart';
 import 'battle_field.dart';
 
 /// AI 的一次决策结果
@@ -52,10 +53,12 @@ class AiAction {
 }
 
 class EnemyAi {
-  EnemyAi({required this.map, required this.costTable});
+  EnemyAi({required this.map, required this.costsOf});
 
   final MapGrid map;
-  final MovementCostTable costTable;
+
+  /// 每个单位自己的移动消耗表（`src/masked_08018a60.c` `GetUnitMovementCost`）
+  final MoveCostsOf costsOf;
 
   /// 给 [unit] 选一个行动。
   ///
@@ -86,7 +89,7 @@ class EnemyAi {
     // 能站的位置
     final range = MovementRangeComputer.compute(
       map: map,
-      costTable: costTable,
+      costTable: costsOf(unit),
       x: unit.x,
       y: unit.y,
       movement: unit.movement,

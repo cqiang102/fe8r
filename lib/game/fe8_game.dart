@@ -416,6 +416,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 第一条命中的是谁。上一版只有 `objectiveHit`，于是"条件没命中"
       // 和"命中了但脚本名为 null"在转储里长得一模一样。
       'objectivesNote': _objectivesNote,
+      'moveCostsNote': _moveCostsNote,
+      'moveCostsWeather': _weatherNow.name,
+      // 当前移动范围（选中单位时才有）——调"走到哪"这类脚本时，
+      // 有它就不用靠猜（山峰不可通行之后尤其明显）
+      'range': flow?.currentRange == null
+          ? null
+          : {
+              'count': flow!.currentRange!.reachableCount,
+              'tiles': [
+                for (var y = 0; y < (field?.height ?? 0); y++)
+                  for (var x = 0; x < (field?.width ?? 0); x++)
+                    if (flow!.currentRange!.canReach(x, y)) '\$x,\$y',
+              ],
+            },
       'objectives': _objectives == null
           ? null
           : {
@@ -645,8 +659,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       // 4) 战场与交互流程（规则层）
       field = _makeDemoField(grid);
-      flow = FlowMachine(map: grid, costTable: _demoCostTable());
-      ai = EnemyAi(map: grid, costTable: _demoCostTable());
+      // 移动消耗表：**按单位（职业）× 当前天气**取（见 `_moveCostsOf`）
+      flow = FlowMachine(map: grid, costsOf: _moveCostsOf);
+      ai = EnemyAi(map: grid, costsOf: _moveCostsOf);
       // ⚠️ **章节链路必须先载入**，再载入规则层数据 ——
       // `_loadObjectives()` 要用 `_chapterLinks[chapter].eventGroupName`
       // 去拼 `EventListScr_<组名>_Misc`。顺序反了 `_chapterLinks` 就是空的，
@@ -2670,6 +2685,59 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 真实的按职业消耗表已经由数据管线导出（`terrains.json`，104 张表），
   /// 接进来属于 M3 的收尾工作；这里先用平的，让交互闭环能独立验证。
+  /// 单位 → 移动消耗表。
+  ///
+  /// ## 出处：`src/masked_08018a60.c` 的 `GetUnitMovementCost`
+  ///
+  /// ```c
+  /// switch (gPlaySt.chapterWeatherId) {
+  /// case WEATHER_RAIN:                    return unit->pClassData->pMovCostTable[1];
+  /// case WEATHER_SNOW:
+  /// case WEATHER_SNOWSTORM:               return unit->pClassData->pMovCostTable[2];
+  /// default:                              return unit->pClassData->pMovCostTable[0];
+  /// }
+  /// ```
+  ///
+  /// 天气取自**当前章节数据**（`ChapterData.initialWeather` =
+  /// `gPlaySt.chapterWeatherId`），常量见 `include/types.h:355-362`。
+  ///
+  /// ⚠️ 之前是全場一张 `_demoCostTable()`（除 0 号地形外全 1）——
+  /// 后果是**山峰也能走**（真实表里绝大多数职业在山峰上是 255 = 不可通行）。
+  MovementCostTable _moveCostsOf(MapUnit u) {
+    final ct = classTable;
+    if (ct == null) {
+      _moveCostsNote = '职业表没载入 → 移动消耗退回演示表（全场 1）';
+      return _demoCostTable();
+    }
+    final costs = ct.movementCosts(u.classId, _weatherNow);
+    if (costs == null) {
+      // 石像鬼蛋 / 弩车这类没有消耗表的职业：原作走 `Unk_TerrainTable_0`
+      // （`include/variables.h:539`，**未 carve**）→ 显式记下来，
+      // 不当成"全 1 且能走"
+      if (_missingMoveCosts.add(u.classId)) {
+        _moveCostsNote =
+            '职业 ${u.classId} 没有移动消耗表（原作走 Unk_TerrainTable_0，未 carve）';
+      }
+      return _demoCostTable();
+    }
+    return MovementCostTable(costs);
+  }
+
+  /// 当前天气 → `pMovCostTable` 的第几张（`GetUnitMovementCost` 的分支）
+  Weather get _weatherNow {
+    final list = chapters?.list ?? const <ChapterData>[];
+    final w = sceneChapter < list.length ? list[sceneChapter].initialWeather : 0;
+    return switch (w) {
+      4 => Weather.rain, // WEATHER_RAIN
+      1 || 2 => Weather.snow, // WEATHER_SNOW / WEATHER_SNOWSTORM
+      _ => Weather.normal,
+    };
+  }
+
+  /// 移动消耗/查表失败的**结论**（转储里带出来）
+  String _moveCostsNote = '';
+  final Set<int> _missingMoveCosts = {};
+
   MovementCostTable _demoCostTable() {
     final c = List<int>.filled(65, 1);
     c[0] = 255;

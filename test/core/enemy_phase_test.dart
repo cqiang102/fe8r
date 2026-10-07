@@ -72,6 +72,12 @@ BattleField fieldWith({
       ],
     );
 
+/// 真实职业表（`classes.json` + `terrains.json`）
+ClassTable realClasses() => ClassTable.parse(
+      File('tools/pipeline/out/tables/classes.json').readAsStringSync(),
+      File('tools/pipeline/out/tables/terrains.json').readAsStringSync(),
+    );
+
 void main() {
   test('地形表：平原可走、山峰不可走（真实 cost 表）', () {
     // `ClassData.pMovCostTable` 里，绝大多数职业 PEAK = 255（不可通行）。
@@ -97,7 +103,7 @@ void main() {
 
   test('★ AI 会朝我方移动（不是原地不动）', () {
     final f = fieldWith(activeFaction: Faction.red);
-    final ai = EnemyAi(map: prologueMap(), costTable: demoCost());
+    final ai = EnemyAi(map: prologueMap(), costsOf: uniformCosts(demoCost()));
     final oneill = f.unitById(0x81)!;
     final a = ai.decide(f, oneill);
     expect(a.toX != oneill.x || a.toY != oneill.y, isTrue,
@@ -107,9 +113,75 @@ void main() {
     expect(a.toY, lessThanOrEqualTo(oneill.y));
   });
 
+  // ★ 接上真实移动消耗表（`GetUnitMovementCost`）之后的行为。
+  //
+  // 原来全场共用一张"除 0 号地形外全 1"的演示表 —— 于是**山峰也能走**。
+  group('真实移动消耗表（按职业查 pMovCostTable）', () {
+    test('★ 赛特（圣骑士）走不上山峰；演示表下能走', () {
+      final grid = prologueMap();
+      final ct = realClasses();
+      final paladin = ct.movementCosts(7, Weather.normal)!;
+      final real = MovementRangeComputer.compute(
+        map: grid,
+        costTable: MovementCostTable(paladin),
+        x: 4,
+        y: 4,
+        movement: 8,
+      );
+
+      // 地图上每一格山峰都不该可达
+      var peaks = 0;
+      for (var y = 0; y < grid.height; y++) {
+        for (var x = 0; x < grid.width; x++) {
+          if (grid.terrainAt(x, y) != TerrainType.peak) continue;
+          peaks++;
+          expect(real.canReach(x, y), isFalse, reason: '山峰 ($x,$y) 不该可达');
+        }
+      }
+      expect(peaks, greaterThan(0), reason: '这张图上确实有山峰');
+
+      // 平原可达
+      expect(real.canReach(4, 5), isTrue);
+
+      // 对照：演示表（全 1）下 (11,4) 是山峰却可达 —— 这正是原来的 bug
+      final demo = MovementRangeComputer.compute(
+        map: grid,
+        costTable: demoCost(),
+        x: 4,
+        y: 4,
+        movement: 8,
+      );
+      expect(grid.terrainAt(11, 4), TerrainType.peak);
+      expect(demo.canReach(11, 4), isTrue,
+          reason: '演示表把山峰当成可通行，所以 (11,4) 可达');
+    });
+
+    test('★ AI 不会把落点选在山峰上', () {
+      final grid = prologueMap();
+      final ct = realClasses();
+      var missing = 0;
+      final ai = EnemyAi(
+        map: grid,
+        costsOf: costsByClass(
+          costsOfClass: (cls) {
+            final c = ct.movementCosts(cls, Weather.normal);
+            if (c == null) missing++;
+            return c;
+          },
+          fallback: demoCost(),
+        ),
+      );
+      final f = fieldWith(activeFaction: Faction.red);
+      final a = ai.decide(f, f.unitById(0x81)!);
+      expect(missing, 0);
+      expect(grid.terrainAt(a.toX, a.toY), isNot(TerrainType.peak),
+          reason: 'AI 落点 $a 落在山峰上');
+    });
+  });
+
   test('相邻时 AI 会攻击', () {
     final f = fieldWith(activeFaction: Faction.red, sethX: 13, sethY: 8);
-    final ai = EnemyAi(map: prologueMap(), costTable: demoCost());
+    final ai = EnemyAi(map: prologueMap(), costsOf: uniformCosts(demoCost()));
     final a = ai.decide(f, f.unitById(0x81)!);
     expect(a.attacked, isTrue, reason: '贴身了却不打：$a');
     expect(a.targetId, 1);

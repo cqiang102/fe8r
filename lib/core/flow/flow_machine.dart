@@ -19,6 +19,7 @@ import 'dart:convert';
 import '../battle/phase.dart';
 import '../map/map_grid.dart';
 import '../map/movement_range.dart';
+import 'move_costs.dart';
 import 'battle_field.dart';
 
 /// 交互阶段
@@ -244,11 +245,18 @@ class FlowResult {
 class FlowMachine {
   FlowMachine({
     required this.map,
-    required this.costTable,
+    required this.costsOf,
   });
 
   final MapGrid map;
-  final MovementCostTable costTable;
+
+  /// 每个单位**自己的**移动消耗表。
+  ///
+  /// 出处：`src/masked_08018a60.c` 的 `GetUnitMovementCost` ——
+  /// 按**职业**（× 天气）选 `pClassData->pMovCostTable[i]`。
+  /// 曾经这里是一个"全场一张"的演示表（除 0 号地形外全 1），
+  /// 于是**山峰也能走**（真实表里是 255 = 不可通行）。
+  final MoveCostsOf costsOf;
 
   /// 当前光标所在格的移动范围（选中单位时才有）
   MovementRange? _range;
@@ -300,7 +308,7 @@ class FlowMachine {
 
         _range = MovementRangeComputer.compute(
           map: map,
-          costTable: costTable,
+          costTable: costsOf(unit),
           x: s.cursorX,
           y: s.cursorY,
           movement: unit.movement,

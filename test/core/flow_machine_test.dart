@@ -43,7 +43,7 @@ void main() {
   setUp(() {
     map = _testMap();
     costs = _flatCosts();
-    machine = FlowMachine(map: map, costTable: costs);
+    machine = FlowMachine(map: map, costsOf: uniformCosts(costs));
   });
 
   FlowState start() =>
@@ -328,7 +328,7 @@ void main() {
 
       // 读（新一场）
       final map2 = _testMap();
-      final m2 = FlowMachine(map: map2, costTable: _flatCosts());
+      final m2 = FlowMachine(map: map2, costsOf: uniformCosts(_flatCosts()));
       final field2 = BattleField.decode(fs);
       var s2 = FlowState.decode(ss);
 
