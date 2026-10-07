@@ -525,3 +525,86 @@ class ChapterTitleCardComponent extends PositionComponent {
     add(text);
   }
 }
+
+// ---------------------------------------------------------------------------
+// 地图菜单面板（START 打开，`gMapMenuDef`）
+//
+// 几何**照日版源码**（`src/data/frontier_df4_uistuff/frontier_df4_uistuff.c:12403-12412`）：
+//
+//     0x00060201                                ← rect: x=1, y=2, w=6, h=0（按条目数自动）
+//     0x00000000                                ← style = 0
+//     (u32)&frontier_df4_uistuff_030_5C534C     ← menuItems（8 条，顺序见 map_menu.dart）
+//
+// 位置规则照 `StartOrphanMenuAdjusted`（`src/exact_0804f924.c:43-55`）：
+//
+//     if (xSubject < 120) rect.x = xTileRight;   // 光标在屏幕左半边 → 用右边那套 x
+//     else                rect.x = xTileLeft;
+//
+// 调用点给的是 `(…, 光标x, 1, 0x17)` —— 也就是 tile 1 与 tile 23。
+//
+// ⚠️ **行高未查证**：`h = 0` 表示按条目数自动长，行高在 `Menu_Draw` /
+// `MenuProc` 的 `xTile/yTile`（baseline-resident）里。这里沿用本项目行动菜单
+// 的同款约定（1 图块/行），并在此标注。
+// ---------------------------------------------------------------------------
+
+/// 地图菜单面板
+class MapMenuComponent extends PositionComponent {
+  MapMenuComponent({
+    required this.labels,
+    required this.selectedIndex,
+    required this.tileSize,
+  }) : super(size: Vector2(tileSize * 6, tileSize * labels.length));
+
+  final List<String> labels;
+  final int selectedIndex;
+  final double tileSize;
+
+  /// 源码 `rect`：x=1 / 23、y=2（单位是图块）
+  static const int rectXLeft = 1;    // `xTileLeft`
+  static const int rectXRight = 0x17; // `xTileRight`
+  static const int rectY = 2;
+  static const int rectW = 6;
+
+  /// 光标在屏幕左半边（`xSubject < 120`）时菜单画在右边那套 x 上
+  static double xFor(double cursorX, double tileSize) {
+    final col = cursorX < 120 ? rectXRight : rectXLeft;
+    return col * tileSize;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    add(RectangleComponent(
+      position: Vector2(0, selectedIndex * tileSize),
+      size: Vector2(size.x, tileSize),
+      paint: Paint()..color = const Color(0x66FFE066),
+      priority: 0,
+    ));
+    for (var i = 0; i < labels.length; i++) {
+      add(TextComponent(
+        text: labels[i],
+        textRenderer: TextPaint(
+          style: TextStyle(
+            color: i == selectedIndex
+                ? const Color(0xFFFFE066)
+                : const Color(0xFFD8DEE9),
+            fontSize: tileSize * 0.52,
+          ),
+        ),
+        anchor: Anchor.centerLeft,
+        position: Vector2(4, i * tileSize + tileSize / 2),
+        priority: 1,
+      ));
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.x, size.y),
+        const Radius.circular(3),
+      ),
+      Paint()..color = const Color(0xE0101820),
+    );
+  }
+}

@@ -19,6 +19,7 @@ import 'dart:io';
 import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
+import 'package:fe8r/game/battle_components.dart';
 import 'package:fe8r/game/battle_view.dart';
 import 'package:fe8r/game/demo_event.dart';
 import 'package:fe8r/game/hud_view.dart';
@@ -792,10 +793,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         case FlowInput.confirm:
           final (action, st) = mapMenu!.select();
           mapMenu = null;
+          _syncMapMenuPanel();
           _mapMenuNote = st.note;
           if (action == MapMenuAction.endTurn) endTurn();
         case FlowInput.cancel:
           mapMenu = null;
+          _syncMapMenuPanel();
           _mapMenuNote = '关闭';
         default:
           break;
@@ -812,6 +815,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (i == FlowInput.start && playing) {
       mapMenu = const MapMenuState();
       _mapMenuNote = '打开（START）';
+      _syncMapMenuPanel();
       _updateHud();
       return;
     }
@@ -1494,6 +1498,29 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 胜负条件载入的**结论**（转储里带出来）
   String _objectivesNote = '';
+
+  /// 把面板挂到世界层/更新高亮（几何照 `gMapMenuDef`，见 `MapMenuComponent`）
+  MapMenuComponent? _mapMenuPanel;
+
+  void _syncMapMenuPanel() {
+    final m = mapMenu;
+    if (_mapMenuPanel != null) {
+      world.remove(_mapMenuPanel!);
+      _mapMenuPanel = null;
+    }
+    if (m == null) return;
+    final v = camera.viewport.virtualSize;
+    final comp = MapMenuComponent(
+      labels: [for (final e in mapMenuItems) e.label],
+      selectedIndex: m.index,
+      tileSize: (v.y / 20.0),   // 20 图块高（160px / 8）
+    )..position = Vector2(
+        MapMenuComponent.xFor(state?.cursorX.toDouble() ?? 0, v.y / 20.0),
+        MapMenuComponent.rectY * (v.y / 20.0),
+      );
+    world.add(comp);
+    _mapMenuPanel = comp;
+  }
 
   /// 地图菜单状态（`null` = 没打开）
   MapMenuState? mapMenu;
