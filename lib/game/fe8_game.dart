@@ -876,8 +876,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         charIndex: (m['charIndex'] as num?)?.toInt() ?? 0,
         classId: cls,
         level: (m['level'] as num?)?.toInt() ?? 1,
-        // 职业名走 `classes.json`，这里只用编号占位（名字不是规则层的输入）
-        name: 'C$cls',
+        // 名字给**人看**（战报里会出现）——用角色名，别再放 `C$cls` 这种。
+        // 角色名来自 `char_names.json`；查不到就退回"角色NN"。
+        name: _charNames?[(m['charIndex'] as num?)?.toInt() ?? 0]
+                ?.replaceFirst('CHARACTER_', '') ??
+            '角色${(m['charIndex'] as num?)?.toInt() ?? 0}',
       ));
     }
     _addUnits(added);
