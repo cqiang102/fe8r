@@ -292,6 +292,76 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   @override
   Color backgroundColor() => const Color(0xFF101418);
 
+  /// ★ **把当前状态转储成 JSON** —— 让验证变成「读数据」而不是「猜像素」。
+  ///
+  /// ## 为什么需要
+  ///
+  /// 我一直在用**截图**做验证，而截图只证明"那一刻那一帧"。
+  /// 后果：
+  /// * 「开场链路 / 序章剧情 / 序章战斗都还有 bug」—— 用户看出来了，
+  ///   因为**一张截图证明不了"这条链路"**
+  /// * 单位 id 冲突那次，我盯着 HUD 上**对的数字**看了好几轮，
+  ///   而错的是画面 —— 反过来也一样：**两边都要有机器可读的输出**
+  ///
+  /// 用法：`FE8R_DUMP=/tmp/state.json`，脚本跑完后写出。
+  /// 内容刻意**从规则层取**（`field` / `state` / `scene`），
+  /// 不经过任何渲染，所以它能和截图互相印证。
+  Map<String, dynamic> dumpState() {
+    final f = field;
+    final st = state;
+    final sc = scene;
+    return {
+      'chapter': sceneChapter,
+      'map': f == null
+          ? null
+          : {'width': f.width, 'height': f.height, 'id': map?.id},
+      'camera': {'x': _cameraX, 'y': _cameraY},
+      'phase': st?.phase.name,
+      'cursor': st == null ? null : {'x': st.cursorX, 'y': st.cursorY},
+      'turn': f?.turn,
+      'activeFaction': f?.activeFaction,
+      'selectedUnitId': st?.selectedUnitId,
+      // 单位：id 必须唯一 —— 转储里直接带上"是否唯一"，让 bug 无处可藏
+      'units': [
+        for (final u in f?.units ?? const <MapUnit>[])
+          {
+            'id': u.id,
+            'name': u.name,
+            'charIndex': u.charIndex,
+            'classId': u.classId,
+            'faction': u.faction,
+            'x': u.x,
+            'y': u.y,
+            'hp': u.hp,
+            'maxHp': u.maxHp,
+            'alive': u.isAlive,
+            'items': u.items,
+          },
+      ],
+      'unitIdsUnique': f == null
+          ? null
+          : f.units.map((u) => u.id).toSet().length == f.units.length,
+      // 渲染层：组件数应当等于存活单位数（id 冲突会在这里暴露）
+      'renderedUnitComponents': _battleView?.componentCount,
+      'eventFlags': eventFlags.toList()..sort(),
+      'scene': {
+        'running': sc != null,
+        'script': sc?.currentScript,
+        'shown': _sceneShown,
+        'currentTextId': _currentText?.message.id,
+        'missing': sc?.missing.toList(),
+        'placeholders': sc?.placeholderCalls.keys.toList(),
+      },
+      'objectiveHit': _lastObjectiveHit,
+      'mapHistory': _sceneMapHistory.trim(),
+      'trace': _trace.toList(),
+      'lastCombat': lastCombat,
+    };
+  }
+
+  /// 最近一次命中的胜负条件（诊断用）
+  String? _lastObjectiveHit;
+
   /// 载入剧本与文本（在 `onLoad` 里调一次）。
   ///
   /// 剧本**不是**从文件读的 —— 它是生成的 Dart `async` 函数
@@ -1102,6 +1172,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     try {
       final sc = scene;
       if (sc == null) return;
+      _lastObjectiveHit = hit.script;
       status.value = '胜负条件命中 -> ${hit.script}';
       await fn(sc);
     } finally {

@@ -11,6 +11,7 @@
 // 之所以走 RepaintBoundary 而不是截屏：拿到的就是 Flutter 自己栅格化的结果，
 // 不含窗口装饰，也不受系统权限影响。
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -20,6 +21,23 @@ import 'package:flutter/rendering.dart';
 /// 从环境变量读取截图输出路径；未设置则返回 null（正常运行不产生任何开销）
 String? screenshotPathFromEnv() {
   final p = Platform.environment['FE8R_SCREENSHOT'];
+  return (p == null || p.isEmpty) ? null : p;
+}
+
+/// 从环境变量读取**状态转储**的输出路径。
+///
+/// ## 为什么需要（这是我最该早点做的东西）
+///
+/// 我一直在用**截图**做验证，而截图只证明"那一刻那一帧" ——
+/// 于是"开场链路 / 序章剧情 / 序章战斗都还有 bug"这类问题
+/// **靠截图永远发现不了**：它证明不了"这条链路"。
+///
+/// 转储是**机器可读**的：单位坐标 / id 是否唯一 / 渲染组件数 /
+/// 事件标志 / 场景停在哪条指令 / 相机位置 …… 一次跑完全都有。
+///
+/// 判据因此可以做成**断言**，而不是"我盯着图看"。
+String? dumpPathFromEnv() {
+  final p = Platform.environment['FE8R_DUMP'];
   return (p == null || p.isEmpty) ? null : p;
 }
 
@@ -41,6 +59,7 @@ Future<void> captureWhenReady(
   String path, {
   int waitFrames = 30,
   Future<void> Function()? beforeCapture,
+  Map<String, dynamic> Function()? beforeDump,
 }) async {
   // 等足够多的帧，确保异步加载（地图 / 图集）已经完成并画出来了
   for (var i = 0; i < waitFrames; i++) {
@@ -78,6 +97,23 @@ Future<void> captureWhenReady(
   await file.writeAsBytes(data.buffer.asUint8List());
   debugPrint('[screenshot] 已写出 $path '
       '(${image.width}x${image.height}, ${data.lengthInBytes} 字节)');
+
+  // ★ 状态转储（`FE8R_DUMP`）—— 和截图一起写出。
+  //
+  // ⚠️ **必须在 `exit(0)` 之前**，否则拿不到东西。
+  final dumpPath = dumpPathFromEnv();
+  if (dumpPath != null && beforeDump != null) {
+    try {
+      final f = File(dumpPath);
+      await f.parent.create(recursive: true);
+      await f.writeAsString(
+        const JsonEncoder.withIndent(' ').convert(beforeDump()),
+      );
+      debugPrint('[dump] 已写出 $dumpPath');
+    } catch (e) {
+      debugPrint('[dump] 失败: $e');
+    }
+  }
 
   // ⚠️⚠️ **必须退出，否则这条命令会一直挂着。**
   //

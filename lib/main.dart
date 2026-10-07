@@ -69,11 +69,18 @@ class _GameShellState extends State<_GameShell> {
   void initState() {
     super.initState();
     final path = screenshotPathFromEnv();
-    if (path != null) {
-      captureWhenReady(_captureKey, path, beforeCapture: () async {
-        final script = inputScriptFromEnv();
-        if (script != null) await _game.runScript(script);
-      });
+    // 只要给了截图**或**转储路径，就跑同一条脚本。
+    // 转储让"验证"从"看像素"变成"断言数据"。
+    if (path != null || dumpPathFromEnv() != null) {
+      captureWhenReady(
+        _captureKey,
+        path ?? '/dev/null',
+        beforeCapture: () async {
+          final script = inputScriptFromEnv();
+          if (script != null) await _game.runScript(script);
+        },
+        beforeDump: _game.dumpState,
+      );
     }
   }
 
