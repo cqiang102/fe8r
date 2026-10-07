@@ -61,8 +61,26 @@ void main() {
     test('缺失的引用被记录，但**不阻断**演出', () async {
       final sc = makeScene(texts);
       await allSceneFns['EventScr_Prologue_BeginningScene']!(sc);
-      expect(sc.missing, contains('EventScr_Prologue_EirikaAttacked'));
+      // ⚠️ **这里原来断言 `EventScr_Prologue_EirikaAttacked` 缺失** ——
+      // 它现在**存在了**（`parse_event_scripts_asm.py` 把只以 `.4byte`
+      // 存在的脚本解了出来）。**测试红了，而红是对的。**
+      //
+      // 所以改成断言"仍然会记录缺口"（这是不变量），而不是钉某个名字。
+      expect(sc.missing, isNotEmpty, reason: '仍然有没解出来的脚本，应当如实记录');
       expect(log.whereType<ShowText>(), isNotEmpty, reason: '缺了引用不等于崩了');
+    });
+
+    test('★ 只以 `.4byte` 存在的脚本已经被解出来（41 -> 16 个缺口）', () {
+      // `EventScr_Prologue_ONeillSpawn` 负责放敌人 ——
+      // 它缺着的时候，序章地图上永远没有敌人，也就打不到奥尼尔。
+      for (final n in const [
+        'EventScr_Prologue_ONeillSpawn',
+        'EventScr_Prologue_EirikaAttacked',
+        'EventScr_Prologue_ExecTut',
+        'EventScr_LoadReinforce',
+      ]) {
+        expect(definedSceneScripts, contains(n), reason: '$n 应当已经解出来');
+      }
     });
 
     test('`LOAD1` 产出 LoadUnits 事件（接上已提取的单位表）', () async {

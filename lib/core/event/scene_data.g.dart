@@ -10,7 +10,7 @@
 // **请勿手改**：改 C 源码或生成器，然后重新生成。
 //
 // 每个脚本编译成一个 `async` 函数 —— **没有指令列表，没有解释器**。
-// 脚本 196 个（直线 103 个 / 有分支 93 个）
+// 脚本 311 个（直线 202 个 / 有分支 109 个）
 //
 // 直线脚本是顺序的 async 代码；有分支的用 `while(true){switch(pc)}`，
 // `pc` 是**局部变量**（因为不需要存档）。
@@ -18,6 +18,84 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'scene.dart';
+
+/// `EventScr_9EE6A0`
+Future<void> scr_9EE6A0(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          if (s.slotInt(0) != 196620) { pc = 1; } else { pc = 1; }
+          continue;
+        case 1:
+          await s.callSlot(0);
+          pc = 2;
+          continue;
+        case 2:
+          pc = 6;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('SLOT_OPS');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENUF');
+          pc = 6;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_9EE6C8`
+Future<void> scr_9EE6C8(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('GET_PID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 196620) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          await s.callSlot(0);
+          pc = 3;
+          continue;
+        case 3:
+          pc = 7;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('SLOT_OPS');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('ENUF');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          return;
+        default:
+          return;
+      }
+    }
+}
 
 /// `EventScr_9EE84C`
 Future<void> scr_9EE84C(Scene s) async {
@@ -138,6 +216,47 @@ Future<void> scr_9EE84C(Scene s) async {
     }
 }
 
+/// `EventScr_9EE8F0`
+Future<void> scr_9EE8F0(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVENTID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('ASMC');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('SLOT_OPS');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('MNCH');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ASMC');
+          pc = 6;
+          continue;
+        case 6:
+          return;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_9EEA58`
 Future<void> scr_9EEA58(Scene s) async {
     var pc = 0;
@@ -217,6 +336,263 @@ Future<void> scr_9EEA58(Scene s) async {
     }
 }
 
+/// `EventScr_9EEAAC`
+Future<void> scr_9EEAAC(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('EVBIT_MODIFY');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('BGMVOLUMECHANGE');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('SETTEXTTYPE');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CHECK_EVENTID');
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.placeholder('ENUT');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('SDEQUEUE');
+          pc = 7;
+          continue;
+        case 7:
+          await s.textShow(65535);
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('ENDTEXT');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('SDEQUEUE');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 16;
+          continue;
+        case 11:
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('SDEQUEUE');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('SDEQUEUE');
+          pc = 14;
+          continue;
+        case 14:
+          await s.textShow(65535);
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('ENDTEXT');
+          pc = 16;
+          continue;
+        case 16:
+          pc = 17;
+          continue;
+        case 17:
+          await s.callSlot(0);
+          pc = 18;
+          continue;
+        case 18:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_9EEB00`
+Future<void> scr_9EEB00(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECKVARIOUS');
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('BLT');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('EVBIT_F');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('SDEQUEUE');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('EvtTextShow2');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('ENDTEXT');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(7, 1);
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(1) != 458764) { pc = 8; } else { pc = 8; }
+          continue;
+        case 8:
+          s.placeholder('SDEQUEUE');
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('MUSS');
+          pc = 10;
+          continue;
+        case 10:
+          await s.stall(33);
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('EvtTextShow2');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('ENDTEXT');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('DISPLAYTEXT');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('SLOT_OPS');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('CHANGESTATE');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('SLOT_OPS');
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('EvtGiveMoneymAtSlot3NoPopup');
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('MURE');
+          pc = 19;
+          continue;
+        case 19:
+          pc = 38;
+          continue;
+        case 20:
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('SDEQUEUE');
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('SDEQUEUE');
+          pc = 23;
+          continue;
+        case 23:
+          s.placeholder('SDEQUEUE');
+          pc = 24;
+          continue;
+        case 24:
+          s.placeholder('SDEQUEUE');
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('EvtTextShow2');
+          pc = 26;
+          continue;
+        case 26:
+          s.placeholder('ENDTEXT');
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('DISPLAYTEXT');
+          pc = 28;
+          continue;
+        case 28:
+          s.placeholder('BGMVOLUMECHANGE');
+          pc = 29;
+          continue;
+        case 29:
+          await s.callSlot(0);
+          pc = 30;
+          continue;
+        case 30:
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('SDEQUEUE');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('SDEQUEUE');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('EvtTextShow2');
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('ENDTEXT');
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('DISPLAYTEXT');
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('BGMVOLUMECHANGE');
+          pc = 37;
+          continue;
+        case 37:
+          await s.callSlot(0);
+          pc = 38;
+          continue;
+        case 38:
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('EVBIT_T');
+          pc = 40;
+          continue;
+        case 40:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_ApplyActiveUnitTileChange`
+Future<void> ApplyActiveUnitTileChange(Scene s) async {
+    s.placeholder('EVBIT_MODIFY');
+    s.placeholder('TILECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_ApplyTileChangeForFaction`
 Future<void> ApplyTileChangeForFaction(Scene s) async {
     var pc = 0;
@@ -250,6 +626,37 @@ Future<void> ApplyTileChangeForFaction(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_ApplyTileChangeForFactionIfAlly`
+Future<void> ApplyTileChangeForFactionIfAlly(Scene s) async {
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    return;
+}
+
+/// `EventScr_ApplyTileChangeForFactionIfEnemy`
+Future<void> ApplyTileChangeForFactionIfEnemy(Scene s) async {
+    s.setSlot(2, 2);
+    await s.callSlot(0);
+    return;
+}
+
+/// `EventScr_ApplyTileChangeForFactionIfNPC`
+Future<void> ApplyTileChangeForFactionIfNPC(Scene s) async {
+    s.setSlot(2, 1);
+    await s.callSlot(0);
+    return;
+}
+
+/// `EventScr_CallBreakStone`
+Future<void> CallBreakStone(Scene s) async {
+    s.placeholder('COLORFADE');
+    s.placeholder('COLORFADE');
+    await s.stall(30);
+    s.placeholder('GLOWINGCROSS');
+    s.placeholder('COLORFADE');
+    return;
 }
 
 /// `EventScr_CallIfCommonMode`
@@ -446,6 +853,36 @@ Future<void> Ch10A_0(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch10A_10`
+Future<void> Ch10A_10(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2565);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch10A_11`
+Future<void> Ch10A_11(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2566);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch10A_12`
+Future<void> Ch10A_12(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch10AEnemy_2'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch10A_13`
 Future<void> Ch10A_13(Scene s) async {
     s.setSlot(2, 0);
@@ -534,6 +971,17 @@ Future<void> Ch10A_8(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Ch10A_9`
+Future<void> Ch10A_9(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2564);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
 }
 
 /// `EventScr_Ch10B_0`
@@ -1339,6 +1787,299 @@ Future<void> Ch11B_6(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch11a_BeginningScene`
+Future<void> Ch11a_BeginningScene(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSC');
+          pc = 1;
+          continue;
+        case 1:
+          s.loadUnits(2, Sym('UnitDef_Ch11AAlly_0'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('ENUN');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('CURSOR_CHAR');
+          pc = 4;
+          continue;
+        case 4:
+          await s.stall(60);
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('DISPLAYCURSOR');
+          pc = 6;
+          continue;
+        case 6:
+          s.setSlot(2, 39);
+          pc = 7;
+          continue;
+        case 7:
+          await s.callSlot(0);
+          pc = 8;
+          continue;
+        case 8:
+          await s.textShow(2567);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('ENDTEXT');
+          pc = 10;
+          continue;
+        case 10:
+          s.placeholder('BGMCHANGE_13');
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('CONTINUETEXT');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('ENDTEXT');
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('MUSC');
+          pc = 14;
+          continue;
+        case 14:
+          s.placeholder('CONTINUETEXT');
+          pc = 15;
+          continue;
+        case 15:
+          s.placeholder('ENDTEXT');
+          pc = 16;
+          continue;
+        case 16:
+          s.placeholder('DISPLAYTEXT');
+          pc = 17;
+          continue;
+        case 17:
+          await s.callSlot(0);
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('CHECK_ALIVE');
+          pc = 19;
+          continue;
+        case 19:
+          if (s.slotInt(0) == 12) { pc = 20; } else { pc = 20; }
+          continue;
+        case 20:
+          s.placeholder('CURSOR_CHAR');
+          pc = 21;
+          continue;
+        case 21:
+          await s.stall(60);
+          pc = 22;
+          continue;
+        case 22:
+          s.placeholder('DISPLAYCURSOR');
+          pc = 23;
+          continue;
+        case 23:
+          s.setSlot(2, 39);
+          pc = 24;
+          continue;
+        case 24:
+          s.setSlot(3, 2568);
+          pc = 25;
+          continue;
+        case 25:
+          await s.callSlot(0);
+          pc = 26;
+          continue;
+        case 26:
+          pc = 36;
+          continue;
+        case 27:
+          pc = 28;
+          continue;
+        case 28:
+          s.moveUnit('MOVEUNIT', [0]);
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('ENUN');
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('CURSOR_CHAR');
+          pc = 31;
+          continue;
+        case 31:
+          await s.stall(60);
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('DISPLAYCURSOR');
+          pc = 33;
+          continue;
+        case 33:
+          s.setSlot(2, 39);
+          pc = 34;
+          continue;
+        case 34:
+          s.setSlot(3, 2569);
+          pc = 35;
+          continue;
+        case 35:
+          await s.callSlot(0);
+          pc = 36;
+          continue;
+        case 36:
+          pc = 37;
+          continue;
+        case 37:
+          s.setSlot(13, 0);
+          pc = 38;
+          continue;
+        case 38:
+          s.setSlot(1, 134);
+          pc = 39;
+          continue;
+        case 39:
+          s.placeholder('QUEUE_OPS');
+          pc = 40;
+          continue;
+        case 40:
+          s.setSlot(1, 0);
+          pc = 41;
+          continue;
+        case 41:
+          s.placeholder('QUEUE_OPS');
+          pc = 42;
+          continue;
+        case 42:
+          s.setSlot(1, 133);
+          pc = 43;
+          continue;
+        case 43:
+          s.placeholder('QUEUE_OPS');
+          pc = 44;
+          continue;
+        case 44:
+          s.setSlot(1, 0);
+          pc = 45;
+          continue;
+        case 45:
+          s.placeholder('QUEUE_OPS');
+          pc = 46;
+          continue;
+        case 46:
+          s.setSlot(1, 5);
+          pc = 47;
+          continue;
+        case 47:
+          s.placeholder('QUEUE_OPS');
+          pc = 48;
+          continue;
+        case 48:
+          s.setSlot(1, 0);
+          pc = 49;
+          continue;
+        case 49:
+          s.placeholder('QUEUE_OPS');
+          pc = 50;
+          continue;
+        case 50:
+          s.moveUnit('MOVEUNIT', [0]);
+          pc = 51;
+          continue;
+        case 51:
+          s.placeholder('ENUN');
+          pc = 52;
+          continue;
+        case 52:
+          s.placeholder('DISA');
+          pc = 53;
+          continue;
+        case 53:
+          await s.fade(FadeDirection.toBlack, 16);
+          pc = 54;
+          continue;
+        case 54:
+          s.placeholder('CHANGESTATE');
+          pc = 55;
+          continue;
+        case 55:
+          s.placeholder('CAMERACONTROL');
+          pc = 56;
+          continue;
+        case 56:
+          await s.fade(FadeDirection.fromBlack, 16);
+          pc = 57;
+          continue;
+        case 57:
+          s.loadUnits(1, Sym('frontier_df4_banim_b_077_90DB94', 1708));
+          pc = 58;
+          continue;
+        case 58:
+          s.placeholder('ENUN');
+          pc = 59;
+          continue;
+        case 59:
+          s.placeholder('CURSOR_CHAR');
+          pc = 60;
+          continue;
+        case 60:
+          await s.stall(60);
+          pc = 61;
+          continue;
+        case 61:
+          s.placeholder('DISPLAYCURSOR');
+          pc = 62;
+          continue;
+        case 62:
+          s.setSlot(2, 59);
+          pc = 63;
+          continue;
+        case 63:
+          await s.callSlot(0);
+          pc = 64;
+          continue;
+        case 64:
+          await s.textShow(2570);
+          pc = 65;
+          continue;
+        case 65:
+          s.placeholder('ENDTEXT');
+          pc = 66;
+          continue;
+        case 66:
+          s.placeholder('DISPLAYTEXT');
+          pc = 67;
+          continue;
+        case 67:
+          await s.fade(FadeDirection.toBlack, 16);
+          pc = 68;
+          continue;
+        case 68:
+          s.loadUnits(1, Sym('frontier_df4_banim_b_077_90DB94', 868));
+          pc = 69;
+          continue;
+        case 69:
+          s.placeholder('ENUN');
+          pc = 70;
+          continue;
+        case 70:
+          await s.callSlot(0);
+          pc = 71;
+          continue;
+        case 71:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_Ch11a_EndingScene`
 Future<void> Ch11a_EndingScene(Scene s) async {
     var pc = 0;
@@ -2085,6 +2826,172 @@ Future<void> Ch12A_0(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch12A_1`
+Future<void> Ch12A_1(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('MUSS');
+          pc = 1;
+          continue;
+        case 1:
+          await s.stall(33);
+          pc = 2;
+          continue;
+        case 2:
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('GET_PID');
+          pc = 4;
+          continue;
+        case 4:
+          s.setSlot(7, 1);
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(1) == 458764) { pc = 6; } else { pc = 6; }
+          continue;
+        case 6:
+          s.setSlot(7, 23);
+          pc = 7;
+          continue;
+        case 7:
+          if (s.slotInt(2) == 458764) { pc = 8; } else { pc = 8; }
+          continue;
+        case 8:
+          s.setSlot(7, 21);
+          pc = 9;
+          continue;
+        case 9:
+          if (s.slotInt(3) == 458764) { pc = 10; } else { pc = 10; }
+          continue;
+        case 10:
+          s.setSlot(2, 1);
+          pc = 11;
+          continue;
+        case 11:
+          s.setSlot(3, 2600);
+          pc = 12;
+          continue;
+        case 12:
+          await s.callSlot(0);
+          pc = 13;
+          continue;
+        case 13:
+          pc = 28;
+          continue;
+        case 14:
+          pc = 15;
+          continue;
+        case 15:
+          s.setSlot(2, 1);
+          pc = 16;
+          continue;
+        case 16:
+          s.setSlot(3, 2597);
+          pc = 17;
+          continue;
+        case 17:
+          await s.callSlot(0);
+          pc = 18;
+          continue;
+        case 18:
+          pc = 28;
+          continue;
+        case 19:
+          pc = 20;
+          continue;
+        case 20:
+          s.setSlot(2, 1);
+          pc = 21;
+          continue;
+        case 21:
+          s.setSlot(3, 2598);
+          pc = 22;
+          continue;
+        case 22:
+          await s.callSlot(0);
+          pc = 23;
+          continue;
+        case 23:
+          pc = 28;
+          continue;
+        case 24:
+          pc = 25;
+          continue;
+        case 25:
+          s.setSlot(2, 1);
+          pc = 26;
+          continue;
+        case 26:
+          s.setSlot(3, 2599);
+          pc = 27;
+          continue;
+        case 27:
+          await s.callSlot(0);
+          pc = 28;
+          continue;
+        case 28:
+          pc = 29;
+          continue;
+        case 29:
+          s.loadUnits(1, Sym('UnitDef_Ch12AAlly_0'));
+          pc = 30;
+          continue;
+        case 30:
+          s.placeholder('ENUN');
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('TILECHANGE');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('MURE');
+          pc = 33;
+          continue;
+        case 33:
+          s.placeholder('EVBIT_T');
+          pc = 34;
+          continue;
+        case 34:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_Ch12A_2`
+Future<void> Ch12A_2(Scene s) async {
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch12A_3`
+Future<void> Ch12A_3(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch12AEnemy_2'));
+    await s.callSlot(0);
+    s.setSlot(2, Sym('UnitDef_Ch12AEnemy_7'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch12A_4`
+Future<void> Ch12A_4(Scene s) async {
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch12A_5`
 Future<void> Ch12A_5(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch12AEnemy_5'));
@@ -2215,6 +3122,38 @@ Future<void> Ch13A_4(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Ch13A_5`
+Future<void> Ch13A_5(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch13AEnemy_7'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch13A_6`
+Future<void> Ch13A_6(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch13AEnemy_8'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch13A_7`
+Future<void> Ch13A_7(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, Sym('UnitDef_Ch13AEnemy_9'));
+    await s.callSlot(0);
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2608);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('EVBIT_T');
+    return;
 }
 
 /// `EventScr_Ch13B_0`
@@ -2918,6 +3857,96 @@ Future<void> Ch14A_1(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch14A_2`
+Future<void> Ch14A_2(Scene s) async {
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_001_91020C', 860));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch14A_3`
+Future<void> Ch14A_3(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch14AEnemy_4'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch14A_4`
+Future<void> Ch14A_4(Scene s) async {
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch14A_5`
+Future<void> Ch14A_5(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch14AEnemy_2'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch14A_6`
+Future<void> Ch14A_6(Scene s) async {
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.placeholder('COUNTER');
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch14A_7`
+Future<void> Ch14A_7(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_002_9105E0'));
+          pc = 1;
+          continue;
+        case 1:
+          await s.callSlot(0);
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('COUNTER');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('ENUF');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER');
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 6; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('ENUT');
+          pc = 7;
+          continue;
+        case 7:
+          pc = 8;
+          continue;
+        case 8:
+          s.placeholder('EVBIT_T');
+          pc = 9;
+          continue;
+        case 9:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_Ch14A_8`
 Future<void> Ch14A_8(Scene s) async {
     s.setSlot(2, 0);
@@ -3009,6 +4038,86 @@ Future<void> Ch14B_2(Scene s) async {
     s.setSlot(1, 2772);
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_9EEAAC'));
+    return;
+}
+
+/// `EventScr_Ch14a_BeginningScene`
+Future<void> Ch14a_BeginningScene(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.placeholder('BACG');
+    await s.fade(FadeDirection.fromBlack, 128);
+    await s.fade(FadeDirection.toWhite, 2);
+    s.placeholder('BACG');
+    s.placeholder('BGMCHANGE_13');
+    await s.fade(FadeDirection.fromWhite, 2);
+    s.placeholder('BROWNBOXTEXT');
+    await s.textShow(2626);
+    s.placeholder('ENDTEXT');
+    s.placeholder('BGMCHANGE_13');
+    await s.fade(FadeDirection.toWhite, 2);
+    s.placeholder('DISPLAYTEXT');
+    s.setSlot(11, 262158);
+    await s.loadMap(15);
+    s.placeholder('MUSC');
+    await s.fade(FadeDirection.fromWhite, 2);
+    s.loadUnits(2, Sym('frontier_df3_unitdef_b_004_91075C_p5'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.setSlot(2, 73);
+    await s.callSlot(0);
+    await s.textShow(2627);
+    s.placeholder('ENDTEXT');
+    s.placeholder('MUSC');
+    s.placeholder('CONTINUETEXT');
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    await s.callSlot(0);
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('STAL2');
+    await s.fade(FadeDirection.toBlack, 16);
+    s.placeholder('ENUN');
+    s.placeholder('CHANGESTATE');
+    s.placeholder('CHANGESTATE');
+    s.placeholder('CHANGESTATE');
+    s.setSlot(11, 458762);
+    await s.loadMap(14);
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_001_91020C'));
+    s.placeholder('ENUN');
+    s.placeholder('EvtMoveUnit');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C'));
+    s.placeholder('ENUN');
+    await s.fade(FadeDirection.fromBlack, 16);
+    s.moveUnit('MOVEUNIT', [16]);
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('MUSC');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2628);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    await s.fade(FadeDirection.toBlack, 16);
+    s.placeholder('EvtMoveUnit');
+    await s.callSlot(0);
+    s.placeholder('MUSC');
+    s.placeholder('CAMERA_CAHR');
+    await s.fade(FadeDirection.fromBlack, 16);
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 63);
+    s.setSlot(3, 2629);
+    await s.callSlot(0);
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
     return;
 }
 
@@ -3207,6 +4316,14 @@ Future<void> Ch15A_0(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch15A_1`
+Future<void> Ch15A_1(Scene s) async {
+    await s.callSlot(0);
+    s.placeholder('ENUT');
+    s.placeholder('MNCH');
+    return;
+}
+
 /// `EventScr_Ch15A_17`
 Future<void> Ch15A_17(Scene s) async {
     var pc = 0;
@@ -3358,6 +4475,110 @@ Future<void> Ch15A_19(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Ch15A_2`
+Future<void> Ch15A_2(Scene s) async {
+    s.placeholder('NOP');
+    s.setSlot(3, 2806);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 136);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2807);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2808);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('MUSS');
+    await s.stall(33);
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2796);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('MURE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2797);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2798);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2799);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2800);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2801);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_006_911070'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, 143724716);
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, 143724776);
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('UnitDef_Ch15AEnemy_6'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_007_911200', 60));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.setSlot(1, 65536);
+    s.placeholder('CHAI');
+    s.setSlot(1, 70144);
+    s.placeholder('CHAI');
+    s.placeholder('EVBIT_T');
+    return;
 }
 
 /// `EventScr_Ch15A_20`
@@ -4382,6 +5603,53 @@ Future<void> Ch15B_22(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Ch15a_BeginningScene`
+Future<void> Ch15a_BeginningScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.loadUnits(2, Sym('frontier_df3_unitdef_b_005_9109A8_residue_p5'));
+    s.placeholder('ENUN');
+    await s.fade(FadeDirection.fromBlack, 16);
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.setSlot(2, 73);
+    await s.callSlot(0);
+    await s.textShow(2776);
+    s.placeholder('ENDTEXT');
+    await s.fade(FadeDirection.toBlack, 4);
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CAMERACONTROL');
+    s.placeholder('CLEARSCREEN');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 696));
+    s.placeholder('ENUN');
+    await s.fade(FadeDirection.fromBlack, 16);
+    s.placeholder('LOADSINGLEUNIT');
+    s.setSlot(2, 87);
+    s.moveUnit('MOVEUNIT', [65535]);
+    await s.callSlot(0);
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.setSlot(2, 73);
+    await s.callSlot(0);
+    await s.textShow(2777);
+    s.placeholder('ENDTEXT');
+    await s.fade(FadeDirection.toBlack, 16);
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('DISA');
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 1516));
+    s.placeholder('ENUN');
+    await s.callSlot(0);
+    return;
+}
+
+/// `EventScr_Ch16A_0`
+Future<void> Ch16A_0(Scene s) async {
+    await s.callSlot(0);
+    s.placeholder('MNCH');
+    return;
 }
 
 /// `EventScr_Ch16A_1`
@@ -6211,6 +7479,24 @@ Future<void> Ch16B_5(Scene s) async {
     }
 }
 
+/// `EventScr_Ch16a_BeginningScene`
+Future<void> Ch16a_BeginningScene(Scene s) async {
+    await s.callSlot(0);
+    s.setSlot(11, 0);
+    await s.loadMap(16);
+    s.loadUnits(1, Sym('frontier_df3_unitdef_b_007_911200_tail'));
+    s.placeholder('ENUN');
+    s.loadUnits(1, Sym('UnitDef_Ch16AEnemy_0'));
+    s.placeholder('ENUN');
+    s.setSlot(2, Sym('UnitDef_Ch16AEnemy_1'));
+    s.setSlot(3, 1);
+    await s.callSlot(0);
+    s.placeholder('CHANGESTATE');
+    await s.callSlot(0);
+    s.placeholder('ENUT');
+    return;
+}
+
 /// `EventScr_Ch16b_BeginningScene`
 Future<void> Ch16b_BeginningScene(Scene s) async {
     s.setSlot(2, Sym('frontier_df3_unitdef_b_042_91C230'));
@@ -7013,6 +8299,43 @@ Future<void> Ch19A_11(Scene s) async {
     }
 }
 
+/// `EventScr_Ch1Tut_AfterSethBattleEirikaVisit`
+Future<void> Ch1Tut_AfterSethBattleEirikaVisit(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('ENQUEUE_CALL');
+    return;
+}
+
+/// `EventScr_Ch1Tut_AfterSethMoveToEnemy`
+Future<void> Ch1Tut_AfterSethMoveToEnemy(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670088);
+    await s.textShow(2322);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('DISABLEWEAPONS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Ch1Tut_AfterTrade`
+Future<void> Ch1Tut_AfterTrade(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670088);
+    await s.textShow(2317);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
 /// `EventScr_Ch1Tut_BeforeSethMoveToEnemy`
 Future<void> Ch1Tut_BeforeSethMoveToEnemy(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -7056,6 +8379,21 @@ Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
     s.placeholder('FIGHT_SCRIPT');
     s.placeholder('EvtEnqueueConditionalTutCall');
     s.placeholder('DISABLEOPTIONS');
+    return;
+}
+
+/// `EventScr_Ch1Tut_EirikaVisitHouseEnd`
+Future<void> Ch1Tut_EirikaVisitHouseEnd(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670088);
+    await s.textShow(2305);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
 
@@ -7128,6 +8466,65 @@ Future<void> Ch1Tut_EirikaVisitHouseInit(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch1Tut_GilliamBattle`
+Future<void> Ch1Tut_GilliamBattle(Scene s) async {
+    s.setSlot(1, 19);
+    s.placeholder('SET_HP');
+    await s.stall(60);
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('ENUN');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 131073);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 513);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 4294967295);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(11, 196616);
+    s.placeholder('FIGHT');
+    s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsg944'));
+    await s.callSlot(0);
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2291);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2310);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    return;
+}
+
+/// `EventScr_Ch1Tut_GuideOnBKSEL`
+Future<void> Ch1Tut_GuideOnBKSEL(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 1048660);
+    await s.textShow(2321);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch1Tut_GuideTerrainHeal`
 Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
     s.placeholder('IGNORE_KEYS');
@@ -7147,6 +8544,16 @@ Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch1Tut_MsgOnGuideOption`
+Future<void> Ch1Tut_MsgOnGuideOption(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2323);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    return;
+}
+
 /// `EventScr_Ch1Tut_OnBeginning`
 Future<void> Ch1Tut_OnBeginning(Scene s) async {
     s.placeholder('CURSOR_CHAR');
@@ -7163,6 +8570,21 @@ Future<void> Ch1Tut_OnBeginning(Scene s) async {
     s.placeholder('EVENT_WORD_SYM');
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
+    return;
+}
+
+/// `EventScr_Ch1Tut_PostTradeAndItemUseAction`
+Future<void> Ch1Tut_PostTradeAndItemUseAction(Scene s) async {
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2290);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('DISABLEOPTIONS');
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
     return;
 }
 
@@ -7187,6 +8609,21 @@ Future<void> Ch1Tut_SethMoveToEnemy(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch1Tut_SethMoveToEnemy'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec0'));
+    return;
+}
+
+/// `EventScr_Ch1Tut_TradeSelectGalliamEnd`
+Future<void> Ch1Tut_TradeSelectGalliamEnd(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670088);
+    await s.textShow(2312);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('ENUT');
+    s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
 
@@ -7430,6 +8867,54 @@ Future<void> Ch1_EndingScene(Scene s) async {
     }
 }
 
+/// `EventScr_Ch1_Loca_Visit1`
+Future<void> Ch1_Loca_Visit1(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2299);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch1_Loca_Visit2`
+Future<void> Ch1_Loca_Visit2(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2300);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch1_Misc_Area`
+Future<void> Ch1_Misc_Area(Scene s) async {
+    s.setSlot(2, 1);
+    await s.callSlot(0);
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch1_Misc_DefeatBoss`
+Future<void> Ch1_Misc_DefeatBoss(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsgSeize'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch1_Turn1Player`
+Future<void> Ch1_Turn1Player(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Ch1Tut_ChooseSethTurn1'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch1_Turn_AllyReinforceArrive`
 Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
     s.placeholder('MUSC');
@@ -7444,6 +8929,23 @@ Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
     s.placeholder('REMA');
     s.setSlot(2, Sym('EventScr_Ch1Tut_GilliamBattle'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch1_Turn_EnemyReinforceArrive`
+Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, Sym('UnitDef_Event_Ch1EnemyReinforce'));
+    await s.callSlot(0);
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2292);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
 }
@@ -7916,6 +9418,13 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch2Tutorial10`
+Future<void> Ch2Tutorial10(Scene s) async {
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch2Tutorial11`
 Future<void> Ch2Tutorial11(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -7959,6 +9468,13 @@ Future<void> Ch2Tutorial12(Scene s) async {
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('IGNORE_KEYS');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial13`
+Future<void> Ch2Tutorial13(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
 
@@ -8007,6 +9523,22 @@ Future<void> Ch2Tutorial15(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch2Tutorial16`
+Future<void> Ch2Tutorial16(Scene s) async {
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial17`
+Future<void> Ch2Tutorial17(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('ENQUEUE_CALL');
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch2Tutorial18`
 Future<void> Ch2Tutorial18(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -8033,6 +9565,16 @@ Future<void> Ch2Tutorial18(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch2Tutorial19`
+Future<void> Ch2Tutorial19(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('ASMC');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
 /// `EventScr_Ch2Tutorial2`
 Future<void> Ch2Tutorial2(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -8051,6 +9593,20 @@ Future<void> Ch2Tutorial2(Scene s) async {
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('IGNORE_KEYS');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial20`
+Future<void> Ch2Tutorial20(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670032);
+    await s.textShow(2362);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
 
@@ -8143,6 +9699,31 @@ Future<void> Ch2Tutorial24(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch2Tutorial25`
+Future<void> Ch2Tutorial25(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670032);
+    await s.textShow(2371);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial26`
+Future<void> Ch2Tutorial26(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(2, Sym('EventScr_Ch2_Village2', 160));
+    await s.callSlot(0);
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('ENQUEUE_CALL');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch2Tutorial27`
 Future<void> Ch2Tutorial27(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -8189,6 +9770,44 @@ Future<void> Ch2Tutorial28(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch2Tutorial29`
+Future<void> Ch2Tutorial29(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670032);
+    await s.textShow(2375);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial3`
+Future<void> Ch2Tutorial3(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670088);
+    await s.textShow(2354);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial30`
+Future<void> Ch2Tutorial30(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.setSlot(2, Sym('EventScr_Ch2_9'));
+    await s.callSlot(0);
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch2Tutorial4`
 Future<void> Ch2Tutorial4(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -8231,6 +9850,22 @@ Future<void> Ch2Tutorial5(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('IGNORE_KEYS');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial6`
+Future<void> Ch2Tutorial6(Scene s) async {
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch2Tutorial7`
+Future<void> Ch2Tutorial7(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('ENQUEUE_CALL');
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
     return;
 }
 
@@ -8295,6 +9930,71 @@ Future<void> Ch2_10(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch2_4`
+Future<void> Ch2_4(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2363);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch2_5`
+Future<void> Ch2_5(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2357);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    return;
+}
+
+/// `EventScr_Ch2_6`
+Future<void> Ch2_6(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2360);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch2_7`
+Future<void> Ch2_7(Scene s) async {
+    s.placeholder('CAMERA_CAHR');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2372);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
     s.placeholder('EVBIT_T');
     return;
 }
@@ -8678,6 +10378,22 @@ Future<void> Ch2_EndingScene(Scene s) async {
     }
 }
 
+/// `EventScr_Ch2_Turn1Player`
+Future<void> Ch2_Turn1Player(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Ch2_Village2', 256));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch2_Turn2Player`
+Future<void> Ch2_Turn2Player(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Ch2_5'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch2_Village1`
 Future<void> Ch2_Village1(Scene s) async {
     var pc = 0;
@@ -8769,6 +10485,88 @@ Future<void> Ch2_Village1(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Ch2_Village2`
+Future<void> Ch2_Village2(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 2);
+    s.setSlot(3, 2347);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 109);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 2);
+    s.setSlot(3, 2348);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 110);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('UnitDef_Ch2Enemy_1'));
+    await s.callSlot(0);
+    s.setSlot(2, Sym('EventScr_Ch2_8'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2349);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    return;
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2350);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    return;
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2351);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    return;
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2352);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('DISABLEOPTIONS');
+    return;
+    s.placeholder('EVBIT_T');
+    s.setSlot(13, 0);
+    s.setSlot(1, 6);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 327689);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 2353);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 5767200);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 2356);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 5767200);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, Sym('EventScr_Ch2Tutorial2'));
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, Sym('EventScr_Ch2_Village2', 308));
+    s.placeholder('QUEUE_OPS');
+    await s.callSlot(0);
+    return;
 }
 
 /// `EventScr_Ch3_0`
@@ -9405,6 +11203,22 @@ Future<void> Ch3_EndingScene(Scene s) async {
     }
 }
 
+/// `EventScr_Ch3_Talk_NeimiColm`
+Future<void> Ch3_Talk_NeimiColm(Scene s) async {
+    s.placeholder('MUSS');
+    await s.stall(33);
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2394);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('MURE');
+    s.placeholder('CHANGESTATE');
+    s.setSlot(2, Sym('EventScr_Ch3_6'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch3_Turn1Npc`
 Future<void> Ch3_Turn1Npc(Scene s) async {
     s.placeholder('CAMERA');
@@ -9425,6 +11239,14 @@ Future<void> Ch3_Turn1Npc(Scene s) async {
     s.placeholder('ENUN');
     s.setSlot(2, Sym('EventScr_Ch3_3'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch3_Turn2Player`
+Future<void> Ch3_Turn2Player(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Ch3_7'));
+    await s.callSlot(0);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -9835,6 +11657,45 @@ Future<void> Ch4_2(Scene s) async {
     }
 }
 
+/// `EventScr_Ch4_3`
+Future<void> Ch4_3(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 2);
+    s.setSlot(3, 2421);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 31);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch4_4`
+Future<void> Ch4_4(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch4Enemy_2'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch4_5`
+Future<void> Ch4_5(Scene s) async {
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch4_6`
+Future<void> Ch4_6(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch4Enemy_1'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch4_BeginningScene`
 Future<void> Ch4_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch4Ally_0'));
@@ -9956,6 +11817,20 @@ Future<void> Ch5_0(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch5_1`
+Future<void> Ch5_1(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2446);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 96);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch5_10`
 Future<void> Ch5_10(Scene s) async {
     s.placeholder('TUTORIALTEXTBOXSTART');
@@ -9999,6 +11874,34 @@ Future<void> Ch5_11(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch5_2`
+Future<void> Ch5_2(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2447);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 93);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch5_3`
+Future<void> Ch5_3(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2448);
+    await s.callSlot(0);
+    await s.callSlot(0);
+    s.setSlot(3, 112);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch5_5`
 Future<void> Ch5_5(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch5_10'));
@@ -10013,6 +11916,22 @@ Future<void> Ch5_5(Scene s) async {
     await s.textShow(2437);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch5_6`
+Future<void> Ch5_6(Scene s) async {
+    s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8', 60));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch5_7`
+Future<void> Ch5_7(Scene s) async {
+    s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8', 120));
+    await s.callSlot(0);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11287,6 +13206,25 @@ Future<void> Ch6_2(Scene s) async {
     }
 }
 
+/// `EventScr_Ch6_3`
+Future<void> Ch6_3(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2486);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    return;
+}
+
+/// `EventScr_Ch6_4`
+Future<void> Ch6_4(Scene s) async {
+    s.setSlot(2, Sym('UnitDef_Ch6Enemy_0'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch6_BeginningScene`
 Future<void> Ch6_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
@@ -11511,6 +13449,28 @@ Future<void> Ch6_EndingScene(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Ch7_1`
+Future<void> Ch7_1(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2503);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch7_2`
+Future<void> Ch7_2(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2504);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
 }
 
 /// `EventScr_Ch7_BeginningScene`
@@ -12130,6 +14090,63 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     return;
 }
 
+/// `EventScr_Ch8_EndingScene`
+Future<void> Ch8_EndingScene(Scene s) async {
+    s.placeholder('MUSC');
+    s.setSlot(2, 21);
+    await s.callSlot(0);
+    await s.textShow(2513);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    s.placeholder('MNCH');
+    return;
+    s.placeholder('MUSC');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2514);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2515);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2516);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2517);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('BGMVOLUMECHANGE');
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, 0);
+    await s.callSlot(0);
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('UnitDef_Ch8Enemy_1'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('UnitDef_Ch8Enemy_2'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Ch9A_2`
 Future<void> Ch9A_2(Scene s) async {
     s.placeholder('MUSS');
@@ -12140,6 +14157,20 @@ Future<void> Ch9A_2(Scene s) async {
     s.placeholder('MURE');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 96);
+    s.placeholder('GIVEITEMTO');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Ch9A_3`
+Future<void> Ch9A_3(Scene s) async {
+    s.placeholder('BGMVOLUMECHANGE');
+    s.setSlot(2, 0);
+    s.setSlot(3, 2539);
+    await s.callSlot(0);
+    s.placeholder('BGMVOLUMECHANGE');
+    await s.callSlot(0);
+    s.setSlot(3, 9);
     s.placeholder('GIVEITEMTO');
     s.placeholder('EVBIT_T');
     return;
@@ -12259,6 +14290,174 @@ Future<void> Ch9A_4(Scene s) async {
           s.placeholder('ENDB');
           pc = 28;
           continue;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_Ch9A_5`
+Future<void> Ch9A_5(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('EVBIT_T');
+          pc = 2;
+          continue;
+        case 2:
+          return;
+        case 3:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_2'));
+          pc = 4;
+          continue;
+        case 4:
+          await s.callSlot(0);
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('EVBIT_T');
+          pc = 6;
+          continue;
+        case 6:
+          return;
+        case 7:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_3'));
+          pc = 8;
+          continue;
+        case 8:
+          await s.callSlot(0);
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        case 11:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_4'));
+          pc = 12;
+          continue;
+        case 12:
+          await s.callSlot(0);
+          pc = 13;
+          continue;
+        case 13:
+          s.placeholder('EVBIT_T');
+          pc = 14;
+          continue;
+        case 14:
+          return;
+        case 15:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_5'));
+          pc = 16;
+          continue;
+        case 16:
+          await s.callSlot(0);
+          pc = 17;
+          continue;
+        case 17:
+          s.placeholder('EVBIT_T');
+          pc = 18;
+          continue;
+        case 18:
+          return;
+        case 19:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_6'));
+          pc = 20;
+          continue;
+        case 20:
+          await s.callSlot(0);
+          pc = 21;
+          continue;
+        case 21:
+          s.placeholder('EVBIT_T');
+          pc = 22;
+          continue;
+        case 22:
+          return;
+        case 23:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_7'));
+          pc = 24;
+          continue;
+        case 24:
+          await s.callSlot(0);
+          pc = 25;
+          continue;
+        case 25:
+          s.placeholder('EVBIT_T');
+          pc = 26;
+          continue;
+        case 26:
+          return;
+        case 27:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_8'));
+          pc = 28;
+          continue;
+        case 28:
+          await s.callSlot(0);
+          pc = 29;
+          continue;
+        case 29:
+          s.placeholder('CURSOR_CHAR');
+          pc = 30;
+          continue;
+        case 30:
+          await s.stall(60);
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('DISPLAYCURSOR');
+          pc = 32;
+          continue;
+        case 32:
+          s.placeholder('MUSS');
+          pc = 33;
+          continue;
+        case 33:
+          await s.stall(33);
+          pc = 34;
+          continue;
+        case 34:
+          s.placeholder('SETTEXTTYPE');
+          pc = 35;
+          continue;
+        case 35:
+          await s.textShow(2527);
+          pc = 36;
+          continue;
+        case 36:
+          s.placeholder('ENDTEXT');
+          pc = 37;
+          continue;
+        case 37:
+          s.placeholder('DISPLAYTEXT');
+          pc = 38;
+          continue;
+        case 38:
+          s.placeholder('EVBIT_T');
+          pc = 39;
+          continue;
+        case 39:
+          return;
+        case 40:
+          s.setSlot(2, Sym('UnitDef_Ch9AEnemy_9'));
+          pc = 41;
+          continue;
+        case 41:
+          await s.callSlot(0);
+          pc = 42;
+          continue;
+        case 42:
+          s.placeholder('EVBIT_T');
+          pc = 43;
+          continue;
+        case 43:
+          return;
         default:
           return;
       }
@@ -13156,6 +15355,44 @@ Future<void> Ch9a_EndingScene(Scene s) async {
     }
 }
 
+/// `EventScr_ChangeAIinQueue`
+Future<void> ChangeAIinQueue(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          pc = 1;
+          continue;
+        case 1:
+          s.placeholder('BLE');
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('SLOT_OPS');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('SDEQUEUE');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('CHANGEAI');
+          pc = 5;
+          continue;
+        case 5:
+          pc = 0;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_ConfigHardModeLoadUnitHard`
 Future<void> ConfigHardModeLoadUnitHard(Scene s) async {
     var pc = 0;
@@ -13576,6 +15813,52 @@ Future<void> GiveTreasureToLuckyDog(Scene s) async {
     }
 }
 
+/// `EventScr_LoadReinforce`
+Future<void> LoadReinforce(Scene s) async {
+    s.placeholder('EVBIT_MODIFY');
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    s.placeholder('LOAD1');
+    s.placeholder('ENUN');
+    s.placeholder('EVBIT_F');
+    s.placeholder('EVBIT_MODIFY');
+    return;
+}
+
+/// `EventScr_LoadReinforceHardMode`
+Future<void> LoadReinforceHardMode(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECKVARIOUS');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECKVARIOUS');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          continue;
+        case 4:
+          await s.callSlot(0);
+          pc = 5;
+          continue;
+        case 5:
+          pc = 6;
+          continue;
+        case 6:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_LoadUniqueAlly`
 Future<void> LoadUniqueAlly(Scene s) async {
     var pc = 0;
@@ -13637,6 +15920,82 @@ Future<void> LoadUniqueAlly(Scene s) async {
           pc = 15;
           continue;
         case 15:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_LoadUnitForDifferentMode`
+Future<void> LoadUnitForDifferentMode(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          if (s.slotInt(0) != 12) { pc = 1; } else { pc = 1; }
+          continue;
+        case 1:
+          s.placeholder('CHECKVARIOUS');
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.placeholder('SLOT_OPS');
+          pc = 4;
+          continue;
+        case 4:
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('SLOT_OPS');
+          pc = 6;
+          continue;
+        case 6:
+          await s.callSlot(0);
+          pc = 7;
+          continue;
+        case 7:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_LoadUnitForTutorial`
+Future<void> LoadUnitForTutorial(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECKVARIOUS');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          s.placeholder('CHECKVARIOUS');
+          pc = 3;
+          continue;
+        case 3:
+          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          continue;
+        case 4:
+          s.placeholder('SLOT_OPS');
+          pc = 5;
+          continue;
+        case 5:
+          await s.callSlot(0);
+          pc = 6;
+          continue;
+        case 6:
+          pc = 7;
+          continue;
+        case 7:
           return;
         default:
           return;
@@ -13751,6 +16110,17 @@ Future<void> MoveUnitS2ToLeader(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Prologue_9EF828`
+Future<void> Prologue_9EF828(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2280);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    return;
 }
 
 /// `EventScr_Prologue_BeginningScene`
@@ -13908,6 +16278,26 @@ Future<void> Prologue_BeginningScene(Scene s) async {
     }
 }
 
+/// `EventScr_Prologue_EirikaAttacked`
+Future<void> Prologue_EirikaAttacked(Scene s) async {
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.setSlot(13, 0);
+    s.setSlot(1, 131072);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 1);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 1);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 4294967295);
+    s.placeholder('QUEUE_OPS');
+    s.placeholder('SCRIPT_BATTLE');
+    return;
+}
+
 /// `EventScr_Prologue_EndingScene`
 Future<void> Prologue_EndingScene(Scene s) async {
     s.placeholder('MUSC');
@@ -13932,6 +16322,21 @@ Future<void> Prologue_EndingScene(Scene s) async {
     return;
 }
 
+/// `EventScr_Prologue_ExecTut`
+Future<void> Prologue_ExecTut(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2265);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('CURSOR_FLASHING_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Prologue_GiveRapier`
 Future<void> Prologue_GiveRapier(Scene s) async {
     s.placeholder('CURSOR_CHAR');
@@ -13946,6 +16351,22 @@ Future<void> Prologue_GiveRapier(Scene s) async {
     s.placeholder('GIVEITEMTO');
     s.setSlot(2, Sym('EventScr_Prologue_9EF828'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
+    return;
+}
+
+/// `EventScr_Prologue_ONeillSpawn`
+Future<void> Prologue_ONeillSpawn(Scene s) async {
+    s.loadUnits(1, Sym('UnitDef_Event_PrologueEnemy'));
+    s.placeholder('ENUN');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('MUSC');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2256);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUF');
     return;
 }
 
@@ -14028,6 +16449,28 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
           return;
       }
     }
+}
+
+/// `EventScr_Prologue_OneillSethBattle`
+Future<void> Prologue_OneillSethBattle(Scene s) async {
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('ENUN');
+    s.setSlot(13, 0);
+    s.setSlot(1, 0);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 131073);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 4294967295);
+    s.placeholder('QUEUE_OPS');
+    s.placeholder('FIGHT');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2261);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    return;
 }
 
 /// `EventScr_Prologue_RenaisThroneCutscene`
@@ -14208,6 +16651,34 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     return;
 }
 
+/// `EventScr_Prologue_Turn1`
+Future<void> Prologue_Turn1(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Prologue_ONeillSpawn'));
+    await s.callSlot(0);
+    s.setSlot(2, Sym('EventScr_Prologue_TutMessageTurn1'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Prologue_Turn2`
+Future<void> Prologue_Turn2(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Prologue_TutMessageTurn2'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Prologue_Turn3`
+Future<void> Prologue_Turn3(Scene s) async {
+    s.setSlot(2, Sym('EventScr_Prologue_OneillSethBattle'));
+    await s.callSlot(0);
+    s.setSlot(2, Sym('EventScr_Prologue_TutEirikaAttack'));
+    await s.callSlot(0);
+    s.placeholder('EVBIT_T');
+    return;
+}
+
 /// `EventScr_Prologue_TutEirikaAttack`
 Future<void> Prologue_TutEirikaAttack(Scene s) async {
     s.placeholder('TUTORIALTEXTBOXSTART');
@@ -14229,6 +16700,18 @@ Future<void> Prologue_TutEirikaAttack(Scene s) async {
     s.placeholder('SENQUEUE1');
     s.placeholder('FIGHT_SCRIPT');
     s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Prologue_TutMessageTurn1`
+Future<void> Prologue_TutMessageTurn1(Scene s) async {
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2269);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
     return;
 }
 
@@ -14310,6 +16793,23 @@ Future<void> Prologue_Tutorial1(Scene s) async {
     return;
 }
 
+/// `EventScr_Prologue_Tutorial2`
+Future<void> Prologue_Tutorial2(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Prologue_Tutorial3`
+Future<void> Prologue_Tutorial3(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    await s.callSlot(0);
+    s.placeholder('SET_ENDTURN');
+    s.placeholder('ENUT');
+    return;
+}
+
 /// `EventScr_Prologue_Tutorial4`
 Future<void> Prologue_Tutorial4(Scene s) async {
     s.placeholder('EVBIT_T');
@@ -14333,6 +16833,84 @@ Future<void> Prologue_Tutorial4(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     s.placeholder('IGNORE_KEYS');
+    return;
+}
+
+/// `EventScr_Prologue_Tutorial5`
+Future<void> Prologue_Tutorial5(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('ASMC');
+    s.placeholder('DISABLEOPTIONS');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Prologue_Tutorial6`
+Future<void> Prologue_Tutorial6(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 3670040);
+    await s.textShow(2272);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Prologue_Tutorial7`
+Future<void> Prologue_Tutorial7(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 2097164);
+    await s.textShow(2273);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Prologue_Tutorial8`
+Future<void> Prologue_Tutorial8(Scene s) async {
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('CURSOR_CHAR');
+    await s.stall(60);
+    s.placeholder('DISPLAYCURSOR');
+    s.placeholder('SETTEXTTYPE');
+    await s.textShow(2258);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Prologue_Tutorial9`
+Future<void> Prologue_Tutorial9(Scene s) async {
+    s.placeholder('EvtMoveUnit');
+    s.placeholder('ENUN');
+    s.setSlot(13, 0);
+    s.setSlot(1, 5120);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(1, 4294967295);
+    s.placeholder('QUEUE_OPS');
+    s.setSlot(11, 393225);
+    s.placeholder('FIGHT');
+    s.placeholder('EvtSetUnitHasMoved');
+    s.setSlot(11, 393225);
+    s.placeholder('KILL');
+    s.placeholder('DISA_IF');
+    s.placeholder('ENUT');
+    await s.callSlot(0);
+    s.placeholder('SET_ENDTURN');
+    s.placeholder('EVBIT_T');
     return;
 }
 
@@ -14378,6 +16956,42 @@ Future<void> Prologue_TutorialB(Scene s) async {
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('IGNORE_KEYS');
+    return;
+}
+
+/// `EventScr_Prologue_TutorialC`
+Future<void> Prologue_TutorialC(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    return;
+}
+
+/// `EventScr_Prologue_TutorialD`
+Future<void> Prologue_TutorialD(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 2097232);
+    await s.textShow(2278);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('EvtEnqueueConditionalTutCall');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `EventScr_Prologue_TutorialE`
+Future<void> Prologue_TutorialE(Scene s) async {
+    s.placeholder('EVBIT_T');
+    s.placeholder('IGNORE_KEYS');
+    s.placeholder('SETTEXTTYPE');
+    s.setSlot(11, 4294967295);
+    await s.textShow(2279);
+    s.placeholder('ENDTEXT');
+    s.placeholder('DISPLAYTEXT');
+    s.placeholder('ENUT');
+    s.placeholder('DISABLEOPTIONS');
     return;
 }
 
@@ -16752,6 +19366,45 @@ Future<void> Ruin_76(Scene s) async {
     return;
 }
 
+/// `EventScr_SetBackground`
+Future<void> SetBackground(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVBIT');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(32978) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          await s.fade(FadeDirection.toBlack, 16);
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('SETTEXTTYPE');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('BACG');
+          pc = 6;
+          continue;
+        case 6:
+          await s.fade(FadeDirection.fromBlack, 16);
+          pc = 7;
+          continue;
+        case 7:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_SetFlagIfPlayedThrough`
 Future<void> SetFlagIfPlayedThrough(Scene s) async {
     var pc = 0;
@@ -16996,6 +19649,45 @@ Future<void> SuspendPrompt(Scene s) async {
           pc = 15;
           continue;
         case 15:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
+/// `EventScr_TextShowWithFadeIn`
+Future<void> TextShowWithFadeIn(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('CHECK_EVBIT');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(32957) != 12) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          await s.fade(FadeDirection.toBlack, 16);
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('SETTEXTTYPE');
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('CLEARSCREEN');
+          pc = 6;
+          continue;
+        case 6:
+          await s.fade(FadeDirection.fromBlack, 16);
+          pc = 7;
+          continue;
+        case 7:
           return;
         default:
           return;
@@ -17271,6 +19963,33 @@ Future<void> Tutorial_Exec1(Scene s) async {
     }
 }
 
+/// `EventScr_UnTriggerIfNotUnit`
+Future<void> UnTriggerIfNotUnit(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.placeholder('GET_PID');
+          pc = 1;
+          continue;
+        case 1:
+          if (s.slotInt(0) == 131084) { pc = 2; } else { pc = 2; }
+          continue;
+        case 2:
+          await s.callSlot(0);
+          pc = 3;
+          continue;
+        case 3:
+          pc = 4;
+          continue;
+        case 4:
+          return;
+        default:
+          return;
+      }
+    }
+}
+
 /// `EventScr_UnitFlushingIN`
 Future<void> UnitFlushingIN(Scene s) async {
     s.placeholder('CAMERA_CAHR');
@@ -17336,24 +20055,23 @@ Future<void> UnitWarpOUT(Scene s) async {
     return;
 }
 
-/// ⚠️ `EventScr_9EEAAC` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_9EEAAC(Scene s) async {
-  s.missing.add('EventScr_9EEAAC');
+/// `EventScr_WholeTowerClear`
+Future<void> WholeTowerClear(Scene s) async {
+    s.placeholder('ASMC');
+    s.placeholder('ASMC');
+    s.placeholder('ASMC');
+    s.placeholder('MNCH');
+    return;
 }
 
-/// ⚠️ `EventScr_Ch1Tut_AfterSethMoveToEnemy` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch1Tut_AfterSethMoveToEnemy(Scene s) async {
-  s.missing.add('EventScr_Ch1Tut_AfterSethMoveToEnemy');
+/// ⚠️ `EventScr_Ch1Tut_GuideMsg944` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_GuideMsg944(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_GuideMsg944');
 }
 
-/// ⚠️ `EventScr_Ch1Tut_EirikaVisitHouseEnd` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch1Tut_EirikaVisitHouseEnd(Scene s) async {
-  s.missing.add('EventScr_Ch1Tut_EirikaVisitHouseEnd');
-}
-
-/// ⚠️ `EventScr_Ch1Tut_GilliamBattle` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch1Tut_GilliamBattle(Scene s) async {
-  s.missing.add('EventScr_Ch1Tut_GilliamBattle');
+/// ⚠️ `EventScr_Ch1Tut_GuideMsgSeize` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch1Tut_GuideMsgSeize(Scene s) async {
+  s.missing.add('EventScr_Ch1Tut_GuideMsgSeize');
 }
 
 /// ⚠️ `EventScr_Ch1Tut_GuideWTA` —— 上游尚未 carve，生成的是**记录缺失**的占位
@@ -17361,59 +20079,9 @@ Future<void> missing_EventScr_Ch1Tut_GuideWTA(Scene s) async {
   s.missing.add('EventScr_Ch1Tut_GuideWTA');
 }
 
-/// ⚠️ `EventScr_Ch1Tut_TradeSelectGalliamEnd` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch1Tut_TradeSelectGalliamEnd(Scene s) async {
-  s.missing.add('EventScr_Ch1Tut_TradeSelectGalliamEnd');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial10` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial10(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial10');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial13` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial13(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial13');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial16` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial16(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial16');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial19` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial19(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial19');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial25` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial25(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial25');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial29` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial29(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial29');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial3` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial3(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial3');
-}
-
-/// ⚠️ `EventScr_Ch2Tutorial6` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2Tutorial6(Scene s) async {
-  s.missing.add('EventScr_Ch2Tutorial6');
-}
-
-/// ⚠️ `EventScr_Ch2_7` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2_7(Scene s) async {
-  s.missing.add('EventScr_Ch2_7');
-}
-
-/// ⚠️ `EventScr_Ch2_Village2` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch2_Village2(Scene s) async {
-  s.missing.add('EventScr_Ch2_Village2');
+/// ⚠️ `EventScr_Ch2_9` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch2_9(Scene s) async {
+  s.missing.add('EventScr_Ch2_9');
 }
 
 /// ⚠️ `EventScr_Ch3_1` —— 上游尚未 carve，生成的是**记录缺失**的占位
@@ -17434,6 +20102,16 @@ Future<void> missing_EventScr_Ch3_3(Scene s) async {
 /// ⚠️ `EventScr_Ch3_4` —— 上游尚未 carve，生成的是**记录缺失**的占位
 Future<void> missing_EventScr_Ch3_4(Scene s) async {
   s.missing.add('EventScr_Ch3_4');
+}
+
+/// ⚠️ `EventScr_Ch3_6` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch3_6(Scene s) async {
+  s.missing.add('EventScr_Ch3_6');
+}
+
+/// ⚠️ `EventScr_Ch3_7` —— 上游尚未 carve，生成的是**记录缺失**的占位
+Future<void> missing_EventScr_Ch3_7(Scene s) async {
+  s.missing.add('EventScr_Ch3_7');
 }
 
 /// ⚠️ `EventScr_Ch4_7` —— 上游尚未 carve，生成的是**记录缺失**的占位
@@ -17461,84 +20139,9 @@ Future<void> missing_EventScr_Ch5_9(Scene s) async {
   s.missing.add('EventScr_Ch5_9');
 }
 
-/// ⚠️ `EventScr_Ch6_3` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Ch6_3(Scene s) async {
-  s.missing.add('EventScr_Ch6_3');
-}
-
 /// ⚠️ `EventScr_Ch7_3` —— 上游尚未 carve，生成的是**记录缺失**的占位
 Future<void> missing_EventScr_Ch7_3(Scene s) async {
   s.missing.add('EventScr_Ch7_3');
-}
-
-/// ⚠️ `EventScr_ChangeAIinQueue` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_ChangeAIinQueue(Scene s) async {
-  s.missing.add('EventScr_ChangeAIinQueue');
-}
-
-/// ⚠️ `EventScr_LoadReinforce` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_LoadReinforce(Scene s) async {
-  s.missing.add('EventScr_LoadReinforce');
-}
-
-/// ⚠️ `EventScr_LoadReinforceHardMode` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_LoadReinforceHardMode(Scene s) async {
-  s.missing.add('EventScr_LoadReinforceHardMode');
-}
-
-/// ⚠️ `EventScr_LoadUnitForTutorial` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_LoadUnitForTutorial(Scene s) async {
-  s.missing.add('EventScr_LoadUnitForTutorial');
-}
-
-/// ⚠️ `EventScr_Prologue_9EF828` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_9EF828(Scene s) async {
-  s.missing.add('EventScr_Prologue_9EF828');
-}
-
-/// ⚠️ `EventScr_Prologue_EirikaAttacked` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_EirikaAttacked(Scene s) async {
-  s.missing.add('EventScr_Prologue_EirikaAttacked');
-}
-
-/// ⚠️ `EventScr_Prologue_ExecTut` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_ExecTut(Scene s) async {
-  s.missing.add('EventScr_Prologue_ExecTut');
-}
-
-/// ⚠️ `EventScr_Prologue_ONeillSpawn` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_ONeillSpawn(Scene s) async {
-  s.missing.add('EventScr_Prologue_ONeillSpawn');
-}
-
-/// ⚠️ `EventScr_Prologue_Tutorial2` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_Tutorial2(Scene s) async {
-  s.missing.add('EventScr_Prologue_Tutorial2');
-}
-
-/// ⚠️ `EventScr_Prologue_Tutorial5` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_Tutorial5(Scene s) async {
-  s.missing.add('EventScr_Prologue_Tutorial5');
-}
-
-/// ⚠️ `EventScr_Prologue_TutorialC` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_Prologue_TutorialC(Scene s) async {
-  s.missing.add('EventScr_Prologue_TutorialC');
-}
-
-/// ⚠️ `EventScr_SetBackground` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_SetBackground(Scene s) async {
-  s.missing.add('EventScr_SetBackground');
-}
-
-/// ⚠️ `EventScr_TextShowWithFadeIn` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_TextShowWithFadeIn(Scene s) async {
-  s.missing.add('EventScr_TextShowWithFadeIn');
-}
-
-/// ⚠️ `EventScr_UnTriggerIfNotUnit` —— 上游尚未 carve，生成的是**记录缺失**的占位
-Future<void> missing_EventScr_UnTriggerIfNotUnit(Scene s) async {
-  s.missing.add('EventScr_UnTriggerIfNotUnit');
 }
 
 /// **真正被 carve 出来**的脚本名。
@@ -17547,17 +20150,31 @@ Future<void> missing_EventScr_UnTriggerIfNotUnit(Scene s) async {
 /// 占位函数。存在性检查必须用本集合 —— 用 `allSceneFns` 的话
 /// 占位让「缺失」看起来「存在」，检查就失效了（踩过）。
 final Set<String> definedSceneScripts = {
+  'EventScr_9EE6A0',
+  'EventScr_9EE6C8',
   'EventScr_9EE84C',
+  'EventScr_9EE8F0',
   'EventScr_9EEA58',
+  'EventScr_9EEAAC',
+  'EventScr_9EEB00',
+  'EventScr_ApplyActiveUnitTileChange',
   'EventScr_ApplyTileChangeForFaction',
+  'EventScr_ApplyTileChangeForFactionIfAlly',
+  'EventScr_ApplyTileChangeForFactionIfEnemy',
+  'EventScr_ApplyTileChangeForFactionIfNPC',
+  'EventScr_CallBreakStone',
   'EventScr_CallIfCommonMode',
   'EventScr_CallOnChapterNumber',
   'EventScr_CallOnHardMode',
   'EventScr_CallOnTutorialMode',
   'EventScr_CallWithModeCheck',
   'EventScr_Ch10A_0',
+  'EventScr_Ch10A_10',
+  'EventScr_Ch10A_11',
+  'EventScr_Ch10A_12',
   'EventScr_Ch10A_13',
   'EventScr_Ch10A_8',
+  'EventScr_Ch10A_9',
   'EventScr_Ch10B_0',
   'EventScr_Ch10B_1',
   'EventScr_Ch10B_2',
@@ -17567,27 +20184,44 @@ final Set<String> definedSceneScripts = {
   'EventScr_Ch11B_1',
   'EventScr_Ch11B_2',
   'EventScr_Ch11B_6',
+  'EventScr_Ch11a_BeginningScene',
   'EventScr_Ch11a_EndingScene',
   'EventScr_Ch12A_0',
+  'EventScr_Ch12A_1',
+  'EventScr_Ch12A_2',
+  'EventScr_Ch12A_3',
+  'EventScr_Ch12A_4',
   'EventScr_Ch12A_5',
   'EventScr_Ch12B_1',
   'EventScr_Ch13A_3',
   'EventScr_Ch13A_4',
+  'EventScr_Ch13A_5',
+  'EventScr_Ch13A_6',
+  'EventScr_Ch13A_7',
   'EventScr_Ch13B_0',
   'EventScr_Ch13B_1',
   'EventScr_Ch13a_EndingScene',
   'EventScr_Ch13b_EndingScene',
   'EventScr_Ch14A_0',
   'EventScr_Ch14A_1',
+  'EventScr_Ch14A_2',
+  'EventScr_Ch14A_3',
+  'EventScr_Ch14A_4',
+  'EventScr_Ch14A_5',
+  'EventScr_Ch14A_6',
+  'EventScr_Ch14A_7',
   'EventScr_Ch14A_8',
   'EventScr_Ch14B_12',
   'EventScr_Ch14B_2',
+  'EventScr_Ch14a_BeginningScene',
   'EventScr_Ch14b_BeginningScene',
   'EventScr_Ch14b_EndingScene',
   'EventScr_Ch15A_0',
+  'EventScr_Ch15A_1',
   'EventScr_Ch15A_17',
   'EventScr_Ch15A_18',
   'EventScr_Ch15A_19',
+  'EventScr_Ch15A_2',
   'EventScr_Ch15A_20',
   'EventScr_Ch15A_21',
   'EventScr_Ch15A_22',
@@ -17604,29 +20238,47 @@ final Set<String> definedSceneScripts = {
   'EventScr_Ch15B_20',
   'EventScr_Ch15B_21',
   'EventScr_Ch15B_22',
+  'EventScr_Ch15a_BeginningScene',
+  'EventScr_Ch16A_0',
   'EventScr_Ch16A_1',
   'EventScr_Ch16A_11',
   'EventScr_Ch16A_12',
   'EventScr_Ch16A_9',
   'EventScr_Ch16B_3',
   'EventScr_Ch16B_5',
+  'EventScr_Ch16a_BeginningScene',
   'EventScr_Ch16b_BeginningScene',
   'EventScr_Ch18A_11',
   'EventScr_Ch18b_BeginningScene',
   'EventScr_Ch19A_11',
+  'EventScr_Ch1Tut_AfterSethBattleEirikaVisit',
+  'EventScr_Ch1Tut_AfterSethMoveToEnemy',
+  'EventScr_Ch1Tut_AfterTrade',
   'EventScr_Ch1Tut_BeforeSethMoveToEnemy',
   'EventScr_Ch1Tut_ChooseSethTurn1',
+  'EventScr_Ch1Tut_EirikaVisitHouseEnd',
   'EventScr_Ch1Tut_EirikaVisitHouseIdle1',
   'EventScr_Ch1Tut_EirikaVisitHouseIdle2',
   'EventScr_Ch1Tut_EirikaVisitHouseInit',
+  'EventScr_Ch1Tut_GilliamBattle',
+  'EventScr_Ch1Tut_GuideOnBKSEL',
   'EventScr_Ch1Tut_GuideTerrainHeal',
+  'EventScr_Ch1Tut_MsgOnGuideOption',
   'EventScr_Ch1Tut_OnBeginning',
+  'EventScr_Ch1Tut_PostTradeAndItemUseAction',
   'EventScr_Ch1Tut_SethMoveToEnemy',
+  'EventScr_Ch1Tut_TradeSelectGalliamEnd',
   'EventScr_Ch1Tut_TradeSelectGalliamIdle1',
   'EventScr_Ch1Tut_TradeSelectGalliamIdle2',
   'EventScr_Ch1_BeginningScene',
   'EventScr_Ch1_EndingScene',
+  'EventScr_Ch1_Loca_Visit1',
+  'EventScr_Ch1_Loca_Visit2',
+  'EventScr_Ch1_Misc_Area',
+  'EventScr_Ch1_Misc_DefeatBoss',
+  'EventScr_Ch1_Turn1Player',
   'EventScr_Ch1_Turn_AllyReinforceArrive',
+  'EventScr_Ch1_Turn_EnemyReinforceArrive',
   'EventScr_Ch20B_1',
   'EventScr_Ch20B_2',
   'EventScr_Ch20b_BeginningScene',
@@ -17635,41 +20287,72 @@ final Set<String> definedSceneScripts = {
   'EventScr_Ch21A_9',
   'EventScr_Ch21b_BeginningScene',
   'EventScr_Ch21b_EndingScene',
+  'EventScr_Ch2Tutorial10',
   'EventScr_Ch2Tutorial11',
   'EventScr_Ch2Tutorial12',
+  'EventScr_Ch2Tutorial13',
   'EventScr_Ch2Tutorial14',
   'EventScr_Ch2Tutorial15',
+  'EventScr_Ch2Tutorial16',
+  'EventScr_Ch2Tutorial17',
   'EventScr_Ch2Tutorial18',
+  'EventScr_Ch2Tutorial19',
   'EventScr_Ch2Tutorial2',
+  'EventScr_Ch2Tutorial20',
   'EventScr_Ch2Tutorial21',
   'EventScr_Ch2Tutorial22',
   'EventScr_Ch2Tutorial23',
   'EventScr_Ch2Tutorial24',
+  'EventScr_Ch2Tutorial25',
+  'EventScr_Ch2Tutorial26',
   'EventScr_Ch2Tutorial27',
   'EventScr_Ch2Tutorial28',
+  'EventScr_Ch2Tutorial29',
+  'EventScr_Ch2Tutorial3',
+  'EventScr_Ch2Tutorial30',
   'EventScr_Ch2Tutorial4',
   'EventScr_Ch2Tutorial5',
+  'EventScr_Ch2Tutorial6',
+  'EventScr_Ch2Tutorial7',
   'EventScr_Ch2Tutorial8',
   'EventScr_Ch2Tutorial9',
   'EventScr_Ch2_10',
+  'EventScr_Ch2_4',
+  'EventScr_Ch2_5',
+  'EventScr_Ch2_6',
+  'EventScr_Ch2_7',
   'EventScr_Ch2_8',
   'EventScr_Ch2_BeginningScene',
   'EventScr_Ch2_EndingScene',
+  'EventScr_Ch2_Turn1Player',
+  'EventScr_Ch2_Turn2Player',
   'EventScr_Ch2_Village1',
+  'EventScr_Ch2_Village2',
   'EventScr_Ch3_0',
   'EventScr_Ch3_5',
   'EventScr_Ch3_BeginningScene',
   'EventScr_Ch3_EndingScene',
+  'EventScr_Ch3_Talk_NeimiColm',
   'EventScr_Ch3_Turn1Npc',
+  'EventScr_Ch3_Turn2Player',
   'EventScr_Ch4_0',
   'EventScr_Ch4_1',
   'EventScr_Ch4_10',
   'EventScr_Ch4_2',
+  'EventScr_Ch4_3',
+  'EventScr_Ch4_4',
+  'EventScr_Ch4_5',
+  'EventScr_Ch4_6',
   'EventScr_Ch4_BeginningScene',
   'EventScr_Ch5_0',
+  'EventScr_Ch5_1',
   'EventScr_Ch5_10',
   'EventScr_Ch5_11',
+  'EventScr_Ch5_2',
+  'EventScr_Ch5_3',
   'EventScr_Ch5_5',
+  'EventScr_Ch5_6',
+  'EventScr_Ch5_7',
   'EventScr_Ch5_BeginningScene',
   'EventScr_Ch5_EndingScene',
   'EventScr_Ch5x_BeginningScene',
@@ -17677,19 +20360,27 @@ final Set<String> definedSceneScripts = {
   'EventScr_Ch6_0',
   'EventScr_Ch6_1',
   'EventScr_Ch6_2',
+  'EventScr_Ch6_3',
+  'EventScr_Ch6_4',
   'EventScr_Ch6_BeginningScene',
   'EventScr_Ch6_EndingScene',
+  'EventScr_Ch7_1',
+  'EventScr_Ch7_2',
   'EventScr_Ch7_BeginningScene',
   'EventScr_Ch7_EndingScene',
   'EventScr_Ch8_0',
   'EventScr_Ch8_10',
   'EventScr_Ch8_11',
   'EventScr_Ch8_BeginningScene',
+  'EventScr_Ch8_EndingScene',
   'EventScr_Ch9A_2',
+  'EventScr_Ch9A_3',
   'EventScr_Ch9A_4',
+  'EventScr_Ch9A_5',
   'EventScr_Ch9B_9',
   'EventScr_Ch9a_BeginningScene',
   'EventScr_Ch9a_EndingScene',
+  'EventScr_ChangeAIinQueue',
   'EventScr_ConfigHardModeLoadUnitHard',
   'EventScr_CutsceneExecEnd_Sub0',
   'EventScr_CutsceneExecEnd_Sub1',
@@ -17697,21 +20388,44 @@ final Set<String> definedSceneScripts = {
   'EventScr_FormatFlashingCursor',
   'EventScr_FormatMoveUnit',
   'EventScr_GiveTreasureToLuckyDog',
+  'EventScr_LoadReinforce',
+  'EventScr_LoadReinforceHardMode',
   'EventScr_LoadUniqueAlly',
+  'EventScr_LoadUnitForDifferentMode',
+  'EventScr_LoadUnitForTutorial',
   'EventScr_MapSupportConversation',
   'EventScr_MoveUnitS2ToLeader',
+  'EventScr_Prologue_9EF828',
   'EventScr_Prologue_BeginningScene',
+  'EventScr_Prologue_EirikaAttacked',
   'EventScr_Prologue_EndingScene',
+  'EventScr_Prologue_ExecTut',
   'EventScr_Prologue_GiveRapier',
+  'EventScr_Prologue_ONeillSpawn',
   'EventScr_Prologue_OneEnemyLeft',
+  'EventScr_Prologue_OneillSethBattle',
   'EventScr_Prologue_RenaisThroneCutscene',
+  'EventScr_Prologue_Turn1',
+  'EventScr_Prologue_Turn2',
+  'EventScr_Prologue_Turn3',
   'EventScr_Prologue_TutEirikaAttack',
+  'EventScr_Prologue_TutMessageTurn1',
   'EventScr_Prologue_TutMessageTurn2',
   'EventScr_Prologue_Tutorial0',
   'EventScr_Prologue_Tutorial1',
+  'EventScr_Prologue_Tutorial2',
+  'EventScr_Prologue_Tutorial3',
   'EventScr_Prologue_Tutorial4',
+  'EventScr_Prologue_Tutorial5',
+  'EventScr_Prologue_Tutorial6',
+  'EventScr_Prologue_Tutorial7',
+  'EventScr_Prologue_Tutorial8',
+  'EventScr_Prologue_Tutorial9',
   'EventScr_Prologue_TutorialA',
   'EventScr_Prologue_TutorialB',
+  'EventScr_Prologue_TutorialC',
+  'EventScr_Prologue_TutorialD',
+  'EventScr_Prologue_TutorialE',
   'EventScr_Ruin_37',
   'EventScr_Ruin_38',
   'EventScr_Ruin_39',
@@ -17733,31 +20447,49 @@ final Set<String> definedSceneScripts = {
   'EventScr_Ruin_72',
   'EventScr_Ruin_74',
   'EventScr_Ruin_76',
+  'EventScr_SetBackground',
   'EventScr_SetFlagIfPlayedThrough',
   'EventScr_SkirmishRetreat',
   'EventScr_StrictLoadUniqueAlly',
   'EventScr_SuspendPrompt',
+  'EventScr_TextShowWithFadeIn',
   'EventScr_Tutorial_Exec0',
   'EventScr_Tutorial_Exec1',
+  'EventScr_UnTriggerIfNotUnit',
   'EventScr_UnitFlushingIN',
   'EventScr_UnitFlushingOUT',
   'EventScr_UnitWarpIN',
   'EventScr_UnitWarpOUT',
+  'EventScr_WholeTowerClear',
 };
 
 /// 脚本名 → 入口函数
 final Map<String, Future<void> Function(Scene)> allSceneFns = {
+  'EventScr_9EE6A0': scr_9EE6A0,
+  'EventScr_9EE6C8': scr_9EE6C8,
   'EventScr_9EE84C': scr_9EE84C,
+  'EventScr_9EE8F0': scr_9EE8F0,
   'EventScr_9EEA58': scr_9EEA58,
+  'EventScr_9EEAAC': scr_9EEAAC,
+  'EventScr_9EEB00': scr_9EEB00,
+  'EventScr_ApplyActiveUnitTileChange': ApplyActiveUnitTileChange,
   'EventScr_ApplyTileChangeForFaction': ApplyTileChangeForFaction,
+  'EventScr_ApplyTileChangeForFactionIfAlly': ApplyTileChangeForFactionIfAlly,
+  'EventScr_ApplyTileChangeForFactionIfEnemy': ApplyTileChangeForFactionIfEnemy,
+  'EventScr_ApplyTileChangeForFactionIfNPC': ApplyTileChangeForFactionIfNPC,
+  'EventScr_CallBreakStone': CallBreakStone,
   'EventScr_CallIfCommonMode': CallIfCommonMode,
   'EventScr_CallOnChapterNumber': CallOnChapterNumber,
   'EventScr_CallOnHardMode': CallOnHardMode,
   'EventScr_CallOnTutorialMode': CallOnTutorialMode,
   'EventScr_CallWithModeCheck': CallWithModeCheck,
   'EventScr_Ch10A_0': Ch10A_0,
+  'EventScr_Ch10A_10': Ch10A_10,
+  'EventScr_Ch10A_11': Ch10A_11,
+  'EventScr_Ch10A_12': Ch10A_12,
   'EventScr_Ch10A_13': Ch10A_13,
   'EventScr_Ch10A_8': Ch10A_8,
+  'EventScr_Ch10A_9': Ch10A_9,
   'EventScr_Ch10B_0': Ch10B_0,
   'EventScr_Ch10B_1': Ch10B_1,
   'EventScr_Ch10B_2': Ch10B_2,
@@ -17767,27 +20499,44 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_Ch11B_1': Ch11B_1,
   'EventScr_Ch11B_2': Ch11B_2,
   'EventScr_Ch11B_6': Ch11B_6,
+  'EventScr_Ch11a_BeginningScene': Ch11a_BeginningScene,
   'EventScr_Ch11a_EndingScene': Ch11a_EndingScene,
   'EventScr_Ch12A_0': Ch12A_0,
+  'EventScr_Ch12A_1': Ch12A_1,
+  'EventScr_Ch12A_2': Ch12A_2,
+  'EventScr_Ch12A_3': Ch12A_3,
+  'EventScr_Ch12A_4': Ch12A_4,
   'EventScr_Ch12A_5': Ch12A_5,
   'EventScr_Ch12B_1': Ch12B_1,
   'EventScr_Ch13A_3': Ch13A_3,
   'EventScr_Ch13A_4': Ch13A_4,
+  'EventScr_Ch13A_5': Ch13A_5,
+  'EventScr_Ch13A_6': Ch13A_6,
+  'EventScr_Ch13A_7': Ch13A_7,
   'EventScr_Ch13B_0': Ch13B_0,
   'EventScr_Ch13B_1': Ch13B_1,
   'EventScr_Ch13a_EndingScene': Ch13a_EndingScene,
   'EventScr_Ch13b_EndingScene': Ch13b_EndingScene,
   'EventScr_Ch14A_0': Ch14A_0,
   'EventScr_Ch14A_1': Ch14A_1,
+  'EventScr_Ch14A_2': Ch14A_2,
+  'EventScr_Ch14A_3': Ch14A_3,
+  'EventScr_Ch14A_4': Ch14A_4,
+  'EventScr_Ch14A_5': Ch14A_5,
+  'EventScr_Ch14A_6': Ch14A_6,
+  'EventScr_Ch14A_7': Ch14A_7,
   'EventScr_Ch14A_8': Ch14A_8,
   'EventScr_Ch14B_12': Ch14B_12,
   'EventScr_Ch14B_2': Ch14B_2,
+  'EventScr_Ch14a_BeginningScene': Ch14a_BeginningScene,
   'EventScr_Ch14b_BeginningScene': Ch14b_BeginningScene,
   'EventScr_Ch14b_EndingScene': Ch14b_EndingScene,
   'EventScr_Ch15A_0': Ch15A_0,
+  'EventScr_Ch15A_1': Ch15A_1,
   'EventScr_Ch15A_17': Ch15A_17,
   'EventScr_Ch15A_18': Ch15A_18,
   'EventScr_Ch15A_19': Ch15A_19,
+  'EventScr_Ch15A_2': Ch15A_2,
   'EventScr_Ch15A_20': Ch15A_20,
   'EventScr_Ch15A_21': Ch15A_21,
   'EventScr_Ch15A_22': Ch15A_22,
@@ -17804,29 +20553,47 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_Ch15B_20': Ch15B_20,
   'EventScr_Ch15B_21': Ch15B_21,
   'EventScr_Ch15B_22': Ch15B_22,
+  'EventScr_Ch15a_BeginningScene': Ch15a_BeginningScene,
+  'EventScr_Ch16A_0': Ch16A_0,
   'EventScr_Ch16A_1': Ch16A_1,
   'EventScr_Ch16A_11': Ch16A_11,
   'EventScr_Ch16A_12': Ch16A_12,
   'EventScr_Ch16A_9': Ch16A_9,
   'EventScr_Ch16B_3': Ch16B_3,
   'EventScr_Ch16B_5': Ch16B_5,
+  'EventScr_Ch16a_BeginningScene': Ch16a_BeginningScene,
   'EventScr_Ch16b_BeginningScene': Ch16b_BeginningScene,
   'EventScr_Ch18A_11': Ch18A_11,
   'EventScr_Ch18b_BeginningScene': Ch18b_BeginningScene,
   'EventScr_Ch19A_11': Ch19A_11,
+  'EventScr_Ch1Tut_AfterSethBattleEirikaVisit': Ch1Tut_AfterSethBattleEirikaVisit,
+  'EventScr_Ch1Tut_AfterSethMoveToEnemy': Ch1Tut_AfterSethMoveToEnemy,
+  'EventScr_Ch1Tut_AfterTrade': Ch1Tut_AfterTrade,
   'EventScr_Ch1Tut_BeforeSethMoveToEnemy': Ch1Tut_BeforeSethMoveToEnemy,
   'EventScr_Ch1Tut_ChooseSethTurn1': Ch1Tut_ChooseSethTurn1,
+  'EventScr_Ch1Tut_EirikaVisitHouseEnd': Ch1Tut_EirikaVisitHouseEnd,
   'EventScr_Ch1Tut_EirikaVisitHouseIdle1': Ch1Tut_EirikaVisitHouseIdle1,
   'EventScr_Ch1Tut_EirikaVisitHouseIdle2': Ch1Tut_EirikaVisitHouseIdle2,
   'EventScr_Ch1Tut_EirikaVisitHouseInit': Ch1Tut_EirikaVisitHouseInit,
+  'EventScr_Ch1Tut_GilliamBattle': Ch1Tut_GilliamBattle,
+  'EventScr_Ch1Tut_GuideOnBKSEL': Ch1Tut_GuideOnBKSEL,
   'EventScr_Ch1Tut_GuideTerrainHeal': Ch1Tut_GuideTerrainHeal,
+  'EventScr_Ch1Tut_MsgOnGuideOption': Ch1Tut_MsgOnGuideOption,
   'EventScr_Ch1Tut_OnBeginning': Ch1Tut_OnBeginning,
+  'EventScr_Ch1Tut_PostTradeAndItemUseAction': Ch1Tut_PostTradeAndItemUseAction,
   'EventScr_Ch1Tut_SethMoveToEnemy': Ch1Tut_SethMoveToEnemy,
+  'EventScr_Ch1Tut_TradeSelectGalliamEnd': Ch1Tut_TradeSelectGalliamEnd,
   'EventScr_Ch1Tut_TradeSelectGalliamIdle1': Ch1Tut_TradeSelectGalliamIdle1,
   'EventScr_Ch1Tut_TradeSelectGalliamIdle2': Ch1Tut_TradeSelectGalliamIdle2,
   'EventScr_Ch1_BeginningScene': Ch1_BeginningScene,
   'EventScr_Ch1_EndingScene': Ch1_EndingScene,
+  'EventScr_Ch1_Loca_Visit1': Ch1_Loca_Visit1,
+  'EventScr_Ch1_Loca_Visit2': Ch1_Loca_Visit2,
+  'EventScr_Ch1_Misc_Area': Ch1_Misc_Area,
+  'EventScr_Ch1_Misc_DefeatBoss': Ch1_Misc_DefeatBoss,
+  'EventScr_Ch1_Turn1Player': Ch1_Turn1Player,
   'EventScr_Ch1_Turn_AllyReinforceArrive': Ch1_Turn_AllyReinforceArrive,
+  'EventScr_Ch1_Turn_EnemyReinforceArrive': Ch1_Turn_EnemyReinforceArrive,
   'EventScr_Ch20B_1': Ch20B_1,
   'EventScr_Ch20B_2': Ch20B_2,
   'EventScr_Ch20b_BeginningScene': Ch20b_BeginningScene,
@@ -17835,41 +20602,72 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_Ch21A_9': Ch21A_9,
   'EventScr_Ch21b_BeginningScene': Ch21b_BeginningScene,
   'EventScr_Ch21b_EndingScene': Ch21b_EndingScene,
+  'EventScr_Ch2Tutorial10': Ch2Tutorial10,
   'EventScr_Ch2Tutorial11': Ch2Tutorial11,
   'EventScr_Ch2Tutorial12': Ch2Tutorial12,
+  'EventScr_Ch2Tutorial13': Ch2Tutorial13,
   'EventScr_Ch2Tutorial14': Ch2Tutorial14,
   'EventScr_Ch2Tutorial15': Ch2Tutorial15,
+  'EventScr_Ch2Tutorial16': Ch2Tutorial16,
+  'EventScr_Ch2Tutorial17': Ch2Tutorial17,
   'EventScr_Ch2Tutorial18': Ch2Tutorial18,
+  'EventScr_Ch2Tutorial19': Ch2Tutorial19,
   'EventScr_Ch2Tutorial2': Ch2Tutorial2,
+  'EventScr_Ch2Tutorial20': Ch2Tutorial20,
   'EventScr_Ch2Tutorial21': Ch2Tutorial21,
   'EventScr_Ch2Tutorial22': Ch2Tutorial22,
   'EventScr_Ch2Tutorial23': Ch2Tutorial23,
   'EventScr_Ch2Tutorial24': Ch2Tutorial24,
+  'EventScr_Ch2Tutorial25': Ch2Tutorial25,
+  'EventScr_Ch2Tutorial26': Ch2Tutorial26,
   'EventScr_Ch2Tutorial27': Ch2Tutorial27,
   'EventScr_Ch2Tutorial28': Ch2Tutorial28,
+  'EventScr_Ch2Tutorial29': Ch2Tutorial29,
+  'EventScr_Ch2Tutorial3': Ch2Tutorial3,
+  'EventScr_Ch2Tutorial30': Ch2Tutorial30,
   'EventScr_Ch2Tutorial4': Ch2Tutorial4,
   'EventScr_Ch2Tutorial5': Ch2Tutorial5,
+  'EventScr_Ch2Tutorial6': Ch2Tutorial6,
+  'EventScr_Ch2Tutorial7': Ch2Tutorial7,
   'EventScr_Ch2Tutorial8': Ch2Tutorial8,
   'EventScr_Ch2Tutorial9': Ch2Tutorial9,
   'EventScr_Ch2_10': Ch2_10,
+  'EventScr_Ch2_4': Ch2_4,
+  'EventScr_Ch2_5': Ch2_5,
+  'EventScr_Ch2_6': Ch2_6,
+  'EventScr_Ch2_7': Ch2_7,
   'EventScr_Ch2_8': Ch2_8,
   'EventScr_Ch2_BeginningScene': Ch2_BeginningScene,
   'EventScr_Ch2_EndingScene': Ch2_EndingScene,
+  'EventScr_Ch2_Turn1Player': Ch2_Turn1Player,
+  'EventScr_Ch2_Turn2Player': Ch2_Turn2Player,
   'EventScr_Ch2_Village1': Ch2_Village1,
+  'EventScr_Ch2_Village2': Ch2_Village2,
   'EventScr_Ch3_0': Ch3_0,
   'EventScr_Ch3_5': Ch3_5,
   'EventScr_Ch3_BeginningScene': Ch3_BeginningScene,
   'EventScr_Ch3_EndingScene': Ch3_EndingScene,
+  'EventScr_Ch3_Talk_NeimiColm': Ch3_Talk_NeimiColm,
   'EventScr_Ch3_Turn1Npc': Ch3_Turn1Npc,
+  'EventScr_Ch3_Turn2Player': Ch3_Turn2Player,
   'EventScr_Ch4_0': Ch4_0,
   'EventScr_Ch4_1': Ch4_1,
   'EventScr_Ch4_10': Ch4_10,
   'EventScr_Ch4_2': Ch4_2,
+  'EventScr_Ch4_3': Ch4_3,
+  'EventScr_Ch4_4': Ch4_4,
+  'EventScr_Ch4_5': Ch4_5,
+  'EventScr_Ch4_6': Ch4_6,
   'EventScr_Ch4_BeginningScene': Ch4_BeginningScene,
   'EventScr_Ch5_0': Ch5_0,
+  'EventScr_Ch5_1': Ch5_1,
   'EventScr_Ch5_10': Ch5_10,
   'EventScr_Ch5_11': Ch5_11,
+  'EventScr_Ch5_2': Ch5_2,
+  'EventScr_Ch5_3': Ch5_3,
   'EventScr_Ch5_5': Ch5_5,
+  'EventScr_Ch5_6': Ch5_6,
+  'EventScr_Ch5_7': Ch5_7,
   'EventScr_Ch5_BeginningScene': Ch5_BeginningScene,
   'EventScr_Ch5_EndingScene': Ch5_EndingScene,
   'EventScr_Ch5x_BeginningScene': Ch5x_BeginningScene,
@@ -17877,19 +20675,27 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_Ch6_0': Ch6_0,
   'EventScr_Ch6_1': Ch6_1,
   'EventScr_Ch6_2': Ch6_2,
+  'EventScr_Ch6_3': Ch6_3,
+  'EventScr_Ch6_4': Ch6_4,
   'EventScr_Ch6_BeginningScene': Ch6_BeginningScene,
   'EventScr_Ch6_EndingScene': Ch6_EndingScene,
+  'EventScr_Ch7_1': Ch7_1,
+  'EventScr_Ch7_2': Ch7_2,
   'EventScr_Ch7_BeginningScene': Ch7_BeginningScene,
   'EventScr_Ch7_EndingScene': Ch7_EndingScene,
   'EventScr_Ch8_0': Ch8_0,
   'EventScr_Ch8_10': Ch8_10,
   'EventScr_Ch8_11': Ch8_11,
   'EventScr_Ch8_BeginningScene': Ch8_BeginningScene,
+  'EventScr_Ch8_EndingScene': Ch8_EndingScene,
   'EventScr_Ch9A_2': Ch9A_2,
+  'EventScr_Ch9A_3': Ch9A_3,
   'EventScr_Ch9A_4': Ch9A_4,
+  'EventScr_Ch9A_5': Ch9A_5,
   'EventScr_Ch9B_9': Ch9B_9,
   'EventScr_Ch9a_BeginningScene': Ch9a_BeginningScene,
   'EventScr_Ch9a_EndingScene': Ch9a_EndingScene,
+  'EventScr_ChangeAIinQueue': ChangeAIinQueue,
   'EventScr_ConfigHardModeLoadUnitHard': ConfigHardModeLoadUnitHard,
   'EventScr_CutsceneExecEnd_Sub0': CutsceneExecEnd_Sub0,
   'EventScr_CutsceneExecEnd_Sub1': CutsceneExecEnd_Sub1,
@@ -17897,21 +20703,44 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_FormatFlashingCursor': FormatFlashingCursor,
   'EventScr_FormatMoveUnit': FormatMoveUnit,
   'EventScr_GiveTreasureToLuckyDog': GiveTreasureToLuckyDog,
+  'EventScr_LoadReinforce': LoadReinforce,
+  'EventScr_LoadReinforceHardMode': LoadReinforceHardMode,
   'EventScr_LoadUniqueAlly': LoadUniqueAlly,
+  'EventScr_LoadUnitForDifferentMode': LoadUnitForDifferentMode,
+  'EventScr_LoadUnitForTutorial': LoadUnitForTutorial,
   'EventScr_MapSupportConversation': MapSupportConversation,
   'EventScr_MoveUnitS2ToLeader': MoveUnitS2ToLeader,
+  'EventScr_Prologue_9EF828': Prologue_9EF828,
   'EventScr_Prologue_BeginningScene': Prologue_BeginningScene,
+  'EventScr_Prologue_EirikaAttacked': Prologue_EirikaAttacked,
   'EventScr_Prologue_EndingScene': Prologue_EndingScene,
+  'EventScr_Prologue_ExecTut': Prologue_ExecTut,
   'EventScr_Prologue_GiveRapier': Prologue_GiveRapier,
+  'EventScr_Prologue_ONeillSpawn': Prologue_ONeillSpawn,
   'EventScr_Prologue_OneEnemyLeft': Prologue_OneEnemyLeft,
+  'EventScr_Prologue_OneillSethBattle': Prologue_OneillSethBattle,
   'EventScr_Prologue_RenaisThroneCutscene': Prologue_RenaisThroneCutscene,
+  'EventScr_Prologue_Turn1': Prologue_Turn1,
+  'EventScr_Prologue_Turn2': Prologue_Turn2,
+  'EventScr_Prologue_Turn3': Prologue_Turn3,
   'EventScr_Prologue_TutEirikaAttack': Prologue_TutEirikaAttack,
+  'EventScr_Prologue_TutMessageTurn1': Prologue_TutMessageTurn1,
   'EventScr_Prologue_TutMessageTurn2': Prologue_TutMessageTurn2,
   'EventScr_Prologue_Tutorial0': Prologue_Tutorial0,
   'EventScr_Prologue_Tutorial1': Prologue_Tutorial1,
+  'EventScr_Prologue_Tutorial2': Prologue_Tutorial2,
+  'EventScr_Prologue_Tutorial3': Prologue_Tutorial3,
   'EventScr_Prologue_Tutorial4': Prologue_Tutorial4,
+  'EventScr_Prologue_Tutorial5': Prologue_Tutorial5,
+  'EventScr_Prologue_Tutorial6': Prologue_Tutorial6,
+  'EventScr_Prologue_Tutorial7': Prologue_Tutorial7,
+  'EventScr_Prologue_Tutorial8': Prologue_Tutorial8,
+  'EventScr_Prologue_Tutorial9': Prologue_Tutorial9,
   'EventScr_Prologue_TutorialA': Prologue_TutorialA,
   'EventScr_Prologue_TutorialB': Prologue_TutorialB,
+  'EventScr_Prologue_TutorialC': Prologue_TutorialC,
+  'EventScr_Prologue_TutorialD': Prologue_TutorialD,
+  'EventScr_Prologue_TutorialE': Prologue_TutorialE,
   'EventScr_Ruin_37': Ruin_37,
   'EventScr_Ruin_38': Ruin_38,
   'EventScr_Ruin_39': Ruin_39,
@@ -17933,55 +20762,34 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_Ruin_72': Ruin_72,
   'EventScr_Ruin_74': Ruin_74,
   'EventScr_Ruin_76': Ruin_76,
+  'EventScr_SetBackground': SetBackground,
   'EventScr_SetFlagIfPlayedThrough': SetFlagIfPlayedThrough,
   'EventScr_SkirmishRetreat': SkirmishRetreat,
   'EventScr_StrictLoadUniqueAlly': StrictLoadUniqueAlly,
   'EventScr_SuspendPrompt': SuspendPrompt,
+  'EventScr_TextShowWithFadeIn': TextShowWithFadeIn,
   'EventScr_Tutorial_Exec0': Tutorial_Exec0,
   'EventScr_Tutorial_Exec1': Tutorial_Exec1,
+  'EventScr_UnTriggerIfNotUnit': UnTriggerIfNotUnit,
   'EventScr_UnitFlushingIN': UnitFlushingIN,
   'EventScr_UnitFlushingOUT': UnitFlushingOUT,
   'EventScr_UnitWarpIN': UnitWarpIN,
   'EventScr_UnitWarpOUT': UnitWarpOUT,
-  'EventScr_9EEAAC': missing_EventScr_9EEAAC,
-  'EventScr_Ch1Tut_AfterSethMoveToEnemy': missing_EventScr_Ch1Tut_AfterSethMoveToEnemy,
-  'EventScr_Ch1Tut_EirikaVisitHouseEnd': missing_EventScr_Ch1Tut_EirikaVisitHouseEnd,
-  'EventScr_Ch1Tut_GilliamBattle': missing_EventScr_Ch1Tut_GilliamBattle,
+  'EventScr_WholeTowerClear': WholeTowerClear,
+  'EventScr_Ch1Tut_GuideMsg944': missing_EventScr_Ch1Tut_GuideMsg944,
+  'EventScr_Ch1Tut_GuideMsgSeize': missing_EventScr_Ch1Tut_GuideMsgSeize,
   'EventScr_Ch1Tut_GuideWTA': missing_EventScr_Ch1Tut_GuideWTA,
-  'EventScr_Ch1Tut_TradeSelectGalliamEnd': missing_EventScr_Ch1Tut_TradeSelectGalliamEnd,
-  'EventScr_Ch2Tutorial10': missing_EventScr_Ch2Tutorial10,
-  'EventScr_Ch2Tutorial13': missing_EventScr_Ch2Tutorial13,
-  'EventScr_Ch2Tutorial16': missing_EventScr_Ch2Tutorial16,
-  'EventScr_Ch2Tutorial19': missing_EventScr_Ch2Tutorial19,
-  'EventScr_Ch2Tutorial25': missing_EventScr_Ch2Tutorial25,
-  'EventScr_Ch2Tutorial29': missing_EventScr_Ch2Tutorial29,
-  'EventScr_Ch2Tutorial3': missing_EventScr_Ch2Tutorial3,
-  'EventScr_Ch2Tutorial6': missing_EventScr_Ch2Tutorial6,
-  'EventScr_Ch2_7': missing_EventScr_Ch2_7,
-  'EventScr_Ch2_Village2': missing_EventScr_Ch2_Village2,
+  'EventScr_Ch2_9': missing_EventScr_Ch2_9,
   'EventScr_Ch3_1': missing_EventScr_Ch3_1,
   'EventScr_Ch3_2': missing_EventScr_Ch3_2,
   'EventScr_Ch3_3': missing_EventScr_Ch3_3,
   'EventScr_Ch3_4': missing_EventScr_Ch3_4,
+  'EventScr_Ch3_6': missing_EventScr_Ch3_6,
+  'EventScr_Ch3_7': missing_EventScr_Ch3_7,
   'EventScr_Ch4_7': missing_EventScr_Ch4_7,
   'EventScr_Ch4_8': missing_EventScr_Ch4_8,
   'EventScr_Ch4_9': missing_EventScr_Ch4_9,
   'EventScr_Ch5_8': missing_EventScr_Ch5_8,
   'EventScr_Ch5_9': missing_EventScr_Ch5_9,
-  'EventScr_Ch6_3': missing_EventScr_Ch6_3,
   'EventScr_Ch7_3': missing_EventScr_Ch7_3,
-  'EventScr_ChangeAIinQueue': missing_EventScr_ChangeAIinQueue,
-  'EventScr_LoadReinforce': missing_EventScr_LoadReinforce,
-  'EventScr_LoadReinforceHardMode': missing_EventScr_LoadReinforceHardMode,
-  'EventScr_LoadUnitForTutorial': missing_EventScr_LoadUnitForTutorial,
-  'EventScr_Prologue_9EF828': missing_EventScr_Prologue_9EF828,
-  'EventScr_Prologue_EirikaAttacked': missing_EventScr_Prologue_EirikaAttacked,
-  'EventScr_Prologue_ExecTut': missing_EventScr_Prologue_ExecTut,
-  'EventScr_Prologue_ONeillSpawn': missing_EventScr_Prologue_ONeillSpawn,
-  'EventScr_Prologue_Tutorial2': missing_EventScr_Prologue_Tutorial2,
-  'EventScr_Prologue_Tutorial5': missing_EventScr_Prologue_Tutorial5,
-  'EventScr_Prologue_TutorialC': missing_EventScr_Prologue_TutorialC,
-  'EventScr_SetBackground': missing_EventScr_SetBackground,
-  'EventScr_TextShowWithFadeIn': missing_EventScr_TextShowWithFadeIn,
-  'EventScr_UnTriggerIfNotUnit': missing_EventScr_UnTriggerIfNotUnit,
 };

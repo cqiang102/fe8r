@@ -1,0 +1,1141 @@
+{
+ "source": "include/eventscript.h + include/EAstdlib.h",
+ "note": "操作码 (cmd, sub) -> 宏名 + 参数",
+ "byCmdSub": {
+  "2:0": [
+   {
+    "macro": "EVBIT_F",
+    "params": [
+     "flag"
+    ],
+    "arg": "flag",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "2:8": [
+   {
+    "macro": "EVBIT_T",
+    "params": [
+     "flag"
+    ],
+    "arg": "flag",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "2:1": [
+   {
+    "macro": "ENUF",
+    "params": [
+     "flag"
+    ],
+    "arg": "flag",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "2:9": [
+   {
+    "macro": "ENUT",
+    "params": [
+     "flag"
+    ],
+    "arg": "flag",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "3:0": [
+   {
+    "macro": "CHECK_EVBIT",
+    "params": [
+     "index"
+    ],
+    "arg": "index",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "3:1": [
+   {
+    "macro": "CHECK_EVENTID",
+    "params": [
+     "flag"
+    ],
+    "arg": "flag",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "4:0": [
+   {
+    "macro": "RANDOMNUMBER",
+    "params": [
+     "max"
+    ],
+    "arg": "max",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "5:0": [
+   {
+    "macro": "SVAL",
+    "params": [
+     "slot",
+     "value"
+    ],
+    "arg": "slot",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "7:0": [
+   {
+    "macro": "SENQUEUE",
+    "params": [
+     "slot"
+    ],
+    "arg": "slot",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "7:2": [
+   {
+    "macro": "SDEQUEUE",
+    "params": [
+     "slot"
+    ],
+    "arg": "slot",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "8:0": [
+   {
+    "macro": "LABEL",
+    "params": [
+     "label"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "9:0": [
+   {
+    "macro": "GOTO",
+    "params": [
+     "label"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "11:1": [
+   {
+    "macro": "EvtEnqueueConditionalTutCall",
+    "params": [
+     "scr",
+     "exec_type"
+    ],
+    "arg": "exec_type",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "12:0": [
+   {
+    "macro": "BEQ",
+    "params": [
+     "label",
+     "s1",
+     "s2"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "12:1": [
+   {
+    "macro": "BNE",
+    "params": [
+     "label",
+     "s1",
+     "s2"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "12:2": [
+   {
+    "macro": "BGE",
+    "params": [
+     "label",
+     "s1",
+     "s2"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "12:3": [
+   {
+    "macro": "BGT",
+    "params": [
+     "label",
+     "s1",
+     "s2"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "12:4": [
+   {
+    "macro": "BLE",
+    "params": [
+     "label",
+     "s1",
+     "s2"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "12:5": [
+   {
+    "macro": "BLT",
+    "params": [
+     "label",
+     "s1",
+     "s2"
+    ],
+    "arg": "label",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "14:0": [
+   {
+    "macro": "STAL",
+    "params": [
+     "time"
+    ],
+    "arg": "time",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "14:1": [
+   {
+    "macro": "STAL1",
+    "params": [
+     "time"
+    ],
+    "arg": "time",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "14:2": [
+   {
+    "macro": "STAL2",
+    "params": [
+     "time"
+    ],
+    "arg": "time",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "14:3": [
+   {
+    "macro": "STAL3",
+    "params": [
+     "time"
+    ],
+    "arg": "time",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "16:0": [
+   {
+    "macro": "EVBIT_MODIFY",
+    "params": [
+     "type"
+    ],
+    "arg": "type",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "17:0": [
+   {
+    "macro": "IGNORE_KEYS",
+    "params": [
+     "mask"
+    ],
+    "arg": "mask",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "18:0": [
+   {
+    "macro": "MUSC",
+    "params": [
+     "bgm"
+    ],
+    "arg": "bgm",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "19:0": [
+   {
+    "macro": "EvtBgmFadeIn",
+    "params": [
+     "bgm",
+     "speed"
+    ],
+    "arg": "bgm",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "20:0": [
+   {
+    "macro": "MUSS",
+    "params": [
+     "bgm"
+    ],
+    "arg": "bgm",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "20:1": [
+   {
+    "macro": "MURE",
+    "params": [
+     "speed"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "22:0": [
+   {
+    "macro": "SOUN",
+    "params": [
+     "songid"
+    ],
+    "arg": "songid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "23:0": [
+   {
+    "macro": "FADU",
+    "params": [
+     "speed"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "23:1": [
+   {
+    "macro": "FADI",
+    "params": [
+     "speed"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "23:2": [
+   {
+    "macro": "FAWU",
+    "params": [
+     "speed"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "23:3": [
+   {
+    "macro": "FAWI",
+    "params": [
+     "speed"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "27:0": [
+   {
+    "macro": "TEXTSHOW",
+    "params": [
+     "msg"
+    ],
+    "arg": "msg",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "27:1": [
+   {
+    "macro": "EvtTextShow2",
+    "params": [
+     "msg"
+    ],
+    "arg": "msg",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "30:0": [
+   {
+    "macro": "FACE_SHOW",
+    "params": [
+     "slot",
+     "fid"
+    ],
+    "arg": "fid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "33:0": [
+   {
+    "macro": "BACG",
+    "params": [
+     "bg"
+    ],
+    "arg": "bg",
+    "extraWords": 0,
+    "len": 4
+   },
+   {
+    "macro": "EvtBgTransion",
+    "params": [
+     "bg",
+     "type",
+     "speed"
+    ],
+    "arg": "bg",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "33:2": [
+   {
+    "macro": "EvtBgFadeIn",
+    "params": [
+     "bg",
+     "color",
+     "speed"
+    ],
+    "arg": "bg",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "37:0": [
+   {
+    "macro": "LOMA",
+    "params": [
+     "chapter"
+    ],
+    "arg": "chapter",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "38:1": [
+   {
+    "macro": "CAMERA_CAHR",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "38:9": [
+   {
+    "macro": "CAMERA2_CAHR",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "39:0": [
+   {
+    "macro": "TILECHANGE",
+    "params": [
+     "id"
+    ],
+    "arg": "id",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "39:1": [
+   {
+    "macro": "TILEREVERT",
+    "params": [
+     "id"
+    ],
+    "arg": "id",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "41:0": [
+   {
+    "macro": "EvtChangeFogVision",
+    "params": [
+     "doDisplay",
+     "vision"
+    ],
+    "arg": "vision",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "42:0": [
+   {
+    "macro": "MNTS",
+    "params": [
+     "chapter"
+    ],
+    "arg": "chapter",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "42:1": [
+   {
+    "macro": "MNCH",
+    "params": [
+     "chapter"
+    ],
+    "arg": "chapter",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "42:2": [
+   {
+    "macro": "MNC2",
+    "params": [
+     "chapter"
+    ],
+    "arg": "chapter",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "42:3": [
+   {
+    "macro": "MNC3",
+    "params": [
+     "chapter"
+    ],
+    "arg": "chapter",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "43:0": [
+   {
+    "macro": "EvtSetLoadUnitCount",
+    "params": [
+     "cnt"
+    ],
+    "arg": "cnt",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "43:1": [
+   {
+    "macro": "EvtSetLoadUnitChance",
+    "params": [
+     "chance"
+    ],
+    "arg": "chance",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "44:0": [
+   {
+    "macro": "LOAD1",
+    "params": [
+     "restriction",
+     "units"
+    ],
+    "arg": "restriction",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "44:1": [
+   {
+    "macro": "LOAD2",
+    "params": [
+     "restriction",
+     "units"
+    ],
+    "arg": "restriction",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "44:2": [
+   {
+    "macro": "LOAD3",
+    "params": [
+     "restriction",
+     "units"
+    ],
+    "arg": "restriction",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "44:3": [
+   {
+    "macro": "LOAD4",
+    "params": [
+     "restriction",
+     "units"
+    ],
+    "arg": "restriction",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "45:0": [
+   {
+    "macro": "UNIT_COLORS",
+    "params": [
+     "pal"
+    ],
+    "arg": "pal",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "47:0": [
+   {
+    "macro": "EvtMoveUnit",
+    "params": [
+     "modify",
+     "speed",
+     "pid",
+     "x",
+     "y"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 4
+   },
+   {
+    "macro": "EvtMoveUnitToTarget",
+    "params": [
+     "modify",
+     "speed",
+     "pid",
+     "pid_target"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 4
+   },
+   {
+    "macro": "EvtMoveUnitOneStep",
+    "params": [
+     "modify",
+     "speed",
+     "pid",
+     "direction"
+    ],
+    "arg": "speed",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "51:0": [
+   {
+    "macro": "CHECK_EXISTS",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:1": [
+   {
+    "macro": "CHECK_STATUS",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:2": [
+   {
+    "macro": "CHECK_ALIVE",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:3": [
+   {
+    "macro": "CHECK_DEPLOYED",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:4": [
+   {
+    "macro": "CHECK_ACTIVEID",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:5": [
+   {
+    "macro": "CHECK_ALLEGIANCE",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:6": [
+   {
+    "macro": "CHECK_COORDS",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:7": [
+   {
+    "macro": "CHECK_CLASS",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "51:8": [
+   {
+    "macro": "CHECK_LUCK",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "49:0": [
+   {
+    "macro": "SHOW_ATTACK_RANGE",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:0": [
+   {
+    "macro": "REMU",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   },
+   {
+    "macro": "EvtChangeFaction",
+    "params": [
+     "pid",
+     "faction"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:1": [
+   {
+    "macro": "REVEAL",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:5": [
+   {
+    "macro": "SET_HP",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:6": [
+   {
+    "macro": "SET_ENDTURN",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:7": [
+   {
+    "macro": "EvtSetUnitHasMoved",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:8": [
+   {
+    "macro": "SET_STATE",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:13": [
+   {
+    "macro": "KILL",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:14": [
+   {
+    "macro": "DISA_IF",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "50:0": [
+   {
+    "macro": "EvtLoadSingleUnit",
+    "params": [
+     "faction",
+     "pid",
+     "x",
+     "y"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "52:15": [
+   {
+    "macro": "DISA",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "54:0": [
+   {
+    "macro": "CHECK_INAREA",
+    "params": [
+     "pid",
+     "x",
+     "y",
+     "w",
+     "h"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "55:0": [
+   {
+    "macro": "GIVEITEMTO",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "55:1": [
+   {
+    "macro": "EvtGiveMoneymAtSlot3",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "55:2": [
+   {
+    "macro": "EvtGiveMoneymAtSlot3NoPopup",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "56:0": [
+   {
+    "macro": "SET_ACTIVE",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "57:0": [
+   {
+    "macro": "CHAI",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "58:0": [
+   {
+    "macro": "NOTIFY",
+    "params": [
+     "msg",
+     "songid"
+    ],
+    "arg": "msg",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "58:1": [
+   {
+    "macro": "BROWNBOXTEXT",
+    "params": [
+     "msg",
+     "x",
+     "y"
+    ],
+    "arg": "msg",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "59:1": [
+   {
+    "macro": "CURSOR_CHAR",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "59:5": [
+   {
+    "macro": "CURSOR_FLASHING_CHAR",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "61:0": [
+   {
+    "macro": "DISABLEOPTIONS",
+    "params": [
+     "bitfile"
+    ],
+    "arg": "bitfile",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "61:1": [
+   {
+    "macro": "DISABLEWEAPONS",
+    "params": [
+     "bitfile"
+    ],
+    "arg": "bitfile",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "63:0": [
+   {
+    "macro": "FIGHT",
+    "params": [
+     "actor",
+     "target",
+     "weapon",
+     "ballista"
+    ],
+    "arg": "actor",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "63:1": [
+   {
+    "macro": "FIGHT_MAP",
+    "params": [
+     "actor",
+     "target",
+     "weapon",
+     "ballista"
+    ],
+    "arg": "actor",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "64:0": [
+   {
+    "macro": "PROM",
+    "params": [
+     "pid",
+     "jid",
+     "item"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "67:0": [
+   {
+    "macro": "SUMMONUNIT",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "68:0": [
+   {
+    "macro": "BREAKSTONE",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "69:0": [
+   {
+    "macro": "GLOWINGCROSS",
+    "params": [
+     "pid"
+    ],
+    "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ]
+ }
+}

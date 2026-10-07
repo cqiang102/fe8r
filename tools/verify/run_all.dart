@@ -195,6 +195,20 @@ Future<void> main(List<String> argv) async {
       Step('L0', '首领定义', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
+      Step('L0', '事件操作码→宏名', 'python3',
+          ['extract/parse_event_macros.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '从 eventscript.h 抽 (cmd,sub) -> 宏名')
+    else
+      Step('L0', '事件宏表', 'true', const [], skip: true, note: decompNote),
+
+    if (hasDecomp())
+      Step('L0', '事件脚本（汇编）', 'python3',
+          ['extract/parse_event_scripts_asm.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '只以 .4byte 存在的 41 个脚本（含 ONeillSpawn）')
+    else
+      Step('L0', '事件脚本（汇编）', 'true', const [], skip: true, note: decompNote),
+
+    if (hasDecomp())
       Step('L0', '事件列表（胜负条件）', 'python3',
           ['extract/parse_event_lists.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: 'Misc 里的 FLAG 条目就是胜负条件')

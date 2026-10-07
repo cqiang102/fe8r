@@ -301,6 +301,36 @@ def main():
                 ops.append((mm.group(1), ar))
             scripts[name] = ops
 
+    # ---- ★ 并入从 `.s` 裸字节解出来的脚本 ----
+    #
+    # 有 **41 个脚本只以 `.4byte` 存在**（例如
+    # `EventScr_Prologue_ONeillSpawn` —— 它负责放敌人）。
+    # 没有它们，序章地图上永远没有敌人，也就永远到不了第 1 章。
+    #
+    # `parse_event_scripts_asm.py` 已经把字节解成了**同样的宏形式**，
+    # 这里当成普通脚本文本走同一条解析路 —— 不另开分支。
+    asm_path = os.path.join(HERE, "..", "out", "tables",
+                            "event_scripts_asm.json")
+    asm_added = 0
+    if os.path.exists(asm_path):
+        import json as _json
+        asm = _json.load(open(asm_path, encoding="utf-8"))["scripts"]
+        for name, lines in asm.items():
+            if name in scripts:
+                continue          # C 源优先 —— 它带类型与注释
+            ops = []
+            for line in lines:
+                mm = re.fullmatch(r"([A-Za-z_]\w*)\s*(?:\((.*)\))?", line, re.S)
+                if not mm:
+                    continue
+                ar = ([parse_arg(x) for x in split_args(mm.group(2))]
+                      if mm.group(2) else [])
+                ops.append((mm.group(1), ar))
+            if ops:
+                scripts[name] = ops
+                asm_added += 1
+        print(f"  并入汇编脚本 {asm_added} 个")
+
     print(f"解析出 {len(scripts)} 个脚本，{sum(len(v) for v in scripts.values())} 条指令")
 
     # 引用完整性
