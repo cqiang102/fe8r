@@ -106,6 +106,7 @@ class ItemStats {
     this.crit = 0,
     this.weight = 0,
     this.encodedRange = 0,
+    this.weaponType = '',
   });
 
   factory ItemStats.fromJson(Map<String, dynamic> j) => ItemStats(
@@ -115,10 +116,14 @@ class ItemStats {
         crit: (j['crit'] as num?)?.toInt() ?? 0,
         weight: (j['weight'] as num?)?.toInt() ?? 0,
         encodedRange: (j['encodedRange'] as num?)?.toInt() ?? 0,
+        weaponType: j['weaponType'] as String? ?? '',
       );
 
   final int number;
   final int might, hit, crit, weight, encodedRange;
+
+  /// 源码里的 `ITYPE_*` 名字（`ITYPE_SWORD` / `ITYPE_LANCE` / …）
+  final String weaponType;
 
   /// `GetItemMinRange` —— `encodedRange >> 4`
   int get minRange => encodedRange >> 4;

@@ -1,6 +1,9 @@
 // 战斗属性的**源码对照测试**。
 //
 // 每个断言的期望值都来自源码里的真实数值，不是"跑一遍看看等于几"。
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:fe8r/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -38,6 +41,8 @@ BattleUnitInput unit({
     );
 
 void main() {
+  _dataWiringTests();
+
   group('道具数据的射程解码（`GetItemMin/MaxRange`）', () {
     test('铁剑 1..1', () {
       // encodedRange = 0x11 -> min 1, max 1
@@ -116,5 +121,58 @@ void main() {
       expect(unit().def, eirikaLord.baseDef);
       expect(unit().spd, eirikaLord.baseSpd);
     });
+  });
+}
+
+// ---------------------------------------------------------------- 数据接线
+//
+// 这一组钉住「**从源码抽出的表真的被读到了**」——
+// 上一版我曾因为 `number` 是**枚举名而不是数字**，
+// 载入时按 `is int` 过滤，**索引整片是空的**，战斗悄悄退回演示数据。
+// 这类"静默变空"必须有机器判据。
+void _dataWiringTests() {
+  test('★ items.json 的 number 必须是数字（否则索引会静默变空）', () {
+    final f = File('tools/pipeline/out/tables/items.json');
+    if (!f.existsSync()) return; // 没跑数据管线时跳过
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    final entries = d['entries'] as Map<String, dynamic>;
+    final nonNum = entries.values
+        .where((e) => (e as Map<String, dynamic>)['number'] is! int)
+        .length;
+    expect(nonNum, lessThan(entries.length ~/ 10),
+        reason: '枚举名没被解析成数字 -> `_itemStats` 会整片为空');
+    expect((d['byNumber'] as Map<String, dynamic>).length, greaterThan(200));
+  });
+
+  test('★ 序章单位的装备能查到真实的 might / 射程', () {
+    final f = File('tools/pipeline/out/tables/items.json');
+    final uf = File('tools/pipeline/out/tables/unit_defs.json');
+    if (!f.existsSync() || !uf.existsSync()) return;
+    final by = (jsonDecode(f.readAsStringSync())
+        as Map<String, dynamic>)['byNumber'] as Map<String, dynamic>;
+    final units = (jsonDecode(uf.readAsStringSync())
+        as Map<String, dynamic>)['tables'] as Map<String, dynamic>;
+
+    // 赛特（`UnitDef_Event_PrologueAlly` 第 0 条）= 钢剑
+    final seth = (units['UnitDef_Event_PrologueAlly'] as List).first
+        as Map<String, dynamic>;
+    expect(by['${seth['item0']}'], 'ITEM_SWORD_STEEL');
+    // 奥尼尔（`PrologueEnemy` 第 0 条）= 铁斧
+    final oneill = (units['UnitDef_Event_PrologueEnemy'] as List).first
+        as Map<String, dynamic>;
+    expect(by['${oneill['item0']}'], 'ITEM_AXE_IRON');
+  });
+
+  test('★ classes.json 有基础属性（不是只有地形表）', () {
+    final f = File('tools/pipeline/out/tables/classes.json');
+    if (!f.existsSync()) return;
+    final cls = (jsonDecode(f.readAsStringSync())
+        as Map<String, dynamic>)['classes'] as Map<String, dynamic>;
+    final eirika = cls['CLASS_EIRIKA_LORD'] as Map<String, dynamic>;
+    for (final k in ['baseHP', 'basePow', 'baseSkl', 'baseSpd', 'baseDef',
+        'baseCon', 'baseMov']) {
+      expect(eirika.containsKey(k), isTrue,
+          reason: '$k 应当被抽出来 —— 少了它战斗只能靠演示值');
+    }
   });
 }

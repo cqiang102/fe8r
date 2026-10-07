@@ -22,6 +22,7 @@ class MapUnit {
     required this.x,
     required this.y,
     this.charIndex = 0,
+    this.item0 = 0,
     this.classId = 0,
     this.level = 1,
     this.movement = 5,
@@ -42,6 +43,9 @@ class MapUnit {
 
   /// 角色编号（`UnitDefinition.charIndex`）—— 胜负判定用它认首领
   final int charIndex;
+
+  /// 装备的道具（`UnitDefinition.items[0]`）—— 战斗属性要靠它查武器
+  final int item0;
 
   final int classId;
   final int level;

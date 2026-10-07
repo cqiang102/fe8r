@@ -47,7 +47,32 @@ def num(tok):
         return None
 
 
-def extract(path, want):
+def enum_values(*headers):
+    """把 `NAME = 0xNN` / `NAME,`（隐式递增）抽成字典。
+
+    ⚠️ **必须做这一步**。`gItemData` / `gCharacterData` 里写的是
+        .number = ITEM_SWORD_IRON
+    即**枚举名**，不是数字。直接当字符串留下的话，
+    载入时只能按 `n is int` 过滤 -> **索引全空** -> 战斗又退回演示数据。
+    （我第一版就是这样，`_itemStats.length == 0`。）
+    """
+    out, nxt = {}, 0
+    for h in headers:
+        p = os.path.join(DECOMP, h)
+        if not os.path.exists(p):
+            continue
+        t = strip_comments(open(p, encoding="utf-8", errors="replace").read())
+        for m in re.finditer(r"^\s*([A-Z][A-Z0-9_]*)\s*(?:=\s*([^,]+?))?\s*,", t, re.M):
+            name, val = m.group(1), m.group(2)
+            v = num(val) if val else None
+            if v is None:
+                v = nxt
+            out[name] = v
+            nxt = v + 1
+    return out
+
+
+def extract(path, want, consts=None):
     """按 `[KEY] = { ... }` 切块，取 `want` 里的标量字段"""
     raw = strip_comments(open(path, encoding="utf-8", errors="replace").read())
     i = raw.index("[] = {")
@@ -66,7 +91,12 @@ def extract(path, want):
                 if v is not None:
                     e[f] = v
                     continue
-                e[f] = m.group(1).strip()
+                tok = m.group(1).strip()
+                # 枚举名 -> 数字（这一步不做，索引就是空的）
+                if consts and tok in consts:
+                    e[f] = consts[tok]
+                else:
+                    e[f] = tok
         out[key] = e
         for f in want:
             if f not in e:
@@ -98,6 +128,13 @@ def main():
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
 
+    consts = enum_values(
+        "include/constants/characters.h",
+        "include/constants/items.h",
+        "include/constants/classes.h",
+    )
+    print(f"  常量表 {len(consts)} 个")
+
     ok = True
     for fname, fields, outname in (
         ("data_characters.c", CHAR_FIELDS, "characters.json"),
@@ -108,15 +145,23 @@ def main():
             print(f"  ✗ 找不到 {p}", file=sys.stderr)
             ok = False
             continue
-        data, missing = extract(p, fields)
+        data, missing = extract(p, fields, consts)
         # 抽查：每个条目至少要有 number
         bad = [k for k, v in data.items() if "number" not in v]
         dst = os.path.join(a.out, outname)
+        # 判据：**必须所有条目都有数字 number**，否则索引会静默变空
+        nonum = [k for k, v in data.items() if not isinstance(v.get("number"), int)]
+        from collections import Counter
+        by_num = {str(v["number"]): k for k, v in data.items()
+                  if isinstance(v.get("number"), int)}
         with open(dst, "w", encoding="utf-8") as f:
-            json.dump({"source": f"src/data/{fname}", "entries": data},
-                      f, ensure_ascii=False, indent=1)
-        print(f"  {outname}: {len(data)} 条，{len(missing)} 个字段缺失"
-              f"，{len(bad)} 条没有 number -> {os.path.getsize(dst)//1024} KB")
+            json.dump({"source": f"src/data/{fname}", "entries": data,
+                       "byNumber": by_num}, f, ensure_ascii=False, indent=1)
+        if nonum:
+            print(f"    ⚠️ {len(nonum)} 条 number 不是数字（索引会缺）：{nonum[:3]}",
+                  file=sys.stderr)
+        print(f"  {outname}: {len(data)} 条，数字键 {len(by_num)} 个"
+              f" -> {os.path.getsize(dst)//1024} KB")
 
     # 抽查两个关键条目 —— 判据是"数值对得上源码"
     cp = os.path.join(a.out, "characters.json")

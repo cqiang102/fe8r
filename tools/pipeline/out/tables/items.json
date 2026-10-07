@@ -3,12 +3,12 @@
  "entries": {
   "ITEM_NONE": {
    "key": "ITEM_NONE",
-   "number": "ITEM_NONE",
+   "number": 0,
    "weaponType": "ITYPE_SWORD"
   },
   "ITEM_SWORD_IRON": {
    "key": "ITEM_SWORD_IRON",
-   "number": "ITEM_SWORD_IRON",
+   "number": 1,
    "nameTextId": 731,
    "descTextId": 907,
    "weaponType": "ITYPE_SWORD",
@@ -21,7 +21,7 @@
   },
   "ITEM_SWORD_SLIM": {
    "key": "ITEM_SWORD_SLIM",
-   "number": "ITEM_SWORD_SLIM",
+   "number": 2,
    "nameTextId": 732,
    "descTextId": 908,
    "weaponType": "ITYPE_SWORD",
@@ -35,7 +35,7 @@
   },
   "ITEM_SWORD_STEEL": {
    "key": "ITEM_SWORD_STEEL",
-   "number": "ITEM_SWORD_STEEL",
+   "number": 3,
    "nameTextId": 733,
    "descTextId": 909,
    "weaponType": "ITYPE_SWORD",
@@ -48,7 +48,7 @@
   },
   "ITEM_SWORD_SILVER": {
    "key": "ITEM_SWORD_SILVER",
-   "number": "ITEM_SWORD_SILVER",
+   "number": 4,
    "nameTextId": 734,
    "descTextId": 910,
    "weaponType": "ITYPE_SWORD",
@@ -61,7 +61,7 @@
   },
   "ITEM_BLADE_IRON": {
    "key": "ITEM_BLADE_IRON",
-   "number": "ITEM_BLADE_IRON",
+   "number": 5,
    "nameTextId": 735,
    "descTextId": 911,
    "weaponType": "ITYPE_SWORD",
@@ -74,7 +74,7 @@
   },
   "ITEM_BLADE_STEEL": {
    "key": "ITEM_BLADE_STEEL",
-   "number": "ITEM_BLADE_STEEL",
+   "number": 6,
    "nameTextId": 736,
    "descTextId": 912,
    "weaponType": "ITYPE_SWORD",
@@ -87,7 +87,7 @@
   },
   "ITEM_BLADE_SILVER": {
    "key": "ITEM_BLADE_SILVER",
-   "number": "ITEM_BLADE_SILVER",
+   "number": 7,
    "nameTextId": 737,
    "descTextId": 913,
    "weaponType": "ITYPE_SWORD",
@@ -100,7 +100,7 @@
   },
   "ITEM_SWORD_VENIN": {
    "key": "ITEM_SWORD_VENIN",
-   "number": "ITEM_SWORD_VENIN",
+   "number": 8,
    "nameTextId": 738,
    "descTextId": 914,
    "weaponType": "ITYPE_SWORD",
@@ -113,7 +113,7 @@
   },
   "ITEM_SWORD_RAPIER": {
    "key": "ITEM_SWORD_RAPIER",
-   "number": "ITEM_SWORD_RAPIER",
+   "number": 9,
    "nameTextId": 739,
    "descTextId": 915,
    "weaponType": "ITYPE_SWORD",
@@ -127,7 +127,7 @@
   },
   "ITEM_SWORD_MKATTI": {
    "key": "ITEM_SWORD_MKATTI",
-   "number": "ITEM_SWORD_MKATTI",
+   "number": 10,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_SWORD",
@@ -141,7 +141,7 @@
   },
   "ITEM_SWORD_BRAVE": {
    "key": "ITEM_SWORD_BRAVE",
-   "number": "ITEM_SWORD_BRAVE",
+   "number": 11,
    "nameTextId": 740,
    "descTextId": 916,
    "weaponType": "ITYPE_SWORD",
@@ -154,7 +154,7 @@
   },
   "ITEM_SWORD_SHAMSIR": {
    "key": "ITEM_SWORD_SHAMSIR",
-   "number": "ITEM_SWORD_SHAMSIR",
+   "number": 12,
    "nameTextId": 741,
    "descTextId": 917,
    "weaponType": "ITYPE_SWORD",
@@ -168,7 +168,7 @@
   },
   "ITEM_SWORD_KILLER": {
    "key": "ITEM_SWORD_KILLER",
-   "number": "ITEM_SWORD_KILLER",
+   "number": 13,
    "nameTextId": 742,
    "descTextId": 918,
    "weaponType": "ITYPE_SWORD",
@@ -182,7 +182,7 @@
   },
   "ITEM_SWORD_ARMORSLAYER": {
    "key": "ITEM_SWORD_ARMORSLAYER",
-   "number": "ITEM_SWORD_ARMORSLAYER",
+   "number": 14,
    "nameTextId": 743,
    "descTextId": 919,
    "weaponType": "ITYPE_SWORD",
@@ -195,7 +195,7 @@
   },
   "ITEM_SWORD_WYRMSLAYER": {
    "key": "ITEM_SWORD_WYRMSLAYER",
-   "number": "ITEM_SWORD_WYRMSLAYER",
+   "number": 15,
    "nameTextId": 744,
    "descTextId": 920,
    "weaponType": "ITYPE_SWORD",
@@ -208,7 +208,7 @@
   },
   "ITEM_SWORD_LIGHTBRAND": {
    "key": "ITEM_SWORD_LIGHTBRAND",
-   "number": "ITEM_SWORD_LIGHTBRAND",
+   "number": 16,
    "nameTextId": 745,
    "descTextId": 921,
    "weaponType": "ITYPE_SWORD",
@@ -221,7 +221,7 @@
   },
   "ITEM_SWORD_RUNESWORD": {
    "key": "ITEM_SWORD_RUNESWORD",
-   "number": "ITEM_SWORD_RUNESWORD",
+   "number": 17,
    "nameTextId": 746,
    "descTextId": 922,
    "weaponType": "ITYPE_SWORD",
@@ -234,7 +234,7 @@
   },
   "ITEM_SWORD_LANCEREAVER": {
    "key": "ITEM_SWORD_LANCEREAVER",
-   "number": "ITEM_SWORD_LANCEREAVER",
+   "number": 18,
    "nameTextId": 747,
    "descTextId": 923,
    "weaponType": "ITYPE_SWORD",
@@ -248,7 +248,7 @@
   },
   "ITEM_SWORD_ZANBATO": {
    "key": "ITEM_SWORD_ZANBATO",
-   "number": "ITEM_SWORD_ZANBATO",
+   "number": 19,
    "nameTextId": 748,
    "descTextId": 924,
    "weaponType": "ITYPE_SWORD",
@@ -261,7 +261,7 @@
   },
   "ITEM_LANCE_IRON": {
    "key": "ITEM_LANCE_IRON",
-   "number": "ITEM_LANCE_IRON",
+   "number": 20,
    "nameTextId": 752,
    "descTextId": 928,
    "weaponType": "ITYPE_LANCE",
@@ -274,7 +274,7 @@
   },
   "ITEM_LANCE_SLIM": {
    "key": "ITEM_LANCE_SLIM",
-   "number": "ITEM_LANCE_SLIM",
+   "number": 21,
    "nameTextId": 753,
    "descTextId": 929,
    "weaponType": "ITYPE_LANCE",
@@ -288,7 +288,7 @@
   },
   "ITEM_LANCE_STEEL": {
    "key": "ITEM_LANCE_STEEL",
-   "number": "ITEM_LANCE_STEEL",
+   "number": 22,
    "nameTextId": 754,
    "descTextId": 930,
    "weaponType": "ITYPE_LANCE",
@@ -301,7 +301,7 @@
   },
   "ITEM_LANCE_SILVER": {
    "key": "ITEM_LANCE_SILVER",
-   "number": "ITEM_LANCE_SILVER",
+   "number": 23,
    "nameTextId": 755,
    "descTextId": 931,
    "weaponType": "ITYPE_LANCE",
@@ -314,7 +314,7 @@
   },
   "ITEM_LANCE_VENIN": {
    "key": "ITEM_LANCE_VENIN",
-   "number": "ITEM_LANCE_VENIN",
+   "number": 24,
    "nameTextId": 756,
    "descTextId": 932,
    "weaponType": "ITYPE_LANCE",
@@ -327,7 +327,7 @@
   },
   "ITEM_LANCE_BRAVE": {
    "key": "ITEM_LANCE_BRAVE",
-   "number": "ITEM_LANCE_BRAVE",
+   "number": 25,
    "nameTextId": 757,
    "descTextId": 933,
    "weaponType": "ITYPE_LANCE",
@@ -340,7 +340,7 @@
   },
   "ITEM_LANCE_KILLER": {
    "key": "ITEM_LANCE_KILLER",
-   "number": "ITEM_LANCE_KILLER",
+   "number": 26,
    "nameTextId": 758,
    "descTextId": 934,
    "weaponType": "ITYPE_LANCE",
@@ -354,7 +354,7 @@
   },
   "ITEM_LANCE_HORSESLAYER": {
    "key": "ITEM_LANCE_HORSESLAYER",
-   "number": "ITEM_LANCE_HORSESLAYER",
+   "number": 27,
    "nameTextId": 759,
    "descTextId": 935,
    "weaponType": "ITYPE_LANCE",
@@ -367,7 +367,7 @@
   },
   "ITEM_LANCE_JAVELIN": {
    "key": "ITEM_LANCE_JAVELIN",
-   "number": "ITEM_LANCE_JAVELIN",
+   "number": 28,
    "nameTextId": 760,
    "descTextId": 936,
    "weaponType": "ITYPE_LANCE",
@@ -380,7 +380,7 @@
   },
   "ITEM_LANCE_SPEAR": {
    "key": "ITEM_LANCE_SPEAR",
-   "number": "ITEM_LANCE_SPEAR",
+   "number": 29,
    "nameTextId": 761,
    "descTextId": 937,
    "weaponType": "ITYPE_LANCE",
@@ -394,7 +394,7 @@
   },
   "ITEM_LANCE_AXEREAVER": {
    "key": "ITEM_LANCE_AXEREAVER",
-   "number": "ITEM_LANCE_AXEREAVER",
+   "number": 30,
    "nameTextId": 762,
    "descTextId": 938,
    "weaponType": "ITYPE_LANCE",
@@ -408,7 +408,7 @@
   },
   "ITEM_AXE_IRON": {
    "key": "ITEM_AXE_IRON",
-   "number": "ITEM_AXE_IRON",
+   "number": 31,
    "nameTextId": 769,
    "descTextId": 945,
    "weaponType": "ITYPE_AXE",
@@ -421,7 +421,7 @@
   },
   "ITEM_AXE_STEEL": {
    "key": "ITEM_AXE_STEEL",
-   "number": "ITEM_AXE_STEEL",
+   "number": 32,
    "nameTextId": 770,
    "descTextId": 946,
    "weaponType": "ITYPE_AXE",
@@ -434,7 +434,7 @@
   },
   "ITEM_AXE_SILVER": {
    "key": "ITEM_AXE_SILVER",
-   "number": "ITEM_AXE_SILVER",
+   "number": 33,
    "nameTextId": 771,
    "descTextId": 947,
    "weaponType": "ITYPE_AXE",
@@ -447,7 +447,7 @@
   },
   "ITEM_AXE_VENIN": {
    "key": "ITEM_AXE_VENIN",
-   "number": "ITEM_AXE_VENIN",
+   "number": 34,
    "nameTextId": 772,
    "descTextId": 948,
    "weaponType": "ITYPE_AXE",
@@ -460,7 +460,7 @@
   },
   "ITEM_AXE_BRAVE": {
    "key": "ITEM_AXE_BRAVE",
-   "number": "ITEM_AXE_BRAVE",
+   "number": 35,
    "nameTextId": 773,
    "descTextId": 949,
    "weaponType": "ITYPE_AXE",
@@ -473,7 +473,7 @@
   },
   "ITEM_AXE_KILLER": {
    "key": "ITEM_AXE_KILLER",
-   "number": "ITEM_AXE_KILLER",
+   "number": 36,
    "nameTextId": 774,
    "descTextId": 950,
    "weaponType": "ITYPE_AXE",
@@ -487,7 +487,7 @@
   },
   "ITEM_AXE_HALBERD": {
    "key": "ITEM_AXE_HALBERD",
-   "number": "ITEM_AXE_HALBERD",
+   "number": 37,
    "nameTextId": 775,
    "descTextId": 951,
    "weaponType": "ITYPE_AXE",
@@ -500,7 +500,7 @@
   },
   "ITEM_AXE_HAMMER": {
    "key": "ITEM_AXE_HAMMER",
-   "number": "ITEM_AXE_HAMMER",
+   "number": 38,
    "nameTextId": 776,
    "descTextId": 952,
    "weaponType": "ITYPE_AXE",
@@ -513,7 +513,7 @@
   },
   "ITEM_AXE_DEVIL": {
    "key": "ITEM_AXE_DEVIL",
-   "number": "ITEM_AXE_DEVIL",
+   "number": 39,
    "nameTextId": 777,
    "descTextId": 953,
    "weaponType": "ITYPE_AXE",
@@ -526,7 +526,7 @@
   },
   "ITEM_AXE_HANDAXE": {
    "key": "ITEM_AXE_HANDAXE",
-   "number": "ITEM_AXE_HANDAXE",
+   "number": 40,
    "nameTextId": 778,
    "descTextId": 954,
    "weaponType": "ITYPE_AXE",
@@ -539,7 +539,7 @@
   },
   "ITEM_AXE_TOMAHAWK": {
    "key": "ITEM_AXE_TOMAHAWK",
-   "number": "ITEM_AXE_TOMAHAWK",
+   "number": 41,
    "nameTextId": 779,
    "descTextId": 955,
    "weaponType": "ITYPE_AXE",
@@ -552,7 +552,7 @@
   },
   "ITEM_AXE_SWORDREAVER": {
    "key": "ITEM_AXE_SWORDREAVER",
-   "number": "ITEM_AXE_SWORDREAVER",
+   "number": 42,
    "nameTextId": 780,
    "descTextId": 956,
    "weaponType": "ITYPE_AXE",
@@ -566,7 +566,7 @@
   },
   "ITEM_AXE_SWORDSLAYER": {
    "key": "ITEM_AXE_SWORDSLAYER",
-   "number": "ITEM_AXE_SWORDSLAYER",
+   "number": 43,
    "nameTextId": 781,
    "descTextId": 957,
    "weaponType": "ITYPE_AXE",
@@ -580,7 +580,7 @@
   },
   "ITEM_AXE_HATCHET": {
    "key": "ITEM_AXE_HATCHET",
-   "number": "ITEM_AXE_HATCHET",
+   "number": 44,
    "nameTextId": 785,
    "descTextId": 962,
    "weaponType": "ITYPE_AXE",
@@ -593,7 +593,7 @@
   },
   "ITEM_BOW_IRON": {
    "key": "ITEM_BOW_IRON",
-   "number": "ITEM_BOW_IRON",
+   "number": 45,
    "nameTextId": 786,
    "descTextId": 963,
    "weaponType": "ITYPE_BOW",
@@ -606,7 +606,7 @@
   },
   "ITEM_BOW_STEEL": {
    "key": "ITEM_BOW_STEEL",
-   "number": "ITEM_BOW_STEEL",
+   "number": 46,
    "nameTextId": 787,
    "descTextId": 964,
    "weaponType": "ITYPE_BOW",
@@ -619,7 +619,7 @@
   },
   "ITEM_BOW_SILVER": {
    "key": "ITEM_BOW_SILVER",
-   "number": "ITEM_BOW_SILVER",
+   "number": 47,
    "nameTextId": 788,
    "descTextId": 965,
    "weaponType": "ITYPE_BOW",
@@ -632,7 +632,7 @@
   },
   "ITEM_BOW_VENIN": {
    "key": "ITEM_BOW_VENIN",
-   "number": "ITEM_BOW_VENIN",
+   "number": 48,
    "nameTextId": 789,
    "descTextId": 966,
    "weaponType": "ITYPE_BOW",
@@ -645,7 +645,7 @@
   },
   "ITEM_BOW_KILLER": {
    "key": "ITEM_BOW_KILLER",
-   "number": "ITEM_BOW_KILLER",
+   "number": 49,
    "nameTextId": 790,
    "descTextId": 967,
    "weaponType": "ITYPE_BOW",
@@ -659,7 +659,7 @@
   },
   "ITEM_BOW_BRAVE": {
    "key": "ITEM_BOW_BRAVE",
-   "number": "ITEM_BOW_BRAVE",
+   "number": 50,
    "nameTextId": 791,
    "descTextId": 968,
    "weaponType": "ITYPE_BOW",
@@ -672,7 +672,7 @@
   },
   "ITEM_BOW_SHORTBOW": {
    "key": "ITEM_BOW_SHORTBOW",
-   "number": "ITEM_BOW_SHORTBOW",
+   "number": 51,
    "nameTextId": 792,
    "descTextId": 969,
    "weaponType": "ITYPE_BOW",
@@ -686,7 +686,7 @@
   },
   "ITEM_BOW_LONGBOW": {
    "key": "ITEM_BOW_LONGBOW",
-   "number": "ITEM_BOW_LONGBOW",
+   "number": 52,
    "nameTextId": 793,
    "descTextId": 970,
    "weaponType": "ITYPE_BOW",
@@ -699,7 +699,7 @@
   },
   "ITEM_BALLISTA_REGULAR": {
    "key": "ITEM_BALLISTA_REGULAR",
-   "number": "ITEM_BALLISTA_REGULAR",
+   "number": 53,
    "nameTextId": 794,
    "descTextId": 971,
    "weaponType": "ITYPE_BOW",
@@ -712,7 +712,7 @@
   },
   "ITEM_BALLISTA_LONG": {
    "key": "ITEM_BALLISTA_LONG",
-   "number": "ITEM_BALLISTA_LONG",
+   "number": 54,
    "nameTextId": 795,
    "descTextId": 972,
    "weaponType": "ITYPE_BOW",
@@ -725,7 +725,7 @@
   },
   "ITEM_BALLISTA_KILLER": {
    "key": "ITEM_BALLISTA_KILLER",
-   "number": "ITEM_BALLISTA_KILLER",
+   "number": 55,
    "nameTextId": 796,
    "descTextId": 973,
    "weaponType": "ITYPE_BOW",
@@ -739,7 +739,7 @@
   },
   "ITEM_ANIMA_FIRE": {
    "key": "ITEM_ANIMA_FIRE",
-   "number": "ITEM_ANIMA_FIRE",
+   "number": 56,
    "nameTextId": 816,
    "descTextId": 992,
    "weaponType": "ITYPE_ANIMA",
@@ -752,7 +752,7 @@
   },
   "ITEM_ANIMA_THUNDER": {
    "key": "ITEM_ANIMA_THUNDER",
-   "number": "ITEM_ANIMA_THUNDER",
+   "number": 57,
    "nameTextId": 817,
    "descTextId": 993,
    "weaponType": "ITYPE_ANIMA",
@@ -766,7 +766,7 @@
   },
   "ITEM_ANIMA_ELFIRE": {
    "key": "ITEM_ANIMA_ELFIRE",
-   "number": "ITEM_ANIMA_ELFIRE",
+   "number": 58,
    "nameTextId": 818,
    "descTextId": 994,
    "weaponType": "ITYPE_ANIMA",
@@ -779,7 +779,7 @@
   },
   "ITEM_ANIMA_BOLTING": {
    "key": "ITEM_ANIMA_BOLTING",
-   "number": "ITEM_ANIMA_BOLTING",
+   "number": 59,
    "nameTextId": 820,
    "descTextId": 996,
    "weaponType": "ITYPE_ANIMA",
@@ -792,7 +792,7 @@
   },
   "ITEM_ANIMA_FIMBULVETR": {
    "key": "ITEM_ANIMA_FIMBULVETR",
-   "number": "ITEM_ANIMA_FIMBULVETR",
+   "number": 60,
    "nameTextId": 821,
    "descTextId": 997,
    "weaponType": "ITYPE_ANIMA",
@@ -805,7 +805,7 @@
   },
   "ITEM_ANIMA_FORBLAZE": {
    "key": "ITEM_ANIMA_FORBLAZE",
-   "number": "ITEM_ANIMA_FORBLAZE",
+   "number": 61,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_ANIMA",
@@ -819,7 +819,7 @@
   },
   "ITEM_ANIMA_EXCALIBUR": {
    "key": "ITEM_ANIMA_EXCALIBUR",
-   "number": "ITEM_ANIMA_EXCALIBUR",
+   "number": 62,
    "nameTextId": 822,
    "descTextId": 998,
    "weaponType": "ITYPE_ANIMA",
@@ -833,7 +833,7 @@
   },
   "ITEM_LIGHT_LIGHTNING": {
    "key": "ITEM_LIGHT_LIGHTNING",
-   "number": "ITEM_LIGHT_LIGHTNING",
+   "number": 63,
    "nameTextId": 823,
    "descTextId": 999,
    "weaponType": "ITYPE_LIGHT",
@@ -847,7 +847,7 @@
   },
   "ITEM_LIGHT_SHINE": {
    "key": "ITEM_LIGHT_SHINE",
-   "number": "ITEM_LIGHT_SHINE",
+   "number": 64,
    "nameTextId": 824,
    "descTextId": 1000,
    "weaponType": "ITYPE_LIGHT",
@@ -861,7 +861,7 @@
   },
   "ITEM_LIGHT_DIVINE": {
    "key": "ITEM_LIGHT_DIVINE",
-   "number": "ITEM_LIGHT_DIVINE",
+   "number": 65,
    "nameTextId": 825,
    "descTextId": 1001,
    "weaponType": "ITYPE_LIGHT",
@@ -875,7 +875,7 @@
   },
   "ITEM_LIGHT_PURGE": {
    "key": "ITEM_LIGHT_PURGE",
-   "number": "ITEM_LIGHT_PURGE",
+   "number": 66,
    "nameTextId": 826,
    "descTextId": 1002,
    "weaponType": "ITYPE_LIGHT",
@@ -889,7 +889,7 @@
   },
   "ITEM_LIGHT_AURA": {
    "key": "ITEM_LIGHT_AURA",
-   "number": "ITEM_LIGHT_AURA",
+   "number": 67,
    "nameTextId": 827,
    "descTextId": 1003,
    "weaponType": "ITYPE_LIGHT",
@@ -903,7 +903,7 @@
   },
   "ITEM_LIGHT_LUCE": {
    "key": "ITEM_LIGHT_LUCE",
-   "number": "ITEM_LIGHT_LUCE",
+   "number": 68,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_LIGHT",
@@ -916,7 +916,7 @@
   },
   "ITEM_DARK_FLUX": {
    "key": "ITEM_DARK_FLUX",
-   "number": "ITEM_DARK_FLUX",
+   "number": 69,
    "nameTextId": 829,
    "descTextId": 1005,
    "weaponType": "ITYPE_DARK",
@@ -929,7 +929,7 @@
   },
   "ITEM_DARK_LUNA": {
    "key": "ITEM_DARK_LUNA",
-   "number": "ITEM_DARK_LUNA",
+   "number": 70,
    "nameTextId": 830,
    "descTextId": 1006,
    "weaponType": "ITYPE_DARK",
@@ -942,7 +942,7 @@
   },
   "ITEM_DARK_NOSFERATU": {
    "key": "ITEM_DARK_NOSFERATU",
-   "number": "ITEM_DARK_NOSFERATU",
+   "number": 71,
    "nameTextId": 831,
    "descTextId": 1007,
    "weaponType": "ITYPE_DARK",
@@ -955,7 +955,7 @@
   },
   "ITEM_DARK_ECLIPSE": {
    "key": "ITEM_DARK_ECLIPSE",
-   "number": "ITEM_DARK_ECLIPSE",
+   "number": 72,
    "nameTextId": 832,
    "descTextId": 1008,
    "weaponType": "ITYPE_DARK",
@@ -968,7 +968,7 @@
   },
   "ITEM_DARK_FENRIR": {
    "key": "ITEM_DARK_FENRIR",
-   "number": "ITEM_DARK_FENRIR",
+   "number": 73,
    "nameTextId": 833,
    "descTextId": 1009,
    "weaponType": "ITYPE_DARK",
@@ -981,7 +981,7 @@
   },
   "ITEM_DARK_GLEIPNIR": {
    "key": "ITEM_DARK_GLEIPNIR",
-   "number": "ITEM_DARK_GLEIPNIR",
+   "number": 74,
    "nameTextId": 834,
    "descTextId": 1010,
    "weaponType": "ITYPE_DARK",
@@ -994,7 +994,7 @@
   },
   "ITEM_STAFF_HEAL": {
    "key": "ITEM_STAFF_HEAL",
-   "number": "ITEM_STAFF_HEAL",
+   "number": 75,
    "nameTextId": 841,
    "descTextId": 1017,
    "weaponType": "ITYPE_STAFF",
@@ -1006,7 +1006,7 @@
   },
   "ITEM_STAFF_MEND": {
    "key": "ITEM_STAFF_MEND",
-   "number": "ITEM_STAFF_MEND",
+   "number": 76,
    "nameTextId": 842,
    "descTextId": 1018,
    "weaponType": "ITYPE_STAFF",
@@ -1018,7 +1018,7 @@
   },
   "ITEM_STAFF_RECOVER": {
    "key": "ITEM_STAFF_RECOVER",
-   "number": "ITEM_STAFF_RECOVER",
+   "number": 77,
    "nameTextId": 843,
    "descTextId": 1019,
    "weaponType": "ITYPE_STAFF",
@@ -1030,7 +1030,7 @@
   },
   "ITEM_STAFF_PHYSIC": {
    "key": "ITEM_STAFF_PHYSIC",
-   "number": "ITEM_STAFF_PHYSIC",
+   "number": 78,
    "nameTextId": 844,
    "descTextId": 1020,
    "weaponType": "ITYPE_STAFF",
@@ -1042,7 +1042,7 @@
   },
   "ITEM_STAFF_FORTIFY": {
    "key": "ITEM_STAFF_FORTIFY",
-   "number": "ITEM_STAFF_FORTIFY",
+   "number": 79,
    "nameTextId": 845,
    "descTextId": 1021,
    "weaponType": "ITYPE_STAFF",
@@ -1054,7 +1054,7 @@
   },
   "ITEM_STAFF_RESTORE": {
    "key": "ITEM_STAFF_RESTORE",
-   "number": "ITEM_STAFF_RESTORE",
+   "number": 80,
    "nameTextId": 846,
    "descTextId": 1022,
    "weaponType": "ITYPE_STAFF",
@@ -1066,7 +1066,7 @@
   },
   "ITEM_STAFF_SILENCE": {
    "key": "ITEM_STAFF_SILENCE",
-   "number": "ITEM_STAFF_SILENCE",
+   "number": 81,
    "nameTextId": 847,
    "descTextId": 1023,
    "weaponType": "ITYPE_STAFF",
@@ -1078,7 +1078,7 @@
   },
   "ITEM_STAFF_SLEEP": {
    "key": "ITEM_STAFF_SLEEP",
-   "number": "ITEM_STAFF_SLEEP",
+   "number": 82,
    "nameTextId": 848,
    "descTextId": 1024,
    "weaponType": "ITYPE_STAFF",
@@ -1090,7 +1090,7 @@
   },
   "ITEM_STAFF_BERSERK": {
    "key": "ITEM_STAFF_BERSERK",
-   "number": "ITEM_STAFF_BERSERK",
+   "number": 83,
    "nameTextId": 849,
    "descTextId": 1025,
    "weaponType": "ITYPE_STAFF",
@@ -1102,7 +1102,7 @@
   },
   "ITEM_STAFF_WARP": {
    "key": "ITEM_STAFF_WARP",
-   "number": "ITEM_STAFF_WARP",
+   "number": 84,
    "nameTextId": 850,
    "descTextId": 1026,
    "weaponType": "ITYPE_STAFF",
@@ -1114,7 +1114,7 @@
   },
   "ITEM_STAFF_RESCUE": {
    "key": "ITEM_STAFF_RESCUE",
-   "number": "ITEM_STAFF_RESCUE",
+   "number": 85,
    "nameTextId": 851,
    "descTextId": 1027,
    "weaponType": "ITYPE_STAFF",
@@ -1126,7 +1126,7 @@
   },
   "ITEM_STAFF_TORCH": {
    "key": "ITEM_STAFF_TORCH",
-   "number": "ITEM_STAFF_TORCH",
+   "number": 86,
    "nameTextId": 852,
    "descTextId": 1028,
    "weaponType": "ITYPE_STAFF",
@@ -1138,7 +1138,7 @@
   },
   "ITEM_STAFF_REPAIR": {
    "key": "ITEM_STAFF_REPAIR",
-   "number": "ITEM_STAFF_REPAIR",
+   "number": 87,
    "nameTextId": 853,
    "descTextId": 1029,
    "weaponType": "ITYPE_STAFF",
@@ -1150,7 +1150,7 @@
   },
   "ITEM_STAFF_UNLOCK": {
    "key": "ITEM_STAFF_UNLOCK",
-   "number": "ITEM_STAFF_UNLOCK",
+   "number": 88,
    "nameTextId": 854,
    "descTextId": 1030,
    "weaponType": "ITYPE_STAFF",
@@ -1162,7 +1162,7 @@
   },
   "ITEM_STAFF_BARRIER": {
    "key": "ITEM_STAFF_BARRIER",
-   "number": "ITEM_STAFF_BARRIER",
+   "number": 89,
    "nameTextId": 855,
    "descTextId": 1031,
    "weaponType": "ITYPE_STAFF",
@@ -1174,7 +1174,7 @@
   },
   "ITEM_AXE_DRAGON": {
    "key": "ITEM_AXE_DRAGON",
-   "number": "ITEM_AXE_DRAGON",
+   "number": 90,
    "nameTextId": 782,
    "descTextId": 958,
    "weaponType": "ITYPE_AXE",
@@ -1187,7 +1187,7 @@
   },
   "ITEM_BOOSTER_HP": {
    "key": "ITEM_BOOSTER_HP",
-   "number": "ITEM_BOOSTER_HP",
+   "number": 91,
    "nameTextId": 859,
    "descTextId": 1035,
    "weaponType": "ITYPE_ITEM",
@@ -1196,7 +1196,7 @@
   },
   "ITEM_BOOSTER_POW": {
    "key": "ITEM_BOOSTER_POW",
-   "number": "ITEM_BOOSTER_POW",
+   "number": 92,
    "nameTextId": 860,
    "descTextId": 1036,
    "weaponType": "ITYPE_ITEM",
@@ -1205,7 +1205,7 @@
   },
   "ITEM_BOOSTER_SKL": {
    "key": "ITEM_BOOSTER_SKL",
-   "number": "ITEM_BOOSTER_SKL",
+   "number": 93,
    "nameTextId": 861,
    "descTextId": 1037,
    "weaponType": "ITYPE_ITEM",
@@ -1214,7 +1214,7 @@
   },
   "ITEM_BOOSTER_SPD": {
    "key": "ITEM_BOOSTER_SPD",
-   "number": "ITEM_BOOSTER_SPD",
+   "number": 94,
    "nameTextId": 862,
    "descTextId": 1038,
    "weaponType": "ITYPE_ITEM",
@@ -1223,7 +1223,7 @@
   },
   "ITEM_BOOSTER_LCK": {
    "key": "ITEM_BOOSTER_LCK",
-   "number": "ITEM_BOOSTER_LCK",
+   "number": 95,
    "nameTextId": 863,
    "descTextId": 1039,
    "weaponType": "ITYPE_ITEM",
@@ -1232,7 +1232,7 @@
   },
   "ITEM_BOOSTER_DEF": {
    "key": "ITEM_BOOSTER_DEF",
-   "number": "ITEM_BOOSTER_DEF",
+   "number": 96,
    "nameTextId": 864,
    "descTextId": 1040,
    "weaponType": "ITYPE_ITEM",
@@ -1241,7 +1241,7 @@
   },
   "ITEM_BOOSTER_RES": {
    "key": "ITEM_BOOSTER_RES",
-   "number": "ITEM_BOOSTER_RES",
+   "number": 97,
    "nameTextId": 865,
    "descTextId": 1041,
    "weaponType": "ITYPE_ITEM",
@@ -1250,7 +1250,7 @@
   },
   "ITEM_BOOSTER_MOV": {
    "key": "ITEM_BOOSTER_MOV",
-   "number": "ITEM_BOOSTER_MOV",
+   "number": 98,
    "nameTextId": 866,
    "descTextId": 1042,
    "weaponType": "ITYPE_ITEM",
@@ -1259,7 +1259,7 @@
   },
   "ITEM_BOOSTER_CON": {
    "key": "ITEM_BOOSTER_CON",
-   "number": "ITEM_BOOSTER_CON",
+   "number": 99,
    "nameTextId": 867,
    "descTextId": 1043,
    "weaponType": "ITYPE_ITEM",
@@ -1268,7 +1268,7 @@
   },
   "ITEM_HEROCREST": {
    "key": "ITEM_HEROCREST",
-   "number": "ITEM_HEROCREST",
+   "number": 100,
    "nameTextId": 868,
    "descTextId": 1044,
    "weaponType": "ITYPE_ITEM",
@@ -1277,7 +1277,7 @@
   },
   "ITEM_KNIGHTCREST": {
    "key": "ITEM_KNIGHTCREST",
-   "number": "ITEM_KNIGHTCREST",
+   "number": 101,
    "nameTextId": 869,
    "descTextId": 1045,
    "weaponType": "ITYPE_ITEM",
@@ -1286,7 +1286,7 @@
   },
   "ITEM_ORIONSBOLT": {
    "key": "ITEM_ORIONSBOLT",
-   "number": "ITEM_ORIONSBOLT",
+   "number": 102,
    "nameTextId": 870,
    "descTextId": 1046,
    "weaponType": "ITYPE_ITEM",
@@ -1295,7 +1295,7 @@
   },
   "ITEM_ELYSIANWHIP": {
    "key": "ITEM_ELYSIANWHIP",
-   "number": "ITEM_ELYSIANWHIP",
+   "number": 103,
    "nameTextId": 871,
    "descTextId": 1047,
    "weaponType": "ITYPE_ITEM",
@@ -1304,7 +1304,7 @@
   },
   "ITEM_GUIDINGRING": {
    "key": "ITEM_GUIDINGRING",
-   "number": "ITEM_GUIDINGRING",
+   "number": 104,
    "nameTextId": 872,
    "descTextId": 1048,
    "weaponType": "ITYPE_ITEM",
@@ -1313,7 +1313,7 @@
   },
   "ITEM_CHESTKEY": {
    "key": "ITEM_CHESTKEY",
-   "number": "ITEM_CHESTKEY",
+   "number": 105,
    "nameTextId": 873,
    "descTextId": 1049,
    "weaponType": "ITYPE_ITEM",
@@ -1322,7 +1322,7 @@
   },
   "ITEM_DOORKEY": {
    "key": "ITEM_DOORKEY",
-   "number": "ITEM_DOORKEY",
+   "number": 106,
    "nameTextId": 874,
    "descTextId": 1050,
    "weaponType": "ITYPE_ITEM",
@@ -1331,7 +1331,7 @@
   },
   "ITEM_LOCKPICK": {
    "key": "ITEM_LOCKPICK",
-   "number": "ITEM_LOCKPICK",
+   "number": 107,
    "nameTextId": 875,
    "descTextId": 1051,
    "weaponType": "ITYPE_ITEM",
@@ -1340,7 +1340,7 @@
   },
   "ITEM_VULNERARY": {
    "key": "ITEM_VULNERARY",
-   "number": "ITEM_VULNERARY",
+   "number": 108,
    "nameTextId": 876,
    "descTextId": 1052,
    "weaponType": "ITYPE_ITEM",
@@ -1349,7 +1349,7 @@
   },
   "ITEM_ELIXIR": {
    "key": "ITEM_ELIXIR",
-   "number": "ITEM_ELIXIR",
+   "number": 109,
    "nameTextId": 877,
    "descTextId": 1053,
    "weaponType": "ITYPE_ITEM",
@@ -1358,7 +1358,7 @@
   },
   "ITEM_PUREWATER": {
    "key": "ITEM_PUREWATER",
-   "number": "ITEM_PUREWATER",
+   "number": 110,
    "nameTextId": 878,
    "descTextId": 1054,
    "weaponType": "ITYPE_ITEM",
@@ -1367,7 +1367,7 @@
   },
   "ITEM_ANTITOXIN": {
    "key": "ITEM_ANTITOXIN",
-   "number": "ITEM_ANTITOXIN",
+   "number": 111,
    "nameTextId": 879,
    "descTextId": 1055,
    "weaponType": "ITYPE_ITEM",
@@ -1376,7 +1376,7 @@
   },
   "ITEM_TORCH": {
    "key": "ITEM_TORCH",
-   "number": "ITEM_TORCH",
+   "number": 112,
    "nameTextId": 880,
    "descTextId": 1056,
    "weaponType": "ITYPE_ITEM",
@@ -1385,7 +1385,7 @@
   },
   "ITEM_DELPHISHIELD": {
    "key": "ITEM_DELPHISHIELD",
-   "number": "ITEM_DELPHISHIELD",
+   "number": 113,
    "nameTextId": 881,
    "descTextId": 1057,
    "weaponType": "ITYPE_ITEM",
@@ -1394,7 +1394,7 @@
   },
   "ITEM_MEMBERCARD": {
    "key": "ITEM_MEMBERCARD",
-   "number": "ITEM_MEMBERCARD",
+   "number": 114,
    "nameTextId": 882,
    "descTextId": 1058,
    "weaponType": "ITYPE_ITEM",
@@ -1403,7 +1403,7 @@
   },
   "ITEM_SILVERCARD": {
    "key": "ITEM_SILVERCARD",
-   "number": "ITEM_SILVERCARD",
+   "number": 115,
    "nameTextId": 883,
    "descTextId": 1059,
    "weaponType": "ITYPE_ITEM",
@@ -1412,7 +1412,7 @@
   },
   "ITEM_WHITEGEM": {
    "key": "ITEM_WHITEGEM",
-   "number": "ITEM_WHITEGEM",
+   "number": 116,
    "nameTextId": 886,
    "descTextId": 1062,
    "weaponType": "ITYPE_ITEM",
@@ -1421,7 +1421,7 @@
   },
   "ITEM_BLUEGEM": {
    "key": "ITEM_BLUEGEM",
-   "number": "ITEM_BLUEGEM",
+   "number": 117,
    "nameTextId": 887,
    "descTextId": 1063,
    "weaponType": "ITYPE_ITEM",
@@ -1430,7 +1430,7 @@
   },
   "ITEM_REDGEM": {
    "key": "ITEM_REDGEM",
-   "number": "ITEM_REDGEM",
+   "number": 118,
    "nameTextId": 888,
    "descTextId": 1064,
    "weaponType": "ITYPE_ITEM",
@@ -1439,7 +1439,7 @@
   },
   "ITEM_GOLD": {
    "key": "ITEM_GOLD",
-   "number": "ITEM_GOLD",
+   "number": 119,
    "nameTextId": 889,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1448,7 +1448,7 @@
   },
   "ITEM_LANCE_REGINLEIF": {
    "key": "ITEM_LANCE_REGINLEIF",
-   "number": "ITEM_LANCE_REGINLEIF",
+   "number": 120,
    "nameTextId": 763,
    "descTextId": 939,
    "weaponType": "ITYPE_LANCE",
@@ -1462,7 +1462,7 @@
   },
   "ITEM_CHESTKEY_BUNDLE": {
    "key": "ITEM_CHESTKEY_BUNDLE",
-   "number": "ITEM_CHESTKEY_BUNDLE",
+   "number": 121,
    "nameTextId": 873,
    "descTextId": 1049,
    "weaponType": "ITYPE_ITEM",
@@ -1471,7 +1471,7 @@
   },
   "ITEM_MINE": {
    "key": "ITEM_MINE",
-   "number": "ITEM_MINE",
+   "number": 122,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_ITEM",
@@ -1480,7 +1480,7 @@
   },
   "ITEM_LIGHTRUNE": {
    "key": "ITEM_LIGHTRUNE",
-   "number": "ITEM_LIGHTRUNE",
+   "number": 123,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_ITEM",
@@ -1489,7 +1489,7 @@
   },
   "ITEM_HOPLON_SHIELD": {
    "key": "ITEM_HOPLON_SHIELD",
-   "number": "ITEM_HOPLON_SHIELD",
+   "number": 124,
    "nameTextId": 890,
    "descTextId": 1068,
    "weaponType": "ITYPE_ITEM",
@@ -1498,7 +1498,7 @@
   },
   "ITEM_FILLAS_MIGHT": {
    "key": "ITEM_FILLAS_MIGHT",
-   "number": "ITEM_FILLAS_MIGHT",
+   "number": 125,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DANCE",
@@ -1508,7 +1508,7 @@
   },
   "ITEM_NINISS_GRACE": {
    "key": "ITEM_NINISS_GRACE",
-   "number": "ITEM_NINISS_GRACE",
+   "number": 126,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DANCE",
@@ -1518,7 +1518,7 @@
   },
   "ITEM_THORS_IRE": {
    "key": "ITEM_THORS_IRE",
-   "number": "ITEM_THORS_IRE",
+   "number": 127,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DANCE",
@@ -1528,7 +1528,7 @@
   },
   "ITEM_SETS_LITANY": {
    "key": "ITEM_SETS_LITANY",
-   "number": "ITEM_SETS_LITANY",
+   "number": 128,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DANCE",
@@ -1538,7 +1538,7 @@
   },
   "ITEM_SWORD_SHADOWKILLR": {
    "key": "ITEM_SWORD_SHADOWKILLR",
-   "number": "ITEM_SWORD_SHADOWKILLR",
+   "number": 129,
    "nameTextId": 811,
    "descTextId": 988,
    "weaponType": "ITYPE_SWORD",
@@ -1552,7 +1552,7 @@
   },
   "ITEM_LANCE_BRIGHTLANCE": {
    "key": "ITEM_LANCE_BRIGHTLANCE",
-   "number": "ITEM_LANCE_BRIGHTLANCE",
+   "number": 130,
    "nameTextId": 812,
    "descTextId": 989,
    "weaponType": "ITYPE_LANCE",
@@ -1566,7 +1566,7 @@
   },
   "ITEM_AXE_FIENDCLEAVER": {
    "key": "ITEM_AXE_FIENDCLEAVER",
-   "number": "ITEM_AXE_FIENDCLEAVER",
+   "number": 131,
    "nameTextId": 813,
    "descTextId": 990,
    "weaponType": "ITYPE_AXE",
@@ -1580,7 +1580,7 @@
   },
   "ITEM_BOW_BEACONBOW": {
    "key": "ITEM_BOW_BEACONBOW",
-   "number": "ITEM_BOW_BEACONBOW",
+   "number": 132,
    "nameTextId": 814,
    "descTextId": 991,
    "weaponType": "ITYPE_BOW",
@@ -1594,7 +1594,7 @@
   },
   "ITEM_SWORD_SIEGLINDE": {
    "key": "ITEM_SWORD_SIEGLINDE",
-   "number": "ITEM_SWORD_SIEGLINDE",
+   "number": 133,
    "nameTextId": 749,
    "descTextId": 925,
    "weaponType": "ITYPE_SWORD",
@@ -1607,7 +1607,7 @@
   },
   "ITEM_AXE_BATTLEAXE": {
    "key": "ITEM_AXE_BATTLEAXE",
-   "number": "ITEM_AXE_BATTLEAXE",
+   "number": 134,
    "nameTextId": 783,
    "descTextId": 961,
    "weaponType": "ITYPE_AXE",
@@ -1621,7 +1621,7 @@
   },
   "ITEM_LIGHT_IVALDI": {
    "key": "ITEM_LIGHT_IVALDI",
-   "number": "ITEM_LIGHT_IVALDI",
+   "number": 135,
    "nameTextId": 828,
    "descTextId": 1004,
    "weaponType": "ITYPE_LIGHT",
@@ -1635,7 +1635,7 @@
   },
   "ITEM_MASTERSEAL": {
    "key": "ITEM_MASTERSEAL",
-   "number": "ITEM_MASTERSEAL",
+   "number": 136,
    "nameTextId": 891,
    "descTextId": 1069,
    "weaponType": "ITYPE_ITEM",
@@ -1644,7 +1644,7 @@
   },
   "ITEM_METISSTOME": {
    "key": "ITEM_METISSTOME",
-   "number": "ITEM_METISSTOME",
+   "number": 137,
    "nameTextId": 892,
    "descTextId": 1070,
    "weaponType": "ITYPE_ITEM",
@@ -1653,7 +1653,7 @@
   },
   "ITEM_HEAVENSEAL": {
    "key": "ITEM_HEAVENSEAL",
-   "number": "ITEM_HEAVENSEAL",
+   "number": 138,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_ITEM",
@@ -1662,7 +1662,7 @@
   },
   "ITEM_MONSTER_SHARPCLAW": {
    "key": "ITEM_MONSTER_SHARPCLAW",
-   "number": "ITEM_MONSTER_SHARPCLAW",
+   "number": 139,
    "nameTextId": 804,
    "descTextId": 981,
    "weaponType": "ITYPE_MONSTER",
@@ -1674,7 +1674,7 @@
   },
   "ITEM_STAFF_LATONA": {
    "key": "ITEM_STAFF_LATONA",
-   "number": "ITEM_STAFF_LATONA",
+   "number": 140,
    "nameTextId": 856,
    "descTextId": 1032,
    "weaponType": "ITYPE_STAFF",
@@ -1686,7 +1686,7 @@
   },
   "ITEM_LANCE_DRAGON": {
    "key": "ITEM_LANCE_DRAGON",
-   "number": "ITEM_LANCE_DRAGON",
+   "number": 141,
    "nameTextId": 766,
    "descTextId": 942,
    "weaponType": "ITYPE_LANCE",
@@ -1699,7 +1699,7 @@
   },
   "ITEM_LANCE_VIDOFNIR": {
    "key": "ITEM_LANCE_VIDOFNIR",
-   "number": "ITEM_LANCE_VIDOFNIR",
+   "number": 142,
    "nameTextId": 765,
    "descTextId": 941,
    "weaponType": "ITYPE_LANCE",
@@ -1712,7 +1712,7 @@
   },
   "ITEM_DARK_NAGLFAR": {
    "key": "ITEM_DARK_NAGLFAR",
-   "number": "ITEM_DARK_NAGLFAR",
+   "number": 143,
    "nameTextId": 835,
    "descTextId": 1011,
    "weaponType": "ITYPE_DARK",
@@ -1724,7 +1724,7 @@
   },
   "ITEM_MONSTER_WRETCHAIR": {
    "key": "ITEM_MONSTER_WRETCHAIR",
-   "number": "ITEM_MONSTER_WRETCHAIR",
+   "number": 144,
    "nameTextId": 798,
    "descTextId": 975,
    "weaponType": "ITYPE_MONSTER",
@@ -1735,7 +1735,7 @@
   },
   "ITEM_SWORD_AUDHULMA": {
    "key": "ITEM_SWORD_AUDHULMA",
-   "number": "ITEM_SWORD_AUDHULMA",
+   "number": 145,
    "nameTextId": 750,
    "descTextId": 926,
    "weaponType": "ITYPE_SWORD",
@@ -1748,7 +1748,7 @@
   },
   "ITEM_LANCE_SIEGMUND": {
    "key": "ITEM_LANCE_SIEGMUND",
-   "number": "ITEM_LANCE_SIEGMUND",
+   "number": 146,
    "nameTextId": 764,
    "descTextId": 940,
    "weaponType": "ITYPE_LANCE",
@@ -1761,7 +1761,7 @@
   },
   "ITEM_AXE_GARM": {
    "key": "ITEM_AXE_GARM",
-   "number": "ITEM_AXE_GARM",
+   "number": 147,
    "nameTextId": 784,
    "descTextId": 960,
    "weaponType": "ITYPE_AXE",
@@ -1774,7 +1774,7 @@
   },
   "ITEM_BOW_NIDHOGG": {
    "key": "ITEM_BOW_NIDHOGG",
-   "number": "ITEM_BOW_NIDHOGG",
+   "number": 148,
    "nameTextId": 797,
    "descTextId": 974,
    "weaponType": "ITYPE_BOW",
@@ -1787,7 +1787,7 @@
   },
   "ITEM_LANCE_HEAVYSPEAR": {
    "key": "ITEM_LANCE_HEAVYSPEAR",
-   "number": "ITEM_LANCE_HEAVYSPEAR",
+   "number": 149,
    "nameTextId": 767,
    "descTextId": 943,
    "weaponType": "ITYPE_LANCE",
@@ -1800,7 +1800,7 @@
   },
   "ITEM_LANCE_SHORTSPEAR": {
    "key": "ITEM_LANCE_SHORTSPEAR",
-   "number": "ITEM_LANCE_SHORTSPEAR",
+   "number": 150,
    "nameTextId": 768,
    "descTextId": 944,
    "weaponType": "ITYPE_LANCE",
@@ -1813,7 +1813,7 @@
   },
   "ITEM_OCEANSEAL": {
    "key": "ITEM_OCEANSEAL",
-   "number": "ITEM_OCEANSEAL",
+   "number": 151,
    "nameTextId": 893,
    "descTextId": 1071,
    "weaponType": "ITYPE_ITEM",
@@ -1822,7 +1822,7 @@
   },
   "ITEM_LUNARBRACE": {
    "key": "ITEM_LUNARBRACE",
-   "number": "ITEM_LUNARBRACE",
+   "number": 152,
    "nameTextId": 894,
    "descTextId": 1072,
    "weaponType": "ITYPE_ITEM",
@@ -1832,7 +1832,7 @@
   },
   "ITEM_SOLARBRACE": {
    "key": "ITEM_SOLARBRACE",
-   "number": "ITEM_SOLARBRACE",
+   "number": 153,
    "nameTextId": 895,
    "descTextId": 1073,
    "weaponType": "ITYPE_ITEM",
@@ -1842,7 +1842,7 @@
   },
   "ITEM_1G": {
    "key": "ITEM_1G",
-   "number": "ITEM_1G",
+   "number": 154,
    "nameTextId": 896,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1851,7 +1851,7 @@
   },
   "ITEM_5G": {
    "key": "ITEM_5G",
-   "number": "ITEM_5G",
+   "number": 155,
    "nameTextId": 897,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1860,7 +1860,7 @@
   },
   "ITEM_10G": {
    "key": "ITEM_10G",
-   "number": "ITEM_10G",
+   "number": 156,
    "nameTextId": 898,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1869,7 +1869,7 @@
   },
   "ITEM_50G": {
    "key": "ITEM_50G",
-   "number": "ITEM_50G",
+   "number": 157,
    "nameTextId": 899,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1878,7 +1878,7 @@
   },
   "ITEM_100G": {
    "key": "ITEM_100G",
-   "number": "ITEM_100G",
+   "number": 158,
    "nameTextId": 900,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1887,7 +1887,7 @@
   },
   "ITEM_3000G": {
    "key": "ITEM_3000G",
-   "number": "ITEM_3000G",
+   "number": 159,
    "nameTextId": 903,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1896,7 +1896,7 @@
   },
   "ITEM_5000G": {
    "key": "ITEM_5000G",
-   "number": "ITEM_5000G",
+   "number": 160,
    "nameTextId": 904,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -1905,7 +1905,7 @@
   },
   "ITEM_SWORD_WINDSWORD": {
    "key": "ITEM_SWORD_WINDSWORD",
-   "number": "ITEM_SWORD_WINDSWORD",
+   "number": 161,
    "nameTextId": 751,
    "descTextId": 927,
    "weaponType": "ITYPE_SWORD",
@@ -1918,7 +1918,7 @@
   },
   "ITEM_VULNERARY_2": {
    "key": "ITEM_VULNERARY_2",
-   "number": "ITEM_VULNERARY_2",
+   "number": 162,
    "nameTextId": 876,
    "descTextId": 1052,
    "weaponType": "ITYPE_ITEM",
@@ -1927,7 +1927,7 @@
   },
   "ITEM_UNK_GREENNOTE": {
    "key": "ITEM_UNK_GREENNOTE",
-   "number": "ITEM_UNK_GREENNOTE",
+   "number": 163,
    "nameTextId": 876,
    "descTextId": 1052,
    "weaponType": "ITYPE_ITEM",
@@ -1936,7 +1936,7 @@
   },
   "ITEM_UNK_REDNOTE": {
    "key": "ITEM_UNK_REDNOTE",
-   "number": "ITEM_UNK_REDNOTE",
+   "number": 164,
    "nameTextId": 876,
    "descTextId": 1052,
    "weaponType": "ITYPE_ITEM",
@@ -1945,7 +1945,7 @@
   },
   "ITEM_DANCE": {
    "key": "ITEM_DANCE",
-   "number": "ITEM_DANCE",
+   "number": 165,
    "nameTextId": 857,
    "descTextId": 1033,
    "weaponType": "ITYPE_DANCE",
@@ -1953,7 +1953,7 @@
   },
   "ITEM_NIGHTMARE": {
    "key": "ITEM_NIGHTMARE",
-   "number": "ITEM_NIGHTMARE",
+   "number": 166,
    "nameTextId": 803,
    "descTextId": 980,
    "weaponType": "ITYPE_STAFF",
@@ -1965,7 +1965,7 @@
   },
   "ITEM_DEMONSTONE": {
    "key": "ITEM_DEMONSTONE",
-   "number": "ITEM_DEMONSTONE",
+   "number": 167,
    "nameTextId": 800,
    "descTextId": 977,
    "weaponType": "ITYPE_MONSTER",
@@ -1976,7 +1976,7 @@
   },
   "ITEM_DEMONLIGHT": {
    "key": "ITEM_DEMONLIGHT",
-   "number": "ITEM_DEMONLIGHT",
+   "number": 168,
    "nameTextId": 801,
    "descTextId": 978,
    "weaponType": "ITYPE_MONSTER",
@@ -1987,7 +1987,7 @@
   },
   "ITEM_RAVAGER": {
    "key": "ITEM_RAVAGER",
-   "number": "ITEM_RAVAGER",
+   "number": 169,
    "nameTextId": 802,
    "descTextId": 979,
    "weaponType": "ITYPE_MONSTER",
@@ -1998,7 +1998,7 @@
   },
   "ITEM_DIVINESTONE": {
    "key": "ITEM_DIVINESTONE",
-   "number": "ITEM_DIVINESTONE",
+   "number": 170,
    "nameTextId": 799,
    "descTextId": 976,
    "weaponType": "ITYPE_MONSTER",
@@ -2011,7 +2011,7 @@
   },
   "ITEM_MONSTER_DEMONSURG": {
    "key": "ITEM_MONSTER_DEMONSURG",
-   "number": "ITEM_MONSTER_DEMONSURG",
+   "number": 171,
    "nameTextId": 839,
    "descTextId": 1015,
    "weaponType": "ITYPE_DARK",
@@ -2023,7 +2023,7 @@
   },
   "ITEM_MONSTER_SHADOWSHT": {
    "key": "ITEM_MONSTER_SHADOWSHT",
-   "number": "ITEM_MONSTER_SHADOWSHT",
+   "number": 172,
    "nameTextId": 840,
    "descTextId": 1016,
    "weaponType": "ITYPE_DARK",
@@ -2037,7 +2037,7 @@
   },
   "ITEM_MONSTER_ROTTENCLW": {
    "key": "ITEM_MONSTER_ROTTENCLW",
-   "number": "ITEM_MONSTER_ROTTENCLW",
+   "number": 173,
    "nameTextId": 805,
    "descTextId": 982,
    "weaponType": "ITYPE_MONSTER",
@@ -2049,7 +2049,7 @@
   },
   "ITEM_MONSTER_FETIDCLW": {
    "key": "ITEM_MONSTER_FETIDCLW",
-   "number": "ITEM_MONSTER_FETIDCLW",
+   "number": 174,
    "nameTextId": 806,
    "descTextId": 983,
    "weaponType": "ITYPE_MONSTER",
@@ -2061,7 +2061,7 @@
   },
   "ITEM_MONSTER_VENINCLW": {
    "key": "ITEM_MONSTER_VENINCLW",
-   "number": "ITEM_MONSTER_VENINCLW",
+   "number": 175,
    "nameTextId": 807,
    "descTextId": 984,
    "weaponType": "ITYPE_MONSTER",
@@ -2073,7 +2073,7 @@
   },
   "ITEM_MONSTER_LTHLTALON": {
    "key": "ITEM_MONSTER_LTHLTALON",
-   "number": "ITEM_MONSTER_LTHLTALON",
+   "number": 176,
    "nameTextId": 808,
    "descTextId": 985,
    "weaponType": "ITYPE_MONSTER",
@@ -2085,7 +2085,7 @@
   },
   "ITEM_MONSTER_FIREFANG": {
    "key": "ITEM_MONSTER_FIREFANG",
-   "number": "ITEM_MONSTER_FIREFANG",
+   "number": 177,
    "nameTextId": 809,
    "descTextId": 986,
    "weaponType": "ITYPE_MONSTER",
@@ -2097,7 +2097,7 @@
   },
   "ITEM_MONSTER_HELLFANG": {
    "key": "ITEM_MONSTER_HELLFANG",
-   "number": "ITEM_MONSTER_HELLFANG",
+   "number": 178,
    "nameTextId": 810,
    "descTextId": 987,
    "weaponType": "ITYPE_MONSTER",
@@ -2109,7 +2109,7 @@
   },
   "ITEM_MONSTER_EVILEYE": {
    "key": "ITEM_MONSTER_EVILEYE",
-   "number": "ITEM_MONSTER_EVILEYE",
+   "number": 179,
    "nameTextId": 837,
    "descTextId": 1013,
    "weaponType": "ITYPE_DARK",
@@ -2121,7 +2121,7 @@
   },
   "ITEM_MONSTER_CRIMSNEYE": {
    "key": "ITEM_MONSTER_CRIMSNEYE",
-   "number": "ITEM_MONSTER_CRIMSNEYE",
+   "number": 180,
    "nameTextId": 838,
    "descTextId": 1014,
    "weaponType": "ITYPE_DARK",
@@ -2134,7 +2134,7 @@
   },
   "ITEM_MONSTER_STONE": {
    "key": "ITEM_MONSTER_STONE",
-   "number": "ITEM_MONSTER_STONE",
+   "number": 181,
    "nameTextId": 836,
    "descTextId": 1012,
    "weaponType": "ITYPE_DARK",
@@ -2146,7 +2146,7 @@
   },
   "ITEM_ANIMA_AIRCALIBUR": {
    "key": "ITEM_ANIMA_AIRCALIBUR",
-   "number": "ITEM_ANIMA_AIRCALIBUR",
+   "number": 182,
    "nameTextId": 819,
    "descTextId": 995,
    "weaponType": "ITYPE_ANIMA",
@@ -2159,7 +2159,7 @@
   },
   "ITEM_JUNAFRUIT": {
    "key": "ITEM_JUNAFRUIT",
-   "number": "ITEM_JUNAFRUIT",
+   "number": 183,
    "nameTextId": 905,
    "descTextId": 1074,
    "weaponType": "ITYPE_ITEM",
@@ -2168,7 +2168,7 @@
   },
   "ITEM_150G": {
    "key": "ITEM_150G",
-   "number": "ITEM_150G",
+   "number": 184,
    "nameTextId": 901,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -2177,7 +2177,7 @@
   },
   "ITEM_200G": {
    "key": "ITEM_200G",
-   "number": "ITEM_200G",
+   "number": 185,
    "nameTextId": 902,
    "descTextId": 1065,
    "weaponType": "ITYPE_ITEM",
@@ -2186,7 +2186,7 @@
   },
   "ITEM_BLACKGEM": {
    "key": "ITEM_BLACKGEM",
-   "number": "ITEM_BLACKGEM",
+   "number": 186,
    "nameTextId": 885,
    "descTextId": 1061,
    "weaponType": "ITYPE_ITEM",
@@ -2195,7 +2195,7 @@
   },
   "ITEM_GOLDGEM": {
    "key": "ITEM_GOLDGEM",
-   "number": "ITEM_GOLDGEM",
+   "number": 187,
    "nameTextId": 884,
    "descTextId": 1060,
    "weaponType": "ITYPE_ITEM",
@@ -2204,7 +2204,7 @@
   },
   "ITEM_UNK_BC": {
    "key": "ITEM_UNK_BC",
-   "number": "ITEM_UNK_BC",
+   "number": 188,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_SWORD",
@@ -2213,7 +2213,7 @@
   },
   "ITEM_UNK_BD": {
    "key": "ITEM_UNK_BD",
-   "number": "ITEM_UNK_BD",
+   "number": 189,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_AXE",
@@ -2222,7 +2222,7 @@
   },
   "ITEM_UNK_BE": {
    "key": "ITEM_UNK_BE",
-   "number": "ITEM_UNK_BE",
+   "number": 190,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DARK",
@@ -2234,7 +2234,7 @@
   },
   "ITEM_UNK_BF": {
    "key": "ITEM_UNK_BF",
-   "number": "ITEM_UNK_BF",
+   "number": 191,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DARK",
@@ -2246,7 +2246,7 @@
   },
   "ITEM_UNK_C0": {
    "key": "ITEM_UNK_C0",
-   "number": "ITEM_UNK_C0",
+   "number": 192,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_SWORD",
@@ -2255,7 +2255,7 @@
   },
   "ITEM_UNK_C1": {
    "key": "ITEM_UNK_C1",
-   "number": "ITEM_UNK_C1",
+   "number": 193,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_ITEM",
@@ -2263,7 +2263,7 @@
   },
   "ITEM_UNK_C2": {
    "key": "ITEM_UNK_C2",
-   "number": "ITEM_UNK_C2",
+   "number": 194,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_SWORD",
@@ -2272,7 +2272,7 @@
   },
   "ITEM_UNK_C3": {
    "key": "ITEM_UNK_C3",
-   "number": "ITEM_UNK_C3",
+   "number": 195,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_LANCE",
@@ -2281,7 +2281,7 @@
   },
   "ITEM_UNK_C4": {
    "key": "ITEM_UNK_C4",
-   "number": "ITEM_UNK_C4",
+   "number": 196,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_AXE",
@@ -2293,7 +2293,7 @@
   },
   "ITEM_UNK_C5": {
    "key": "ITEM_UNK_C5",
-   "number": "ITEM_UNK_C5",
+   "number": 197,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_AXE",
@@ -2305,7 +2305,7 @@
   },
   "ITEM_UNK_C6": {
    "key": "ITEM_UNK_C6",
-   "number": "ITEM_UNK_C6",
+   "number": 198,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_SWORD",
@@ -2314,7 +2314,7 @@
   },
   "ITEM_UNK_C7": {
    "key": "ITEM_UNK_C7",
-   "number": "ITEM_UNK_C7",
+   "number": 199,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_BOW",
@@ -2326,7 +2326,7 @@
   },
   "ITEM_UNK_C8": {
    "key": "ITEM_UNK_C8",
-   "number": "ITEM_UNK_C8",
+   "number": 200,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_LANCE",
@@ -2335,7 +2335,7 @@
   },
   "ITEM_UNK_C9": {
    "key": "ITEM_UNK_C9",
-   "number": "ITEM_UNK_C9",
+   "number": 201,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_LIGHT",
@@ -2347,7 +2347,7 @@
   },
   "ITEM_UNK_CA": {
    "key": "ITEM_UNK_CA",
-   "number": "ITEM_UNK_CA",
+   "number": 202,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DARK",
@@ -2356,7 +2356,7 @@
   },
   "ITEM_UNK_CB": {
    "key": "ITEM_UNK_CB",
-   "number": "ITEM_UNK_CB",
+   "number": 203,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DARK",
@@ -2365,7 +2365,7 @@
   },
   "ITEM_UNK_CC": {
    "key": "ITEM_UNK_CC",
-   "number": "ITEM_UNK_CC",
+   "number": 204,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_ITEM",
@@ -2374,11 +2374,219 @@
   },
   "ITEM_UNK_CD": {
    "key": "ITEM_UNK_CD",
-   "number": "ITEM_UNK_CD",
+   "number": 205,
    "nameTextId": 906,
    "descTextId": 1075,
    "weaponType": "ITYPE_DANCE",
    "encodedRange": 18
   }
+ },
+ "byNumber": {
+  "0": "ITEM_NONE",
+  "1": "ITEM_SWORD_IRON",
+  "2": "ITEM_SWORD_SLIM",
+  "3": "ITEM_SWORD_STEEL",
+  "4": "ITEM_SWORD_SILVER",
+  "5": "ITEM_BLADE_IRON",
+  "6": "ITEM_BLADE_STEEL",
+  "7": "ITEM_BLADE_SILVER",
+  "8": "ITEM_SWORD_VENIN",
+  "9": "ITEM_SWORD_RAPIER",
+  "10": "ITEM_SWORD_MKATTI",
+  "11": "ITEM_SWORD_BRAVE",
+  "12": "ITEM_SWORD_SHAMSIR",
+  "13": "ITEM_SWORD_KILLER",
+  "14": "ITEM_SWORD_ARMORSLAYER",
+  "15": "ITEM_SWORD_WYRMSLAYER",
+  "16": "ITEM_SWORD_LIGHTBRAND",
+  "17": "ITEM_SWORD_RUNESWORD",
+  "18": "ITEM_SWORD_LANCEREAVER",
+  "19": "ITEM_SWORD_ZANBATO",
+  "20": "ITEM_LANCE_IRON",
+  "21": "ITEM_LANCE_SLIM",
+  "22": "ITEM_LANCE_STEEL",
+  "23": "ITEM_LANCE_SILVER",
+  "24": "ITEM_LANCE_VENIN",
+  "25": "ITEM_LANCE_BRAVE",
+  "26": "ITEM_LANCE_KILLER",
+  "27": "ITEM_LANCE_HORSESLAYER",
+  "28": "ITEM_LANCE_JAVELIN",
+  "29": "ITEM_LANCE_SPEAR",
+  "30": "ITEM_LANCE_AXEREAVER",
+  "31": "ITEM_AXE_IRON",
+  "32": "ITEM_AXE_STEEL",
+  "33": "ITEM_AXE_SILVER",
+  "34": "ITEM_AXE_VENIN",
+  "35": "ITEM_AXE_BRAVE",
+  "36": "ITEM_AXE_KILLER",
+  "37": "ITEM_AXE_HALBERD",
+  "38": "ITEM_AXE_HAMMER",
+  "39": "ITEM_AXE_DEVIL",
+  "40": "ITEM_AXE_HANDAXE",
+  "41": "ITEM_AXE_TOMAHAWK",
+  "42": "ITEM_AXE_SWORDREAVER",
+  "43": "ITEM_AXE_SWORDSLAYER",
+  "44": "ITEM_AXE_HATCHET",
+  "45": "ITEM_BOW_IRON",
+  "46": "ITEM_BOW_STEEL",
+  "47": "ITEM_BOW_SILVER",
+  "48": "ITEM_BOW_VENIN",
+  "49": "ITEM_BOW_KILLER",
+  "50": "ITEM_BOW_BRAVE",
+  "51": "ITEM_BOW_SHORTBOW",
+  "52": "ITEM_BOW_LONGBOW",
+  "53": "ITEM_BALLISTA_REGULAR",
+  "54": "ITEM_BALLISTA_LONG",
+  "55": "ITEM_BALLISTA_KILLER",
+  "56": "ITEM_ANIMA_FIRE",
+  "57": "ITEM_ANIMA_THUNDER",
+  "58": "ITEM_ANIMA_ELFIRE",
+  "59": "ITEM_ANIMA_BOLTING",
+  "60": "ITEM_ANIMA_FIMBULVETR",
+  "61": "ITEM_ANIMA_FORBLAZE",
+  "62": "ITEM_ANIMA_EXCALIBUR",
+  "63": "ITEM_LIGHT_LIGHTNING",
+  "64": "ITEM_LIGHT_SHINE",
+  "65": "ITEM_LIGHT_DIVINE",
+  "66": "ITEM_LIGHT_PURGE",
+  "67": "ITEM_LIGHT_AURA",
+  "68": "ITEM_LIGHT_LUCE",
+  "69": "ITEM_DARK_FLUX",
+  "70": "ITEM_DARK_LUNA",
+  "71": "ITEM_DARK_NOSFERATU",
+  "72": "ITEM_DARK_ECLIPSE",
+  "73": "ITEM_DARK_FENRIR",
+  "74": "ITEM_DARK_GLEIPNIR",
+  "75": "ITEM_STAFF_HEAL",
+  "76": "ITEM_STAFF_MEND",
+  "77": "ITEM_STAFF_RECOVER",
+  "78": "ITEM_STAFF_PHYSIC",
+  "79": "ITEM_STAFF_FORTIFY",
+  "80": "ITEM_STAFF_RESTORE",
+  "81": "ITEM_STAFF_SILENCE",
+  "82": "ITEM_STAFF_SLEEP",
+  "83": "ITEM_STAFF_BERSERK",
+  "84": "ITEM_STAFF_WARP",
+  "85": "ITEM_STAFF_RESCUE",
+  "86": "ITEM_STAFF_TORCH",
+  "87": "ITEM_STAFF_REPAIR",
+  "88": "ITEM_STAFF_UNLOCK",
+  "89": "ITEM_STAFF_BARRIER",
+  "90": "ITEM_AXE_DRAGON",
+  "91": "ITEM_BOOSTER_HP",
+  "92": "ITEM_BOOSTER_POW",
+  "93": "ITEM_BOOSTER_SKL",
+  "94": "ITEM_BOOSTER_SPD",
+  "95": "ITEM_BOOSTER_LCK",
+  "96": "ITEM_BOOSTER_DEF",
+  "97": "ITEM_BOOSTER_RES",
+  "98": "ITEM_BOOSTER_MOV",
+  "99": "ITEM_BOOSTER_CON",
+  "100": "ITEM_HEROCREST",
+  "101": "ITEM_KNIGHTCREST",
+  "102": "ITEM_ORIONSBOLT",
+  "103": "ITEM_ELYSIANWHIP",
+  "104": "ITEM_GUIDINGRING",
+  "105": "ITEM_CHESTKEY",
+  "106": "ITEM_DOORKEY",
+  "107": "ITEM_LOCKPICK",
+  "108": "ITEM_VULNERARY",
+  "109": "ITEM_ELIXIR",
+  "110": "ITEM_PUREWATER",
+  "111": "ITEM_ANTITOXIN",
+  "112": "ITEM_TORCH",
+  "113": "ITEM_DELPHISHIELD",
+  "114": "ITEM_MEMBERCARD",
+  "115": "ITEM_SILVERCARD",
+  "116": "ITEM_WHITEGEM",
+  "117": "ITEM_BLUEGEM",
+  "118": "ITEM_REDGEM",
+  "119": "ITEM_GOLD",
+  "120": "ITEM_LANCE_REGINLEIF",
+  "121": "ITEM_CHESTKEY_BUNDLE",
+  "122": "ITEM_MINE",
+  "123": "ITEM_LIGHTRUNE",
+  "124": "ITEM_HOPLON_SHIELD",
+  "125": "ITEM_FILLAS_MIGHT",
+  "126": "ITEM_NINISS_GRACE",
+  "127": "ITEM_THORS_IRE",
+  "128": "ITEM_SETS_LITANY",
+  "129": "ITEM_SWORD_SHADOWKILLR",
+  "130": "ITEM_LANCE_BRIGHTLANCE",
+  "131": "ITEM_AXE_FIENDCLEAVER",
+  "132": "ITEM_BOW_BEACONBOW",
+  "133": "ITEM_SWORD_SIEGLINDE",
+  "134": "ITEM_AXE_BATTLEAXE",
+  "135": "ITEM_LIGHT_IVALDI",
+  "136": "ITEM_MASTERSEAL",
+  "137": "ITEM_METISSTOME",
+  "138": "ITEM_HEAVENSEAL",
+  "139": "ITEM_MONSTER_SHARPCLAW",
+  "140": "ITEM_STAFF_LATONA",
+  "141": "ITEM_LANCE_DRAGON",
+  "142": "ITEM_LANCE_VIDOFNIR",
+  "143": "ITEM_DARK_NAGLFAR",
+  "144": "ITEM_MONSTER_WRETCHAIR",
+  "145": "ITEM_SWORD_AUDHULMA",
+  "146": "ITEM_LANCE_SIEGMUND",
+  "147": "ITEM_AXE_GARM",
+  "148": "ITEM_BOW_NIDHOGG",
+  "149": "ITEM_LANCE_HEAVYSPEAR",
+  "150": "ITEM_LANCE_SHORTSPEAR",
+  "151": "ITEM_OCEANSEAL",
+  "152": "ITEM_LUNARBRACE",
+  "153": "ITEM_SOLARBRACE",
+  "154": "ITEM_1G",
+  "155": "ITEM_5G",
+  "156": "ITEM_10G",
+  "157": "ITEM_50G",
+  "158": "ITEM_100G",
+  "159": "ITEM_3000G",
+  "160": "ITEM_5000G",
+  "161": "ITEM_SWORD_WINDSWORD",
+  "162": "ITEM_VULNERARY_2",
+  "163": "ITEM_UNK_GREENNOTE",
+  "164": "ITEM_UNK_REDNOTE",
+  "165": "ITEM_DANCE",
+  "166": "ITEM_NIGHTMARE",
+  "167": "ITEM_DEMONSTONE",
+  "168": "ITEM_DEMONLIGHT",
+  "169": "ITEM_RAVAGER",
+  "170": "ITEM_DIVINESTONE",
+  "171": "ITEM_MONSTER_DEMONSURG",
+  "172": "ITEM_MONSTER_SHADOWSHT",
+  "173": "ITEM_MONSTER_ROTTENCLW",
+  "174": "ITEM_MONSTER_FETIDCLW",
+  "175": "ITEM_MONSTER_VENINCLW",
+  "176": "ITEM_MONSTER_LTHLTALON",
+  "177": "ITEM_MONSTER_FIREFANG",
+  "178": "ITEM_MONSTER_HELLFANG",
+  "179": "ITEM_MONSTER_EVILEYE",
+  "180": "ITEM_MONSTER_CRIMSNEYE",
+  "181": "ITEM_MONSTER_STONE",
+  "182": "ITEM_ANIMA_AIRCALIBUR",
+  "183": "ITEM_JUNAFRUIT",
+  "184": "ITEM_150G",
+  "185": "ITEM_200G",
+  "186": "ITEM_BLACKGEM",
+  "187": "ITEM_GOLDGEM",
+  "188": "ITEM_UNK_BC",
+  "189": "ITEM_UNK_BD",
+  "190": "ITEM_UNK_BE",
+  "191": "ITEM_UNK_BF",
+  "192": "ITEM_UNK_C0",
+  "193": "ITEM_UNK_C1",
+  "194": "ITEM_UNK_C2",
+  "195": "ITEM_UNK_C3",
+  "196": "ITEM_UNK_C4",
+  "197": "ITEM_UNK_C5",
+  "198": "ITEM_UNK_C6",
+  "199": "ITEM_UNK_C7",
+  "200": "ITEM_UNK_C8",
+  "201": "ITEM_UNK_C9",
+  "202": "ITEM_UNK_CA",
+  "203": "ITEM_UNK_CB",
+  "204": "ITEM_UNK_CC",
+  "205": "ITEM_UNK_CD"
  }
 }

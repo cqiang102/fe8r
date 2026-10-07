@@ -327,6 +327,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _loadChapterMaps();
       _loadChapterLinks();
       _loadUnitDefs();
+      _loadBattleData();
       _loadCharNames();
       _loadObjectives();
       _loadChapters();
@@ -876,6 +877,69 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
   }
 
+  // ------------------------------------------------ 战斗数据（全部来自源码）
+
+  /// 职业基础值（`classes.json` <- `src/data/data_classes.c`）
+  final Map<int, ClassStats> _classStats = {};
+
+  /// 角色基础值（`characters.json` <- `src/data/data_characters.c`）
+  final Map<int, CharStats> _charStats = {};
+
+  /// 道具属性（`items.json` <- `src/data/data_items.c`）
+  final Map<int, ItemStats> _itemStats = {};
+
+  /// 真实道具表 —— 替掉 `_demoItems()`
+  ///
+  /// ⚠️ `ItemTable.minRangeOf/maxRangeOf` 与源码的
+  /// `GetItemMinRange/MaxRange` **同构**（`encodedRange >> 4` / `& 0xF`），
+  /// 所以射程是从源码字节直接来的，不是我编的。
+  ItemTable _realItems() {
+    final t = ItemTable(256);
+    for (final e in _itemStats.entries) {
+      final v = e.value;
+      t[e.key]
+        ..might = v.might
+        ..weight = v.weight
+        ..hit = v.hit
+        ..crit = v.crit
+        ..encodedRange = v.encodedRange;
+    }
+    return t;
+  }
+
+  void _loadBattleData() {
+    Map<String, dynamic> read(String name) {
+      final f = File('tools/pipeline/out/tables/$name');
+      if (!f.existsSync()) return const {};
+      return jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    }
+
+    final cj = read('classes.json');
+    for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
+      final m = e.value as Map<String, dynamic>;
+      final n = (m['number'] as num?)?.toInt();
+      if (n != null) _classStats[n] = ClassStats.fromJson(m);
+    }
+
+    final chj = read('characters.json');
+    for (final m in (chj['entries'] as Map<String, dynamic>? ?? {}).values) {
+      final mm = m as Map<String, dynamic>;
+      final n = mm['number'];
+      if (n is int) _charStats[n] = CharStats.fromJson(mm);
+    }
+
+    final ij = read('items.json');
+    for (final m in (ij['entries'] as Map<String, dynamic>? ?? {}).values) {
+      final mm = m as Map<String, dynamic>;
+      final n = mm['number'];
+      if (n is int) _itemStats[n] = ItemStats.fromJson(mm);
+    }
+
+    if (_itemStats.isNotEmpty) _items = _realItems();
+    status.value = '战斗数据：职业 ${_classStats.length} / '
+        '角色 ${_charStats.length} / 道具 ${_itemStats.length}';
+  }
+
   /// 单位定义表（`unit_defs.json`）—— `LOAD1/LOAD2/LOAD3` 用它
   Map<String, dynamic> _unitDefs = const {};
 
@@ -942,6 +1006,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         x: (m['x'] as num?)?.toInt() ?? 0,
         y: (m['y'] as num?)?.toInt() ?? 0,
         charIndex: (m['charIndex'] as num?)?.toInt() ?? 0,
+        item0: (m['item0'] as num?)?.toInt() ?? 0,
         classId: cls,
         level: (m['level'] as num?)?.toInt() ?? 1,
         // 名字给**人看**（战报里会出现）——用角色名，别再放 `C$cls` 这种。
@@ -1489,27 +1554,50 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 真实数据来自章节配置与职业表（M12）；这里只要够把伤害打出来。
   CombatProfile _profileFor(MapUnit u) {
-    if (u.factionBit == Faction.red) {
-      // 弓手（id 0x82）用弓，射程 2；其余敌人用斧
-      final isArcher = u.id == 0x82;
-      return CombatProfile(
-        classId: isArcher ? 0x1B : 0x2A,
-        level: 3, pow: 6, skl: 5, spd: 5, def: 3, lck: 2,
-        weaponItem: isArcher ? 0x04 : 0x03,
-        weaponType: isArcher ? WeaponType.bow : WeaponType.axe,
-      );
+    // ★ **全部来自源码抽出的三张表**，不再有硬编码的演示值。
+    //
+    // 出处：
+    //   * `classes.json`    <- `src/data/data_classes.c`
+    //   * `characters.json` <- `src/data/data_characters.c`
+    //   * `items.json`      <- `src/data/data_items.c`
+    //
+    // ⚠️ 原来是写死的：
+    //     final isArcher = u.id == 0x82;         // 演示单位的 id
+    //     classId: isArcher ? 0x1B : 0x2A, ...
+    //   **后果：奥尼尔打不掉**（`C63:20` 一直满血）。
+    final cls = _classStats[u.classId];
+    final chr = _charStats[u.charIndex];
+    final it = _itemStats[ItemTable.itemIndex(u.item0)];
+
+    // 三张表缺任何一张就**明确报出来**，不静默退回假数据
+    if (cls == null) {
+      _sceneHudExtra = '缺职业 ${u.classId} 的基础值（classes.json）';
     }
-    if (u.factionBit == Faction.green) {
-      return const CombatProfile(
-        classId: 0x09, level: 2, pow: 4, skl: 4, spd: 3, def: 4, lck: 3,
-        weaponItem: 0x02, weaponType: WeaponType.lance,
-      );
-    }
+
+    final weaponType = switch (it?.weaponType) {
+      'ITYPE_LANCE' => WeaponType.lance,
+      'ITYPE_AXE' => WeaponType.axe,
+      'ITYPE_BOW' => WeaponType.bow,
+      'ITYPE_STAFF' => WeaponType.staff,
+      _ => WeaponType.sword,
+    };
+
     return CombatProfile(
-      classId: 0x01, level: u.level, pow: 5, skl: 6, spd: 7, def: 4, lck: 5,
-      weaponItem: 0x01, weaponType: WeaponType.sword,
+      classId: u.classId,
+      level: u.level,
+      // 这几项直接对应 `struct Unit` 的字段，
+      // 而它们**只来自职业**（角色只有等级和幸运）。
+      pow: cls?.basePow ?? 0,
+      skl: cls?.baseSkl ?? 0,
+      spd: cls?.baseSpd ?? 0,
+      def: cls?.baseDef ?? 0,
+      lck: chr?.baseLck ?? 0,
+      conBonus: cls?.baseCon ?? 0,
+      weaponItem: u.item0,
+      weaponType: weaponType,
     );
   }
+
 
   /// 演示用道具表。
   ///
