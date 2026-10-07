@@ -166,10 +166,11 @@ void main(List<String> args) {
     final overlap = defined.intersection(got).length;
     stdout.writeln('    定义 ${defined.length} / 提取 ${got.length} / '
         '**未提取 ${missing.length}**（两边同名 $overlap）');
-    // ⚠️ 两套命名**不相交**时（`AnimConf` 的 layout 与 carve 就是），
-    // "未提取"会等于整个定义集 —— 那不是算术错了，是**编号不是同一套**。
+    // ⚠️ 两边**同名数为 0** 时，"未提取"会等于整个定义集 —— 那不是算术错。
+    // 具体是什么原因**要看家族**：`AnimConf` 是"两套互补"（见下面的不变量），
+    // 别的家族可能是命名口径不同。所以这里**只陈述事实**，不猜原因。
     if (overlap == 0 && defined.isNotEmpty) {
-      stdout.writeln('    （两边**没有同名** ⇒ 未提取 = 定义全集；编号不是同一套）');
+      stdout.writeln('    （两边**没有同名** ⇒ 未提取 = 定义全集；原因见该家族的不变量）');
     }
     if (missing.isNotEmpty) {
       final head = missing.take(6).join(', ');
@@ -188,6 +189,31 @@ void main(List<String> args) {
     if (got.length > defined.length) {
       stdout.writeln('    ⚠️ 提取侧比定义侧多 ${got.length - defined.length} 个'
           '（提取侧还含别处的脚本 —— 口径待细分，见路线图欠账）');
+    }
+    // ★ 特别不变量（第 40 轮查清的那条）：`AnimConf` 的两套**互补**且合起来是
+    // 连续的 `0..100`。原来文档里写的是"两套编号不是同一套（原因未查证）"——**错的**。
+    // 证据：layout 77 + carve 24 = 并集 101、交集 0、编号 0..100 无缺号；
+    // 地址间隙也对得上（`AnimConf_23`→`_30` 之间 140B / 7 张 = 20.0 B/张）。
+    if (fam.name == 'AnimConf_*（layout 登记）') {
+      final carveFam = families.firstWhere((f) => f.name == 'AnimConf_*（carve 出的定义）');
+      final Set<String> carveGot = extractedSymbols(carveFam);
+      final union = defined.union(carveGot);
+      final inter = defined.intersection(carveGot);
+      final nums = union
+          .map((e) => int.tryParse(e.replaceFirst('AnimConf_', '')) ?? -1)
+          .toList()
+        ..sort();
+      final contiguous = nums.isNotEmpty &&
+          nums.first == 0 &&
+          nums.last == nums.length - 1;
+      if (inter.isNotEmpty || union.length != 101 || !contiguous) {
+        stdout.writeln('    ❌ AnimConf 互补不变量破了：交集 ${inter.length} / '
+            '并集 ${union.length}（应 101）/ 连续 $contiguous');
+        bad++;
+      } else {
+        stdout.writeln('    ✓ 互补不变量：layout ${defined.length} + carve '
+            '${carveGot.length} = 并集 ${union.length}，交集 0，编号 0..100 连续');
+      }
     }
     // 不变量 2：家族要么全提到，要么未提取数与基线一致或更少
     result[fam.name] = {'defined': defined.length, 'extracted': got.length,

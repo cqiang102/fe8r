@@ -135,7 +135,15 @@ def main():
     # ⚠️ 上一版想拿 `layout/baseline_syms.d/dataCharClass.tsv` 当白名单 —— **前提是错的**：
     # 那个 TSV 里 `AnimConf_*` 的编号是 `0, 30, 73, …, 100`（`grep -c "AnimConf_24\b"` = **0**），
     # 而 carve 的 `src/data/data_banimconf_24_29.c` 里**明明定义着** `AnimConf_24`。
-    # ⇒ **layout 的编号与 carve 的编号不是同一套**（原因未查证），不能当白名单。
+    # ⇒ 不能用它当白名单。
+    #
+    # ★★ **第 40 轮查清了**（原来这里写的是"两套编号不是同一套，原因未查证" —— **错了**）：
+    #   * layout 行 77 个 + carve 定义 24 个 = **并集 101、交集 0、编号 0..100 连续无缺号**；
+    #   * 地址也对得上：`AnimConf_23`(0x089036D0) → `AnimConf_30`(0x0890375C)
+    #     之间 140 字节 / 7 张 = **20.0 B/张**（中间正是被 carve 抽走的 24..29）；
+    #     `35→48` = 284/13 = 21.8；`60→67` = 164/7 = 23.4。
+    # ⇒ **编号是同一套**，两套是**互补**的：layout 保留没被 carve 的行，
+    #   被 carve 走的那些就从 layout 里消失了。
     # 能站的基准只有一个：**`src/data/` 里真的定义了什么**。
     bad_name = sorted({v for v in links.values() if not re.fullmatch(r"AnimConf_\d+", v)})
     if bad_name:
@@ -192,8 +200,10 @@ def main():
             "confs": confs,
             "confsInLayout": total_in_layout,
             "note3": "layout 的 AnimConf 编号（0,30,73,…,100）与 carve 的"
-                     "（AnimConf_24..29 等）**不是同一套**，原因未查证；"
-                     "因此 confsInLayout 只作参考，判据以 src/data 的定义为准。",
+                     "（AnimConf_24..29 等）**是同一套编号的两半** —— "
+                     "layout 行 77 + carve 定义 24 = 并集 101、交集 0、编号 0..100 连续；"
+                     "地址间隙也对得上（23→30 之间 140B/7 张 = 20.0 B/张）。"
+                     "第 40 轮前这里写的是「不是同一套、原因未查证」——**那是错的**。",
             "confsNotCarved": missing,
             "classesWithDefinedConf": sorted(
                 k for k, v in links.items() if v in confs),

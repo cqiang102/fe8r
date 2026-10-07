@@ -714,7 +714,7 @@
   ]
  },
  "confsInLayout": 77,
- "note3": "layout 的 AnimConf 编号（0,30,73,…,100）与 carve 的（AnimConf_24..29 等）**不是同一套**，原因未查证；因此 confsInLayout 只作参考，判据以 src/data 的定义为准。",
+ "note3": "layout 的 AnimConf 编号（0,30,73,…,100）与 carve 的（AnimConf_24..29 等）**是同一套编号的两半** —— layout 行 77 + carve 定义 24 = 并集 101、交集 0、编号 0..100 连续；地址间隙也对得上（23→30 之间 140B/7 张 = 20.0 B/张）。第 40 轮前这里写的是「不是同一套、原因未查证」——**那是错的**。",
  "confsNotCarved": [
   "AnimConf_0",
   "AnimConf_1",
