@@ -353,6 +353,24 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         'enemies=${alive.where((u) => u['faction'] == 0x80).map((u) => '${u['x']},${u['y']}').toList()}');
   }
 
+  if (scenario == 'range') {
+    // ★ 移动范围（用户报过"行动力好像也不对"）—— 钉住**可观测的数值**。
+    // 算法本身有 54 条逐格 C oracle 向量（`movement_oracle_test.dart`）；
+    // 这里钉的是**接线**（真表 + 真地图 + 真职业）。
+    final r = d['range'] as Map<String, dynamic>?;
+    ok(r != null, '选中单位后有移动范围', 'range=$r');
+    ok(d['phase'] == 'unitSelected', '停在"已选中单位"', 'phase=${d['phase']}');
+    ok(d['moveCostsWeather'] == 'normal', '晴天用第 0 张表', 'weather=${d['moveCostsWeather']}');
+    ok(r?['count'] == 20,
+        '赛特(帕拉丁 mov=8) 在序章地图上的可达格数 = 20',
+        'count=${r?['count']}');
+    // 山峰不可通行：序章地图有 101 格山峰，可达格列表里一个都不该有
+    final tiles = ((r?['tiles'] as List?) ?? const []).cast<String>();
+    ok(tiles.contains('4,3') && tiles.contains('2,4'),
+        '相邻可走格在可达列表里（(4,3) 与 (2,4)）',
+        'tiles=${tiles.take(8).toList()}…（共 ${tiles.length}）');
+  }
+
   if (scenario == 'worldmap') {
     // ★ 章间大地图：`MNCH` 之后**必须**先到这里，而不是直接切章。
     // 出处：`src/Event2A_MoveToChapter.c:24-31`（`MNCH` → `save_menu_type = 1`
@@ -737,6 +755,17 @@ Map<String, Map<String, dynamic>> brokenMenuEndDumps() {
 /// 两次回合结束（一次菜单、一次自动）之后应当：turn 3、我方阶段、
 /// 两个我方都能动、**没有任何人还是"已行动"**、敌方已经动过。
 /// `worldmap` 场景的基准转储（在 turnend 的基础上叠大地图字段）
+Map<String, dynamic> goodRangeDump() {
+  final d = goodDump();
+  d['phase'] = 'unitSelected';
+  d['moveCostsWeather'] = 'normal';
+  d['range'] = <String, Object?>{
+    'count': 20,
+    'tiles': <String>['0,0', '4,3', '2,4'],
+  };
+  return d;
+}
+
 Map<String, dynamic> goodWorldMapDump() {
   final d = goodTurnEndDump();
   d['turn'] = 1;
@@ -866,7 +895,7 @@ int runSelfTest() {
   //
   // 理由同 R7 那次的教训（一条永远不可能失败的规则）：新加的断言
   // 如果没被证伪过，就不知道它是活的。
-  for (final sc in const ['mapmenu', 'menuend', 'turnend', 'worldmap']) {
+  for (final sc in const ['mapmenu', 'menuend', 'turnend', 'worldmap', 'range']) {
     final good = switch (sc) {
       'mapmenu' => goodMapMenuDump(),
       'menuend' => (goodMapMenuDump()
@@ -874,6 +903,7 @@ int runSelfTest() {
         ..['turn'] = 2
         ..['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段'),
       'worldmap' => goodWorldMapDump(),
+      'range' => goodRangeDump(),
       _ => goodTurnEndDump(),
     };
     final goodFailed =

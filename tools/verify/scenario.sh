@@ -129,6 +129,17 @@ case "$SCENARIO" in
     TITLE=""
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,down,confirm,wait,wait"
     ;;
+  range)
+    # ★ 选中赛特，看**移动范围**（用户报过"行动力好像也不对"）。
+    #
+    # 前缀同 `mapmenu`；随后 cancel×4 退到自由光标、撞角落再定位到 (4,4)，
+    # 按确认选中 —— 转储里就有 `range.count` 与完整可达格列表。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
+    RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
+    SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"
+    ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。
     #

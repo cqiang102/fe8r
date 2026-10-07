@@ -492,6 +492,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'menuend'],
           note: 'START → 5×down → 确认 → 第 2 回合、菜单关闭',
           requires: ['tools/verify/scenario.sh']),
+      // 移动范围（用户报过"行动力好像也不对"）：钉住真表 + 真地图下的可达格数
+      Step('L4', '端到端场景（选中单位的移动范围）', 'bash',
+          ['tools/verify/scenario.sh', 'range'],
+          note: '赛特(mov=8) 可达 20 格；天气表正常；相邻格在列表里',
+          requires: ['tools/verify/scenario.sh']),
       // 章间大地图（`MNCH` 那条路；用 `FE8R_WM=56` 走同一流程）
       Step('L4', '端到端场景（章间大地图）', 'bash',
           ['tools/verify/scenario.sh', 'worldmap'],
