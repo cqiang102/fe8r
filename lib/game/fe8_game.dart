@@ -576,6 +576,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'chapterModeIndex': chapterModeIndex,
       'unresolvedAttributes': _unresolvedAttributes.length,
       'autolevelMisses': _autolevelMisses,
+      // 成长消耗了多少乱数：晋升单位两轮 = 28，未晋升一轮 = 14（每项 2 次）
+      // —— 这是**确定性**的观测点，比"晋升一定更强"这种概率断言可靠。
+      'autolevelRngConsumed': _autolevelRng.consumed,
+      'autolevelUnits': _autolevelCache.length,
       'powQueryMisses': _powQueryMisses,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
@@ -5193,8 +5197,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           _autolevelMisses++;
           return const AutolevelGains(0, 0, 0, 0, 0, 0, 0);
         }
-        return autolevelGains(
-          ClassGrowths(
+        // ★ 晋升单位**先**按晋升补正补一轮（困难 19 / 普通 9），**再**按 `level - 1`
+        // 补一轮（`UnitAutolevel`，`src/UnitAutolevel.c:27-32`）。顺序不能反。
+        return unitAutolevelGains(
+          g: ClassGrowths(
             hp: cls.growthHP,
             pow: cls.growthPow,
             skl: cls.growthSkl,
@@ -5203,8 +5209,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             res: cls.growthRes,
             lck: cls.growthLck,
           ),
-          u.level - 1,
-          _autolevelRng,
+          level: u.level,
+          promoted: classHasAttribute(
+              _attributesByClassNumber[u.classId] ?? 0, caPromoted),
+          hardMode: _currentPlayFlags.difficulty == NewGameDifficulty.hard,
+          rng: _autolevelRng,
         );
       });
 

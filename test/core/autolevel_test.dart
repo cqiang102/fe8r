@@ -61,4 +61,62 @@ void main() {
     expect(again.pow, a20.pow);
     expect(again.hp, a20.hp);
   });
+  _promotedTests();
+}
+
+// 晋升补正（`GetCurrentPromotedLevelBonus` + `UnitAutolevel` 的两轮）
+void _promotedTests() {
+  const g = ClassGrowths(hp: 70, pow: 40, skl: 50, spd: 45, def: 25, res: 20,
+      lck: 30);
+
+  test('★ `GetCurrentPromotedLevelBonus`：困难 19、否则 9（与路线无关）', () {
+    expect(currentPromotedLevelBonus(hardMode: true), 19);
+    expect(currentPromotedLevelBonus(hardMode: false), 9);
+  });
+
+  test('★ 晋升单位两轮补正：先晋升轮（9 或 19），再 `level - 1` 轮', () {
+    final rngA = BattleRngTracker(seeded(5));
+    final b4 = rngA.consumed;
+    final normal = unitAutolevelGains(
+        g: g, level: 5, promoted: true, hardMode: false, rng: rngA);
+    expect(rngA.consumed - b4, 28,
+        reason: '7 项 × 2 次 × 2 轮（先晋升轮后等级轮）');
+
+    final rngB = BattleRngTracker(seeded(5));
+    final hard = unitAutolevelGains(
+        g: g, level: 5, promoted: true, hardMode: true, rng: rngB);
+
+    final rngC = BattleRngTracker(seeded(5));
+    final notPromoted = unitAutolevelGains(
+        g: g, level: 5, promoted: false, hardMode: false, rng: rngC);
+    expect(rngC.consumed - b4, 14, reason: '不晋升 ⇒ 只有一轮');
+
+    // 三种情形的"总成长量"应当 晋升困难 > 晋升普通 > 不晋升
+    int total(AutolevelGains x) =>
+        x.hp + x.pow + x.skl + x.spd + x.def + x.res + x.lck;
+    expect(total(hard), greaterThan(total(normal)));
+    expect(total(normal), greaterThan(total(notPromoted)),
+        reason: '★ 晋升单位必须比同等级未晋升的强（第 60 轮之前的洞就在这）');
+  });
+
+  test('★ 顺序错了数值就不同（判据钉住"先晋升轮"）', () {
+    // 手工按"先等级轮、后晋升轮"复算一遍，必须**不**等于 `unitAutolevelGains`
+    final rngA = BattleRngTracker(seeded(9));
+    final correct = unitAutolevelGains(
+        g: g, level: 5, promoted: true, hardMode: false, rng: rngA);
+    final rngB = BattleRngTracker(seeded(9));
+    final lvlFirst = autolevelGains(g, 4, rngB);
+    final promSecond = autolevelGains(g, 9, rngB);
+    final swapped = AutolevelGains(
+        lvlFirst.hp + promSecond.hp, lvlFirst.pow + promSecond.pow,
+        lvlFirst.skl + promSecond.skl, lvlFirst.spd + promSecond.spd,
+        lvlFirst.def + promSecond.def, lvlFirst.res + promSecond.res,
+        lvlFirst.lck + promSecond.lck);
+    final a = [correct.hp, correct.pow, correct.skl, correct.spd, correct.def,
+        correct.res, correct.lck];
+    final b = [swapped.hp, swapped.pow, swapped.skl, swapped.spd, swapped.def,
+        swapped.res, swapped.lck];
+    expect(a, isNot(equals(b)),
+        reason: '★ 顺序换成"先等级后晋升"结果不同 ⇒ 这条能抓到顺序写反');
+  });
 }

@@ -33,9 +33,21 @@
 // ⚠️ 每项要抽 **2 次乱数**（一次 `NextRN_N`、一次 `Roll1RN`），且**顺序固定**
 //    —— 顺序错了数值就全错，而且不会报错。判据里钉住"每项恰好消耗 2 次"。
 //
-// ⚠️ **未做**：晋升职业的补正（`CA_PROMOTED` 那一支要 `GetCurrentPromotedLevelBonus`
-//    与**晋升后职业**的成长值）。⇒ 未晋升单位的数值是**精确**的；
-//    晋升单位会**偏低**（只算了 `level - 1`，少了晋升补正）。
+// 晋升补正（第 61 轮补上）：
+// ```c
+// int GetCurrentPromotedLevelBonus() {                 // src/masked_08037bdc.c:50-56
+//     if (gPlaySt.chapterStateBits & PLAY_FLAG_HARD) return 19;
+//     return 9;
+// }
+// void UnitAutolevel(struct Unit* unit) {              // src/UnitAutolevel.c:27-32
+//     if (UNIT_CATTRIBUTES(unit) & CA_PROMOTED)
+//         UnitAutolevelCore(unit, unit->pClassData->promotion, GetCurrentPromotedLevelBonus());
+//     UnitAutolevelCore(unit, unit->pClassData->number, unit->level - 1);
+// }
+// ```
+// ⚠️ `UnitAutolevelCore` 的 `classId` 形参**在函数体里没被用到**
+//（它读的是 `unit->pClassData->growthX`）⇒ 两轮补正用的是**同一份成长值**
+//（当前职业的），这不是我偷懒，是源码如此。判据里按**顺序**核对（先晋升轮、再等级轮）。
 
 import '../battle/battle_rng.dart';
 
@@ -101,4 +113,36 @@ AutolevelGains autolevelGains(
     getAutoleveledStatIncrease(g.res, levelCount, rng),
     getAutoleveledStatIncrease(g.lck, levelCount, rng),
   );
+}
+
+/// `GetCurrentPromotedLevelBonus`（`src/masked_08037bdc.c:50-56`）：
+/// **困难 19、否则 9**（与路线无关）。
+int currentPromotedLevelBonus({required bool hardMode}) => hardMode ? 19 : 9;
+
+/// `UnitAutolevel`（`src/UnitAutolevel.c:27-32`）：
+/// 晋升单位**先**按晋升补正补一轮（困难 19 / 普通 9），**再**按 `level - 1` 补一轮。
+///
+/// ⚠️ 顺序不能反（乱数消耗顺序固定）：先 7 项晋升轮、后 7 项等级轮。
+AutolevelGains unitAutolevelGains({
+  required ClassGrowths g,
+  required int level,
+  required bool promoted,
+  required bool hardMode,
+  required BattleRngTracker rng,
+}) {
+  var hp = 0, pow = 0, skl = 0, spd = 0, def = 0, res = 0, lck = 0;
+  if (promoted) {
+    final b = autolevelGains(g, currentPromotedLevelBonus(hardMode: hardMode), rng);
+    hp += b.hp;
+    pow += b.pow;
+    skl += b.skl;
+    spd += b.spd;
+    def += b.def;
+    res += b.res;
+    lck += b.lck;
+  }
+  final l = autolevelGains(g, level - 1, rng);
+  return AutolevelGains(
+      hp + l.hp, pow + l.pow, skl + l.skl, spd + l.spd, def + l.def, res + l.res,
+      lck + l.lck);
 }
