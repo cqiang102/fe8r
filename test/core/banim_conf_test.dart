@@ -50,11 +50,32 @@ void main() {
     }
   });
 
-  test('产物里**不含**未经证实的 class→AnimConf 链接', () {
-    // 我那一版职业块正则解析出 101 条、还有 `AnimConf_100` 这种不存在的表
-    // ⇒ 按纪律不进产物。这条判据防止它被"顺手加回来"。
-    expect(d.containsKey('classes'), isFalse,
-        reason: 'class→AnimConf 还没解对，不许进产物（见文件头）');
-    expect('${d['note2']}'.contains('没解'), isTrue);
+  test('★ class→AnimConf：职业块按**花括号配对**切，101 条（每个职业一条）', () {
+    // ⚠️ 上一版用非贪婪正则切块，解出 101 条里混着 `AnimConf_100` 这种**不存在的表**；
+    // 改成花括号配对后每个职业块恰好切出一条。职业块里嵌着 `.pMovCostTable = { … }`
+    // 这类内层花括号 —— 就是它让非贪婪匹配提前收尾的。
+    final links = (d['classes'] as Map).cast<String, dynamic>();
+    expect(links.length, 101, reason: '有 pBattleAnimDef 的职业数');
+    final confs = (d['confs'] as Map).cast<String, dynamic>();
+    // 每个职业一张表：引用数 == 职业数（引用集合也在 JSON 里，看 classes 的值）
+    expect(links.values.toSet().length, 101);
+    // 引用的名字都合法
+    for (final v in links.values) {
+      expect(RegExp(r'^AnimConf_\d+$').hasMatch('$v'), isTrue, reason: '$v');
+    }
+    // 有定义 vs 没定义
+    final have = links.values.where((v) => confs.containsKey(v)).toSet();
+    expect(have.length, 24, reason: 'carve 里定义了 24 张，其中能对上职业的也是 24 张');
+  });
+
+  test('★ 阻塞点：序章要动的职业，动画表**没有定义**（这条钉住"做不了"的事实）', () {
+    final links = (d['classes'] as Map).cast<String, dynamic>();
+    final confs = (d['confs'] as Map).cast<String, dynamic>();
+    // Eirika 有表名但没定义；Seth/Franz/Gilliam 连表名都没解析到
+    expect(confs.containsKey(links['CLASS_EIRIKA_LORD']), isFalse,
+        reason: 'CLASS_EIRIKA_LORD → ${links['CLASS_EIRIKA_LORD']} 若已被 carve，'
+            '说明数据补齐了 —— 那就该把动画做起来，而不是继续记"做不了"');
+    expect('${d['blocker']}'.contains('CLASS_EIRIKA_LORD'), isTrue);
+    expect('${d['blocker']}'.contains('地图战斗动画目前做不了'), isTrue);
   });
 }
