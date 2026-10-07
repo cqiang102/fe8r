@@ -852,3 +852,56 @@ class GoalWindowComponent extends PositionComponent {
     tp.paint(canvas, Offset(5, (size.y - tp.height) / 2));
   }
 }
+
+// ---------------------------------------------------------------------------
+// 单位小窗口（minimug，`gProcScr_UnitDisplay_MinimugBox`）
+//
+// 显示**光标下那个单位**的名字 / HP / 道具（`DrawUnitMapUi`，
+// `src/player_interface_0808E8CC.c`）。放在 `camera.viewport` 上、**不接输入**。
+// ⚠️ 滑入动画、象限翻转、Q 版头像都**未移植**（见 `unit_display.dart` 文件头）。
+// ---------------------------------------------------------------------------
+class MinimugComponent extends PositionComponent {
+  MinimugComponent({
+    required this.lines,
+    required this.tileSize,
+    required Vector2 screen,
+  }) : super(
+          size: Vector2(screen.x * 0.55, tileSize * 2.6),
+          position: Vector2(2, screen.y - tileSize * 2.6 - 2),
+          priority: 45,
+        );
+
+  final List<String> lines;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()..color = const Color(0xD910243C),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = const Color(0xFF7FA8D8),
+    );
+    var y = 2.0;
+    for (final l in lines) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: l,
+          style: TextStyle(
+            color: const Color(0xFFFFFFFF),
+            fontSize: tileSize * 0.5,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout(maxWidth: size.x - 6);
+      tp.paint(canvas, Offset(4, y));
+      y += tp.height + 1;
+    }
+  }
+}

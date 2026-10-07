@@ -339,6 +339,23 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(d['goalTextId'] == 293,
         '序章的 goalWindowTextId = 293（`src/data/chapter_settings.h:41`）',
         '${d['goalTextId']}');
+    // ★ 单位小窗口：显示的是**光标下**那个单位（`MMB_Loop_Display`）
+    final mu = d['minimug'] as Map<String, dynamic>?;
+    ok(mu != null && mu['visible'] == true, '单位小窗口显示着', 'minimug=$mu');
+    if (mu != null) {
+      final id = mu['unitId'];
+      final unit = (d['units'] as List)
+          .cast<Map<String, dynamic>>()
+          .firstWhere((x) => x['id'] == id, orElse: () => <String, dynamic>{});
+      ok(unit.isNotEmpty, '窗口里的单位在战场单位表里（同一个 id）', 'id=$id');
+      final mt = '${mu['text']}';
+      ok(mt.contains('HP ${unit['hp']}/${unit['maxHp']}'),
+          '★ 窗口里的 HP 与那个单位**一致**',
+          'minimug=${mt.replaceAll('\n', ' | ')} unit=${unit['hp']}/${unit['maxHp']}');
+      ok(!mt.contains('ITEM_'),
+          '道具名来自文本表（不是 `ITEM_*` 枚举名）',
+          'minimug=${mt.replaceAll('\n', ' | ')}');
+    }
   }
 
   if (scenario == 'options') {
@@ -471,6 +488,19 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     if (dis.isNotEmpty) {
       ok(dis.any((x) => x.contains('交換') && x.contains('未实现')),
           '「交換」被标成禁用并写明原因（而不是静默）', 'disabled=$dis');
+    }
+  }
+
+  if (scenario == 'uioff') {
+    // ★ 改了「ユニットウィンドウ」之后，单位小窗口该收起
+    final m = d['minimug'] as Map<String, dynamic>?;
+    ok(m != null, '转储里有单位小窗口的状态', 'minimug=$m');
+    if (m != null) {
+      ok(m['unitDisplayType'] != 0,
+          '★ 設定改到了 `unitDisplayType`（不再是 0 = 小窗口）',
+          'unitDisplayType=${m['unitDisplayType']}');
+      ok(m['visible'] == false,
+          '★ 单位小窗口收起了', 'visible=${m['visible']}');
     }
   }
 
@@ -962,6 +992,13 @@ Map<String, dynamic> goodDump() => {
   },
   'goalText': '目的：ボス撃破',
   'goalTextId': 293,
+  // 单位小窗口（`MMB_Loop_Display`）—— 基准也要有
+  'minimug': <String, Object?>{
+    'unitId': 1,
+    'text': 'SETH  HP 13/20',
+    'visible': true,
+    'unitDisplayType': 0,
+  },
       'chapter': 0,
       'map': {'width': 15, 'height': 10, 'id': 'PrologueMap'},
       'camera': {'x': 0.0, 'y': 0.0},
@@ -974,6 +1011,9 @@ Map<String, dynamic> goodDump() => {
           'x': 4,
           'y': 4,
           'alive': true,
+          // 小窗口的判据会拿这些值和窗口文本对比 ⇒ 基准必须自洽
+          'hp': 13,
+          'maxHp': 20,
           'items': [(30 << 8) | 3, (20 << 8) | 0x17, (3 << 8) | 0x6C, 0, 0],
           'held': [(30 << 8) | 3, (20 << 8) | 0x17, (3 << 8) | 0x6C],
           'itemNames': ['SWORD_STEEL', '?23', 'VULNERARY'],

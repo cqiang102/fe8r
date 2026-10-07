@@ -540,6 +540,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             },
       'goalText': _goalText,
       'goalTextId': _chapterGoalTextId[sceneChapter],
+      'minimug': {
+        'unitId': _minimugUnitId,
+        'text': _minimugText,
+        'visible': _minimugComp != null,
+        'unitDisplayType': playConfig.unitDisplayType,
+      },
       'itemSubMenu': itemSubMenu,
       'subMenuDisabled': _subMenuDisabled,
       'equippedWeapon': _equippedWeaponWord(),
@@ -1419,6 +1425,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   void update(double dt) {
     _tickBanner();
     _tickGoalWindow();
+    _tickMinimug();
     _tickPopups();
 
     // ★ **延迟建视图**：`MNCH`（或 `FE8R_WM`）可能发生在 layout 之前，
@@ -4448,6 +4455,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次"装备"的记录（判据用）
   Map<String, Object?>? lastEquip;
 
+  /// 单位小窗口（minimug）：光标下那个单位
+  MinimugComponent? _minimugComp;
+  int? _minimugUnitId;
+  String _minimugText = '';
+
   /// 目标窗口（`GoalDisplay`）—— 章节的 `goalWindowTextId` → 文本 id
   final Map<int, int> _chapterGoalTextId = {};
 
@@ -5000,6 +5012,77 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _goalWindowComp!.removeFromParent();
       _goalWindowComp = null;
     }
+  }
+
+  /// 每帧同步单位小窗口。
+  ///
+  /// 出处：`MMB_Loop_Display`（`src/player_interface_0808EFC4.c:30-70`）——
+  /// 显示的是**光标下**那个单位（`GetUnit(gBmMapUnit[cursor.y][cursor.x])`），
+  /// 没有单位就不显示；开不开由 `unitDisplayType == 0` 决定
+  ///（`src/player_interface_0808F2C0.c:68-78`）。
+  void _tickMinimug() {
+    final f = field;
+    final s = state;
+    if (f == null || s == null) {
+      _removeMinimug();
+      return;
+    }
+    final under = f.unitAt(s.cursorX, s.cursorY);
+    final show = shouldShowMinimug(
+      unitDisplayType: playConfig.unitDisplayType,
+      hasUnitUnderCursor: under != null,
+    );
+    if (!show || under == null) {
+      _removeMinimug();
+      return;
+    }
+    // 内容：名字 / HP / 道具（`DrawUnitMapUi` 画的是这些；头像未移植）
+    final u = under;
+    final name = u.name.isEmpty ? '单位${u.id}' : u.name;
+    final items = <String>[];
+    for (final w in u.items) {
+      if (w == 0) continue;
+      final num = ItemTable.itemIndex(w);
+      // ⚠️ 用**文本表**的名字（`nameTextId`），不是 `ITEM_*` 枚举名 ——
+      // 我第一版直接用了枚举名，界面上就成了 `ITEM_SWORD_STEEL`。
+      final nameId = _itemNameTextId[num] ?? 0;
+      final nm = _textOr(gameTexts?.byId(nameId)?.plain, 'item#$num');
+      final uses = itemUses(w);
+      items.add('$nm${uses == 0 ? '' : '($uses)'}');
+    }
+    final lines = <String>[
+      '$name  HP ${u.hp}/${u.maxHp}',
+      if (items.isNotEmpty) items.join(' '),
+    ];
+    _minimugUnitId = u.id;
+    _minimugText = lines.join('\n');
+    if (_minimugComp != null &&
+        _minimugComp!.lines.length == lines.length &&
+        _sameLines(_minimugComp!.lines, lines)) {
+      return; // 没变就不重建（组件有自己的生命周期）
+    }
+    _removeMinimug();
+    if (!isMounted) return;
+    final c = MinimugComponent(
+        lines: lines, tileSize: 16, screen: camera.viewport.virtualSize);
+    _minimugComp = c;
+    camera.viewport.add(c);
+  }
+
+  bool _sameLines(List<String> a, List<String> b) {
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  void _removeMinimug() {
+    if (_minimugComp != null) {
+      _minimugComp!.removeFromParent();
+      _minimugComp = null;
+    }
+    _minimugUnitId = null;
+    _minimugText = '';
   }
 
   /// 每帧推进目标窗口：滑入 6 帧 / 停留 / 滑出 4 帧（帧数出处见 `goal_window.dart`）

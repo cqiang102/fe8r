@@ -516,6 +516,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 单位小窗口：設定里改「ユニットウィンドウ」⇒ 小窗口收起（跨功能）
+      Step('L4', '端到端场景（单位小窗口 / 设置联动）', 'bash',
+          ['tools/verify/scenario.sh', 'uioff'],
+          note: 'unitDisplayType 一改，minimug.visible 立刻为 false',
+          requires: ['tools/verify/scenario.sh']),
       // 目标窗口：設定里关掉「クリア目的表示」⇒ 窗口收起（跨功能）
       Step('L4', '端到端场景（目标窗口 / 设置联动）', 'bash',
           ['tools/verify/scenario.sh', 'goaloff'],

@@ -212,6 +212,19 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,right,wait"                                    # オン → オフ
     SCRIPT="$SCRIPT,cancel,wait,wait,wait"                         # B 关设定
     ;;
+  uioff)
+    # ★ 跨功能：設定里把「ユニットウィンドウ」改掉 ⇒ 单位小窗口收起。
+    #
+    # 显示顺序（`gGameOptionsUiOrder`）里它是**第 5 行**（下标 4）；
+    # 对应 `gPlaySt.config.unitDisplayType`（`src/uiconfig.c` 的 switch），
+    # 开不开小窗口看 `src/player_interface_0808F2C0.c:68-78`。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$SCRIPT,start,down,down,down,confirm,wait,wait"        # 地图菜单 → 設定
+    SCRIPT="$SCRIPT,down,down,down,down,wait"                      # 走到「ユニットウィンドウ」
+    SCRIPT="$SCRIPT,right,wait"                                    # 改值（不是 minimug 了）
+    SCRIPT="$SCRIPT,cancel,wait,wait,wait"                         # B 关设定
+    ;;
   suspend)
     # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。
     #
