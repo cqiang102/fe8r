@@ -40,6 +40,7 @@ export 'flow/map_menu.dart';
 export 'flow/play_config.dart';
 export 'flow/tutorial_events.dart';
 export 'flow/chapter_status.dart';
+export 'flow/unit_list.dart';
 export 'flow/world_map.dart';
 export 'save/save_state.dart';
 export 'flow/move_costs.dart';

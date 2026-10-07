@@ -507,6 +507,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 部隊列表 → A 选中 → 开**那个单位**的状況屏（原作的两屏串联）
+      Step('L4', '端到端场景（部隊列表 → 状況屏）', 'bash',
+          ['tools/verify/scenario.sh', 'unitlist'],
+          note: '光标下移一行 → A ⇒ 状況屏显示的是列表里选中的那个单位',
+          requires: ['tools/verify/scenario.sh']),
       // 地图菜单各项**各走各的**（部隊 不该串到中断）+ 状況屏开/关
       Step('L4', '端到端场景（状況屏 / 部隊 未实现）', 'bash',
           ['tools/verify/scenario.sh', 'status'],

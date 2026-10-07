@@ -184,6 +184,17 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,start,down,confirm,wait,wait"                # 状況（第 2 项）
     SCRIPT="$SCRIPT,cancel,wait,wait"                            # B 关闭
     ;;
+  unitlist)
+    # ★ 「部隊」列表：开 → 下移一行 → A ⇒ 开**那个单位**的状況屏 → B 关。
+    #
+    # 原作把这两屏串在一起：A 是 `SetLastStatScreenUid(...)` + `Proc_Break`
+    #（`src/unitlistscreen_08093744.c:83-90`）。
+    TITLE=""
+    BASE="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$BASE,start,confirm,wait,wait"            # 部隊（第 1 项）
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"      # 下移一行 → A
+    SCRIPT="$SCRIPT,cancel,wait,wait"                 # 状況屏 B 关
+    ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。
     #

@@ -303,6 +303,25 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok('${d['statusNote']}' == '关着', 'B 把状況屏关掉了', 'statusNote=${d['statusNote']}');
   }
 
+  if (scenario == 'unitlist') {
+    // ★ 「部隊」列表 + A 之后开的是**那个单位**的状況屏
+    //（`src/unitlistscreen_08093744.c:83-90`：`SetLastStatScreenUid` + `Proc_Break`）
+    final ul = '${d['unitListText']}';
+    ok(ul.contains('部隊'), '列表开了', 'unitListText=${ul.replaceAll('\n', ' | ')}');
+    ok(ul.contains('▶'), '有光标行', '');
+    // 光标那一行的单位名（`▶ NAME  HP n/m`）
+    final cur = RegExp(r'▶\s*(\S+)').firstMatch(ul)?.group(1);
+    ok(cur != null, '能从列表里读出光标所在单位', 'cursor=$cur');
+    final st = '${d['statusText']}';
+    ok(cur != null && st.contains(cur),
+        '按 A 之后开的状況屏就是**列表里选中的那个单位**',
+        'cursor=$cur statusText=${st.replaceAll('\n', ' | ')}');
+    ok('${d['statusNote']}' == '关着', 'B 把状況屏关掉了', 'statusNote=${d['statusNote']}');
+    ok(d['unitList'] == null, '列表本身也关了', 'unitList=${d['unitList']}');
+    final log = ((d['mapMenuNoteLog'] as List?) ?? const []).map((e) => '$e').toList();
+    ok(log.any((e) => e.contains('unitList')), '菜单日志记着開了部隊', 'menuLog=$log');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

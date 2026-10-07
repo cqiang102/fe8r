@@ -509,6 +509,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               'unitCount': chapterStatus!.unitCount,
             },
       'statusNote': statusNote,
+      'unitList': unitList == null
+          ? null
+          : {
+              'index': unitList!.index,
+              'count': unitList!.entryCount,
+              'chosen': unitList!.chosenUnitId,
+              'sortRequested': unitList!.sortRequested,
+            },
+      'unitListText': _unitListText,
       'statusText': _statusText,
       'resumable': titleFlow?.resumable ?? false,
       'popupLog': _popupLog.toList(),
@@ -909,6 +918,30 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ 「部隊」列表开着时输入归它（`UnitList_LoopKeyHandler`）
+    final ul = unitList;
+    if (ul != null) {
+      final mine = _myUnits();
+      switch (i) {
+        case FlowInput.up:
+          unitListKey(ul, UnitListKey.up);
+        case FlowInput.down:
+          unitListKey(ul, UnitListKey.down);
+        case FlowInput.confirm:
+          unitListKey(ul, UnitListKey.a);
+        case FlowInput.cancel:
+          unitListKey(ul, UnitListKey.b);
+        default:
+          return;
+      }
+      if (ul.closed) {
+        _closeUnitList(chosen: ul.chosenUnitId, mine: mine);
+      } else {
+        _showUnitList(ul, mine);
+      }
+      return;
+    }
+
     // ★ 「状況」屏开着时输入归它（`ChapterStatus_LoopKeyHandler`）：
     // 左右换人、B 关闭、A 关闭并聚焦。
     final cs = chapterStatus;
@@ -1951,6 +1984,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 教学模式章节选「部隊」还会弹"不能中断"的提示。
       // 没有任何场景覆盖到这几项，所以一直没红。**各自分开**：
       case MapMenuCommand.unitList:
+        // `MapMenu_UnitListCommand` ⇒ 开「部隊」列表（原作的按键语义见
+        // `lib/core/flow/unit_list.dart`；A = 记住该单位并跳出 ⇒ 随后开**它**的状況屏）
+        _openUnitList();
+        _mapMenuNoteLog.add('unitList：开部隊列表');
       case MapMenuCommand.guide:
       case MapMenuCommand.records:
       case MapMenuCommand.options:
@@ -3931,6 +3968,52 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
+
+  /// 「部隊」列表的状态（开着时非 null）
+  UnitListState? unitList;
+  String _unitListText = '';
+
+  /// 打开「部隊」列表
+  ///
+  /// ⚠️ 列表顺序 = 我们场上的单位次序；原作是 `gSortedUnits`（可排序，
+  /// `src/unitlistscreen_08093AD0.c:51-80`）—— **排序未实现**（欠账）。
+  void _openUnitList() {
+    final mine = _myUnits();
+    final st = UnitListState(unitIds: [for (final u in mine) u.id]);
+    unitList = st;
+    _showUnitList(st, mine);
+  }
+
+  void _showUnitList(UnitListState st, List<MapUnit> mine) {
+    final lines = <String>['部隊  ${mine.length} 人'];
+    for (var i = 0; i < mine.length; i++) {
+      final u = mine[i];
+      final cur = i == st.index ? '▶ ' : '  ';
+      lines.add('$cur${u.name.isEmpty ? "单位${u.id}" : u.name}  '
+          'HP ${u.hp}/${u.maxHp}');
+    }
+    lines.add('A 看状況   B 返回');
+    _unitListText = lines.join('\n');
+    _sceneView?.show(text: _unitListText, virtualSize: camera.viewport.virtualSize);
+    _playNote = '部隊：${mine.isEmpty ? "没有单位" : "选中 ${mine[st.index.clamp(0, mine.length - 1)].name}"}';
+  }
+
+  void _closeUnitList({int? chosen, List<MapUnit>? mine}) {
+    unitList = null;
+    _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
+    if (chosen != null && mine != null) {
+      final idx = mine.indexWhere((u) => u.id == chosen);
+      if (idx >= 0) {
+        // ★ 原作的串法：A 之后开的是**选中那个单位**的状況屏
+        final st = ChapterStatusState(unitCount: mine.length, unitIndex: idx);
+        chapterStatus = st;
+        _showStatusText(st, mine);
+        return;
+      }
+    }
+    _playNote = kPlayNote;
+    _updateHud();
+  }
 
   /// 「状況」屏的状态（开着时非 null）
   ChapterStatusState? chapterStatus;
