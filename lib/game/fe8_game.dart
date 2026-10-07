@@ -403,12 +403,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         'markerComponents': _battleView?.markerCount,
         'cursorComponents': _battleView?.cursorCount,
         'total': _battleView?.componentCount,
-        'aliveUnits': f?.units.where((u) => u.isAlive).length,
-        // 这一条才是判据：**渲染出来的单位组件数 == 存活单位数**
+        // ⚠️ 这里是**可见**单位数（活着且没被隐藏），不是"存活数" ——
+        // 被救出扛走的人 `US_HIDDEN` 不该画在地图上（第 52 轮补的救出）。
+        'aliveUnits': f == null ? null : visibleUnits(f).length,
+        // 这一条才是判据：**渲染出来的单位组件数 == 可见单位数**
         'matches': _battleView == null || f == null
             ? null
-            : _battleView!.unitComponentCount ==
-                f.units.where((u) => u.isAlive).length,
+            : _battleView!.unitComponentCount == visibleUnits(f).length,
       },
       'eventFlags': eventFlags.toList()..sort(),
       'scene': {

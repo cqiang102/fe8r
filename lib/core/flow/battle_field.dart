@@ -388,3 +388,11 @@ class BattleField {
   static BattleField decode(String source) =>
       BattleField.fromJson(jsonDecode(source) as Map<String, dynamic>);
 }
+
+/// 该出现在地图上的单位：**活着且没被隐藏**。
+///
+/// `UnitRescue`（`src/exact_08018060.c:37-46`）会给被救者置 `US_HIDDEN`
+/// —— 被扛在肩上的人**不该画在地图上**。渲染层与转储自检**都用这一个定义**，
+/// 免得"画出来的"和"判据说该有的"各算各的（这个仓库为此吃过亏）。
+List<MapUnit> visibleUnits(BattleField f) =>
+    [for (final u in f.units) if (u.isAlive && !u.isHidden) u];

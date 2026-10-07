@@ -368,8 +368,11 @@ class FlowMachine {
 
       case FlowInput.confirm:
         final unit = field.unitAt(s.cursorX, s.cursorY);
-        // 只有**当前阵营**的、还能行动的单位才能选中
+        // 只有**当前阵营**的、还能行动的单位才能选中。
+        // `US_HIDDEN`（被救出扛在肩上）不在场上 ⇒ 选不中；
+        // `US_UNSELECTABLE`（刚被降下的我方，`src/UnitDrop.c:37-38`）本回合也选不中。
         if (unit == null || unit.hasActed) return FlowResult(s);
+        if (unit.isHidden || unit.unselectable) return FlowResult(s);
         if (!field.isControllable(unit)) return FlowResult(s);
 
         _range = MovementRangeComputer.compute(

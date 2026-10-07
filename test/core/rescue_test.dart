@@ -75,4 +75,23 @@ void main() {
     expect(got.contains((0, 1)), isTrue);
     expect(got.contains((1, 0)), isFalse, reason: '那格不空');
   });
+  _visibleUnitsTests();
+}
+
+// ★ 渲染口径：被扛走的人**不该画出来**（`US_HIDDEN`）。
+// 渲染层与转储自检共用 `visibleUnits`，所以这一条就是"画出来的 == 判据说该有的"。
+void _visibleUnitsTests() {
+  test('★ `visibleUnits`：活着且没被隐藏（被救出的不算）', () {
+    final a = MapUnit(id: 1, faction: 0, x: 1, y: 1, con: 10);
+    final t = MapUnit(id: 2, faction: 0, x: 2, y: 1, con: 6);
+    final dead = MapUnit(id: 3, faction: 0, x: 4, y: 4, hp: 0, maxHp: 20, con: 5);
+    final f = BattleField(width: 6, height: 6, units: [a, t, dead]);
+    expect(visibleUnits(f).map((u) => u.id).toList(), [1, 2]);
+    unitRescue(a, t);
+    expect(visibleUnits(f).map((u) => u.id).toList(), [1],
+        reason: '★ 被扛起 ⇒ `US_HIDDEN` ⇒ 不再渲染');
+    unitDrop(a, t, xTarget: 3, yTarget: 1, targetIsPlayerFaction: true);
+    expect(visibleUnits(f).map((u) => u.id).toList(), [1, 2],
+        reason: '降下后重新出现');
+  });
 }

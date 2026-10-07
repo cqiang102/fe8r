@@ -99,5 +99,14 @@ void main() {
     // 落点是相邻格，不再和救人者重叠
     final t2 = f.unitById(2)!;
     expect((t2.x - 2).abs() + (t2.y - 2).abs(), 1, reason: '落在相邻格');
+
+    // ★ 刚被降下的人**选不中**（`US_UNSELECTABLE`，`src/UnitDrop.c:37-38`）
+    f.unitById(1)!.hasActed = true;   // 让光标只能落到被降下的人身上
+    g.state = FlowState(
+        phase: FlowPhase.freeCursor, cursorX: t2.x, cursorY: t2.y);
+    g.routeInput(FlowInput.confirm);
+    expect(g.state!.phase, FlowPhase.freeCursor,
+        reason: '★ 被降下的人本回合选不中（stage 不该进 unitSelected）');
+    expect(g.state!.selectedUnitId, isNull, reason: '没有选中任何人');
   });
 }

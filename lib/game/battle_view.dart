@@ -73,9 +73,9 @@ class BattleView {
   }
 
   void _syncUnits(FlowState s, BattleField f) {
+    // ★ 被扛走的人（`US_HIDDEN`）不该画出来 —— 判据见 `visibleUnits`
     final alive = <int, MapUnit>{
-      for (final u in f.units)
-        if (u.isAlive) u.id: u,
+      for (final u in visibleUnits(f)) u.id: u,
     };
 
     // 死了的移除
