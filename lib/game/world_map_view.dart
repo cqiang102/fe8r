@@ -54,7 +54,9 @@ class WorldMapView extends PositionComponent {
       final n = data.nodes[i];
       final o = _toScreen(n.x, n.y);
       final isCurrent = i == state.node;
-      final r = isCurrent ? 9.0 : 5.0;
+      // 原作节点图标 16×16，画面 240 宽 ⇒ 半径约 6；当前节点放大一点
+      final unit = _screen.x / 40;
+      final r = isCurrent ? unit * 2.2 : unit * 1.3;
       canvas.drawCircle(o, r, isCurrent ? cur : dot);
       if (state.cleared.contains(i)) {
         // 已通关：套一圈
@@ -70,14 +72,21 @@ class WorldMapView extends PositionComponent {
     }
 
     // 底部信息条：当前节点名 + 目标 + 下一个
+    //
+    // ⚠️ **所有尺寸都必须按 `_screen` 推**：视口是 `FixedResolutionViewport`
+    // 固定 **240×160**（`fe8_game.dart:173`），再放大到窗口。
+    // 我第一版写死 `fontSize: 13` —— 那是画布高度的 8%，字被放大到糊满屏幕
+    // （截图里整个信息条压住了地图）。把 240×160 当 800×600 用就是这个下场。
+    final fs = _screen.y / 24; // 240×160 下约 6.7
+    final lineH = fs * 1.35;
     final nodeNow = data.nodes[state.node];
     final next = state.nextNodeId;
     final lines = <String>[
-      '大地图  ${textForName(nodeNow.nameTextId)}'
-          '   当前节点 ${state.node} / 下一个 ${next < 0 ? "—" : "$next"}',
-      '确认 = 走到下一个节点；走到目标章节所在节点再确认 = 出发',
+      '大地图  ${textForName(nodeNow.nameTextId)}',
+      '节点 ${state.node} → ${next < 0 ? "—" : "$next"}'
+          '${state.note.isEmpty ? "" : "  ${state.note}"}',
     ];
-    final barH = 18.0 * lines.length + 8;
+    final barH = lineH * lines.length + fs;
     canvas.drawRect(
       Rect.fromLTWH(0, _screen.y - barH, _screen.x, barH),
       box,
@@ -86,11 +95,13 @@ class WorldMapView extends PositionComponent {
       final tp = TextPainter(
         text: TextSpan(
           text: lines[i],
-          style: const TextStyle(color: Colors.white, fontSize: 13),
+          style: TextStyle(color: Colors.white, fontSize: fs),
         ),
         textDirection: TextDirection.ltr,
-      )..layout();
-      tp.paint(canvas, Offset(8, _screen.y - barH + 6 + i * 18));
+        maxLines: 1,
+        ellipsis: '…',
+      )..layout(maxWidth: _screen.x - fs);
+      tp.paint(canvas, Offset(fs * 0.5, _screen.y - barH + fs * 0.5 + i * lineH));
     }
   }
 }

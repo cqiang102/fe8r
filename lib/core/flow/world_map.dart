@@ -246,6 +246,9 @@ class WorldMapState {
   /// 放这里是为了让表现层不必自己持有 `eventFlags`（规则仍由 `nextNode` 算）。
   int nextNodeId = -1;
 
+  /// **展示用**：一句话说明（走不动时写原因）。由游戏层写，规则层不产生它。
+  String note = '';
+
   /// 当前节点对应的章节（`WMLoc_GetChapterId`）
   int chapterId(WorldMapRules r, {int mode = ChapterMode.eirika}) =>
       r.chapterIdOf(node, mode: mode);

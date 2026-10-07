@@ -3047,6 +3047,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     sceneMapNote = 'LOMA($chapterIndex) → $mapName';
     // 地图切换历史 —— 用它判断脚本走到了哪一步
     _sceneMapHistory = '$_sceneMapHistory $mapName';
+    // ★ 地图就绪标志放**这里**（不是 `_gotoChapter` 末尾）。
+    //
+    // 序章的地图是**开场脚本里的 `LOMA` 装的**，根本不经过 `_gotoChapter`
+    // —— 原来的写法让 `_mapReady` 永远为假，于是"等地图就绪再进大地图"
+    // 这条条件永远不成立（实测：`FE8R_WM=56` 那轮 WM 一次都没进，
+    // 而日志里连一条 `[WM]` 都没有）。
+    _mapReady = true;
     _updateHud();
   }
 
@@ -3517,6 +3524,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final wm = worldMap;
     final r = worldMapRules;
     if (wm == null || r == null) return;
+    wm.note = _worldMapNote;
     wm.nextNodeId = wm.nextNode(
       r,
       eventFlags.contains,
@@ -3534,6 +3542,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 没有 layout —— 没有这一句，`MNCH` 的**状态机**就没法单测。
     if (!hasLayout) return;
     _clearWorldMapView();
+    // ★ 必须挂到 **viewport**（屏幕空间），不能挂在 `world` 里。
+    //
+    // 挂 `world` 会被相机的平移/缩放带着走：节点是按 470×300 的数据坐标画的，
+    // 而相机在看战场（可能已滚动），于是 WM 只盖住画面一部分、右侧露出地图瓦片
+    // —— 这就是欠账 9（第一张 WM 截图）。
+    // 优先级 50 高于 `world`、远低于剧情层（`SceneView` 用 `1 << 20`），
+    // 所以对白与立绘仍然在 WM **之上**（与原作一致：WM 上要弹对话框）。
     _wmView = WorldMapView(
       data: d,
       state: wm,
@@ -3543,7 +3558,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       },
       screen: camera.viewport.virtualSize,
     );
-    world.add(_wmView!);
+    camera.viewport.add(_wmView!);
     _rebuildOverlay();
   }
 
@@ -3559,7 +3574,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 这跟地图菜单那次崩溃是**同一个形状**：先置空/没建，再解引用。
   void _clearWorldMapView() {
     if (_wmView != null) {
-      world.remove(_wmView!);
+      camera.viewport.remove(_wmView!);
       _wmView = null;
     }
   }
