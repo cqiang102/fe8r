@@ -862,6 +862,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
     _addUnits(added);
     _sceneHudExtra = '载入 $name（${added.length} 个单位）';
+    // 把地图切换记录也带上 —— 它比「载入单位」更能说明脚本走到哪了
+    _sceneHudExtra = '$_sceneHudExtra  $_sceneMapHistory';
   }
 
   /// 往战场里加单位（并同步到画面）
@@ -926,8 +928,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _updateHud();
       return;
     }
+    // 先把网格解析好（`_swapMap` 里要用它更新左上角与战场尺寸）
+    if (!_mapGrids.containsKey(mapName)) {
+      final jf = File('assets/maps/$mapName.json');
+      if (jf.existsSync()) {
+        _mapGrids[mapName] = MapGrid.parse(jf.readAsStringSync());
+      }
+    }
     await _swapMap(mapName);
     sceneMapNote = 'LOMA($chapterIndex) → $mapName';
+    // 地图切换历史 —— 用它判断脚本走到了哪一步
+    _sceneMapHistory = '$_sceneMapHistory $mapName';
+    _updateHud();
     _updateHud();
   }
 
@@ -944,6 +956,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   Map<String, String> _chapterMaps = const {};
   String sceneMapNote = '';
+
+  /// 本场景里切换过的地图序列（诊断用）
+  String _sceneMapHistory = '';
 
   /// 加载章节表（ 路由第一跳）
   void _loadChapters() {
@@ -988,7 +1003,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       t.priority = -10;
     }
     _tiled = t;
+
+    // ⚠️ **必须同时更新左上角那行**。
+    //
+    // 原来只更新 `sceneMapNote`，于是左上角一直显示 `onLoad` 时硬编码的
+    // `PrologueMap 15×10` —— 而画面上早就是王座厅（`Ch16Map`）。
+    // 这行是**给人看的**，不更新就会误导调试（我自己就被它误导过一次，
+    // 差点把"视野问题"当成"地图没换"）。
+    final g = map;
+    final gm = _mapGrids[mapName];
+    if (gm != null) {
+      map = gm;
+      status.value = '$mapName  ${gm.width}×${gm.height}  ${_terrainBrief(gm)}';
+    } else {
+      status.value = '$mapName（缺 .json，战场网格仍是 ${g?.id ?? "无"}）';
+    }
   }
+
+  /// 已解析的地图网格（按名字缓存）—— `LOMA` 换图时要用
+  final Map<String, MapGrid> _mapGrids = {};
 
   /// 弹一个"是/否"选择，返回 `TALK_CHOICE_*`（0=取消 / 1=是 / 2=否）。
   ///
