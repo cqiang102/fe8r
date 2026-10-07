@@ -33,6 +33,7 @@ export 'flow/convoy.dart';
 export 'flow/dance.dart';
 export 'flow/rescue.dart';
 export 'flow/staff_use.dart';
+export 'flow/steal.dart';
 export 'flow/talk.dart';
 export 'flow/chapter_objectives.dart';
 export 'flow/battle_field.dart';

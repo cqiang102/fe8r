@@ -81,7 +81,10 @@ enum ActionOption {
   talk('話す'),
 
   /// 踊る / 演奏（`PlayDanceCommandUsabilityCommon`）
-  dance('踊る');
+  dance('踊る'),
+
+  /// 盗む（`StealCommandUsability`，`src/StealCommandUsability.c:50-64`）
+  steal('盗む');
 
   const ActionOption(this.label);
   final String label;
@@ -269,6 +272,7 @@ class FlowResult {
     this.supplyAt,
     this.talkAt,
     this.danceAt,
+    this.stealAt,
   });
 
   final FlowState state;
@@ -300,6 +304,7 @@ class FlowResult {
   final String? supplyAt;
   final String? talkAt;
   final String? danceAt;
+  final String? stealAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -567,6 +572,10 @@ class FlowMachine {
           return FlowResult(s, danceAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.steal) {
+          return FlowResult(s, stealAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -762,6 +771,9 @@ class FlowMachine {
     if (danceAvailableAt?.call(x, y) ?? false) {
       out.add(ActionOption.dance);
     }
+    if (stealAvailableAt?.call(x, y) ?? false) {
+      out.add(ActionOption.steal);
+    }
     return out;
   }
 
@@ -796,6 +808,9 @@ class FlowMachine {
 
   /// "这个单位能不能「踊る」"（`CA_DANCE`/`CA_PLAY` + 相邻有已行动的同伴）
   bool Function(int x, int y)? danceAvailableAt;
+
+  /// "这个单位能不能「盗む」"（`CA_STEAL` + 相邻有能偷的红方）
+  bool Function(int x, int y)? stealAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///

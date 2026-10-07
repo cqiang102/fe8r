@@ -579,6 +579,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastTalk': lastTalk,
       'characterEventCount': _characterEvents.length,
       'lastDance': lastDance,
+      'lastSteal': lastSteal,
       // ★ 行动菜单**有哪些项**（判据用；也是给"看不见菜单就瞎按键"这个反复
       //   出现的坑的解法：测试按**名字**定位，而不是数 down 几次）
       'actionMenu': (flow != null && state != null && field != null)
@@ -1411,6 +1412,37 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「盗む」：把相邻红方身上一件 `ITYPE_ITEM` 类道具拿过来
+    //（效果是**推导**的：源里 `gSelectInfo_Steal` 的处理不在反编译里，见 `steal.dart` 文件头）
+    final stealAt = r.stealAt;
+    if (stealAt != null) {
+      final u9 = field?.unitById(s.selectedUnitId ?? -1);
+      if (u9 != null) {
+        final targets = _stealTargets(u9);
+        if (targets.isNotEmpty) {
+          final who = targets.first;
+          final slots = stealableSlots(who.items, itemTypeOf: _itemTypeOf);
+          if (slots.isNotEmpty) {
+            final res = stealItemFrom(u9, who, slots.first);
+            lastSteal = {
+              'actor': u9.id,
+              'target': who.id,
+              'slot': slots.first,
+              'item': res.item,
+              'itemName': _itemNameByNumber[ItemTable.itemIndex(res.item)],
+              'ok': res.ok,
+              'targetItems': who.items.toList(),
+              'actorItems': u9.items.toList(),
+            };
+            debugPrint('[STEAL] $lastSteal');
+          }
+        }
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「踊る」：让一个"已经动过"的相邻同伴**再动一次**
     //（效果是**推断**的，见 `lib/core/flow/dance.dart` 文件头：
     //  `RefreshAllies` 是阶段开始的全体刷新，不是踊る的效果）
@@ -5378,6 +5410,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次「踊る」的记录（判据用）
   Map<String, Object?>? lastDance;
 
+  /// 最近一次「盗む」的记录（判据用）
+  Map<String, Object?>? lastSteal;
+
   /// 最近一次「訪問」的记录（判据用）
   Map<String, Object?>? lastVisit;
 
@@ -5446,6 +5481,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// `UNIT_CATTRIBUTES(aUnit) = pCharacterData->attributes | pClassData->attributes`
   /// （`include/bmunit.h:479`）—— **位是两边凑的**。
+  /// 这件道具的 `GetItemType`（就是 `items.json` 的 `weaponType`）
+  int _itemTypeOf(int item) =>
+      _itemStats[ItemTable.itemIndex(item)]?.weaponType ?? -1;
+
+  /// 「盗む」的候选目标（`MakeTargetListForSteal` + `AddAsTarget_IfCanStealFrom`）
+  List<MapUnit> _stealTargets(MapUnit actor) => stealTargets(
+        actor: actor,
+        units: field?.units ?? const [],
+        spdOf: (u) => _profileFor(u).spd,
+        isRed: (u) => u.factionBit == Faction.red,
+        itemTypeOf: _itemTypeOf,
+      );
+
   int _unitAttributes(MapUnit u) =>
       (_attributesByCharIndex[u.charIndex] ?? 0) |
       (_attributesByClassNumber[u.classId] ?? 0);
@@ -6524,6 +6572,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     fl.rescueAvailableAt = (x, y) {
       if (unit.hasActed || unit.isRescuing) return false;
       return _rescueTargets(unit).isNotEmpty;
+    };
+    fl.stealAvailableAt = (x, y) {
+      final targets = _stealTargets(unit);
+      return stealAvailable(
+        hasStealAttribute: classHasAttribute(
+            _attributesByClassNumber[unit.classId] ?? 0, caSteal),
+        hasActed: unit.hasActed,
+        hasTarget: targets.isNotEmpty,
+        inventoryFull: unit.items.every((w) => w != 0),
+      );
     };
     fl.danceAvailableAt = (x, y) {
       final attrs = _attributesByClassNumber[unit.classId] ?? 0;
