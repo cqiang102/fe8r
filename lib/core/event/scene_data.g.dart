@@ -10,7 +10,7 @@
 // **请勿手改**：改 C 源码或生成器，然后重新生成。
 //
 // 每个脚本编译成一个 `async` 函数 —— **没有指令列表，没有解释器**。
-// 脚本 461 个（直线 343 个 / 有分支 118 个）
+// 脚本 463 个（直线 343 个 / 有分支 120 个）
 //
 // 直线脚本是顺序的 async 代码；有分支的用 `while(true){switch(pc)}`，
 // `pc` 是**局部变量**（因为不需要存档）。
@@ -20598,8 +20598,98 @@ Future<void> WholeTowerClear(Scene s) async {
     return;
 }
 
+/// `frontier_df3_eventscr_ch_014_A6EDFC + 0x98`
+Future<void> frontier_df3_eventscr_ch_014_A6EDFC_0x98(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
+    s.setSlot(1, 65536);
+    s.placeholder('CHAI');
+    s.placeholder('COUNTER_SET');
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `frontier_df3_eventscr_ch_015_A6EF04`
+Future<void> frontier_df3_eventscr_ch_015_A6EF04(Scene s) async {
+    s.setSlot(2, 0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
+    s.setSlot(1, 65536);
+    s.placeholder('CHAI');
+    s.setSlot(1, 66307);
+    s.placeholder('CHAI');
+    s.placeholder('COUNTER_SET');
+    s.placeholder('ENUF');
+    s.placeholder('EVBIT_T');
+    return;
+}
+
+/// `frontier_df3_eventscr_ch_016_A6EFD8 + 0x24`
+Future<void> frontier_df3_eventscr_ch_016_A6EFD8_0x24(Scene s) async {
+    s.placeholder('TEXTEND');
+    s.placeholder('REMA');
+    await s.call(Sym('frontier_df3_eventscr_ch_000_A69464', 112));
+    await s.call(Sym('frontier_df3_eventscr_ch_000_A69464', 240));
+}
+
+/// `frontier_df3_eventscr_ch_016_A6EFD8 + 0x3C`
+Future<void> frontier_df3_eventscr_ch_016_A6EFD8_0x3C(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          pc = 9;
+          continue;
+        case 1:
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('TUTORIALTEXTBOXSTART');
+          pc = 3;
+          continue;
+        case 3:
+          s.setSlot(11, 4294967295);
+          pc = 4;
+          continue;
+        case 4:
+          await s.textShow(2844);
+          pc = 5;
+          continue;
+        case 5:
+          s.placeholder('TEXTEND');
+          pc = 6;
+          continue;
+        case 6:
+          s.placeholder('REMA');
+          pc = 7;
+          continue;
+        case 7:
+          await s.call(Sym('frontier_df3_eventscr_ch_000_A69464', 240));
+          pc = 8;
+          continue;
+        case 8:
+          await s.call(Sym('frontier_df3_eventscr_ch_000_A69464', 112));
+          pc = 9;
+          continue;
+        case 9:
+          pc = 10;
+          continue;
+        case 10:
+          await s.fade(FadeDirection.toWhite, 16);
+          pc = 11;
+          continue;
+        default:
+          return;
+      }
+    }
+}
+
 /// `frontier_df3_eventscr_ch_017_A6F47C + 0x1B8`
 Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x1B8(Scene s) async {
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
+    s.placeholder('ENUT');
     return;
     await s.call(Sym('frontier_df3_eventscr_ch_003_A6AA20', 804));
     return;
@@ -20634,11 +20724,6 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x1B8(Scene s) async {
     await s.endCursor();
     s.setSlot(2, 78);
     await s.call(Sym('EventScr_SetBackground'));
-    await s.textShow(2937);
-    s.placeholder('TEXTEND');
-    await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('REMA');
-    await s.changeChapter(34, subcmd: 2);
 }
 
 /// `frontier_df3_eventscr_ch_017_A6F47C + 0x1C`
@@ -20654,95 +20739,49 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x270(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          return;
+          await s.textShow(2937);
+          pc = 1;
+          continue;
         case 1:
-          s.placeholder('CHECK_TURNS');
+          s.placeholder('TEXTEND');
           pc = 2;
           continue;
         case 2:
-          s.setSlot(1, 1);
+          await s.fade(FadeDirection.toBlack, 16);
           pc = 3;
           continue;
         case 3:
-          s.slotArith('SAND', 12, 12);
+          s.placeholder('REMA');
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 5; }
+          await s.changeChapter(34, subcmd: 2);
+          pc = 5;
           continue;
         case 5:
+          return;
+        case 6:
+          s.placeholder('CHECK_TURNS');
+          pc = 7;
+          continue;
+        case 7:
+          s.setSlot(1, 1);
+          pc = 8;
+          continue;
+        case 8:
+          s.slotArith('SAND', 12, 12);
+          pc = 9;
+          continue;
+        case 9:
+          if (s.slotInt(0) != 12) { pc = 10; } else { pc = 10; }
+          continue;
+        case 10:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue'));
-          pc = 6;
-          continue;
-        case 6:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 7;
-          continue;
-        case 7:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 60));
-          pc = 8;
-          continue;
-        case 8:
-          await s.call(Sym('EventScr_LoadReinforceHardMode'));
-          pc = 9;
-          continue;
-        case 9:
-          pc = 10;
-          continue;
-        case 10:
-          s.placeholder('EVBIT_T');
           pc = 11;
           continue;
-        default:
-          return;
-      }
-    }
-}
-
-/// `frontier_df3_eventscr_ch_017_A6F47C + 0x2B4`
-Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2B4(Scene s) async {
-    var pc = 0;
-    while (true) {
-      switch (pc) {
-        case 0:
-          return;
-        case 1:
-          s.placeholder('CHECK_TURNS');
-          pc = 2;
-          continue;
-        case 2:
-          s.setSlot(1, 1);
-          pc = 3;
-          continue;
-        case 3:
-          s.slotArith('SAND', 12, 12);
-          pc = 4;
-          continue;
-        case 4:
-          if (s.slotInt(0) == 12) { pc = 9; } else { pc = 5; }
-          continue;
-        case 5:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 100));
-          pc = 6;
-          continue;
-        case 6:
+        case 11:
           await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 7;
-          continue;
-        case 7:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 160));
-          pc = 8;
-          continue;
-        case 8:
-          await s.call(Sym('EventScr_LoadReinforceHardMode'));
-          pc = 9;
-          continue;
-        case 9:
-          pc = 10;
-          continue;
-        case 10:
-          s.placeholder('EVBIT_T');
-          pc = 11;
+          pc = 12;
           continue;
         default:
           return;
@@ -20758,71 +20797,50 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2C(Scene s) async {
     s.placeholder('EVBIT_T');
 }
 
-/// `frontier_df3_eventscr_ch_017_A6F47C + 0x2F8`
-Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2F8(Scene s) async {
-    return;
+/// `frontier_df3_eventscr_ch_017_A6F47C + 0x318`
+Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x318(Scene s) async {
     s.setSlot(2, 0);
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('COUNTER_SET');
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
+    return;
+    s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 200));
+    await s.call(Sym('EventScr_LoadReinforce'));
+    s.placeholder('COUNTER_DEC');
 }
 
-/// `frontier_df3_eventscr_ch_017_A6F47C + 0x318`
-Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x318(Scene s) async {
+/// `frontier_df3_eventscr_ch_017_A6F47C + 0x34C`
+Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x34C(Scene s) async {
     var pc = 0;
     while (true) {
       switch (pc) {
         case 0:
-          return;
+          s.placeholder('ENUF');
+          pc = 1;
+          continue;
         case 1:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 200));
+          s.placeholder('COUNTER_CHECK');
           pc = 2;
           continue;
         case 2:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 3;
+          if (s.slotInt(0) != 12) { pc = 4; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('COUNTER_DEC');
+          s.placeholder('ENUT');
           pc = 4;
           continue;
         case 4:
-          s.placeholder('ENUF');
           pc = 5;
           continue;
         case 5:
-          s.placeholder('COUNTER_CHECK');
-          pc = 6;
-          continue;
-        case 6:
-          if (s.slotInt(0) != 12) { pc = 8; } else { pc = 7; }
-          continue;
-        case 7:
-          s.placeholder('ENUT');
-          pc = 8;
-          continue;
-        case 8:
-          pc = 9;
-          continue;
-        case 9:
           s.placeholder('EVBIT_T');
-          pc = 10;
+          pc = 6;
           continue;
         default:
           return;
       }
     }
-}
-
-/// `frontier_df3_eventscr_ch_017_A6F47C + 0x34C`
-Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x34C(Scene s) async {
-    return;
-    s.setSlot(2, 0);
-    await s.call(Sym('UnitDef_Ch14BAlly_7'));
-    s.placeholder('ENUF');
-    s.placeholder('COUNTER_SET');
-    s.placeholder('EVBIT_T');
 }
 
 /// `frontier_df3_eventscr_ch_017_A6F47C + 0x36C`
@@ -20833,63 +20851,55 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
         case 0:
           return;
         case 1:
-          s.placeholder('ENUF');
+          s.setSlot(2, 0);
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_CHECK');
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
           pc = 3;
           continue;
         case 3:
-          s.setSlot(7, 5);
+          s.placeholder('ENUF');
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          s.placeholder('COUNTER_SET');
+          pc = 5;
           continue;
         case 5:
-          s.setSlot(7, 3);
+          s.placeholder('EVBIT_T');
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 7; }
-          continue;
+          return;
         case 7:
-          s.setSlot(7, 1);
+          s.placeholder('ENUF');
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 9; } else { pc = 9; }
+          s.placeholder('COUNTER_CHECK');
+          pc = 9;
           continue;
         case 9:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 260));
+          s.setSlot(7, 5);
           pc = 10;
           continue;
         case 10:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 11;
+          if (s.slotInt(0) == 12) { pc = 11; } else { pc = 11; }
           continue;
         case 11:
-          s.placeholder('COUNTER_CHECK');
+          s.setSlot(7, 3);
           pc = 12;
           continue;
         case 12:
-          if (s.slotInt(0) != 12) { pc = 14; } else { pc = 13; }
+          if (s.slotInt(0) == 12) { pc = 13; } else { pc = 13; }
           continue;
         case 13:
-          s.placeholder('ENUT');
+          s.setSlot(7, 1);
           pc = 14;
           continue;
         case 14:
-          pc = 15;
-          continue;
-        case 15:
-          s.placeholder('COUNTER_DEC');
-          pc = 16;
-          continue;
-        case 16:
-          s.placeholder('EVBIT_T');
-          pc = 17;
+          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 15; }
           continue;
         default:
           return;
@@ -20899,23 +20909,15 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
 
 /// `frontier_df3_eventscr_ch_017_A6F47C + 0x3D4`
 Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3D4(Scene s) async {
-    return;
-    s.setSlot(2, 0);
-    await s.call(Sym('UnitDef_Ch14BAlly_7'));
-    s.placeholder('ENUF');
-    s.placeholder('COUNTER_SET');
-    s.placeholder('EVBIT_T');
-}
-
-/// `frontier_df3_eventscr_ch_017_A6F47C + 0x3F4`
-Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
     var pc = 0;
     while (true) {
       switch (pc) {
         case 0:
-          return;
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 260));
+          pc = 1;
+          continue;
         case 1:
-          s.placeholder('ENUF');
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 2;
           continue;
         case 2:
@@ -20923,55 +20925,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.setSlot(7, 5);
-          pc = 4;
-          continue;
-        case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
-          continue;
-        case 5:
-          s.setSlot(7, 3);
-          pc = 6;
-          continue;
-        case 6:
-          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 7; }
-          continue;
-        case 7:
-          s.setSlot(7, 1);
-          pc = 8;
-          continue;
-        case 8:
-          if (s.slotInt(0) == 12) { pc = 9; } else { pc = 9; }
-          continue;
-        case 9:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 340));
-          pc = 10;
-          continue;
-        case 10:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 11;
-          continue;
-        case 11:
-          s.placeholder('COUNTER_CHECK');
-          pc = 12;
-          continue;
-        case 12:
-          if (s.slotInt(0) != 12) { pc = 14; } else { pc = 13; }
-          continue;
-        case 13:
-          s.placeholder('ENUT');
-          pc = 14;
-          continue;
-        case 14:
-          pc = 15;
-          continue;
-        case 15:
-          s.placeholder('COUNTER_DEC');
-          pc = 16;
-          continue;
-        case 16:
-          s.placeholder('EVBIT_T');
-          pc = 17;
+          if (s.slotInt(0) != 12) { pc = 4; } else { pc = 4; }
           continue;
         default:
           return;
@@ -20987,116 +20941,103 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x44(Scene s) async {
     s.placeholder('EVBIT_T');
 }
 
-/// `frontier_df3_eventscr_ch_017_A6F47C + 0x45C`
-Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x45C(Scene s) async {
-    return;
-    s.setSlot(2, 0);
-    await s.call(Sym('UnitDef_Ch14BAlly_7'));
-    s.placeholder('ENUF');
-    s.placeholder('COUNTER_SET');
-    s.placeholder('EVBIT_T');
-}
-
 /// `frontier_df3_eventscr_ch_017_A6F47C + 0x47C`
 Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
     var pc = 0;
     while (true) {
       switch (pc) {
         case 0:
-          return;
+          s.placeholder('COUNTER_CHECK');
+          pc = 1;
+          continue;
         case 1:
-          s.placeholder('ENUF');
-          pc = 2;
+          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('COUNTER_CHECK');
+          s.placeholder('ENUT');
           pc = 3;
           continue;
         case 3:
-          s.setSlot(7, 11);
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          s.placeholder('COUNTER_DEC');
+          pc = 5;
           continue;
         case 5:
-          s.setSlot(7, 10);
+          s.placeholder('EVBIT_T');
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 7; }
-          continue;
+          return;
         case 7:
-          s.setSlot(7, 8);
+          s.setSlot(2, 0);
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 9; } else { pc = 9; }
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
+          pc = 9;
           continue;
         case 9:
-          s.setSlot(7, 7);
+          s.placeholder('ENUF');
           pc = 10;
           continue;
         case 10:
-          if (s.slotInt(0) == 12) { pc = 11; } else { pc = 11; }
+          s.placeholder('COUNTER_SET');
+          pc = 11;
           continue;
         case 11:
-          s.setSlot(7, 5);
+          s.placeholder('EVBIT_T');
           pc = 12;
           continue;
         case 12:
-          if (s.slotInt(0) == 12) { pc = 13; } else { pc = 13; }
-          continue;
+          return;
         case 13:
-          s.setSlot(7, 4);
+          s.placeholder('ENUF');
           pc = 14;
           continue;
         case 14:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 15; }
+          s.placeholder('COUNTER_CHECK');
+          pc = 15;
           continue;
         case 15:
-          s.setSlot(7, 2);
+          s.setSlot(7, 11);
           pc = 16;
           continue;
         case 16:
           if (s.slotInt(0) == 12) { pc = 17; } else { pc = 17; }
           continue;
         case 17:
-          s.setSlot(7, 1);
+          s.setSlot(7, 10);
           pc = 18;
           continue;
         case 18:
           if (s.slotInt(0) == 12) { pc = 19; } else { pc = 19; }
           continue;
         case 19:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 420));
+          s.setSlot(7, 8);
           pc = 20;
           continue;
         case 20:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 21;
+          if (s.slotInt(0) == 12) { pc = 21; } else { pc = 21; }
           continue;
         case 21:
-          s.placeholder('COUNTER_CHECK');
+          s.setSlot(7, 7);
           pc = 22;
           continue;
         case 22:
-          if (s.slotInt(0) != 12) { pc = 24; } else { pc = 23; }
+          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 23; }
           continue;
         case 23:
-          s.placeholder('ENUT');
+          s.setSlot(7, 5);
           pc = 24;
           continue;
         case 24:
-          pc = 25;
+          if (s.slotInt(0) == 12) { pc = 25; } else { pc = 25; }
           continue;
         case 25:
-          s.placeholder('COUNTER_DEC');
+          s.setSlot(7, 4);
           pc = 26;
-          continue;
-        case 26:
-          s.placeholder('EVBIT_T');
-          pc = 27;
           continue;
         default:
           return;
@@ -21106,6 +21047,64 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
 
 /// `frontier_df3_eventscr_ch_017_A6F47C + 0x534`
 Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x534(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          if (s.slotInt(0) == 12) { pc = 1; } else { pc = 1; }
+          continue;
+        case 1:
+          s.setSlot(7, 2);
+          pc = 2;
+          continue;
+        case 2:
+          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 3; }
+          continue;
+        case 3:
+          s.setSlot(7, 1);
+          pc = 4;
+          continue;
+        case 4:
+          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          continue;
+        case 5:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 420));
+          pc = 6;
+          continue;
+        case 6:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 7;
+          continue;
+        case 7:
+          s.placeholder('COUNTER_CHECK');
+          pc = 8;
+          continue;
+        case 8:
+          if (s.slotInt(0) != 12) { pc = 10; } else { pc = 9; }
+          continue;
+        case 9:
+          s.placeholder('ENUT');
+          pc = 10;
+          continue;
+        case 10:
+          pc = 11;
+          continue;
+        case 11:
+          s.placeholder('COUNTER_DEC');
+          pc = 12;
+          continue;
+        case 12:
+          s.placeholder('EVBIT_T');
+          pc = 13;
+          continue;
+        default:
+          return;
+      }
+    }
+}
+
+/// `frontier_df3_eventscr_ch_017_A6F47C + 0x598`
+Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x598(Scene s) async {
     var pc = 0;
     while (true) {
       switch (pc) {
@@ -21165,6 +21164,22 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x534(Scene s) async {
           s.placeholder('EVBIT_T');
           pc = 15;
           continue;
+        case 15:
+          return;
+        case 16:
+          s.setSlot(2, Sym('UnitDef_Ch19BEnemy_8'));
+          pc = 17;
+          continue;
+        case 17:
+          await s.call(Sym('EventScr_LoadReinforceHardMode'));
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('EVBIT_T');
+          pc = 19;
+          continue;
+        case 19:
+          return;
         default:
           return;
       }
@@ -21204,10 +21219,6 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x5C(Scene s) async {
         case 7:
           pc = 8;
           continue;
-        case 8:
-          s.placeholder('EVBIT_T');
-          pc = 9;
-          continue;
         default:
           return;
       }
@@ -21220,28 +21231,211 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          return;
-        case 1:
-          s.placeholder('CHECK_TURNS');
-          pc = 2;
+          s.placeholder('EVBIT_T');
+          pc = 1;
           continue;
+        case 1:
+          return;
         case 2:
-          s.setSlot(1, 1);
+          s.placeholder('CHECK_TURNS');
           pc = 3;
           continue;
         case 3:
-          s.slotArith('SAND', 12, 12);
+          s.setSlot(1, 1);
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) != 12) { pc = 25; } else { pc = 5; }
+          s.slotArith('SAND', 12, 12);
+          pc = 5;
           continue;
         case 5:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 60));
-          pc = 6;
+          if (s.slotInt(0) != 12) { pc = 26; } else { pc = 6; }
           continue;
         case 6:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 60));
+          pc = 7;
+          continue;
+        case 7:
           await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 8;
+          continue;
+        case 8:
+          pc = 9;
+          continue;
+        case 9:
+          s.placeholder('EVBIT_T');
+          pc = 10;
+          continue;
+        case 10:
+          return;
+        case 11:
+          s.placeholder('CHECK_TURNS');
+          pc = 12;
+          continue;
+        case 12:
+          s.setSlot(1, 1);
+          pc = 13;
+          continue;
+        case 13:
+          s.slotArith('SAND', 12, 12);
+          pc = 14;
+          continue;
+        case 14:
+          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 15; }
+          continue;
+        case 15:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 120));
+          pc = 16;
+          continue;
+        case 16:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 17;
+          continue;
+        case 17:
+          pc = 18;
+          continue;
+        case 18:
+          s.placeholder('EVBIT_T');
+          pc = 19;
+          continue;
+        case 19:
+          return;
+        case 20:
+          s.placeholder('CHECK_TURNS');
+          pc = 21;
+          continue;
+        case 21:
+          s.setSlot(1, 1);
+          pc = 22;
+          continue;
+        case 22:
+          s.slotArith('SAND', 12, 12);
+          pc = 23;
+          continue;
+        case 23:
+          if (s.slotInt(0) != 12) { pc = 26; } else { pc = 24; }
+          continue;
+        case 24:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 180));
+          pc = 25;
+          continue;
+        case 25:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 26;
+          continue;
+        case 26:
+          pc = 27;
+          continue;
+        case 27:
+          s.placeholder('EVBIT_T');
+          pc = 28;
+          continue;
+        case 28:
+          return;
+        case 29:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 240));
+          pc = 30;
+          continue;
+        case 30:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 31;
+          continue;
+        case 31:
+          s.placeholder('EVBIT_T');
+          pc = 32;
+          continue;
+        case 32:
+          return;
+        case 33:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 340));
+          pc = 34;
+          continue;
+        case 34:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 35;
+          continue;
+        case 35:
+          s.placeholder('EVBIT_T');
+          pc = 36;
+          continue;
+        case 36:
+          return;
+        case 37:
+          s.setSlot(2, Sym('UnitDef_Ch19BEnemy_0'));
+          pc = 38;
+          continue;
+        case 38:
+          await s.call(Sym('frontier_df3_eventscr_ch_003_A6AA20', 396));
+          pc = 39;
+          continue;
+        case 39:
+          s.loadUnits(1, Sym('UnitDef_Ch19BEnemy_0'));
+          pc = 40;
+          continue;
+        case 40:
+          await s.waitUnitMoving();
+          pc = 41;
+          continue;
+        case 41:
+          s.loadUnits(1, Sym('frontier_df3_unitdef_b_050_91EE14', 420));
+          pc = 42;
+          continue;
+        case 42:
+          await s.waitUnitMoving();
+          pc = 43;
+          continue;
+        case 43:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_051_91F300_residue', 180));
+          pc = 44;
+          continue;
+        case 44:
+          s.setSlot(3, 1);
+          pc = 45;
+          continue;
+        case 45:
+          await s.call(Sym('EventScr_LoadUnitForTutorial'));
+          pc = 46;
+          continue;
+        case 46:
+          await s.call(Sym('data_085B9BBC', 512));
+          pc = 47;
+          continue;
+        default:
+          return;
+      }
+    }
+}
+
+/// `frontier_df3_eventscr_ch_020_A6FB9C + 0x10`
+Future<void> frontier_df3_eventscr_ch_020_A6FB9C_0x10(Scene s) async {
+    var pc = 0;
+    while (true) {
+      switch (pc) {
+        case 0:
+          s.setSlot(2, Sym('frontier_df3_unitdef_b_052_91F89C', 220));
+          pc = 1;
+          continue;
+        case 1:
+          await s.call(Sym('EventScr_LoadReinforce'));
+          pc = 2;
+          continue;
+        case 2:
+          s.placeholder('COUNTER_DEC');
+          pc = 3;
+          continue;
+        case 3:
+          s.placeholder('ENUF');
+          pc = 4;
+          continue;
+        case 4:
+          s.placeholder('COUNTER_CHECK');
+          pc = 5;
+          continue;
+        case 5:
+          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          continue;
+        case 6:
+          s.placeholder('ENUT');
           pc = 7;
           continue;
         case 7:
@@ -21254,153 +21448,27 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
         case 9:
           return;
         case 10:
-          s.placeholder('CHECK_TURNS');
+          s.setSlot(2, 0);
           pc = 11;
           continue;
         case 11:
-          s.setSlot(1, 1);
+          await s.call(Sym('UnitDef_Ch14BAlly_7'));
           pc = 12;
           continue;
         case 12:
-          s.slotArith('SAND', 12, 12);
+          s.setSlot(1, 65536);
           pc = 13;
           continue;
         case 13:
-          if (s.slotInt(0) == 12) { pc = 25; } else { pc = 14; }
+          s.placeholder('CHAI');
+          pc = 14;
           continue;
         case 14:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 120));
+          s.placeholder('EVBIT_T');
           pc = 15;
           continue;
         case 15:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 16;
-          continue;
-        case 16:
-          pc = 17;
-          continue;
-        case 17:
-          s.placeholder('EVBIT_T');
-          pc = 18;
-          continue;
-        case 18:
           return;
-        case 19:
-          s.placeholder('CHECK_TURNS');
-          pc = 20;
-          continue;
-        case 20:
-          s.setSlot(1, 1);
-          pc = 21;
-          continue;
-        case 21:
-          s.slotArith('SAND', 12, 12);
-          pc = 22;
-          continue;
-        case 22:
-          if (s.slotInt(0) != 12) { pc = 25; } else { pc = 23; }
-          continue;
-        case 23:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 180));
-          pc = 24;
-          continue;
-        case 24:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 25;
-          continue;
-        case 25:
-          pc = 26;
-          continue;
-        case 26:
-          s.placeholder('EVBIT_T');
-          pc = 27;
-          continue;
-        case 27:
-          return;
-        case 28:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 240));
-          pc = 29;
-          continue;
-        case 29:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 30;
-          continue;
-        case 30:
-          s.placeholder('EVBIT_T');
-          pc = 31;
-          continue;
-        case 31:
-          return;
-        case 32:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 340));
-          pc = 33;
-          continue;
-        case 33:
-          await s.call(Sym('EventScr_LoadReinforce'));
-          pc = 34;
-          continue;
-        case 34:
-          s.placeholder('EVBIT_T');
-          pc = 35;
-          continue;
-        case 35:
-          return;
-        case 36:
-          s.setSlot(2, Sym('UnitDef_Ch19BEnemy_0'));
-          pc = 37;
-          continue;
-        case 37:
-          await s.call(Sym('frontier_df3_eventscr_ch_003_A6AA20', 396));
-          pc = 38;
-          continue;
-        case 38:
-          s.loadUnits(1, Sym('UnitDef_Ch19BEnemy_0'));
-          pc = 39;
-          continue;
-        case 39:
-          await s.waitUnitMoving();
-          pc = 40;
-          continue;
-        case 40:
-          s.loadUnits(1, Sym('frontier_df3_unitdef_b_050_91EE14', 420));
-          pc = 41;
-          continue;
-        case 41:
-          await s.waitUnitMoving();
-          pc = 42;
-          continue;
-        case 42:
-          s.setSlot(2, Sym('frontier_df3_unitdef_b_051_91F300_residue', 180));
-          pc = 43;
-          continue;
-        case 43:
-          s.setSlot(3, 1);
-          pc = 44;
-          continue;
-        case 44:
-          await s.call(Sym('EventScr_LoadUnitForTutorial'));
-          pc = 45;
-          continue;
-        case 45:
-          await s.call(Sym('data_085B9BBC', 512));
-          pc = 46;
-          continue;
-        case 46:
-          s.placeholder('ENUT');
-          pc = 47;
-          continue;
-        case 47:
-          s.placeholder('ENUT');
-          pc = 48;
-          continue;
-        case 48:
-          s.placeholder('ENUT');
-          pc = 49;
-          continue;
-        case 49:
-          s.placeholder('ENUT');
-          pc = 50;
-          continue;
         default:
           return;
       }
@@ -21937,23 +22005,25 @@ final Set<String> definedSceneScripts = {
   'EventScr_UnitWarpOUT',
   'EventScr_WM_FadeCommon',
   'EventScr_WholeTowerClear',
+  'frontier_df3_eventscr_ch_014_A6EDFC + 0x98',
+  'frontier_df3_eventscr_ch_015_A6EF04',
+  'frontier_df3_eventscr_ch_016_A6EFD8 + 0x24',
+  'frontier_df3_eventscr_ch_016_A6EFD8 + 0x3C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x1B8',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x1C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x270',
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x2B4',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x2C',
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x2F8',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x318',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x34C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x36C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x3D4',
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x3F4',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x44',
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x45C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x47C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x534',
+  'frontier_df3_eventscr_ch_017_A6F47C + 0x598',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x5C',
   'frontier_df3_eventscr_ch_017_A6F47C + 0x90',
+  'frontier_df3_eventscr_ch_020_A6FB9C + 0x10',
 };
 
 /// 脚本名 → 入口函数
@@ -22402,23 +22472,25 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_UnitWarpOUT': UnitWarpOUT,
   'EventScr_WM_FadeCommon': WM_FadeCommon,
   'EventScr_WholeTowerClear': WholeTowerClear,
+  'frontier_df3_eventscr_ch_014_A6EDFC + 0x98': frontier_df3_eventscr_ch_014_A6EDFC_0x98,
+  'frontier_df3_eventscr_ch_015_A6EF04': frontier_df3_eventscr_ch_015_A6EF04,
+  'frontier_df3_eventscr_ch_016_A6EFD8 + 0x24': frontier_df3_eventscr_ch_016_A6EFD8_0x24,
+  'frontier_df3_eventscr_ch_016_A6EFD8 + 0x3C': frontier_df3_eventscr_ch_016_A6EFD8_0x3C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x1B8': frontier_df3_eventscr_ch_017_A6F47C_0x1B8,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x1C': frontier_df3_eventscr_ch_017_A6F47C_0x1C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x270': frontier_df3_eventscr_ch_017_A6F47C_0x270,
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x2B4': frontier_df3_eventscr_ch_017_A6F47C_0x2B4,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x2C': frontier_df3_eventscr_ch_017_A6F47C_0x2C,
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x2F8': frontier_df3_eventscr_ch_017_A6F47C_0x2F8,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x318': frontier_df3_eventscr_ch_017_A6F47C_0x318,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x34C': frontier_df3_eventscr_ch_017_A6F47C_0x34C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x36C': frontier_df3_eventscr_ch_017_A6F47C_0x36C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x3D4': frontier_df3_eventscr_ch_017_A6F47C_0x3D4,
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x3F4': frontier_df3_eventscr_ch_017_A6F47C_0x3F4,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x44': frontier_df3_eventscr_ch_017_A6F47C_0x44,
-  'frontier_df3_eventscr_ch_017_A6F47C + 0x45C': frontier_df3_eventscr_ch_017_A6F47C_0x45C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x47C': frontier_df3_eventscr_ch_017_A6F47C_0x47C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x534': frontier_df3_eventscr_ch_017_A6F47C_0x534,
+  'frontier_df3_eventscr_ch_017_A6F47C + 0x598': frontier_df3_eventscr_ch_017_A6F47C_0x598,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x5C': frontier_df3_eventscr_ch_017_A6F47C_0x5C,
   'frontier_df3_eventscr_ch_017_A6F47C + 0x90': frontier_df3_eventscr_ch_017_A6F47C_0x90,
+  'frontier_df3_eventscr_ch_020_A6FB9C + 0x10': frontier_df3_eventscr_ch_020_A6FB9C_0x10,
   'EventScr_Ch1Tut_GuideMsg944': missing_EventScr_Ch1Tut_GuideMsg944,
   'EventScr_Ch1Tut_GuideMsgSeize': missing_EventScr_Ch1Tut_GuideMsgSeize,
   'EventScr_Ch1Tut_GuideWTA': missing_EventScr_Ch1Tut_GuideWTA,

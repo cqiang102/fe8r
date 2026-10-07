@@ -436,7 +436,12 @@ def main():
     mp = os.path.join(HERE, "..", "out", "tables", "event_macros.json")
     if os.path.exists(mp):
         import json as _j2
-        for _specs in _j2.load(open(mp, encoding="utf-8"))["byCmdSub"].values():
+        _mx = _j2.load(open(mp, encoding="utf-8"))
+        # 宏表直接给了"**按名字**查字数"（原名 + 别名都在）—— 优先用它，
+        # 免得下游再自己推别名（我推错过两次方向）。
+        for _n, _w in (_mx.get("wordsByName") or {}).items():
+            macro_words.setdefault(_n, max(1, int(_w)))
+        for _specs in _mx["byCmdSub"].values():
             for _sp in _specs:
                 macro_words.setdefault(_sp["macro"], max(1, _sp["len"] // 2))
     macro_words.setdefault("EVENT_WORD", 2)   # 命令字 + 指针
@@ -516,7 +521,7 @@ def main():
                     _l = _l.strip().rstrip(",").strip()
                     if _l and not _l.startswith("#"):
                         elems.append(_l)
-                pos, starts = 0, []
+                pos, starts, el_ops = 0, [], []
                 for el in elems:
                     if not el:
                         continue
@@ -530,20 +535,35 @@ def main():
                     else:
                         w = 1          # 裸字面量 = 1 个字
                     starts.append(pos)
+                    if mm:
+                        ar = ([parse_arg(x) for x in split_args(mm.group(2))]
+                              if mm.group(2) else [])
+                        el_ops.append((mm.group(1), ar))
+                    else:
+                        el_ops.append(("EVENT_WORD", [lit(el)]))
                     pos += w
-                if starts is not None:
+                if starts is not None and len(el_ops) == len(starts):
                     idx_of = {o: i for i, o in enumerate(starts)}
                     for k, off in enumerate(offs):
                         if off not in idx_of:
                             unresolved.append((blob_refs[name][off],
                                                f"偏移 {off} 不在宏边界上"))
                             continue
-                        end_off = offs[k + 1] if k + 1 < len(offs) else pos
-                        if end_off not in idx_of:
-                            unresolved.append((blob_refs[name][off],
-                                               f"下一个偏移 {end_off} 不在宏边界上"))
-                            continue
-                        sub = ops[idx_of[off]:idx_of[end_off]]
+                        # ★ 最后一个引用的结束边界是**数组末尾**（`pos`）——
+                        # 它按定义不是任何元素的起点，所以**不能**用
+                        # `end_off in idx_of` 去卡它。我原来卡了，
+                        # 于是"每个符号的最后一个引用"永远切不出来
+                        # （诊断里 ch_014/015/017/020 的边界其实都是对的）。
+                        if k + 1 < len(offs):
+                            end_off = offs[k + 1]
+                            if end_off not in idx_of:
+                                unresolved.append((blob_refs[name][off],
+                                                   f"下一个偏移 {end_off} 不在宏边界上"))
+                                continue
+                            end_idx = idx_of[end_off]
+                        else:
+                            end_idx = len(el_ops)
+                        sub = el_ops[idx_of[off]:end_idx]
                         if sub:
                             # 键 = 事件表里的**原字符串**（`allSceneFns` 按原始名查）
                             scripts[blob_refs[name][off]] = sub

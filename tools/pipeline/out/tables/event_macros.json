@@ -8,7 +8,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtReturn"
    }
   ],
   "1:1": [
@@ -17,7 +19,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtEndAll"
    }
   ],
   "2:0": [
@@ -28,7 +32,9 @@
     ],
     "arg": "flag",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtClearEvBits"
    }
   ],
   "2:8": [
@@ -39,7 +45,9 @@
     ],
     "arg": "flag",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetEvBits"
    }
   ],
   "2:1": [
@@ -50,7 +58,9 @@
     ],
     "arg": "flag",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtClearFlag"
    }
   ],
   "2:9": [
@@ -61,7 +71,9 @@
     ],
     "arg": "flag",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetFlag"
    }
   ],
   "3:0": [
@@ -72,7 +84,9 @@
     ],
     "arg": "index",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EventCheckEvbit"
    }
   ],
   "3:1": [
@@ -83,7 +97,9 @@
     ],
     "arg": "flag",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EventCheckFlag"
    }
   ],
   "4:0": [
@@ -94,7 +110,9 @@
     ],
     "arg": "max",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetRandom"
    }
   ],
   "5:0": [
@@ -106,7 +124,9 @@
     ],
     "arg": "slot",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtSetSlot"
    }
   ],
   "7:0": [
@@ -117,7 +137,9 @@
     ],
     "arg": "slot",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtEnqueueFormSlot"
    }
   ],
   "7:1": [
@@ -126,7 +148,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtEnqueueFormSlot1"
    }
   ],
   "7:2": [
@@ -137,7 +161,9 @@
     ],
     "arg": "slot",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDequeueToSlot"
    }
   ],
   "8:0": [
@@ -148,7 +174,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtLabel"
    }
   ],
   "9:0": [
@@ -159,7 +187,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGoto"
    }
   ],
   "11:0": [
@@ -170,7 +200,9 @@
     ],
     "arg": "0",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtEnqueueCallDirectly"
    }
   ],
   "11:1": [
@@ -182,7 +214,9 @@
     ],
     "arg": "exec_type",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtEnqueueConditionalTutCall"
    }
   ],
   "12:0": [
@@ -195,7 +229,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBEQ"
    }
   ],
   "12:1": [
@@ -208,7 +244,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBNE"
    }
   ],
   "12:2": [
@@ -221,7 +259,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBGE"
    }
   ],
   "12:3": [
@@ -234,7 +274,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBGT"
    }
   ],
   "12:4": [
@@ -247,7 +289,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBLE"
    }
   ],
   "12:5": [
@@ -260,7 +304,9 @@
     ],
     "arg": "label",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBLT"
    }
   ],
   "13:1": [
@@ -271,7 +317,9 @@
     ],
     "arg": "0",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtAsmCallEnableSkip"
    }
   ],
   "14:0": [
@@ -282,7 +330,9 @@
     ],
     "arg": "time",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSleep"
    }
   ],
   "14:1": [
@@ -293,7 +343,9 @@
     ],
     "arg": "time",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSleepWithCancel"
    }
   ],
   "14:2": [
@@ -304,7 +356,9 @@
     ],
     "arg": "time",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSleepWithGameCtrl"
    }
   ],
   "14:3": [
@@ -315,7 +369,9 @@
     ],
     "arg": "time",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSleepWithCancelGameCtrl"
    }
   ],
   "16:0": [
@@ -326,7 +382,9 @@
     ],
     "arg": "type",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtModifyEvBit"
    }
   ],
   "17:0": [
@@ -337,7 +395,9 @@
     ],
     "arg": "mask",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetKeyIgnore"
    }
   ],
   "18:0": [
@@ -348,19 +408,23 @@
     ],
     "arg": "bgm",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtStartBgm"
    }
   ],
   "19:0": [
    {
-    "macro": "EvtBgmFadeIn",
+    "macro": "MUSCSSLOW",
     "params": [
      "bgm",
      "speed"
     ],
     "arg": "bgm",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtBgmFadeIn"
    }
   ],
   "20:0": [
@@ -371,7 +435,9 @@
     ],
     "arg": "bgm",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtOverrideBgm"
    }
   ],
   "20:1": [
@@ -382,7 +448,9 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtRestoreBgm"
    }
   ],
   "21:0": [
@@ -391,7 +459,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetVolumeDown"
    }
   ],
   "21:1": [
@@ -400,7 +470,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtUnsetVolumeDown"
    }
   ],
   "22:0": [
@@ -411,7 +483,9 @@
     ],
     "arg": "songid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtPlaySong"
    }
   ],
   "23:0": [
@@ -422,7 +496,9 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtFadeOutBlack"
    }
   ],
   "23:1": [
@@ -433,7 +509,9 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtFadeInBlack"
    }
   ],
   "23:2": [
@@ -444,7 +522,9 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtFadeOutWhite"
    }
   ],
   "23:3": [
@@ -455,7 +535,9 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtFadeInWhite"
    }
   ],
   "24:0": [
@@ -464,7 +546,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 0,
+    "len": 6,
+    "aliasOf": "EvtColorFadeStart"
    }
   ],
   "24:1": [
@@ -473,7 +557,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 0,
+    "len": 6,
+    "aliasOf": "EvtColorFadeEnd"
    }
   ],
   "25:0": [
@@ -482,7 +568,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetMode"
    }
   ],
   "25:1": [
@@ -491,7 +579,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetChapterIndex"
    }
   ],
   "25:2": [
@@ -500,7 +590,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetIsHard"
    }
   ],
   "25:3": [
@@ -509,7 +601,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetCurrentTurn"
    }
   ],
   "25:4": [
@@ -518,7 +612,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetEnemyAmount"
    }
   ],
   "25:5": [
@@ -527,7 +623,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetNpcAmount"
    }
   ],
   "25:6": [
@@ -536,7 +634,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetSkirmishType"
    }
   ],
   "25:7": [
@@ -545,7 +645,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetIsTutorial"
    }
   ],
   "25:8": [
@@ -554,16 +656,20 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetMoney"
    }
   ],
   "25:9": [
    {
-    "macro": "CHECK_TRIG_EVENTID",
+    "macro": "CHECK_EVENTID_",
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetTriggeredEid"
    }
   ],
   "25:10": [
@@ -572,7 +678,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetIsGameCompleted"
    }
   ],
   "26:0": [
@@ -581,21 +689,27 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextStart"
    },
    {
-    "macro": "EvtTextStartType2",
+    "macro": "_1A22",
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextStartType2"
    },
    {
-    "macro": "EvtTextStartType5",
+    "macro": "_1A25",
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextStartType5"
    }
   ],
   "26:1": [
@@ -604,16 +718,20 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextStartType1"
    }
   ],
   "26:3": [
    {
-    "macro": "EvtTextStartType3",
+    "macro": "TUTORIALTEXTBOXSTART",
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextStartType3"
    }
   ],
   "26:4": [
@@ -622,7 +740,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextStartType4"
    }
   ],
   "27:0": [
@@ -633,7 +753,9 @@
     ],
     "arg": "msg",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextShow"
    }
   ],
   "27:1": [
@@ -644,7 +766,9 @@
     ],
     "arg": "msg",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextShow2"
    }
   ],
   "27:2": [
@@ -653,7 +777,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextRemoveAll"
    }
   ],
   "30:0": [
@@ -665,7 +791,9 @@
     ],
     "arg": "fid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDisplayFace"
    }
   ],
   "33:0": [
@@ -676,7 +804,9 @@
     ],
     "arg": "bg",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtDisplayTextBg"
    },
    {
     "macro": "EvtBgTransion",
@@ -687,7 +817,9 @@
     ],
     "arg": "bg",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBgTransion"
    }
   ],
   "33:2": [
@@ -700,7 +832,9 @@
     ],
     "arg": "bg",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBgFadeIn"
    },
    {
     "macro": "EvtBgFadeOut",
@@ -710,7 +844,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtBgFadeOut"
    }
   ],
   "37:0": [
@@ -721,7 +857,9 @@
     ],
     "arg": "chapter",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtLoadMap"
    }
   ],
   "38:1": [
@@ -732,7 +870,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtMoveCameraToChar"
    }
   ],
   "38:9": [
@@ -743,7 +883,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtMoveCameraToCharCenter"
    }
   ],
   "39:0": [
@@ -754,7 +896,9 @@
     ],
     "arg": "id",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTriggerMapChange"
    }
   ],
   "39:1": [
@@ -765,19 +909,23 @@
     ],
     "arg": "id",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtRevertMapChange"
    }
   ],
   "41:0": [
    {
-    "macro": "EvtChangeFogVision",
+    "macro": "VCWF",
     "params": [
      "doDisplay",
      "vision"
     ],
     "arg": "vision",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeFogVision"
    }
   ],
   "42:0": [
@@ -788,7 +936,9 @@
     ],
     "arg": "chapter",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtBackToTitle"
    }
   ],
   "42:1": [
@@ -799,7 +949,9 @@
     ],
     "arg": "chapter",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeChapterWM"
    }
   ],
   "42:2": [
@@ -810,7 +962,9 @@
     ],
     "arg": "chapter",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeChapterBM"
    }
   ],
   "42:3": [
@@ -821,7 +975,9 @@
     ],
     "arg": "chapter",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeChapterNoSave"
    }
   ],
   "42:4": [
@@ -830,7 +986,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtMoveToGameEnding"
    }
   ],
   "43:0": [
@@ -841,7 +999,9 @@
     ],
     "arg": "cnt",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetLoadUnitCount"
    }
   ],
   "43:1": [
@@ -852,7 +1012,9 @@
     ],
     "arg": "chance",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetLoadUnitChance"
    }
   ],
   "43:2": [
@@ -861,7 +1023,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetLoadUnitNoREDA"
    }
   ],
   "44:0": [
@@ -873,7 +1037,9 @@
     ],
     "arg": "restriction",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtLoadUnit1"
    }
   ],
   "44:1": [
@@ -885,7 +1051,9 @@
     ],
     "arg": "restriction",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtLoadUnit2"
    }
   ],
   "44:2": [
@@ -897,7 +1065,9 @@
     ],
     "arg": "restriction",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtLoadUnit3"
    }
   ],
   "44:3": [
@@ -909,7 +1079,9 @@
     ],
     "arg": "restriction",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtLoadUnit4"
    }
   ],
   "45:0": [
@@ -920,7 +1092,9 @@
     ],
     "arg": "pal",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangePalSMS"
    }
   ],
   "46:1": [
@@ -929,12 +1103,14 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetActiveUnitPid"
    }
   ],
   "47:0": [
    {
-    "macro": "EvtMoveUnit",
+    "macro": "MOVE_CLOSEST",
     "params": [
      "modify",
      "speed",
@@ -944,10 +1120,12 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtMoveUnit"
    },
    {
-    "macro": "EvtMoveUnitToTarget",
+    "macro": "MOVE_NEXTTO",
     "params": [
      "modify",
      "speed",
@@ -956,10 +1134,12 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtMoveUnitToTarget"
    },
    {
-    "macro": "EvtMoveUnitOneStep",
+    "macro": "MOVE_1STEP_CLOSEST",
     "params": [
      "modify",
      "speed",
@@ -968,17 +1148,21 @@
     ],
     "arg": "speed",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtMoveUnitOneStep"
    },
    {
-    "macro": "EvtMoveUnitByQueue",
+    "macro": "MOVE_DEFINED_CLOSEST",
     "params": [
      "modify",
      "pid"
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtMoveUnitByQueue"
    }
   ],
   "51:0": [
@@ -989,7 +1173,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtCheckUnitExists"
    }
   ],
   "51:1": [
@@ -1000,7 +1186,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetUnitVisitGroup"
    }
   ],
   "51:2": [
@@ -1011,7 +1199,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtCheckUnitNotDead"
    }
   ],
   "51:3": [
@@ -1022,7 +1212,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtCheckUnitDeployed"
    }
   ],
   "51:4": [
@@ -1033,7 +1225,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtCheckUnitActive"
    }
   ],
   "51:5": [
@@ -1044,7 +1238,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetUnitFaction"
    }
   ],
   "51:6": [
@@ -1055,7 +1251,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetUnitPosition"
    }
   ],
   "51:7": [
@@ -1066,7 +1264,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetUnitJid"
    }
   ],
   "51:8": [
@@ -1077,7 +1277,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetUnitLuck"
    }
   ],
   "49:0": [
@@ -1088,7 +1290,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtShowAttackRange"
    }
   ],
   "49:1": [
@@ -1097,7 +1301,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtHideAttackRange"
    }
   ],
   "52:0": [
@@ -1108,17 +1314,21 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetUnitHidden"
    },
    {
-    "macro": "EvtChangeFaction",
+    "macro": "CUSE",
     "params": [
      "pid",
      "faction"
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeFaction"
    }
   ],
   "52:1": [
@@ -1129,7 +1339,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetUnitUnhidden"
    }
   ],
   "52:5": [
@@ -1140,7 +1352,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetUnitHpFormSlot1"
    }
   ],
   "52:6": [
@@ -1151,18 +1365,22 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetUnitUnselectable"
    }
   ],
   "52:7": [
    {
-    "macro": "EvtSetUnitHasMoved",
+    "macro": "_3427",
     "params": [
      "pid"
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetUnitHasMoved"
    }
   ],
   "52:8": [
@@ -1173,7 +1391,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetUnitStateFormSlot1"
    }
   ],
   "52:10": [
@@ -1182,7 +1402,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtHideAllAlliess"
    }
   ],
   "52:11": [
@@ -1191,7 +1413,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtRemoveAllNpcs"
    }
   ],
   "52:12": [
@@ -1200,7 +1424,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtRemoveAllEimies"
    }
   ],
   "52:13": [
@@ -1211,7 +1437,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtKillUnit"
    }
   ],
   "52:14": [
@@ -1222,12 +1450,14 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtWaitUnitDeathFade"
    }
   ],
   "50:0": [
    {
-    "macro": "EvtLoadSingleUnit",
+    "macro": "SPAWN_CUTSCENE_ALLY",
     "params": [
      "faction",
      "pid",
@@ -1236,7 +1466,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtLoadSingleUnit"
    }
   ],
   "52:15": [
@@ -1247,7 +1479,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtRemoveUnit"
    }
   ],
   "54:0": [
@@ -1262,7 +1496,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtCheckInArea"
    }
   ],
   "55:0": [
@@ -1273,7 +1509,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGiveItemAtSlot3"
    }
   ],
   "55:1": [
@@ -1284,7 +1522,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGiveMoneymAtSlot3"
    }
   ],
   "55:2": [
@@ -1295,7 +1535,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGiveMoneymAtSlot3NoPopup"
    }
   ],
   "56:0": [
@@ -1306,7 +1548,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetActiveUnit"
    }
   ],
   "57:0": [
@@ -1317,7 +1561,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeAI"
    }
   ],
   "58:0": [
@@ -1329,7 +1575,9 @@
     ],
     "arg": "msg",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtDisplayPopup"
    }
   ],
   "58:1": [
@@ -1342,18 +1590,22 @@
     ],
     "arg": "msg",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtDisplayPopupSilently"
    }
   ],
   "59:1": [
    {
-    "macro": "CURSOR_CHAR",
+    "macro": "CUMO_CHAR",
     "params": [
      "pid"
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDisplayCursorAtUnit"
    }
   ],
   "59:2": [
@@ -1362,7 +1614,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtEndCursor"
    }
   ],
   "59:5": [
@@ -1373,7 +1627,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDisplayFlashingCursorAtUnit"
    }
   ],
   "61:0": [
@@ -1384,7 +1640,9 @@
     ],
     "arg": "bitfile",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtOverrideUnitMenu"
    }
   ],
   "61:1": [
@@ -1395,7 +1653,9 @@
     ],
     "arg": "bitfile",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtOverrideWeaponMenu"
    }
   ],
   "60:0": [
@@ -1404,7 +1664,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetCursorPosition"
    }
   ],
   "63:0": [
@@ -1418,7 +1680,9 @@
     ],
     "arg": "actor",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtStartEventBattle"
    }
   ],
   "63:1": [
@@ -1432,7 +1696,9 @@
     ],
     "arg": "actor",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtStartEventMapBattle"
    }
   ],
   "63:2": [
@@ -1441,7 +1707,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtSetScriptedBattle"
    }
   ],
   "64:0": [
@@ -1454,7 +1722,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "EvtPromoteUnit"
    }
   ],
   "65:15": [
@@ -1463,7 +1733,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtWarpSTAL"
    }
   ],
   "66:15": [
@@ -1472,7 +1744,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtEndEarthQuake"
    }
   ],
   "67:0": [
@@ -1483,7 +1757,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSummonUnit"
    }
   ],
   "68:0": [
@@ -1494,7 +1770,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtBreakStone"
    }
   ],
   "69:0": [
@@ -1505,7 +1783,9 @@
     ],
     "arg": "pid",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtShowGlowingCross"
    }
   ],
   "69:15": [
@@ -1514,7 +1794,9 @@
     "params": [],
     "arg": "0",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtRemoveGlowingCross"
    }
   ],
   "133:0": [
@@ -1525,7 +1807,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtSetCameraOnto"
    }
   ],
   "134:0": [
@@ -1541,7 +1825,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 8
+    "extraParamWords": 3,
+    "len": 8,
+    "aliasOf": "WmEvtGmScroll"
    }
   ],
   "144:0": [
@@ -1552,7 +1838,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtDrawPath"
    }
   ],
   "158:0": [
@@ -1566,7 +1854,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 2,
+    "len": 6,
+    "aliasOf": "WmEvtShowMU"
    }
   ],
   "160:0": [
@@ -1577,7 +1867,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtRemoveMU"
    }
   ],
   "161:0": [
@@ -1588,7 +1880,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtShowUnit"
    }
   ],
   "163:0": [
@@ -1600,7 +1894,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtFadeMU"
    }
   ],
   "167:0": [
@@ -1613,7 +1909,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 2,
+    "len": 6,
+    "aliasOf": "WmEvtSetUnitPosition"
    }
   ],
   "168:0": [
@@ -1632,7 +1930,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 12
+    "extraParamWords": 5,
+    "len": 12,
+    "aliasOf": "WmEvtMoveUnit"
    }
   ],
   "172:0": [
@@ -1643,7 +1943,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtWaitMU"
    }
   ],
   "175:0": [
@@ -1655,7 +1957,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtDisplayTextWindow"
    }
   ],
   "178:0": [
@@ -1666,7 +1970,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtFadeOut"
    }
   ],
   "180:0": [
@@ -1679,7 +1985,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 1,
+    "len": 6,
+    "aliasOf": "WmEvtShowBigMap"
    }
   ],
   "182:0": [
@@ -1695,7 +2003,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 8
+    "extraParamWords": 3,
+    "len": 8,
+    "aliasOf": "WmEvtCamMov2"
    }
   ],
   "184:0": [
@@ -1706,7 +2016,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtHighlightNation"
    }
   ],
   "185:0": [
@@ -1717,7 +2029,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtHighlightNationClear1"
    }
   ],
   "186:0": [
@@ -1728,7 +2042,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtHighlightNationClear2"
    }
   ],
   "188:0": [
@@ -1742,7 +2058,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 2,
+    "len": 6,
+    "aliasOf": "WmEvtMarkPoint"
    }
   ],
   "189:0": [
@@ -1753,7 +2071,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtRemoveMarkPoint1"
    }
   ],
   "190:0": [
@@ -1764,7 +2084,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtRemoveMarkPoint2"
    }
   ],
   "195:0": [
@@ -1777,7 +2099,9 @@
     ],
     "arg": "0",
     "extraWords": 1,
-    "len": 6
+    "extraParamWords": 1,
+    "len": 6,
+    "aliasOf": "WmEvtLoadUnit"
    }
   ],
   "196:0": [
@@ -1791,7 +2115,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 6
+    "extraParamWords": 2,
+    "len": 6,
+    "aliasOf": "WmEvtShowPortrait"
    }
   ],
   "197:0": [
@@ -1804,7 +2130,9 @@
     ],
     "arg": "face_slot",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtClearPortrait"
    }
   ],
   "198:0": [
@@ -1816,7 +2144,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtShowText"
    }
   ],
   "169:0": [
@@ -1832,7 +2162,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 8
+    "extraParamWords": 3,
+    "len": 8,
+    "aliasOf": "WmEvtMoveUnitInPath"
    }
   ],
   "162:0": [
@@ -1843,7 +2175,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtHideUnit"
    }
   ],
   "164:0": [
@@ -1855,7 +2189,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtUnitFadeOut"
    }
   ],
   "132:0": [
@@ -1866,7 +2202,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtSetCamToNode"
    }
   ],
   "166:0": [
@@ -1878,7 +2216,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtSetUnitOnNode"
    }
   ],
   "155:0": [
@@ -1889,7 +2229,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtSetNextStoryNode"
    }
   ],
   "154:0": [
@@ -1900,7 +2242,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtSetNextStoryNodeSilent"
    }
   ],
   "148:0": [
@@ -1911,7 +2255,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtRemoveNode"
    }
   ],
   "146:0": [
@@ -1922,7 +2268,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtRemovePath"
    }
   ],
   "150:0": [
@@ -1933,7 +2281,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtDisplayPath"
    }
   ],
   "145:0": [
@@ -1944,7 +2294,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtAddPath"
    }
   ],
   "147:0": [
@@ -1955,7 +2307,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtEnableNode"
    }
   ],
   "149:0": [
@@ -1966,7 +2320,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtDisplayNode"
    }
   ],
   "136:0": [
@@ -1981,7 +2337,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 8
+    "extraParamWords": 3,
+    "len": 8,
+    "aliasOf": "WmEvtMoveCamToUnit"
    }
   ],
   "170:0": [
@@ -1992,7 +2350,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtPasueMove"
    }
   ],
   "171:0": [
@@ -2003,7 +2363,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtResumeMove"
    }
   ],
   "131:0": [
@@ -2015,7 +2377,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 1,
+    "len": 4,
+    "aliasOf": "WmEvtSetCameraAt"
    }
   ],
   "135:0": [
@@ -2030,7 +2394,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 8
+    "extraParamWords": 3,
+    "len": 8,
+    "aliasOf": "WmEvtMoveCamToNode"
    }
   ],
   "157:0": [
@@ -2041,7 +2407,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtSetNodeStateNot2"
    }
   ],
   "173:0": [
@@ -2052,7 +2420,9 @@
     ],
     "arg": "0",
     "extraWords": 0,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "WmEvtFadeInDark"
    }
   ],
   "15:0": [
@@ -2064,7 +2434,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetCounter"
    }
   ],
   "15:1": [
@@ -2077,7 +2449,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetCounter"
    }
   ],
   "15:2": [
@@ -2089,7 +2463,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtIncCounter"
    }
   ],
   "15:3": [
@@ -2101,7 +2477,28 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDecCounter"
+   }
+  ],
+  "24:2": [
+   {
+    "macro": "EvtColorFadeSetup",
+    "params": [
+     "form",
+     "to",
+     "speed",
+     "r",
+     "g",
+     "b"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "extraParamWords": 2,
+    "len": 6,
+    "aliasOf": "EvtColorFadeSetup"
    }
   ],
   "38:0": [
@@ -2114,7 +2511,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtMoveCameraTo"
    }
   ],
   "38:8": [
@@ -2127,7 +2526,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtMoveCameraToCenter"
    }
   ],
   "46:0": [
@@ -2140,7 +2541,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtGetPidAt"
    }
   ],
   "57:1": [
@@ -2153,12 +2556,14 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtChangeAIat"
    }
   ],
   "59:0": [
    {
-    "macro": "CURSOR_AT",
+    "macro": "CUMO_AT",
     "params": [
      "x",
      "y"
@@ -2166,7 +2571,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDisplayCursorAt"
    }
   ],
   "59:4": [
@@ -2179,7 +2586,9 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtDisplayFlashingCursorAt"
    }
   ],
   "60:1": [
@@ -2192,7 +2601,54 @@
     "arg": "u8pair",
     "packed": "u8pair",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSetCursorPosition"
+   }
+  ],
+  "65:0": [
+   {
+    "macro": "WARP_OUT",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtWarpOUT"
+   }
+  ],
+  "65:1": [
+   {
+    "macro": "WARP_IN",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtWarpIN"
+   }
+  ],
+  "66:0": [
+   {
+    "macro": "EARTHQUAKE_START",
+    "params": [
+     "direction",
+     "playse"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtStartEarthQuake"
    }
   ],
   "0:0": [
@@ -2201,7 +2657,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtNop"
    }
   ],
   "10:0": [
@@ -2212,7 +2670,9 @@
     ],
     "arg": "",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtCall"
    }
   ],
   "13:0": [
@@ -2223,7 +2683,9 @@
     ],
     "arg": "",
     "extraWords": 1,
-    "len": 4
+    "extraParamWords": 0,
+    "len": 4,
+    "aliasOf": "EvtAsmCall"
    }
   ],
   "28:0": [
@@ -2232,7 +2694,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtContinueText"
    }
   ],
   "29:0": [
@@ -2241,7 +2705,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtTextWaitLock"
    }
   ],
   "34:0": [
@@ -2250,7 +2716,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtClearScreen"
    }
   ],
   "48:0": [
@@ -2259,7 +2727,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtWaitUnitMoving"
    }
   ],
   "62:0": [
@@ -2268,7 +2738,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtCallPrepScreen"
    }
   ],
   "137:0": [
@@ -2277,7 +2749,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtWaitGmScroll"
    }
   ],
   "151:0": [
@@ -2286,7 +2760,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtDrawNodeNextChapter"
    }
   ],
   "153:0": [
@@ -2295,7 +2771,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtWaitNodeDisplay"
    }
   ],
   "165:0": [
@@ -2304,7 +2782,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtWaitMuFade"
    }
   ],
   "177:0": [
@@ -2313,7 +2793,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtTextBoxWait"
    }
   ],
   "179:0": [
@@ -2322,7 +2804,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtWaitFade"
    }
   ],
   "193:0": [
@@ -2331,7 +2815,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtSkipWmEvents"
    }
   ],
   "194:0": [
@@ -2340,7 +2826,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtNoFade"
    }
   ],
   "199:0": [
@@ -2349,7 +2837,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtTextStart"
    }
   ],
   "201:0": [
@@ -2358,7 +2848,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtRemoveText"
    }
   ],
   "181:0": [
@@ -2367,7 +2859,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtRemoveBigMap"
    }
   ],
   "183:0": [
@@ -2376,7 +2870,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtWaitBigMapRemove"
    }
   ],
   "174:0": [
@@ -2385,7 +2881,9 @@
     "params": [],
     "arg": "",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "WmEvtWaitFadeInDark"
    }
   ],
   "6:0": [
@@ -2399,7 +2897,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotADD"
    }
   ],
   "6:1": [
@@ -2413,7 +2913,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotSUB"
    }
   ],
   "6:2": [
@@ -2427,7 +2929,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotMUL"
    }
   ],
   "6:3": [
@@ -2441,7 +2945,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotDIV"
    }
   ],
   "6:4": [
@@ -2455,7 +2961,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotMOD"
    }
   ],
   "6:5": [
@@ -2469,7 +2977,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotAND"
    }
   ],
   "6:6": [
@@ -2483,7 +2993,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotORR"
    }
   ],
   "6:7": [
@@ -2497,7 +3009,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotXOR"
    }
   ],
   "6:8": [
@@ -2511,7 +3025,9 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotLSL"
    }
   ],
   "6:9": [
@@ -2525,8 +3041,455 @@
     "arg": "u4quad",
     "packed": "u4quad",
     "extraWords": 0,
-    "len": 2
+    "extraParamWords": 0,
+    "len": 2,
+    "aliasOf": "EvtSlotLSR"
    }
   ]
+ },
+ "wordsByName": {
+  "ENDA": 1,
+  "EvtReturn": 1,
+  "ENDB": 1,
+  "EvtEndAll": 1,
+  "EVBIT_F": 1,
+  "EvtClearEvBits": 1,
+  "EVBIT_T": 1,
+  "EvtSetEvBits": 1,
+  "ENUF": 1,
+  "EvtClearFlag": 1,
+  "ENUT": 1,
+  "EvtSetFlag": 1,
+  "CHECK_EVBIT": 1,
+  "EventCheckEvbit": 1,
+  "CHECK_EVENTID": 1,
+  "EventCheckFlag": 1,
+  "RANDOMNUMBER": 1,
+  "EvtGetRandom": 1,
+  "SVAL": 2,
+  "EvtSetSlot": 2,
+  "SENQUEUE": 1,
+  "EvtEnqueueFormSlot": 1,
+  "SENQUEUE1": 1,
+  "EvtEnqueueFormSlot1": 1,
+  "SDEQUEUE": 1,
+  "EvtDequeueToSlot": 1,
+  "LABEL": 1,
+  "EvtLabel": 1,
+  "GOTO": 1,
+  "EvtGoto": 1,
+  "EvtEnqueueCallDirectly": 2,
+  "EvtEnqueueConditionalTutCall": 2,
+  "BEQ": 3,
+  "EvtBEQ": 3,
+  "BNE": 3,
+  "EvtBNE": 3,
+  "BGE": 3,
+  "EvtBGE": 3,
+  "BGT": 3,
+  "EvtBGT": 3,
+  "BLE": 3,
+  "EvtBLE": 3,
+  "BLT": 3,
+  "EvtBLT": 3,
+  "ASMC2": 2,
+  "EvtAsmCallEnableSkip": 2,
+  "STAL": 1,
+  "EvtSleep": 1,
+  "STAL1": 1,
+  "EvtSleepWithCancel": 1,
+  "STAL2": 1,
+  "EvtSleepWithGameCtrl": 1,
+  "STAL3": 1,
+  "EvtSleepWithCancelGameCtrl": 1,
+  "EVBIT_MODIFY": 1,
+  "EvtModifyEvBit": 1,
+  "IGNORE_KEYS": 1,
+  "EvtSetKeyIgnore": 1,
+  "MUSC": 1,
+  "EvtStartBgm": 1,
+  "MUSCSSLOW": 1,
+  "EvtBgmFadeIn": 1,
+  "MUSS": 1,
+  "EvtOverrideBgm": 1,
+  "MURE": 1,
+  "EvtRestoreBgm": 1,
+  "MUSI": 1,
+  "EvtSetVolumeDown": 1,
+  "MUNO": 1,
+  "EvtUnsetVolumeDown": 1,
+  "SOUN": 1,
+  "EvtPlaySong": 1,
+  "FADU": 1,
+  "EvtFadeOutBlack": 1,
+  "FADI": 1,
+  "EvtFadeInBlack": 1,
+  "FAWU": 1,
+  "EvtFadeOutWhite": 1,
+  "FAWI": 1,
+  "EvtFadeInWhite": 1,
+  "STARTFADE": 3,
+  "EvtColorFadeStart": 3,
+  "ENDFADE": 3,
+  "EvtColorFadeEnd": 3,
+  "CHECK_MODE": 1,
+  "EvtGetMode": 1,
+  "CHECK_CHAPTER_NUMBER": 1,
+  "EvtGetChapterIndex": 1,
+  "CHECK_HARD": 1,
+  "EvtGetIsHard": 1,
+  "CHECK_TURNS": 1,
+  "EvtGetCurrentTurn": 1,
+  "CHECK_ENEMIES": 1,
+  "EvtGetEnemyAmount": 1,
+  "CHECK_OTHERS": 1,
+  "EvtGetNpcAmount": 1,
+  "CHECK_SKIRMISH": 1,
+  "EvtGetSkirmishType": 1,
+  "CHECK_TUTORIAL": 1,
+  "EvtGetIsTutorial": 1,
+  "CHECK_MONEY": 1,
+  "EvtGetMoney": 1,
+  "CHECK_EVENTID_": 1,
+  "EvtGetTriggeredEid": 1,
+  "CHECK_POSTGAME": 1,
+  "EvtGetIsGameCompleted": 1,
+  "TEXTSTART": 1,
+  "EvtTextStart": 1,
+  "_1A22": 1,
+  "EvtTextStartType2": 1,
+  "_1A25": 1,
+  "EvtTextStartType5": 1,
+  "REMOVEPORTRAITS": 1,
+  "EvtTextStartType1": 1,
+  "TUTORIALTEXTBOXSTART": 1,
+  "EvtTextStartType3": 1,
+  "SOLOTEXTBOXSTART": 1,
+  "EvtTextStartType4": 1,
+  "TEXTSHOW": 1,
+  "EvtTextShow": 1,
+  "EvtTextShow2": 1,
+  "REMA": 1,
+  "EvtTextRemoveAll": 1,
+  "FACE_SHOW": 1,
+  "EvtDisplayFace": 1,
+  "BACG": 2,
+  "EvtDisplayTextBg": 2,
+  "EvtBgTransion": 3,
+  "EvtBgFadeIn": 3,
+  "EvtBgFadeOut": 3,
+  "LOMA": 1,
+  "EvtLoadMap": 1,
+  "CAMERA_CAHR": 1,
+  "EvtMoveCameraToChar": 1,
+  "CAMERA2_CAHR": 1,
+  "EvtMoveCameraToCharCenter": 1,
+  "TILECHANGE": 1,
+  "EvtTriggerMapChange": 1,
+  "TILEREVERT": 1,
+  "EvtRevertMapChange": 1,
+  "VCWF": 1,
+  "EvtChangeFogVision": 1,
+  "MNTS": 1,
+  "EvtBackToTitle": 1,
+  "MNCH": 1,
+  "EvtChangeChapterWM": 1,
+  "MNC2": 1,
+  "EvtChangeChapterBM": 1,
+  "MNC3": 1,
+  "EvtChangeChapterNoSave": 1,
+  "MNC4": 1,
+  "EvtMoveToGameEnding": 1,
+  "EvtSetLoadUnitCount": 1,
+  "EvtSetLoadUnitChance": 1,
+  "EvtSetLoadUnitNoREDA": 1,
+  "LOAD1": 2,
+  "EvtLoadUnit1": 2,
+  "LOAD2": 2,
+  "EvtLoadUnit2": 2,
+  "LOAD3": 2,
+  "EvtLoadUnit3": 2,
+  "LOAD4": 2,
+  "EvtLoadUnit4": 2,
+  "UNIT_COLORS": 1,
+  "EvtChangePalSMS": 1,
+  "CHECK_ACTIVE": 1,
+  "EvtGetActiveUnitPid": 1,
+  "MOVE_CLOSEST": 3,
+  "EvtMoveUnit": 3,
+  "MOVE_NEXTTO": 3,
+  "EvtMoveUnitToTarget": 3,
+  "MOVE_1STEP_CLOSEST": 3,
+  "EvtMoveUnitOneStep": 3,
+  "MOVE_DEFINED_CLOSEST": 3,
+  "EvtMoveUnitByQueue": 3,
+  "CHECK_EXISTS": 1,
+  "EvtCheckUnitExists": 1,
+  "CHECK_STATUS": 1,
+  "EvtGetUnitVisitGroup": 1,
+  "CHECK_ALIVE": 1,
+  "EvtCheckUnitNotDead": 1,
+  "CHECK_DEPLOYED": 1,
+  "EvtCheckUnitDeployed": 1,
+  "CHECK_ACTIVEID": 1,
+  "EvtCheckUnitActive": 1,
+  "CHECK_ALLEGIANCE": 1,
+  "EvtGetUnitFaction": 1,
+  "CHECK_COORDS": 1,
+  "EvtGetUnitPosition": 1,
+  "CHECK_CLASS": 1,
+  "EvtGetUnitJid": 1,
+  "CHECK_LUCK": 1,
+  "EvtGetUnitLuck": 1,
+  "SHOW_ATTACK_RANGE": 1,
+  "EvtShowAttackRange": 1,
+  "HIDE_ATTACK_RANGE": 1,
+  "EvtHideAttackRange": 1,
+  "REMU": 1,
+  "EvtSetUnitHidden": 1,
+  "CUSE": 1,
+  "EvtChangeFaction": 1,
+  "REVEAL": 1,
+  "EvtSetUnitUnhidden": 1,
+  "SET_HP": 1,
+  "EvtSetUnitHpFormSlot1": 1,
+  "SET_ENDTURN": 1,
+  "EvtSetUnitUnselectable": 1,
+  "_3427": 1,
+  "EvtSetUnitHasMoved": 1,
+  "SET_STATE": 1,
+  "EvtSetUnitStateFormSlot1": 1,
+  "CLEA": 1,
+  "EvtHideAllAlliess": 1,
+  "CLEN": 1,
+  "EvtRemoveAllNpcs": 1,
+  "CLEE": 1,
+  "EvtRemoveAllEimies": 1,
+  "KILL": 1,
+  "EvtKillUnit": 1,
+  "DISA_IF": 1,
+  "EvtWaitUnitDeathFade": 1,
+  "SPAWN_CUTSCENE_ALLY": 2,
+  "EvtLoadSingleUnit": 2,
+  "DISA": 1,
+  "EvtRemoveUnit": 1,
+  "CHECK_INAREA": 2,
+  "EvtCheckInArea": 2,
+  "GIVEITEMTO": 1,
+  "EvtGiveItemAtSlot3": 1,
+  "EvtGiveMoneymAtSlot3": 1,
+  "EvtGiveMoneymAtSlot3NoPopup": 1,
+  "SET_ACTIVE": 1,
+  "EvtSetActiveUnit": 1,
+  "CHAI": 1,
+  "EvtChangeAI": 1,
+  "NOTIFY": 3,
+  "EvtDisplayPopup": 3,
+  "BROWNBOXTEXT": 3,
+  "EvtDisplayPopupSilently": 3,
+  "CUMO_CHAR": 1,
+  "EvtDisplayCursorAtUnit": 1,
+  "CURE": 1,
+  "EvtEndCursor": 1,
+  "CURSOR_FLASHING_CHAR": 1,
+  "EvtDisplayFlashingCursorAtUnit": 1,
+  "DISABLEOPTIONS": 1,
+  "EvtOverrideUnitMenu": 1,
+  "DISABLEWEAPONS": 1,
+  "EvtOverrideWeaponMenu": 1,
+  "CHECK_CURSOR": 1,
+  "EvtGetCursorPosition": 1,
+  "FIGHT": 3,
+  "EvtStartEventBattle": 3,
+  "FIGHT_MAP": 3,
+  "EvtStartEventMapBattle": 3,
+  "FIGHT_SCRIPT": 2,
+  "EvtSetScriptedBattle": 2,
+  "PROM": 3,
+  "EvtPromoteUnit": 3,
+  "EvtWarpSTAL": 1,
+  "EARTHQUAKE_END": 1,
+  "EvtEndEarthQuake": 1,
+  "SUMMONUNIT": 1,
+  "EvtSummonUnit": 1,
+  "BREAKSTONE": 1,
+  "EvtBreakStone": 1,
+  "GLOWINGCROSS": 1,
+  "EvtShowGlowingCross": 1,
+  "GLOWINGCROSS_END": 1,
+  "EvtRemoveGlowingCross": 1,
+  "WM_CENTERCAMONLORD": 2,
+  "WmEvtSetCameraOnto": 2,
+  "WM_MOVECAM": 7,
+  "WmEvtGmScroll": 7,
+  "WM_DRAWPATH": 2,
+  "WmEvtDrawPath": 2,
+  "PUTSPRITE": 5,
+  "WmEvtShowMU": 5,
+  "WM_REMSPRITE": 2,
+  "WmEvtRemoveMU": 2,
+  "WM_MAKELORDVISIBLE": 2,
+  "WmEvtShowUnit": 2,
+  "WM_FADEINSPRITE": 3,
+  "WmEvtFadeMU": 3,
+  "WM_PUTSPRITE": 5,
+  "WmEvtSetUnitPosition": 5,
+  "WM_PUTMOVINGSPRITE": 11,
+  "WmEvtMoveUnit": 11,
+  "WM_WAITFORSPRITES": 2,
+  "WmEvtWaitMU": 2,
+  "WM_SHOWTEXTWINDOW": 3,
+  "WmEvtDisplayTextWindow": 3,
+  "WM_FADEOUT": 2,
+  "WmEvtFadeOut": 2,
+  "WM_SHOWDRAWNMAP": 4,
+  "WmEvtShowBigMap": 4,
+  "WM_MOVECAM2": 7,
+  "WmEvtCamMov2": 7,
+  "WM_HIGHLIGHT": 2,
+  "WmEvtHighlightNation": 2,
+  "WM_HIGHLIGHTCLEAR1": 2,
+  "WmEvtHighlightNationClear1": 2,
+  "WM_HIGHLIGHTCLEAR2": 2,
+  "WmEvtHighlightNationClear2": 2,
+  "WM_PLACEDOT": 5,
+  "WmEvtMarkPoint": 5,
+  "WM_FXCLEAR1": 2,
+  "WmEvtRemoveMarkPoint1": 2,
+  "WM_FXCLEAR2": 2,
+  "WmEvtRemoveMarkPoint2": 2,
+  "WM_SPAWNLORD": 4,
+  "WmEvtLoadUnit": 4,
+  "WM_SHOWPORTRAIT": 5,
+  "WmEvtShowPortrait": 5,
+  "WM_CLEARPORTRAIT": 3,
+  "WmEvtClearPortrait": 3,
+  "WM_TEXT": 3,
+  "WmEvtShowText": 3,
+  "WM_MOVESPRITETO": 7,
+  "WmEvtMoveUnitInPath": 7,
+  "WM_MAKELORDDISAPPEAR": 2,
+  "WmEvtHideUnit": 2,
+  "WM_FADEOUTSPRITE": 3,
+  "WmEvtUnitFadeOut": 3,
+  "WmEvtSetCamToNode": 2,
+  "WmEvtSetUnitOnNode": 3,
+  "WmEvtSetNextStoryNode": 2,
+  "WM_SETDESTINATION": 2,
+  "WmEvtSetNextStoryNodeSilent": 2,
+  "WM_REMOVELOCATION": 2,
+  "WmEvtRemoveNode": 2,
+  "WM_REMOVEPATH": 2,
+  "WmEvtRemovePath": 2,
+  "DRAWPATH3": 2,
+  "WmEvtDisplayPath": 2,
+  "WM_DRAWPATH2": 2,
+  "WmEvtAddPath": 2,
+  "WM_LOADLOCATION2": 2,
+  "WmEvtEnableNode": 2,
+  "WM_LOADLOCATION3": 2,
+  "WmEvtDisplayNode": 2,
+  "WmEvtMoveCamToUnit": 7,
+  "WmEvtPasueMove": 2,
+  "WmEvtResumeMove": 2,
+  "WM_SETCAM": 3,
+  "WmEvtSetCameraAt": 3,
+  "WM_MOVECAMTO": 7,
+  "WmEvtMoveCamToNode": 7,
+  "WmEvtSetNodeStateNot2": 2,
+  "WM_SATURATE_COLORS": 2,
+  "WmEvtFadeInDark": 2,
+  "COUNTER_CHECK": 1,
+  "EvtGetCounter": 1,
+  "COUNTER_SET": 1,
+  "EvtSetCounter": 1,
+  "COUNTER_INC": 1,
+  "EvtIncCounter": 1,
+  "COUNTER_DEC": 1,
+  "EvtDecCounter": 1,
+  "EvtColorFadeSetup": 5,
+  "CAMERA": 1,
+  "EvtMoveCameraTo": 1,
+  "CAMERA2": 1,
+  "EvtMoveCameraToCenter": 1,
+  "CHECK_AT": 1,
+  "EvtGetPidAt": 1,
+  "CHAI_AT": 1,
+  "EvtChangeAIat": 1,
+  "CUMO_AT": 1,
+  "EvtDisplayCursorAt": 1,
+  "CURSOR_FLASHING": 1,
+  "EvtDisplayFlashingCursorAt": 1,
+  "SET_CURSOR": 1,
+  "EvtSetCursorPosition": 1,
+  "WARP_OUT": 1,
+  "EvtWarpOUT": 1,
+  "WARP_IN": 1,
+  "EvtWarpIN": 1,
+  "EARTHQUAKE_START": 1,
+  "EvtStartEarthQuake": 1,
+  "EvtNop": 1,
+  "CALL": 2,
+  "EvtCall": 2,
+  "ASMC": 2,
+  "EvtAsmCall": 2,
+  "TEXTCONT": 1,
+  "EvtContinueText": 1,
+  "TEXTEND": 1,
+  "EvtTextWaitLock": 1,
+  "CLEAN": 1,
+  "EvtClearScreen": 1,
+  "ENUN": 1,
+  "EvtWaitUnitMoving": 1,
+  "PREP": 1,
+  "EvtCallPrepScreen": 1,
+  "WM_WAITFORCAM": 1,
+  "WmEvtWaitGmScroll": 1,
+  "WM_CREATENEXTDESTINATION": 1,
+  "WmEvtDrawNodeNextChapter": 1,
+  "WM_WAITFORFX": 1,
+  "WmEvtWaitNodeDisplay": 1,
+  "WM_WAITFORSPRITELOAD": 1,
+  "WmEvtWaitMuFade": 1,
+  "WM_WAITFORTEXT": 1,
+  "WmEvtTextBoxWait": 1,
+  "WM_TEXTDECORATE": 1,
+  "WmEvtWaitFade": 1,
+  "SKIPWN": 1,
+  "WmEvtSkipWmEvents": 1,
+  "WmEvtNoFade": 1,
+  "WM_TEXTSTART": 1,
+  "WmEvtTextStart": 1,
+  "WM_REMOVETEXT": 1,
+  "WmEvtRemoveText": 1,
+  "WM_WAITFORFXCLEAR1": 1,
+  "WmEvtRemoveBigMap": 1,
+  "WM_WAITFORFXCLEAR2": 1,
+  "WmEvtWaitBigMapRemove": 1,
+  "WmEvtWaitFadeInDark": 1,
+  "SADD": 1,
+  "EvtSlotADD": 1,
+  "SSUB": 1,
+  "EvtSlotSUB": 1,
+  "SMUL": 1,
+  "EvtSlotMUL": 1,
+  "SDIV": 1,
+  "EvtSlotDIV": 1,
+  "SMOD": 1,
+  "EvtSlotMOD": 1,
+  "SAND": 1,
+  "EvtSlotAND": 1,
+  "SORR": 1,
+  "EvtSlotORR": 1,
+  "SXOR": 1,
+  "EvtSlotXOR": 1,
+  "SLSL": 1,
+  "EvtSlotLSL": 1,
+  "SLSR": 1,
+  "EvtSlotLSR": 1,
+  "EvtTextTutorialStart": 1,
+  "CHECK_TRIG_EVENTID": 1,
+  "CURSOR_AT": 1,
+  "CURSOR_CHAR": 1
  }
 }

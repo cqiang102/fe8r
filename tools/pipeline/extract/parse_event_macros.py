@@ -114,6 +114,7 @@ def main():
             "params": [p.strip() for p in params.split(",") if p.strip()],
             "arg": arg.strip(),
             "extraWords": extra,
+            "extraParamWords": rest.count("_EvtParams2("),
             "len": l_,
         })
 
@@ -135,7 +136,10 @@ def main():
             #      原来要求两个参数都带括号，于是 COUNTER_DEC 整条收不到。
             r"#define\s+(\w+)\s*(?:\(([^)]*)\))?\s*"
             r"_EvtArg0\(\s*([A-Z_0-9]+)\s*,\s*([^,]+),\s*([^,]+),\s*"
-            r"_EvtSubParam16u8\(\(([^)]*)\)\s*,\s*\(?([^),]*)\)?\s*\)"
+            # ⚠️ 两个参数**都不一定带括号**：
+            #   `_EvtSubParam16u8((idx), 0)`（`EvtDecCounter`，`:627`）
+            #   `_EvtSubParam16u8(form, to)`（`EvtColorFadeSetup`，`:641`）
+            r"_EvtSubParam16u8\(\s*\(?([^),]*)\)?\s*,\s*\(?([^),]*)\)?\s*\)"
             r"\s*\)(.*)$", body, re.M):
         name, params, cmd, ln, sub, _pa, _pb, rest = m.groups()
         params = params or ""
@@ -152,6 +156,7 @@ def main():
             "arg": "u8pair",
             "packed": "u8pair",
             "extraWords": rest.count("EventListScr"),
+            "extraParamWords": rest.count("_EvtParams2("),
             "len": l_,
         })
 
@@ -175,6 +180,7 @@ def main():
             "params": [x.strip() for x in (params or "").split(",") if x.strip()],
             "arg": "",
             "extraWords": rest.count("EventListScr"),
+            "extraParamWords": rest.count("_EvtParams2("),
             "len": int(n),
         })
 
@@ -196,18 +202,72 @@ def main():
             "arg": "u4quad",
             "packed": "u4quad",
             "extraWords": rest.count("EventListScr"),
+            "extraParamWords": rest.count("_EvtParams2("),
             "len": val(ln, consts) or 2,
         })
 
     # ---- 3) 别名（`#define LOAD1 EvtLoadUnit1`）----
     alias_to = {}
-    for m in re.finditer(r"^#define\s+([A-Z][A-Z0-9_]*)\s+(\w+)\s*$", ea, re.M):
-        alias_to[m.group(2)] = m.group(1)
+    # ⚠️ 别名**成链**，中间那几步在 `eventscript.h` 里（不在 EAstdlib 里）：
+    #     TUTORIALTEXTBOXSTART → EvtTextTutorialStart → EvtTextStartType3 → …
+    # 所以两个头都要扫；**EAstdlib 放后面**（它的名字是用户面向的、要用它当最终名）。
+    for src in (es, ea):
+        # 普通别名 `#define A B`
+        # ⚠️ 别名名可以是**混合大小写**（链中间那步 `EvtTextTutorialStart`，
+        # `include/eventscript.h:659`）—— 原来要求全大写，链就断在这里。
+        for m in re.finditer(r"^#define\s+([A-Za-z_]\w*)\s+(\w+)\s*$", src, re.M):
+            alias_to[m.group(2)] = m.group(1)
+        # ★ **带参数的别名**：`#define CUSA(pid) EvtChangeFaction(pid, FACTION_ID_BLUE)`
+        #（`include/EAstdlib.h:139`）—— 原来只认"无参数别名"，这条漏了。
+        for m in re.finditer(
+                r"^#define\s+([A-Z][A-Z0-9_]*)\s*\([^)]*\)\s+(\w+)\s*\(", src, re.M):
+            alias_to[m.group(2)] = m.group(1)
 
-    # ---- 4) 别名优先 ----
+    # ---- 4) 别名优先（**要走到不动点**：别名可以成链）----
+    #
+    # 例：`TUTORIALTEXTBOXSTART` → `EvtTextTutorialStart` → `EvtTextStartType3`
+    #（`include/eventscript.h:659`）—— 只换一次名字的话，外层别名就查不到字数。
     for k, lst in entries.items():
         for e in lst:
-            e["macro"] = alias_to.get(e["macro"], e["macro"])
+            e["aliasOf"] = e["macro"]      # 改名前（规范名）—— 下游两种名字都可能遇到
+            seen = set()
+            while e["macro"] in alias_to and e["macro"] not in seen:
+                seen.add(e["macro"])
+                e["macro"] = alias_to[e["macro"]]
+
+    # ★ **按名字查字数**的表：原名与别名都收。
+    #
+    # 为什么需要：`.c` 数据里**两种名字都在用** —— blob 数组里既有 `EvtColorFadeSetup`
+    # （规范名）也有 `ENDA`/`CUSA`（别名）。只给一个名字的话，另一种就"字数未知"，
+    # 整块切分被放弃（我为此白跑了两轮：先改名丢了规范名，再反向丢别名）。
+    words_by_name = {}
+    for lst in entries.values():
+        for e in lst:
+            # ★ **总字数 = `len`/2 + `extraWords`**。
+            # `len` 只数 `_EvtArg0(cmd, len, sub, arg)` 那几个字；
+            # 而宏体后面可能还挂着额外的字，例如
+            #   `EvtColorFadeSetup(...) _EvtArg0(EV_CMD_COLORFADE, 6, EVSUBCMD_FADECOLORS,
+            #    _EvtSubParam16u8(form, to)), _EvtParams2(speed, r), _EvtParams2(g, b),`
+            #（`include/eventscript.h:641`）—— 两个 `_EvtParams2` 各占一个字。
+            # 漏了它们 ⇒ 后面所有条目的位置整体前移 ⇒ "偏移不在宏边界上"。
+            # ⚠️ `len` **已经包含**宏体里 `(EventListScr)(ptr)` 那类指针字
+            #（证：`.s` 全语料 116 个脚本按 `len // 2` 解码**零失败**）。
+            # 真正在 `len` 之外、要另加的只有 `_EvtParams2(...)`：
+            #   `EvtColorFadeSetup(...) = _EvtArg0(..., 6, ...), _EvtParams2(speed, r),
+            #    _EvtParams2(g, b)`（`include/eventscript.h:641`）
+            # 我先前把 `extraWords`（数 `EventListScr`）也加上 ⇒ 重复计数、切分反而变差。
+            w = max(1, e["len"] // 2) + int(e.get("extraParamWords") or 0)
+            words_by_name[e["macro"]] = w
+            if e.get("aliasOf"):
+                words_by_name[e["aliasOf"]] = w
+
+    # ★ 别名指向"表里已知的宏"时，把字数也挂到别名上（可传递）。
+    # 例：`#define SPAWN_ENEMY(pid, x, y) EvtLoadSingleUnit(FACTION_ID_RED, pid, x, y)`
+    #（`include/EAstdlib.h:153`）—— blob 数据里写的是 `SPAWN_ENEMY`。
+    for _ in range(4):
+        for canon, al in alias_to.items():
+            if canon in words_by_name and al not in words_by_name:
+                words_by_name[al] = words_by_name[canon]
 
     if not entries:
         print("  ✗ 一个宏都没抽到", file=sys.stderr)
@@ -220,6 +280,7 @@ def main():
             "source": "include/eventscript.h + include/EAstdlib.h",
             "note": "操作码 (cmd, sub) -> 宏名 + 参数",
             "byCmdSub": {f"{c}:{s}": v for (c, s), v in entries.items()},
+            "wordsByName": words_by_name,
         }, f, ensure_ascii=False, indent=1)
 
     print(f"  抽出 {len(entries)} 个 (cmd, sub) 组合")
