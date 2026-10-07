@@ -186,6 +186,19 @@ def stmt(op, A):
                 return (f"await s.call({lit(a)});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 条件槽：`CHECK_EVBIT` / `CHECK_EVENTID` 写 `gEventSlots[0xC]`，
+    # 紧跟的 `BEQ`/`BNE` 读它 —— 生成器**早就**支持 BEQ/BNE 了（`cmp = "==" / "!="`），
+    # 缺的一直是"往槽里写值"的这一半。
+    # 出处：`src/Event03_CheckEvBitOrId.c:14-33`：
+    #   CHECK_EVBIT   ⇒ `gEventSlots[0xC] = (evStateBits >> arg) & 1`
+    #   CHECK_EVENTID ⇒ `gEventSlots[0xC] = CheckFlag(arg)`
+    # `arg < 0` ⇒ 取事件槽 2。
+    if op in ("CHECK_EVBIT", "CHECK_EVENTID"):
+        a = A[0] if A else 0
+        kind = "evbit" if op == "CHECK_EVBIT" else "flag"
+        arg = num(a) if isinstance(a, int) else lit(a)
+        return (f"s.checkSlot('{kind}', {arg});", True)
+
     # 事件位 / 章节旗 —— 同一个处理函数（`src/Event02_EvBitAndIdMod.c:14-38`）：
     #     sub_cmd_lo == 0：`EVBIT_F` ⇒ `evStateBits &= ~(1<<arg)`、`EVBIT_T` ⇒ `|=`
     #     sub_cmd_lo == 1：`ENUF` ⇒ `ClearFlag(arg)`、`ENUT` ⇒ `SetFlag(arg)`

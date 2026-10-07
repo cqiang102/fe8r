@@ -722,6 +722,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         defined: definedSceneScripts,
         onEvent: _onSceneEvent,
       );
+    // `CheckFlag` 的读旗器：旗在游戏侧 `eventFlags` 里（`CHECK_EVENTID` 要用）
+    scene?.flagReader = (f) => eventFlags.contains(f);
     } catch (e) {
       // 读失败就当作没有 —— 但**不吞掉**，写进 status 让人看得见
       status.value = '剧本加载失败: $e';

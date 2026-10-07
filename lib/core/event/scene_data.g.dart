@@ -750,7 +750,7 @@ Future<void> scr_9EE8F0(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 65535);
           pc = 1;
           continue;
         case 1:
@@ -793,7 +793,7 @@ Future<void> scr_9EEA58(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 8);
           pc = 1;
           continue;
         case 1:
@@ -884,7 +884,7 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 65535);
           pc = 4;
           continue;
         case 4:
@@ -3692,7 +3692,7 @@ Future<void> Ch13B_0(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 2);
           pc = 1;
           continue;
         case 1:
@@ -3759,7 +3759,7 @@ Future<void> Ch13B_1(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 2);
           pc = 1;
           continue;
         case 1:
@@ -3826,7 +3826,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 2);
           pc = 1;
           continue;
         case 1:
@@ -4158,7 +4158,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 85;
           continue;
         case 85:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 2);
           pc = 86;
           continue;
         case 86:
@@ -8358,7 +8358,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 7);
           pc = 13;
           continue;
         case 13:
@@ -12472,7 +12472,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 136);
           pc = 1;
           continue;
         case 1:
@@ -13215,28 +13215,28 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 8);
           pc = 18;
           continue;
         case 18:
           if (s.slotInt(2) == 12) { pc = 11; } else { pc = 19; }
           continue;
         case 19:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 9);
           pc = 20;
           continue;
         case 20:
           if (s.slotInt(2) == 12) { pc = 11; } else { pc = 21; }
           continue;
         case 21:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 10);
           pc = 22;
           continue;
         case 22:
           if (s.slotInt(2) == 12) { pc = 11; } else { pc = 23; }
           continue;
         case 23:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 11);
           pc = 24;
           continue;
         case 24:
@@ -15821,14 +15821,14 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 8);
           pc = 59;
           continue;
         case 59:
           if (s.slotInt(0) == 12) { pc = 70; } else { pc = 60; }
           continue;
         case 60:
-          s.placeholder('CHECK_EVENTID');
+          s.checkSlot('flag', 9);
           pc = 61;
           continue;
         case 61:
@@ -15966,14 +15966,14 @@ Future<void> CutsceneExecEnd_Sub0(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 8);
           pc = 1;
           continue;
         case 1:
           if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 7);
           pc = 3;
           continue;
         case 3:
@@ -16011,7 +16011,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 8);
           pc = 1;
           continue;
         case 1:
@@ -16025,7 +16025,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 11);
           pc = 5;
           continue;
         case 5:
@@ -18387,7 +18387,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 2;
           continue;
         case 2:
@@ -18421,7 +18421,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 11;
           continue;
         case 11:
@@ -18455,7 +18455,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 20;
           continue;
         case 20:
@@ -18489,7 +18489,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 29;
           continue;
         case 29:
@@ -18523,7 +18523,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 38;
           continue;
         case 38:
@@ -18557,7 +18557,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 47;
           continue;
         case 47:
@@ -18591,7 +18591,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 56;
           continue;
         case 56:
@@ -18625,7 +18625,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 64;
           continue;
         case 64:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 65;
           continue;
         case 65:
@@ -18659,7 +18659,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 73;
           continue;
         case 73:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 74;
           continue;
         case 74:
@@ -18693,7 +18693,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 82;
           continue;
         case 82:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 83;
           continue;
         case 83:
@@ -18727,7 +18727,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 91;
           continue;
         case 91:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 92;
           continue;
         case 92:
@@ -18761,7 +18761,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 100;
           continue;
         case 100:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 101;
           continue;
         case 101:
@@ -18795,7 +18795,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 109;
           continue;
         case 109:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 110;
           continue;
         case 110:
@@ -18829,7 +18829,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 118;
           continue;
         case 118:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 119;
           continue;
         case 119:
@@ -18863,7 +18863,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 127;
           continue;
         case 127:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 128;
           continue;
         case 128:
@@ -18897,7 +18897,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 136;
           continue;
         case 136:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 137;
           continue;
         case 137:
@@ -18931,7 +18931,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 145;
           continue;
         case 145:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 146;
           continue;
         case 146:
@@ -18965,7 +18965,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 154;
           continue;
         case 154:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 155;
           continue;
         case 155:
@@ -18999,7 +18999,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 163;
           continue;
         case 163:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 164;
           continue;
         case 164:
@@ -19033,7 +19033,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 172;
           continue;
         case 172:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 173;
           continue;
         case 173:
@@ -19067,7 +19067,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 181;
           continue;
         case 181:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 182;
           continue;
         case 182:
@@ -19101,7 +19101,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 190;
           continue;
         case 190:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 191;
           continue;
         case 191:
@@ -19135,7 +19135,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 199;
           continue;
         case 199:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 200;
           continue;
         case 200:
@@ -19169,7 +19169,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 208;
           continue;
         case 208:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 209;
           continue;
         case 209:
@@ -19203,7 +19203,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 217;
           continue;
         case 217:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 218;
           continue;
         case 218:
@@ -19237,7 +19237,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 226;
           continue;
         case 226:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 227;
           continue;
         case 227:
@@ -19271,7 +19271,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 235;
           continue;
         case 235:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 236;
           continue;
         case 236:
@@ -19305,7 +19305,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 244;
           continue;
         case 244:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 245;
           continue;
         case 245:
@@ -19339,7 +19339,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 253;
           continue;
         case 253:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 254;
           continue;
         case 254:
@@ -19373,7 +19373,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 262;
           continue;
         case 262:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 263;
           continue;
         case 263:
@@ -19407,7 +19407,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 271;
           continue;
         case 271:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 272;
           continue;
         case 272:
@@ -19441,7 +19441,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 280;
           continue;
         case 280:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 281;
           continue;
         case 281:
@@ -19475,7 +19475,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 289;
           continue;
         case 289:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 2);
           pc = 290;
           continue;
         case 290:
@@ -19902,7 +19902,7 @@ Future<void> SetBackground(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 8);
           pc = 1;
           continue;
         case 1:
@@ -20192,7 +20192,7 @@ Future<void> TextShowWithFadeIn(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EVBIT');
+          s.checkSlot('evbit', 8);
           pc = 1;
           continue;
         case 1:

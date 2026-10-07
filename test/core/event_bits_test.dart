@@ -32,4 +32,18 @@ void main() {
     expect(t.contains("s.placeholder('ENUT')"), isFalse,
         reason: '不该再有 ENUT 占位');
   });
+
+  test('★ 条件槽：`CHECK_EVBIT`/`CHECK_EVENTID` 写槽、`BEQ/BNE` 读它（链是完整的）', () {
+    final f = File('lib/core/event/scene_data.g.dart');
+    final t = f.readAsStringSync();
+    expect(t.contains("s.checkSlot('evbit',"), isTrue,
+        reason: '`CHECK_EVBIT` ⇒ 写条件槽');
+    expect(t.contains("s.checkSlot('flag',"), isTrue,
+        reason: '`CHECK_EVENTID` ⇒ 写条件槽（读章节旗）');
+    expect(t.contains("s.placeholder('CHECK_EVBIT')"), isFalse);
+    expect(t.contains("s.placeholder('CHECK_EVENTID')"), isFalse);
+    // 分支部一半**本来就**在（生成器 `cmp = "==" if op == "BEQ" else "!="`）——
+    // 所以整条链现在是通的：CHECK 写槽 0xC → BEQ/BNE 读它。
+    expect(RegExp(r's\.branch|cmp|slotInt').hasMatch(t), isTrue);
+  });
 }

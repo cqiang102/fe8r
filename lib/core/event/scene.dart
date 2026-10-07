@@ -779,10 +779,39 @@ class Scene {
   /// `arg < 0` 时取**事件槽 2**（`gEventSlots[2]`）。
   int evStateBits = 0;
 
+  /// 读章节旗的**注入点**（`CheckFlag`）。
+  ///
+  /// 场景本身**不持有**旗（旗在游戏侧 `eventFlags` 里）⇒ 由调用方注入一个读旗器；
+  /// 没注入时退回"本场景自己置过的那几个"（`_flagsSetHere`），并在
+  /// [flagsReadWithoutReader] 里计数 —— 免得"读不到"被当成"旗没置位"。
+  bool Function(int flag)? flagReader;
+  final Set<int> _flagsSetHere = {};
+  int flagsReadWithoutReader = 0;
+
+  bool flagIsSet(int flag) {
+    final r = flagReader;
+    if (r != null) return r(flag);
+    flagsReadWithoutReader++;
+    return _flagsSetHere.contains(flag);
+  }
+
+  /// `CHECK_EVBIT` / `CHECK_EVENTID`：把结果写进**条件槽** `gEventSlots[0xC]`
+  /// （`src/Event03_CheckEvBitOrId.c:14-33`），随后由 `BEQ`/`BNE` 消费。
+  void checkSlot(String kind, int arg) {
+    final a = arg < 0 ? slotInt(2) : arg;
+    final v = kind == 'evbit' ? evBit(a) : flagIsSet(a);
+    setSlot(0xC, v ? 1 : 0);
+  }
+
   void evBitMod(String kind, bool set, int arg) {
     var a = arg;
     if (a < 0) a = slotInt(2);
     if (kind == 'flag') {
+      if (set) {
+        _flagsSetHere.add(a);
+      } else {
+        _flagsSetHere.remove(a);
+      }
       onEvent(SetEventFlag(flag: a, value: set));
     } else if (set) {
       evStateBits |= 1 << a;
