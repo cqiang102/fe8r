@@ -596,12 +596,80 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _loadUnitsFromTable(table, group);
       case Stall():
         await Future<void>.delayed(Duration(milliseconds: e.frames * 16));
-      case MoveUnitInScene():
-        _sceneHudExtra = e.op;
+      case MoveUnitInScene(:final op, :final args):
+        _moveUnitInScene(op, args);
     }
   }
 
   String _sceneHudExtra = '';
+
+  /// 剧情里的**自动移动**（`MOVE` / `MOVE_CLOSEST` / …）。
+  ///
+  /// ## 出处
+  ///
+  ///     #define MOVE(speed, pid, x, y)         EvtMoveUnit(false, speed, pid, x, y)
+  ///     #define MOVE_CLOSEST(speed, pid, x, y) EvtMoveUnit(true, speed, pid, x, y)
+  ///
+  /// 参数是 `(速度, 角色号, x, y)`。
+  ///
+  /// ⚠️ **这里原来只写了个 HUD 字符串（`_sceneHudExtra = e.op`），
+  /// 单位根本没动** —— 和 `LoadUnits` 是同一类 bug。
+  ///
+  /// 后果：过场里"某人走到某处"完全不发生，
+  /// **地图上的站位因此全不对**（用户看到的就是这个）。
+  ///
+  /// `_CLOSEST` 系列在原版里是"目标格被占就尽量靠近"。
+  /// 这里先做**精确落点**（占了就退到最近的空格），
+  /// 因为过场的目标格通常是空的。
+  void _moveUnitInScene(String op, List<Object> args) {
+    final f = field;
+    if (f == null || args.length < 4) return;
+
+    final closest = op.contains('CLOSEST');
+    final pid = switch (args[1]) {
+      final int v => v,
+      _ => 0,
+    };
+    final tx = switch (args[2]) {
+      final int v => v,
+      _ => 0,
+    };
+    final ty = switch (args[3]) {
+      final int v => v,
+      _ => 0,
+    };
+
+    // `pid` 是**角色号**（`charIndex`）。0 表示"主角"。
+    MapUnit? u = f.units
+        .where((x) => x.charIndex == pid && x.isAlive)
+        .firstOrNull;
+    if (u == null && pid == 0) {
+      u = f.units
+          .where((x) => x.faction == Faction.blue && x.isAlive)
+          .firstOrNull;
+    }
+    if (u == null) {
+      _sceneHudExtra = '$op: 找不到角色 $pid';
+      return;
+    }
+
+    var nx = tx, ny = ty;
+    if (closest && f.unitAt(nx, ny) != null) {
+      // 目标格被占 -> 找相邻空格（原版语义）
+      for (final (dx, dy) in const [(0, 1), (0, -1), (1, 0), (-1, 0)]) {
+        if (f.unitAt(nx + dx, ny + dy) == null) {
+          nx += dx;
+          ny += dy;
+          break;
+        }
+      }
+    }
+
+    u.x = nx;
+    u.y = ny;
+    _eventMoveTargets[u.id] = (nx, ny);
+    _sceneHudExtra = '$op($pid -> $nx,$ny)';
+  }
 
   /// 演出真实场景：序章开场。
   ///
@@ -959,6 +1027,34 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
     }
     await _swapMap(mapName);
+
+    // ★ **清空战场** —— 对应 `RestartBattleMap()`。
+    //
+    // 出处：`src/eventscr_0800F390.c:66-72`
+    //
+    //     gPlaySt.chapterIndex = chIndex;
+    //     RestartBattleMap();        <- ★ 重建战场
+    //     ...
+    //     RefreshUnitSprites();
+    //
+    // ⚠️ 不清的后果（用户一眼就看出来了）：**单位不断累积**。
+    // 序章依次 `LOAD1/LOAD2` 了王座厅 8 人、逃脱者 3 人、骑兵 6 人、
+    // 王家 2 人、萨满 4 人、传令兵 1 人、我方 2 人、敌方 3 人、瓦尔特组 3 人 ——
+    // **30 个单位全堆在一张地图上**，而可玩地图应该只有 2 我方 + 3 敌方。
+    //
+    // 清了之后：`LOMA(0)` 落图，紧接着脚本自己 `LOAD1(1, PrologueAlly)`，
+    // 名册就是对的。
+    final g = map;
+    field = BattleField(
+      width: g?.width ?? 1,
+      height: g?.height ?? 1,
+      turn: 1,
+      activeFaction: Faction.blue,
+      units: const [],
+    );
+    _eventMoveTargets.clear();
+    eventFlags.clear();
+
     sceneMapNote = 'LOMA($chapterIndex) → $mapName';
     // 地图切换历史 —— 用它判断脚本走到了哪一步
     _sceneMapHistory = '$_sceneMapHistory $mapName';
