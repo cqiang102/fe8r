@@ -307,6 +307,14 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '章节链路', 'true', const [], skip: true, note: decompNote),
 
+    // 覆盖率账本：两张**只许降**的棘轮（未见引用的规则层 TU / 未见提及的数据目录）
+    if (hasDecomp())
+      Step('L0', '覆盖率棘轮', 'dart',
+          ['run', 'tools/verify/coverage_report.dart', '--check'],
+          note: 'docs/覆盖率.md；未覆盖数只许降（--update 收紧）')
+    else
+      Step('L0', '覆盖率棘轮', 'true', const [], skip: true, note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],
