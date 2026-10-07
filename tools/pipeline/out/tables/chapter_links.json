@@ -102,97 +102,113 @@
    "index": 12,
    "internalName": "E11",
    "mapEventDataId": 54,
-   "eventGroupName": "Ch12EirikaMapChanges"
+   "eventGroupName": "Ch12EirikaEventData",
+   "assetNameShifted": true
   },
   {
    "index": 13,
    "internalName": "E12",
    "mapEventDataId": 58,
-   "eventGroupName": "Ch13EirikaMapChanges"
+   "eventGroupName": "Ch13EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 14,
    "internalName": "E13",
    "mapEventDataId": 64,
-   "eventGroupName": "Ch14EirikaMapChanges"
+   "eventGroupName": "Ch14EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 15,
    "internalName": "E14",
    "mapEventDataId": 70,
-   "eventGroupName": "Ch15MapChanges"
+   "eventGroupName": "Ch15EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 16,
    "internalName": "E15",
    "mapEventDataId": 74,
-   "eventGroupName": "Ch16MapChanges"
+   "eventGroupName": "Ch16EirEvents",
+   "assetNameShifted": true
   },
   {
    "index": 17,
    "internalName": "E16",
    "mapEventDataId": 78,
-   "eventGroupName": "Ch17MapChanges"
+   "eventGroupName": "Ch17EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 18,
    "internalName": "E17",
    "mapEventDataId": 85,
-   "eventGroupName": "Ch18MapChanges"
+   "eventGroupName": "Ch18EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 19,
    "internalName": "E18",
    "mapEventDataId": 89,
-   "eventGroupName": "Ch19MapChanges"
+   "eventGroupName": "Ch19EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 20,
    "internalName": "E19",
    "mapEventDataId": 93,
-   "eventGroupName": "Ch20MapChanges"
+   "eventGroupName": "Ch20EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 21,
    "internalName": "E20",
    "mapEventDataId": 99,
-   "eventGroupName": "FinalChapterMap1Changes"
+   "eventGroupName": "FinalEirikaEvents1",
+   "assetNameShifted": true
   },
   {
    "index": 22,
    "internalName": "E20B",
    "mapEventDataId": 102,
-   "eventGroupName": "FinalChapterMap2Changes"
+   "eventGroupName": "FinalEirikaEvents2",
+   "assetNameShifted": true
   },
   {
    "index": 23,
    "internalName": "I09",
    "mapEventDataId": 106,
-   "eventGroupName": "Ch9EphMapChanges"
+   "eventGroupName": "Ch9Events",
+   "assetNameShifted": true
   },
   {
    "index": 24,
    "internalName": "I10",
    "mapEventDataId": 112,
-   "eventGroupName": "Ch10EphraimMapChanges"
+   "eventGroupName": "Ch10EphraimEvents",
+   "assetNameShifted": true
   },
   {
    "index": 25,
    "internalName": "I11",
    "mapEventDataId": 116,
-   "eventGroupName": "Ch12EphraimMapChanges"
+   "eventGroupName": "Ch12EphraimEvents",
+   "assetNameShifted": true
   },
   {
    "index": 26,
    "internalName": "I12",
    "mapEventDataId": 119,
-   "eventGroupName": "Ch13EphraimMapChanges"
+   "eventGroupName": "Ch13EphraimEventData",
+   "assetNameShifted": true
   },
   {
    "index": 27,
    "internalName": "I13",
    "mapEventDataId": 126,
-   "eventGroupName": "Ch14EphraimMapChanges"
+   "eventGroupName": "Ch14EphraimEventData",
+   "assetNameShifted": true
   },
   {
    "index": 28,
@@ -246,49 +262,57 @@
    "index": 36,
    "internalName": "T01",
    "mapEventDataId": 140,
-   "eventGroupName": "TowerOfValni1MapChanges"
+   "eventGroupName": "TowerOfValni1Events",
+   "assetNameShifted": true
   },
   {
    "index": 37,
    "internalName": "T02",
    "mapEventDataId": 143,
-   "eventGroupName": "TowerOfValni2MapChanges"
+   "eventGroupName": "TowerOfValni2Events",
+   "assetNameShifted": true
   },
   {
    "index": 38,
    "internalName": "T03",
    "mapEventDataId": 146,
-   "eventGroupName": "TowerOfValni3MapChanges"
+   "eventGroupName": "TowerOfValni3Events",
+   "assetNameShifted": true
   },
   {
    "index": 39,
    "internalName": "T04",
    "mapEventDataId": 149,
-   "eventGroupName": "TowerOfValni4MapChanges"
+   "eventGroupName": "TowerOfValni4Events",
+   "assetNameShifted": true
   },
   {
    "index": 40,
    "internalName": "T05",
    "mapEventDataId": 152,
-   "eventGroupName": "TowerOfValni5MapChanges"
+   "eventGroupName": "TowerOfValni5Events",
+   "assetNameShifted": true
   },
   {
    "index": 41,
    "internalName": "T06",
    "mapEventDataId": 155,
-   "eventGroupName": "TowerOfValni6MapChanges"
+   "eventGroupName": "TowerOfValni6Events",
+   "assetNameShifted": true
   },
   {
    "index": 42,
    "internalName": "T07",
    "mapEventDataId": 158,
-   "eventGroupName": "TowerOfValni7MapChanges"
+   "eventGroupName": "TowerOfValni7Events",
+   "assetNameShifted": true
   },
   {
    "index": 43,
    "internalName": "T08",
    "mapEventDataId": 161,
-   "eventGroupName": "TowerOfValni8MapChanges"
+   "eventGroupName": "TowerOfValni8Events",
+   "assetNameShifted": true
   },
   {
    "index": 44,
@@ -306,55 +330,64 @@
    "index": 46,
    "internalName": "R01",
    "mapEventDataId": 165,
-   "eventGroupName": "LagdouRuins1MapChanges"
+   "eventGroupName": "LagdouRuins1Event",
+   "assetNameShifted": true
   },
   {
    "index": 47,
    "internalName": "R02",
    "mapEventDataId": 168,
-   "eventGroupName": "LagdouRuins2MapChanges"
+   "eventGroupName": "LagdouRuins2Event",
+   "assetNameShifted": true
   },
   {
    "index": 48,
    "internalName": "R03",
    "mapEventDataId": 171,
-   "eventGroupName": "LagdouRuins3MapChanges"
+   "eventGroupName": "LagdouRuins3Event",
+   "assetNameShifted": true
   },
   {
    "index": 49,
    "internalName": "R04",
    "mapEventDataId": 174,
-   "eventGroupName": "LagdouRuins4MapChanges"
+   "eventGroupName": "LagdouRuins4Event",
+   "assetNameShifted": true
   },
   {
    "index": 50,
    "internalName": "R05",
    "mapEventDataId": 177,
-   "eventGroupName": "LagdouRuins5MapChanges"
+   "eventGroupName": "LagdouRuins5Event",
+   "assetNameShifted": true
   },
   {
    "index": 51,
    "internalName": "R06",
    "mapEventDataId": 180,
-   "eventGroupName": "LagdouRuins6MapChanges"
+   "eventGroupName": "LagdouRuins6Event",
+   "assetNameShifted": true
   },
   {
    "index": 52,
    "internalName": "R07",
    "mapEventDataId": 183,
-   "eventGroupName": "LagdouRuins7MapChanges"
+   "eventGroupName": "LagdouRuins7Event",
+   "assetNameShifted": true
   },
   {
    "index": 53,
    "internalName": "R08",
    "mapEventDataId": 187,
-   "eventGroupName": "LagdouRuins8MapChanges"
+   "eventGroupName": "LagdouRuins8Event",
+   "assetNameShifted": true
   },
   {
    "index": 54,
    "internalName": "R09",
    "mapEventDataId": 190,
-   "eventGroupName": "LagdouRuins9MapChanges"
+   "eventGroupName": "LagdouRuins9Event",
+   "assetNameShifted": true
   },
   {
    "index": 55,
@@ -366,13 +399,15 @@
    "index": 56,
    "internalName": "C00",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 57,
    "internalName": "H00",
    "mapEventDataId": 199,
-   "eventGroupName": "MelkaenCoastMapChanges"
+   "eventGroupName": "MelkaenCoastEvent",
+   "assetNameShifted": true
   },
   {
    "index": 58,
@@ -384,121 +419,141 @@
    "index": 59,
    "internalName": "D00",
    "mapEventDataId": 202,
-   "eventGroupName": "AnInterestingMap"
+   "eventGroupName": "AnInterestingMapEvents",
+   "assetNameShifted": true
   },
   {
    "index": 60,
    "internalName": "D01",
    "mapEventDataId": 204,
-   "eventGroupName": "DebugMap"
+   "eventGroupName": "DebugMapEvents",
+   "assetNameShifted": true
   },
   {
    "index": 61,
    "internalName": "E10x",
    "mapEventDataId": 208,
-   "eventGroupName": "Ch11EirikaMapChanges"
+   "eventGroupName": "Ch11EirikaEvents",
+   "assetNameShifted": true
   },
   {
    "index": 62,
    "internalName": "I10x",
    "mapEventDataId": 212,
-   "eventGroupName": "Ch11EphraimMapChanges"
+   "eventGroupName": "Ch11EphraimEvents",
+   "assetNameShifted": true
   },
   {
    "index": 63,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 64,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 65,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 66,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 67,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 68,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 69,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 70,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 71,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 72,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 73,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 74,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 75,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 76,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 77,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   },
   {
    "index": 78,
    "internalName": "-",
    "mapEventDataId": 196,
-   "eventGroupName": "LordsSplitMapChanges"
+   "eventGroupName": "LordsSplitEvents",
+   "assetNameShifted": true
   }
  ],
  "eventGroups": {

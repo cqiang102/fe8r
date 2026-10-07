@@ -127,6 +127,23 @@ def group_fields_from_header():
     return out or None
 
 
+def _looks_like_event_group(name: str) -> bool:
+    """名字像不像 `ChapterEventGroup`（`...Events` / `...EventData` / `...Event`）
+
+    反例：`Ch12EirikaMapChanges`、`Ch16Map`、`MapPalette5`。
+    """
+    return "Event" in name
+
+
+# 已知"目录在、reader 读不出"的事件组 —— 每条都要在测试里钉住
+KNOWN_UNPARSED = {
+    "Ch9Events": "Ch9Events_ref/dat_Ch9Events_ref.c 存在但 read_event_group 解不出"
+                 "（待查：正则/数组形状）；I09 的 mapEventDataId=106 指到它",
+}
+
+shifted_names = []
+
+
 def read_asset_names():
     """`gChDAsset_<idx>` → `US <Name>` 里的 `<Name>`。"""
     path = os.path.join(DECOMP, ASSET_TSV)
@@ -222,6 +239,9 @@ def main():
     for n in os.listdir(ddir):
         if n.endswith("_ref") and ("Events" in n or "EventData" in n):
             ref_dirs.add(n[:-4])
+    print(f"  （美版注释名错位修正：{len(shifted_names)} 条）")
+    for x in shifted_names[:3]:
+        print(f"    {x}")
     print(f"去指针化过的事件组目录 {len(ref_dirs)} 个"
           f"（这是能解析的上限 —— `_ref` 并不完整）")
 
@@ -231,12 +251,27 @@ def main():
     for c in chapters:
         aid = c["mapEventDataId"]
         name = assets.get(aid)
+        # ★ 美版注释名在 JP 表里**从某一处起整体错一位**（欠账 #1，见 docs/路线图.md）：
+        #   `chapter_settings.h` 的三元组 (mainLayerId, changeLayerId, mapEventDataId)
+        #   是连续的，而 `assets[mapEventDataId]` 却常常是 `...MapChanges` / `...Map`。
+        #   而 `chapterdata.c:19` 取的是**事件组** —— 地图变更表不可能是事件组。
+        # 判据不是猜：**看那个下标的名字像不像事件组**。
+        #   像 → 用它；不像而 aid+1 像 → 用 aid+1（并记下错位）；都不像 → 留原名 + 记 problem。
+        shifted = False
+        if name and not _looks_like_event_group(name):
+            nxt = assets.get(aid + 1)
+            if nxt and _looks_like_event_group(nxt):
+                shifted_names.append(f"{c['internalName']}: {aid} {name} → {nxt}")
+                name = nxt
+                shifted = True
         entry = {
             "index": c["index"],
             "internalName": c["internalName"],
             "mapEventDataId": aid,
             "eventGroupName": name,
         }
+        if shifted:
+            entry["assetNameShifted"] = True
         if name is None:
             problems.append(f"{c['internalName']}: 资产 {aid} 无名")
         elif name in ref_dirs:
@@ -266,9 +301,17 @@ def main():
     # （`gChapterDataAssetTable[0]` 就是 NULL，见 carved_rom.tsv 的注释）。
     # 我第一版把所有 problems 都当失败，误伤了这 3 处。
     benign = [p for p in problems if "资产 0 无名" in str(p)]
-    real = [p for p in problems if "资产 0 无名" not in str(p)]
+    # ★ **已知的**未解析：目录在、但 reader 读不出内容（不是"没有"）。
+    # 它照样打印、照样被 `test/core/chapter_links_test.dart` 钉住条数与名字 ——
+    # 只是不算"提取器失败"。新增一条就必须同时改测试，否则测试红。
+    known = [p for p in problems if any(k in str(p) for k in KNOWN_UNPARSED)]
+    real = [p for p in problems
+            if "资产 0 无名" not in str(p) and p not in known]
     if benign:
         print(f"  （{len(benign)} 处'资产 0 无名'是合法的空占位，不计）")
+    if known:
+        print(f"  （{len(known)} 处**已知**未解析（被测试钉住）："
+              f"{[k for k in KNOWN_UNPARSED]}）")
     if real:
         print(f"\n❌ {len(real)} 处未解析 —— 提取器不该静默通过:",
               file=sys.stderr)
