@@ -4858,12 +4858,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 修的是一个真 bug：在这之前，"使う"对杖也会把施术者**自己**治一遍。
     if ((_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0) {
       final stats = _itemStats[num];
+      // 相邻型（Heal/Mend/Recover）走 4 邻居；远程型（Physic/Fortify）走
+      // `GetUnitMagBy2Range` 的菱形 —— 都不是道具射程（`staff_use.dart` 有出处）。
       _staffTargets = staffTargets(
         user: u,
         units: f?.units ?? const [],
         healAmount: _staffHealAmount(num, u),
-        minRange: stats?.minRange ?? 1,
-        maxRange: stats?.maxRange ?? 1,
+        ranged: (stats?.maxRange ?? 1) > 1,
+        unitPower: _powOf(u),
       );
       // 先扣次数（`func(unit)` 在目标选择**之前**执行）
       u.items[slot] = useHealingItem(

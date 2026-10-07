@@ -39,29 +39,53 @@ class StaffTarget {
       {'unitId': unitId, 'x': x, 'y': y, 'healAmount': healAmount};
 }
 
+/// `GetUnitMagBy2Range`（`src/GetUnitMagBy2Range.c:12-26`）：
+/// `GetUnitPower(unit) / 2`，**最小 5**（`CHARACTER_FOMORTIIS` 用噩梦道具的射程，另论）。
+///
+/// ⚠️ 远程杖（Physic/Fortify）的射程**看的是这个**，**不是道具射程** ——
+/// 我第 56 轮用的是道具的 `minRange/maxRange`，那是错的（好在当时只是"类比"口径）。
+int magBy2Range(int unitPower) {
+  final r = unitPower ~/ 2;
+  return r < 5 ? 5 : r;
+}
+
 /// 杖的目标列表。
 ///
-/// * 只对自己阵营（`UNIT_FACTION` 同侧）；
-/// * 排除死 / 隐藏（被扛走）/ 不可选；
-/// * **HP 不是满的**（满血不给治 —— 类比 `MakeTerrainHealTargetList` 的判据）；
-/// * 射程：曼哈顿距离落在 `[minRange, maxRange]`（武器射程，`encodedRange` 已拆好）。
+/// 条件照 `TryAddUnitToHealTargetList`（`src/bmtarget_08025BD8.c:127-141`，**逐条**）：
+///   1. `AreUnitsAllied` ⇒ **同盟**；
+///   2. `unit->state & US_RESCUED` ⇒ **被救走的不能治**；
+///   3. `GetUnitCurrentHp(unit) == GetUnitMaxHp(unit)` ⇒ **满血不治**。
+///
+/// 射程照两个不同的函数：
+///   * **相邻型** `MakeTargetListForAdjacentHeal`（`:152-160`）用 `ForEachAdjacentUnit`，
+///     即 `InitTargets(x,y)` + `MapAddInRange(x,y,1,1)` + **`MapAddInRange(x,y,0,-1)`**
+///     —— 最后那句把**中心格抹掉**（`MapAddInRange` 的 `value` 是写进射程图的值，
+///     `-1` 即取消）⇒ **施术者自己不会被治**（我第 56 轮的排除是对的，这里补上出处）；
+///   * **远程型** `MakeTargetListForRangedHeal`（`:165+`）用
+///     `MapAddInRange(x, y, GetUnitMagBy2Range(unit), 1)` ⇒ 半价魔力的**菱形**。
+///
+/// ⚠️ **仍然未查证**：`gSelectInfo_Heal` 的**定义不在反编译里** ⇒
+/// "哪一类杖走相邻型、哪一类走远程型"的**分派**我读不到；这里按道具
+/// `maxRange > 1` 分（Heal/Mend/Recover 相邻、Physic/Fortify 远程）。
 List<StaffTarget> staffTargets({
   required MapUnit user,
   required List<MapUnit> units,
   required int healAmount,
-  required int minRange,
-  required int maxRange,
+  required bool ranged,
+  int unitPower = 0,
   bool Function(MapUnit u)? isSameFaction,
 }) {
   final same = isSameFaction ?? (MapUnit u) => u.factionBit == user.factionBit;
+  final radius = ranged ? magBy2Range(unitPower) : 1;
   final out = <StaffTarget>[];
   for (final u in units) {
-    if (u.id == user.id) continue;
-    if (!u.isAlive || u.isHidden) continue;
+    if (!u.isAlive) continue;
     if (!same(u)) continue;
-    if (u.hp >= u.maxHp) continue; // 满血不给治
+    if (u.isRescued) continue; // 2
+    if (u.hp >= u.maxHp) continue; // 3
     final d = (u.x - user.x).abs() + (u.y - user.y).abs();
-    if (d < minRange || d > maxRange) continue;
+    if (d < 1) continue; // 施术者自己不在列表里（中心格被 `-1` 抹掉）
+    if (d > radius) continue;
     out.add(StaffTarget(
         unitId: u.id, x: u.x, y: u.y, healAmount: healAmount));
   }
