@@ -565,6 +565,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastTrade': lastTrade,
       'lastVisit': lastVisit,
       'lastSeize': lastSeize,
+      'lastChest': lastChest,
       'chapterModeIndex': chapterModeIndex,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
@@ -1373,6 +1374,47 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「宝箱」：给 `givenItem` + 置 `doneFlag`
+    final chestAt = r.chestAt;
+    if (chestAt != null) {
+      final parts = chestAt.split(',');
+      final cx = int.tryParse(parts.isNotEmpty ? parts[0] : '') ?? -1;
+      final cy = int.tryParse(parts.length > 1 ? parts[1] : '') ?? -1;
+      final ev = availableTileEvent(_locationEvents, cx, cy, eventFlags);
+      final u2 = field?.unitById(s.selectedUnitId ?? -1);
+      if (ev != null && u2 != null) {
+        // `givenItem` 取自条目（数据里 12 条全是具体道具；`== 0` 的随机那条
+        // **在数据里不出现**，且其实现不在反编译里 ⇒ 不实现，见路线图欠账）
+        final given = ev.givenItem;
+        final word = given == 0 ? 0 : _makeNewItem(given);
+        var added = false;
+        if (word != 0) {
+          for (var i = 0; i < u2.items.length; i++) {
+            if (u2.items[i] == 0) {
+              u2.items[i] = word;
+              added = true;
+              break;
+            }
+          }
+        }
+        if (ev.doneFlag != 0) eventFlags.add(ev.doneFlag);
+        lastChest = {
+          'unit': u2.id,
+          'x': cx,
+          'y': cy,
+          'givenItem': given,
+          'givenItemName': _itemNameByNumber[given],
+          'added': added,
+          'doneFlag': ev.doneFlag,
+          'inventory': u2.items.toList(),
+        };
+        debugPrint('[CHEST] $lastChest');
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「制圧」：只有领袖能做；它走的是**章节结束**那条路
     final seizeAt = r.seizeAt;
     if (seizeAt != null) {
@@ -2522,6 +2564,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
                   cmdId: (e['cmdId'] as num?)?.toInt() ?? 0,
                   doneFlag: (e['doneFlag'] as num?)?.toInt() ?? 0,
                   script: e['script'] as String?,
+                  givenItem: (e['givenItem'] as num?)?.toInt() ?? 0,
+                  givenMoney: (e['givenMoney'] as num?)?.toInt() ?? 0,
                 ),
           ];
         }
@@ -3114,6 +3158,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final v = (e.value as num?)?.toInt();
       if (v != null) _terrainEnumById[v] = e.key;
     }
+
+    final ij0 = read('items.json');
+    final ientries = ij0['entries'] as Map<String, dynamic>? ?? {};
+    int numOf(String k) =>
+        ((ientries[k] as Map<String, dynamic>?)?['number'] as num?)?.toInt() ?? 0;
+    _itemChestKey = numOf('ITEM_CHESTKEY');
+    _itemChestKeyBundle = numOf('ITEM_CHESTKEY_BUNDLE');
+    _itemLockpick = numOf('ITEM_LOCKPICK');
 
     _terrainDefCommon = valsOf('TerrainTable_Def_Common');
     _terrainAvoCommon = valsOf('TerrainTable_Avo_Common');
@@ -4772,8 +4824,26 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 这正是序章–第 8 章的取值。将来做路线选择时要把它接上并存进存档。
   int chapterModeIndex = 1;
 
+  /// 这个职业有没有 `CA_THIEF`（盗贼 ⇒ 撬锁器也能开锁）
+  ///
+  /// ⚠️ 我们的职业表**没抽 `attributes`** ⇒ 用职业名近似（`CLASS_THIEF`/`CLASS_ROGUE`/
+  /// `CLASS_ASSASSIN`…）。这条映射是**近似**，已记进路线图欠账。
+  bool _classHasThiefAttribute(MapUnit u) {
+    final n = _classNameByNumber[u.classId] ?? '';
+    return n.contains('THIEF') || n.contains('ROGUE') || n.contains('ASSASSIN') ||
+        n.contains('LOCKPICK') || n.contains('RENAULT') || n.contains('COLM');
+  }
+
   /// 最近一次「制圧」的记录（判据用）
   Map<String, Object?>? lastSeize;
+
+  /// 最近一次开宝箱的记录（判据用）
+  Map<String, Object?>? lastChest;
+
+  /// 钥匙类道具的编号（从 `items.json` 读，不硬编码）
+  int _itemChestKey = 0;
+  int _itemChestKeyBundle = 0;
+  int _itemLockpick = 0;
 
   /// 职业编号 → 职业名（判 `CLASS_PHANTOM` 用；`classes.json`）
   final Map<int, String> _classNameByNumber = {};
@@ -5725,6 +5795,23 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _usableSlots = itemMenuSlots(unit);
     fl.hasUsableItem = _usableSlots.isNotEmpty;
     // ★ 「訪問」的判定交给规则层（`tile_events.dart`）：地形 + 该格有可用的 VILL 事件
+    fl.chestAvailableAt = (x, y) {
+      final ev = availableTileEvent(_locationEvents, x, y, eventFlags);
+      final keySlot = unitKeyItemSlotForTerrain(
+        isThief: _classHasThiefAttribute(unit),
+        items: unit.items,
+        terrainId: _terrainAt(x, y),
+        lockpickItem: _itemLockpick,
+        chestKeyItem: _itemChestKey,
+        chestKeyBundleItem: _itemChestKeyBundle,
+      );
+      return chestAvailable(
+        hasActed: unit.hasActed,
+        hasClosedChestTile: ev != null && ev.cmdId == kTileCommandChest,
+        hasKeyOrLockpick: keySlot >= 0,
+        terrainId: _terrainAt(x, y),
+      );
+    };
     fl.seizeAvailableAt = (x, y) {
       final ev = availableTileEvent(_locationEvents, x, y, eventFlags);
       final leader = seizeLeaderId(

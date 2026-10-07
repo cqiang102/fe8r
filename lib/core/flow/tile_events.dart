@@ -40,6 +40,8 @@ class LocationEvent {
     required this.cmdId,
     required this.doneFlag,
     this.script,
+    this.givenItem = 0,
+    this.givenMoney = 0,
   });
 
   final String cmd;
@@ -48,6 +50,14 @@ class LocationEvent {
   final int cmdId;
   final int doneFlag;
   final String? script;
+
+  /// `CHES` 条目里的宝箱内容（`struct EvCheck07 { u32 unk0; u16 givenItem;
+  /// u16 givenMoney; u8 x; u8 y; u16 cmdId; }`，`src/exact_08085cc4.c:95-102`）。
+  /// ⚠️ 数据里 12 条 CHES **全是具体道具**；`givenItem == 0` 的"按概率表抽"
+  /// 在数据里不出现，且那是 `StartAvailableTileEvent` 读了 `info.script` 当表指针
+  /// —— 而 `EvCheck07_CHES` 的实现**不在反编译里** ⇒ 不实现（不编）。
+  final int givenItem;
+  final int givenMoney;
 }
 
 /// `SearchAvailableEvent` 对这一族条目的匹配：坐标 + `cmdId` + **`doneFlag` 未置位**。
@@ -136,4 +146,78 @@ bool seizeAvailable({
   if (hasActed) return false;
   if (!canSeize) return false;
   return hasSeizeTile;
+}
+
+// ---------------------------------------------------------------------------
+// 宝箱（`TILE_COMMAND_CHEST`）
+// ---------------------------------------------------------------------------
+
+/// `TILE_COMMAND_CHEST = 0x14`（`include/eventinfo.h:19`）
+const int kTileCommandChest = 0x14;
+
+/// `TERRAIN_CHEST_FULL`（编号见 `tools/pipeline/out/tables/terrains.json` 的枚举）
+const int kTerrainChestFull = 33;
+
+/// `GetUnitKeyItemSlotForTerrain`（`src/bmunit_080187B0.c:39-58`）：
+///
+/// ```c
+/// if (UNIT_CATTRIBUTES(unit) & CA_THIEF) {
+///     int slot = GetUnitItemSlot(unit, ITEM_LOCKPICK);
+///     if (slot >= 0) return slot;
+/// }
+/// switch (terrain) {
+/// case TERRAIN_CHEST_FULL:
+///     slot = GetUnitItemSlot(unit, ITEM_CHESTKEY);
+///     if (slot < 0) slot = GetUnitItemSlot(unit, ITEM_CHESTKEY_BUNDLE);
+///     return slot;
+/// case TERRAIN_DOOR:
+///     item = ITEM_DOORKEY; break;
+/// }
+/// return GetUnitItemSlot(unit, item);
+/// ```
+///
+/// 返回**槽位下标**（-1 = 没有能开它的道具）。
+int unitKeyItemSlotForTerrain({
+  required bool isThief,
+  required List<int> items,
+  required int terrainId,
+  required int lockpickItem,
+  required int chestKeyItem,
+  required int chestKeyBundleItem,
+}) {
+  int slotOf(int item) => items.indexOf(item);
+  if (isThief) {
+    final s = slotOf(lockpickItem);
+    if (s >= 0) return s;
+  }
+  if (terrainId == kTerrainChestFull) {
+    final s = slotOf(chestKeyItem);
+    return s >= 0 ? s : slotOf(chestKeyBundleItem);
+  }
+  return -1; // 门/吊桥另论（见路线图欠账 50）
+}
+
+/// `CanUnitUseChestKeyItem`（`src/CanUnitUseChestKeyItem.c:34-43`）：
+/// **只看地形 + 那格有没有关着的宝箱**（不看道具）。
+bool canUnitUseChestKeyItem({
+  required int terrainId,
+  required bool hasClosedChestTile,
+}) =>
+    terrainId == kTerrainChestFull && hasClosedChestTile;
+
+/// 「宝箱」这一项该不该出现
+///
+/// 出处：`ChestCommandUsability`（`src/bmmenu_08023D5C.c:85-97`）——
+/// `!US_HAS_MOVED`（映射 `!hasActed`）+ 有能开的道具（钥匙/盗贼的撬锁器）
+/// + `CanUnitUseChestKeyItem`。
+bool chestAvailable({
+  required bool hasActed,
+  required bool hasClosedChestTile,
+  required bool hasKeyOrLockpick,
+  required int terrainId,
+}) {
+  if (hasActed) return false;
+  if (!hasKeyOrLockpick) return false;
+  return canUnitUseChestKeyItem(
+      terrainId: terrainId, hasClosedChestTile: hasClosedChestTile);
 }

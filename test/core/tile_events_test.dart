@@ -46,6 +46,7 @@ void main() {
     expect(ok(hasEv: false), isFalse, reason: '该格没有可用 VILL 事件');
   });
   _seizeTests();
+  _chestTests();
 }
 
 // 制圧（`CanUnitSeize`，`src/masked_08037bfc.c:50-70`）
@@ -76,5 +77,44 @@ void _seizeTests() {
     expect(ok(acted: true), isFalse, reason: '对应 `US_HAS_MOVED`');
     expect(ok(canSeize: false), isFalse, reason: '不是领袖（`CanUnitSeize` 为假）');
     expect(ok(tile: false), isFalse, reason: '该格没有 `cmdId == 0x11` 的条目');
+  });
+}
+
+// 宝箱（`src/bmmenu_08023D5C.c:85-97` + `src/bmunit_080187B0.c:39-58`）
+void _chestTests() {
+  test('★ 钥匙槽：钥匙/钥匙串；盗贼拿撬锁器也认（先查撬锁器）', () {
+    int slot({required bool thief, required List<int> items}) =>
+        unitKeyItemSlotForTerrain(
+            isThief: thief, items: items, terrainId: kTerrainChestFull,
+            lockpickItem: 107, chestKeyItem: 105, chestKeyBundleItem: 121);
+    expect(slot(thief: false, items: [105, 0, 0]), 0, reason: '宝箱钥匙');
+    expect(slot(thief: false, items: [121, 0, 0]), 0, reason: '钥匙串');
+    expect(slot(thief: false, items: [105, 121, 0]), 0, reason: '两种都有时先钥匙');
+    expect(slot(thief: false, items: [0, 0, 0]), -1, reason: '没有 ⇒ -1');
+    expect(slot(thief: true, items: [107, 0, 0]), 0, reason: '盗贼的撬锁器');
+    expect(slot(thief: true, items: [105, 107, 0]), 1,
+        reason: '★ 盗贼分支**先**查撬锁器（源码顺序），所以返回 1 而不是 0');
+    expect(slot(thief: true, items: [105, 0, 0]), 0,
+        reason: '盗贼没撬锁器就退回钥匙那条');
+  });
+
+  test('★ 可用性：未行动 + 有钥匙/撬锁器 + 站在「满的宝箱」格上且那格有关着的宝箱', () {
+    bool ok({bool acted = false, bool key = true, bool closed = true,
+        int terrain = kTerrainChestFull}) =>
+        chestAvailable(hasActed: acted, hasClosedChestTile: closed,
+            hasKeyOrLockpick: key, terrainId: terrain);
+    expect(ok(), isTrue);
+    expect(ok(acted: true), isFalse, reason: '对应 `US_HAS_MOVED`');
+    expect(ok(key: false), isFalse, reason: '没有钥匙/撬锁器');
+    expect(ok(closed: false), isFalse, reason: '那格没有关着的宝箱（`IsThereClosedChestAt`）');
+    expect(ok(terrain: 1), isFalse, reason: '不是 `TERRAIN_CHEST_FULL`');
+  });
+
+  test('`CanUnitUseChestKeyItem` 只看地形 + 关着的宝箱', () {
+    expect(canUnitUseChestKeyItem(terrainId: kTerrainChestFull,
+        hasClosedChestTile: true), isTrue);
+    expect(canUnitUseChestKeyItem(terrainId: kTerrainChestFull,
+        hasClosedChestTile: false), isFalse);
+    expect(canUnitUseChestKeyItem(terrainId: 1, hasClosedChestTile: true), isFalse);
   });
 }

@@ -62,7 +62,10 @@ enum ActionOption {
 
   /// 制圧（章节结束的正规入口）。可用性照 `UnitActionMenu_CanSeize`
   /// （`src/bmmenu_08022F50.c:68-80`），由 [FlowMachine.seizeAvailableAt] 注入判定。
-  seize('制圧');
+  seize('制圧'),
+
+  /// 宝箱（`ChestCommandUsability`，`src/bmmenu_08023D5C.c:85-97`）
+  chest('宝箱');
 
   const ActionOption(this.label);
   final String label;
@@ -243,6 +246,7 @@ class FlowResult {
     this.itemUseIndex,
     this.visitAt,
     this.seizeAt,
+    this.chestAt,
   });
 
   final FlowState state;
@@ -261,6 +265,9 @@ class FlowResult {
 
   /// 本次输入是否请求**制圧**（值是"x,y"）。
   final String? seizeAt;
+
+  /// 本次输入是否请求**开宝箱**（值是"x,y"）。
+  final String? chestAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -497,6 +504,10 @@ class FlowMachine {
           return FlowResult(s, seizeAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.chest) {
+          return FlowResult(s, chestAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -669,6 +680,10 @@ class FlowMachine {
     if (canSeize) {
       out.add(ActionOption.seize);
     }
+    final canChest = chestAvailableAt?.call(x, y) ?? false;
+    if (canChest) {
+      out.add(ActionOption.chest);
+    }
     return out;
   }
 
@@ -682,6 +697,9 @@ class FlowMachine {
 
   /// "站在 (x,y) 上能不能「制圧」" —— 同样由调用方注入
   bool Function(int x, int y)? seizeAvailableAt;
+
+  /// "站在 (x,y) 上能不能开「宝箱」" —— 同样由调用方注入
+  bool Function(int x, int y)? chestAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///
