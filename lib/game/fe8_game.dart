@@ -829,14 +829,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (gameTexts != null) {
       // 调试：`FE8R_CHAPTER=1` 直接跳到某一章（验证章节系统用）
       final ch = Platform.environment['FE8R_CHAPTER'];
-      if (ch != null) {
+      if (ch != null && ch.isNotEmpty) {
         final n = int.tryParse(ch);
         if (n != null) sceneChapter = n;
       }
       // 调试：`FE8R_WM=56` 直接进大地图（和 `FE8R_TITLE` / `FE8R_CHAPTER` 同类，
       // **只用于开发**；正常流程由 `MNCH` 进入，见 `ChangeChapter.subcmd`）
+      // ⚠️ **空字符串不是"未设置"**：`Platform.environment['X']` 对 `X=`
+      // 返回 `''`，而 `int.tryParse('') ?? 0x38` 会兜成 0x38 ⇒ 连"没打算开
+      // 大地图"的场景也被拽进大地图。实测代价：`scenario.sh battle` 从
+      // "打死奥尼尔 → 第 1 章"变成 `chapter=0 / map=PrologueMap`（4 条判据红）。
+      // 这就是 `FE8R_NODELAY` 那一类假信号的形状 —— 环境变量一律**判空**。
       final wmEnv = Platform.environment['FE8R_WM'];
-      if (wmEnv != null) {
+      if (wmEnv != null && wmEnv.isNotEmpty) {
         // 走**同一条**路（待进入 → update 里进），这样调试入口与真实流程一致
         _pendingWorldMapTarget = int.tryParse(wmEnv) ?? 0x38;
       }
@@ -847,7 +852,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       final forced = Platform.environment['FE8R_TITLE'];
       titleFlow = TitleFlow(texts: gameTexts!);
-      final jump = forced == null ? null : TitleFlow.screenByName(forced);
+      final jump = (forced == null || forced.isEmpty)
+          ? null
+          : TitleFlow.screenByName(forced);
       if (jump != null) {
         titleFlow!.startAt = jump;
         titleFlow!.reset();
@@ -1062,7 +1069,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 第一次试就撞上了：客户端连到 GUI，收到 `HTTP/1.1 400 Bad Request`。
   Future<void> _startCtlIfRequested() async {
     final env = Platform.environment['FE8R_CTL'];
-    if (env == null) return;
+    if (env == null || env.isEmpty) return; // 空串按"没开"处理（同上）
     final port = int.tryParse(env) ?? kCtlDefaultPort;
     _ctl = CtlServer(
       port: port,

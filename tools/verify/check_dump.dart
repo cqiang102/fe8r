@@ -353,6 +353,30 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         'enemies=${alive.where((u) => u['faction'] == 0x80).map((u) => '${u['x']},${u['y']}').toList()}');
   }
 
+  if (scenario == 'worldmap') {
+    // ★ 章间大地图：`MNCH` 之后**必须**先到这里，而不是直接切章。
+    // 出处：`src/Event2A_MoveToChapter.c:24-31`（`MNCH` → `save_menu_type = 1`
+    // → `EXEC_BM` 起 `ProcScr_WorldMapWrapper`）。
+    ok('${d['waitingFor']}'.startsWith('worldMap:'),
+        '停在**大地图**里（`MNCH` 不是直接切章）', 'waitingFor=${d['waitingFor']}');
+    final wm = d['worldMap'] as Map<String, dynamic>?;
+    ok(wm != null, '转储里带大地图状态', 'worldMap=$wm');
+    ok(wm?['node'] == 0,
+        '部队在节点 0（`src/worldmap_path.c:148` 初值 0）', 'node=${wm?['node']}');
+    ok(d['worldMapTarget'] == 56,
+        '目标章 = `MNCH(0x38)` = CHAPTER_CASTLE_FRELIA',
+        'worldMapTarget=${d['worldMapTarget']}');
+    // ⚠️ 这一条**钉的是当前的欠账**（不是"正确行为"）：
+    // 节点 0 的条件旗 137 在我们的游戏里没人置上 ⇒ 走不动。
+    // 哪天有了设置点（或确认原作怎么置），这条必须改成"能走到节点 1"。
+    ok('${d['worldMapNote']}'.contains('137'),
+        '走不动时必须**响亮**写出是哪个旗（欠账 8）',
+        'worldMapNote=${d['worldMapNote']}');
+    final sc = d['scene'] as Map<String, dynamic>?;
+    ok(sc?['running'] != true, '没有卡在剧情里（WM 是独立模式）',
+        'scene.running=${sc?['running']}');
+  }
+
   if (scenario == 'prologue') {
     ok(map?['id'] == 'PrologueMap', '序章：地图是 PrologueMap',
         'map.id=${map?['id']}');
@@ -712,6 +736,18 @@ Map<String, Map<String, dynamic>> brokenMenuEndDumps() {
 ///
 /// 两次回合结束（一次菜单、一次自动）之后应当：turn 3、我方阶段、
 /// 两个我方都能动、**没有任何人还是"已行动"**、敌方已经动过。
+/// `worldmap` 场景的基准转储（在 turnend 的基础上叠大地图字段）
+Map<String, dynamic> goodWorldMapDump() {
+  final d = goodTurnEndDump();
+  d['turn'] = 1;
+  d['waitingFor'] = 'worldMap:node=0';
+  d['worldMap'] = <String, Object?>{'node': 0, 'nextNodeId': 0, 'cleared': <int>[]};
+  d['worldMapTarget'] = 56;
+  d['worldMapNote'] = '节点 0 没有下一个目的地（条件旗 137 未置上）';
+  (d['scene'] as Map<String, dynamic>)['running'] = false;
+  return d;
+}
+
 Map<String, dynamic> goodTurnEndDump() {
   final d = goodDump();
   d['turn'] = 3;
@@ -830,13 +866,14 @@ int runSelfTest() {
   //
   // 理由同 R7 那次的教训（一条永远不可能失败的规则）：新加的断言
   // 如果没被证伪过，就不知道它是活的。
-  for (final sc in const ['mapmenu', 'menuend', 'turnend']) {
+  for (final sc in const ['mapmenu', 'menuend', 'turnend', 'worldmap']) {
     final good = switch (sc) {
       'mapmenu' => goodMapMenuDump(),
       'menuend' => (goodMapMenuDump()
         ..['mapMenu'] = null
         ..['turn'] = 2
         ..['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段'),
+      'worldmap' => goodWorldMapDump(),
       _ => goodTurnEndDump(),
     };
     final goodFailed =

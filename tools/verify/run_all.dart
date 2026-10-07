@@ -492,6 +492,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'menuend'],
           note: 'START → 5×down → 确认 → 第 2 回合、菜单关闭',
           requires: ['tools/verify/scenario.sh']),
+      // 章间大地图（`MNCH` 那条路；用 `FE8R_WM=56` 走同一流程）
+      Step('L4', '端到端场景（章间大地图）', 'bash',
+          ['tools/verify/scenario.sh', 'worldmap'],
+          note: '进 WM（node 0 = 国境ミュラン）→ 旗 137 未置上时走不动且响亮',
+          requires: ['tools/verify/scenario.sh']),
       // 两条回合结束各走一遍：菜单「終了」+ 全部行动完自动结束
       Step('L4', '端到端场景（两条回合结束）', 'bash',
           ['tools/verify/scenario.sh', 'turnend'],

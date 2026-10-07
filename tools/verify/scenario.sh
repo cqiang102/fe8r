@@ -33,6 +33,10 @@ mkdir -p "$OUT_DIR"
 DUMP="$OUT_DIR/$SCENARIO.json"
 PNG="$OUT_DIR/$SCENARIO.png"
 
+# `FE8R_WM=<目标章>`：调试入口，走**和 `MNCH` 同一条路**（先记下、待地图就绪再进）。
+# 默认空 ⇒ 正常流程（由章间脚本里的 `MNCH` 触发）。
+WM=""
+
 case "$SCENARIO" in
   prologue)
     # 900 个 confirm、每个间隔 60ms（`runScript` 里的固定间隔）≈ 54 秒。
@@ -125,6 +129,22 @@ case "$SCENARIO" in
     TITLE=""
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,down,confirm,wait,wait"
     ;;
+  worldmap)
+    # ★ **章间大地图**（`MNCH` 那条路）。
+    #
+    # 真实触发点是第 1 章结束剧情里的 `MNCH(56)`（`Ch1_EndingScene`），
+    # 但要打到那里得先打完两章；所以这里用 `FE8R_WM=56` 走**同一条流程**
+    # （`_pendingWorldMapTarget` → `update()` 里在"地图就绪 + 无剧情"时进），
+    # 目标章节仍然是 56（C00 / フレリア城）。
+    #
+    # 前缀与 `mapmenu` 相同（4×wait 覆盖开机两屏 → 5×confirm 走完
+    # 健康警告/标题/主菜单/难度/存档槽 → start 跳过序章过场 → 等两拍）。
+    # 序章的**开场脚本里有 `LOMA`**（地图是它装的），所以"地图就绪"发生在
+    # 那之后 —— 多给两拍等待。
+    TITLE=""
+    WM=56
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,wait,wait"
+    ;;
   turnend)
     # ★ **两条回合结束**在同一次运行里各走一遍：
     #   ① 第 1 回合：赛特待机 → START → 地图菜单 →「終了」（主动结束）
@@ -174,6 +194,7 @@ FE8R_DEBUG=1 \
 FE8R_SCREENSHOT="$PNG" \
 FE8R_DUMP="$DUMP" \
 FE8R_TITLE="$TITLE" \
+FE8R_WM="$WM" \
 FE8R_SCRIPT="$SCRIPT" \
   "$BIN" >"$OUT_DIR/$SCENARIO.log" 2>&1
 
