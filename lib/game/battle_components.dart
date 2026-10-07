@@ -631,3 +631,55 @@ class MapMenuComponent extends PositionComponent {
     );
   }
 }
+
+
+// ---------------------------------------------------------------------------
+// 回合切换横幅（`ProcScr_PhaseIntro` 的最小等价物）
+//
+// 出处：`src/data/ProcScr_PhaseIntro_ref/dat_ProcScr_PhaseIntro_ref.c:6-15`
+//
+//     PROC_CALL(PhaseIntro_EndIfNoUnits),      // 没人就整个跳过
+//     PROC_CALL(PhaseIntro_InitGraphics),
+//     PROC_START_CHILD(gProcScr_PhaseIntroText),   // ← "我方回合 / 敌军回合"
+//     PROC_START_CHILD(gProcScr_PhaseIntroSquares),
+//     PROC_START_CHILD(gProcScr_PhaseIntroBlendBox),
+//     PROC_CALL(PhaseIntro_InitDisp),
+//     PROC_REPEAT(PhaseIntro_WaitForEnd),
+//     PROC_CALL(StartMapSongBgm),                  // BGM 也在这里切
+//     PROC_END,
+//
+// 用户反馈："没有回合切换动画、没有显示是谁的回合" —— 就是这一段没做。
+// 这里先做**可见的横幅**（不含方块/混合动画），文字与阵营一一对应。
+// ---------------------------------------------------------------------------
+class PhaseBannerComponent extends PositionComponent {
+  PhaseBannerComponent({
+    required this.text,
+    required this.tileSize,
+    required Vector2 screen,
+    required this.isEnemy,
+  }) : super(
+          size: Vector2(screen.x, tileSize * 3),
+          position: Vector2(0, screen.y / 2 - tileSize * 1.5),
+          priority: 10,
+        );
+
+  final String text;
+  final double tileSize;
+  final bool isEnemy;
+
+  @override
+  void render(Canvas canvas) {
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.x, size.y),
+      Paint()..color = const Color(0xCC0B0F14),
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.x, 2),
+      Paint()..color = isEnemy ? const Color(0xFFFF6B6B) : const Color(0xFF6BCBFF),
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(0, size.y - 2, size.x, 2),
+      Paint()..color = isEnemy ? const Color(0xFFFF6B6B) : const Color(0xFF6BCBFF),
+    );
+  }
+}

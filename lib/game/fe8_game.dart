@@ -478,6 +478,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastEndEvent': _lastEndEvent,
       'turnEventFired': _turnEventFired,
       'turnLoopNote': _turnLoopNote,
+      // 卡住自证 + 回合横幅（用户反馈"卡住""没有回合提示"）
+      'waitingFor': waitingFor,
+      'phaseBanner': _bannerText,
+      'lastPhaseBanner': _lastPhaseBanner,
       // 教学事件（两段式：入队 → 触发）
       'tutorial': tutorial.toJson(),
       'tutorialTableSize': _currentTutorials.length,
@@ -877,10 +881,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           mapMenu = mapMenu!.move(1);
         case FlowInput.confirm:
           final sel = mapMenu!.select();
+          // ⚠️ 标签必须**先取下来**：下面会把 `mapMenu` 置空，
+          // 再解引用就是 `Null check operator used on a null value` ——
+          // 这一行是我在"试玩版加未实现提示"那次改动里引入的**崩溃**
+          // （按地图菜单的确认就崩，也正是用户说的"玩到一半卡住"）。
+          // 教训：改完 UI 那条链**必须跑 `--e2e`**（`menuend` 场景就是钉它的），
+          // 我那次只跑了 `flutter test`（不覆盖菜单输入路径）。
+          final selLabel = mapMenu!.current.item.label;
           if (sel.closesMenu) {
             mapMenu = null;
             _mapMenuNote = sel.note;
-            _runMapMenuCommand(sel.command, mapMenu!.current.item.label);
+            _runMapMenuCommand(sel.command, selLabel);
           } else {
             // `src/MapMenu_SuspendCommand.c:51-54`：只弹提示，**菜单不关**
             mapMenu = MapMenuState(
@@ -1137,8 +1148,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (r.endTurn) endTurn();
   }
 
+  /// 回合横幅的倒计时（`PhaseIntro_WaitForEnd` 的最小等价物）
+  void _tickBanner() {
+    if (_banner == null) return;
+    _bannerFrames -= 1;
+    if (_bannerFrames <= 0) {
+      world.remove(_banner!);
+      _banner = null;
+      _bannerText = '';
+    }
+  }
+
   @override
   void update(double dt) {
+    _tickBanner();
+
     // ★ 开场流程**按帧**推进（时间驱动的画面靠这里走，按键只是每帧读一次）。
     // 放在最前面：它没跑完之前，战场输入根本不该被消费。
     if (inTitleFlow) _tickTitleFlow();
@@ -1789,6 +1813,43 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 键位说明是否展开（按 `H` 切换）
   bool _helpShown = false;
+
+  /// 回合横幅剩余帧数 + 当前文字（`ProcScr_PhaseIntro` 的最小等价物）
+  int _bannerFrames = 0;
+  String _bannerText = '';
+
+  /// **最后显示过**的横幅文字（不随淡出清空）。
+  ///
+  /// 横幅只亮 1 秒 —— 只记"当前文字"的话，转储里几乎永远读到空串，
+  /// 判据就没法写（我自己第一次验证就踩了这个：轮询太晚，什么都没看到）。
+  String _lastPhaseBanner = '';
+
+  /// 阶段循环是否正在跑（`waitingFor` 诊断用）
+  bool _turnRunning = false;
+
+  /// 敌方每个单位之间的停顿。
+  ///
+  /// 原作每个 AI 单位是一条**阻塞**的子 proc（`gProcScr_CpPerform`，
+  /// `src/data/data_085D1F2C/data_085D1F2C.c:28` + 移动动画），所以是逐个动、
+  /// 看得见。我们以前是一帧跑完 ⇒ 用户反馈"敌方行动过快"。
+  static const Duration kEnemyStepDelay = Duration(milliseconds: 380);
+
+  /// **卡住时自证**：现在到底在等什么。
+  ///
+  /// 用户反馈"玩到一半卡住" —— 没有这个字段，只能靠猜。
+  /// 有它，玩家把屏幕底部那行/转储发过来，就知道卡在哪一环。
+  String get waitingFor {
+    if (inTitleFlow) return 'title:${titleFlow?.screen.name}';
+    if (_sceneRunning) {
+      final t = _currentText;
+      return t == null ? 'scene:running' : 'scene:text 0x${t.message.id.toRadixString(16)}';
+    }
+    if (mapMenu != null) return 'mapMenu';
+    if (_turnRunning) return 'turnLoop:faction=${field?.activeFaction}';
+    final s = state;
+    if (s == null) return 'noState';
+    return 'input:${s.phase.name}';
+  }
 
   /// 显示/收起按键说明（**键盘与控制通道共用** —— 玩家能按的键，通道也要能按）
   void toggleHelp() {
@@ -2856,6 +2917,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _sceneMapHistory = '$_sceneMapHistory !LOMA($chapterIndex)';
     if (!_mapLoadFailures.contains(why)) _mapLoadFailures.add(why);
     debugPrint('[LOMA] 失败：$why');
+    // ★ 屏幕上也要说：否则玩家看到的就是"黑屏/没反应"（反馈里的"卡住"多半是这个）
+    _playNote = '地图没打包：$why（走不下去了，见 docs/试玩.md）';
     _updateHud();
   }
 
@@ -3192,11 +3255,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   Future<void> _endTurn() async {
     final f = field;
     if (f == null || state == null) return;
+    try {
+      await _endTurnInner();
+    } finally {
+      _turnRunning = false;
+    }
+  }
+
+  Future<void> _endTurnInner() async {
+    final f = field;
+    if (f == null || state == null) return;
 
     // 回合结束是胜负判定点之一（原作 `CheckForWaitEvents` 挂在等待事件上）
     await _checkObjectives();
 
     _turnLoopNote = '';
+    _turnRunning = true;
     var steps = 0;
     // 最多转 6 个阶段，防止任何意外造成死循环
     // （正常一个回合是 3 步：蓝→红→绿→蓝）
@@ -3211,6 +3285,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final autoEnd =
           stepPhase(f, disableAutoEndTurns: playConfig.disableAutoEndTurns);
       steps += 1;
+      // 回合横幅（`ProcScr_PhaseIntro` 在每次阶段切换都会演一次；
+      // 没人可动的阶段由 `PhaseIntro_EndIfNoUnits` 直接跳过 —— 这里同理）
+      _showPhaseBanner(f);
       await _runPhaseSwitchEvents();
 
       if (autoEnd) {
@@ -3255,6 +3332,36 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _updateHud();
   }
 
+  /// 显示"我方回合 / 敌军回合 / 友军回合"横幅
+  ///
+  /// 文字照着原作那张表的口径（阵营 → 谁的回合），**没动用的阶段不显示**
+  /// （对应 `PhaseIntro_EndIfNoUnits`：没人就跳过整段）。
+  void _showPhaseBanner(BattleField f) {
+    if (f.phaseAbleCount(f.activeFaction) == 0) return; // 空阶段不演
+    final (String text, bool isEnemy) = switch (f.activeFaction) {
+      Faction.blue => ('我方回合', false),
+      Faction.red => ('敌军回合', true),
+      _ => ('友军回合', false),
+    };
+    _bannerText = text;
+    _lastPhaseBanner = text;
+    _bannerFrames = 60; // 约 1 秒
+    final v = camera.viewport.virtualSize;
+    if (_banner != null) {
+      world.remove(_banner!);
+      _banner = null;
+    }
+    _banner = PhaseBannerComponent(
+      text: text,
+      isEnemy: isEnemy,
+      tileSize: v.y / 20.0,
+      screen: v,
+    );
+    world.add(_banner!);
+  }
+
+  PhaseBannerComponent? _banner;
+
   /// 让当前阵营的所有单位按 AI 行动一轮。
   ///
   /// 单位按 **id 升序**处理，且每一步都重新查询战场状态——
@@ -3288,6 +3395,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // `PROC_CALL_2(RunPotentialWaitEvents)`，见函数注释）。
       // 敌方阶段里被打死的首领就是靠这一步触发的。
       await _checkObjectives();
+
+      // 逐单位停顿：原作每个 AI 单位是一条阻塞子 proc（移动动画 + 等待），
+      // 所以看得见；一帧跑完就是用户说的"敌方行动过快"。
+      await Future<void>.delayed(kEnemyStepDelay);
     }
   }
 

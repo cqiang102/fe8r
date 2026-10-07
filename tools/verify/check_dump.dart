@@ -315,6 +315,18 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok((d['turnLoopNote'] as String? ?? '').isEmpty,
         '阶段循环没有异常告警', 'turnLoopNote=${d['turnLoopNote']}');
 
+    // ★ 回合横幅（`ProcScr_PhaseIntro` 的最小等价物）
+    // 用户反馈"没有回合切换动画、没有显示是谁的回合" —— 这条钉住它真的亮过。
+    // 用 `lastPhaseBanner` 而不是 `phaseBanner`：横幅只亮 1 秒，
+    // 转储几乎永远读到空串（我自己第一次验证就这么白跑了一轮）。
+    ok(d['lastPhaseBanner'] == '我方回合',
+        '回合横幅亮过（最后一次是回到我方）',
+        'lastPhaseBanner=${d['lastPhaseBanner']} / phaseBanner=${d['phaseBanner']}');
+    // 卡住自证：正常停在"等输入"
+    ok('${d['waitingFor']}'.startsWith('input:'),
+        '`waitingFor` 说得出在等什么（现在应是在等输入）',
+        'waitingFor=${d['waitingFor']}');
+
     // ★ 教学事件（两段式：入队 → 触发）—— 用户说的"阶段切换/玩家阶段开始时触发对话"
     //
     // 序章那张表是 `EventListScr_Prologue_Tutorial`（15 条，
@@ -715,6 +727,9 @@ Map<String, dynamic> goodTurnEndDump() {
   d['phaseSwitchEventRuns'] = 6;
   d['configDisableAutoEndTurns'] = false;
   d['turnLoopNote'] = '';
+  d['lastPhaseBanner'] = '我方回合';
+  d['phaseBanner'] = '';
+  d['waitingFor'] = 'input:freeCursor';
   d['tutorialTableSize'] = 15;
   d['tutorial'] = <String, Object?>{'counter': 1, 'execType': 2, 'pending': true};
   d['tutorialNote'] = '';
@@ -771,6 +786,14 @@ Map<String, Map<String, dynamic>> brokenTurnEndDumps() {
   final k = goodTurnEndDump();
   k['tutorialNote'] = '入队失败：EventScr_… 不在 0 条教学表里';
   out['教学入队失败'] = k;
+
+  final l = goodTurnEndDump();
+  l['lastPhaseBanner'] = '';
+  out['回合横幅从没亮过（用户反馈的那条）'] = l;
+
+  final m = goodTurnEndDump();
+  m['waitingFor'] = 'scene:text 0x8c3';
+  out['停在剧情里（可能是卡住）'] = m;
 
   return out;
 }
