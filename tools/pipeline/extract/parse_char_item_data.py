@@ -158,6 +158,14 @@ def extract(path, want, consts=None):
 
 CHAR_FIELDS = (
     "number", "nameTextId", "descTextId", "defaultClass", "portraitId",
+    # ★ 第 54 轮补：角色的 `attributes`（`CA_*` 位）。
+    #    `UNIT_CATTRIBUTES(aUnit) = pCharacterData->attributes | pClassData->attributes`
+    #    （`include/bmunit.h:479`）——**位是两边凑的**：
+    #    `CA_MOUNTEDAID` 在**职业**数据里（`PEGASUS_KNIGHT` 就有），
+    #    而 `CA_FEMALE` 在**角色**数据里（`PEGASUS_KNIGHT` 的职业属性里**没有**它）
+    #    ⇒ 只抽一边就会得出"数据里没有女性"这种假结论（我第 54 轮就是这么被自己的
+    #    判据抓到的）。判据用**并集**。
+    "attributes",
     "affinity", "baseLevel", "baseHP", "basePow", "baseSkl", "baseSpd",
     "baseDef", "baseRes", "baseLck", "baseCon", "baseMov",
     "growthHP", "growthPow", "growthSkl", "growthSpd", "growthDef",
@@ -172,6 +180,35 @@ ITEM_FIELDS = (
     #     maxRange = encodedRange & 0xF
     "encodedRange",
 )
+
+
+def ca_bits():
+    """`include/bmunit.h` 的 `CA_*` 位值（角色的 `attributes` 要用）。
+
+    ⚠️ 这一族常量是**表达式** `(1 << N)`，通用 `enum_values()` 解不了；
+    `parse_class_tables.py` 里有一份等价实现（两边各自解析，避免跨文件 import 循环）。
+    """
+    import re as _re
+    path = os.path.join(DECOMP, "include/bmunit.h")
+    txt = open(path, encoding="utf-8", errors="replace").read()
+    out = {}
+    for m in _re.finditer(r"\b(CA_\w+)\s*=\s*(?:\(\s*1\s*<<\s*(\d+)\s*\)|0)\s*,", txt):
+        out[m.group(1)] = (1 << int(m.group(2))) if m.group(2) else 0
+    return out
+
+
+def resolve_ca(value, ca):
+    """把 `CA_FEMALE` / `CA_LORD | CA_LOCK_2` 这类**文本**解析成位值；
+    解析不了就原样返回（宁可显式漏，也不给一个假的 0）。"""
+    if not isinstance(value, str):
+        return value
+    total = 0
+    for part in value.split("|"):
+        nm = part.strip()
+        if nm not in ca:
+            return value
+        total |= ca[nm]
+    return total
 
 
 def main():
@@ -208,6 +245,17 @@ def main():
         from collections import Counter
         by_num = {str(v["number"]): k for k, v in data.items()
                   if isinstance(v.get("number"), int)}
+        if fname == "data_characters.c":
+            ca = ca_bits()
+            n = 0
+            for v in data.values():
+                if "attributes" in v and isinstance(v["attributes"], str):
+                    v["attributes"] = resolve_ca(v["attributes"], ca)
+                    if isinstance(v["attributes"], int):
+                        n += 1
+            print(f"  角色 CA_* 属性解析成位值：{n} 个（位定义来自 include/bmunit.h）")
+            eir = data.get("CHARACTER_EIRIKA", {}).get("attributes")
+            print(f"  抽查 CHARACTER_EIRIKA.attributes = {eir}（期望 16384 = 1<<14）")
         with open(dst, "w", encoding="utf-8") as f:
             json.dump({"source": f"src/data/{fname}", "entries": data,
                        "byNumber": by_num}, f, ensure_ascii=False, indent=1)

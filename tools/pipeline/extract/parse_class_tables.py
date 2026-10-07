@@ -123,6 +123,21 @@ def parse_enum(path):
     return out
 
 
+def parse_ca_enum():
+    """`include/bmunit.h` 里的 `CA_*` 位定义（`attributes` 的位来自这里）。
+
+    ⚠️ 这个枚举的值是**表达式**（`(1 << 0)`），不是标量 ⇒ 单独解析，
+    并且**机械读出**而不是在这一行里手抄一遍（手抄会随版本漂移）。
+    出处：`include/bmunit.h:305-330` 起。
+    """
+    path = os.path.join(DECOMP, "include/bmunit.h")
+    txt = strip_comments(open(path, encoding="utf-8", errors="replace").read())
+    out = {}
+    for m in re.finditer(r"\b(CA_\w+)\s*=\s*(?:\(\s*1\s*<<\s*(\d+)\s*\)|0)\s*,", txt):
+        out[m.group(1)] = (1 << int(m.group(2))) if m.group(2) else 0
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "tables"))
@@ -144,6 +159,8 @@ def main():
     text = strip_comments(open(src_path, encoding="utf-8", errors="replace").read())
     cls_enum = parse_enum(os.path.join(DECOMP, ENUM_HEADER))
     print(f"职业枚举: {len(cls_enum)} 个常量")
+    ca_enum = parse_ca_enum()
+    print(f"CA_* 位定义: {len(ca_enum)} 个（来自 include/bmunit.h）")
 
     # 切出每个职业块
     marks = [(m.start(), m.group(1)) for m in ENTRY_RX.finditer(text)]
@@ -168,6 +185,28 @@ def main():
                         entry[f] = int(v, 0)
                     except ValueError:
                         problems.append(f"{key}: 无法解析 .{f} = {v}")
+
+        # `.attributes` 是**表达式**（`CA_LORD | CA_LOCK_2`），不是标量 ⇒ 单独解析。
+        # 没有这一行就抽不出"骑乘/女性/盗贼/输送队"这些**影响真实规则**的属性，
+        # 下游只能拿**职业名做近似**（第 52 轮就是这么将就的，本行就是为了不再将就）。
+        m = re.search(r"\.attributes\s*=\s*([^,}]+?)\s*,", block)
+        if m:
+            expr = m.group(1).strip()
+            names = [t.strip() for t in expr.split("|")]
+            val = 0
+            ok = True
+            for nm in names:
+                if nm in ca_enum:
+                    val |= ca_enum[nm]
+                else:
+                    ok = False
+                    problems.append(f"{key}: .attributes 里有不认识的常量 {nm}")
+            if ok:
+                entry["attributes"] = val
+                entry["attributeNames"] = names
+        else:
+            entry["attributes"] = 0
+            entry["attributeNames"] = []
 
         for f in WANTED_PTR:
             m = re.search(rf"\.{f}\s*=\s*(\w+)\s*,", block)

@@ -160,6 +160,11 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 40,
+   "attributes": 536879104,
+   "attributeNames": [
+    "CA_LORD",
+    "CA_LOCK_5"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -199,6 +204,12 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 268574720,
+   "attributeNames": [
+    "CA_LORD",
+    "CA_LOCK_2",
+    "CA_LOCK_4"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -237,6 +248,15 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 40,
+   "attributes": 536880387,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED",
+    "CA_LORD",
+    "CA_LOCK_5"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -275,6 +295,16 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 268576003,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED",
+    "CA_LORD",
+    "CA_LOCK_2",
+    "CA_LOCK_4"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -313,6 +343,12 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 30,
+   "attributes": 1027,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -351,6 +387,12 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 30,
+   "attributes": 1027,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -390,6 +432,13 @@
    "growthDef": 12,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -429,6 +478,13 @@
    "growthDef": 12,
    "growthRes": 25,
    "growthLck": 25,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -466,6 +522,8 @@
    "growthDef": 28,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -505,6 +563,8 @@
    "growthDef": 28,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -544,6 +604,10 @@
    "growthDef": 23,
    "growthRes": 25,
    "growthLck": 20,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -583,6 +647,10 @@
    "growthDef": 23,
    "growthRes": 25,
    "growthLck": 20,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -621,6 +689,11 @@
    "growthDef": 5,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 12,
+   "attributeNames": [
+    "CA_STEAL",
+    "CA_THIEF"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -657,6 +730,10 @@
    "growthSpd": 20,
    "growthRes": 10,
    "growthLck": 25,
+   "attributes": 262144,
+   "attributeNames": [
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -695,6 +772,8 @@
    "growthDef": 18,
    "growthRes": 20,
    "growthLck": 30,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -733,6 +812,8 @@
    "growthDef": 18,
    "growthRes": 30,
    "growthLck": 30,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -772,6 +853,10 @@
    "growthDef": 20,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -811,6 +896,10 @@
    "growthDef": 20,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -849,6 +938,10 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 30,
+   "attributes": 131072,
+   "attributeNames": [
+    "CA_LOCK_2"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -888,6 +981,10 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 30,
+   "attributes": 131072,
+   "attributeNames": [
+    "CA_LOCK_2"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -927,6 +1024,12 @@
    "growthDef": 15,
    "growthRes": 22,
    "growthLck": 25,
+   "attributes": 131392,
+   "attributeNames": [
+    "CA_CRITBONUS",
+    "CA_PROMOTED",
+    "CA_LOCK_2"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -966,6 +1069,12 @@
    "growthDef": 15,
    "growthRes": 22,
    "growthLck": 25,
+   "attributes": 131392,
+   "attributeNames": [
+    "CA_CRITBONUS",
+    "CA_PROMOTED",
+    "CA_LOCK_2"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1004,6 +1113,13 @@
    "growthDef": 5,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 33685768,
+   "attributeNames": [
+    "CA_THIEF",
+    "CA_PROMOTED",
+    "CA_LOCK_2",
+    "CA_ASSASSIN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1042,6 +1158,13 @@
    "growthDef": 5,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 33685768,
+   "attributeNames": [
+    "CA_THIEF",
+    "CA_PROMOTED",
+    "CA_LOCK_2",
+    "CA_ASSASSIN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1080,6 +1203,10 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 35,
+   "attributes": 128,
+   "attributeNames": [
+    "CA_BALLISTAE"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1118,6 +1245,10 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 35,
+   "attributes": 128,
+   "attributeNames": [
+    "CA_BALLISTAE"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1157,6 +1288,11 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 30,
+   "attributes": 384,
+   "attributeNames": [
+    "CA_BALLISTAE",
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1196,6 +1332,11 @@
    "growthDef": 15,
    "growthRes": 25,
    "growthLck": 30,
+   "attributes": 384,
+   "attributeNames": [
+    "CA_BALLISTAE",
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1235,6 +1376,13 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 25,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1274,6 +1422,13 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1312,6 +1467,12 @@
    "growthDef": 25,
    "growthRes": 15,
    "growthLck": 25,
+   "attributes": 2051,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_WYVERN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -1350,6 +1511,12 @@
    "growthDef": 25,
    "growthRes": 17,
    "growthLck": 25,
+   "attributes": 2051,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_WYVERN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -1389,6 +1556,13 @@
    "growthDef": 20,
    "growthRes": 17,
    "growthLck": 20,
+   "attributes": 2307,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_WYVERN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -1428,6 +1602,13 @@
    "growthDef": 20,
    "growthRes": 17,
    "growthLck": 20,
+   "attributes": 2307,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_WYVERN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -1467,6 +1648,13 @@
    "growthDef": 15,
    "growthRes": 17,
    "growthLck": 25,
+   "attributes": 2307,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_WYVERN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -1506,6 +1694,13 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 25,
+   "attributes": 2307,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_WYVERN"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -1545,6 +1740,8 @@
    "growthDef": 5,
    "growthRes": 30,
    "growthLck": 20,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1584,6 +1781,8 @@
    "growthDef": 5,
    "growthRes": 40,
    "growthLck": 20,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1623,6 +1822,10 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 15,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1662,6 +1865,10 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 15,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1701,6 +1908,13 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 30,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1740,6 +1954,13 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 40,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1779,6 +2000,10 @@
    "growthDef": 8,
    "growthRes": 40,
    "growthLck": 40,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1818,6 +2043,10 @@
    "growthDef": 8,
    "growthRes": 50,
    "growthLck": 40,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1857,6 +2086,8 @@
    "growthDef": 10,
    "growthRes": 30,
    "growthLck": 20,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1896,6 +2127,8 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 20,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1935,6 +2168,10 @@
    "growthDef": 10,
    "growthRes": 35,
    "growthLck": 20,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -1974,6 +2211,10 @@
    "growthDef": 10,
    "growthRes": 35,
    "growthLck": 20,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2013,6 +2254,11 @@
    "growthDef": 8,
    "growthRes": 35,
    "growthLck": 20,
+   "attributes": 134217984,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_SUMMON"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2052,6 +2298,11 @@
    "growthDef": 8,
    "growthRes": 35,
    "growthLck": 20,
+   "attributes": 134217984,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_SUMMON"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2090,6 +2341,12 @@
    "growthDef": 5,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 268,
+   "attributeNames": [
+    "CA_STEAL",
+    "CA_THIEF",
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2118,6 +2375,8 @@
    "maxCon": 30,
    "classRelativePower": 3,
    "growthHP": 100,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2153,6 +2412,13 @@
    "growthDef": 21,
    "growthRes": 20,
    "growthLck": 20,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2192,6 +2458,13 @@
    "growthDef": 21,
    "growthRes": 22,
    "growthLck": 20,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2230,6 +2503,8 @@
    "growthDef": 25,
    "growthRes": 35,
    "growthLck": 40,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2268,6 +2543,11 @@
    "growthDef": 18,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 320,
+   "attributeNames": [
+    "CA_CRITBONUS",
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2307,6 +2587,10 @@
    "growthDef": 10,
    "growthRes": 30,
    "growthLck": 40,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2346,6 +2630,11 @@
    "growthDef": 25,
    "growthRes": 35,
    "growthLck": 40,
+   "attributes": 320,
+   "attributeNames": [
+    "CA_CRITBONUS",
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2382,6 +2671,11 @@
    "growthSpd": 20,
    "growthRes": 10,
    "growthLck": 25,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -2418,6 +2712,10 @@
    "growthSpd": 20,
    "growthRes": 10,
    "growthLck": 25,
+   "attributes": 262144,
+   "attributeNames": [
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -2454,6 +2752,10 @@
    "growthDef": 18,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 524288,
+   "attributeNames": [
+    "CA_MAXLEVEL10"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2490,6 +2792,10 @@
    "growthDef": 10,
    "growthRes": 30,
    "growthLck": 40,
+   "attributes": 524288,
+   "attributeNames": [
+    "CA_MAXLEVEL10"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2528,6 +2834,8 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 15,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2566,6 +2874,10 @@
    "growthDef": 16,
    "growthRes": 17,
    "growthLck": 15,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2604,6 +2916,8 @@
    "growthDef": 10,
    "growthRes": 13,
    "growthLck": 15,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2642,6 +2956,8 @@
    "growthDef": 10,
    "growthRes": 13,
    "growthLck": 15,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2680,6 +2996,11 @@
    "growthDef": 10,
    "growthRes": 13,
    "growthLck": 15,
+   "attributes": 320,
+   "attributeNames": [
+    "CA_CRITBONUS",
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2718,6 +3039,8 @@
    "growthDef": 8,
    "growthRes": 40,
    "growthLck": 45,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2757,6 +3080,8 @@
    "growthDef": 8,
    "growthRes": 50,
    "growthLck": 45,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2793,6 +3118,10 @@
    "growthSpd": 60,
    "growthRes": 13,
    "growthLck": 70,
+   "attributes": 32,
+   "attributeNames": [
+    "CA_PLAY"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2829,6 +3158,10 @@
    "growthDef": 25,
    "growthRes": 35,
    "growthLck": 40,
+   "attributes": 524288,
+   "attributeNames": [
+    "CA_MAXLEVEL10"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2868,6 +3201,12 @@
    "growthDef": 12,
    "growthRes": 35,
    "growthLck": 35,
+   "attributes": 4099,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PEGASUS"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -2907,6 +3246,13 @@
    "growthDef": 12,
    "growthRes": 30,
    "growthLck": 30,
+   "attributes": 4355,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_PEGASUS"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -2945,6 +3291,8 @@
    "growthDef": 8,
    "growthRes": 50,
    "growthLck": 45,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -2984,6 +3332,12 @@
    "growthDef": 12,
    "growthRes": 40,
    "growthLck": 45,
+   "attributes": 1027,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3023,6 +3377,13 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 40,
+   "attributes": 1283,
+   "attributeNames": [
+    "CA_MOUNTEDAID",
+    "CA_CANTO",
+    "CA_PROMOTED",
+    "CA_MOUNTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3059,6 +3420,10 @@
    "growthSpd": 60,
    "growthRes": 13,
    "growthLck": 70,
+   "attributes": 16,
+   "attributeNames": [
+    "CA_DANCE"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3094,6 +3459,8 @@
    "growthDef": 12,
    "growthRes": 15,
    "growthLck": 25,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3133,6 +3500,11 @@
    "growthDef": 10,
    "growthRes": 35,
    "growthLck": 20,
+   "attributes": 134217984,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_SUMMON"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3170,6 +3542,8 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 15,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3203,6 +3577,8 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 50,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3237,6 +3613,10 @@
    "growthDef": 10,
    "growthRes": 13,
    "growthLck": 10,
+   "attributes": 262144,
+   "attributeNames": [
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3272,6 +3652,11 @@
    "growthDef": 10,
    "growthRes": 13,
    "growthLck": 50,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3310,6 +3695,10 @@
    "growthDef": 12,
    "growthRes": 15,
    "growthLck": 10,
+   "attributes": 131072,
+   "attributeNames": [
+    "CA_LOCK_2"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3348,6 +3737,8 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3387,6 +3778,11 @@
    "growthDef": 15,
    "growthRes": 22,
    "growthLck": 10,
+   "attributes": 131328,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_2"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3426,6 +3822,10 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 10,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3465,6 +3865,10 @@
    "growthDef": 18,
    "growthRes": 13,
    "growthLck": 15,
+   "attributes": 262144,
+   "attributeNames": [
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3504,6 +3908,11 @@
    "growthDef": 21,
    "growthRes": 17,
    "growthLck": 10,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3542,6 +3951,10 @@
    "growthDef": 24,
    "growthRes": 25,
    "growthLck": 10,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3580,6 +3993,10 @@
    "growthDef": 15,
    "growthRes": 20,
    "growthLck": 30,
+   "attributes": 262144,
+   "attributeNames": [
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3619,6 +4036,11 @@
    "growthDef": 16,
    "growthRes": 22,
    "growthLck": 25,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3657,6 +4079,8 @@
    "growthDef": 15,
    "growthRes": 15,
    "growthLck": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3696,6 +4120,10 @@
    "growthDef": 13,
    "growthRes": 20,
    "growthLck": 10,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3735,6 +4163,10 @@
    "growthDef": 10,
    "growthRes": 28,
    "growthLck": 30,
+   "attributes": 262144,
+   "attributeNames": [
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3774,6 +4206,11 @@
    "growthDef": 10,
    "growthRes": 28,
    "growthLck": 20,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3812,6 +4249,11 @@
    "growthDef": 10,
    "growthRes": 40,
    "growthLck": 30,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3840,6 +4282,8 @@
    "maxCon": 30,
    "classRelativePower": 3,
    "growthHP": 100,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3874,6 +4318,8 @@
    "growthDef": 25,
    "growthRes": 15,
    "growthLck": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3913,6 +4359,10 @@
    "growthDef": 20,
    "growthRes": 17,
    "growthLck": 10,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3950,6 +4400,11 @@
    "growthDef": 30,
    "growthRes": 10,
    "growthLck": 25,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Fly",
    "pTerrainDefenseLookup": "TerrainTable_Def_Fly",
    "pTerrainResistanceLookup": "TerrainTable_Res_Fly",
@@ -3983,6 +4438,11 @@
    "maxCon": 40,
    "classRelativePower": 5,
    "growthHP": 10,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -3998,6 +4458,8 @@
    "SMSId": 88,
    "classRelativePower": 3,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4007,6 +4469,8 @@
    "key": "CLASS_BLST_LONG_USED",
    "number": 104,
    "SMSId": 89,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4016,6 +4480,8 @@
    "key": "CLASS_BLST_KILLER_USED",
    "number": 105,
    "SMSId": 90,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4025,6 +4491,8 @@
    "key": "CLASS_BLST_REGULAR_EMPTY",
    "number": 106,
    "SMSId": 91,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4034,6 +4502,8 @@
    "key": "CLASS_BLST_LONG_EMPTY",
    "number": 107,
    "SMSId": 92,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4043,6 +4513,8 @@
    "key": "CLASS_BLST_KILLER_EMPTY",
    "number": 108,
    "SMSId": 93,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4068,6 +4540,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4097,6 +4571,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4127,6 +4603,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4157,6 +4635,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4187,6 +4667,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4218,6 +4700,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4244,6 +4728,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4272,6 +4758,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4298,6 +4786,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4326,6 +4816,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4339,6 +4831,8 @@
    "key": "CLASS_UNK77",
    "number": 119,
    "SMSId": 102,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4361,6 +4855,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4389,6 +4885,11 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 1049088,
+   "attributeNames": [
+    "CA_SUPPLY",
+    "CA_UNSELECTABLE"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4417,6 +4918,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4443,6 +4946,8 @@
    "classRelativePower": 1,
    "growthHP": 10,
    "growthRes": 10,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4481,6 +4986,10 @@
    "growthDef": 24,
    "growthRes": 25,
    "growthLck": 10,
+   "attributes": 256,
+   "attributeNames": [
+    "CA_PROMOTED"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4520,6 +5029,11 @@
    "growthDef": 21,
    "growthRes": 17,
    "growthLck": 10,
+   "attributes": 262400,
+   "attributeNames": [
+    "CA_PROMOTED",
+    "CA_LOCK_3"
+   ],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4559,6 +5073,8 @@
    "growthDef": 18,
    "growthRes": 20,
    "growthLck": 40,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
@@ -4598,6 +5114,8 @@
    "growthDef": 10,
    "growthRes": 30,
    "growthLck": 40,
+   "attributes": 0,
+   "attributeNames": [],
    "pTerrainAvoidLookup": "TerrainTable_Avo_Common",
    "pTerrainDefenseLookup": "TerrainTable_Def_Common",
    "pTerrainResistanceLookup": "TerrainTable_Res_Common",
