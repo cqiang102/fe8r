@@ -564,6 +564,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastTradeMenuText': lastTradeMenuText,
       'lastTrade': lastTrade,
       'lastVisit': lastVisit,
+      'lastSeize': lastSeize,
+      'chapterModeIndex': chapterModeIndex,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
       'discardPromptDefault': discardPromptDefault,
@@ -1371,6 +1373,32 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「制圧」：只有领袖能做；它走的是**章节结束**那条路
+    final seizeAt = r.seizeAt;
+    if (seizeAt != null) {
+      final parts = seizeAt.split(',');
+      final sx = int.tryParse(parts.isNotEmpty ? parts[0] : '') ?? -1;
+      final sy = int.tryParse(parts.length > 1 ? parts[1] : '') ?? -1;
+      final ev = availableTileEvent(_locationEvents, sx, sy, eventFlags);
+      final u1 = field?.unitById(s.selectedUnitId ?? -1);
+      if (ev != null && u1 != null) {
+        lastSeize = {
+          'unit': u1.id,
+          'x': sx,
+          'y': sy,
+          'doneFlag': ev.doneFlag,
+          'chapterModeIndex': chapterModeIndex,
+        };
+        debugPrint('[SEIZE] $lastSeize');
+        if (ev.doneFlag != 0) eventFlags.add(ev.doneFlag);
+        // 结局：走 `_maybeCallEndEvent`（它按 `chapter_objectives` 的胜负条件选脚本）
+        unawaited(_maybeCallEndEvent());
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「訪問」：跑那条 VILL 脚本 + 置 `doneFlag`（`StartAvailableTileEvent`）
     final visitAt = r.visitAt;
     if (visitAt != null) {
@@ -4737,6 +4765,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次「訪問」的记录（判据用）
   Map<String, Object?>? lastVisit;
 
+  /// `gPlaySt.chapterModeIndex`（1=教学/Eirika、2=Eirika 路线、3=Ephraim 路线）
+  ///
+  /// 出处：`CanUnitSeize`（`src/masked_08037bfc.c:50-70`）按它选领袖。
+  /// ⚠️ 我们**还没有"路线选择"**（新游戏只选了难度）⇒ 默认 1（教学/艾莉卡），
+  /// 这正是序章–第 8 章的取值。将来做路线选择时要把它接上并存进存档。
+  int chapterModeIndex = 1;
+
+  /// 最近一次「制圧」的记录（判据用）
+  Map<String, Object?>? lastSeize;
+
   /// 职业编号 → 职业名（判 `CLASS_PHANTOM` 用；`classes.json`）
   final Map<int, String> _classNameByNumber = {};
 
@@ -5687,6 +5725,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _usableSlots = itemMenuSlots(unit);
     fl.hasUsableItem = _usableSlots.isNotEmpty;
     // ★ 「訪問」的判定交给规则层（`tile_events.dart`）：地形 + 该格有可用的 VILL 事件
+    fl.seizeAvailableAt = (x, y) {
+      final ev = availableTileEvent(_locationEvents, x, y, eventFlags);
+      final leader = seizeLeaderId(
+          chapterModeIndex: chapterModeIndex, chapterIndex: sceneChapter);
+      // ⚠️ 单位身上的角色编号是 `MapUnit.charIndex`（`UnitDefinition.charIndex` ✓）
+      final canSeize =
+          leader != kSeizeLeaderUnknown && unit.charIndex == leader;
+      return seizeAvailable(
+        hasActed: unit.hasActed,
+        canSeize: canSeize,
+        hasSeizeTile: ev != null && ev.cmdId == kTileCommandSeize,
+      );
+    };
     fl.visitAvailableAt = (x, y) {
       final ev = availableTileEvent(_locationEvents, x, y, eventFlags);
       return visitAvailable(

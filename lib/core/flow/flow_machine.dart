@@ -58,7 +58,11 @@ enum ActionOption {
 
   /// 訪問（村/家）。可用性照 `VisitCommandUsability`（`src/bmmenu_08022F50.c:89-118`），
   /// 由 [FlowMachine.visitAvailableAt] 注入判定。
-  visit('訪問');
+  visit('訪問'),
+
+  /// 制圧（章节结束的正规入口）。可用性照 `UnitActionMenu_CanSeize`
+  /// （`src/bmmenu_08022F50.c:68-80`），由 [FlowMachine.seizeAvailableAt] 注入判定。
+  seize('制圧');
 
   const ActionOption(this.label);
   final String label;
@@ -238,6 +242,7 @@ class FlowResult {
     this.attack,
     this.itemUseIndex,
     this.visitAt,
+    this.seizeAt,
   });
 
   final FlowState state;
@@ -253,6 +258,9 @@ class FlowResult {
 
   /// 本次输入是否请求**訪問**（值是"x,y"，调用方据此在那格上跑 VILL 事件）。
   final String? visitAt;
+
+  /// 本次输入是否请求**制圧**（值是"x,y"）。
+  final String? seizeAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -485,6 +493,10 @@ class FlowMachine {
           return FlowResult(s, visitAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.seize) {
+          return FlowResult(s, seizeAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -653,6 +665,10 @@ class FlowMachine {
     if (canVisit) {
       out.add(ActionOption.visit);
     }
+    final canSeize = seizeAvailableAt?.call(x, y) ?? false;
+    if (canSeize) {
+      out.add(ActionOption.seize);
+    }
     return out;
   }
 
@@ -663,6 +679,9 @@ class FlowMachine {
   /// "站在 (x,y) 上能不能「訪問」" —— 由调用方注入（要地形表 + 本章 Location 事件
   /// + 事件旗）。规则层的判据在 `tile_events.dart`（`visitAvailable`）。
   bool Function(int x, int y)? visitAvailableAt;
+
+  /// "站在 (x,y) 上能不能「制圧」" —— 同样由调用方注入
+  bool Function(int x, int y)? seizeAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///

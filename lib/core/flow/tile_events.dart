@@ -79,3 +79,61 @@ bool visitAvailable({
   if (!kVisitTerrains.contains(terrainId)) return false;
   return hasAvailableVill;
 }
+
+// ---------------------------------------------------------------------------
+// 制圧（`TILE_COMMAND_SEIZE`）
+// ---------------------------------------------------------------------------
+
+/// `TILE_COMMAND_SEIZE = 0x11`（`include/eventinfo.h:15`）
+const int kTileCommandSeize = 0x11;
+
+/// `CanUnitSeize`（`src/masked_08037bfc.c:50-70`）：
+///
+/// ```c
+/// switch (gPlaySt.chapterModeIndex) {
+///     case 2: leaderId = CHARACTER_EIRIKA;  break;   // Eirika 路线
+///     case 1: leaderId = CHARACTER_EIRIKA;  break;   // 教学（第 0–8 章）
+///     case 3: leaderId = CHARACTER_EPHRAIM; break;   // Ephraim 路线
+/// }
+/// if (gPlaySt.chapterIndex == 5) leaderId = CHARACTER_EPHRAIM;   // 第 5 章特例
+/// return unit->pCharacterData->number == leaderId;
+/// ```
+///
+/// ⚠️ 原作里 `chapterModeIndex` 不在 {1,2,3} 时 `leaderId` **未初始化**（C 的坑）
+/// ⇒ 我们**不照抄这个未定义行为**：返回 [kSeizeLeaderUnknown] 并让调用方判假 + 留痕。
+const int kSeizeLeaderUnknown = -1;
+
+/// 领袖角色编号（`CHARACTER_EIRIKA = 1` / `CHARACTER_EPHRAIM = 2`，见下）
+int seizeLeaderId({required int chapterModeIndex, required int chapterIndex}) {
+  int leader;
+  switch (chapterModeIndex) {
+    case 2:
+    case 1:
+      leader = kCharacterEirika;
+    case 3:
+      leader = kCharacterEphraim;
+    default:
+      return kSeizeLeaderUnknown;
+  }
+  if (chapterIndex == 5) leader = kCharacterEphraim;
+  return leader;
+}
+
+/// `CHARACTER_EIRIKA` / `CHARACTER_EPHRAIM`（`include/constants/characters.h`）
+const int kCharacterEirika = 1;
+const int kCharacterEphraim = 2;
+
+/// 「制圧」这一项该不该出现
+///
+/// 出处：`UnitActionMenu_CanSeize`（`src/bmmenu_08022F50.c:68-80`）——
+/// `!US_HAS_MOVED`（我们映射成 `!hasActed`，同 `visitAvailable`）+ `CanUnitSeize`
+/// + 该格 `cmdId == 0x11`。
+bool seizeAvailable({
+  required bool hasActed,
+  required bool canSeize,
+  required bool hasSeizeTile,
+}) {
+  if (hasActed) return false;
+  if (!canSeize) return false;
+  return hasSeizeTile;
+}

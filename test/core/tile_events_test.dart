@@ -45,4 +45,36 @@ void main() {
     expect(ok(acted: true), isFalse, reason: '对应 `US_HAS_MOVED`（见文件头）');
     expect(ok(hasEv: false), isFalse, reason: '该格没有可用 VILL 事件');
   });
+  _seizeTests();
+}
+
+// 制圧（`CanUnitSeize`，`src/masked_08037bfc.c:50-70`）
+void _seizeTests() {
+  test('★ 领袖：模式 1/2 = 艾莉卡、3 = 艾弗雷姆；第 5 章一律艾弗雷姆', () {
+    expect(seizeLeaderId(chapterModeIndex: 1, chapterIndex: 0), kCharacterEirika,
+        reason: '教学模式（第 0–8 章）');
+    expect(seizeLeaderId(chapterModeIndex: 2, chapterIndex: 9), kCharacterEirika,
+        reason: 'Eirika 路线');
+    expect(seizeLeaderId(chapterModeIndex: 3, chapterIndex: 9), kCharacterEphraim,
+        reason: 'Ephraim 路线');
+    expect(seizeLeaderId(chapterModeIndex: 3, chapterIndex: 5), kCharacterEphraim);
+    expect(seizeLeaderId(chapterModeIndex: 2, chapterIndex: 5), kCharacterEphraim,
+        reason: '★ 第 5 章的特例**压过**路线选择');
+  });
+
+  test('★ 模式未知 ⇒ 显式"不知道"，不照抄 C 的未初始化行为', () {
+    expect(seizeLeaderId(chapterModeIndex: 0, chapterIndex: 0),
+        kSeizeLeaderUnknown);
+    expect(seizeLeaderId(chapterModeIndex: 7, chapterIndex: 0),
+        kSeizeLeaderUnknown);
+  });
+
+  test('★ 可用性三条件：未行动 + 是领袖 + 该格有制圧地块', () {
+    bool ok({bool acted = false, bool canSeize = true, bool tile = true}) =>
+        seizeAvailable(hasActed: acted, canSeize: canSeize, hasSeizeTile: tile);
+    expect(ok(), isTrue);
+    expect(ok(acted: true), isFalse, reason: '对应 `US_HAS_MOVED`');
+    expect(ok(canSeize: false), isFalse, reason: '不是领袖（`CanUnitSeize` 为假）');
+    expect(ok(tile: false), isFalse, reason: '该格没有 `cmdId == 0x11` 的条目');
+  });
 }
