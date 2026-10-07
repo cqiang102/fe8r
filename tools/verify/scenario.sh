@@ -163,7 +163,8 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,confirm,wait,wait"                     # 落点确认 → 行动菜单
     SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 「道具」→ 进道具菜单
     # 菜单现在列**全部道具**（铁枪/铁剑/伤药）⇒ 伤药是第 3 项（down×2）
-    SCRIPT="$SCRIPT,down,down,wait,confirm,wait,wait,wait" # 选伤药 → 使用
+    SCRIPT="$SCRIPT,down,down,wait,confirm,wait,wait"      # 选伤药 → 弹子菜单
+    SCRIPT="$SCRIPT,confirm,wait,wait,wait"                # 子菜单第 1 项「使う」
     ;;
   equip)
     # ★ 装备：选赛特 → 行动菜单「道具」→ 选**第 2 件**（武器）→ 确认 ⇒ 轮转到 0 号槽。
@@ -177,7 +178,26 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"
     SCRIPT="$SCRIPT,confirm,wait,wait"                     # 落点确认 → 行动菜单
     SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 「道具」→ 道具菜单
-    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait,wait"      # 第 2 件（武器）→ 装备
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 第 2 件（武器）→ 弹子菜单
+    # 武器：子菜单是 [装備, 捨てる]（没有"使う"）⇒ 第 1 项就是装備
+    SCRIPT="$SCRIPT,confirm,wait,wait,wait"
+    ;;
+  discard)
+    # ★ 捨てる：选赛特 → 道具 → 第 2 件（武器）→ 子菜单「捨てる」→ **默认 No** → 再确认 Yes
+    #
+    # 出处：`ItemSubMenu_DiscardItem`（`src/ItemSubMenu_DiscardItem.c`）先弹
+    # `gYesNoSelectionMenuDef` 且 `proc->itemCurrent = 1` ⇒ **默认落在 No**；
+    # 移除是 `UnitRemoveItem`（`src/UnitRemoveItem.c:25-28`）= 清 0 + 压缩。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
+    RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
+    SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"
+    SCRIPT="$SCRIPT,confirm,wait,wait"                     # 落点确认 → 行动菜单
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 「道具」→ 道具菜单
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 第 2 件（武器）→ 子菜单
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 子菜单「捨てる」→ 弹 Yes/No
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait,wait"      # 下移到「はい」→ 确认
     ;;
   suspend)
     # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。

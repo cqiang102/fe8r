@@ -414,6 +414,47 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(!mt.contains('item#'), '菜单里没有占位名', '');
   }
 
+  if (scenario == 'discard') {
+    // ★ 捨てる = `UnitRemoveItem`（`src/UnitRemoveItem.c:25-28`）：清 0 **再压缩**
+    final e = d['lastDiscard'] as Map<String, dynamic>?;
+    ok(e != null, '真的舍弃了一次', 'lastDiscard=$e');
+    if (e != null) {
+      ok(e['slot'] == 1, '舍弃的是槽 1（银枪）', 'slot=${e['slot']}');
+      // ★★ 关键：压缩（非 0 前移）而不是"留一个洞"。
+      // 盲目 `items[slot] = 0` 会得到 [7683, 0, 876, 0, 0] ⇒ 当场红。
+      final after = (e['after'] as List).cast<int>();
+      ok(after.length > 2 && after[0] == 7683 && after[1] == 876 && after[2] == 0,
+          '★ 舍弃之后**压缩**了（`[7683, 876, 0, …]`，不是留洞）', 'after=$after');
+      final before = (e['before'] as List).cast<int>();
+      ok(before.length > 1 && before[1] == 5143, '之前槽 1 是银枪', 'before=$before');
+    }
+    // 单位真实背包也跟着压缩了
+    final seth = (d['units'] as List)
+        .cast<Map<String, dynamic>>()
+        .firstWhere((x) => x['id'] == 13, orElse: () => <String, dynamic>{});
+    final inv = (seth['items'] as List?)?.cast<int>() ?? const [];
+    ok(inv.length > 1 && inv[0] == 7683 && inv[1] == 876,
+        '单位的背包同步压缩', 'items=$inv');
+    // ★ Yes/No **默认落在 No**（`src/ItemSubMenu_DiscardItem.c`：`proc->itemCurrent = 1`）
+    final cf = '${d['lastConfirmText']}';
+    ok(cf.contains('いいえ') && cf.contains('はい'),
+        '舍弃前问了 Yes/No', 'confirm=${cf.replaceAll('\n', ' | ')}');
+    // ⚠️ 不能拿 `lastConfirmText` 断默认项：那是**最后一次**的文本
+    //（脚本后来又按到「はい」），默认值只能从"打开时记下的那个"看。
+    ok(d['discardPromptDefault'] == 0,
+        '★ 确认框打开时默认落在「いいえ」（`itemCurrent = 1`）',
+        'discardPromptDefault=${d['discardPromptDefault']}');
+    // 子菜单：捨てる在；交換**显示但禁用**（我们没实现交换界面 —— 不静默）
+    final sm = '${d['lastSubMenuText']}';
+    ok(sm.contains('捨てる'), '子菜单里有「捨てる」',
+        'subMenu=${sm.replaceAll('\n', ' | ')}');
+    final dis = ((d['subMenuDisabled'] as List?) ?? const []).map((x) => '$x').toList();
+    if (dis.isNotEmpty) {
+      ok(dis.any((x) => x.contains('交換') && x.contains('未实现')),
+          '「交換」被标成禁用并写明原因（而不是静默）', 'disabled=$dis');
+    }
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

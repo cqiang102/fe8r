@@ -166,3 +166,32 @@ int equippedWeaponSlot(
   }
   return -1;
 }
+
+// ---------------------------------------------------------------------------
+// 丢掉道具
+// ---------------------------------------------------------------------------
+
+/// `UnitRemoveInvalidItems`（`src/exact_0801772c.c:40-62`）——
+/// 把非 0 的道具**前移**、其余清 0（稳定压缩，不打乱相对顺序）。
+///
+/// 原作是"先全部清 0、再把缓冲里的写回、遇到 0 就停" ✓ 等价于本函数。
+List<int> unitRemoveInvalidItems(List<int> items) {
+  final out = List<int>.filled(items.length, 0);
+  var j = 0;
+  for (final w in items) {
+    if (w != 0) out[j++] = w;
+  }
+  return out;
+}
+
+/// `UnitRemoveItem`（`src/UnitRemoveItem.c:25-28`）：
+/// ```c
+/// unit->items[slot] = 0;
+/// UnitRemoveInvalidItems(unit);
+/// ```
+List<int> unitRemoveItem(List<int> items, int slot) {
+  if (slot < 0 || slot >= items.length) return List<int>.from(items);
+  final out = List<int>.from(items);
+  out[slot] = 0;
+  return unitRemoveInvalidItems(out);
+}

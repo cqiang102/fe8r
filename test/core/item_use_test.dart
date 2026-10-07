@@ -88,6 +88,7 @@ void main() {
     expect(r.consumed, isFalse);
   });
   _equipTests();
+  _discardTests();
 }
 
 /// 装备（`EquipUnitItemSlot`，`src/exact_08016968.c:14-23`）
@@ -115,5 +116,21 @@ void _equipTests() {
     expect(equippedWeaponSlot(after, isUsableWeapon: isWeapon), 0);
     // 一把能用的都没有 ⇒ -1（原作返回 0）
     expect(equippedWeaponSlot([876, 0, 0], isUsableWeapon: isWeapon), -1);
+  });
+}
+
+/// 丢掉道具（`UnitRemoveItem`，`src/UnitRemoveItem.c:25-28`）
+void _discardTests() {
+  test('★ 丢掉之后**压缩**：非 0 前移、末尾清 0（不是留个洞）', () {
+    // 槽 1 丢掉：[A,B,C,0,0] ⇒ [A,C,0,0,0]
+    expect(unitRemoveItem([11, 12, 13, 0, 0], 1), [11, 13, 0, 0, 0]);
+    // 槽 0 丢掉：[A,B,0] ⇒ [B,0,0]
+    expect(unitRemoveItem([11, 12, 0], 0), [12, 0, 0]);
+    // 丢空槽：什么都不变
+    expect(unitRemoveItem([11, 0, 13], 1), [11, 13, 0]);
+    // 越界：不动
+    expect(unitRemoveItem([11, 12], 9), [11, 12]);
+    // 稳定性：相对顺序不变
+    expect(unitRemoveInvalidItems([1, 0, 2, 0, 3]), [1, 2, 3, 0, 0]);
   });
 }

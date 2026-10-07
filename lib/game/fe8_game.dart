@@ -529,9 +529,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'gameOptionsText': _gameOptionsText,
       'lastItemUse': lastItemUse,
       'lastEquip': lastEquip,
+      'lastDiscard': lastDiscard,
+      'itemSubMenu': itemSubMenu,
+      'subMenuDisabled': _subMenuDisabled,
       'equippedWeapon': _equippedWeaponWord(),
       'itemMenuText': _itemMenuText,
       'lastItemMenuText': lastItemMenuText,
+      'lastSubMenuText': lastSubMenuText,
+      'lastConfirmText': lastConfirmText,
+      'discardPromptDefault': discardPromptDefault,
       'usableItemSlots': _usableSlots,
       'gameOptionsLast': _gameOptionsLast,
       'gameOptionsWired': gameOptionRowsHasMapping,
@@ -940,6 +946,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ 道具子菜单开着时输入归它（`ItemSubMenu`）
+    if (itemSubMenu != null) {
+      _itemSubMenuInput(i);
+      return;
+    }
+
     // ★ 「設定」屏开着时输入归它（`Config_Loop_KeyHandler`）
     final go = gameOptions;
     if (go != null) {
@@ -1324,6 +1336,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //   `src/StartAfterUnitMovedEvent.c`。不 await：它们要演事件。
     unawaited(_fireSpecialTriggers(s, r));
 
+    // ★ 道具菜单选了槽 ⇒ 弹 **ItemSubMenu**（`src/ItemSelectMenu_Effect.c:66`）。
+    //
+    // ⚠️ 这段**必须放在 `committedMove` 块之外**：流程层现在"选槽 ≠ 提交行动"
+    //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
+    // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
+    // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    final pickIdx = r.itemUseIndex;
+    if (pickIdx != null && _usableSlots.isNotEmpty) {
+      final slot = _usableSlots[pickIdx.clamp(0, _usableSlots.length - 1)];
+      _openItemSubMenu(slot);
+      state = r.state;
+      _rebuildOverlay();
+      _updateHud();
+      return;
+    }
+
     // 提交一次移动
     if (r.committedMove && s.selectedUnitId != null) {
       final u = f.unitById(s.selectedUnitId);
@@ -1333,56 +1361,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
         // 落点确定后才结算攻击 —— 顺序不能反：
         // 先移动再打，射程要靠移动**之后**的位置算。
-        // ★ 用道具：状态机只发"用哪个**可用槽**"的意图，数值在这儿算
-        final useIdx = r.itemUseIndex;
-        if (useIdx != null && _usableSlots.isNotEmpty) {
-          final slot = _usableSlots[useIdx.clamp(0, _usableSlots.length - 1)];
-          final word = u.items[slot];
-          final num = ItemTable.itemIndex(word);
-          if (isWeaponItem(word)) {
-            // ★ 装备 = `EquipUnitItemSlot`（`src/exact_08016968.c:14-23`）——**轮转**
-            //（不是交换：槽里的挪到 0，前面的顺次后移）。原作没有"当前武器"字段，
-            // 装完 `GetUnitEquippedWeapon`（首个能用的武器）自然换人。
-            final before = List<int>.from(u.items);
-            final rotated = equipUnitItemSlot(u.items, slot);
-            for (var i = 0; i < u.items.length; i++) {
-              u.items[i] = rotated[i];
-            }
-            lastEquip = {
-              'unit': u.id,
-              'slot': slot,
-              'item': _itemNameByNumber[num],
-              'before0': before[0],
-              'after0': u.items[0],
-            };
-            debugPrint('[EQUIP] $lastEquip');
-            _syncAttackRange(u); // 射程跟着新武器变
-            _rebuildOverlay();
-          } else {
-          final res = useHealingItem(
-            hp: u.hp,
-            maxHp: u.maxHp,
-            item: word,
-            itemNumber: num,
-            isStaff:
-                (_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0,
-            nameOf: _itemNameByNumber,
-          );
-          u.hp = res.hp;
-          u.items[slot] = res.item; // 耐久 -1；归零则清空（`MakeNewItem` 表示法）
-          lastItemUse = {
-            'unit': u.id,
-            'slot': slot,
-            'item': _itemNameByNumber[num],
-            'healed': res.healed,
-            'hp': u.hp,
-            'usesLeft': itemUses(res.item),
-            'consumed': res.consumed,
-          };
-          debugPrint('[ITEM] $lastItemUse');
-          _rebuildOverlay();
-          }
-        }
 
         final atk = r.attack;
         if (atk != null) {
@@ -4113,6 +4091,295 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
 
+  /// 这个单位有没有**相邻同伴**（交换的前提）。
+  ///
+  /// ⚠️ 原作是 `MakeTradeTargetList(gActiveUnit)` + `GetSelectTargetCount() == 0`
+  /// ⇒ `MENU_NOTSHOWN`（`src/ItemSubMenu_IsTradeAvailable.c`）。
+  /// 它认可的"同伴"范围我**没有逐行核对**；这里按"同阵营 + 上下左右相邻"。
+  bool hasAdjacentAlly(MapUnit u) {
+    final f = field;
+    if (f == null) return false;
+    for (final o in f.units) {
+      if (o.id == u.id || !o.isAlive) continue;
+      if (o.factionBit != u.factionBit) continue;
+      if ((o.x - u.x).abs() + (o.y - u.y).abs() == 1) return true;
+    }
+    return false;
+  }
+
+  /// 子菜单的四项 + 各自可用性（照上面引的源码逐条判断）
+  List<Map<String, Object?>> _subMenuEntries(MapUnit u, int slot) {
+    final w = u.items[slot];
+    final num = ItemTable.itemIndex(w);
+    final attrs = _itemStats[num]?.attributes ?? 0;
+    final isWeapon = isWeaponItem(w);
+    final canUse = canUseItem(u, w);
+    final entries = <Map<String, Object?>>[];
+    // 使う：回复类才出现；满血则禁用
+    final heal = unitItemHealAmount(
+        itemNumber: num,
+        isStaff: attrs & kItemStaffAttribute != 0,
+        nameOf: _itemNameByNumber);
+    if (heal > 0) {
+      entries.add({
+        'key': 'use',
+        'label': '使う',
+        'enabled': canUse,
+        'reason': canUse ? '' : '满血（回了也没用）',
+      });
+    }
+    // 装備：非武器 ⇒ 不显示（`IA_WEAPON`）
+    if (isWeapon) {
+      entries.add({
+        'key': 'equip',
+        'label': '装備',
+        'enabled': true,
+        'reason': '',
+      });
+    }
+    // 捨てる：`IA_UNSELLABLE` ⇒ 禁用
+    final unsellable = attrs & kItemUnsellableAttribute != 0;
+    entries.add({
+      'key': 'discard',
+      'label': '捨てる',
+      'enabled': !unsellable,
+      'reason': unsellable ? 'IA_UNSELLABLE' : '',
+    });
+    // 交換：没有相邻同伴 ⇒ 不显示；**交换本身未实现** ⇒ 即使有同伴也禁用
+    if (hasAdjacentAlly(u)) {
+      entries.add({
+        'key': 'trade',
+        'label': '交換',
+        'enabled': false,
+        'reason': '交换界面未实现',
+      });
+    }
+    return entries;
+  }
+
+  void _openItemSubMenu(int slot) {
+    final u = field?.unitById(state?.selectedUnitId ?? -1);
+    if (u == null) return;
+    final entries = _subMenuEntries(u, slot);
+    itemSubMenu = {'slot': slot, 'index': 0, 'entries': entries, 'stage': 'menu'};
+    _subMenuDisabled = [
+      for (final e in entries)
+        if (e['enabled'] != true) '${e['label']}(${e['reason']})',
+    ];
+    _showItemSubMenu();
+  }
+
+  void _showItemSubMenu() {
+    final m = itemSubMenu;
+    if (m == null) return;
+    final entries = (m['entries'] as List).cast<Map<String, Object?>>();
+    final idx = m['index'] as int;
+    final lines = <String>['道具：做什么？'];
+    for (var i = 0; i < entries.length; i++) {
+      final e = entries[i];
+      final on = e['enabled'] == true;
+      lines.add('${i == idx ? '▶ ' : '  '}${e['label']}'
+          '${on ? '' : '（${e['reason']}）'}');
+    }
+    lines.add('A 决定   B 返回');
+    lastSubMenuText = lines.join('\n');
+    _itemMenuText = lastSubMenuText;
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+  }
+
+  /// 子菜单里"舍弃"要先问一句（`src/ItemSubMenu_DiscardItem.c`：
+  /// `gYesNoSelectionMenuDef`，且 `proc->itemCurrent = 1` ⇒ **默认落在 No**）
+  void _showDiscardConfirm() {
+    final yesNo = (itemSubMenu?['yesNoIndex'] as int? ?? 0) == 1;
+    _itemMenuText = '「${_pendingDiscardLabel()}」を捨てますか？\n'
+        '${yesNo ? '    いいえ\n  ▶ はい' : '  ▶ いいえ\n    はい'}';
+    lastConfirmText = _itemMenuText;
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+  }
+
+  String _pendingDiscardLabel() {
+    final m = itemSubMenu;
+    final u = field?.unitById(state?.selectedUnitId ?? -1);
+    if (m == null || u == null) return '?';
+    final slot = m['slot'] as int;
+    final num = ItemTable.itemIndex(u.items[slot]);
+    return _itemNameByNumber[num] ?? 'item#$num';
+  }
+
+  void _itemSubMenuInput(FlowInput i) {
+    final m = itemSubMenu!;
+    final entries = (m['entries'] as List).cast<Map<String, Object?>>();
+    if (m['stage'] == 'confirm') {
+      // Yes/No：默认 No（索引 0 = No）；确认 = 选中的那个
+      if (i == FlowInput.cancel) {
+        itemSubMenu = {'slot': m['slot'], 'index': 0,
+          'entries': entries, 'stage': 'menu'};
+        _showItemSubMenu();
+        return;
+      }
+      if (i == FlowInput.confirm) {
+        final yes = (m['yesNoIndex'] as int? ?? 0) == 1;
+        if (yes) {
+          _applyDiscard();
+        } else {
+          itemSubMenu = {'slot': m['slot'], 'index': 0,
+            'entries': entries, 'stage': 'menu'};
+          _showItemSubMenu();
+        }
+        return;
+      }
+      if (i == FlowInput.up || i == FlowInput.left) {
+        itemSubMenu = {...m, 'yesNoIndex': 0};
+        _showDiscardConfirm();
+      } else if (i == FlowInput.down || i == FlowInput.right) {
+        itemSubMenu = {...m, 'yesNoIndex': 1};
+        _showDiscardConfirm();
+      }
+      return;
+    }
+    final idx = m['index'] as int;
+    switch (i) {
+      case FlowInput.up:
+      case FlowInput.left:
+        itemSubMenu = {...m, 'index': (idx - 1 + entries.length) % entries.length};
+        _showItemSubMenu();
+      case FlowInput.down:
+      case FlowInput.right:
+        itemSubMenu = {...m, 'index': (idx + 1) % entries.length};
+        _showItemSubMenu();
+      case FlowInput.cancel:
+        // 子菜单取消 ⇒ 回道具菜单（阶段还是 itemMenu，不提交行动）
+        itemSubMenu = null;
+        _itemMenuText = '';
+        _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
+        if (state != null) _showItemMenu(state!);
+      case FlowInput.confirm:
+        final e = entries[idx];
+        if (e['enabled'] != true) return;   // 禁用项：不做事（屏上有原因）
+        switch (e['key']) {
+          case 'use':
+            _applyUse();
+          case 'equip':
+            _applyEquip();
+          case 'discard':
+            itemSubMenu = {...m, 'stage': 'confirm', 'yesNoIndex': 0};
+            discardPromptDefault = 0;   // 打开时的默认项（照源码 = No）
+            _showDiscardConfirm();
+          default:
+            return;
+        }
+      default:
+        return;
+    }
+  }
+
+  /// 取出子菜单当前指向的槽
+  int _subMenuSlot() => (itemSubMenu?['slot'] as int?) ?? 0;
+
+  /// 「使う」：回复量按 `GetUnitItemHealAmount`，耐久按打包表示递减
+  void _applyUse() {
+    final f = field;
+    final u = f?.unitById(state?.selectedUnitId ?? -1);
+    if (u == null) return;
+    final slot = _subMenuSlot();
+    final word = u.items[slot];
+    final num = ItemTable.itemIndex(word);
+    final res = useHealingItem(
+      hp: u.hp,
+      maxHp: u.maxHp,
+      item: word,
+      itemNumber: num,
+      isStaff: (_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0,
+      nameOf: _itemNameByNumber,
+    );
+    u.hp = res.hp;
+    u.items[slot] = res.item; // 耐久 -1；归零则清空（`MakeNewItem` 表示法）
+    lastItemUse = {
+      'unit': u.id,
+      'slot': slot,
+      'item': _itemNameByNumber[num],
+      'healed': res.healed,
+      'hp': u.hp,
+      'usesLeft': itemUses(res.item),
+      'consumed': res.consumed,
+    };
+    debugPrint('[ITEM] $lastItemUse');
+    _rebuildOverlay();
+    _finishItemAction();
+  }
+
+  /// 「装備」：`EquipUnitItemSlot`（`src/exact_08016968.c:14-23`）——**轮转**
+  void _applyEquip() {
+    final f = field;
+    final u = f?.unitById(state?.selectedUnitId ?? -1);
+    if (u == null) return;
+    final slot = _subMenuSlot();
+    final num = ItemTable.itemIndex(u.items[slot]);
+    final before = List<int>.from(u.items);
+    final rotated = equipUnitItemSlot(u.items, slot);
+    for (var i = 0; i < u.items.length; i++) {
+      u.items[i] = rotated[i];
+    }
+    lastEquip = {
+      'unit': u.id,
+      'slot': slot,
+      'item': _itemNameByNumber[num],
+      'before0': before[0],
+      'after0': u.items[0],
+    };
+    debugPrint('[EQUIP] $lastEquip');
+    _syncAttackRange(u); // 射程跟着新武器变
+    _rebuildOverlay();
+    _finishItemAction();
+  }
+
+  /// 「捨てる」：`UnitRemoveItem`（`src/UnitRemoveItem.c:25-28`）——清 0 + 压缩
+  void _applyDiscard() {
+    final f = field;
+    final u = f?.unitById(state?.selectedUnitId ?? -1);
+    if (u == null) return;
+    final slot = _subMenuSlot();
+    final num = ItemTable.itemIndex(u.items[slot]);
+    final before = List<int>.from(u.items);
+    final after = unitRemoveItem(u.items, slot);
+    for (var i = 0; i < u.items.length; i++) {
+      u.items[i] = after[i];
+    }
+    lastDiscard = {
+      'unit': u.id,
+      'slot': slot,
+      'item': _itemNameByNumber[num],
+      'before': before,
+      'after': u.items.toList(),
+    };
+    debugPrint('[DISCARD] $lastDiscard');
+    _rebuildOverlay();
+    _finishItemAction();
+  }
+
+  /// 子菜单决定之后：提交这次行动（与"待机"同一条尾巴）
+  void _finishItemAction() {
+    itemSubMenu = null;
+    _itemMenuText = '';
+    _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
+    final fl = flow;
+    final s = state;
+    if (fl == null || s == null) return;
+    final r = fl.commitItemAction(s);
+    final f = field;
+    if (r.committedMove && s.selectedUnitId != null && f != null) {
+      final u = f.unitById(s.selectedUnitId);
+      if (u != null && s.pendingX != null && s.pendingY != null) {
+        f.moveUnit(u, s.pendingX!, s.pendingY!);
+        f.finishUnit(u);
+      }
+    }
+    state = r.state;
+    _rebuildOverlay();
+    _updateHud();
+    unawaited(_afterUnitAction());
+  }
+
   /// 道具菜单的文本（名字来自道具表的 `nameTextId`）
   void _showItemMenu(FlowState s) {
     final f = field;
@@ -4131,7 +4398,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           '${uses == 0 ? '∞' : uses}  $tag');
     }
     lines.add('A 使用   B 返回');
-    _itemMenuText = lines.join('\n');
+    lastItemMenuText = lines.join('\n');
+    _itemMenuText = lastItemMenuText;
     _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
   }
 
@@ -4139,6 +4407,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   GameOptionsState? gameOptions;
   /// 编号 → 道具名（`ITEM_*`），给回复量的 switch 用
   final Map<int, String> _itemNameByNumber = {};
+
+  /// `IA_UNSELLABLE = (1 << 4)`（`include/bmitem.h:59`）——
+  /// 带这一位的道具不能"捨てる"（`ItemSubMenu_IsDiscardAvailable`）
+  static const int kItemUnsellableAttribute = 1 << 4;
 
   /// 编号 → 名字的文本 id（`nameTextId`）—— 道具菜单显示真名字用
   final Map<int, int> _itemNameTextId = {};
@@ -4152,12 +4424,42 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次"装备"的记录（判据用）
   Map<String, Object?>? lastEquip;
 
+  /// 最近一次"捨てる"的记录（判据用）
+  Map<String, Object?>? lastDiscard;
+
+  /// 道具子菜单（`ItemSubMenu`：装備/使う/捨てる/交換）的状态
+  ///
+  /// 出处：`src/ItemSelectMenu_Effect.c:66`（`StartMenuAt(&gItemSubMenuDef, …)`）
+  /// —— ⚠️ `gItemSubMenuDef` **只有 extern、定义没 carve** ⇒ 条目的**顺序与措辞
+  /// 未查证**；四个动作本身有源码（`src/ItemSubMenu_*.c`）：
+  ///   * 使う   `ItemSubMenu_UseItem`
+  ///   * 装備   `ItemSubMenu_EquipItem` / `ItemSubMenu_IsEquipAvailable`
+  ///   * 捨てる `ItemSubMenu_DiscardItem` / `ItemSubMenu_IsDiscardAvailable`
+  ///   * 交換   `ItemSubMenu_IsTradeAvailable`（**我们未实现交换本身**）
+  Map<String, Object?>? itemSubMenu;
+
+  /// 子菜单里被禁用的项（判据用）
+  List<String> _subMenuDisabled = const [];
+
   /// 道具菜单的文本（判据用）
   String _itemMenuText = '';
 
   /// 关掉之后仍留一份 —— 否则转储里看不到"菜单显示过什么"
   ///（与欠账 21 同一个坑：只有最后一次的值，中间步骤断言不了）
   String lastItemMenuText = '';
+
+  /// 子菜单 / Yes-No 的留档（三种文本会互相覆盖；我第一版只留了一份，
+  /// 加了子菜单之后 `lastItemMenuText` 变成空串 —— 断言当场红）
+  String lastSubMenuText = '';
+  String lastConfirmText = '';
+
+  /// 舍弃确认框**打开时**的默认项（0 = いいえ / No）。
+  /// 出处：`src/ItemSubMenu_DiscardItem.c` 末尾 `proc->itemCurrent = 1;`
+  ///（Yes/No 菜单的第 2 项 = いいえ ⇒ **默认 No**）。
+  ///
+  /// ⚠️ 我第一版拿 `lastConfirmText` 去断言默认项 —— 那是**最后一次**的文本
+  ///（脚本后来又按下去了），永远看不到默认值。同一个坑第 3 次踩。
+  int? discardPromptDefault;
 
   List<Map<String, dynamic>> _gameOptionRows = const [];
 

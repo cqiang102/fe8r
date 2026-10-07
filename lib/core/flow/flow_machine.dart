@@ -510,6 +510,16 @@ class FlowMachine {
   /// ⚠️ 原作这一步走的是 `ItemSelectMenu`（`src/bmmenu_0802339C.c`
   /// `ItemSelectMenu_Usability` 一族）—— **可用性过滤我未逐行核对**；
   /// 这里只按"调用方说这个单位有可用道具"来开菜单，槽位过滤交给调用方（游戏层）。
+  /// 子菜单（装備/使う/捨てる/交換）决定之后，**提交**这次行动。
+  ///
+  /// 与"待机"走同一条路径（`_toFreeCursor` + movedUnit/committedMove）——
+  /// 原作里用完道具/装完备，单位就结束行动了。
+  FlowResult commitItemAction(FlowState s) => FlowResult(
+        _toFreeCursor(s),
+        movedUnit: true,
+        committedMove: true,
+      );
+
   FlowResult _itemMenu(FlowState s, BattleField field, FlowInput input,
       int slotCount) {
     final unit = field.unitById(s.selectedUnitId);
@@ -529,18 +539,13 @@ class FlowMachine {
           itemIndex: (s.itemIndex + 1) % slotCount,
         ));
       case FlowInput.confirm:
-        // ★ 用道具**消耗这次行动**（原作里用完道具单位就结束行动）⇒
-        // 与"待机"走同一条提交路径（`_toFreeCursor` + movedUnit/committedMove）。
+        // ★ 只发"**选了哪个槽**"的意图，**不提交**这次行动 ——
+        // 接着要弹 `ItemSubMenu`（装備/使う/捨てる/交換，`src/ItemSubMenu_*.c`），
+        // 由子菜单决定做什么；决定之后调 [commitItemAction] 提交。
         //
-        // ⚠️ 我第一版只发了 `itemUseIndex`、没带提交语义 —— 而游戏层是在
-        // `committedMove` 分支里结算的，于是"确认了但什么都没发生"
-        //（核心单测抓到：`itemUseIndex == 0` ✓ 但 `committedMove == false`）。
-        return FlowResult(
-          _toFreeCursor(s),
-          itemUseIndex: s.itemIndex.clamp(0, slotCount - 1),
-          movedUnit: true,
-          committedMove: true,
-        );
+        // ⚠️ 路径改过一次：第 28 轮这里是"确认即提交"（那时还没有子菜单）。
+        // 现在拆成"选槽 → 子菜单 → 提交"。
+        return FlowResult(s, itemUseIndex: s.itemIndex.clamp(0, slotCount - 1));
       case FlowInput.cancel:
         return FlowResult(s.copyWith(phase: FlowPhase.actionMenu));
       case FlowInput.endTurn:

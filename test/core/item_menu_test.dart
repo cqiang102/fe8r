@@ -20,9 +20,15 @@ void main() {
       selectedUnitId: 13, pendingX: 1, pendingY: 1, itemIndex: 0,
     );
     final r = fl.advance(s, f, FlowInput.confirm);
-    expect(r.itemUseIndex, 0, reason: '确认 = 用第 0 个可用槽');
-    expect(r.committedMove, isTrue, reason: '用道具等同于提交这次行动');
-    expect(r.state.phase, FlowPhase.freeCursor);
+    expect(r.itemUseIndex, 0, reason: '确认 = 选了第 0 个槽');
+    // ⚠️ 语义改过：现在"选槽"**不提交**（要先去子菜单选做什么），
+    // 提交改由 `commitItemAction` 负责（第 30 轮加了 ItemSubMenu）
+    expect(r.committedMove, isFalse, reason: '选槽 ≠ 提交行动');
+    expect(r.state.phase, FlowPhase.itemMenu, reason: '留在道具菜单，等子菜单');
+    // 子菜单决定之后才提交
+    final c = fl.commitItemAction(r.state);
+    expect(c.committedMove, isTrue);
+    expect(c.state.phase, FlowPhase.freeCursor);
   });
 
   test('itemMenu 上下移动夹在可用槽数内', () {

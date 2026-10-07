@@ -516,6 +516,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 舍弃（捨てる）：清 0 + **压缩**；Yes/No 默认落在 No
+      Step('L4', '端到端场景（捨てる）', 'bash',
+          ['tools/verify/scenario.sh', 'discard'],
+          note: 'UnitRemoveItem = 清 0 + UnitRemoveInvalidItems 压缩；默认 No',
+          requires: ['tools/verify/scenario.sh']),
       // 装备（换武器）：轮转到 0 号槽，`GetUnitEquippedWeapon` 随之改变
       Step('L4', '端到端场景（装备）', 'bash',
           ['tools/verify/scenario.sh', 'equip'],
