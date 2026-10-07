@@ -221,3 +221,68 @@ bool chestAvailable({
   return canUnitUseChestKeyItem(
       terrainId: terrainId, hasClosedChestTile: hasClosedChestTile);
 }
+
+// ---------------------------------------------------------------------------
+// 门 / 吊桥（`TILE_COMMAND_DOOR` / `TILE_COMMAND_BRIDGE`）
+// ---------------------------------------------------------------------------
+
+/// `TILE_COMMAND_DOOR = 0x12`、`TILE_COMMAND_BRIDGE = 0x13`（`include/eventinfo.h:17-18`）
+const int kTileCommandDoor = 0x12;
+const int kTileCommandBridge = 0x13;
+
+/// 门的钥匙槽（`GetUnitKeyItemSlotForTerrain`，`src/bmunit_080187B0.c:39-58` 的
+/// `case TERRAIN_DOOR: item = ITEM_DOORKEY;` 那一支）
+int unitDoorKeySlot({
+  required bool isThief,
+  required List<int> items,
+  required int lockpickItem,
+  required int doorKeyItem,
+}) {
+  int slotOf(int item) => items.indexOf(item);
+  if (isThief) {
+    final s = slotOf(lockpickItem);
+    if (s >= 0) return s;
+  }
+  return slotOf(doorKeyItem);
+}
+
+/// `IsThereClosedDoorAt`（`src/eventinfo_08085528.c:141-147`）：
+/// ```c
+/// if (GetAvailableTileEventCommand(x, y) == TILE_COMMAND_DOOR) return true;
+/// ```
+/// ⇒ 与宝箱那条完全对称：**就是"该格有可用的门事件"**。
+bool isThereClosedDoorAt({required bool hasAvailableDoorEvent}) =>
+    hasAvailableDoorEvent;
+
+/// 门/吊桥的候选目标（`MakeTargetListForDoorAndBridges`，`src/bmtarget_0802506C.c:414-432`）：
+/// **上下左右相邻格**里、地形是 `TERRAIN_DOOR`/`TERRAIN_BRIDGE_14`、且 `IsThereClosedDoorAt` 的。
+///
+/// 谓词由调用方给（核心层不持有地图）。
+List<(int, int)> doorAndBridgeTargets({
+  required int x,
+  required int y,
+  required bool Function(int x, int y) isTargetTerrain,
+  required bool Function(int x, int y) isClosedDoor,
+}) {
+  final out = <(int, int)>[];
+  for (final (dx, dy) in const [(0, -1), (0, 1), (-1, 0), (1, 0)]) {
+    final nx = x + dx;
+    final ny = y + dy;
+    if (isTargetTerrain(nx, ny) && isClosedDoor(nx, ny)) out.add((nx, ny));
+  }
+  return out;
+}
+
+/// 「扉」这一项该不该出现
+///
+/// 出处：`DoorCommandUsability`（`src/bmmenu_08023D5C.c:58-72`）——
+/// `!US_HAS_MOVED` + 钥匙槽 `>= 0` + 目标列表非空。
+bool doorAvailable({
+  required bool hasActed,
+  required bool hasKeyOrLockpick,
+  required bool hasTarget,
+}) {
+  if (hasActed) return false;
+  if (!hasKeyOrLockpick) return false;
+  return hasTarget;
+}

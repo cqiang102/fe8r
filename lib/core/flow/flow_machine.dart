@@ -65,7 +65,10 @@ enum ActionOption {
   seize('制圧'),
 
   /// 宝箱（`ChestCommandUsability`，`src/bmmenu_08023D5C.c:85-97`）
-  chest('宝箱');
+  chest('宝箱'),
+
+  /// 扉（`DoorCommandUsability`，`src/bmmenu_08023D5C.c:58-72`）
+  door('扉');
 
   const ActionOption(this.label);
   final String label;
@@ -247,6 +250,7 @@ class FlowResult {
     this.visitAt,
     this.seizeAt,
     this.chestAt,
+    this.doorAt,
   });
 
   final FlowState state;
@@ -268,6 +272,9 @@ class FlowResult {
 
   /// 本次输入是否请求**开宝箱**（值是"x,y"）。
   final String? chestAt;
+
+  /// 本次输入是否请求**开门/吊桥**（值是"x,y"，调用方据此找相邻目标）。
+  final String? doorAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -508,6 +515,10 @@ class FlowMachine {
           return FlowResult(s, chestAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.door) {
+          return FlowResult(s, doorAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -684,6 +695,10 @@ class FlowMachine {
     if (canChest) {
       out.add(ActionOption.chest);
     }
+    final canDoor = doorAvailableAt?.call(x, y) ?? false;
+    if (canDoor) {
+      out.add(ActionOption.door);
+    }
     return out;
   }
 
@@ -700,6 +715,9 @@ class FlowMachine {
 
   /// "站在 (x,y) 上能不能开「宝箱」" —— 同样由调用方注入
   bool Function(int x, int y)? chestAvailableAt;
+
+  /// "站在 (x,y) 上能不能开「扉」" —— 由调用方注入（要地图 + 钥匙 + 目标列表）
+  bool Function(int x, int y)? doorAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///

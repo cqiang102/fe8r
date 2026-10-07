@@ -566,6 +566,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastVisit': lastVisit,
       'lastSeize': lastSeize,
       'lastChest': lastChest,
+      'lastDoor': lastDoor,
       'chapterModeIndex': chapterModeIndex,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
@@ -1374,6 +1375,37 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「扉」：相邻门/吊桥 —— 换地形 + 置旗（`StartAvailableTileEvent` 的
+    // `TILE_COMMAND_DOOR` 分支：`if (info.script == 1) { tile change + SetFlag }`
+    // 否则起事件）。⚠️ **地形变化本身未做**（`CallTileChangeEvent` 要地图换层，
+    // 我们还没有那套）⇒ 这里置旗 + 记账，画面上门不会变 —— 已记进路线图。
+    final doorAt = r.doorAt;
+    if (doorAt != null) {
+      final parts = doorAt.split(',');
+      final dx0 = int.tryParse(parts.isNotEmpty ? parts[0] : '') ?? -1;
+      final dy0 = int.tryParse(parts.length > 1 ? parts[1] : '') ?? -1;
+      final targets = _doorTargetsAt(dx0, dy0);
+      final u3 = field?.unitById(s.selectedUnitId ?? -1);
+      if (targets.isNotEmpty && u3 != null) {
+        final (tx, ty) = targets.first;   // 多个候选时取第一个（原作是光标选择）
+        final ev = availableTileEvent(_locationEvents, tx, ty, eventFlags);
+        if (ev != null && ev.doneFlag != 0) eventFlags.add(ev.doneFlag);
+        lastDoor = {
+          'unit': u3.id,
+          'from': '$dx0,$dy0',
+          'target': '$tx,$ty',
+          'cmd': ev?.cmd,
+          'doneFlag': ev?.doneFlag,
+          'script': ev?.script,
+          'tileChangeImplemented': false,
+        };
+        debugPrint('[DOOR] $lastDoor');
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「宝箱」：给 `givenItem` + 置 `doneFlag`
     final chestAt = r.chestAt;
     if (chestAt != null) {
@@ -3166,6 +3198,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _itemChestKey = numOf('ITEM_CHESTKEY');
     _itemChestKeyBundle = numOf('ITEM_CHESTKEY_BUNDLE');
     _itemLockpick = numOf('ITEM_LOCKPICK');
+    _itemDoorKey = numOf('ITEM_DOORKEY');
+
+    _terrainDoorId = (tenum['TERRAIN_DOOR'] as num?)?.toInt() ?? -1;
+    _terrainBridge14Id = (tenum['TERRAIN_BRIDGE_14'] as num?)?.toInt() ?? -1;
 
     _terrainDefCommon = valsOf('TerrainTable_Def_Common');
     _terrainAvoCommon = valsOf('TerrainTable_Avo_Common');
@@ -4824,6 +4860,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 这正是序章–第 8 章的取值。将来做路线选择时要把它接上并存进存档。
   int chapterModeIndex = 1;
 
+  /// 相邻的门/吊桥目标（`MakeTargetListForDoorAndBridges` 的四邻居部分）
+  List<(int, int)> _doorTargetsAt(int x, int y) => doorAndBridgeTargets(
+        x: x,
+        y: y,
+        isTargetTerrain: (nx, ny) {
+          final t = _terrainAt(nx, ny);
+          // `TERRAIN_DOOR` / `TERRAIN_BRIDGE_14`（编号取自 terrains.json 的枚举）
+          return t == _terrainDoorId || t == _terrainBridge14Id;
+        },
+        isClosedDoor: (nx, ny) {
+          final ev = availableTileEvent(_locationEvents, nx, ny, eventFlags);
+          return isThereClosedDoorAt(
+              hasAvailableDoorEvent: ev != null && ev.cmdId == kTileCommandDoor);
+        },
+      );
+
   /// 这个职业有没有 `CA_THIEF`（盗贼 ⇒ 撬锁器也能开锁）
   ///
   /// ⚠️ 我们的职业表**没抽 `attributes`** ⇒ 用职业名近似（`CLASS_THIEF`/`CLASS_ROGUE`/
@@ -4840,6 +4892,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次开宝箱的记录（判据用）
   Map<String, Object?>? lastChest;
 
+  /// 最近一次开门/吊桥的记录（判据用）
+  Map<String, Object?>? lastDoor;
+
+  /// `ITEM_DOORKEY` 的编号（从 `items.json` 读）
+  int _itemDoorKey = 0;
+
   /// 钥匙类道具的编号（从 `items.json` 读，不硬编码）
   int _itemChestKey = 0;
   int _itemChestKeyBundle = 0;
@@ -4850,6 +4908,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 最近一次交换的记录（判据用）
   Map<String, Object?>? lastTrade;
+
+  /// `TERRAIN_DOOR` / `TERRAIN_BRIDGE_14` 的编号（`terrains.json` 的枚举）
+  int _terrainDoorId = -1;
+  int _terrainBridge14Id = -1;
 
   /// 地形 id → 枚举名（`terrains.json` 的 `enum`）
   final Map<int, String> _terrainEnumById = {};
@@ -5795,6 +5857,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _usableSlots = itemMenuSlots(unit);
     fl.hasUsableItem = _usableSlots.isNotEmpty;
     // ★ 「訪問」的判定交给规则层（`tile_events.dart`）：地形 + 该格有可用的 VILL 事件
+    fl.doorAvailableAt = (x, y) {
+      final keySlot = unitDoorKeySlot(
+        isThief: _classHasThiefAttribute(unit),
+        items: unit.items,
+        lockpickItem: _itemLockpick,
+        doorKeyItem: _itemDoorKey,
+      );
+      final targets = _doorTargetsAt(x, y);
+      return doorAvailable(
+        hasActed: unit.hasActed,
+        hasKeyOrLockpick: keySlot >= 0,
+        hasTarget: targets.isNotEmpty,
+      );
+    };
     fl.chestAvailableAt = (x, y) {
       final ev = availableTileEvent(_locationEvents, x, y, eventFlags);
       final keySlot = unitKeyItemSlotForTerrain(

@@ -1186,19 +1186,28 @@
     "i": 15,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 6,
+    "y": 10,
+    "cmdId": 18
    },
    {
     "i": 18,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 10,
+    "y": 5,
+    "cmdId": 18
    },
    {
     "i": 21,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 2,
+    "y": 3,
+    "cmdId": 18
    },
    {
     "i": 24,
@@ -1481,13 +1490,19 @@
     "i": 0,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 23,
+    "y": 12,
+    "cmdId": 18
    },
    {
     "i": 3,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 4,
+    "y": 10,
+    "cmdId": 18
    },
    {
     "i": 6,
@@ -1780,13 +1795,19 @@
     "i": 0,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 20,
+    "y": 7,
+    "cmdId": 18
    },
    {
     "i": 3,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 1,
+    "y": 5,
+    "cmdId": 18
    },
    {
     "i": 6,
@@ -2113,19 +2134,28 @@
     "i": 9,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 4,
+    "y": 11,
+    "cmdId": 18
    },
    {
     "i": 12,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 17,
+    "y": 13,
+    "cmdId": 18
    },
    {
     "i": 15,
     "cmd": "DOOR",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 18,
+    "y": 13,
+    "cmdId": 18
    },
    {
     "i": 18,

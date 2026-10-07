@@ -202,7 +202,11 @@ def decode_list(words, syms=None):
             e["turn"] = w2 & 0xFF
             e["maxTurn"] = (w2 >> 8) & 0xFF
             e["faction"] = (w2 >> 16) & 0xFFFF
-        elif cmd in (0x05, 0x06):
+        elif cmd in (0x05, 0x06, 0x08, 0x09):
+            # ⚠️ **第 47 轮更正**：第 44 轮我量到"数据里门条目 0 条"，于是把门/吊桥
+            # 记成"要钥匙+目标列表所以做不了"。**那个 0 是我的量法撒的谎** ——
+            # 这里原来只解 `0x05/0x06`，`DOOR(0x08)/DRAWBRIDGE(0x09)` 的 x/y/cmdId
+            # **压根没解**。源码里其实有门/吊桥各 1 条（都在 `EventListScr_Ch14b_Location`）。
             # LOCA / VILL —— `struct EvCheck05 { u32 unk0; u32 script; u8 x; u8 y; u16 cmdId; }`
             #（`src/eventinfo_080851B8.c:88-94`，`EvCheck05_LOCA` / `EvCheck06_VILL`）
             #
