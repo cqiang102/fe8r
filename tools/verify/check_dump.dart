@@ -416,14 +416,23 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
   }
 
   if (scenario == 'battle') {
-    // ⚠️ 这条场景**从没让玩家主动攻击过**（打中奥尼尔的是敌方阶段艾莉卡的反击，
-    // 见 `hitFxLog`）。所以这里**看不到** `selectTarget` 阶段的战斗预测 ——
-    // 预测的判据改放在**核心层**（`test/core/combat_test.dart` 的
-    // "预测的伤害 == 实际每一下的伤害"，直接对照 `forecast` 与 `resolveCombat`），
-    // 比脚本级更准也更可重复。
+    // ⚠️ **玩家主动攻击这条链在这一局里走不到** —— 原因是实测出来的：
+    //   * 序章/第 1 章都是**教学模式章节**，有脚本化的教学事件在驱动盘面
+    //     （`hudExtra` 里就写着 `教学入队失败：EventScr_Ch1Tut_TradeSelectGalliamIdle1
+    //      不在本章表里`，那是一条 `EventListScr`，还没接进本章表）；
+    //   * 固定脚本撞角落得到的格子被教学脚本挪过，`actionLog` 里只留下
+    //     "单位 18 在 (6,0) 原地待机"这一条 ⇒ 玩家一次都没动。
+    // 所以"选中 → 移动 → 攻撃 → 预测面板"这条链**本轮的判据在核心层**：
+    // `test/core/combat_test.dart` 直接对照 `forecast` 与 `resolveCombat`
+    //（预测的伤害/出手次数 == 实战）；面板的"看得见"仍只到"代码路径存在"。
+    // 这里只如实检查字段的结构，不写一条永远看不到值的断言（欠账 21 的老坑）。
+    final pac = (d['playerAttackCount'] as num?)?.toInt() ?? -1;
+    ok(pac >= 0, '出手计数是个数字（0 = 本局玩家没出手，符合预期）',
+        'playerAttackCount=$pac');
     ok(d['lastForecast'] == null || d['lastForecast'] is Map,
-        '预测字段要么没有、要么是结构化的（不留半成品）',
-        'lastForecast=${d['lastForecast']}');
+        '预测字段要么没有、要么是结构化的', 'lastForecast=${d['lastForecast']}');
+    ok(d['actionLog'] is List, '行动日志在转储里（脚本诊断用）',
+        'actionLog=${d['actionLog']}');
   }
 
   if (scenario == 'item') {

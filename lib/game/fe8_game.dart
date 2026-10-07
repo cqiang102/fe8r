@@ -542,6 +542,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'goalTextId': _chapterGoalTextId[sceneChapter],
       'forecast': forecastForTarget?.toJson(),
       'lastForecast': lastForecast,
+      'playerAttackCount': playerAttackCount,
+      'actionLog': actionLog.toList(),
       'terrainWindow': lastTerrainWindow,
       // 当前是否**该**显示（设置可能刚被改掉；`lastTerrainWindow` 是留档，不会自己消失）
       'terrainWindowVisible':
@@ -1379,6 +1381,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (r.committedMove && s.selectedUnitId != null) {
       final u = f.unitById(s.selectedUnitId);
       if (u != null && s.pendingX != null && s.pendingY != null) {
+        actionLog.add({
+          'unit': u.id,
+          'from': '${u.x},${u.y}',
+          'to': '${s.pendingX},${s.pendingY}',
+        });
+        if (actionLog.length > 16) actionLog.removeAt(0);
         f.moveUnit(u, s.pendingX!, s.pendingY!);
         f.finishUnit(u);
 
@@ -2813,6 +2821,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 一次攻击：**先对白 → 再结算 → 再处理阵亡**。
   Future<void> _attackWithQuote(
       BattleField f, MapUnit attacker, MapUnit defender) async {
+    if (attacker.factionBit == Faction.blue) playerAttackCount++;
     await _playBattleQuoteIfAny(attacker, defender);
     // ★ 攻击**前后**的 HP 差 = 这一下打了多少（结构化，不解析战报字符串）
     final defBefore = defender.hp;
@@ -4484,6 +4493,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 战斗预测的当前值（选目标阶段算）
   BattleForecast? forecastForTarget;
+
+  /// 玩家（我方）**主动出手**的次数 —— 欠账 40 那条链原来完全没有覆盖，
+  /// 因为脚本压根没走到过"选中 → 移动 → 攻撃"。
+  int playerAttackCount = 0;
+
+  /// 每次"提交一次移动"都记一笔（谁、从哪到哪）—— 固定脚本出问题时，
+  /// 这张表能立刻回答"单位到底动没动"。
+  final List<Map<String, Object?>> actionLog = [];
 
   /// 最近一次算出来的预测（**留档**）—— 动作做完 `forecastForTarget` 会被清掉，
   /// 判据要拿它和"实际打出的伤害"对比（欠账 21 的同一个坑）。

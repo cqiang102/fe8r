@@ -118,13 +118,22 @@ case "$SCENARIO" in
     #   变成了"进道具菜单 → 装备"（日志里连续三条 `[EQUIP]`）——
     #   第 28 轮给行动菜单加了「道具」之后这段脚本就失效了，
     #   而 `battle` 只在 `--e2e` 里跑，前几轮没跑到 ⇒ 直到这轮才发现。
-    NOACT="confirm,confirm,confirm,endturn"                     # 没有目标：待機
-    HITACT="confirm,confirm,down,confirm,confirm,endturn"       # 有目标：攻撃
+    # ⚠️ **Ch1 的定位与序章不同**：`UnitDef_Event_Ch1Ally` 里艾莉卡/赛特在
+    # **(14,9)**（`unit_defs.json`），而 `RESYNC` 落到的 (4,4) 是**序章**赛特的格子
+    # —— 在 Ch1 的地图上那里**是空的** ⇒ "选中"什么都没选中 ⇒
+    # **玩家从没动过、也从没主动攻击过**（欠账 40 就是这么来的）。
+    # Ch1 地图是 15×10 ⇒ **右下角 (14,9) 正是我方站位** ⇒ 撞角落即可定位。
+    RESYNC_CH1=$(python3 -c "print(','.join(['right']*20+['down']*20))")
+    # 一回合 = 取消到自由光标 → 定位到 (14,9) → 选中 → 往左走到底 → 待機/攻撃 → 结束回合
+    # 第 1 回合还没贴到敌人（赛特移动 8，奥尼尔在 (2,9)，隔着 12 格）⇒ 只走；
+    # 第 2 回合再走一次，就该有目标了 ⇒ `down,confirm` 进"选目标"（**战斗预测**在这）
+    WALK="confirm,left,left,left,left,left,left,left,left,confirm,confirm,endturn"
+    HIT2="confirm,left,left,left,left,left,left,left,left,confirm,down,confirm,confirm,endturn"
     EVENTS=$(python3 -c "print(','.join(['confirm']*10))")
     for i in 1 2 3 4 5; do
-      A="$NOACT"
-      if [ "$i" = "2" ] || [ "$i" = "3" ]; then A="$HITACT"; fi
-      SCRIPT="$SCRIPT,$CANCEL,$RESYNC,$A,$EVENTS"
+      A="$WALK"
+      if [ "$i" = "2" ] || [ "$i" = "3" ]; then A="$HIT2"; fi
+      SCRIPT="$SCRIPT,$CANCEL,$RESYNC_CH1,$A,$EVENTS"
     done
     # 第 1 章的开场脚本会先淡到黑；再跳一次过场 + 等两拍，
     # 截图才看得到地图（判据看的是转储，不看这张图）。
@@ -281,8 +290,12 @@ case "$SCENARIO" in
     #      显示回合/单位，B 关掉。
     TITLE=""
     BASE="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
-    SCRIPT="$BASE,start,confirm,wait,wait"                       # 部隊（第 1 项）
-    SCRIPT="$SCRIPT,start,down,confirm,wait,wait"                # 状況（第 2 项）
+    # ⚠️ 部队现在**会开一个列表**（第 23 轮）⇒ 选完必须 `cancel` 关掉它，
+    # 才能重新开菜单去选「状況」。原来直接再按 `start` —— 那一串按键
+    # 全被列表吃掉了（e2e 扫出来：menuLog 里只有 unitList）。
+    SCRIPT="$BASE,start,confirm,wait,wait"                       # 部隊（第 1 项）→ 开列表
+    SCRIPT="$SCRIPT,cancel,wait,wait"                            # B 关掉列表
+    SCRIPT="$SCRIPT,start,down,confirm,wait,wait"                # 重开菜单 → 状況
     SCRIPT="$SCRIPT,cancel,wait,wait"                            # B 关闭
     ;;
   unitlist)
@@ -342,7 +355,10 @@ case "$SCENARIO" in
     EVENTS=$(python3 -c "print(','.join(['confirm']*10))")
     CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
     RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
-    ACT="confirm,confirm,down,confirm"          # 选中 → 自己那格 → 菜单选「待機」→ 确定
+    # ⚠️ **不要 `down`**：行动菜单第 1 项就是「待機」（顺序 = 待機/攻撃/道具）。
+    # 原来这里有个 `down`（那会儿菜单只有待機一项，down 会绕回 0），
+    # 第 28 轮加了「道具」之后就落到了道具上 ⇒ 回合压根没结束（e2e 扫出来）。
+    ACT="confirm,confirm,confirm"               # 选中 → 自己那格 → 直接确定 = 待機
     MENU_END="start,down,down,down,down,down,confirm"
     WAITS=$(python3 -c "print(','.join(['wait']*4))")
     # ① 主动结束
