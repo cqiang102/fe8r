@@ -126,6 +126,11 @@ class TutorialQueue {
     return chapterTutorialEvents[i];
   }
 
+  factory TutorialQueue.fromJson(Map<String, dynamic> j) => TutorialQueue(
+        counter: j['counter'] as int? ?? 0,
+        execType: j['execType'] as int? ?? 0,
+      );
+
   Map<String, Object?> toJson() => {
         'counter': counter,
         'execType': execType,
