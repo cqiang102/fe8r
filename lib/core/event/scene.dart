@@ -354,6 +354,13 @@ class KeyIgnore extends SceneEvent {
   final int mask;
 }
 
+/// `CAMERA_CAHR` —— 把镜头移到某个角色（游戏侧解析坐标后调 `cameraTo`）
+class CameraToChar extends SceneEvent {
+  const CameraToChar(this.pid);
+
+  final int pid;
+}
+
 /// `BROWNBOXTEXT` —— 棕色弹窗（带文本与坐标，自己计时结束）
 class PopupText extends SceneEvent {
   const PopupText({required this.textId, required this.x, required this.y});
@@ -650,6 +657,31 @@ class Scene {
     };
   }
 
+  /// `CAMERA_CAHR` = `EvtMoveCameraToChar(pid)`（`include/EAstdlib.h:99`）
+  ///
+  /// **复用**既有的 [cameraTo]（普通 `CAMERA`/`CAMERA2` 早就走它了）：
+  /// 场景不持有单位表 ⇒ 发事件让游戏把角色坐标算出来再调 `cameraTo`。
+  void cameraToChar(int pid) => onEvent(CameraToChar(pid));
+
+  /// `CHECK_LUCK` = `EvtGetUnitLuck`（`include/EAstdlib.h:133`；
+  /// `src/Event33_CheckUnitVarious.c:147-153`）：**找不到单位 ⇒ 报错**（不是写 0！），
+  /// 否则把幸运值写进条件槽。
+  void checkLuck(int pid) {
+    final r = unitLuckReader;
+    if (r == null) {
+      // 没注入读幸运的钩子 —— 记一次**脚本错误**（源码是 `EVC_ERROR`），
+      // 并**不**写条件槽（写 0 会让后面的分支走错方向）。
+      scriptErrors++;
+      return;
+    }
+    final v = r(pid);
+    if (v == null) {
+      scriptErrors++; // 源码：找不到单位 ⇒ EVC_ERROR（不写条件槽）
+      return;
+    }
+    setSlot(0xC, v);
+  }
+
   /// `BROWNBOXTEXT` = `EvtDisplayPopupSilently(msg, x, y)`
   /// （`include/eventscript.h:732`；处理函数 `src/Event3A_DisplayPopup.c:11-40`）
   ///
@@ -920,6 +952,13 @@ class Scene {
   /// 红方 / 绿方的**在场**单位数（`CountRedUnits` / `CountGreenUnits`），由游戏侧更新
   int redUnitCount = 0;
   int greenUnitCount = 0;
+
+  /// 读某角色的幸运值（`CHECK_LUCK` 用）。返回 null 表示**找不到这个单位**
+  /// （源码在那一支是 `EVC_ERROR`，所以"找不到"不能退化成 0）
+  int? Function(int pid)? unitLuckReader;
+
+  /// 脚本层报错的次数（源码里 `EVC_ERROR` 的地方；比静默写 0 更有用）
+  int scriptErrors = 0;
 
   /// 这个角色还活着吗（`GetUnitStructFromEventParameter` + `US_DEAD` 判定）。
   /// 场景不持有单位表 => 由游戏侧注入；注入不了就按源码的 `!unit => 0` 处理，

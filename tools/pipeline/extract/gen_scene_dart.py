@@ -248,6 +248,26 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 镜头移到**角色**：`CAMERA_CAHR` = `EvtMoveCameraToChar(pid)`
+    #   （`include/EAstdlib.h:99`，`EV_CMD_CAMERACONTROL` subcmd 1）
+    #   处理函数 `Event26_CameraControl`（`src/eventscr_0800F41C.c:10-35`）：
+    #   `case 1: unit = GetUnitStructFromEventParameter(pEventCurrent[1]);`（`:31-32`）。
+    #   ⚠️ 普通 `CAMERA`/`CAMERA2` **早就接好了**（`s.cameraTo`，71 处），
+    #      这里只是补"移到角色"这一支，**复用同一个 `cameraTo`**。
+    if op == "CAMERA_CAHR":
+        a = A[0] if A else 0
+        if isinstance(a, int):
+            return (f"s.cameraToChar({num(a)});", True)
+        return (f"s.placeholder('{op}');", True)
+    # 幸运值：`CHECK_LUCK` = `EvtGetUnitLuck`（`include/EAstdlib.h:133`）
+    #   `src/Event33_CheckUnitVarious.c:147-153`：**找不到单位 => EVC_ERROR**（不是 0！），
+    #   否则 `gEventSlots[0xC] = GetUnitLuck(unit)`。
+    if op == "CHECK_LUCK":
+        a = A[0] if A else 0
+        if isinstance(a, int):
+            return (f"s.checkLuck({num(a)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 条件族第三批（写 `gEventSlots[0xC]`）：`src/eventscr_0800E2C8.c:77-87`
     #   CHECK_MODE             => gEventSlots[0xC] = gPlaySt.chapterModeIndex
     #   CHECK_CHAPTER_NUMBER   => gEventSlots[0xC] = proc->chapterIndex

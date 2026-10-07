@@ -581,6 +581,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastDance': lastDance,
       'lastSteal': lastSteal,
       'lastPopup': lastPopup,
+      'lastCamera': lastCamera,
+      'scriptErrors': scene?.scriptErrors ?? 0,
       'popupComponents': popupComponentCount,
       'ignoredInputCount': ignoredInputCount,
       'ignoredKeyMask': keyIgnoreMask,
@@ -1896,6 +1898,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           if (cancellable && _cancelHeld) break;
           if (scene?.skipping == true) break;
           await Future<void>.delayed(const Duration(milliseconds: 16));
+        }
+      case CameraToChar(:final pid):
+        // `CAMERA_CAHR`：把镜头移到那个角色所在的格（**复用** `_adjustCameraTo`）
+        final target = field?.units
+            .where((x) => x.charIndex == pid && x.isAlive)
+            .toList();
+        if (target != null && target.isNotEmpty) {
+          lastCamera = {'pid': pid, 'x': target.first.x, 'y': target.first.y};
+          debugPrint('[CAMERA_CHAR] $lastCamera');
+          _adjustCameraTo(target.first.x, target.first.y);
         }
       case PopupText(:final textId, :final x, :final y):
         // `BROWNBOXTEXT`：棕色弹窗，**自己计时结束**（不等按键）
@@ -5487,6 +5499,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次「踊る」的记录（判据用）
   Map<String, Object?>? lastDance;
 
+  /// 最近一次"镜头移到角色"（判据用）
+  Map<String, Object?>? lastCamera;
+
   /// 最近一次棕色弹窗（判据用）
   Map<String, Object?>? lastPopup;
 
@@ -6576,8 +6591,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     sc.chapterModeIndex = chapterModeIndex;
     sc.chapterIndex = sceneChapter;
     sc.isHard = _currentPlayFlags.difficulty == NewGameDifficulty.hard;
+
     final f = field;
     if (f == null) return;
+    // `CHECK_LUCK` 的读取钩子（放在 `f` 之后 —— 我第一版插在 `f` 声明前，编译当场报错）
+    sc.unitLuckReader = (pid) {
+      for (final x in f.units) {
+        if (x.charIndex == pid && x.isAlive) {
+          // `GetUnitLuck` = 角色基础幸运（升级带来的幸运增量我们还没建模）
+          return _charStats[x.charIndex]?.baseLck;
+        }
+      }
+      return null; // 找不到 ⇒ 源码是 EVC_ERROR，由 `checkLuck` 记一次错误
+    };
     sc.redUnitCount = f.units
         .where((x) => !x.isHidden && x.isAlive && (x.faction & 0xC0) == Faction.red)
         .length;

@@ -1362,7 +1362,7 @@ Future<void> CallWithModeCheck(Scene s) async {
 
 /// `EventScr_Ch10A_0`
 Future<void> Ch10A_0(Scene s) async {
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(79);
     s.showCursorAtUnit(79);
     await s.stall(60);
     await s.endCursor();
@@ -1585,7 +1585,7 @@ Future<void> Ch10B_1(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(14);
           pc = 7;
           continue;
         case 7:
@@ -1663,7 +1663,7 @@ Future<void> Ch10B_2(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(14);
           pc = 7;
           continue;
         case 7:
@@ -2224,7 +2224,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
 /// `EventScr_Ch11B_0`
 Future<void> Ch11B_0(Scene s) async {
     s.placeholder('MUSC');
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -2257,7 +2257,7 @@ Future<void> Ch11B_1(Scene s) async {
     s.placeholder('TILECHANGE');
     await s.stall(30);
     s.placeholder('EARTHQUAKE_END');
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -2272,7 +2272,7 @@ Future<void> Ch11B_1(Scene s) async {
 /// `EventScr_Ch11B_2`
 Future<void> Ch11B_2(Scene s) async {
     s.placeholder('MUSC');
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -3538,7 +3538,7 @@ Future<void> Ch12A_5(Scene s) async {
 
 /// `EventScr_Ch12B_1`
 Future<void> Ch12B_1(Scene s) async {
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(83);
     s.placeholder('SPAWN_ENEMY');
     s.setSlot(2, 87);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 17, 1]);
@@ -3573,7 +3573,7 @@ Future<void> Ch12B_1(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch12BEnemy_4'));
     await s.call(Sym('EventScr_LoadReinforce'));
     await s.stall(30, cancellable: false);
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -3833,7 +3833,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 11; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(81);
           pc = 3;
           continue;
         case 3:
@@ -3954,7 +3954,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(1);
           pc = 34;
           continue;
         case 34:
@@ -4636,7 +4636,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.moveUnit('MOVE_CLOSEST', [65535, 117964882, 2624, Sym('data_085B9BBC', 512), 1315360]);
     await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('MUSC');
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(28);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('CUMO_CHAR');
     await s.stall(60);
@@ -4868,7 +4868,7 @@ Future<void> Ch15A_17(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -4919,7 +4919,7 @@ Future<void> Ch15A_18(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -4970,7 +4970,7 @@ Future<void> Ch15A_19(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5125,7 +5125,7 @@ Future<void> Ch15A_20(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5176,7 +5176,7 @@ Future<void> Ch15A_21(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5227,7 +5227,7 @@ Future<void> Ch15A_22(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5278,7 +5278,7 @@ Future<void> Ch15A_23(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5329,7 +5329,7 @@ Future<void> Ch15A_24(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5380,7 +5380,7 @@ Future<void> Ch15A_25(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5690,7 +5690,7 @@ Future<void> Ch15B_14(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5741,7 +5741,7 @@ Future<void> Ch15B_15(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5792,7 +5792,7 @@ Future<void> Ch15B_16(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5843,7 +5843,7 @@ Future<void> Ch15B_17(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5894,7 +5894,7 @@ Future<void> Ch15B_18(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5945,7 +5945,7 @@ Future<void> Ch15B_19(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -5996,7 +5996,7 @@ Future<void> Ch15B_20(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -6047,7 +6047,7 @@ Future<void> Ch15B_21(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -6098,7 +6098,7 @@ Future<void> Ch15B_22(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_LUCK');
+          s.checkLuck(65535);
           pc = 3;
           continue;
         case 3:
@@ -8299,7 +8299,7 @@ Future<void> Ch18b_BeginningScene(Scene s) async {
     await s.call(Sym('frontier_df3_eventscr_ch_002_A6A06C', 884));
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -10072,7 +10072,7 @@ Future<void> Ch2Tutorial17(Scene s) async {
 /// `EventScr_Ch2Tutorial18`
 Future<void> Ch2Tutorial18(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(5);
     s.setSlot(13, 0);
     s.setSlot(1, 5);
     s.placeholder('SENQUEUE1');
@@ -10257,7 +10257,7 @@ Future<void> Ch2Tutorial26(Scene s) async {
 /// `EventScr_Ch2Tutorial27`
 Future<void> Ch2Tutorial27(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(1);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
     s.placeholder('SENQUEUE1');
@@ -10497,7 +10497,7 @@ Future<void> Ch2_5(Scene s) async {
 
 /// `EventScr_Ch2_6`
 Future<void> Ch2_6(Scene s) async {
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(5);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2360);
@@ -10514,7 +10514,7 @@ Future<void> Ch2_6(Scene s) async {
 
 /// `EventScr_Ch2_7`
 Future<void> Ch2_7(Scene s) async {
-    s.placeholder('CAMERA_CAHR');
+    s.cameraToChar(1);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2372);
@@ -11336,7 +11336,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(72);
           pc = 44;
           continue;
         case 44:
@@ -13516,7 +13516,7 @@ Future<void> Ch6_0(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(249);
           pc = 8;
           continue;
         case 8:
@@ -14730,7 +14730,7 @@ Future<void> Ch9A_4(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
           continue;
         case 5:
-          s.placeholder('CAMERA_CAHR');
+          s.cameraToChar(18);
           pc = 6;
           continue;
         case 6:

@@ -56,4 +56,21 @@ void main() {
     expect(t.contains("s.placeholder('CHECK_MODE')"), isFalse);
     expect(t.contains("s.placeholder('CHECK_HARD')"), isFalse);
   });
+
+  test('★ 镜头移到角色 + 幸运值（第 80 轮）', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    // `CAMERA_CAHR` = `EvtMoveCameraToChar(pid)`（include/EAstdlib.h:99，
+    //  处理函数 src/eventscr_0800F41C.c:10-35 的 case 1）
+    // ★ 事实（不是"我以为"）：19 处接上、**4 处仍是占位符**（那 4 处参数是符号，
+    //   生成器按"宁可少接也不发错值"的原则退回占位）。数字变了这条就会响。
+    final cam = RegExp(r's\.cameraToChar\(').allMatches(t).length;
+    final camPh = RegExp(r"s\.placeholder\('CAMERA_CAHR'\)").allMatches(t).length;
+    expect(cam, 19, reason: '接上的处数');
+    expect(camPh, 4, reason: '参数是符号的那 4 处仍是占位符（详见生成器注释）');
+    // `CHECK_LUCK` = `EvtGetUnitLuck`（include/EAstdlib.h:133，
+    //  src/Event33_CheckUnitVarious.c:147-153：找不到单位 => EVC_ERROR）
+    expect(RegExp(r's\.checkLuck\(').allMatches(t).length, 18);
+    expect(t.contains("s.placeholder('CHECK_LUCK')"), isFalse,
+        reason: '这一条**全部**接上了（18 处、0 处占位）');
+  });
 }
