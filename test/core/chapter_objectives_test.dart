@@ -31,6 +31,8 @@ ChapterObjectives prologue() => ChapterObjectives([
     ]);
 
 void main() {
+  _deriveTests();
+
   test('★ 击破首领 -> 执行结束脚本（`DefeatBoss` 宏）', () {
     // #define DefeatBoss(event_scr) AFEV(EVFLAG_WIN, (event_scr), EVFLAG_DEFEAT_BOSS)
     final o = prologue().firstMatch((f) => f == EventFlags.defeatBoss);
@@ -107,5 +109,119 @@ void main() {
     expect(o[0].doneFlag, 3, reason: 'EVFLAG_WIN');
     expect(o[2].checkFlag, 101, reason: 'EVFLAG_GAMEOVER');
     expect(o[3].cmd, EventListCmd.end);
+  });
+}
+
+// ---------------------------------------------------------------- 标志推导
+//
+// 这一组是第 ④ 步的**机器判据**：
+// 「击破首领 -> 置 EVFLAG_DEFEAT_BOSS -> 命中 EndingScene」。
+
+/// 序章的首领表（`gDefeatTalkList` 里本章那一条）
+const oneillTalk = DefeatTalkEntry(
+  pid: 'CHARACTER_ONEILL',
+  chapter: 'CHAPTER_L_PROLOGUE',
+  flag: 'EVFLAG_DEFEAT_BOSS',
+);
+
+/// `CHARACTER_ONEILL = 104`（`include/constants/characters.h`）
+const oneill = 104;
+
+String? _charName(int i) => i == oneill ? 'CHARACTER_ONEILL' : 'CHARACTER_X';
+
+void _deriveTests() {
+  test('★ 击破首领 -> 置 EVFLAG_DEFEAT_BOSS', () {
+    final flags = deriveEventFlags(
+      units: const [
+        BattleUnitView(charIndex: 104, faction: Faction.red, alive: false),
+        BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true),
+      ],
+      chapterIndex: 0,
+      defeatTalk: const [oneillTalk],
+      charNameOf: _charName,
+    );
+    expect(flags, contains(EventFlags.defeatBoss));
+  });
+
+  test('★ 首领还活着 -> 不置标志（判据要对得上，不能恒真）', () {
+    final flags = deriveEventFlags(
+      units: const [
+        BattleUnitView(charIndex: 104, faction: Faction.red, alive: true),
+        BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true),
+      ],
+      chapterIndex: 0,
+      defeatTalk: const [oneillTalk],
+      charNameOf: _charName,
+    );
+    expect(flags, isNot(contains(EventFlags.defeatBoss)));
+  });
+
+  test('★ 别的章节的同名条目不该在本章生效', () {
+    final flags = deriveEventFlags(
+      units: const [
+        BattleUnitView(charIndex: 104, faction: Faction.red, alive: false),
+        BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true),
+      ],
+      chapterIndex: 1, // 第 1 章，而条目写的是 PROLOGUE
+      defeatTalk: const [oneillTalk],
+      charNameOf: _charName,
+    );
+    expect(flags, isNot(contains(EventFlags.defeatBoss)));
+  });
+
+  test('★ 主角阵亡 -> GameOver', () {
+    final flags = deriveEventFlags(
+      units: const [
+        BattleUnitView(charIndex: 1, faction: Faction.blue, alive: false),
+        BattleUnitView(charIndex: 104, faction: Faction.red, alive: true),
+      ],
+      chapterIndex: 0,
+      defeatTalk: const [],
+      charNameOf: _charName,
+    );
+    expect(flags, contains(EventFlags.gameOver));
+  });
+
+  test('敌全灭 -> EVFLAG_DEFEAT_ALL（本来没有敌人时不算）', () {
+    const blues = [BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true)];
+    expect(
+      deriveEventFlags(
+        units: const [
+          ...blues,
+          BattleUnitView(charIndex: 104, faction: Faction.red, alive: false),
+        ],
+        chapterIndex: 0,
+        defeatTalk: const [],
+        charNameOf: _charName,
+      ),
+      contains(EventFlags.defeatAll),
+    );
+    expect(
+      deriveEventFlags(
+        units: blues,
+        chapterIndex: 0,
+        defeatTalk: const [],
+        charNameOf: _charName,
+      ),
+      isNot(contains(EventFlags.defeatAll)),
+      reason: '本来就没有敌人，不该算"敌全灭"',
+    );
+  });
+
+  test('★★ 端到端：击破首领 -> 命中 EndingScene（第 ④ 步的判据）', () {
+    // 这一步把两半拼起来：**推导出的标志** 喂给 **条件判定器**
+    final flags = deriveEventFlags(
+      units: const [
+        BattleUnitView(charIndex: 104, faction: Faction.red, alive: false),
+        BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true),
+      ],
+      chapterIndex: 0,
+      defeatTalk: const [oneillTalk],
+      charNameOf: _charName,
+    );
+    final hit = prologue().firstMatch(flags.contains);
+    expect(hit, isNotNull, reason: '击破首领后应当命中一条条件');
+    expect(hit!.script, 'EventScr_Prologue_EndingScene',
+        reason: '序章击破首领 -> 演结束脚本 -> 它内部 MNC2(1) 切到第 1 章');
   });
 }

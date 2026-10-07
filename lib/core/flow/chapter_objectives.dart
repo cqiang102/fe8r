@@ -52,6 +52,8 @@
 //
 // 序章的首领就是奥尼尔。见 `tools/pipeline/out/tables/defeat_talk.json`。
 
+import '../battle/phase.dart';
+
 /// 事件标志（`include/constants/event-flags.h`）
 class EventFlags {
   const EventFlags._();
@@ -181,4 +183,125 @@ class ChapterObjectives {
     }
     return null;
   }
+}
+
+
+// ---------------------------------------------------------------- 标志推导
+
+/// 一条 `gDefeatTalkList` 条目 —— **"首领"的操作性定义**
+class DefeatTalkEntry {
+  const DefeatTalkEntry({
+    required this.pid,
+    required this.chapter,
+    required this.flag,
+  });
+
+  factory DefeatTalkEntry.fromJson(Map<String, dynamic> j) => DefeatTalkEntry(
+        pid: j['pid'] as String?,
+        chapter: j['chapter'] as String?,
+        flag: j['flag'] as String?,
+      );
+
+  /// 角色符号名（`CHARACTER_ONEILL`）
+  final String? pid;
+
+  /// 章节符号名（`CHAPTER_L_PROLOGUE`）
+  final String? chapter;
+
+  /// 死亡时要置上的标志符号名（`EVFLAG_DEFEAT_BOSS`）
+  final String? flag;
+}
+
+/// 章节号 → `gDefeatTalkList` 里的章节符号名
+///
+/// 只列到第 1 章 —— 本目标只要求"第一章及之前"。
+/// 后面的章节要接进来时在这里补，**不要瞎猜**。
+String? defeatTalkChapterName(int chapterIndex) {
+  switch (chapterIndex) {
+    case 0:
+      return 'CHAPTER_L_PROLOGUE';
+    case 1:
+      return 'CHAPTER_L_1';
+    case 2:
+      return 'CHAPTER_L_2';
+    case 3:
+      return 'CHAPTER_L_3';
+  }
+  return null;
+}
+
+/// `EVFLAG_*` 符号名 → 数值
+int? flagByName(String? name) {
+  switch (name) {
+    case 'EVFLAG_DEFEAT_BOSS':
+      return EventFlags.defeatBoss;
+    case 'EVFLAG_DEFEAT_ALL':
+      return EventFlags.defeatAll;
+    case 'EVFLAG_WIN':
+      return EventFlags.win;
+    case 'EVFLAG_GAMEOVER':
+      return EventFlags.gameOver;
+  }
+  return null;
+}
+
+/// 从**战场现状**推导隐含的事件标志。
+///
+/// ## 为什么用"推导"而不是"挂钩每一次死亡"
+///
+/// 原作是在具体时机置标志的（单位死亡时查 `gDefeatTalkList`）。
+/// 本实现选择"每次行动后按现状推导" —— **判据完全一样**
+/// （首领没了 / 主角没了 / 敌人全没了），只是计算时机不同。
+/// 好处是它是**纯函数**，可以单测。
+///
+/// [chapterIndex] 章节号；[defeatTalk] 首领表；
+/// [charNameOf] `charIndex` -> 符号名；[chapterName] 章号 -> 表里的符号名。
+Set<int> deriveEventFlags({
+  required List<BattleUnitView> units,
+  required int chapterIndex,
+  required List<DefeatTalkEntry> defeatTalk,
+  required String? Function(int charIndex) charNameOf,
+}) {
+  final flags = <int>{};
+  final want = defeatTalkChapterName(chapterIndex);
+
+  // 首领阵亡
+  for (final e in defeatTalk) {
+    if (want != null && e.chapter != want) continue;
+    final pid = e.pid;
+    if (pid == null) continue;
+    // 表里是符号名 —— 找哪个单位的 charIndex 对得上
+    final boss = units.where((u) => charNameOf(u.charIndex) == pid).firstOrNull;
+    if (boss != null && !boss.alive) {
+      final f = flagByName(e.flag);
+      if (f != null) flags.add(f);
+    }
+  }
+
+  // 主角（蓝色方第一个）阵亡 -> GameOver
+  final blues = units.where((u) => u.faction == Faction.blue).toList();
+  if (blues.isNotEmpty && blues.every((u) => !u.alive)) {
+    flags.add(EventFlags.gameOver);
+  }
+
+  // 敌全灭（且本来有敌人）
+  final reds = units.where((u) => u.faction == Faction.red).toList();
+  if (reds.isNotEmpty && reds.every((u) => !u.alive)) {
+    flags.add(EventFlags.defeatAll);
+  }
+
+  return flags;
+}
+
+/// 推导时需要的单位视图 —— 只暴露必要的字段，避免 core 依赖 `MapUnit` 的具体形状
+class BattleUnitView {
+  const BattleUnitView({
+    required this.charIndex,
+    required this.faction,
+    required this.alive,
+  });
+
+  final int charIndex;
+  final int faction;
+  final bool alive;
 }

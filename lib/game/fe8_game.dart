@@ -725,72 +725,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 从**战场现状**推导隐含的事件标志。
   ///
-  /// 原作的标志是由引擎在具体时机置上的（单位死亡时查 `gDefeatTalkList`）。
-  /// 这里用「每次行动后按现状推导」的等价做法 ——
-  /// **判据一样**（首领没了 / 主角没了 / 敌人全没了），只是时机不同。
+  /// ⚠️ 推导逻辑在 **core**（`deriveEventFlags`）—— 这里只是把游戏状态喂给它。
+  /// 放在 core 的好处是它是纯函数、**可以单测**；
+  /// 第 ④ 步（击破首领 -> 命中 EndingScene）的机器判据就在那里。
   void _deriveFlags() {
     final f = field;
     if (f == null) return;
-
-    // 首领阵亡：查 `gDefeatTalkList` 里本章的条目
-    for (final e in _defeatTalk) {
-      final ch = e['chapter'] as String?;
-      // `CHAPTER_L_PROLOGUE` / `CHAPTER_L_1` … 只认本章
-      if (ch == null) continue;
-      // 章号对不上就跳过（粗略匹配：PROLOGUE=0，L_1=1 …）
-      final want = _chapterNameForDefeatTalk(sceneChapter);
-      if (want != null && ch != want) continue;
-      final pid = _charNames?.entries
-          .where((kv) => kv.value == e['pid'])
-          .map((kv) => kv.key)
-          .firstOrNull;
-      if (pid == null) continue;
-      final boss = f.units.where((u) => u.charIndex == pid).firstOrNull;
-      if (boss != null && !boss.isAlive) {
-        final flag = _flagByName(e['flag'] as String?);
-        if (flag != null) eventFlags.add(flag);
-      }
-    }
-
-    // 主角阵亡 -> GameOver
-    final lord = f.units.where((u) => u.faction == Faction.blue).firstOrNull;
-    if (lord != null && !lord.isAlive) {
-      eventFlags.add(EventFlags.gameOver);
-    }
-
-    // 敌全灭
-    final anyEnemy = f.units.any((u) => u.faction == Faction.red && u.isAlive);
-    if (!anyEnemy && f.units.any((u) => u.faction == Faction.red)) {
-      eventFlags.add(EventFlags.defeatAll);
-    }
-  }
-
-  String? _chapterNameForDefeatTalk(int ch) {
-    switch (ch) {
-      case 0:
-        return 'CHAPTER_L_PROLOGUE';
-      case 1:
-        return 'CHAPTER_L_1';
-      case 2:
-        return 'CHAPTER_L_2';
-      case 3:
-        return 'CHAPTER_L_3';
-    }
-    return null;
-  }
-
-  int? _flagByName(String? n) {
-    switch (n) {
-      case 'EVFLAG_DEFEAT_BOSS':
-        return EventFlags.defeatBoss;
-      case 'EVFLAG_DEFEAT_ALL':
-        return EventFlags.defeatAll;
-      case 'EVFLAG_WIN':
-        return EventFlags.win;
-      case 'EVFLAG_GAMEOVER':
-        return EventFlags.gameOver;
-    }
-    return null;
+    eventFlags.addAll(deriveEventFlags(
+      units: [
+        for (final u in f.units)
+          BattleUnitView(
+            charIndex: u.charIndex,
+            faction: u.faction,
+            alive: u.isAlive,
+          ),
+      ],
+      chapterIndex: sceneChapter,
+      defeatTalk: [for (final e in _defeatTalk) DefeatTalkEntry.fromJson(e)],
+      charNameOf: (i) => _charNames?[i],
+    ));
   }
 
   /// **检查胜负条件** —— 每次行动后与回合结束时调用。
