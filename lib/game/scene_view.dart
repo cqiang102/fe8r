@@ -296,6 +296,63 @@ class SceneView {
     return cur > best ? cur : best;
   }
 
+  /// **章节标题卡**（`MNC2` 换章之后、地图淡入之前）。
+  ///
+  /// ## 出处
+  ///
+  /// `src/ChapterIntro_DrawChapterTitle.c:23-37`
+  ///
+  /// ```c
+  /// BG_Fill(gBG0TilemapBuffer, TILEREF(0x280, 1));       // 整屏图块
+  /// ApplyChapterTitlePal(8, 5);
+  /// titleId = GetChapterTitleWM(&gPlaySt);               // ← 章节标题消息 id
+  /// _PutChapterTitleGfx(0x280, titleId);
+  /// DrawChapterTitleStrEx_jp(TILEMAP_LOCATED(gBG0TilemapBuffer, 3, 9), 5, titleId);
+  /// ```
+  ///
+  /// 所以标题字符串画在**图块 (3,9)**（= 像素 (24,72)），停留一会儿，
+  /// 然后 `ChapterIntro_LoopFadeToMap`（`src/chapterintrofx_0802099C.c:46-92`）
+  /// 把地图**混合淡入**。跳过由 `ChapterIntro_TickTimerMaybe` 处理：
+  ///
+  /// ```c
+  /// if (proc->isSkipping != 0) { Proc_Break(proc); return; }
+  /// ```
+  ///
+  /// ## ⚠️ 两处如实说明
+  ///
+  /// * **底色图没有移植**（`_PutChapterTitleGfx` 用的整屏图块）——
+  ///   这里用纯色底 + 真标题字符串。字符串本身是真数据
+  ///   （`texts.titles[内部名]`，如 `L01` = 消息 233「脱出行」）。
+  /// * **停留时长的初值在未 carve 的 `gProcScr_ChapterIntro` 里** ——
+  ///   未查证。这里取 2 秒，抽成 [hold] 便于以后对准。
+  ///
+  /// 不做这一步的症状：换章后 `MNC2` 之前那次 `FADI` 留下的黑屏**永远不散**
+  /// （原作是靠这一段把地图淡回来的）—— 序章打完切到第 1 章就是一片黑。
+  Future<void> chapterIntro(
+    String title, {
+    required bool Function() skipping,
+    Duration hold = const Duration(seconds: 2),
+  }) async {
+    if (title.isEmpty) return;
+    final size =
+        _screenSize == Vector2.zero() ? Vector2(240, 160) : _screenSize;
+    final card = ChapterTitleCardComponent(
+      title: title,
+      size: size,
+    )..priority = 50;
+    layer.add(card);
+    onHudChanged();
+
+    // 停留：按帧轮询 `skipping`（START 可跳过，与 `ChapterIntro_TickTimerMaybe` 一致）
+    final end = DateTime.now().add(hold);
+    while (DateTime.now().isBefore(end)) {
+      if (skipping()) break;
+      await Future<void>.delayed(const Duration(milliseconds: 16));
+    }
+    card.removeFromParent();
+    onHudChanged();
+  }
+
   /// 按槽位表同步立绘组件。
   ///
   /// 立绘**不属于对话框** —— 它是独立的一层，位置由

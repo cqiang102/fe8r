@@ -755,9 +755,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
     // 演出期间按 START = **快进整段剧情**
     // （`src/event_0800D110.c:25-28` 置 `EV_STATE_SKIPPING`）
-    if (i == FlowInput.start && _sceneRunning) {
-      scene?.startSkip();
-      return;
+    if (i == FlowInput.start) {
+      _skipRequested = true;   // 章节标题卡也看这个（`ChapterIntro_TickTimerMaybe`）
+      if (_sceneRunning) {
+        scene?.startSkip();
+        return;
+      }
     }
     input(i);
   }
@@ -1824,8 +1827,39 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (chapterIndex < 0 || chapterIndex >= _chapterLinks.length) return;
     sceneChapter = chapterIndex;
     await _loadChapterMap(chapterIndex);
+
+    // ★ **章节标题卡 + 地图淡入**。
+    //
+    // 出处：`MNC2`（`src/Event2A_MoveToChapter.c:39-47`）只置
+    // `EV_STATE_CHANGECH` 并停掉 BGM；真正把画面从黑里带回来的是
+    // 章节开头那一套 `gProcScr_ChapterIntro`
+    // （`src/ChapterIntro_DrawChapterTitle.c` 画标题、
+    //  `src/chapterintrofx_0802099C.c:46` 的 `ChapterIntro_LoopFadeToMap` 混合淡入）。
+    //
+    // ⚠️ 不做这一步的症状：`MNC2` **之前**那次 `FADI` 留下的黑屏**永远不散**
+    // —— 序章打完切到第 1 章就是一片黑（地图和单位都在，但看不见）。
+    _skipRequested = false;
+    await _sceneView?.chapterIntro(
+      chapterTitle(chapterIndex),
+      skipping: () => _skipRequested,
+    );
+    await _sceneView?.fade(FadeDirection.fromBlack, 16,
+        camera.viewport.virtualSize);
+
     await _startRealScene();
   }
+
+  /// 章节标题（`texts.titles[内部名]`，如 `L01` = 消息 233「脱出行」）
+  ///
+  /// 出处：`src/chapter_title.c:37` `GetChapterTitleWM` →
+  /// `GetROMChapterStruct(chapterData->chapterIndex)->chapTitleId`。
+  String chapterTitle(int chapterIndex) {
+    final name = chapterInternalName(chapterIndex);
+    return gameTexts?.titles[name] ?? '';
+  }
+
+  /// START 键是否被按过（章节标题卡用它跳过）
+  bool _skipRequested = false;
 
   /// 把当前这句对白画进对话框
   /// 换地图：`LOMA(chapterIndex)`。

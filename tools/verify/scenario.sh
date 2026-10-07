@@ -80,6 +80,9 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,right,confirm,down,confirm,endturn"
     SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,up,confirm,down,confirm,confirm,endturn"
     SCRIPT="$SCRIPT,confirm,confirm,down,confirm,confirm,endturn"
+    # 第 1 章的开场脚本会先淡到黑；再跳一次过场 + 等两拍，
+    # 截图才看得到地图（判据看的是转储，不看这张图）。
+    SCRIPT="$SCRIPT,start,wait,wait"
     ;;
   *)
     echo "未知场景 $SCENARIO" >&2
@@ -118,4 +121,30 @@ if [ ! -f "$DUMP" ]; then
 fi
 
 echo "  [scenario] ✓ $SCENARIO 转储 $(stat -f%z "$DUMP") 字节（截图 $(stat -f%z "$PNG" 2>/dev/null || echo '?') 字节）"
+
+# ★ 画面判据（只对要看的场景）：**换章之后不能是一片黑**。
+#
+# 起因：`MNC2` 之前那次 `FADI` 留下的黑屏，原作是靠章节标题卡的
+# `ChapterIntro_LoopFadeToMap` 淡回来的；我们没实现时，切到第 1 章
+# 画面**全黑**（地图和单位都在，就是看不见）。转储看不出这件事，
+# 只有像素能证明 —— 所以这里量一次像素比例。
+if [ "$SCENARIO" = "battle" ]; then
+  python3 - "$PNG" <<'PYEOF'
+import sys
+from PIL import Image
+im = Image.open(sys.argv[1]).convert('RGB')
+w, h = im.size
+# 只看中间那块（HUD 在上下两条）
+crop = im.crop((0, int(h*0.2), w, int(h*0.75)))
+px = list(crop.getdata())
+nonblack = sum(1 for r, g, b in px if r + g + b > 60)
+ratio = nonblack / len(px)
+print(f"  [scenario] 画面非黑像素比例 {ratio:.3f}（{len(px)} 个像素）")
+if ratio < 0.05:
+    print("  [scenario] ✗ 画面几乎全黑 —— 换章之后没有淡入", file=sys.stderr)
+    sys.exit(1)
+PYEOF
+  [ $? -ne 0 ] && exit 1
+fi
+
 cd "$ROOT" && "$DART" run tools/verify/check_dump.dart "$DUMP" --scenario "$SCENARIO"

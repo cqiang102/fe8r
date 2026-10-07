@@ -476,3 +476,52 @@ class DialogueBoxComponent extends PositionComponent {
 
 
 }
+
+// ---------------------------------------------------------------------------
+// 章节标题卡（`MNC2` 换章之后、地图淡入之前）
+//
+// 出处：`src/ChapterIntro_DrawChapterTitle.c:23-37`
+//
+//   BG_Fill(gBG0TilemapBuffer, TILEREF(0x280, 1));
+//   titleId = GetChapterTitleWM(&gPlaySt);
+//   DrawChapterTitleStrEx_jp(TILEMAP_LOCATED(gBG0TilemapBuffer, 3, 9), 5, titleId);
+//
+// 标题字符串画在**图块 (3,9)** = 像素 (24,72)。
+//
+// ⚠️ 底色图（`_PutChapterTitleGfx` 的整屏图块）**没有移植** ——
+// 这里用纯色底代替，字符串是真数据。
+// ---------------------------------------------------------------------------
+
+/// 章节标题卡：整屏底色 + 标题字符串（图块 (3,9)）
+class ChapterTitleCardComponent extends PositionComponent {
+  ChapterTitleCardComponent({
+    required this.title,
+    required Vector2 size,
+  }) : super(size: size.clone());
+
+  final String title;
+
+  @override
+  Future<void> onLoad() async {
+    add(RectangleComponent(
+      size: size.clone(),
+      paint: Paint()..color = const Color(0xFF0B0F14),
+      priority: 0,
+    ));
+
+    // 原作画在**图块 (3,9)**：像素 (24, 72)
+    final text = TextComponent(
+      text: title,
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          fontSize: 16,
+          color: Color(0xFFF2E6C8),
+          fontFamily: 'monospace',
+        ),
+      ),
+      position: Vector2(24, 72),
+      priority: 1,
+    );
+    add(text);
+  }
+}
