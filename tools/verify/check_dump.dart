@@ -118,8 +118,25 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
   if (scenario == 'prologue') {
     ok(map?['id'] == 'PrologueMap', '序章：地图是 PrologueMap',
         'map.id=${map?['id']}');
-    ok((d['mapHistory'] as String? ?? '').contains('PrologueMap'),
-        '序章：LOMA(0) 真的切过图', 'history=${d['mapHistory']}');
+
+    // ★ **序章是"三张图、三段剧情"** —— 用户原话：
+    //   「卫兵向国王报告的背景地图应该是王宫里，等等一波剧情，
+    //     还有王宫外的场景，再后面才到序章的游玩场景地图」
+    //
+    // 出处：`EventScr_Prologue_RenaisThroneCutscene` 的三次 LOMA
+    //   LOMA(0x10=16) → Ch16Map         （王座厅 / 城堡内景）
+    //   LOMA(0x40=64) → RenaisCastleMap （Renais 城）
+    //   LOMA(0)       → PrologueMap     （可玩地图）
+    //
+    // ⚠️ 这一条能抓到一个真 bug：`chapter_maps.json` 是按**资产符号名**
+    // 建的表（那一章叫 `CH65`），而 `chapters.json` 里它是 `'-'` ——
+    // `LOMA(64)` 因此**静默不换图**，第二幕整段消失。
+    final history = d['mapHistory'] as String? ?? '';
+    for (final m in const ['Ch16Map', 'RenaisCastleMap', 'PrologueMap']) {
+      ok(history.contains(m), '序章：地图历史里有 $m', 'history=$history');
+    }
+    final fails = (d['mapLoadFailures'] as List?) ?? const [];
+    ok(fails.isEmpty, '序章：没有 LOMA 失败', 'failures=$fails');
 
     // `UnitDef_Event_PrologueAlly` = 赛特(charIndex 2) + 艾莉卡(charIndex 1)
     // `UnitDef_Event_PrologueEnemy` = 奥尼尔(104) + 两个杂兵(130/128)
@@ -237,6 +254,12 @@ Map<String, Map<String, dynamic>> brokenDumps() {
   out['相机越界'] = base()
     ..['camera'] = {'x': 9999.0, 'y': 0.0};
 
+  out['序章少了「王宫外」那张图'] = base()
+    ..['mapHistory'] = 'Ch16Map PrologueMap';
+
+  out['序章有 LOMA 失败'] = base()
+    ..['mapLoadFailures'] = ['LOMA(64) → 章节表里没有地图名'];
+
   out['序章没拿到细剑'] = base()
     ..['units'] = [
       {
@@ -346,7 +369,8 @@ Map<String, dynamic> goodDump() => {
         'missing': <String>[],
         'placeholders': <String>[],
       },
-      'mapHistory': 'Ch16Map PrologueMap',
+      'mapHistory': 'Ch16Map RenaisCastleMap PrologueMap',
+      'mapLoadFailures': <String>[],
     };
 
 int runSelfTest() {

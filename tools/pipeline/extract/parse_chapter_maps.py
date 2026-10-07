@@ -50,6 +50,7 @@ def main():
 
     # 「章节 → 资产」段：`  L00   tileset=...  map=PrologueMap`
     out = {}
+    ordered = []          # 与 gChapterDataTable 同序 —— index 就是它的下标
     seen = False
     for line in r.stdout.split("\n"):
         if "章节 → 资产" in line:
@@ -62,25 +63,76 @@ def main():
             continue
         name, tileset, pal, tsa, mp = m.groups()
         out[name] = {"tileset": tileset, "palette": pal, "tsa": tsa, "map": mp}
+        ordered.append(name)
 
     if not out:
         print("错误：没解析到任何章节→地图映射", file=sys.stderr)
         return 1
+
+    # ★ 同时按 **index** 发一份。
+    #
+    # ## 为什么必须按 index
+    #
+    # `map_render.py --list` 打的是**资产表里的符号名**：能查到名字的章节是
+    # `L00` / `E15`，查不到的是 `CH64` / `CH67`（这些是过场/外传章）。
+    # 而 `chapters.json` 里同一批章节的 `internalName` 是 **`-`**：
+    #
+    #     index 64:  chapters.json internalName = '-'   （没有章节名）
+    #                chapter_maps.json 的键     = 'CH64'
+    #
+    # 于是 `Fe8Game.chapterMapName('-')` 返回 null → `LOMA(64)` **静默不换图**。
+    # 后果：序章的"王宫外"那一幕没有地图（用户指出的），
+    # 以及脚本里用到的 46 个 LOMA 目标里有 **11 个**查不到。
+    #
+    # index 是两边都有的、无歧义的键 —— 用它join。
+    idx_by_name = {name: i for i, name in enumerate(ordered)}
+
+    by_index = {}
+    for name, v in out.items():
+        i = idx_by_name.get(name)
+        if i is not None:
+            by_index[str(i)] = dict(v, name=name)
+    if len(by_index) != len(out):
+        print(f"⚠️ 按 index 只有 {len(by_index)} 条，按名字有 {len(out)} 条",
+              file=sys.stderr)
+
+    # 对齐判据：凡 `chapters.json` 里有真名的章节，两边名字必须一致。
+    # 不一致说明两个提取器的章节顺序错开了 —— 那 index join 就不可信。
+    cj = os.path.join(a.out, "chapters.json")
+    if os.path.exists(cj):
+        ch = json.load(open(cj, encoding="utf-8"))["chapters"]
+        mism = []
+        for c in ch:
+            n, i = c["internalName"], c["index"]
+            if n == "-":
+                continue
+            got = by_index.get(str(i), {}).get("name")
+            if got != n:
+                mism.append((i, n, got))
+        if mism:
+            print(f"❌ chapters.json 与 chapter_maps 的章节顺序对不上：{mism[:5]}",
+                  file=sys.stderr)
+            return 1
+        print(f"  对齐判据：{sum(1 for c in ch if c['internalName'] != '-')} "
+              f"个有名字的章节，index 与名字全部一致 ✓")
 
     os.makedirs(a.out, exist_ok=True)
     dst = os.path.join(a.out, "chapter_maps.json")
     with open(dst, "w", encoding="utf-8") as f:
         json.dump({
             "source": "gChapterDataTable / gChapterDataAssetTable",
-            "note": "LOMA 的操作数是 chapterIndex；下表用内部名（L00/E15/CH64…）",
+            "note": "LOMA 的操作数是 chapterIndex；`byIndex` 是权威键，"
+                    "`chapters` 按资产符号名（L00/E15/CH64…）保留给人读",
+            "byIndex": by_index,
             "chapters": out,
         }, f, ensure_ascii=False, indent=1)
     named = sum(1 for v in out.values() if v["map"] != "?")
     print(f"章节 {len(out)} 个，其中 {named} 个有地图名")
-    print(f"  序章用到的三张：")
-    for k in ("L00", "E15", "CH64"):
-        if k in out:
-            print(f"    {k:<6} → {out[k]['map']}")
+    print(f"  序章用到的三张（按 index）：")
+    for i in (0, 16, 64):
+        v = by_index.get(str(i))
+        print(f"    index {i:<3} name={v['name'] if v else '?':<6} "
+              f"→ {v['map'] if v else '（缺）'}")
     print(f"→ {dst}  ({os.path.getsize(dst) // 1024} KB)")
     return 0
 

@@ -395,6 +395,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             },
       'objectiveHit': _lastObjectiveHit,
       'mapHistory': _sceneMapHistory.trim(),
+      // ⚠️ `mapHistory` 只记**成功**的切换。失败的那次原来哪都不写 ——
+      // 于是"序章有三张图"这件事在我自己的诊断里也是完整的，
+      // 缺的那张根本不在记录里（我就这么漏掉了"王宫外"那一幕）。
+      'mapNote': sceneMapNote,
+      'mapLoadFailures': _mapLoadFailures.toList(),
       'trace': _trace.toList(),
       'lastCombat': lastCombat,
       'hud': hud.value,
@@ -892,10 +897,31 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           await _gotoChapter(chapterIndex);
 
         case LoadMap(:final chapterIndex):
-          // ⚠️ 操作数是 **chapterIndex**（`src/eventscr_0800F390.c:45-68`）。
-          // 路由：chapterIndex → chapters.json 的 internalName
-          //       → chapter_maps.json 的 map 名 → TMX
-          await _loadChapterMap(chapterIndex);
+          // 出处：`src/eventscr_0800F390.c:31-72`（`Event25_ChangeMap`）
+          //
+          // ```c
+          // short chIndex = current[1];                       // 操作数 = chapterIndex
+          // x = ((u16 *)(gEventSlots + 0xB))[0];              // 槽 0xB 低 16 = 相机 x
+          // y = ((u16 *)(gEventSlots + 0xB))[1];              // 槽 0xB 高 16 = 相机 y
+          // if (chIndex < 0) chIndex = gEventSlots[2];        // ★ 负数 = 用槽 2
+          // gPlaySt.chapterIndex = chIndex;
+          // RestartBattleMap();
+          // gBmSt.camera.x = GetCameraCenteredX(x * 16);
+          // gBmSt.camera.y = GetCameraCenteredY(y * 16);
+          // ```
+          //
+          // ⚠️ 脚本里真的用到负数那条路：`EventScr_CutsceneExecEnd_Sub1`
+          // 是 `SVAL(0xB, 0)` + `LOMA(0xFFFF)` —— `0xFFFF` 当 **signed short**
+          // 就是 -1 → 章节号从**槽 2** 取。
+          final sc = scene;
+          final resolved = resolveLomaChapter(
+            chapterIndex,
+            sc?.slotInt(2) ?? 0,
+          );
+          final cam = sc == null
+              ? (x: 0, y: 0)
+              : lomaCamera(sc.slotInt(0xB));
+          await _loadChapterMap(resolved, cameraX: cam.x, cameraY: cam.y);
 
         case Choice(:final defaultYes):
           // ⚠️ 结果是 **0=取消 / 1=是 / 2=否**，写进**槽 0xC**
@@ -1524,18 +1550,39 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 出处：`src/eventscr_0800F390.c:45-68` —— 操作数是 **chapterIndex**，
   /// 不是资产 id；序章靠三次 `LOMA` 在王座厅 → 王宫外 → 可玩地图之间切。
-  Future<void> _loadChapterMap(int chapterIndex) async {
-    final name = chapterInternalName(chapterIndex);
-    final mapName = chapterMapName(name);
+  /// 换地图 —— `LOMA(chapterIndex)`。
+  ///
+  /// ## ⚠️ 查表必须**按 index**
+  ///
+  /// 原来走的是 `chapterIndex → chapters.json[].internalName
+  /// → chapter_maps.json[内部名]` —— 而两张表对同一章用的键**不一样**：
+  ///
+  /// ```
+  /// index 64: chapters.json 的 internalName = '-'      （这一章没有名字）
+  ///           chapter_maps.json 的键        = 'CH65'
+  /// ```
+  ///
+  /// 于是 `chapterMapName('-')` 返回 null → **静默不换图**。
+  /// 序章的"王宫外"那一幕（`LOMA(0x40)` = 64）就是这么丢的
+  /// （用户指出的），脚本里 46 个 LOMA 目标里有 11 个受影响。
+  ///
+  /// 现在按 `byIndex` 查；名字只作兜底，而且**失败会记下来**。
+  Future<void> _loadChapterMap(
+    int chapterIndex, {
+    int? cameraX,
+    int? cameraY,
+  }) async {
+    final mapName = chapterMapNameByIndex(chapterIndex) ??
+        chapterMapName(chapterInternalName(chapterIndex));
     if (mapName == null) {
-      sceneMapNote = 'LOMA($chapterIndex) → 章节 $name 没有地图名';
-      _updateHud();
+      sceneMapNote = 'LOMA($chapterIndex) → 章节表里没有地图名';
+      _noteMapFailure(chapterIndex, sceneMapNote);
       return;
     }
     // 资源在 `assets/maps/`（与 `TiledComponent` 的默认查找前缀一致）
     if (!File('assets/maps/$mapName.tmx').existsSync()) {
       sceneMapNote = 'LOMA($chapterIndex) → assets/maps/$mapName.tmx 不存在';
-      _updateHud();
+      _noteMapFailure(chapterIndex, sceneMapNote);
       return;
     }
     // 先把网格解析好（`_swapMap` 里要用它更新左上角与战场尺寸）
@@ -1573,17 +1620,38 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     );
     _eventMoveTargets.clear();
     eventFlags.clear();
-    //  结尾会把相机居中到  的坐标
-    // （）。这里先居中到地图中央，
-    // 之后的  指令会再调整。
-    _centerCameraOn((g?.width ?? 2) ~/ 2, (g?.height ?? 2) ~/ 2);
+
+    // ★ 相机：`LOMA` 会把槽 0xB 的 (x, y) 居中（`Event25_ChangeMap` 结尾两行）。
+    // 不给就居中到地图中央。
+    //
+    // ⚠️ 这一条**不是装饰**：序章王座厅那一幕 `SVAL(EVT_SLOT_B, 0x000A000E)`
+    // 明确要求相机在 (14, 10)，而地图中央是另一处 —— 取景不同，看到的
+    // 房间也不同（用户说的"背景地图应该是王宫里"）。
+    _centerCameraOn(
+      cameraX ?? (g?.width ?? 2) ~/ 2,
+      cameraY ?? (g?.height ?? 2) ~/ 2,
+    );
 
     sceneMapNote = 'LOMA($chapterIndex) → $mapName';
     // 地图切换历史 —— 用它判断脚本走到了哪一步
     _sceneMapHistory = '$_sceneMapHistory $mapName';
     _updateHud();
+  }
+
+  /// LOMA 失败**必须留痕**。
+  ///
+  /// 原来只写 `sceneMapNote`（一个 HUD 字段），而 `_sceneMapHistory`
+  /// 照旧 —— 于是转储里"地图历史"看起来是完整的，
+  /// **缺的那一张根本不在记录里**。我就是这么漏掉序章第二幕的。
+  void _noteMapFailure(int chapterIndex, String why) {
+    _sceneMapHistory = '$_sceneMapHistory !LOMA($chapterIndex)';
+    if (!_mapLoadFailures.contains(why)) _mapLoadFailures.add(why);
+    debugPrint('[LOMA] 失败：$why');
     _updateHud();
   }
+
+  /// LOMA 失败原因（转储里会带出来）
+  final List<String> _mapLoadFailures = [];
 
   /// 章节号 → 内部名（`chapters.json`）
   String chapterInternalName(int index) {
@@ -1593,8 +1661,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     return '-';
   }
 
-  /// 内部名 → 地图名（`chapter_maps.json`）
+  /// 内部名 → 地图名（`chapter_maps.json` 的 `chapters`，仅供人读）
   String? chapterMapName(String internalName) => _chapterMaps[internalName];
+
+  /// **章节号 → 地图名**（`chapter_maps.json` 的 `byIndex`，权威键）
+  ///
+  /// ⚠️ 必须用 index：`chapters.json` 里 19 个过场章的 `internalName` 是 `'-'`，
+  /// 而 `chapter_maps.json`（按资产符号名）里它们是 `CH64` / `CH67` 这种 ——
+  /// **两张表对同一章用的键不同**，用名字 join 必然静默漏掉。
+  String? chapterMapNameByIndex(int index) =>
+      _chapterMapsByIndex[index.toString()];
+
+  Map<String, String> _chapterMapsByIndex = const {};
 
   Map<String, String> _chapterMaps = const {};
   String sceneMapNote = '';
@@ -1617,6 +1695,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final ch = d['chapters'] as Map<String, dynamic>;
     _chapterMaps = {
       for (final e in ch.entries)
+        e.key: ((e.value as Map<String, dynamic>)['map'] as String),
+    };
+    // 权威键（`LOMA` 的操作数是 chapterIndex）
+    final byIdx = d['byIndex'] as Map<String, dynamic>? ?? const {};
+    _chapterMapsByIndex = {
+      for (final e in byIdx.entries)
         e.key: ((e.value as Map<String, dynamic>)['map'] as String),
     };
   }

@@ -261,3 +261,39 @@ class ChapterEvents {
     return out;
   }
 }
+
+// ---------------------------------------------------------------------------
+// `LOMA` / `CAMERA` 的**操作数语义**
+//
+// 出处：`src/eventscr_0800F390.c:31-72`（`Event25_ChangeMap`）
+//
+// ```c
+// short chIndex = current[1];
+// x = ((u16 *)(gEventSlots + 0xB))[0];
+// y = ((u16 *)(gEventSlots + 0xB))[1];
+// if (chIndex < 0) chIndex = gEventSlots[2];
+// gPlaySt.chapterIndex = chIndex;
+// RestartBattleMap();
+// gBmSt.camera.x = GetCameraCenteredX(x * 16);
+// gBmSt.camera.y = GetCameraCenteredY(y * 16);
+// ```
+//
+// 两处都容易想当然：
+//
+// 1. **`chIndex` 是有符号 short**。脚本里 `LOMA(0xFFFF)` 真的存在
+//    （`EventScr_CutsceneExecEnd_Sub1`），它的意思是"章节号取槽 2"，
+//    不是"第 65535 章"。当成无符号处理就永远查不到地图。
+// 2. **相机坐标在槽 0xB**：低 16 位是 x、高 16 位是 y
+//    （`SVAL(EVT_SLOT_B, 0x000A000E)` → x=14, y=10）。
+//    不读它就只能居中到地图中央 —— 取景就不是脚本要的那一块。
+
+/// `chIndex` 的解析（含"负数 → 用槽 2"这条分支）
+int resolveLomaChapter(int operand, int slot2) {
+  final u16 = operand & 0xFFFF;
+  final signed = u16 >= 0x8000 ? u16 - 0x10000 : u16;
+  return signed < 0 ? slot2 : signed;
+}
+
+/// `LOMA` 的相机坐标：槽 0xB 的**低 16 位 = x，高 16 位 = y**
+({int x, int y}) lomaCamera(int slotB) =>
+    (x: slotB & 0xFFFF, y: (slotB >> 16) & 0xFFFF);

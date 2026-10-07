@@ -1,6 +1,561 @@
 {
  "source": "gChapterDataTable / gChapterDataAssetTable",
- "note": "LOMA 的操作数是 chapterIndex；下表用内部名（L00/E15/CH64…）",
+ "note": "LOMA 的操作数是 chapterIndex；`byIndex` 是权威键，`chapters` 按资产符号名（L00/E15/CH64…）保留给人读",
+ "byIndex": {
+  "0": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "PrologueMap",
+   "name": "L00"
+  },
+  "1": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "Ch1Map",
+   "name": "L01"
+  },
+  "2": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "Ch2Map",
+   "name": "L02"
+  },
+  "3": {
+   "tileset": "ObjectType2",
+   "palette": "MapPalette2",
+   "tsa": "TileConfiguration2",
+   "map": "Ch3Map",
+   "name": "L03"
+  },
+  "4": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "Ch4Map",
+   "name": "L04"
+  },
+  "5": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette3",
+   "tsa": "TileConfiguration3",
+   "map": "Ch5XMap",
+   "name": "I05"
+  },
+  "6": {
+   "tileset": "ObjectType2",
+   "palette": "MapPalette2",
+   "tsa": "TileConfiguration2",
+   "map": "?",
+   "name": "L05"
+  },
+  "7": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "Ch6Map",
+   "name": "L06"
+  },
+  "8": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "Ch7Map",
+   "name": "L07"
+  },
+  "9": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette3",
+   "tsa": "TileConfiguration3",
+   "map": "Ch8Map",
+   "name": "L08"
+  },
+  "10": {
+   "tileset": "ObjectType2",
+   "palette": "MapPalette2",
+   "tsa": "TileConfiguration2",
+   "map": "Ch9EirikaMap",
+   "name": "E09"
+  },
+  "11": {
+   "tileset": "ObjectType4",
+   "palette": "MapPalette5",
+   "tsa": "TileConfiguration4",
+   "map": "Ch10EirikaMap",
+   "name": "E10"
+  },
+  "12": {
+   "tileset": "ObjectType4",
+   "palette": "MapPalette5",
+   "tsa": "TileConfiguration4",
+   "map": "Ch12EirikaMap",
+   "name": "E11"
+  },
+  "13": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette6",
+   "tsa": "TileConfiguration1",
+   "map": "Ch13EirikaMap",
+   "name": "E12"
+  },
+  "14": {
+   "tileset": "ObjectType5",
+   "palette": "MapPalette7",
+   "tsa": "TileConfiguration5",
+   "map": "Ch14EirikaMap",
+   "name": "E13"
+  },
+  "15": {
+   "tileset": "?",
+   "palette": "MapPalette8",
+   "tsa": "TileConfiguration6",
+   "map": "?",
+   "name": "E14"
+  },
+  "16": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette9",
+   "tsa": "TileConfiguration3",
+   "map": "Ch16Map",
+   "name": "E15"
+  },
+  "17": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette10",
+   "tsa": "TileConfiguration1",
+   "map": "Ch17Map",
+   "name": "E16"
+  },
+  "18": {
+   "tileset": "?",
+   "palette": "MapPalette11",
+   "tsa": "TileConfiguration7",
+   "map": "Ch18Map",
+   "name": "E17"
+  },
+  "19": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette12",
+   "tsa": "TileConfiguration3",
+   "map": "Ch19Map",
+   "name": "E18"
+  },
+  "20": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette13",
+   "tsa": "TileConfiguration1",
+   "map": "Ch20Map",
+   "name": "E19"
+  },
+  "21": {
+   "tileset": "ObjectType8",
+   "palette": "MapPalette14",
+   "tsa": "TileConfiguration8",
+   "map": "FinalChapterMap1",
+   "name": "E20"
+  },
+  "22": {
+   "tileset": "ObjectType8",
+   "palette": "MapPalette14",
+   "tsa": "TileConfiguration8",
+   "map": "FinalChapterMap2",
+   "name": "E20B"
+  },
+  "23": {
+   "tileset": "ObjectType5",
+   "palette": "MapPalette15",
+   "tsa": "TileConfiguration5",
+   "map": "Ch9EphMap",
+   "name": "I09"
+  },
+  "24": {
+   "tileset": "?",
+   "palette": "?",
+   "tsa": "TileConfiguration9",
+   "map": "Ch10EphraimMap",
+   "name": "I10"
+  },
+  "25": {
+   "tileset": "ObjectType2",
+   "palette": "MapPalette17",
+   "tsa": "TileConfiguration2",
+   "map": "Ch12EphraimMap",
+   "name": "I11"
+  },
+  "26": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "Ch13EphraimMap",
+   "name": "I12"
+  },
+  "27": {
+   "tileset": "ObjectType10",
+   "palette": "MapPalette18",
+   "tsa": "TileConfiguration10",
+   "map": "Ch14EphraimMap",
+   "name": "I13"
+  },
+  "28": {
+   "tileset": "?",
+   "palette": "MapPalette8",
+   "tsa": "TileConfiguration6",
+   "map": "?",
+   "name": "I14"
+  },
+  "29": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette9",
+   "tsa": "TileConfiguration3",
+   "map": "Ch16Map",
+   "name": "I15"
+  },
+  "30": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette10",
+   "tsa": "TileConfiguration1",
+   "map": "Ch17Map",
+   "name": "I16"
+  },
+  "31": {
+   "tileset": "?",
+   "palette": "MapPalette11",
+   "tsa": "TileConfiguration7",
+   "map": "Ch18Map",
+   "name": "I17"
+  },
+  "32": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette12",
+   "tsa": "TileConfiguration3",
+   "map": "Ch19Map",
+   "name": "I18"
+  },
+  "33": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette13",
+   "tsa": "TileConfiguration1",
+   "map": "Ch20Map",
+   "name": "I19"
+  },
+  "34": {
+   "tileset": "ObjectType8",
+   "palette": "MapPalette14",
+   "tsa": "TileConfiguration8",
+   "map": "FinalChapterMap1",
+   "name": "I20"
+  },
+  "35": {
+   "tileset": "ObjectType8",
+   "palette": "MapPalette14",
+   "tsa": "TileConfiguration8",
+   "map": "FinalChapterMap2",
+   "name": "I20B"
+  },
+  "36": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni1Map",
+   "name": "T01"
+  },
+  "37": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni2Map",
+   "name": "T02"
+  },
+  "38": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni3Map",
+   "name": "T03"
+  },
+  "39": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni4Map",
+   "name": "T04"
+  },
+  "40": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni5Map",
+   "name": "T05"
+  },
+  "41": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni6Map",
+   "name": "T06"
+  },
+  "42": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni7Map",
+   "name": "T07"
+  },
+  "43": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni8Map",
+   "name": "T08"
+  },
+  "44": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni8Map",
+   "name": "CH45"
+  },
+  "45": {
+   "tileset": "TowerOfValniObjectType",
+   "palette": "TowerOfValniMapPalette",
+   "tsa": "TowerOfValniTileConfiguration",
+   "map": "TowerOfValni8Map",
+   "name": "CH46"
+  },
+  "46": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins1Map",
+   "name": "R01"
+  },
+  "47": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins2Map",
+   "name": "R02"
+  },
+  "48": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins3Map",
+   "name": "R03"
+  },
+  "49": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins4Map",
+   "name": "R04"
+  },
+  "50": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins5Map",
+   "name": "R05"
+  },
+  "51": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins6Map",
+   "name": "R06"
+  },
+  "52": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins7Map",
+   "name": "R07"
+  },
+  "53": {
+   "tileset": "ObjectType3",
+   "palette": "LagdouRuins8Palette",
+   "tsa": "TileConfiguration3",
+   "map": "LagdouRuins8Map",
+   "name": "R08"
+  },
+  "54": {
+   "tileset": "?",
+   "palette": "MapPalette11",
+   "tsa": "TileConfiguration7",
+   "map": "LagdouRuins9Map",
+   "name": "R09"
+  },
+  "55": {
+   "tileset": "?",
+   "palette": "LagdouRuinsPalette",
+   "tsa": "TileConfiguration9",
+   "map": "LagdouRuins10Map",
+   "name": "R10"
+  },
+  "56": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "LordsSplitMap",
+   "name": "C00"
+  },
+  "57": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "MelkaenCoastMap",
+   "name": "H00"
+  },
+  "58": {
+   "tileset": "ObjectType5",
+   "palette": "MapPalette15",
+   "tsa": "TileConfiguration5",
+   "map": "LinkArenaMap",
+   "name": "CH59"
+  },
+  "59": {
+   "tileset": "ObjectType2",
+   "palette": "MapPalette2",
+   "tsa": "TileConfiguration2",
+   "map": "AnInterestingMap",
+   "name": "D00"
+  },
+  "60": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "DebugMap",
+   "name": "D01"
+  },
+  "61": {
+   "tileset": "ObjectType5",
+   "palette": "MapPalette19",
+   "tsa": "TileConfiguration5",
+   "map": "Ch11EirikaMap",
+   "name": "E10x"
+  },
+  "62": {
+   "tileset": "ObjectType2",
+   "palette": "MapPalette17",
+   "tsa": "TileConfiguration2",
+   "map": "Ch11EphraimMap",
+   "name": "I10x"
+  },
+  "63": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "GradoCastleMap",
+   "name": "CH64"
+  },
+  "64": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "RenaisCastleMap",
+   "name": "CH65"
+  },
+  "65": {
+   "tileset": "ObjectType4",
+   "palette": "MapPalette5",
+   "tsa": "TileConfiguration4",
+   "map": "CaerPelynMap",
+   "name": "CH66"
+  },
+  "66": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette9",
+   "tsa": "TileConfiguration3",
+   "map": "RenaisThroneMap",
+   "name": "CH67"
+  },
+  "67": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette9",
+   "tsa": "TileConfiguration3",
+   "map": "RenaisAudienceMap",
+   "name": "CH68"
+  },
+  "68": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette3",
+   "tsa": "TileConfiguration3",
+   "map": "RenvalGateMap",
+   "name": "CH69"
+  },
+  "69": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "GradoBordersMap",
+   "name": "CH70"
+  },
+  "70": {
+   "tileset": "ObjectType10",
+   "palette": "MapPalette18",
+   "tsa": "TileConfiguration10",
+   "map": "GradoPrisonMap",
+   "name": "CH71"
+  },
+  "71": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette9",
+   "tsa": "TileConfiguration3",
+   "map": "GradoShrineMapPast",
+   "name": "CH72"
+  },
+  "72": {
+   "tileset": "ObjectType3",
+   "palette": "MapPalette12",
+   "tsa": "TileConfiguration3",
+   "map": "RenaisShrineMap",
+   "name": "CH73"
+  },
+  "73": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "SomePathMap",
+   "name": "CH74"
+  },
+  "74": {
+   "tileset": "ObjectType5",
+   "palette": "MapPalette15",
+   "tsa": "TileConfiguration5",
+   "map": "SomeBuildingMap",
+   "name": "CH75"
+  },
+  "75": {
+   "tileset": "ObjectType10",
+   "palette": "AnotherShrinePalette",
+   "tsa": "TileConfiguration10",
+   "map": "?",
+   "name": "CH76"
+  },
+  "76": {
+   "tileset": "ObjectType1",
+   "palette": "MapPalette1",
+   "tsa": "TileConfiguration1",
+   "map": "AnotherPathMap",
+   "name": "CH77"
+  },
+  "77": {
+   "tileset": "ObjectType10",
+   "palette": "MapPalette18",
+   "tsa": "TileConfiguration10",
+   "map": "?",
+   "name": "CH78"
+  },
+  "78": {
+   "tileset": "ObjectType2",
+   "palette": "Ch5TownPalettePast",
+   "tsa": "TileConfiguration2",
+   "map": "?",
+   "name": "CH79"
+  }
+ },
  "chapters": {
   "L00": {
    "tileset": "ObjectType1",

@@ -400,6 +400,17 @@ Future<void> main(List<String> argv) async {
         ['tools/dsh/verify_preset.py'],
         note: '源码优先预设：工具集未变 / 派生可复现 / 基线未过期'),
 
+    // ★ 地图资源：脚本会用到的图，assets 里到底有没有。
+    //
+    // 两个真实事故：`chapter_maps.json` 按资产符号名建表（`CH65`）而
+    // `chapters.json` 那一章叫 `'-'` → `LOMA(64)` **静默不换图**
+    // （序章"王宫外"那一幕消失）；`assets/maps/` 只有 3 张图而 LOMA 目标
+    // 有 40+ —— `docs/images/ch1-map.png` 被当成"第一章加载了"，
+    // 而 HUD 上写的是 **PrologueMap**。
+    Step('L4', '地图资源覆盖（LOMA 目标）', 'dart',
+        ['run', 'tools/verify/check_map_assets.dart'],
+        note: '每个 LOMA 目标都要有地图名；已打包的必须与管线产物逐字节一致'),
+
     // ★ 占位符棘轮：`s.placeholder(...)` 与缺失脚本**只许降不许升**。
     //
     // 12 个真 bug 里有 3 个就是这个形状（`MNC2` / `LoadUnits` / `MOVE`

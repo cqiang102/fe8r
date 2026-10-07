@@ -1,0 +1,10 @@
+{
+ "note": "已知缺口基线：只许变好（见 check_map_assets.dart）",
+ "unresolvedIndices": [
+  6,
+  15,
+  28,
+  78
+ ],
+ "unbundledCount": 30
+}
