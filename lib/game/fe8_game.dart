@@ -21,6 +21,7 @@ import 'dart:ui' show Color;
 import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
 import 'package:fe8r/game/ctl_server.dart';
+import 'package:fe8r/game/world_map_view.dart';
 import 'package:fe8r/game/battle_view.dart';
 import 'package:fe8r/game/demo_event.dart';
 import 'package:fe8r/game/hud_view.dart';
@@ -482,6 +483,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'waitingFor': waitingFor,
       'phaseBanner': _bannerText,
       'lastPhaseBanner': _lastPhaseBanner,
+      // 大地图（`MNCH` 之后）
+      'worldMap': worldMap?.toJson(),
+      'worldMapTarget': _wmTargetChapter,
+      'worldMapNote': _worldMapNote,
+      'lastWmBeginningScript': _lastWmBeginningScript,
       // 教学事件（两段式：入队 → 触发）
       'tutorial': tutorial.toJson(),
       'tutorialTableSize': _currentTutorials.length,
@@ -824,6 +830,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         final n = int.tryParse(ch);
         if (n != null) sceneChapter = n;
       }
+      // 调试：`FE8R_WM=56` 直接进大地图（和 `FE8R_TITLE` / `FE8R_CHAPTER` 同类，
+      // **只用于开发**；正常流程由 `MNCH` 进入，见 `ChangeChapter.subcmd`）
+      final wmEnv = Platform.environment['FE8R_WM'];
+      if (wmEnv != null) _enterWorldMap(int.tryParse(wmEnv) ?? 0x38);
+
       // ★ 实时控制通道（`FE8R_CTL=<port>`）：AI/测试可以**边看状态边按键**，
       //   不用再猜一长串写死的输入（见 ctl_server.dart 的头注释）。
       unawaited(_startCtlIfRequested());
@@ -863,6 +874,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ 大地图模式：确认 = 前进/出发，其余键先不接（原作 WM 有自己的操作集，
+    //   未查证完整清单，所以**不假装**支持 —— 只记一行）。
+    if (worldMap != null) {
+      if (i == FlowInput.confirm) {
+        unawaited(worldMapConfirm());
+      } else if (i != FlowInput.cancel) {
+        _worldMapNote = '大地图模式下 ${i.name} 还没接（未查证原作的 WM 操作集）';
+      }
+      return;
+    }
     // 开场流程没跑完时，输入全给它 —— 但**只是入队**，由 `update` 按帧消费。
     // 见 [_titlePending] 的说明（时间是帧驱动的，不是按键驱动的）。
     if (inTitleFlow) {
@@ -1226,9 +1247,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         if (scene?.skipping == true) break;
         _sceneWait = Completer<void>();
         await _sceneWait!.future;
-        case ChangeChapter(:final chapterIndex):
-          // `MNC2(n)` —— 切到第 n 章（序章结束时会切到第 1 章）
+        case ChangeChapter(:final chapterIndex, :final subcmd):
+        // ★ `MNCH`(1) = **先走大地图**；`MNC2`(2) 才是直接进地图
+        //    （`src/Event2A_MoveToChapter.c:24-31`）。序章结束是 MNC2、
+        //    第 1 章结束是 MNCH(56) —— 实测见 `scene_data.g.dart`。
+        if (subcmd == 1 && _worldMapData != null) {
+          _enterWorldMap(chapterIndex);
+        } else {
           await _gotoChapter(chapterIndex);
+        }
 
         case LoadMap(:final chapterIndex):
           // 出处：`src/eventscr_0800F390.c:31-72`（`Event25_ChangeMap`）
@@ -1814,6 +1841,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 键位说明是否展开（按 `H` 切换）
   bool _helpShown = false;
 
+  /// 大地图的诊断（走不动时写这里，转储里看得见）
+  String _worldMapNote = '';
+
   /// 回合横幅剩余帧数 + 当前文字（`ProcScr_PhaseIntro` 的最小等价物）
   int _bannerFrames = 0;
   String _bannerText = '';
@@ -1826,6 +1856,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 阶段循环是否正在跑（`waitingFor` 诊断用）
   bool _turnRunning = false;
+
+  /// ★ 大地图模式（`MNCH` 之后要**先走大地图**再进地图）
+  ///
+  /// 出处：`src/Event2A_MoveToChapter.c:24-31`（`MNCH` 置 `save_menu_type = 1`）
+  /// → `EXEC_BM` 里 `CheckNewGameAndBranch` 不命中 2/4 分支
+  /// → 起 `ProcScr_WorldMapWrapper`。也就是说 **`MNCH` 不是"直接进地图"**，
+  /// 而我原来把四条 `MNC*` 都发成同一个调用（见 `ChangeChapter.subcmd`）。
+  ///
+  /// 部队所在节点是**持久状态**：`gGMData.units[0].location`
+  /// （初始化 `src/worldmap_path.c:148` → 0），走到节点时由
+  /// `src/worldmap_main_080BDA6C.c:140` 更新。**不是**按章节推出来的。
+  WorldMapState? worldMap;
+  WorldMapData? _worldMapData;
+  WorldMapRules? get worldMapRules =>
+      _worldMapData == null ? null : WorldMapRules(_worldMapData!);
+  int? _wmTargetChapter;
+
+  /// 章节 → {`gmapEventId`, `wmBeginning`, `wmChapterIntro`}
+  Map<int, Map<String, dynamic>> _chapterWm = const {};
 
   /// 敌方每个单位之间的停顿。
   ///
@@ -1840,6 +1889,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 有它，玩家把屏幕底部那行/转储发过来，就知道卡在哪一环。
   String get waitingFor {
     if (inTitleFlow) return 'title:${titleFlow?.screen.name}';
+    if (worldMap != null) return 'worldMap:node=${worldMap!.node}';
     if (_sceneRunning) {
       final t = _currentText;
       return t == null ? 'scene:running' : 'scene:text 0x${t.message.id.toRadixString(16)}';
@@ -1896,6 +1946,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///   * 单位行动后 → `src/CheckForWaitEvents.c:45`（`POSTACTION`）
   ///   * 玩家阶段开始/每次行动回到 label 0 → `src/eventinfo_0808682C.c:45-52`
   ///     （`StartPlayerPhaseStartTutorialEvent`，`PLAYERPHASE`）
+  /// 按名字跑一条已生成的脚本（找不到就**响亮记录**，不静默）
+  Future<void> _runNamedScript(String name) async {
+    final fn = allSceneFns[name];
+    if (fn == null) {
+      _worldMapNote = '脚本 $name 没有生成函数（不在 scene_data.g.dart 里）';
+      debugPrint('[WM] $_worldMapNote');
+      return;
+    }
+    await runSceneScript(fn);
+  }
+
   Future<void> _runTutorial(int type) async {
     final name = tutorial.take(type, _currentTutorials);
     if (name == null) return;
@@ -2751,6 +2812,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     ];
     _eventGroups = d['eventGroups'] as Map<String, dynamic>;
 
+    // 大地图数据（节点/路径/章节→章间脚本）—— `parse_worldmap.py` 的头注释
+    final wmf = File('tools/pipeline/out/tables/worldmap.json');
+    if (wmf.existsSync()) {
+      _worldMapData = WorldMapData.parse(wmf.readAsStringSync());
+      _chapterWm = {
+        for (final e in (jsonDecode(wmf.readAsStringSync())
+                as Map<String, dynamic>)['chapterWm'] as List<dynamic>)
+          (e as Map<String, dynamic>)['index'] as int: e,
+      };
+    } else {
+      _tutorialNote = '缺少 worldmap.json —— 大地图不会出现';
+    }
+
     // 教学事件表（指针数组）—— 出处 `parse_tutorial_lists.py` 的头注释
     final tl = File('tools/pipeline/out/tables/tutorial_lists.json');
     if (tl.existsSync()) {
@@ -2770,6 +2844,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 与 `src/Event2A_MoveToChapter.c:39`（`EVSUBCMD_MNC2`）。
   Future<void> _gotoChapter(int chapterIndex) async {
     if (chapterIndex < 0 || chapterIndex >= _chapterLinks.length) return;
+    _clearWorldMapView();
+    worldMap = null;
+    _wmTargetChapter = null;
     sceneChapter = chapterIndex;
     // `StartBattleMap` → `ResetChapterFlags()`（`src/bmio_08030D50.c:151`）：
     // **战斗地图开始时清事件标志**。事件标志必须跨事件保留 ——
@@ -3332,6 +3409,147 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _updateHud();
   }
 
+  // ---------------------------------------------------------------------
+  // 大地图（`ProcScr_WorldMapWrapper` 的最小等价物）
+  // ---------------------------------------------------------------------
+
+  /// 进入大地图。目标章节由 `MNCH(n)` 给出。
+  ///
+  /// 部队所在节点的**初值**照 `src/worldmap_path.c:148`（`= 0`）；
+  /// 之后它是持久状态 —— 所以这里**不重置**已存在的 `worldMap`。
+  void _enterWorldMap(int target) {
+    final wm = worldMap ?? WorldMapState(node: 0);
+    worldMap = wm;
+    _wmTargetChapter = target;
+    _refreshWorldMap();
+    _showWorldMapView();
+    if (wm.chapterId(worldMapRules!) == target) {
+      _worldMapNote = '已经在目标章节的节点上（${wm.node}）';
+    } else if (wm.nextNodeId < 0 || wm.nextNodeId == wm.node) {
+      // ★ 响亮：没有可走的边就不许静默（玩家会以为按键坏了）
+      _worldMapNote = '节点 ${wm.node} 没有下一个目的地'
+          '（条件旗 ${_worldMapData!.nodes[wm.node].unk06} 未置上）';
+    } else {
+      _worldMapNote = '';
+    }
+    _playNote = '大地图：当前节点 ${wm.node}（${_wmNodeName(wm.node)}）'
+        '· 下一个 ${wm.nextNodeId < 0 ? "—" : wm.nextNodeId}'
+        '· 目标第 $target 章 · ${_worldMapNote.isEmpty ? "按确认前进" : _worldMapNote}';
+    debugPrint('[WM] 进入大地图 node=${wm.node} target=$target note=$_worldMapNote');
+  }
+
+  String _wmNodeName(int idx) {
+    final d = _worldMapData;
+    if (d == null || idx < 0 || idx >= d.nodeCount) return '?';
+    final id = d.nodes[idx].nameTextId;
+    final msg = gameTexts?.byId(id);
+    final plain = msg?.plain ?? '';
+    return plain.isEmpty ? '#$id' : plain;
+  }
+
+  /// 按当前事件旗重算"下一个节点"（`WMLoc_GetNextLocId`）
+  void _refreshWorldMap() {
+    final wm = worldMap;
+    final r = worldMapRules;
+    if (wm == null || r == null) return;
+    wm.nextNodeId = wm.nextNode(
+      r,
+      eventFlags.contains,
+      // ⚠️ 路线模式（`gPlaySt.chapterModeIndex`）的真值来自存档，属于 M9；
+      // 这里固定 Eirika 并**记录下来**，不假装支持双路线。
+    );
+  }
+
+  void _showWorldMapView() {
+    final d = _worldMapData;
+    final wm = worldMap;
+    if (d == null || wm == null) return;
+    // ⚠️ **规则与视图解耦**：`camera.viewport.virtualSize` 需要 Game 已经
+    // 布局过（`hasLayout`），而 widget test 里跑的是 `loadRuleData()`，
+    // 没有 layout —— 没有这一句，`MNCH` 的**状态机**就没法单测。
+    if (!hasLayout) return;
+    _clearWorldMapView();
+    _wmView = WorldMapView(
+      data: d,
+      state: wm,
+      textForName: (id) {
+        final plain = gameTexts?.byId(id)?.plain ?? '';
+        return plain.isEmpty ? '#$id' : plain;
+      },
+      screen: camera.viewport.virtualSize,
+    );
+    world.add(_wmView!);
+    _rebuildOverlay();
+  }
+
+  WorldMapView? _wmView;
+
+  /// 出发时演的章间脚本（`Events_WM_Beginning[gmapEventId]`）—— 判据用
+  String? _lastWmBeginningScript;
+
+  /// 收起大地图视图（**空安全**）。
+  ///
+  /// ⚠️ 原来三处都写 `world.remove(_wmView!)` —— 而"没有 layout 时根本不建视图"
+  /// （见 `_showWorldMapView`），于是单测路径上必然 `null!`。
+  /// 这跟地图菜单那次崩溃是**同一个形状**：先置空/没建，再解引用。
+  void _clearWorldMapView() {
+    if (_wmView != null) {
+      world.remove(_wmView!);
+      _wmView = null;
+    }
+  }
+
+  /// 大地图上的确认键。
+  ///
+  /// * 站在**目标章节**的节点上 → 演 `Events_WM_Beginning[gmapEventId]`
+  ///   （`src/worldmap_main_080BF178.c:117`）然后进地图
+  /// * 否则 → 沿 `WMLoc_GetNextLocId` 走到下一个节点
+  ///   （走的是 `src/worldmap_main_080BDA6C.c:140` 那条"到达后更新 location"）
+  Future<void> worldMapConfirm() async {
+    final wm = worldMap;
+    final r = worldMapRules;
+    final target = _wmTargetChapter;
+    if (wm == null || r == null || target == null) return;
+
+    if (wm.chapterId(r) == target) {
+      final script = _chapterWm[target]?['wmBeginning'] as String?;
+      _clearWorldMapView();
+      worldMap = null;
+      _wmTargetChapter = null;
+      _playNote = kPlayNote;
+      // 章间脚本（`Events_WM_Beginning`）—— 有就演，没有就记下来
+      _lastWmBeginningScript = script;
+      if (script != null && allSceneFns.containsKey(script)) {
+        await _runNamedScript(script);
+      } else {
+        _worldMapNote = '没有章间脚本（$target → ${script ?? "NULL"}）';
+        debugPrint('[WM] $_worldMapNote');
+      }
+      await _gotoChapter(target);
+      return;
+    }
+
+    final arrived = wm.travelToNext(r, eventFlags.contains);
+    if (arrived == null) {
+      _worldMapNote = '节点 ${wm.node} 走不动'
+          '（条件旗 ${_worldMapData!.nodes[wm.node].unk06} 未置上）';
+      debugPrint('[WM] $_worldMapNote');
+    } else {
+      _worldMapNote = '';
+    }
+    _refreshWorldMap();
+    _showWorldMapView();
+    _playNote = '大地图：当前节点 ${wm.node}（${_wmNodeName(wm.node)}）'
+        '· 目标第 $target 章'
+        '${_worldMapNote.isEmpty ? "" : " · $_worldMapNote"}';
+  }
+
+  @visibleForTesting
+  void enterWorldMapForTest(int target) => _enterWorldMap(target);
+
+  @visibleForTesting
+  Future<void> worldMapConfirmForTest() => worldMapConfirm();
+
   /// 显示"我方回合 / 敌军回合 / 友军回合"横幅
   ///
   /// 文字照着原作那张表的口径（阵营 → 谁的回合），**没动用的阶段不显示**
@@ -3688,7 +3906,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 过场里画的是**演出光标**（`CURSOR_CHAR`），不是玩家光标。
     // 原作在 `CURSOR_CHAR` 之前屏幕上没有光标 —— 所以过场且没有演出光标时
     // 把玩家光标藏起来。
-    v.hideCursor = _sceneRunning && _eventCursor == null;
+    v.hideCursor = (_sceneRunning && _eventCursor == null) || worldMap != null;
     v.sync(s, f, fl);
   }
 

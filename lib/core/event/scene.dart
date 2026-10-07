@@ -102,14 +102,30 @@ class ShowText extends SceneEvent {
 /// ⚠️ 我第一版把它当占位（`s.placeholder('MNC2')`），
 /// **结果游戏永远停在序章** —— 第 1 章根本到不了。
 class ChangeChapter extends SceneEvent {
-  const ChangeChapter({required this.chapterIndex, required this.scriptName});
+  const ChangeChapter({
+    required this.chapterIndex,
+    required this.scriptName,
+    this.subcmd = 2,
+  });
 
   /// 目标 `chapterIndex`
   final int chapterIndex;
   final String scriptName;
 
+  /// `EVSUBCMD_MNTS/MNCH/MNC2/MNC3/MNC4`（`src/Event2A_MoveToChapter.c:22-57`）
+  ///
+  /// ⚠️ 这四条**不是同一条流程**：
+  ///   * `MNCH`(1) → `save_menu_type = 1` + `nextAction = CLASS_REEL`
+  ///     ⇒ 之后 `EXEC_BM` 会先起 **`ProcScr_WorldMapWrapper`（大地图）** 再进地图
+  ///   * `MNC2`(2) → `save_menu_type = 2` ⇒ `CheckNewGameAndBranch` 命中 2/4，
+  ///     **直接进地图，跳过大地图**
+  ///   * `MNC3`(3) → `GotoChapterWithoutSave`（另一条路径）
+  ///   * `MNC4`(4) → `save_menu_type = 3` + `PLAYED_THROUGH`
+  ///   * `MNTS`(0) → 回标题（`GAME_ACTION_EVENT_RETURN`），**不是换章**
+  final int subcmd;
+
   @override
-  String toString() => 'ChangeChapter($chapterIndex)';
+  String toString() => 'ChangeChapter($chapterIndex, subcmd $subcmd)';
 }
 
 /// 换地图（`LOMA`）。
@@ -636,9 +652,16 @@ class Scene {
   Future<void> giveItem(int pid, int itemSlot) =>
       onEvent(GiveItem(pid: pid, itemSlot: itemSlot));
 
-  /// 换章节（`MNC2`）—— 序章结束时会切到第 1 章
-  Future<void> changeChapter(int chapterIndex) => onEvent(
-      ChangeChapter(chapterIndex: chapterIndex, scriptName: currentScript));
+  /// 换章节 —— 序章结束时会切到第 1 章
+  ///
+  /// `subcmd` 默认 `2`（`MNC2`）：直接进地图。`MNCH`(1) 要**先走大地图**，
+  /// 见 [ChangeChapter.subcmd]。
+  Future<void> changeChapter(int chapterIndex, {int subcmd = 2}) => onEvent(
+        ChangeChapter(
+            chapterIndex: chapterIndex,
+            scriptName: currentScript,
+            subcmd: subcmd),
+      );
 
   Future<void> stall(int frames) => onEvent(Stall(frames));
 

@@ -62,7 +62,14 @@ void main() {
     expect(game.endingSceneNameForTest(2), 'EventScr_Ch2_EndingScene');
   });
 
-  test('★ 第 1 章拿到 EVFLAG_WIN → 演结束剧情 → 章节推进到第 2 章', () async {
+  test('★ 第 1 章拿到 EVFLAG_WIN → 演结束剧情 → **MNCH 进大地图**（目标 C00）',
+      () async {
+    // ⚠️ 语义变更（照源码改的，不是回归）：
+    // 第 1 章结束用的是 `MNCH(56)`（`Ch1_EndingScene` 实测
+    // `changeChapter(56, subcmd: 1)`），而 `MNCH` 是 `save_menu_type = 1`
+    // ⇒ **先起大地图**（`src/Event2A_MoveToChapter.c:24-31`），
+    // 由玩家走到目标节点再出发。原来四条 `MNC*` 生成的是同一个调用，
+    // 所以"第 1 章 → C00 之间那段大地图"在流程上根本不存在。
     final game = loadTables();
     game.sceneChapterForTest = 1;
     expect(game.endingSceneNameForTest(1), 'EventScr_Ch1_EndingScene');
@@ -84,8 +91,11 @@ void main() {
     // 而 `0x38 = CHAPTER_CASTLE_FRELIA`（`include/constants/chapters.h:67`，
     // 内部名 `C00`）—— 也就是**「フレリア城」那一章间章**。
     // 第 1 章 → 第 2 章之间的剧情，就在这章里（C00 自己的开场/结束脚本）。
-    expect(game.sceneChapterForTest, 56,
+    expect(game.worldMap, isNotNull,
+        reason: '`MNCH` 之后必须先走大地图（不是直接切章）');
+    expect(game.dumpState()['worldMapTarget'], 56,
         reason: '★ `MNCH(0x38)` = CHAPTER_CASTLE_FRELIA');
+    expect(game.sceneChapterForTest, 1, reason: '还没出发 —— 章节仍是第 1 章');
 
     // 同一章只演一次（`CallEndEvent` 末尾的 `SetFlag(0x84)`）
     game.sceneChapterForTest = 1;

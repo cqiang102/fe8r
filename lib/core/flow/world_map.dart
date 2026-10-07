@@ -241,6 +241,11 @@ class WorldMapState {
   /// `GM_NODE_STATE_CLEARED` 的那些节点
   final Set<int> cleared;
 
+  /// **展示用**：按当前旗子算出来的下一个节点（-1 = 没有）。
+  ///
+  /// 放这里是为了让表现层不必自己持有 `eventFlags`（规则仍由 `nextNode` 算）。
+  int nextNodeId = -1;
+
   /// 当前节点对应的章节（`WMLoc_GetChapterId`）
   int chapterId(WorldMapRules r, {int mode = ChapterMode.eirika}) =>
       r.chapterIdOf(node, mode: mode);
@@ -272,10 +277,11 @@ class WorldMapState {
   Map<String, Object?> toJson() => {
         'node': node,
         'cleared': cleared.toList()..sort(),
+        'nextNodeId': nextNodeId,
       };
 
   static WorldMapState fromJson(Map<String, dynamic> j) => WorldMapState(
         node: j['node'] as int? ?? 0,
         cleared: ((j['cleared'] as List?) ?? const []).cast<int>().toSet(),
-      );
+      )..nextNodeId = j['nextNodeId'] as int? ?? -1;
 }

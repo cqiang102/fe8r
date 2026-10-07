@@ -224,8 +224,14 @@ def stmt(op, A):
     #
     # ⚠️ 原来只认 `MNC2` —— 于是**第 1 章的结束剧情演完后什么都没发生**
     # （`MNCH` 落成占位符），第 1 章永远接不到第 2 章。
-    if op in ("MNCH", "MNC2", "MNC3", "MNC4"):
-        return (f"await s.changeChapter({num(A[0]) if A else 0});", False)
+    # `EVSUBCMD_*`（`src/Event2A_MoveToChapter.c:22-57`）
+    # ⚠️ 必须带上子命令：`MNCH` 之后要**先走大地图**（`save_menu_type = 1`），
+    # `MNC2` 才是直接进地图（`save_menu_type = 2`）。原来四条都发成同一个调用，
+    # 于是"第 1 章 → C00 之间那段大地图"在流程上根本不存在。
+    _MNC_SUBCMD = {"MNTS": 0, "MNCH": 1, "MNC2": 2, "MNC3": 3, "MNC4": 4}
+    if op in _MNC_SUBCMD:
+        return (f"await s.changeChapter({num(A[0]) if A else 0}, "
+                f"subcmd: {_MNC_SUBCMD[op]});", False)
     if op == "MNTS":
         return ("s.placeholder('MNTS(回标题)');", True)
 

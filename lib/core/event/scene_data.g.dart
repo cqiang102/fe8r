@@ -765,7 +765,7 @@ Future<void> scr_9EE8F0(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          await s.changeChapter(65535);
+          await s.changeChapter(65535, subcmd: 1);
           pc = 5;
           continue;
         case 5:
@@ -2208,7 +2208,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 102;
           continue;
         case 102:
-          await s.changeChapter(61);
+          await s.changeChapter(61, subcmd: 1);
           pc = 103;
           continue;
         case 103:
@@ -3328,7 +3328,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 180;
           continue;
         case 180:
-          await s.changeChapter(12);
+          await s.changeChapter(12, subcmd: 2);
           pc = 181;
           continue;
         case 181:
@@ -4266,7 +4266,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 113;
           continue;
         case 113:
-          await s.changeChapter(14);
+          await s.changeChapter(14, subcmd: 1);
           pc = 114;
           continue;
         case 114:
@@ -4305,7 +4305,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.placeholder('ENUT');
-    await s.changeChapter(27);
+    await s.changeChapter(27, subcmd: 1);
     return;
 }
 
@@ -4729,7 +4729,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
 Future<void> Ch14b_EndingScene(Scene s) async {
     await s.call(Sym('EventScr_Ch15A_26'));
     s.placeholder('ENUT');
-    await s.changeChapter(29);
+    await s.changeChapter(29, subcmd: 1);
     return;
     s.placeholder('MUSI');
     s.setSlot(2, 0);
@@ -4848,7 +4848,7 @@ Future<void> Ch15A_0(Scene s) async {
 Future<void> Ch15A_1(Scene s) async {
     await s.call(Sym('EventScr_Ch15A_26'));
     s.placeholder('ENUT');
-    await s.changeChapter(16);
+    await s.changeChapter(16, subcmd: 1);
     return;
 }
 
@@ -6176,7 +6176,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
 /// `EventScr_Ch16A_0`
 Future<void> Ch16A_0(Scene s) async {
     await s.call(Sym('EventScr_Ch16A_12'));
-    await s.changeChapter(17);
+    await s.changeChapter(17, subcmd: 1);
     return;
 }
 
@@ -8032,7 +8032,7 @@ Future<void> Ch16b_BeginningScene(Scene s) async {
     s.placeholder('ENUT');
     return;
     await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 996));
-    await s.changeChapter(31);
+    await s.changeChapter(31, subcmd: 1);
     return;
     await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 1724));
     return;
@@ -9384,7 +9384,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          await s.changeChapter(56);
+          await s.changeChapter(56, subcmd: 1);
           pc = 25;
           continue;
         case 25:
@@ -9630,7 +9630,7 @@ Future<void> Ch21A_0(Scene s) async {
     s.placeholder('REMA');
     s.placeholder('EvtBgmFadeIn');
     await s.call(Sym('EventScr_Ch21A_9'));
-    await s.changeChapter(22);
+    await s.changeChapter(22, subcmd: 3);
     return;
 }
 
@@ -9907,7 +9907,7 @@ Future<void> Ch21b_BeginningScene(Scene s) async {
     await s.call(Sym('frontier_df3_eventscr_ch_005_A6B460', 300));
     return;
     await s.call(Sym('UnitDef_Ch21BEnemy_1'));
-    await s.changeChapter(0);
+    await s.changeChapter(0, subcmd: 4);
     return;
     s.placeholder('ASMC');
     s.setSlot(2, 0);
@@ -9942,7 +9942,7 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     s.placeholder('REMA');
     s.placeholder('EvtBgmFadeIn');
     await s.call(Sym('EventScr_Ch21A_9'));
-    await s.changeChapter(35);
+    await s.changeChapter(35, subcmd: 3);
     return;
 }
 
@@ -10879,7 +10879,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          await s.changeChapter(3);
+          await s.changeChapter(3, subcmd: 1);
           pc = 59;
           continue;
         case 59:
@@ -11720,7 +11720,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 77;
           continue;
         case 77:
-          await s.changeChapter(4);
+          await s.changeChapter(4, subcmd: 1);
           pc = 78;
           continue;
         case 78:
@@ -12041,7 +12041,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          await s.changeChapter(6);
+          await s.changeChapter(6, subcmd: 1);
           pc = 62;
           continue;
         case 62:
@@ -13296,7 +13296,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          await s.changeChapter(5);
+          await s.changeChapter(5, subcmd: 2);
           pc = 40;
           continue;
         case 40:
@@ -13478,7 +13478,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     s.placeholder('EVENT_WORD');
     s.placeholder('EVENT_WORD');
-    await s.changeChapter(7);
+    await s.changeChapter(7, subcmd: 1);
     return;
 }
 
@@ -13968,7 +13968,7 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          await s.changeChapter(8);
+          await s.changeChapter(8, subcmd: 1);
           pc = 31;
           continue;
         case 31:
@@ -14342,7 +14342,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
     s.placeholder('ENUT');
-    await s.changeChapter(9);
+    await s.changeChapter(9, subcmd: 1);
     return;
 }
 
@@ -14443,7 +14443,7 @@ Future<void> Ch8_10(Scene s) async {
     await s.textShow(3013);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    await s.changeChapter(56);
+    await s.changeChapter(56, subcmd: 1);
     s.placeholder('ENDB');
 }
 
@@ -14627,7 +14627,7 @@ Future<void> Ch8_EndingScene(Scene s) async {
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
     s.placeholder('ENUT');
-    await s.changeChapter(6);
+    await s.changeChapter(6, subcmd: 1);
     return;
     s.placeholder('MUSC');
     s.placeholder('SETTEXTTYPE');
@@ -15872,7 +15872,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 72;
           continue;
         case 72:
-          await s.changeChapter(11);
+          await s.changeChapter(11, subcmd: 1);
           pc = 73;
           continue;
         case 73:
@@ -16093,7 +16093,7 @@ Future<void> FloorClearInTower(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
           continue;
         case 8:
-          await s.changeChapter(65535);
+          await s.changeChapter(65535, subcmd: 1);
           pc = 9;
           continue;
         case 9:
@@ -16111,7 +16111,7 @@ Future<void> FloorClearInTower(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          await s.changeChapter(65535);
+          await s.changeChapter(65535, subcmd: 3);
           pc = 14;
           continue;
         case 14:
@@ -16846,7 +16846,7 @@ Future<void> Prologue_EndingScene(Scene s) async {
     s.placeholder('ENUT');
     s.placeholder('ENUT');
     s.placeholder('ENUT');
-    await s.changeChapter(1);
+    await s.changeChapter(1, subcmd: 2);
     return;
 }
 
@@ -20001,7 +20001,7 @@ Future<void> SkirmishRetreat(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          await s.changeChapter(65535);
+          await s.changeChapter(65535, subcmd: 1);
           pc = 10;
           continue;
         case 10:
@@ -20162,7 +20162,7 @@ Future<void> SuspendPrompt(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('MNTS(回标题)');
+          await s.changeChapter(0, subcmd: 0);
           pc = 12;
           continue;
         case 12:
@@ -20592,7 +20592,7 @@ Future<void> WholeTowerClear(Scene s) async {
     s.placeholder('ASMC');
     s.placeholder('ASMC');
     s.placeholder('ASMC');
-    await s.changeChapter(65535);
+    await s.changeChapter(65535, subcmd: 1);
     return;
 }
 
