@@ -571,6 +571,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastRescue': lastRescue,
       'lastDrop': lastDrop,
       'chapterModeIndex': chapterModeIndex,
+      'unresolvedAttributes': _unresolvedAttributes.length,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
       'discardPromptDefault': discardPromptDefault,
@@ -3277,6 +3278,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (n != null) {
         _classNameByNumber[n] = e.key;
         _conByClassNumber[n] = (m['baseCon'] as num?)?.toInt() ?? 0;
+        final av = m['attributes'];
+        if (av is num) {
+          _attributesByClassNumber[n] = av.toInt();
+        } else if (av != null) {
+          _unresolvedAttributes.add('职业 $n: $av');
+        }
       }
     }
     for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
@@ -3286,6 +3293,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
 
     final chj = read('characters.json');
+    for (final e in (chj['entries'] as Map<String, dynamic>? ?? {}).entries) {
+      final m = e.value as Map<String, dynamic>;
+      // ⚠️ **`number` 不一定是整数**：`characters.json` 里有 6 条（`*_CHUnk`）
+      // 的 `number` 是**解析不出来的符号名字符串**。既有代码用的是
+      // `final n = mm['number']; if (n is int)`（容忍式），我第 54 轮写成
+      // `as num?` 就抛了 —— `type 'String' is not a subtype of type 'num?'`，
+      // 24 条测试红，我当次没查出来就回退了。这轮定位到具体是这 6 条。
+      final n = m['number'];
+      if (n is! int) {
+        if (n != null) _unresolvedAttributes.add('角色 ${e.key}: number=$n');
+        continue;
+      }
+      final av = m['attributes'];
+      if (av is num) {
+        _attributesByCharIndex[n] = av.toInt();
+      } else if (av != null) {
+        _unresolvedAttributes.add('角色 $n: $av');
+      }
+    }
     for (final m in (chj['entries'] as Map<String, dynamic>? ?? {}).values) {
       final mm = m as Map<String, dynamic>;
       final n = mm['number'];
@@ -4943,7 +4969,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final aid = unitAid(
         con: _conByClassNumber[actor.classId] ?? 0,
         mountedAid: _classLooksMounted(actor.classId),
-        female: _classLooksFemale(actor.classId));
+        female: _unitIsFemale(actor));
     final out = <MapUnit>[];
     for (final u in f.units) {
       if (u.id == actor.id || !u.isAlive || u.isHidden || u.isRescuing) continue;
@@ -4973,42 +4999,23 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         },
       );
 
-  /// 职业名近似"骑乘"（`CA_MOUNTEDAID` 未抽，见 `_rescueTargets` 的说明）
-  bool _classLooksMounted(int classId) {
-    final n = _classNameByNumber[classId] ?? '';
-    return n.contains('CAVALIER') ||
-        n.contains('PEGASUS') ||
-        n.contains('WYVERN') ||
-        n.contains('PALADIN') ||
-        n.contains('VALKYRIE') ||
-        n.contains('GREAT_KNIGHT') ||
-        n.contains('TROUBADOUR') ||
-        n.contains('MAGE_KNIGHT') ||
-        n.contains('FALCON') ||
-        n.contains('WYVERN_KNIGHT');
-  }
+  /// `UNIT_CATTRIBUTES(aUnit) = pCharacterData->attributes | pClassData->attributes`
+  /// （`include/bmunit.h:479`）—— **位是两边凑的**。
+  int _unitAttributes(MapUnit u) =>
+      (_attributesByCharIndex[u.charIndex] ?? 0) |
+      (_attributesByClassNumber[u.classId] ?? 0);
 
-  /// 职业名近似"女性"（`CA_FEMALE` 未抽）
-  bool _classLooksFemale(int classId) {
-    final n = _classNameByNumber[classId] ?? '';
-    return n.contains('EIRIKA') ||
-        n.contains('VALKYRIE') ||
-        n.contains('PEGASUS') ||
-        n.contains('FALCON') ||
-        n.contains('TROUBADOUR') ||
-        n.contains('CLERIC') ||
-        n.contains('TROUBADOUR');
-  }
+  /// `CA_MOUNTEDAID`（决定 `GetUnitAid` 走哪一支）
+  bool _classLooksMounted(int classId) => classHasAttribute(
+      _attributesByClassNumber[classId] ?? 0, caMountedAid);
 
-  /// 这个职业有没有 `CA_THIEF`（盗贼 ⇒ 撬锁器也能开锁）
-  ///
-  /// ⚠️ 我们的职业表**没抽 `attributes`** ⇒ 用职业名近似（`CLASS_THIEF`/`CLASS_ROGUE`/
-  /// `CLASS_ASSASSIN`…）。这条映射是**近似**，已记进路线图欠账。
-  bool _classHasThiefAttribute(MapUnit u) {
-    final n = _classNameByNumber[u.classId] ?? '';
-    return n.contains('THIEF') || n.contains('ROGUE') || n.contains('ASSASSIN') ||
-        n.contains('LOCKPICK') || n.contains('RENAULT') || n.contains('COLM');
-  }
+  /// `CA_FEMALE`（决定骑乘 Aid 是 `20-Con` 还是 `25-Con`）—— 看**并集**
+  bool _unitIsFemale(MapUnit u) =>
+      classHasAttribute(_unitAttributes(u), caFemale);
+
+  /// `CA_THIEF`（撬锁器也能开锁）—— 看**并集**
+  bool _classHasThiefAttribute(MapUnit u) =>
+      classHasAttribute(_unitAttributes(u), caThief);
 
   /// 最近一次「制圧」的记录（判据用）
   Map<String, Object?>? lastSeize;
@@ -5024,6 +5031,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 职业编号 → `baseCon`（救出的 Aid 要用 Con）
   final Map<int, int> _conByClassNumber = {};
+
+  /// 职业编号 → `attributes`（`CA_*` 位，`classes.json`；第 55 轮起不再靠职业名猜）
+  final Map<int, int> _attributesByClassNumber = {};
+
+  /// 角色编号 → `attributes`（`CA_*` 位，`characters.json`）
+  ///
+  /// ⚠️ `UNIT_CATTRIBUTES(aUnit) = pCharacterData->attributes | pClassData->attributes`
+  /// （`include/bmunit.h:479`）—— 位是**两边凑的**：`CA_MOUNTEDAID` 在职业数据里、
+  /// `CA_FEMALE` 在角色数据里（`CLASS_PEGASUS_KNIGHT` 的属性里没有 CA_FEMALE）。
+  final Map<int, int> _attributesByCharIndex = {};
+
+  /// 解析不了 `attributes` 的条目（原样是字符串/别的类型）—— 留痕，别静默
+  final List<String> _unresolvedAttributes = [];
 
   /// 最近一次救出 / 降下的记录（判据用）
   Map<String, Object?>? lastRescue;
