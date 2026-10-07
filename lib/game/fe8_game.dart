@@ -898,9 +898,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
     }
 
+    // ⚠️ 我原来写的是"直接传送 + 同时设移动目标" —— 两者矛盾：
+    // 精灵要等下一次 `_rebuildOverlay` 才跟上，而目标又让它再动画一次。
+    //
+    // 按原作 `EvtMoveUnit` 的语义：**移动是演出的一部分，要走过去**。
+    // 所以逻辑位置立刻落位（规则层），画面由 `_tickEventMoves` 补间跟上。
     u.x = nx;
     u.y = ny;
     _eventMoveTargets[u.id] = (nx, ny);
+    _rebuildOverlay();   // ★ 立刻同步精灵，别等下一次状态变化
     _sceneHudExtra = '$op($pid -> $nx,$ny)';
   }
 
@@ -1217,7 +1223,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
       final cls = (m['classIndex'] as num?)?.toInt() ?? 0;
       added.add(MapUnit(
-        id: 0x100 + added.length,          // 蓝色方，编号从 0x100 起
+        // ⚠️ **编号必须全局唯一**。
+        //
+        // 我原来写的是 `0x100 + added.length` —— 每次 `LOAD` 都从 0x100 重新数：
+        //
+        //     载入我方 2 人 -> 0x100, 0x101
+        //     载入敌方 3 人 -> 0x100, 0x101, 0x102     <- ★ 撞上了
+        //
+        // 而 `BattleView._unitById` 是**按 id 复用组件**的
+        // （`if (existing != null) existing.sync(...)`）——
+        // 于是**敌人的组件把我方的顶掉了**：
+        // HUD 上赛特在 (4,4)，画面上那一格却是空的。
+        //
+        // 这正是用户反复说的「我方单位显示的还是不对」。
+        id: _nextUnitId(),
         // `allegiance` -> 阵营。
         //
         // ⚠️ **出处：`include/bmunit.h:299-302`**
@@ -1253,6 +1272,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 把地图切换记录也带上 —— 它比「载入单位」更能说明脚本走到哪了
     _sceneHudExtra = '$_sceneHudExtra  $_sceneMapHistory';
   }
+
+  /// 单位编号的分配器 —— **全局递增**，保证不撞。
+  int _unitIdSeq = 0x100;
+  int _nextUnitId() => _unitIdSeq++;
 
   /// 往战场里加单位（并同步到画面）
   void _addUnits(List<MapUnit> units) {

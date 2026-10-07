@@ -62,9 +62,11 @@ class HudView {
     required String lastCombat,
   }) {
     final who = field.activeFaction == Faction.red ? '敌方' : '我方';
+    // 带上坐标 —— 排查"单位站的位置不对"时这是唯一可靠的依据
     final hp = field.units
         .where((u) => u.isAlive)
-        .map((u) => '${u.name.isEmpty ? u.id : u.name}:${u.hp}')
+        .map((u) => '${u.name.isEmpty ? u.id : u.name}'
+            '(${u.x},${u.y}):${u.hp}')
         .join(' ');
     final m = state.phase == FlowPhase.actionMenu
         ? '  [${menu.map((o) => o.label).join(' / ')}]'

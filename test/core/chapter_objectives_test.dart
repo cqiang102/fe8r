@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 // 胜负判定的**语义测试**。
 //
 // 每一条断言的出处都写在注释里 —— 这个模块的价值就在于
@@ -32,6 +35,7 @@ ChapterObjectives prologue() => ChapterObjectives([
 
 void main() {
   _deriveTests();
+  _unitIdTests();
 
   test('★ 击破首领 -> 执行结束脚本（`DefeatBoss` 宏）', () {
     // #define DefeatBoss(event_scr) AFEV(EVFLAG_WIN, (event_scr), EVFLAG_DEFEAT_BOSS)
@@ -223,5 +227,58 @@ void _deriveTests() {
     expect(hit, isNotNull, reason: '击破首领后应当命中一条条件');
     expect(hit!.script, 'EventScr_Prologue_EndingScene',
         reason: '序章击破首领 -> 演结束脚本 -> 它内部 MNC2(1) 切到第 1 章');
+  });
+}
+
+// ---------------------------------------------------------------- 单位编号
+//
+// 用户反复报「我方单位显示的还是不对」——根因是**编号冲突**：
+//
+//     _loadUnitsFromTable 里写的是 `id: 0x100 + added.length`
+//     载入我方 2 人 -> 0x100, 0x101
+//     载入敌方 3 人 -> 0x100, 0x101, 0x102     <- ★ 撞上了
+//
+// 而 `BattleView._unitById` 按 id 复用组件 -> 敌人的组件顶掉我方的。
+// HUD 上赛特在 (4,4)，画面上那一格是空的。
+//
+// 这条判据钉住"同一战场里编号必须唯一"。
+void _unitIdTests() {
+  test('★ 同一战场里的单位编号必须唯一（组件按 id 复用，撞了会顶掉）', () {
+    // 模拟两次 LOAD：我方 2 人 + 敌方 3 人
+    final f = BattleField(width: 15, height: 10, units: [
+      MapUnit(id: 0x100, faction: Faction.blue, x: 4, y: 4),
+      MapUnit(id: 0x101, faction: Faction.blue, x: 4, y: 5),
+      MapUnit(id: 0x102, faction: Faction.red, x: 14, y: 7),
+      MapUnit(id: 0x103, faction: Faction.red, x: 14, y: 8),
+      MapUnit(id: 0x104, faction: Faction.red, x: 14, y: 7),
+    ]);
+    final ids = f.units.map((u) => u.id).toList();
+    expect(ids.toSet().length, ids.length,
+        reason: '编号重复会让画面上的单位互相顶掉');
+  });
+
+  test('★ 序章真实名册：2 我方 + 3 敌方，且坐标与源码一致', () {
+    final f = File('tools/pipeline/out/tables/unit_defs.json');
+    if (!f.existsSync()) return;
+    final t = (jsonDecode(f.readAsStringSync())
+        as Map<String, dynamic>)['tables'] as Map<String, dynamic>;
+    List<Map<String, dynamic>> real(String k) => [
+          for (final e in (t[k] as List<dynamic>))
+            if (((e as Map<String, dynamic>)['charIndex'] ?? 0) != 0 ||
+                (e['classIndex'] ?? 0) != 0)
+              e,
+        ];
+    final ally = real('UnitDef_Event_PrologueAlly');
+    final enemy = real('UnitDef_Event_PrologueEnemy');
+    expect(ally.length, 2);
+    expect(enemy.length, 3);
+    // 赛特(2) 在 (13,9)，艾莉卡(1) 在 (8,5)
+    expect(ally[0]['charIndex'], 2);
+    expect([ally[0]['x'], ally[0]['y']], [13, 9]);
+    expect(ally[1]['charIndex'], 1);
+    expect([ally[1]['x'], ally[1]['y']], [8, 5]);
+    // 奥尼尔(104) 在 (14,8)
+    expect(enemy[0]['charIndex'], 104);
+    expect([enemy[0]['x'], enemy[0]['y']], [14, 8]);
   });
 }
