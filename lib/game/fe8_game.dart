@@ -564,6 +564,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastSubMenuText': lastSubMenuText,
       'lastTradeMenuText': lastTradeMenuText,
       'lastTrade': lastTrade,
+      'lastStaff': lastStaff,
+      'lastStaffMenuText': lastStaffMenuText,
+      'lastStaffTargetsShown': lastStaffTargetsShown,
       'lastVisit': lastVisit,
       'lastSeize': lastSeize,
       'lastChest': lastChest,
@@ -4643,6 +4646,27 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final m = itemSubMenu!;
     final entries = (m['entries'] as List).cast<Map<String, Object?>>();
     final stage = m['stage'];
+    if (stage == 'staffTarget') {
+      switch (i) {
+        case FlowInput.up:
+        case FlowInput.left:
+          _staffTargetIdx =
+              (_staffTargetIdx - 1 + _staffTargets.length) % _staffTargets.length;
+          _showStaffTargetScreen();
+        case FlowInput.down:
+        case FlowInput.right:
+          _staffTargetIdx = (_staffTargetIdx + 1) % _staffTargets.length;
+          _showStaffTargetScreen();
+        case FlowInput.cancel:
+          itemSubMenu = {...m, 'stage': 'menu', 'index': 0};
+          _showItemSubMenu();
+        case FlowInput.confirm:
+          _applyStaffTarget();
+        default:
+          return;
+      }
+      return;
+    }
     if (stage == 'tradeTarget' || stage == 'tradeMine' || stage == 'tradeTheirs') {
       final me = field?.unitById(state?.selectedUnitId ?? -1);
       if (me == null || _tradeTargets.isEmpty) return;
@@ -4767,6 +4791,62 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   int _subMenuSlot() => (itemSubMenu?['slot'] as int?) ?? 0;
 
   /// 「使う」：回复量按 `GetUnitItemHealAmount`，耐久按打包表示递减
+  /// 杖的目标选择（照 `DoUseHealStaff`：**先 `func(unit)`（扣次数），再选目标**）
+  List<StaffTarget> _staffTargets = const [];
+  int _staffTargetIdx = 0;
+  Map<String, Object?>? lastStaff;
+
+  /// 杖的治疗量（`unitItemHealAmount`：基础 + 魔力，上限 80）
+  int _staffHealAmount(int num, MapUnit u) => unitItemHealAmount(
+        itemNumber: num,
+        isStaff: true,
+        unitPower: _powOf(u),
+        nameOf: _itemNameByNumber,
+      );
+
+  /// 单位当前魔力（`GetUnitPower`）。
+  ///
+  /// ⚠️ **近似**：这里只取**职业基础 `basePow`** + 角色基础（`CharStats.basePow`），
+  /// 没有算等级成长带来的增量。完整口径在 `BattleUnit` 的 `GetUnitPower` 计算里，
+  /// 而那是 `combat.dart` 的私有实现（`_computeUnitStats`）⇒ 我这一轮**没能复用**，
+  /// 先用这个近似把"杖治谁"这条链跑通，已记欠账（魔力项算小 ⇒ 治疗量偏小）。
+  int _powOf(MapUnit u) => (_classStats[u.classId]?.basePow ?? 0).toInt();
+
+  void _showStaffTargetScreen() {
+    final me = field?.unitById(state?.selectedUnitId ?? -1);
+    if (me == null || _staffTargets.isEmpty) return;
+    final t = _staffTargets[_staffTargetIdx.clamp(0, _staffTargets.length - 1)];
+    final who = field?.unitById(t.unitId);
+    _itemMenuText = <String>[
+      '选择回复目标（${_staffTargets.length} 人）',
+      '${who?.name ?? "?"}  HP ${who?.hp ?? 0}/${who?.maxHp ?? 0}  +${t.healAmount}',
+      '↑↓ 选   A 决定   B 返回',
+    ].join('\n');
+    lastStaffMenuText = _itemMenuText;
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+  }
+
+  void _applyStaffTarget() {
+    final me = field?.unitById(state?.selectedUnitId ?? -1);
+    if (me == null || _staffTargets.isEmpty) return;
+    final t = _staffTargets[_staffTargetIdx.clamp(0, _staffTargets.length - 1)];
+    final who = field?.unitById(t.unitId);
+    if (who == null) return;
+    final healed = applyStaffHeal(who, t.healAmount);
+    lastStaff = {
+      'user': me.id,
+      'target': who.id,
+      'amount': t.healAmount,
+      'healed': healed,
+      'targetHpAfter': who.hp,
+    };
+    debugPrint('[STAFF] $lastStaff');
+    _itemMenuText = '${who.name} 回复 $healed 点 HP（${who.hp}/${who.maxHp}）';
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+    _rebuildOverlay();
+    _finishItemAction();
+  }
+
   void _applyUse() {
     final f = field;
     final u = f?.unitById(state?.selectedUnitId ?? -1);
@@ -4774,6 +4854,38 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final slot = _subMenuSlot();
     final word = u.items[slot];
     final num = ItemTable.itemIndex(word);
+    // ★ 杖：**不治自己**，而是开目标选择（照 `DoUseHealStaff`）。
+    // 修的是一个真 bug：在这之前，"使う"对杖也会把施术者**自己**治一遍。
+    if ((_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0) {
+      final stats = _itemStats[num];
+      _staffTargets = staffTargets(
+        user: u,
+        units: f?.units ?? const [],
+        healAmount: _staffHealAmount(num, u),
+        minRange: stats?.minRange ?? 1,
+        maxRange: stats?.maxRange ?? 1,
+      );
+      // 先扣次数（`func(unit)` 在目标选择**之前**执行）
+      u.items[slot] = useHealingItem(
+        hp: u.hp,
+        maxHp: u.maxHp,
+        item: word,
+        itemNumber: num,
+        isStaff: true,
+        nameOf: _itemNameByNumber,
+      ).item;
+      lastStaffTargetsShown = _staffTargets.length;
+      if (_staffTargets.isEmpty) {
+        _itemMenuText = '没有可回复的目标';
+        _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+        _finishItemAction();
+        return;
+      }
+      _staffTargetIdx = 0;
+      itemSubMenu = {...itemSubMenu!, 'stage': 'staffTarget'};
+      _showStaffTargetScreen();
+      return;
+    }
     final res = useHealingItem(
       hp: u.hp,
       maxHp: u.maxHp,
@@ -5120,6 +5232,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 交易界面的留档（关掉之后判据仍看得到）
   String lastTradeMenuText = '';
+
+  /// 杖界面的留档（关掉之后判据仍看得到）
+  String lastStaffMenuText = '';
+
+  /// 上一次杖的目标列表长度（`0` = 当时没人可治）
+  int lastStaffTargetsShown = 0;
   String lastConfirmText = '';
 
   /// 舍弃确认框**打开时**的默认项（0 = いいえ / No）。
