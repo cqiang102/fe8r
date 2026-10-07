@@ -327,6 +327,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _loadChapterMaps();
       _loadChapterLinks();
       _loadUnitDefs();
+      _loadCharNames();
+      _loadObjectives();
       _loadChapters();
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
@@ -656,6 +658,180 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     return v is String && v != '0' ? v : null;
   }
 
+  // ---------------------------------------------------------------- 胜负判定
+
+  /// 已置上的事件标志（`include/constants/event-flags.h`）
+  ///
+  /// 原作里标志存在 EWRAM 的位图里；这里就是一个 Set ——
+  /// **语义一样**（查/置/清），只是不共享内存布局。
+  final Set<int> eventFlags = <int>{};
+
+  /// 本章的胜负条件表（`event_lists.json` 里 `EventListScr_<章节>_Misc`）
+  ChapterObjectives? _objectives;
+
+  /// `gDefeatTalkList` —— **"首领"的操作性定义**（`defeat_talk.json`）
+  List<Map<String, dynamic>> _defeatTalk = const [];
+
+  /// 已经被判定过的条件（避免同一帧重复触发）
+  bool _objectiveRunning = false;
+
+  void _loadObjectives() {
+    // ① 事件列表：章节 → Misc 列表
+    final ef = File('tools/pipeline/out/tables/event_lists.json');
+    if (ef.existsSync()) {
+      final d = jsonDecode(ef.readAsStringSync()) as Map<String, dynamic>;
+      final lists = d['lists'] as Map<String, dynamic>;
+      // 章节号 → 事件组名（`PrologueEvents`）→ 列表名（`EventListScr_Prologue_Misc`）
+      final ev = _chapterLinks.isNotEmpty && sceneChapter < _chapterLinks.length
+          ? _chapterLinks[sceneChapter]['eventGroupName'] as String?
+          : null;
+      if (ev != null) {
+        final key = 'EventListScr_${ev.replaceAll('Events', '')}_Misc';
+        final raw = lists[key];
+        if (raw is List) {
+          _objectives = ChapterObjectives.fromJson(raw);
+        } else {
+          status.value = '第 $sceneChapter 章没有 Misc 列表（找的是 $key）';
+        }
+      }
+    }
+
+    // ② 死亡台词表（首领定义）
+    final df = File('tools/pipeline/out/tables/defeat_talk.json');
+    if (df.existsSync()) {
+      final d = jsonDecode(df.readAsStringSync()) as Map<String, dynamic>;
+      _defeatTalk = [
+        for (final e in (d['entries'] as List<dynamic>))
+          (e as Map<String, dynamic>),
+      ];
+    }
+    eventFlags.clear();
+  }
+
+  /// 角色编号 → 源码里的符号名（`defeat_talk.json` 用的是符号名）
+  ///
+  /// ⚠️ 这里只能做**字符串对表**：`charIndex` 是数字，而表里是
+  /// `CHARACTER_ONEILL` 这类符号。所以先从 `characters.h` 建映射。
+  Map<int, String>? _charNames;
+
+  void _loadCharNames() {
+    final f = File('tools/pipeline/out/tables/char_names.json');
+    if (!f.existsSync()) return;
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    _charNames = {
+      for (final e in d.entries) int.parse(e.key): e.value as String,
+    };
+  }
+
+  /// 从**战场现状**推导隐含的事件标志。
+  ///
+  /// 原作的标志是由引擎在具体时机置上的（单位死亡时查 `gDefeatTalkList`）。
+  /// 这里用「每次行动后按现状推导」的等价做法 ——
+  /// **判据一样**（首领没了 / 主角没了 / 敌人全没了），只是时机不同。
+  void _deriveFlags() {
+    final f = field;
+    if (f == null) return;
+
+    // 首领阵亡：查 `gDefeatTalkList` 里本章的条目
+    for (final e in _defeatTalk) {
+      final ch = e['chapter'] as String?;
+      // `CHAPTER_L_PROLOGUE` / `CHAPTER_L_1` … 只认本章
+      if (ch == null) continue;
+      // 章号对不上就跳过（粗略匹配：PROLOGUE=0，L_1=1 …）
+      final want = _chapterNameForDefeatTalk(sceneChapter);
+      if (want != null && ch != want) continue;
+      final pid = _charNames?.entries
+          .where((kv) => kv.value == e['pid'])
+          .map((kv) => kv.key)
+          .firstOrNull;
+      if (pid == null) continue;
+      final boss = f.units.where((u) => u.charIndex == pid).firstOrNull;
+      if (boss != null && !boss.isAlive) {
+        final flag = _flagByName(e['flag'] as String?);
+        if (flag != null) eventFlags.add(flag);
+      }
+    }
+
+    // 主角阵亡 -> GameOver
+    final lord = f.units.where((u) => u.faction == Faction.blue).firstOrNull;
+    if (lord != null && !lord.isAlive) {
+      eventFlags.add(EventFlags.gameOver);
+    }
+
+    // 敌全灭
+    final anyEnemy = f.units.any((u) => u.faction == Faction.red && u.isAlive);
+    if (!anyEnemy && f.units.any((u) => u.faction == Faction.red)) {
+      eventFlags.add(EventFlags.defeatAll);
+    }
+  }
+
+  String? _chapterNameForDefeatTalk(int ch) {
+    switch (ch) {
+      case 0:
+        return 'CHAPTER_L_PROLOGUE';
+      case 1:
+        return 'CHAPTER_L_1';
+      case 2:
+        return 'CHAPTER_L_2';
+      case 3:
+        return 'CHAPTER_L_3';
+    }
+    return null;
+  }
+
+  int? _flagByName(String? n) {
+    switch (n) {
+      case 'EVFLAG_DEFEAT_BOSS':
+        return EventFlags.defeatBoss;
+      case 'EVFLAG_DEFEAT_ALL':
+        return EventFlags.defeatAll;
+      case 'EVFLAG_WIN':
+        return EventFlags.win;
+      case 'EVFLAG_GAMEOVER':
+        return EventFlags.gameOver;
+    }
+    return null;
+  }
+
+  /// **检查胜负条件** —— 每次行动后与回合结束时调用。
+  ///
+  /// 命中就执行对应脚本（序章是 `EventScr_Prologue_EndingScene`，
+  /// 它内部会 `MNC2(1)` 切到第 1 章）。
+  Future<void> _checkObjectives() async {
+    if (_objectiveRunning || inTitleFlow) return;
+    final o = _objectives;
+    if (o == null) return;
+
+    _deriveFlags();
+    final hit = o.firstMatch(eventFlags.contains);
+    if (hit == null || hit.script == null) return;
+
+    // 记上「已执行」标志 —— 对应原作 `info->flag`，避免重复触发
+    if (hit.doneFlag != 0) eventFlags.add(hit.doneFlag);
+
+    final fn = allSceneFns[hit.script!];
+    if (fn == null) {
+      status.value = '胜负条件命中，但没有脚本 ${hit.script}';
+      return;
+    }
+
+    _objectiveRunning = true;
+    try {
+      final sc = scene;
+      if (sc == null) return;
+      status.value = '胜负条件命中 -> ${hit.script}';
+      await fn(sc);
+    } finally {
+      _objectiveRunning = false;
+    }
+
+    // 脚本演完可能已经切了章节（`MNC2`）—— 重载条件表
+    if (!_objectiveRunning) {
+      _loadObjectives();
+      _updateHud();
+    }
+  }
+
   /// 单位定义表（`unit_defs.json`）—— `LOAD1/LOAD2/LOAD3` 用它
   Map<String, dynamic> _unitDefs = const {};
 
@@ -710,6 +886,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         },
         x: (m['x'] as num?)?.toInt() ?? 0,
         y: (m['y'] as num?)?.toInt() ?? 0,
+        charIndex: (m['charIndex'] as num?)?.toInt() ?? 0,
         classId: cls,
         level: (m['level'] as num?)?.toInt() ?? 1,
         // 职业名走 `classes.json`，这里只用编号占位（名字不是规则层的输入）
@@ -1065,6 +1242,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final f = field;
     final s = state;
     if (f == null || s == null) return;
+
+    // 回合结束是胜负判定点之一（原作 `CheckForWaitEvents` 挂在等待事件上）
+    unawaited(_checkObjectives());
 
     // 最多转 4 个阶段，防止任何意外造成死循环
     for (var guard = 0; guard < 4; guard++) {

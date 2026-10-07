@@ -1,0 +1,480 @@
+{
+ "source": "third_party/fireemblem8u/src/data_battlequotes.c",
+ "note": "角色在某章死亡时置上的标志。「首领」= 出现在这张表里的角色。",
+ "entries": [
+  {
+   "pid": "CHARACTER_ONEILL",
+   "chapter": "CHAPTER_L_PROLOGUE",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0917"
+  },
+  {
+   "pid": "CHARACTER_BREGUET",
+   "chapter": "CHAPTER_L_1",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0936"
+  },
+  {
+   "pid": "CHARACTER_BONE",
+   "chapter": "CHAPTER_L_2",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0961"
+  },
+  {
+   "pid": "CHARACTER_BAZBA",
+   "chapter": "CHAPTER_L_3",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0994"
+  },
+  {
+   "pid": "CHARACTER_ENTOUMBED_CH4",
+   "chapter": "CHAPTER_L_4",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0000"
+  },
+  {
+   "pid": "CHARACTER_NATASHA",
+   "chapter": "CHAPTER_L_5",
+   "flag": null,
+   "msg": "0x09C6"
+  },
+  {
+   "pid": "CHARACTER_SAAR",
+   "chapter": "CHAPTER_L_5",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x09C8"
+  },
+  {
+   "pid": "CHARACTER_ZONTA",
+   "chapter": "CHAPTER_L_5X",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x09E0"
+  },
+  {
+   "pid": "CHARACTER_FORDE",
+   "chapter": "CHAPTER_L_5X",
+   "flag": null,
+   "msg": "0x09DC"
+  },
+  {
+   "pid": "CHARACTER_KYLE",
+   "chapter": "CHAPTER_L_5X",
+   "flag": null,
+   "msg": "0x09DD"
+  },
+  {
+   "pid": "CHARACTER_ORSON_CH5X",
+   "chapter": "CHAPTER_L_5X",
+   "flag": null,
+   "msg": "0x09DE"
+  },
+  {
+   "pid": "CHARACTER_NOVALA",
+   "chapter": "CHAPTER_L_6",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x09F0"
+  },
+  {
+   "pid": "CHARACTER_MURRAY",
+   "chapter": "CHAPTER_L_7",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0A03"
+  },
+  {
+   "pid": "CHARACTER_TIRADO",
+   "chapter": "CHAPTER_L_8",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0A0F"
+  },
+  {
+   "pid": "CHARACTER_BINKS",
+   "chapter": "CHAPTER_E_9",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0A21"
+  },
+  {
+   "pid": "CHARACTER_GHEB",
+   "chapter": "CHAPTER_I_9",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0AAB"
+  },
+  {
+   "pid": "CHARACTER_PABLO",
+   "chapter": "CHAPTER_E_10",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0A35"
+  },
+  {
+   "pid": "CHARACTER_DUESSEL",
+   "chapter": "CHAPTER_I_10",
+   "flag": "EVFLAG_GAMEOVER",
+   "msg": "0x0C40"
+  },
+  {
+   "pid": "CHARACTER_BERAN",
+   "chapter": "CHAPTER_I_10",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0ABF"
+  },
+  {
+   "pid": "CHARACTER_CYCLOPS_CHUnk",
+   "chapter": "CHAPTER_I_12",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0000"
+  },
+  {
+   "pid": "CHARACTER_AIAS",
+   "chapter": "CHAPTER_E_13",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0A72"
+  },
+  {
+   "pid": "CHARACTER_PABLO",
+   "chapter": "CHAPTER_E_13",
+   "flag": null,
+   "msg": "0x0A74"
+  },
+  {
+   "pid": "CHARACTER_SELENA",
+   "chapter": "CHAPTER_I_13",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0AF1"
+  },
+  {
+   "pid": "CHARACTER_CARLYLE",
+   "chapter": "CHAPTER_E_14",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0A8A"
+  },
+  {
+   "pid": "CHARACTER_VIGARDE",
+   "chapter": "CHAPTER_I_14",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B04"
+  },
+  {
+   "pid": "CHARACTER_VALTER",
+   "chapter": "CHAPTER_E_15",
+   "flag": null,
+   "msg": "0x0B24"
+  },
+  {
+   "pid": "CHARACTER_CAELLACH",
+   "chapter": "CHAPTER_E_15",
+   "flag": null,
+   "msg": "0x0B26"
+  },
+  {
+   "pid": "CHARACTER_VALTER",
+   "chapter": "CHAPTER_I_15",
+   "flag": null,
+   "msg": "0x0B24"
+  },
+  {
+   "pid": "CHARACTER_CAELLACH",
+   "chapter": "CHAPTER_I_15",
+   "flag": null,
+   "msg": "0x0B26"
+  },
+  {
+   "pid": "CHARACTER_ORSON",
+   "chapter": "CHAPTER_E_16",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B48"
+  },
+  {
+   "pid": "CHARACTER_ORSON",
+   "chapter": "CHAPTER_I_16",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B48"
+  },
+  {
+   "pid": "CHARACTER_LYON",
+   "chapter": "CHAPTER_E_17",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B6D"
+  },
+  {
+   "pid": "CHARACTER_LYON",
+   "chapter": "CHAPTER_I_17",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B6D"
+  },
+  {
+   "pid": "CHARACTER_GORGON_CHUnk",
+   "chapter": "CHAPTER_E_18",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0000"
+  },
+  {
+   "pid": "CHARACTER_GORGON_CHUnk",
+   "chapter": "CHAPTER_I_18",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0000"
+  },
+  {
+   "pid": "CHARACTER_MANSEL",
+   "chapter": "CHAPTER_E_19",
+   "flag": "EVFLAG_GAMEOVER",
+   "msg": "0x0B99"
+  },
+  {
+   "pid": "CHARACTER_RIEV",
+   "chapter": "CHAPTER_E_19",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B9B"
+  },
+  {
+   "pid": "CHARACTER_TANA",
+   "chapter": "CHAPTER_I_19",
+   "flag": "0x0007",
+   "msg": "0x0C34"
+  },
+  {
+   "pid": "CHARACTER_MANSEL",
+   "chapter": "CHAPTER_I_19",
+   "flag": "EVFLAG_GAMEOVER",
+   "msg": "0x0B99"
+  },
+  {
+   "pid": "CHARACTER_RIEV",
+   "chapter": "CHAPTER_I_19",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0B9B"
+  },
+  {
+   "pid": "CHARACTER_RIEV",
+   "chapter": "CHAPTER_E_20",
+   "flag": null,
+   "msg": "0x0BB2"
+  },
+  {
+   "pid": "CHARACTER_RIEV",
+   "chapter": "CHAPTER_I_20",
+   "flag": null,
+   "msg": "0x0BB2"
+  },
+  {
+   "pid": "CHARACTER_LYON_FINAL",
+   "chapter": "CHAPTER_E_21",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0BC2"
+  },
+  {
+   "pid": "CHARACTER_LYON_FINAL",
+   "chapter": "CHAPTER_I_21",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0BC4"
+  },
+  {
+   "pid": "CHARACTER_FOMORTIIS",
+   "chapter": "CHAPTER_E_21X",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0000"
+  },
+  {
+   "pid": "CHARACTER_FOMORTIIS",
+   "chapter": "CHAPTER_I_21X",
+   "flag": "EVFLAG_DEFEAT_BOSS",
+   "msg": "0x0000"
+  },
+  {
+   "pid": "CHARACTER_EIRIKA",
+   "chapter": "0xFF",
+   "flag": "EVFLAG_GAMEOVER",
+   "msg": "0x0C23"
+  },
+  {
+   "pid": "CHARACTER_EPHRAIM",
+   "chapter": "0xFF",
+   "flag": "EVFLAG_GAMEOVER",
+   "msg": "0x0C24"
+  },
+  {
+   "pid": "CHARACTER_SETH",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C25"
+  },
+  {
+   "pid": "CHARACTER_FRANZ",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C26"
+  },
+  {
+   "pid": "CHARACTER_GILLIAM",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C27"
+  },
+  {
+   "pid": "CHARACTER_MOULDER",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C28"
+  },
+  {
+   "pid": "CHARACTER_VANESSA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C29"
+  },
+  {
+   "pid": "CHARACTER_GARCIA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C2A"
+  },
+  {
+   "pid": "CHARACTER_ROSS",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C2B"
+  },
+  {
+   "pid": "CHARACTER_COLM",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C2C"
+  },
+  {
+   "pid": "CHARACTER_NEIMI",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C2D"
+  },
+  {
+   "pid": "CHARACTER_ARTUR",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C2E"
+  },
+  {
+   "pid": "CHARACTER_LUTE",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C2F"
+  },
+  {
+   "pid": "CHARACTER_NATASHA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C30"
+  },
+  {
+   "pid": "CHARACTER_JOSHUA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C31"
+  },
+  {
+   "pid": "CHARACTER_KYLE",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C32"
+  },
+  {
+   "pid": "CHARACTER_FORDE",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C33"
+  },
+  {
+   "pid": "CHARACTER_TANA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C34"
+  },
+  {
+   "pid": "CHARACTER_INNES",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C35"
+  },
+  {
+   "pid": "CHARACTER_GERIK",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C36"
+  },
+  {
+   "pid": "CHARACTER_TETHYS",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C37"
+  },
+  {
+   "pid": "CHARACTER_MARISA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C38"
+  },
+  {
+   "pid": "CHARACTER_SALEH",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C39"
+  },
+  {
+   "pid": "CHARACTER_EWAN",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C3A"
+  },
+  {
+   "pid": "CHARACTER_LARACHEL",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C3B"
+  },
+  {
+   "pid": "CHARACTER_DOZLA",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C3C"
+  },
+  {
+   "pid": "CHARACTER_CORMAG",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C3D"
+  },
+  {
+   "pid": "CHARACTER_AMELIA",
+   "chapter": "0xFF",
+   "flag": "0x0086",
+   "msg": "0x0C3E"
+  },
+  {
+   "pid": "CHARACTER_RENNAC",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C3F"
+  },
+  {
+   "pid": "CHARACTER_DUESSEL",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C40"
+  },
+  {
+   "pid": "CHARACTER_MYRRH",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C41"
+  },
+  {
+   "pid": "CHARACTER_KNOLL",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C42"
+  },
+  {
+   "pid": "CHARACTER_SYRENE",
+   "chapter": "0xFF",
+   "flag": null,
+   "msg": "0x0C43"
+  }
+ ]
+}

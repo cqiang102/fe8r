@@ -181,6 +181,20 @@ Future<void> main(List<String> argv) async {
       Step('L0', '章节配置提取', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
+      Step('L0', '角色编号→符号名', 'python3',
+          ['extract/parse_char_names.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '胜负判定要把符号名和 charIndex 对起来')
+    else
+      Step('L0', '角色名', 'true', const [], skip: true, note: decompNote),
+
+    if (hasDecomp())
+      Step('L0', '首领定义（死亡台词表）', 'python3',
+          ['extract/parse_defeat_talk.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: 'gDefeatTalkList —— 首领的操作性定义')
+    else
+      Step('L0', '首领定义', 'true', const [], skip: true, note: decompNote),
+
+    if (hasDecomp())
       Step('L0', '事件列表（胜负条件）', 'python3',
           ['extract/parse_event_lists.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: 'Misc 里的 FLAG 条目就是胜负条件')

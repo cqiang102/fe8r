@@ -21,6 +21,7 @@ class MapUnit {
     required this.faction,
     required this.x,
     required this.y,
+    this.charIndex = 0,
     this.classId = 0,
     this.level = 1,
     this.movement = 5,
@@ -38,6 +39,9 @@ class MapUnit {
 
   int x;
   int y;
+
+  /// 角色编号（`UnitDefinition.charIndex`）—— 胜负判定用它认首领
+  final int charIndex;
 
   final int classId;
   final int level;
