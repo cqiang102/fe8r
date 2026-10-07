@@ -104,6 +104,27 @@ class UnitComponent extends PositionComponent {
       paint,
     );
 
+    // ★ **HP 条**（头顶）：只在**掉过血**时画，避免满屏噪音。
+    //
+    // 用户反馈过"战斗没有反馈"：地图上打完只有数字在变，看不出谁伤了多少。
+    // 这里画的是 2px 高的小条：底（暗）+ 当前 HP（绿→黄→红）。
+    if (unit.hp < unit.maxHp && unit.maxHp > 0) {
+      final frac = (unit.hp / unit.maxHp).clamp(0.0, 1.0);
+      final w = size.x - 6;
+      final barY = -3.0; // 头顶（组件原点在格左上）
+      canvas.drawRect(
+        Rect.fromLTWH(3, barY, w, 2),
+        Paint()..color = const Color(0xCC1A1A1A),
+      );
+      final c = frac > 0.5
+          ? const Color(0xFF5BD75B)
+          : (frac > 0.25 ? const Color(0xFFE8C34A) : const Color(0xFFD9534F));
+      canvas.drawRect(
+        Rect.fromLTWH(3, barY, w * frac, 2),
+        Paint()..color = c,
+      );
+    }
+
     // 边框：选中 > 当前阵营 > 普通
     final stroke = Paint()
       ..style = PaintingStyle.stroke
@@ -681,5 +702,63 @@ class PhaseBannerComponent extends PositionComponent {
       Rect.fromLTWH(0, size.y - 2, size.x, 2),
       Paint()..color = isEnemy ? const Color(0xFFFF6B6B) : const Color(0xFF6BCBFF),
     );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 伤害数字（地图上的即时反馈）
+//
+// 用户反馈过"战斗没有反馈"：地图上打完只有数字在变。这个组件在受力单位头顶
+// 飘一个 `-N`，几十帧后自己消失。
+//
+// ⚠️ 数值**不是**从战报字符串里抠的 —— 那是解析文本、很脆；
+//    用的是攻击**前后 HP 差**（结构化、和结算共用同一份状态）。
+// ---------------------------------------------------------------------------
+class DamagePopupComponent extends PositionComponent {
+  DamagePopupComponent({
+    required this.text,
+    required this.tileSize,
+    required Vector2 at,
+    this.isHeal = false,
+  })  : _left = 40,
+        super(
+          position: at.clone(),
+          size: Vector2.all(tileSize),
+          priority: 900, // 压在单位与光标之上
+        );
+
+  final String text;
+  final double tileSize;
+  final bool isHeal;
+
+  int _left;
+
+  /// 还剩几帧（游戏层用它回收组件）
+  int get framesLeft => _left;
+
+  bool tick() {
+    _left -= 1;
+    return _left > 0;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: isHeal ? const Color(0xFF6BE06B) : const Color(0xFFFFE066),
+          fontSize: tileSize * 0.55,
+          fontWeight: FontWeight.bold,
+          shadows: const [
+            Shadow(color: Color(0xFF000000), blurRadius: 2, offset: Offset(1, 1)),
+          ],
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    // 越飘越上（40 帧里上移约一格）
+    final dy = (40 - _left) * tileSize / 40 * 0.6;
+    tp.paint(canvas, Offset(size.x * 0.1, -tp.height - dy));
   }
 }

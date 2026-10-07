@@ -493,6 +493,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'pendingWorldMapTarget': _pendingWorldMapTarget,
       'worldMapNote': _worldMapNote,
       'lastWmBeginningScript': _lastWmBeginningScript,
+      'popups': _popups.length,
+      'popupLog': _popupLog.toList(),
+      'damageDealtTotal': _damageDealtTotal,
       // 教学事件（两段式：入队 → 触发）
       'tutorial': tutorial.toJson(),
       'tutorialTableSize': _currentTutorials.length,
@@ -1224,6 +1227,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   @override
   void update(double dt) {
     _tickBanner();
+    _tickPopups();
 
     // ★ **延迟建视图**：`MNCH`（或 `FE8R_WM`）可能发生在 layout 之前，
     // 那时 `camera.viewport.virtualSize` 会断言失败，所以 `_showWorldMapView`
@@ -1905,6 +1909,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 大地图的诊断（走不动时写这里，转储里看得见）
   String _worldMapNote = '';
 
+  /// 地图上的伤害数字（用户反馈"战斗没有反馈"）
+  final List<DamagePopupComponent> _popups = [];
+
+  /// 最近几次飘字（x, y, text）—— 判据用
+  final List<Map<String, Object?>> _popupLog = [];
+
+  /// 本次战斗累计造成的伤害（判据用：不等于 0 就说明真的打到了）
+  int _damageDealtTotal = 0;
+
   /// 回合横幅剩余帧数 + 当前文字（`ProcScr_PhaseIntro` 的最小等价物）
   int _bannerFrames = 0;
   String _bannerText = '';
@@ -2494,7 +2507,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   Future<void> _attackWithQuote(
       BattleField f, MapUnit attacker, MapUnit defender) async {
     await _playBattleQuoteIfAny(attacker, defender);
+    // ★ 攻击**前后**的 HP 差 = 这一下打了多少（结构化，不解析战报字符串）
+    final defBefore = defender.hp;
+    final atkBefore = attacker.hp;
     _resolveAttack(f, attacker, defender);
+    final defDelta = defBefore - defender.hp;
+    final atkDelta = atkBefore - attacker.hp;
+    _spawnDamagePopup(defender, defDelta);
+    _spawnDamagePopup(attacker, atkDelta);
     _rebuildOverlay();
     _updateHud();
     await _handleDeaths(f);
@@ -3728,6 +3748,40 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (name == null) continue;
       _specialEventFired = '$what：$name';
       await _runNamedScript(name);
+    }
+  }
+
+  /// 在单位头顶飘一个数字（`-N`）。
+  ///
+  /// 数值来自**攻击前后 HP 差**（结构化），不是从战报字符串里抠。
+  void _spawnDamagePopup(MapUnit u, int delta) {
+    if (delta == 0) return;
+    final text = delta > 0 ? '-$delta' : '+${-delta}';
+    final tile = _battleView?.tileSize ?? 16.0;
+    final comp = DamagePopupComponent(
+      text: text,
+      tileSize: tile,
+      at: Vector2(u.x * tile, u.y * tile),
+      isHeal: delta < 0,
+    );
+    _popups.add(comp);
+    _battleView?.layer.add(comp);
+    // ★ 累计伤害**就在飘字这里加**（单一来源）——
+    // 原来我在调用点加 `defDelta`，结果出现过"飘了 -20 但累计仍是 0"
+    // （两边不是同一个来源：另一条攻击路径也会飘字）。
+    if (delta > 0) _damageDealtTotal += delta;
+    _popupLog.add({'x': u.x, 'y': u.y, 'text': text, 'unit': u.id});
+    if (_popupLog.length > 8) _popupLog.removeAt(0);
+  }
+
+  /// 每帧推进飘字，到期回收（组件有自己的生命周期，别靠整树重建）
+  void _tickPopups() {
+    if (_popups.isEmpty) return;
+    for (final p in _popups.toList()) {
+      if (!p.tick()) {
+        _popups.remove(p);
+        p.removeFromParent();
+      }
     }
   }
 

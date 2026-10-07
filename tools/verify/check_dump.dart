@@ -385,6 +385,19 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         'tiles=${tiles.take(8).toList()}…（共 ${tiles.length}）');
   }
 
+  if (scenario == 'battle') {
+    // ★ 地图上的战斗反馈（用户反馈"战斗没有反馈"）：
+    // 伤害数字由**攻击前后 HP 差**驱动（结构化），不是解析战报字符串。
+    ok((d['damageDealtTotal'] as int? ?? 0) > 0,
+        '这一局真的打出了伤害（累计 > 0）', 'total=${d['damageDealtTotal']}');
+    final log = (d['popupLog'] as List?) ?? const [];
+    ok(log.isNotEmpty, '飘过伤害数字', 'popupLog=${log.length} 条: ${log.take(2)}');
+    final first = log.isEmpty ? null : (log.first as Map<String, dynamic>);
+    ok(first != null && '${first['text']}'.startsWith('-'),
+        '飘字是"−N"（受伤方）', 'first=$first');
+    ok((d['popups'] as int? ?? 0) >= 0, '飘字组件有生命周期字段', 'popups=${d['popups']}');
+  }
+
   if (scenario == 'worldmap') {
     // ★ 章间大地图：`MNCH` 之后**必须**先到这里，而不是直接切章。
     // 出处：`src/Event2A_MoveToChapter.c:24-31`（`MNCH` → `save_menu_type = 1`
