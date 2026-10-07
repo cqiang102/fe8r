@@ -21,7 +21,6 @@ import 'dart:ui' show Color;
 import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
 import 'package:fe8r/game/ctl_server.dart';
-import 'package:flame/components.dart';
 import 'package:flutter/widgets.dart' show GlobalKey;
 import 'package:fe8r/game/world_map_view.dart';
 import 'package:fe8r/ui/debug_screenshot.dart';
