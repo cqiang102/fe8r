@@ -10,7 +10,7 @@
 // **请勿手改**：改 C 源码或生成器，然后重新生成。
 //
 // 每个脚本编译成一个 `async` 函数 —— **没有指令列表，没有解释器**。
-// 脚本 311 个（直线 202 个 / 有分支 109 个）
+// 脚本 444 个（直线 335 个 / 有分支 109 个）
 //
 // 直线脚本是顺序的 async 代码；有分支的用 `while(true){switch(pc)}`，
 // `pc` 是**局部变量**（因为不需要存档）。
@@ -18,6 +18,534 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'scene.dart';
+
+/// `EventScrWM_CastleFrelia_Beginning`
+Future<void> EventScrWM_CastleFrelia_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch10a_Beginning`
+Future<void> EventScrWM_Ch10a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch10b_Beginning`
+Future<void> EventScrWM_Ch10b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch11a_Beginning`
+Future<void> EventScrWM_Ch11a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch11b_Beginning`
+Future<void> EventScrWM_Ch11b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch12a_Beginning`
+Future<void> EventScrWM_Ch12a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch12b_Beginning`
+Future<void> EventScrWM_Ch12b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch13a_Beginning`
+Future<void> EventScrWM_Ch13a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch13b_Beginning`
+Future<void> EventScrWM_Ch13b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch14a_Beginning`
+Future<void> EventScrWM_Ch14a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch14b_Beginning`
+Future<void> EventScrWM_Ch14b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch15a_Beginning`
+Future<void> EventScrWM_Ch15a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch15b_Beginning`
+Future<void> EventScrWM_Ch15b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch16a_Beginning`
+Future<void> EventScrWM_Ch16a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch16b_Beginning`
+Future<void> EventScrWM_Ch16b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch17a_Beginning`
+Future<void> EventScrWM_Ch17a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch17b_Beginning`
+Future<void> EventScrWM_Ch17b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch18a_Beginning`
+Future<void> EventScrWM_Ch18a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch18b_Beginning`
+Future<void> EventScrWM_Ch18b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch19a_Beginning`
+Future<void> EventScrWM_Ch19a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch19b_Beginning`
+Future<void> EventScrWM_Ch19b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch1_Beginning`
+Future<void> EventScrWM_Ch1_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch1_ChapterIntro`
+Future<void> EventScrWM_Ch1_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch20a_Beginning`
+Future<void> EventScrWM_Ch20a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch20b_Beginning`
+Future<void> EventScrWM_Ch20b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch21a_Beginning`
+Future<void> EventScrWM_Ch21a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch21ax_Beginning`
+Future<void> EventScrWM_Ch21ax_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch21b_Beginning`
+Future<void> EventScrWM_Ch21b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch21bx_Beginning`
+Future<void> EventScrWM_Ch21bx_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch2_Beginning`
+Future<void> EventScrWM_Ch2_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch2_BeginningTutorial`
+Future<void> EventScrWM_Ch2_BeginningTutorial(Scene s) async {
+}
+
+/// `EventScrWM_Ch2_ChapterIntro`
+Future<void> EventScrWM_Ch2_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch3_Beginning`
+Future<void> EventScrWM_Ch3_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch3_BeginningTutorial`
+Future<void> EventScrWM_Ch3_BeginningTutorial(Scene s) async {
+}
+
+/// `EventScrWM_Ch3_ChapterIntro`
+Future<void> EventScrWM_Ch3_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch4_Beginning`
+Future<void> EventScrWM_Ch4_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch4_ChapterIntro`
+Future<void> EventScrWM_Ch4_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch5_0`
+Future<void> EventScrWM_Ch5_0(Scene s) async {
+}
+
+/// `EventScrWM_Ch5_1`
+Future<void> EventScrWM_Ch5_1(Scene s) async {
+}
+
+/// `EventScrWM_Ch5_Beginning`
+Future<void> EventScrWM_Ch5_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch5_ChapterIntro`
+Future<void> EventScrWM_Ch5_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch5x_Beginning`
+Future<void> EventScrWM_Ch5x_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch5x_ChapterIntro`
+Future<void> EventScrWM_Ch5x_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch6_Beginning`
+Future<void> EventScrWM_Ch6_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch6_ChapterIntro`
+Future<void> EventScrWM_Ch6_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch7_Beginning`
+Future<void> EventScrWM_Ch7_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch7_ChapterIntro`
+Future<void> EventScrWM_Ch7_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch8_Beginning`
+Future<void> EventScrWM_Ch8_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch8_ChapterIntro`
+Future<void> EventScrWM_Ch8_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch9a_Beginning`
+Future<void> EventScrWM_Ch9a_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Ch9a_ChapterIntro`
+Future<void> EventScrWM_Ch9a_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_Ch9b_Beginning`
+Future<void> EventScrWM_Ch9b_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins10_Beginning`
+Future<void> EventScrWM_LagdouRuins10_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins1_Beginning`
+Future<void> EventScrWM_LagdouRuins1_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins2_Beginning`
+Future<void> EventScrWM_LagdouRuins2_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins3_Beginning`
+Future<void> EventScrWM_LagdouRuins3_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins4_Beginning`
+Future<void> EventScrWM_LagdouRuins4_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins5_Beginning`
+Future<void> EventScrWM_LagdouRuins5_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins6_Beginning`
+Future<void> EventScrWM_LagdouRuins6_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins7_Beginning`
+Future<void> EventScrWM_LagdouRuins7_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins8_Beginning`
+Future<void> EventScrWM_LagdouRuins8_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_LagdouRuins9_Beginning`
+Future<void> EventScrWM_LagdouRuins9_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_MelkaenCoast_Beginning`
+Future<void> EventScrWM_MelkaenCoast_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_0`
+Future<void> EventScrWM_MessedEventscr_0(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_1`
+Future<void> EventScrWM_MessedEventscr_1(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_10`
+Future<void> EventScrWM_MessedEventscr_10(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_11`
+Future<void> EventScrWM_MessedEventscr_11(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_12`
+Future<void> EventScrWM_MessedEventscr_12(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_13`
+Future<void> EventScrWM_MessedEventscr_13(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_14`
+Future<void> EventScrWM_MessedEventscr_14(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_15`
+Future<void> EventScrWM_MessedEventscr_15(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_16`
+Future<void> EventScrWM_MessedEventscr_16(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_17`
+Future<void> EventScrWM_MessedEventscr_17(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_18`
+Future<void> EventScrWM_MessedEventscr_18(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_19`
+Future<void> EventScrWM_MessedEventscr_19(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_2`
+Future<void> EventScrWM_MessedEventscr_2(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_20`
+Future<void> EventScrWM_MessedEventscr_20(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_21`
+Future<void> EventScrWM_MessedEventscr_21(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_22`
+Future<void> EventScrWM_MessedEventscr_22(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_23`
+Future<void> EventScrWM_MessedEventscr_23(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_24`
+Future<void> EventScrWM_MessedEventscr_24(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_25`
+Future<void> EventScrWM_MessedEventscr_25(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_26`
+Future<void> EventScrWM_MessedEventscr_26(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_27`
+Future<void> EventScrWM_MessedEventscr_27(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_28`
+Future<void> EventScrWM_MessedEventscr_28(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_29`
+Future<void> EventScrWM_MessedEventscr_29(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_3`
+Future<void> EventScrWM_MessedEventscr_3(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_30`
+Future<void> EventScrWM_MessedEventscr_30(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_31`
+Future<void> EventScrWM_MessedEventscr_31(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_32`
+Future<void> EventScrWM_MessedEventscr_32(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_33`
+Future<void> EventScrWM_MessedEventscr_33(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_34`
+Future<void> EventScrWM_MessedEventscr_34(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_35`
+Future<void> EventScrWM_MessedEventscr_35(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_36`
+Future<void> EventScrWM_MessedEventscr_36(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_37`
+Future<void> EventScrWM_MessedEventscr_37(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_38`
+Future<void> EventScrWM_MessedEventscr_38(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_39`
+Future<void> EventScrWM_MessedEventscr_39(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_4`
+Future<void> EventScrWM_MessedEventscr_4(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_40`
+Future<void> EventScrWM_MessedEventscr_40(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_41`
+Future<void> EventScrWM_MessedEventscr_41(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_42`
+Future<void> EventScrWM_MessedEventscr_42(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_43`
+Future<void> EventScrWM_MessedEventscr_43(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_44`
+Future<void> EventScrWM_MessedEventscr_44(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_45`
+Future<void> EventScrWM_MessedEventscr_45(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_46`
+Future<void> EventScrWM_MessedEventscr_46(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_47`
+Future<void> EventScrWM_MessedEventscr_47(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_48`
+Future<void> EventScrWM_MessedEventscr_48(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_49`
+Future<void> EventScrWM_MessedEventscr_49(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_5`
+Future<void> EventScrWM_MessedEventscr_5(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_50`
+Future<void> EventScrWM_MessedEventscr_50(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_51`
+Future<void> EventScrWM_MessedEventscr_51(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_52`
+Future<void> EventScrWM_MessedEventscr_52(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_53`
+Future<void> EventScrWM_MessedEventscr_53(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_54`
+Future<void> EventScrWM_MessedEventscr_54(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_55`
+Future<void> EventScrWM_MessedEventscr_55(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_56`
+Future<void> EventScrWM_MessedEventscr_56(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_57`
+Future<void> EventScrWM_MessedEventscr_57(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_58`
+Future<void> EventScrWM_MessedEventscr_58(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_6`
+Future<void> EventScrWM_MessedEventscr_6(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_7`
+Future<void> EventScrWM_MessedEventscr_7(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_8`
+Future<void> EventScrWM_MessedEventscr_8(Scene s) async {
+}
+
+/// `EventScrWM_MessedEventscr_9`
+Future<void> EventScrWM_MessedEventscr_9(Scene s) async {
+}
+
+/// `EventScrWM_Prologue_Beginning`
+Future<void> EventScrWM_Prologue_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_Prologue_ChapterIntro`
+Future<void> EventScrWM_Prologue_ChapterIntro(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower1_Beginning`
+Future<void> EventScrWM_ValniTower1_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower2_Beginning`
+Future<void> EventScrWM_ValniTower2_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower3_Beginning`
+Future<void> EventScrWM_ValniTower3_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower4_Beginning`
+Future<void> EventScrWM_ValniTower4_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower5_Beginning`
+Future<void> EventScrWM_ValniTower5_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower6_Beginning`
+Future<void> EventScrWM_ValniTower6_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower7_Beginning`
+Future<void> EventScrWM_ValniTower7_Beginning(Scene s) async {
+}
+
+/// `EventScrWM_ValniTower8_Beginning`
+Future<void> EventScrWM_ValniTower8_Beginning(Scene s) async {
+}
 
 /// `EventScr_9EE6A0`
 Future<void> scr_9EE6A0(Scene s) async {
@@ -20055,6 +20583,10 @@ Future<void> UnitWarpOUT(Scene s) async {
     return;
 }
 
+/// `EventScr_WM_FadeCommon`
+Future<void> WM_FadeCommon(Scene s) async {
+}
+
 /// `EventScr_WholeTowerClear`
 Future<void> WholeTowerClear(Scene s) async {
     s.placeholder('ASMC');
@@ -20150,6 +20682,138 @@ Future<void> missing_EventScr_Ch7_3(Scene s) async {
 /// 占位函数。存在性检查必须用本集合 —— 用 `allSceneFns` 的话
 /// 占位让「缺失」看起来「存在」，检查就失效了（踩过）。
 final Set<String> definedSceneScripts = {
+  'EventScrWM_CastleFrelia_Beginning',
+  'EventScrWM_Ch10a_Beginning',
+  'EventScrWM_Ch10b_Beginning',
+  'EventScrWM_Ch11a_Beginning',
+  'EventScrWM_Ch11b_Beginning',
+  'EventScrWM_Ch12a_Beginning',
+  'EventScrWM_Ch12b_Beginning',
+  'EventScrWM_Ch13a_Beginning',
+  'EventScrWM_Ch13b_Beginning',
+  'EventScrWM_Ch14a_Beginning',
+  'EventScrWM_Ch14b_Beginning',
+  'EventScrWM_Ch15a_Beginning',
+  'EventScrWM_Ch15b_Beginning',
+  'EventScrWM_Ch16a_Beginning',
+  'EventScrWM_Ch16b_Beginning',
+  'EventScrWM_Ch17a_Beginning',
+  'EventScrWM_Ch17b_Beginning',
+  'EventScrWM_Ch18a_Beginning',
+  'EventScrWM_Ch18b_Beginning',
+  'EventScrWM_Ch19a_Beginning',
+  'EventScrWM_Ch19b_Beginning',
+  'EventScrWM_Ch1_Beginning',
+  'EventScrWM_Ch1_ChapterIntro',
+  'EventScrWM_Ch20a_Beginning',
+  'EventScrWM_Ch20b_Beginning',
+  'EventScrWM_Ch21a_Beginning',
+  'EventScrWM_Ch21ax_Beginning',
+  'EventScrWM_Ch21b_Beginning',
+  'EventScrWM_Ch21bx_Beginning',
+  'EventScrWM_Ch2_Beginning',
+  'EventScrWM_Ch2_BeginningTutorial',
+  'EventScrWM_Ch2_ChapterIntro',
+  'EventScrWM_Ch3_Beginning',
+  'EventScrWM_Ch3_BeginningTutorial',
+  'EventScrWM_Ch3_ChapterIntro',
+  'EventScrWM_Ch4_Beginning',
+  'EventScrWM_Ch4_ChapterIntro',
+  'EventScrWM_Ch5_0',
+  'EventScrWM_Ch5_1',
+  'EventScrWM_Ch5_Beginning',
+  'EventScrWM_Ch5_ChapterIntro',
+  'EventScrWM_Ch5x_Beginning',
+  'EventScrWM_Ch5x_ChapterIntro',
+  'EventScrWM_Ch6_Beginning',
+  'EventScrWM_Ch6_ChapterIntro',
+  'EventScrWM_Ch7_Beginning',
+  'EventScrWM_Ch7_ChapterIntro',
+  'EventScrWM_Ch8_Beginning',
+  'EventScrWM_Ch8_ChapterIntro',
+  'EventScrWM_Ch9a_Beginning',
+  'EventScrWM_Ch9a_ChapterIntro',
+  'EventScrWM_Ch9b_Beginning',
+  'EventScrWM_LagdouRuins10_Beginning',
+  'EventScrWM_LagdouRuins1_Beginning',
+  'EventScrWM_LagdouRuins2_Beginning',
+  'EventScrWM_LagdouRuins3_Beginning',
+  'EventScrWM_LagdouRuins4_Beginning',
+  'EventScrWM_LagdouRuins5_Beginning',
+  'EventScrWM_LagdouRuins6_Beginning',
+  'EventScrWM_LagdouRuins7_Beginning',
+  'EventScrWM_LagdouRuins8_Beginning',
+  'EventScrWM_LagdouRuins9_Beginning',
+  'EventScrWM_MelkaenCoast_Beginning',
+  'EventScrWM_MessedEventscr_0',
+  'EventScrWM_MessedEventscr_1',
+  'EventScrWM_MessedEventscr_10',
+  'EventScrWM_MessedEventscr_11',
+  'EventScrWM_MessedEventscr_12',
+  'EventScrWM_MessedEventscr_13',
+  'EventScrWM_MessedEventscr_14',
+  'EventScrWM_MessedEventscr_15',
+  'EventScrWM_MessedEventscr_16',
+  'EventScrWM_MessedEventscr_17',
+  'EventScrWM_MessedEventscr_18',
+  'EventScrWM_MessedEventscr_19',
+  'EventScrWM_MessedEventscr_2',
+  'EventScrWM_MessedEventscr_20',
+  'EventScrWM_MessedEventscr_21',
+  'EventScrWM_MessedEventscr_22',
+  'EventScrWM_MessedEventscr_23',
+  'EventScrWM_MessedEventscr_24',
+  'EventScrWM_MessedEventscr_25',
+  'EventScrWM_MessedEventscr_26',
+  'EventScrWM_MessedEventscr_27',
+  'EventScrWM_MessedEventscr_28',
+  'EventScrWM_MessedEventscr_29',
+  'EventScrWM_MessedEventscr_3',
+  'EventScrWM_MessedEventscr_30',
+  'EventScrWM_MessedEventscr_31',
+  'EventScrWM_MessedEventscr_32',
+  'EventScrWM_MessedEventscr_33',
+  'EventScrWM_MessedEventscr_34',
+  'EventScrWM_MessedEventscr_35',
+  'EventScrWM_MessedEventscr_36',
+  'EventScrWM_MessedEventscr_37',
+  'EventScrWM_MessedEventscr_38',
+  'EventScrWM_MessedEventscr_39',
+  'EventScrWM_MessedEventscr_4',
+  'EventScrWM_MessedEventscr_40',
+  'EventScrWM_MessedEventscr_41',
+  'EventScrWM_MessedEventscr_42',
+  'EventScrWM_MessedEventscr_43',
+  'EventScrWM_MessedEventscr_44',
+  'EventScrWM_MessedEventscr_45',
+  'EventScrWM_MessedEventscr_46',
+  'EventScrWM_MessedEventscr_47',
+  'EventScrWM_MessedEventscr_48',
+  'EventScrWM_MessedEventscr_49',
+  'EventScrWM_MessedEventscr_5',
+  'EventScrWM_MessedEventscr_50',
+  'EventScrWM_MessedEventscr_51',
+  'EventScrWM_MessedEventscr_52',
+  'EventScrWM_MessedEventscr_53',
+  'EventScrWM_MessedEventscr_54',
+  'EventScrWM_MessedEventscr_55',
+  'EventScrWM_MessedEventscr_56',
+  'EventScrWM_MessedEventscr_57',
+  'EventScrWM_MessedEventscr_58',
+  'EventScrWM_MessedEventscr_6',
+  'EventScrWM_MessedEventscr_7',
+  'EventScrWM_MessedEventscr_8',
+  'EventScrWM_MessedEventscr_9',
+  'EventScrWM_Prologue_Beginning',
+  'EventScrWM_Prologue_ChapterIntro',
+  'EventScrWM_ValniTower1_Beginning',
+  'EventScrWM_ValniTower2_Beginning',
+  'EventScrWM_ValniTower3_Beginning',
+  'EventScrWM_ValniTower4_Beginning',
+  'EventScrWM_ValniTower5_Beginning',
+  'EventScrWM_ValniTower6_Beginning',
+  'EventScrWM_ValniTower7_Beginning',
+  'EventScrWM_ValniTower8_Beginning',
   'EventScr_9EE6A0',
   'EventScr_9EE6C8',
   'EventScr_9EE84C',
@@ -20460,11 +21124,144 @@ final Set<String> definedSceneScripts = {
   'EventScr_UnitFlushingOUT',
   'EventScr_UnitWarpIN',
   'EventScr_UnitWarpOUT',
+  'EventScr_WM_FadeCommon',
   'EventScr_WholeTowerClear',
 };
 
 /// 脚本名 → 入口函数
 final Map<String, Future<void> Function(Scene)> allSceneFns = {
+  'EventScrWM_CastleFrelia_Beginning': EventScrWM_CastleFrelia_Beginning,
+  'EventScrWM_Ch10a_Beginning': EventScrWM_Ch10a_Beginning,
+  'EventScrWM_Ch10b_Beginning': EventScrWM_Ch10b_Beginning,
+  'EventScrWM_Ch11a_Beginning': EventScrWM_Ch11a_Beginning,
+  'EventScrWM_Ch11b_Beginning': EventScrWM_Ch11b_Beginning,
+  'EventScrWM_Ch12a_Beginning': EventScrWM_Ch12a_Beginning,
+  'EventScrWM_Ch12b_Beginning': EventScrWM_Ch12b_Beginning,
+  'EventScrWM_Ch13a_Beginning': EventScrWM_Ch13a_Beginning,
+  'EventScrWM_Ch13b_Beginning': EventScrWM_Ch13b_Beginning,
+  'EventScrWM_Ch14a_Beginning': EventScrWM_Ch14a_Beginning,
+  'EventScrWM_Ch14b_Beginning': EventScrWM_Ch14b_Beginning,
+  'EventScrWM_Ch15a_Beginning': EventScrWM_Ch15a_Beginning,
+  'EventScrWM_Ch15b_Beginning': EventScrWM_Ch15b_Beginning,
+  'EventScrWM_Ch16a_Beginning': EventScrWM_Ch16a_Beginning,
+  'EventScrWM_Ch16b_Beginning': EventScrWM_Ch16b_Beginning,
+  'EventScrWM_Ch17a_Beginning': EventScrWM_Ch17a_Beginning,
+  'EventScrWM_Ch17b_Beginning': EventScrWM_Ch17b_Beginning,
+  'EventScrWM_Ch18a_Beginning': EventScrWM_Ch18a_Beginning,
+  'EventScrWM_Ch18b_Beginning': EventScrWM_Ch18b_Beginning,
+  'EventScrWM_Ch19a_Beginning': EventScrWM_Ch19a_Beginning,
+  'EventScrWM_Ch19b_Beginning': EventScrWM_Ch19b_Beginning,
+  'EventScrWM_Ch1_Beginning': EventScrWM_Ch1_Beginning,
+  'EventScrWM_Ch1_ChapterIntro': EventScrWM_Ch1_ChapterIntro,
+  'EventScrWM_Ch20a_Beginning': EventScrWM_Ch20a_Beginning,
+  'EventScrWM_Ch20b_Beginning': EventScrWM_Ch20b_Beginning,
+  'EventScrWM_Ch21a_Beginning': EventScrWM_Ch21a_Beginning,
+  'EventScrWM_Ch21ax_Beginning': EventScrWM_Ch21ax_Beginning,
+  'EventScrWM_Ch21b_Beginning': EventScrWM_Ch21b_Beginning,
+  'EventScrWM_Ch21bx_Beginning': EventScrWM_Ch21bx_Beginning,
+  'EventScrWM_Ch2_Beginning': EventScrWM_Ch2_Beginning,
+  'EventScrWM_Ch2_BeginningTutorial': EventScrWM_Ch2_BeginningTutorial,
+  'EventScrWM_Ch2_ChapterIntro': EventScrWM_Ch2_ChapterIntro,
+  'EventScrWM_Ch3_Beginning': EventScrWM_Ch3_Beginning,
+  'EventScrWM_Ch3_BeginningTutorial': EventScrWM_Ch3_BeginningTutorial,
+  'EventScrWM_Ch3_ChapterIntro': EventScrWM_Ch3_ChapterIntro,
+  'EventScrWM_Ch4_Beginning': EventScrWM_Ch4_Beginning,
+  'EventScrWM_Ch4_ChapterIntro': EventScrWM_Ch4_ChapterIntro,
+  'EventScrWM_Ch5_0': EventScrWM_Ch5_0,
+  'EventScrWM_Ch5_1': EventScrWM_Ch5_1,
+  'EventScrWM_Ch5_Beginning': EventScrWM_Ch5_Beginning,
+  'EventScrWM_Ch5_ChapterIntro': EventScrWM_Ch5_ChapterIntro,
+  'EventScrWM_Ch5x_Beginning': EventScrWM_Ch5x_Beginning,
+  'EventScrWM_Ch5x_ChapterIntro': EventScrWM_Ch5x_ChapterIntro,
+  'EventScrWM_Ch6_Beginning': EventScrWM_Ch6_Beginning,
+  'EventScrWM_Ch6_ChapterIntro': EventScrWM_Ch6_ChapterIntro,
+  'EventScrWM_Ch7_Beginning': EventScrWM_Ch7_Beginning,
+  'EventScrWM_Ch7_ChapterIntro': EventScrWM_Ch7_ChapterIntro,
+  'EventScrWM_Ch8_Beginning': EventScrWM_Ch8_Beginning,
+  'EventScrWM_Ch8_ChapterIntro': EventScrWM_Ch8_ChapterIntro,
+  'EventScrWM_Ch9a_Beginning': EventScrWM_Ch9a_Beginning,
+  'EventScrWM_Ch9a_ChapterIntro': EventScrWM_Ch9a_ChapterIntro,
+  'EventScrWM_Ch9b_Beginning': EventScrWM_Ch9b_Beginning,
+  'EventScrWM_LagdouRuins10_Beginning': EventScrWM_LagdouRuins10_Beginning,
+  'EventScrWM_LagdouRuins1_Beginning': EventScrWM_LagdouRuins1_Beginning,
+  'EventScrWM_LagdouRuins2_Beginning': EventScrWM_LagdouRuins2_Beginning,
+  'EventScrWM_LagdouRuins3_Beginning': EventScrWM_LagdouRuins3_Beginning,
+  'EventScrWM_LagdouRuins4_Beginning': EventScrWM_LagdouRuins4_Beginning,
+  'EventScrWM_LagdouRuins5_Beginning': EventScrWM_LagdouRuins5_Beginning,
+  'EventScrWM_LagdouRuins6_Beginning': EventScrWM_LagdouRuins6_Beginning,
+  'EventScrWM_LagdouRuins7_Beginning': EventScrWM_LagdouRuins7_Beginning,
+  'EventScrWM_LagdouRuins8_Beginning': EventScrWM_LagdouRuins8_Beginning,
+  'EventScrWM_LagdouRuins9_Beginning': EventScrWM_LagdouRuins9_Beginning,
+  'EventScrWM_MelkaenCoast_Beginning': EventScrWM_MelkaenCoast_Beginning,
+  'EventScrWM_MessedEventscr_0': EventScrWM_MessedEventscr_0,
+  'EventScrWM_MessedEventscr_1': EventScrWM_MessedEventscr_1,
+  'EventScrWM_MessedEventscr_10': EventScrWM_MessedEventscr_10,
+  'EventScrWM_MessedEventscr_11': EventScrWM_MessedEventscr_11,
+  'EventScrWM_MessedEventscr_12': EventScrWM_MessedEventscr_12,
+  'EventScrWM_MessedEventscr_13': EventScrWM_MessedEventscr_13,
+  'EventScrWM_MessedEventscr_14': EventScrWM_MessedEventscr_14,
+  'EventScrWM_MessedEventscr_15': EventScrWM_MessedEventscr_15,
+  'EventScrWM_MessedEventscr_16': EventScrWM_MessedEventscr_16,
+  'EventScrWM_MessedEventscr_17': EventScrWM_MessedEventscr_17,
+  'EventScrWM_MessedEventscr_18': EventScrWM_MessedEventscr_18,
+  'EventScrWM_MessedEventscr_19': EventScrWM_MessedEventscr_19,
+  'EventScrWM_MessedEventscr_2': EventScrWM_MessedEventscr_2,
+  'EventScrWM_MessedEventscr_20': EventScrWM_MessedEventscr_20,
+  'EventScrWM_MessedEventscr_21': EventScrWM_MessedEventscr_21,
+  'EventScrWM_MessedEventscr_22': EventScrWM_MessedEventscr_22,
+  'EventScrWM_MessedEventscr_23': EventScrWM_MessedEventscr_23,
+  'EventScrWM_MessedEventscr_24': EventScrWM_MessedEventscr_24,
+  'EventScrWM_MessedEventscr_25': EventScrWM_MessedEventscr_25,
+  'EventScrWM_MessedEventscr_26': EventScrWM_MessedEventscr_26,
+  'EventScrWM_MessedEventscr_27': EventScrWM_MessedEventscr_27,
+  'EventScrWM_MessedEventscr_28': EventScrWM_MessedEventscr_28,
+  'EventScrWM_MessedEventscr_29': EventScrWM_MessedEventscr_29,
+  'EventScrWM_MessedEventscr_3': EventScrWM_MessedEventscr_3,
+  'EventScrWM_MessedEventscr_30': EventScrWM_MessedEventscr_30,
+  'EventScrWM_MessedEventscr_31': EventScrWM_MessedEventscr_31,
+  'EventScrWM_MessedEventscr_32': EventScrWM_MessedEventscr_32,
+  'EventScrWM_MessedEventscr_33': EventScrWM_MessedEventscr_33,
+  'EventScrWM_MessedEventscr_34': EventScrWM_MessedEventscr_34,
+  'EventScrWM_MessedEventscr_35': EventScrWM_MessedEventscr_35,
+  'EventScrWM_MessedEventscr_36': EventScrWM_MessedEventscr_36,
+  'EventScrWM_MessedEventscr_37': EventScrWM_MessedEventscr_37,
+  'EventScrWM_MessedEventscr_38': EventScrWM_MessedEventscr_38,
+  'EventScrWM_MessedEventscr_39': EventScrWM_MessedEventscr_39,
+  'EventScrWM_MessedEventscr_4': EventScrWM_MessedEventscr_4,
+  'EventScrWM_MessedEventscr_40': EventScrWM_MessedEventscr_40,
+  'EventScrWM_MessedEventscr_41': EventScrWM_MessedEventscr_41,
+  'EventScrWM_MessedEventscr_42': EventScrWM_MessedEventscr_42,
+  'EventScrWM_MessedEventscr_43': EventScrWM_MessedEventscr_43,
+  'EventScrWM_MessedEventscr_44': EventScrWM_MessedEventscr_44,
+  'EventScrWM_MessedEventscr_45': EventScrWM_MessedEventscr_45,
+  'EventScrWM_MessedEventscr_46': EventScrWM_MessedEventscr_46,
+  'EventScrWM_MessedEventscr_47': EventScrWM_MessedEventscr_47,
+  'EventScrWM_MessedEventscr_48': EventScrWM_MessedEventscr_48,
+  'EventScrWM_MessedEventscr_49': EventScrWM_MessedEventscr_49,
+  'EventScrWM_MessedEventscr_5': EventScrWM_MessedEventscr_5,
+  'EventScrWM_MessedEventscr_50': EventScrWM_MessedEventscr_50,
+  'EventScrWM_MessedEventscr_51': EventScrWM_MessedEventscr_51,
+  'EventScrWM_MessedEventscr_52': EventScrWM_MessedEventscr_52,
+  'EventScrWM_MessedEventscr_53': EventScrWM_MessedEventscr_53,
+  'EventScrWM_MessedEventscr_54': EventScrWM_MessedEventscr_54,
+  'EventScrWM_MessedEventscr_55': EventScrWM_MessedEventscr_55,
+  'EventScrWM_MessedEventscr_56': EventScrWM_MessedEventscr_56,
+  'EventScrWM_MessedEventscr_57': EventScrWM_MessedEventscr_57,
+  'EventScrWM_MessedEventscr_58': EventScrWM_MessedEventscr_58,
+  'EventScrWM_MessedEventscr_6': EventScrWM_MessedEventscr_6,
+  'EventScrWM_MessedEventscr_7': EventScrWM_MessedEventscr_7,
+  'EventScrWM_MessedEventscr_8': EventScrWM_MessedEventscr_8,
+  'EventScrWM_MessedEventscr_9': EventScrWM_MessedEventscr_9,
+  'EventScrWM_Prologue_Beginning': EventScrWM_Prologue_Beginning,
+  'EventScrWM_Prologue_ChapterIntro': EventScrWM_Prologue_ChapterIntro,
+  'EventScrWM_ValniTower1_Beginning': EventScrWM_ValniTower1_Beginning,
+  'EventScrWM_ValniTower2_Beginning': EventScrWM_ValniTower2_Beginning,
+  'EventScrWM_ValniTower3_Beginning': EventScrWM_ValniTower3_Beginning,
+  'EventScrWM_ValniTower4_Beginning': EventScrWM_ValniTower4_Beginning,
+  'EventScrWM_ValniTower5_Beginning': EventScrWM_ValniTower5_Beginning,
+  'EventScrWM_ValniTower6_Beginning': EventScrWM_ValniTower6_Beginning,
+  'EventScrWM_ValniTower7_Beginning': EventScrWM_ValniTower7_Beginning,
+  'EventScrWM_ValniTower8_Beginning': EventScrWM_ValniTower8_Beginning,
   'EventScr_9EE6A0': scr_9EE6A0,
   'EventScr_9EE6C8': scr_9EE6C8,
   'EventScr_9EE84C': scr_9EE84C,
@@ -20775,6 +21572,7 @@ final Map<String, Future<void> Function(Scene)> allSceneFns = {
   'EventScr_UnitFlushingOUT': UnitFlushingOUT,
   'EventScr_UnitWarpIN': UnitWarpIN,
   'EventScr_UnitWarpOUT': UnitWarpOUT,
+  'EventScr_WM_FadeCommon': WM_FadeCommon,
   'EventScr_WholeTowerClear': WholeTowerClear,
   'EventScr_Ch1Tut_GuideMsg944': missing_EventScr_Ch1Tut_GuideMsg944,
   'EventScr_Ch1Tut_GuideMsgSeize': missing_EventScr_Ch1Tut_GuideMsgSeize,

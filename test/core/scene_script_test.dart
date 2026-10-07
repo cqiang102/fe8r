@@ -40,6 +40,19 @@ void main() {
       // 缺失的脚本也生成占位函数 —— 这样代码能编译，
       // 而缺口在**运行时被记录**，不是静默消失。
       expect(allSceneFns.length, greaterThanOrEqualTo(196));
+      // ★ 大地图那 132 个章间脚本（`src/events_wm.c`）**必须**在里面。
+      //
+      // 它们原来一条都收不到，因为和普通脚本有**4 处**不同：
+      //   类型名 `EventScr` 而不是 `EventListScr`、
+      //   长度 `[358]` 而不是 `[]`、
+      //   方括号与 `=` 之间有 `__attribute__((section(...)))`、
+      //   名字是 `EventScrWM_*` 而不是 `EventScr_*`。
+      // 一条不对就**整批静默消失** —— 所以这里钉条数下界。
+      final wm = allSceneFns.keys.where((k) => k.startsWith('EventScrWM_')).toList();
+      expect(wm.length, greaterThanOrEqualTo(130),
+          reason: '大地图脚本数不对：${wm.length}（`src/events_wm.c` 有 132 个）');
+      expect(allSceneFns.containsKey('EventScrWM_Prologue_Beginning'), isTrue);
+      expect(allSceneFns.containsKey('EventScrWM_Ch1_Beginning'), isTrue);
       expect(allSceneFns.containsKey('EventScr_Prologue_BeginningScene'), isTrue);
       expect(allSceneFns.containsKey('EventScr_Prologue_EirikaAttacked'), isTrue,
           reason: '缺失的上游脚本也生成占位，否则调用处编译不过');

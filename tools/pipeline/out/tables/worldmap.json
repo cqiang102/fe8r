@@ -1,0 +1,889 @@
+{
+ "note": "大地图节点与路径。节点顺序 = gWMNodeData 顺序（= WMLoc_GetChapterId 的 i）。",
+ "nodes": [
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 11,
+   "iconPostClear": 11,
+   "chapteridx_eirika": 0,
+   "chapteridx_ephram": 0,
+   "unk_06": 137,
+   "unk_08": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "armorySym": "data_08AC2510 + 0x468",
+   "vendorSym": "data_08AC2510 + 0x52C",
+   "secretShopSym": "data_08AC2510 + 0x61E",
+   "hasShopPointers": true,
+   "x": 152,
+   "y": 88,
+   "nameTextId": 1506,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 1,
+   "encounters": 1,
+   "iconPreClear": 2,
+   "iconPostClear": 2,
+   "chapteridx_eirika": 56,
+   "chapteridx_ephram": 56,
+   "unk_06": 136,
+   "unk_08": [
+    2,
+    2,
+    9,
+    14
+   ],
+   "armorySym": "data_08AC2510 + 0x46A",
+   "vendorSym": "data_08AC2510 + 0x52E",
+   "secretShopSym": "data_08AC2510 + 0x620",
+   "hasShopPointers": true,
+   "x": 88,
+   "y": 72,
+   "nameTextId": 1507,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 10,
+   "iconPostClear": 10,
+   "chapteridx_eirika": 2,
+   "chapteridx_ephram": 2,
+   "unk_06": -1,
+   "unk_08": [
+    3,
+    3,
+    3,
+    3
+   ],
+   "armorySym": "data_08AC2510 + 0x46C",
+   "vendorSym": "data_08AC2510 + 0x530",
+   "secretShopSym": "data_08AC2510 + 0x622",
+   "hasShopPointers": true,
+   "x": 120,
+   "y": 120,
+   "nameTextId": 1508,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 11,
+   "iconPostClear": 11,
+   "chapteridx_eirika": 3,
+   "chapteridx_ephram": 3,
+   "unk_06": -1,
+   "unk_08": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "armorySym": "data_08AC2510 + 0x47E",
+   "vendorSym": "data_08AC2510 + 0x532",
+   "secretShopSym": "data_08AC2510 + 0x624",
+   "hasShopPointers": true,
+   "x": 120,
+   "y": 152,
+   "nameTextId": 1509,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 4,
+   "chapteridx_ephram": 4,
+   "unk_06": -1,
+   "unk_08": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "armorySym": "data_08AC2510 + 0x480",
+   "vendorSym": "data_08AC2510 + 0x534",
+   "secretShopSym": "data_08AC2510 + 0x626",
+   "hasShopPointers": true,
+   "x": 152,
+   "y": 152,
+   "nameTextId": 1510,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 10,
+   "iconPostClear": 10,
+   "chapteridx_eirika": 6,
+   "chapteridx_ephram": 6,
+   "unk_06": 136,
+   "unk_08": [
+    6,
+    6,
+    1,
+    1
+   ],
+   "armorySym": "data_08AC2510 + 0x482",
+   "vendorSym": "data_08AC2510 + 0x536",
+   "secretShopSym": "data_08AC2510 + 0x628",
+   "hasShopPointers": true,
+   "x": 152,
+   "y": 183,
+   "nameTextId": 1511,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 7,
+   "chapteridx_ephram": 7,
+   "unk_06": -1,
+   "unk_08": [
+    7,
+    7,
+    7,
+    7
+   ],
+   "armorySym": "data_08AC2510 + 0x498",
+   "vendorSym": "data_08AC2510 + 0x544",
+   "secretShopSym": "data_08AC2510 + 0x62A",
+   "hasShopPointers": true,
+   "x": 184,
+   "y": 200,
+   "nameTextId": 1512,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 5,
+   "iconPostClear": 5,
+   "chapteridx_eirika": 8,
+   "chapteridx_ephram": 8,
+   "unk_06": -1,
+   "unk_08": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "armorySym": "data_08AC2510 + 0x49A",
+   "vendorSym": "data_08AC2510 + 0x546",
+   "secretShopSym": "data_08AC2510 + 0x62C",
+   "hasShopPointers": true,
+   "x": 216,
+   "y": 216,
+   "nameTextId": 1513,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 5,
+   "iconPostClear": 5,
+   "chapteridx_eirika": 9,
+   "chapteridx_ephram": 9,
+   "unk_06": -1,
+   "unk_08": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "armorySym": "data_08AC2510 + 0x49C",
+   "vendorSym": "data_08AC2510 + 0x548",
+   "secretShopSym": "data_08AC2510 + 0x62E",
+   "hasShopPointers": true,
+   "x": 216,
+   "y": 216,
+   "nameTextId": 1514,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 10,
+   "iconPostClear": 10,
+   "chapteridx_eirika": 10,
+   "chapteridx_ephram": 10,
+   "unk_06": -1,
+   "unk_08": [
+    10,
+    10,
+    10,
+    10
+   ],
+   "armorySym": "data_08AC2510 + 0x49E",
+   "vendorSym": "data_08AC2510 + 0x54A",
+   "secretShopSym": "data_08AC2510 + 0x630",
+   "hasShopPointers": true,
+   "x": 216,
+   "y": 56,
+   "nameTextId": 1515,
+   "shipTravelFlag": 1
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 11,
+   "chapteridx_ephram": 11,
+   "unk_06": -1,
+   "unk_08": [
+    11,
+    11,
+    11,
+    11
+   ],
+   "armorySym": "data_08AC2510 + 0x4B8",
+   "vendorSym": "data_08AC2510 + 0x566",
+   "secretShopSym": "data_08AC2510 + 0x632",
+   "hasShopPointers": true,
+   "x": 216,
+   "y": 104,
+   "nameTextId": 1516,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 9,
+   "iconPostClear": 9,
+   "chapteridx_eirika": 61,
+   "chapteridx_ephram": 61,
+   "unk_06": -1,
+   "unk_08": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "armorySym": "data_08AC2510 + 0x4BA",
+   "vendorSym": "data_08AC2510 + 0x568",
+   "secretShopSym": "data_08AC2510 + 0x634",
+   "hasShopPointers": true,
+   "x": 264,
+   "y": 104,
+   "nameTextId": 1517,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 13,
+   "chapteridx_ephram": 13,
+   "unk_06": -1,
+   "unk_08": [
+    13,
+    13,
+    13,
+    13
+   ],
+   "armorySym": "data_08AC2510 + 0x4BC",
+   "vendorSym": "data_08AC2510 + 0x580",
+   "secretShopSym": "data_08AC2510 + 0x636",
+   "hasShopPointers": true,
+   "x": 312,
+   "y": 136,
+   "nameTextId": 1518,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 7,
+   "iconPostClear": 7,
+   "chapteridx_eirika": 14,
+   "chapteridx_ephram": 14,
+   "unk_06": -1,
+   "unk_08": [
+    19,
+    19,
+    19,
+    19
+   ],
+   "armorySym": "data_08AC2510 + 0x4BE",
+   "vendorSym": "data_08AC2510 + 0x582",
+   "secretShopSym": "data_08AC2510 + 0x638",
+   "hasShopPointers": true,
+   "x": 312,
+   "y": 200,
+   "nameTextId": 1519,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 11,
+   "iconPostClear": 11,
+   "chapteridx_eirika": 23,
+   "chapteridx_ephram": 23,
+   "unk_06": -1,
+   "unk_08": [
+    15,
+    15,
+    15,
+    15
+   ],
+   "armorySym": "data_08AC2510 + 0x4C0",
+   "vendorSym": "data_08AC2510 + 0x584",
+   "secretShopSym": "data_08AC2510 + 0x63A",
+   "hasShopPointers": true,
+   "x": 72,
+   "y": 152,
+   "nameTextId": 1520,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 24,
+   "chapteridx_ephram": 24,
+   "unk_06": -1,
+   "unk_08": [
+    16,
+    16,
+    16,
+    16
+   ],
+   "armorySym": "data_08AC2510 + 0x4C2",
+   "vendorSym": "data_08AC2510 + 0x586",
+   "secretShopSym": "data_08AC2510 + 0x63C",
+   "hasShopPointers": true,
+   "x": 72,
+   "y": 232,
+   "nameTextId": 1521,
+   "shipTravelFlag": 1
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 10,
+   "iconPostClear": 10,
+   "chapteridx_eirika": 62,
+   "chapteridx_ephram": 62,
+   "unk_06": -1,
+   "unk_08": [
+    17,
+    17,
+    17,
+    17
+   ],
+   "armorySym": "data_08AC2510 + 0x4DC",
+   "vendorSym": "data_08AC2510 + 0x5A2",
+   "secretShopSym": "data_08AC2510 + 0x63E",
+   "hasShopPointers": true,
+   "x": 152,
+   "y": 248,
+   "nameTextId": 1522,
+   "shipTravelFlag": 1
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 26,
+   "chapteridx_ephram": 26,
+   "unk_06": -1,
+   "unk_08": [
+    18,
+    18,
+    18,
+    18
+   ],
+   "armorySym": "data_08AC2510 + 0x4DE",
+   "vendorSym": "data_08AC2510 + 0x5BA",
+   "secretShopSym": "data_08AC2510 + 0x640",
+   "hasShopPointers": true,
+   "x": 200,
+   "y": 264,
+   "nameTextId": 1523,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 8,
+   "iconPostClear": 8,
+   "chapteridx_eirika": 27,
+   "chapteridx_ephram": 27,
+   "unk_06": -1,
+   "unk_08": [
+    19,
+    19,
+    19,
+    19
+   ],
+   "armorySym": "data_08AC2510 + 0x4E0",
+   "vendorSym": "data_08AC2510 + 0x5BC",
+   "secretShopSym": "data_08AC2510 + 0x642",
+   "hasShopPointers": true,
+   "x": 264,
+   "y": 264,
+   "nameTextId": 1524,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 7,
+   "iconPostClear": 7,
+   "chapteridx_eirika": 15,
+   "chapteridx_ephram": 28,
+   "unk_06": -1,
+   "unk_08": [
+    20,
+    20,
+    20,
+    20
+   ],
+   "armorySym": "data_08AC2510 + 0x4E2",
+   "vendorSym": "data_08AC2510 + 0x5BE",
+   "secretShopSym": "data_08AC2510 + 0x66C",
+   "hasShopPointers": true,
+   "x": 312,
+   "y": 200,
+   "nameTextId": 1525,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 6,
+   "iconPostClear": 6,
+   "chapteridx_eirika": 16,
+   "chapteridx_ephram": 29,
+   "unk_06": -1,
+   "unk_08": [
+    21,
+    21,
+    21,
+    21
+   ],
+   "armorySym": "data_08AC2510 + 0x4E4",
+   "vendorSym": "data_08AC2510 + 0x5DC",
+   "secretShopSym": "data_08AC2510 + 0x696",
+   "hasShopPointers": true,
+   "x": 216,
+   "y": 152,
+   "nameTextId": 1526,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 17,
+   "chapteridx_ephram": 30,
+   "unk_06": -1,
+   "unk_08": [
+    22,
+    22,
+    22,
+    22
+   ],
+   "armorySym": "data_08AC2510 + 0x4E6",
+   "vendorSym": "data_08AC2510 + 0x5DE",
+   "secretShopSym": "data_08AC2510 + 0x698",
+   "hasShopPointers": true,
+   "x": 360,
+   "y": 168,
+   "nameTextId": 1527,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 18,
+   "chapteridx_ephram": 31,
+   "unk_06": -1,
+   "unk_08": [
+    23,
+    23,
+    23,
+    23
+   ],
+   "armorySym": "data_08AC2510 + 0x502",
+   "vendorSym": "data_08AC2510 + 0x5F6",
+   "secretShopSym": "data_08AC2510 + 0x69A",
+   "hasShopPointers": true,
+   "x": 360,
+   "y": 120,
+   "nameTextId": 1528,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 3,
+   "iconPostClear": 3,
+   "chapteridx_eirika": 19,
+   "chapteridx_ephram": 32,
+   "unk_06": -1,
+   "unk_08": [
+    25,
+    25,
+    25,
+    25
+   ],
+   "armorySym": "data_08AC2510 + 0x504",
+   "vendorSym": "data_08AC2510 + 0x5F8",
+   "secretShopSym": "data_08AC2510 + 0x69C",
+   "hasShopPointers": true,
+   "x": 392,
+   "y": 88,
+   "nameTextId": 1529,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 255,
+   "chapteridx_ephram": 255,
+   "unk_06": -1,
+   "unk_08": [
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "armorySym": "data_08AC2510 + 0x522",
+   "vendorSym": "data_08AC2510 + 0x614",
+   "secretShopSym": "data_08AC2510 + 0x6C6",
+   "hasShopPointers": true,
+   "x": 344,
+   "y": 72,
+   "nameTextId": 1530,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 0,
+   "encounters": 1,
+   "iconPreClear": 12,
+   "iconPostClear": 12,
+   "chapteridx_eirika": 20,
+   "chapteridx_ephram": 33,
+   "unk_06": -1,
+   "unk_08": [
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "armorySym": "data_08AC2510 + 0x524",
+   "vendorSym": "data_08AC2510 + 0x616",
+   "secretShopSym": "data_08AC2510 + 0x6C8",
+   "hasShopPointers": true,
+   "x": 312,
+   "y": 88,
+   "nameTextId": 1531,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 3,
+   "encounters": 3,
+   "iconPreClear": 13,
+   "iconPostClear": 13,
+   "chapteridx_eirika": 36,
+   "chapteridx_ephram": 36,
+   "unk_06": -1,
+   "unk_08": [
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "armorySym": "data_08AC2510 + 0x526",
+   "vendorSym": "data_08AC2510 + 0x618",
+   "secretShopSym": "data_08AC2510 + 0x6CA",
+   "hasShopPointers": true,
+   "x": 152,
+   "y": 56,
+   "nameTextId": 1532,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 3,
+   "encounters": 3,
+   "iconPreClear": 14,
+   "iconPostClear": 14,
+   "chapteridx_eirika": 46,
+   "chapteridx_ephram": 46,
+   "unk_06": -1,
+   "unk_08": [
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "armorySym": "data_08AC2510 + 0x528",
+   "vendorSym": "data_08AC2510 + 0x61A",
+   "secretShopSym": "data_08AC2510 + 0x6CC",
+   "hasShopPointers": true,
+   "x": 408,
+   "y": 184,
+   "nameTextId": 1533,
+   "shipTravelFlag": 0
+  },
+  {
+   "placementFlag": 2,
+   "encounters": 2,
+   "iconPreClear": 15,
+   "iconPostClear": 15,
+   "chapteridx_eirika": 57,
+   "chapteridx_ephram": 57,
+   "unk_06": -1,
+   "unk_08": [
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "armorySym": "data_08AC2510 + 0x52A",
+   "vendorSym": "data_08AC2510 + 0x61C",
+   "secretShopSym": "data_08AC2510 + 0x6CE",
+   "hasShopPointers": true,
+   "x": 344,
+   "y": 40,
+   "nameTextId": 1534,
+   "shipTravelFlag": 1
+  }
+ ],
+ "paths": {
+  "gWorldmapPath_0": [
+   {
+    "t": 1351,
+    "x": 128,
+    "y": 88
+   },
+   {
+    "t": 2703,
+    "x": 112,
+    "y": 72
+   }
+  ],
+  "gWorldmapPath_1": [
+   {
+    "t": 2990,
+    "x": 120,
+    "y": 104
+   }
+  ],
+  "gWorldmapPath_2": [
+   {
+    "t": 2048,
+    "x": 184,
+    "y": 184
+   }
+  ],
+  "gWorldmapPath_3": [
+   {
+    "t": 2048,
+    "x": 184,
+    "y": 216
+   }
+  ],
+  "gWorldmapPath_4": [
+   {
+    "t": 819,
+    "x": 168,
+    "y": 88
+   },
+   {
+    "t": 3276,
+    "x": 200,
+    "y": 56
+   }
+  ],
+  "gWorldmapPath_5": [
+   {
+    "t": 1474,
+    "x": 288,
+    "y": 104
+   },
+   {
+    "t": 3563,
+    "x": 312,
+    "y": 128
+   }
+  ],
+  "gWorldmapPath_6": [
+   {
+    "t": 1064,
+    "x": 72,
+    "y": 88
+   }
+  ],
+  "gWorldmapPath_7": [
+   {
+    "t": 1638,
+    "x": 72,
+    "y": 192
+   },
+   {
+    "t": 2580,
+    "x": 56,
+    "y": 208
+   },
+   {
+    "t": 3276,
+    "x": 56,
+    "y": 224
+   }
+  ],
+  "gWorldmapPath_8": [
+   {
+    "t": 1720,
+    "x": 104,
+    "y": 232
+   },
+   {
+    "t": 2949,
+    "x": 120,
+    "y": 248
+   }
+  ],
+  "gWorldmapPath_9": [
+   {
+    "t": 573,
+    "x": 160,
+    "y": 248
+   },
+   {
+    "t": 2293,
+    "x": 176,
+    "y": 264
+   }
+  ],
+  "gWorldmapPath_10": [
+   {
+    "t": 983,
+    "x": 288,
+    "y": 264
+   },
+   {
+    "t": 2416,
+    "x": 312,
+    "y": 240
+   }
+  ],
+  "gWorldmapPath_11": [
+   {
+    "t": 1187,
+    "x": 240,
+    "y": 216
+   },
+   {
+    "t": 2867,
+    "x": 264,
+    "y": 240
+   }
+  ],
+  "gWorldmapPath_12": [
+   {
+    "t": 1884,
+    "x": 256,
+    "y": 200
+   },
+   {
+    "t": 3809,
+    "x": 216,
+    "y": 160
+   }
+  ],
+  "gWorldmapPath_13": [
+   {
+    "t": 901,
+    "x": 152,
+    "y": 112
+   },
+   {
+    "t": 3153,
+    "x": 192,
+    "y": 152
+   }
+  ],
+  "gWorldmapPath_14": [
+   {
+    "t": 2457,
+    "x": 360,
+    "y": 200
+   }
+  ],
+  "gWorldmapPath_15": [
+   {
+    "t": 303,
+    "x": 392,
+    "y": 80
+   },
+   {
+    "t": 733,
+    "x": 384,
+    "y": 72
+   },
+   {
+    "t": 2260,
+    "x": 344,
+    "y": 72
+   },
+   {
+    "t": 2871,
+    "x": 344,
+    "y": 88
+   }
+  ],
+  "gWorldmapPath_16": [
+   {
+    "t": 901,
+    "x": 408,
+    "y": 104
+   }
+  ],
+  "gWorldmapPath_17": [
+   {
+    "t": 2048,
+    "x": 392,
+    "y": 40
+   }
+  ],
+  "gWorldmapPath_18": [
+   {
+    "t": 942,
+    "x": 248,
+    "y": 56
+   },
+   {
+    "t": 1638,
+    "x": 264,
+    "y": 40
+   }
+  ],
+  "gWorldmapPath_19": [
+   {
+    "t": 1351,
+    "x": 344,
+    "y": 88
+   }
+  ]
+ }
+}

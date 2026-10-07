@@ -217,6 +217,15 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '事件列表', 'true', const [], skip: true, note: decompNote),
 
+    // 大地图表：节点（29 条，按 `struct GMapNodeData` 解）+ 路径（20 条）
+    if (hasDecomp())
+      Step('L0', '大地图表（节点/路径）', 'python3',
+          ['extract/parse_worldmap.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline',
+          note: '节点 29 / 路径 20；path_0 = [(1351,128,88),(2703,112,72)]')
+    else
+      Step('L0', '大地图表', 'true', const [], skip: true, note: decompNote),
+
     // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
     // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
     if (hasDecomp())

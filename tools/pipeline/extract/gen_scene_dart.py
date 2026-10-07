@@ -395,7 +395,18 @@ def main():
     scripts = {}
     for f in files:
         raw = strip_comments(open(f, encoding="utf-8", errors="replace").read())
-        for m in re.finditer(r"EventListScr\s+(EventScr_\w+)\s*\[\s*\]\s*=\s*\{", raw):
+        # ⚠️ 两个都放宽：
+        #   1. 名字：`EventScr_\w+` → `EventScr\w*`，否则 **`EventScrWM_*` 一个都收不到**
+        #      （大地图那 132 个章间脚本全在 `src/events_wm.c` 里）
+        #   2. 长度：原来要求**空方括号** `[]`，而 WM 脚本写的是 `[358]`（带长度）
+        # 这两条合起来就是"那个目录的脚本一条都没进管线"的原因。
+        # 3. 方括号与 `=` 之间还可能有 `__attribute__((section("...")))`
+        #    —— `src/events_wm.c` 里每个脚本都长这样，非 WM 的没有，所以一直没暴露。
+        # 4. **类型名也不一样**：WM 那些写的是 `EventScr EventScrWM_X[358] …`，
+        #    不是 `EventListScr …`。（4 处差异叠在一起 ⇒ 132 条一条都收不到。）
+        for m in re.finditer(
+                r"(?:EventListScr|EventScr)\s+(EventScr\w*)\s*\[\s*\d*\s*\]\s*[^=]*=\s*\{",
+                raw):
             name = m.group(1)
             i = m.end()
             try:
