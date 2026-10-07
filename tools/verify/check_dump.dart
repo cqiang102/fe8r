@@ -355,6 +355,36 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(d['gameOptions'] == null, 'B 把設定屏关掉了', '');
   }
 
+  if (scenario == 'item') {
+    // ★ 用道具：数值必须**算对**（伤药 10 但受 maxHp 截断 ⇒ 赛特 13/20 只回 7）
+    final u = d['lastItemUse'] as Map<String, dynamic>?;
+    ok(u != null, '真的用了一次道具', 'lastItemUse=$u');
+    if (u != null) {
+      ok(u['item'] == 'ITEM_VULNERARY', '用的是伤药（`ITEM_VULNERARY`）', '${u['item']}');
+      ok(u['unit'] == 13, '用的是赛特（id 13）', '${u['unit']}');
+      // ★★ 这条是核心：`GetUnitItemHealAmount` 给 10（`src/GetUnitItemHealAmount.c:32-35`），
+      //     但 13/20 只能回 7 —— 盲目 +10 会得到 23/hp=23，这里当场红。
+      ok(u['healed'] == 7, '★ 回复量按 maxHp 截断后正好是 7（不是 10）', 'healed=${u['healed']}');
+      ok(u['hp'] == 20, 'HP 到了 20（= maxHp）', 'hp=${u['hp']}');
+      ok(u['usesLeft'] == 2, '耐久 3 → 2', 'usesLeft=${u['usesLeft']}');
+      ok(u['consumed'] == false, '耐久没归零 ⇒ 道具还在', '');
+    }
+    // 道具的**打包表示**（`ITEM_INDEX = &0xFF` / `ITEM_USES = >>8`）也要对：
+    // 槽 2 从 876（108 + 3×256）变成 620（108 + 2×256）
+    final seth = (d['units'] as List)
+        .cast<Map<String, dynamic>>()
+        .firstWhere((x) => x['id'] == 13, orElse: () => <String, dynamic>{});
+    final inv = (seth['items'] as List?)?.cast<int>() ?? const [];
+    ok(inv.length > 2 && (inv[2] & 0xFF) == 108 && (inv[2] >> 8) == 2,
+        '槽里的字是 `108 + 2×256`（打包表示：低 8 位编号、高位耐久）',
+        'items[2]=${inv.length > 2 ? inv[2] : null}');
+    // 菜单显示的是**真名字**（文本 id 解析），不是 `item#108` 这类占位
+    // ⚠️ 菜单关掉时 `itemMenuText` 会被清空 ⇒ 看**留档**那份（欠账 21 的同一个坑）
+    final mt = '${d['lastItemMenuText']}';
+    ok(mt.contains('道具') && !mt.contains('item#'),
+        '道具菜单显示真名字（没有占位）', 'itemMenuText=${mt.replaceAll('\n', ' | ')}');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

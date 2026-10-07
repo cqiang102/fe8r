@@ -516,6 +516,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 用道具：伤药回 10 但受 maxHp 截断（赛特 13/20 ⇒ 7）；耐久 3→2
+      Step('L4', '端到端场景（用道具）', 'bash',
+          ['tools/verify/scenario.sh', 'item'],
+          note: '行动菜单「道具」→ 伤药用掉：hp 13→20、healed=7、耐久 3→2',
+          requires: ['tools/verify/scenario.sh']),
       // 設定屏：真名字 + 真值 + **改了真生效**（auto-end 写回配置）
       Step('L4', '端到端场景（設定屏）', 'bash',
           ['tools/verify/scenario.sh', 'options'],

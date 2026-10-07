@@ -149,6 +149,21 @@ case "$SCENARIO" in
     RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
     SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"
     ;;
+  item)
+    # ★ 用道具：选**赛特**（13/20，身上有伤药 `ITEM_VULNERARY` 3 次）
+    #   → 落点确认 → 行动菜单「道具」→ 伤药 → 使用。
+    #
+    # 判据要求算**对**：伤药回 10（`src/GetUnitItemHealAmount.c:32-35`），
+    # 但赛特 13/20 ⇒ 只能回 **7**（受 maxHp 截断）；盲目 +10 会得到 23 ✗。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
+    RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
+    SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"     # 与 range 同：选中赛特
+    SCRIPT="$SCRIPT,confirm,wait,wait"                     # 落点确认 → 行动菜单
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 「道具」→ 进道具菜单
+    SCRIPT="$SCRIPT,confirm,wait,wait,wait"                # 使用伤药
+    ;;
   suspend)
     # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。
     #

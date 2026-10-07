@@ -527,6 +527,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               'value': gameOptions!.current?.value,
             },
       'gameOptionsText': _gameOptionsText,
+      'lastItemUse': lastItemUse,
+      'itemMenuText': _itemMenuText,
+      'lastItemMenuText': lastItemMenuText,
+      'usableItemSlots': _usableSlots,
       'gameOptionsLast': _gameOptionsLast,
       'gameOptionsWired': gameOptionRowsHasMapping,
       'gameConfigFields': gameOptions == null
@@ -1287,7 +1291,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       startDialogue();
       return;
     }
-    if (_showDialogue && i == FlowInput.confirm) {
+    // ⚠️ 道具菜单**借用了对话框**来显示（`_showItemMenu` 走 `_sceneView.show`），
+    // 于是"对话框吃掉确认键"这条把菜单的确认也吃掉了 —— 按 A 永远用不了道具
+    // （实测：`phase=itemMenu`、`lastItemUse=null`）。
+    // 这里先按阶段让路；**正确做法是把道具菜单做成独立组件**（像行动菜单那样），
+    // 已记进路线图欠账。
+    if (_showDialogue &&
+        i == FlowInput.confirm &&
+        state?.phase != FlowPhase.itemMenu) {
       advanceDialogue();
       return;
     }
@@ -1320,6 +1331,36 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
         // 落点确定后才结算攻击 —— 顺序不能反：
         // 先移动再打，射程要靠移动**之后**的位置算。
+        // ★ 用道具：状态机只发"用哪个**可用槽**"的意图，数值在这儿算
+        final useIdx = r.itemUseIndex;
+        if (useIdx != null && _usableSlots.isNotEmpty) {
+          final slot = _usableSlots[useIdx.clamp(0, _usableSlots.length - 1)];
+          final word = u.items[slot];
+          final num = ItemTable.itemIndex(word);
+          final res = useHealingItem(
+            hp: u.hp,
+            maxHp: u.maxHp,
+            item: word,
+            itemNumber: num,
+            isStaff:
+                (_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0,
+            nameOf: _itemNameByNumber,
+          );
+          u.hp = res.hp;
+          u.items[slot] = res.item; // 耐久 -1；归零则清空（`MakeNewItem` 表示法）
+          lastItemUse = {
+            'unit': u.id,
+            'slot': slot,
+            'item': _itemNameByNumber[num],
+            'healed': res.healed,
+            'hp': u.hp,
+            'usesLeft': itemUses(res.item),
+            'consumed': res.consumed,
+          };
+          debugPrint('[ITEM] $lastItemUse');
+          _rebuildOverlay();
+        }
+
         final atk = r.attack;
         if (atk != null) {
           final target = f.unitById(atk.targetId);
@@ -1332,6 +1373,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
 
     state = r.state;
+    if (state?.phase == FlowPhase.itemMenu) {
+      _showItemMenu(state!);
+    } else if (_itemMenuText.isNotEmpty) {
+      lastItemMenuText = _itemMenuText;   // 留档再清
+      _itemMenuText = '';
+      _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
+    }
     _rebuildOverlay();
     _updateHud();   // ★ 相机跟着光标（原作是每帧跟）
 
@@ -2948,6 +2996,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final n = mm['number'];
       if (n is int) {
         _itemStats[n] = ItemStats.fromJson(mm);
+        // 道具名（`ITEM_VULNERARY` 这种）—— 回复量的 switch 按名字分支
+        //（`src/GetUnitItemHealAmount.c` 用的是 `ITEM_*` 枚举）
+        if (mm['key'] is String) _itemNameByNumber[n] = mm['key'] as String;
+        if (mm['nameTextId'] is int) _itemNameTextId[n] = mm['nameTextId'] as int;
         // 只给转储用：`ITEM_SWORD_RAPIER` 比 `9` 好读太多
         final key = mm['key'] as String?;
         if (key != null) _itemNames[n] = key.replaceFirst('ITEM_', '');
@@ -4038,8 +4090,47 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
 
+  /// 道具菜单的文本（名字来自道具表的 `nameTextId`）
+  void _showItemMenu(FlowState s) {
+    final f = field;
+    final u = f?.unitById(s.selectedUnitId);
+    if (u == null) return;
+    final lines = <String>['道具'];
+    for (var i = 0; i < _usableSlots.length; i++) {
+      final slot = _usableSlots[i];
+      final num = ItemTable.itemIndex(u.items[slot]);
+      final nameId = _itemNameTextId[num] ?? 0;
+      final name = _textOr(gameTexts?.byId(nameId)?.plain, 'item#$num');
+      final uses = itemUses(u.items[slot]);
+      lines.add('${i == s.itemIndex ? '▶ ' : '  '}$name  '
+          '${uses == 0 ? '∞' : uses}');
+    }
+    lines.add('A 使用   B 返回');
+    _itemMenuText = lines.join('\n');
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+  }
+
   /// 「設定」屏的状态（开着时非 null）
   GameOptionsState? gameOptions;
+  /// 编号 → 道具名（`ITEM_*`），给回复量的 switch 用
+  final Map<int, String> _itemNameByNumber = {};
+
+  /// 编号 → 名字的文本 id（`nameTextId`）—— 道具菜单显示真名字用
+  final Map<int, int> _itemNameTextId = {};
+
+  /// 这个单位身上**可用**的道具槽（绝对槽位下标）—— 选单位时算一次
+  List<int> _usableSlots = const [];
+
+  /// 最近一次"用道具"的记录（判据用）
+  Map<String, Object?>? lastItemUse;
+
+  /// 道具菜单的文本（判据用）
+  String _itemMenuText = '';
+
+  /// 关掉之后仍留一份 —— 否则转储里看不到"菜单显示过什么"
+  ///（与欠账 21 同一个坑：只有最后一次的值，中间步骤断言不了）
+  String lastItemMenuText = '';
+
   List<Map<String, dynamic>> _gameOptionRows = const [];
 
   /// 屏关掉之后仍要能断言"改过什么"（转储时 gameOptions 已是 null）——
@@ -4610,6 +4701,33 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final p = _profileFor(unit);
     fl.attackMinRange = _items.minRangeOf(p.weaponItem);
     fl.attackMaxRange = _items.maxRangeOf(p.weaponItem);
+    // ★ 「道具」这一项出不出现、菜单里有几个可用槽 —— 都需要道具表 + 当前 HP，
+    // 所以由游戏层算好注入（状态机不持有道具表）。
+    _usableSlots = usableItemSlots(unit);
+    fl.hasUsableItem = _usableSlots.isNotEmpty;
+    fl.itemSlotCount = _usableSlots.length;
+  }
+
+  /// 这个单位身上**能用**的回复道具槽（绝对下标）。
+  ///
+  /// 过滤规则：槽非空 && `GetUnitItemHealAmount > 0` && **没满血**。
+  /// ⚠️ 原作的可用性在 `ItemSelectMenu_Usability`（`src/bmmenu_0802339C.c:64`）一族里，
+  /// 我**没有逐行核对**；"没满血"是我加的保守条件（满血用药是空动作）。
+  List<int> usableItemSlots(MapUnit u) {
+    final out = <int>[];
+    if (u.hp >= u.maxHp) return out;
+    for (var i = 0; i < u.items.length; i++) {
+      final w = u.items[i];
+      if (w == 0) continue;
+      final num = ItemTable.itemIndex(w);
+      final name = _itemNameByNumber[num];
+      final heal = unitItemHealAmount(
+          itemNumber: num,
+          isStaff: (_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0,
+          nameOf: _itemNameByNumber);
+      if (heal > 0 && name != null) out.add(i);
+    }
+    return out;
   }
 
   /// 按阵营给一套演示用的职业/武器数据。

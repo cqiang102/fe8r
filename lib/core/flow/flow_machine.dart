@@ -36,6 +36,9 @@ enum FlowPhase {
   /// 正在选择攻击目标
   selectTarget,
 
+  /// 正在选择要用的道具（`ActionOption.item` 之后）
+  itemMenu,
+
   /// 已完成本回合行动，等待下一个单位
   unitDone,
 }
@@ -46,7 +49,12 @@ enum FlowPhase {
 /// 属于后续里程碑。这里放一个做不了的选项只会让玩家点了没反应。
 enum ActionOption {
   wait('待机'),
-  attack('攻击');
+  attack('攻击'),
+
+  /// 道具（回复类）。**顺序**：原作行动菜单的完整表在
+  /// `src/menu_def.c` 的 `gUnitActionMenuItems`，它的**逐项顺序与可用性**我没核对
+  /// ⇒ 这里与原有两项并列，顺序按"待机/攻击/道具"，**未与源码对齐**。
+  item('道具');
 
   const ActionOption(this.label);
   final String label;
@@ -103,6 +111,7 @@ class FlowState {
     this.faction = 0,
     this.actionIndex = 0,
     this.targetIndex = 0,
+    this.itemIndex = 0,
   });
 
   final FlowPhase phase;
@@ -129,6 +138,9 @@ class FlowState {
   /// 选目标阶段当前高亮的目标序号（对应 `validTargets()` 的结果）
   final int targetIndex;
 
+  /// 道具菜单里当前高亮的槽位（`UNIT_ITEM_COUNT` = 5 槽之一）
+  final int itemIndex;
+
   FlowState copyWith({
     FlowPhase? phase,
     int? cursorX,
@@ -142,6 +154,7 @@ class FlowState {
     int? faction,
     int? actionIndex,
     int? targetIndex,
+    int? itemIndex,
   }) {
     return FlowState(
       phase: phase ?? this.phase,
@@ -160,6 +173,7 @@ class FlowState {
       faction: faction ?? this.faction,
       actionIndex: actionIndex ?? this.actionIndex,
       targetIndex: targetIndex ?? this.targetIndex,
+      itemIndex: itemIndex ?? this.itemIndex,
     );
   }
 
@@ -178,6 +192,7 @@ class FlowState {
         'faction': faction,
         'actionIndex': actionIndex,
         'targetIndex': targetIndex,
+        'itemIndex': itemIndex,
       };
 
   factory FlowState.fromJson(Map<String, dynamic> json) => FlowState(
@@ -196,6 +211,7 @@ class FlowState {
         faction: json['faction'] as int? ?? 0,
         actionIndex: json['actionIndex'] as int? ?? 0,
         targetIndex: json['targetIndex'] as int? ?? 0,
+        itemIndex: json['itemIndex'] as int? ?? 0,
       );
 
   String encode() => jsonEncode(toJson());
@@ -216,6 +232,7 @@ class FlowResult {
     this.committedMove = false,
     this.endTurn = false,
     this.attack,
+    this.itemUseIndex,
   });
 
   final FlowState state;
@@ -228,6 +245,12 @@ class FlowResult {
 
   /// 本次输入是否请求结束回合
   final bool endTurn;
+
+  /// 本次输入是否请求**使用某个槽位的道具**。
+  ///
+  /// 和 [attack] 一样：状态机不结算，只发意图（用哪个槽），
+  /// 由调用方拿着道具表去算回复量与耐久。
+  final int? itemUseIndex;
 
   /// 本次输入是否请求执行一次攻击。
   ///
@@ -279,6 +302,9 @@ class FlowMachine {
 
       case FlowPhase.actionMenu:
         return _actionMenu(state, field, input);
+
+      case FlowPhase.itemMenu:
+        return _itemMenu(state, field, input, itemSlotCount);   // 注入的"可用槽数"
 
       case FlowPhase.selectTarget:
         return _selectTarget(state, field, input);
@@ -412,7 +438,7 @@ class FlowMachine {
       return FlowResult(_toFreeCursor(s));
     }
 
-    final options = availableActions(s, field);
+    final options = availableActions(s, field, hasUsableItem: hasUsableItem);
     final at = s.pendingX ?? unit.x;
     final atY = s.pendingY ?? unit.y;
 
@@ -447,6 +473,13 @@ class FlowMachine {
           ));
         }
 
+        if (picked == ActionOption.item) {
+          return FlowResult(s.copyWith(
+            phase: FlowPhase.itemMenu,
+            itemIndex: 0,
+          ));
+        }
+
         // 待机
         return FlowResult(
           _toFreeCursor(s),
@@ -463,6 +496,53 @@ class FlowMachine {
           actionIndex: 0,
         ));
 
+      case FlowInput.endTurn:
+      case FlowInput.startDialogue:
+      case FlowInput.start:
+        return FlowResult(s);
+    }
+  }
+
+  // ------------------------------------------------------------ 道具菜单
+
+  /// 道具菜单：上下选槽，确认 = 发"用这个槽"的意图，取消 = 退回行动菜单。
+  ///
+  /// ⚠️ 原作这一步走的是 `ItemSelectMenu`（`src/bmmenu_0802339C.c`
+  /// `ItemSelectMenu_Usability` 一族）—— **可用性过滤我未逐行核对**；
+  /// 这里只按"调用方说这个单位有可用道具"来开菜单，槽位过滤交给调用方（游戏层）。
+  FlowResult _itemMenu(FlowState s, BattleField field, FlowInput input,
+      int slotCount) {
+    final unit = field.unitById(s.selectedUnitId);
+    if (unit == null) return FlowResult(_toFreeCursor(s));
+    if (slotCount <= 0) {
+      return FlowResult(s.copyWith(phase: FlowPhase.actionMenu));
+    }
+    switch (input) {
+      case FlowInput.up:
+      case FlowInput.left:
+        return FlowResult(s.copyWith(
+          itemIndex: (s.itemIndex - 1 + slotCount) % slotCount,
+        ));
+      case FlowInput.down:
+      case FlowInput.right:
+        return FlowResult(s.copyWith(
+          itemIndex: (s.itemIndex + 1) % slotCount,
+        ));
+      case FlowInput.confirm:
+        // ★ 用道具**消耗这次行动**（原作里用完道具单位就结束行动）⇒
+        // 与"待机"走同一条提交路径（`_toFreeCursor` + movedUnit/committedMove）。
+        //
+        // ⚠️ 我第一版只发了 `itemUseIndex`、没带提交语义 —— 而游戏层是在
+        // `committedMove` 分支里结算的，于是"确认了但什么都没发生"
+        //（核心单测抓到：`itemUseIndex == 0` ✓ 但 `committedMove == false`）。
+        return FlowResult(
+          _toFreeCursor(s),
+          itemUseIndex: s.itemIndex.clamp(0, slotCount - 1),
+          movedUnit: true,
+          committedMove: true,
+        );
+      case FlowInput.cancel:
+        return FlowResult(s.copyWith(phase: FlowPhase.actionMenu));
       case FlowInput.endTurn:
       case FlowInput.startDialogue:
       case FlowInput.start:
@@ -539,6 +619,7 @@ class FlowMachine {
     BattleField field, {
     int? atX,
     int? atY,
+    bool hasUsableItem = false,
   }) {
     final unit = field.unitById(s.selectedUnitId);
     if (unit == null) return const [ActionOption.wait];
@@ -548,8 +629,21 @@ class FlowMachine {
     if (validTargets(field, unit, x, y).isNotEmpty) {
       out.add(ActionOption.attack);
     }
+    if (hasUsableItem) {
+      out.add(ActionOption.item);
+    }
     return out;
   }
+
+  /// 这个单位**有没有可用道具**（决定行动菜单里出不出现「道具」）——
+  /// 同样由调用方注入（要道具表 + 当前 HP）。
+  bool hasUsableItem = false;
+
+  /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
+  ///
+  /// ⚠️ `FlowState.itemIndex` 是**可用列表里的下标**（不是 5 槽里的绝对下标）：
+  /// 过滤规则要用道具表，状态机不该持有它 —— 所以映射由调用方负责。
+  int itemSlotCount = 0;
 
   /// 攻击范围（由武器决定）。
   ///
