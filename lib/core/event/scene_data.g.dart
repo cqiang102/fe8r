@@ -1182,10 +1182,10 @@ Future<void> ApplyTileChangeForFactionIfNPC(Scene s) async {
 /// `EventScr_CallBreakStone`
 Future<void> CallBreakStone(Scene s) async {
     s.placeholder('STARTFADE');
-    s.placeholder('COLORFADE');
+    s.placeholder('EvtColorFadeSetup');
     await s.stall(30);
     s.placeholder('GLOWINGCROSS');
-    s.placeholder('COLORFADE');
+    s.placeholder('EvtColorFadeSetup');
     return;
 }
 
@@ -2335,7 +2335,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.showCursorAtUnit(24);
+          s.placeholder('CUMO_CHAR');
           pc = 4;
           continue;
         case 4:
@@ -2402,7 +2402,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 20; } else { pc = 20; }
           continue;
         case 20:
-          s.showCursorAtUnit(21);
+          s.placeholder('CUMO_CHAR');
           pc = 21;
           continue;
         case 21:
@@ -2440,7 +2440,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.showCursorAtUnit(11);
+          s.placeholder('CUMO_CHAR');
           pc = 31;
           continue;
         case 31:
@@ -2555,7 +2555,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.showCursorAtUnit(25);
+          s.placeholder('CUMO_CHAR');
           pc = 60;
           continue;
         case 60:
@@ -3675,7 +3675,7 @@ Future<void> Ch13A_7(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_9'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.showCursorAtUnit(14);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -4592,7 +4592,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.fromWhite, 2);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_004_91075C_p5'));
     await s.waitUnitMoving();
-    s.showCursorAtUnit(2);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.setSlot(2, 73);
@@ -4604,10 +4604,10 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     await s.call(Sym('EventScr_TextShowWithFadeIn'));
-    s.placeholder('EvtMoveUnit');
-    s.placeholder('EvtMoveUnit');
-    s.placeholder('EvtMoveUnit');
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [16, 67698689, 1060672, 67698690, 1060672]);
+    s.moveUnit('MOVE_CLOSEST', [16, 67698690, 1060672, 67698699, 1060672]);
+    s.moveUnit('MOVE_CLOSEST', [16, 67698699, 1060672, 67698713, 1314338]);
+    s.moveUnit('MOVE_CLOSEST', [16, 67698713, 1314338, 1054497, 12320]);
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
@@ -4618,13 +4618,13 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.loadMap(14);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_001_91020C'));
     await s.waitUnitMoving();
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [65535, 118030418, 76864, Sym('frontier_df3_unitdef_b_003_91066C'), 12320]);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.moveUnit('MOVEUNIT', [16]);
     await s.waitUnitMoving();
-    s.showCursorAtUnit(82);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSC');
@@ -4633,12 +4633,12 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [65535, 117964882, 2624, Sym('data_085B9BBC', 512), 1315360]);
     await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('MUSC');
     s.placeholder('CAMERA_CAHR');
     await s.fade(FadeDirection.fromBlack, 16);
-    s.showCursorAtUnit(28);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSI');
@@ -6141,7 +6141,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_005_9109A8_residue_p5'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.showCursorAtUnit(2);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.setSlot(2, 73);
@@ -6159,7 +6159,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.setSlot(2, 87);
     s.moveUnit('MOVEUNIT', [65535]);
     await s.call(Sym('EventScr_UnitWarpIN'));
-    s.showCursorAtUnit(87);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.setSlot(2, 73);
@@ -8841,7 +8841,7 @@ Future<void> Ch1Tut_AfterSethBattleEirikaVisit(Scene s) async {
 Future<void> Ch1Tut_AfterSethMoveToEnemy(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2322);
     s.placeholder('TEXTEND');
@@ -8855,7 +8855,7 @@ Future<void> Ch1Tut_AfterSethMoveToEnemy(Scene s) async {
 /// `EventScr_Ch1Tut_AfterTrade`
 Future<void> Ch1Tut_AfterTrade(Scene s) async {
     s.placeholder('EVBIT_T');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2317);
     s.placeholder('TEXTEND');
@@ -8916,7 +8916,7 @@ Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
 Future<void> Ch1Tut_EirikaVisitHouseEnd(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2305);
     s.placeholder('TEXTEND');
@@ -9001,7 +9001,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.setSlot(1, 19);
     await s.setUnitHpFromSlot(3);
     await s.stall(60);
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [0, 34078723, 12320, 853312, 0]);
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
@@ -9016,9 +9016,9 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.placeholder('FIGHT');
     s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsg944'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [0, 17301508, 12320, 277281, 3935776]);
     await s.waitUnitMoving();
-    s.showCursorAtUnit(4);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSI');
@@ -9027,7 +9027,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('MUNO');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2310);
     s.placeholder('TEXTEND');
@@ -9044,7 +9044,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
 Future<void> Ch1Tut_GuideOnBKSEL(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 1048660);
     await s.textShow(2321);
     s.placeholder('TEXTEND');
@@ -9076,7 +9076,7 @@ Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
 
 /// `EventScr_Ch1Tut_MsgOnGuideOption`
 Future<void> Ch1Tut_MsgOnGuideOption(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2323);
     s.placeholder('TEXTEND');
@@ -9105,7 +9105,7 @@ Future<void> Ch1Tut_OnBeginning(Scene s) async {
 
 /// `EventScr_Ch1Tut_PostTradeAndItemUseAction`
 Future<void> Ch1Tut_PostTradeAndItemUseAction(Scene s) async {
-    s.showCursorAtUnit(4);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -9146,7 +9146,7 @@ Future<void> Ch1Tut_SethMoveToEnemy(Scene s) async {
 Future<void> Ch1Tut_TradeSelectGalliamEnd(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2312);
     s.placeholder('TEXTEND');
@@ -9468,7 +9468,7 @@ Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
     s.placeholder('MUSI');
     s.setSlot(2, Sym('UnitDef_Event_Ch1EnemyReinforce'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.showCursorAtUnit(131);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -10130,7 +10130,7 @@ Future<void> Ch2Tutorial2(Scene s) async {
 Future<void> Ch2Tutorial20(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670032);
     await s.textShow(2362);
     s.placeholder('TEXTEND');
@@ -10233,7 +10233,7 @@ Future<void> Ch2Tutorial24(Scene s) async {
 Future<void> Ch2Tutorial25(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670032);
     await s.textShow(2371);
     s.placeholder('TEXTEND');
@@ -10304,7 +10304,7 @@ Future<void> Ch2Tutorial28(Scene s) async {
 Future<void> Ch2Tutorial29(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670032);
     await s.textShow(2375);
     s.placeholder('TEXTEND');
@@ -10318,7 +10318,7 @@ Future<void> Ch2Tutorial29(Scene s) async {
 Future<void> Ch2Tutorial3(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2354);
     s.placeholder('TEXTEND');
@@ -10466,7 +10466,7 @@ Future<void> Ch2_10(Scene s) async {
 
 /// `EventScr_Ch2_4`
 Future<void> Ch2_4(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2363);
     s.placeholder('TEXTEND');
@@ -10482,7 +10482,7 @@ Future<void> Ch2_4(Scene s) async {
 
 /// `EventScr_Ch2_5`
 Future<void> Ch2_5(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2357);
     s.placeholder('TEXTEND');
@@ -10498,7 +10498,7 @@ Future<void> Ch2_5(Scene s) async {
 /// `EventScr_Ch2_6`
 Future<void> Ch2_6(Scene s) async {
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2360);
     s.placeholder('TEXTEND');
@@ -10515,7 +10515,7 @@ Future<void> Ch2_6(Scene s) async {
 /// `EventScr_Ch2_7`
 Future<void> Ch2_7(Scene s) async {
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2372);
     s.placeholder('TEXTEND');
@@ -11045,28 +11045,28 @@ Future<void> Ch2_Village2(Scene s) async {
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2349);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('ENUT');
     return;
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2350);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('ENUT');
     return;
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2351);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('ENUT');
     return;
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2352);
     s.placeholder('TEXTEND');
@@ -13738,7 +13738,7 @@ Future<void> Ch6_2(Scene s) async {
 
 /// `EventScr_Ch6_3`
 Future<void> Ch6_3(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2486);
     s.placeholder('TEXTEND');
@@ -14933,7 +14933,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.showCursorAtUnit(18);
+          s.placeholder('CUMO_CHAR');
           pc = 30;
           continue;
         case 30:
@@ -16644,7 +16644,7 @@ Future<void> MoveUnitS2ToLeader(Scene s) async {
 
 /// `EventScr_Prologue_9EF828`
 Future<void> Prologue_9EF828(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2280);
     s.placeholder('TEXTEND');
@@ -16854,7 +16854,7 @@ Future<void> Prologue_EndingScene(Scene s) async {
 
 /// `EventScr_Prologue_ExecTut`
 Future<void> Prologue_ExecTut(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2265);
     s.placeholder('TEXTEND');
@@ -16888,7 +16888,7 @@ Future<void> Prologue_GiveRapier(Scene s) async {
 Future<void> Prologue_ONeillSpawn(Scene s) async {
     s.loadUnits(1, Sym('UnitDef_Event_PrologueEnemy'));
     await s.waitUnitMoving();
-    s.showCursorAtUnit(104);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('MUSC');
@@ -16983,7 +16983,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
 
 /// `EventScr_Prologue_OneillSethBattle`
 Future<void> Prologue_OneillSethBattle(Scene s) async {
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [0, 101253224, 12320, 853312, 0]);
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
@@ -16993,7 +16993,7 @@ Future<void> Prologue_OneillSethBattle(Scene s) async {
     s.setSlot(1, 4294967295);
     s.placeholder('SENQUEUE1');
     s.placeholder('FIGHT');
-    s.showCursorAtUnit(2);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -17235,7 +17235,7 @@ Future<void> Prologue_TutEirikaAttack(Scene s) async {
 
 /// `EventScr_Prologue_TutMessageTurn1`
 Future<void> Prologue_TutMessageTurn1(Scene s) async {
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2269);
     s.placeholder('TEXTEND');
@@ -17380,7 +17380,7 @@ Future<void> Prologue_Tutorial5(Scene s) async {
 Future<void> Prologue_Tutorial6(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670040);
     await s.textShow(2272);
     s.placeholder('TEXTEND');
@@ -17394,7 +17394,7 @@ Future<void> Prologue_Tutorial6(Scene s) async {
 Future<void> Prologue_Tutorial7(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 2097164);
     await s.textShow(2273);
     s.placeholder('TEXTEND');
@@ -17407,7 +17407,7 @@ Future<void> Prologue_Tutorial7(Scene s) async {
 /// `EventScr_Prologue_Tutorial8`
 Future<void> Prologue_Tutorial8(Scene s) async {
     s.placeholder('IGNORE_KEYS');
-    s.showCursorAtUnit(1);
+    s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
     s.placeholder('TEXTSTART');
@@ -17424,7 +17424,7 @@ Future<void> Prologue_Tutorial8(Scene s) async {
 
 /// `EventScr_Prologue_Tutorial9`
 Future<void> Prologue_Tutorial9(Scene s) async {
-    s.placeholder('EvtMoveUnit');
+    s.moveUnit('MOVE_CLOSEST', [0, 84475906, 12320, 853312, 0]);
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 5120);
@@ -17433,7 +17433,7 @@ Future<void> Prologue_Tutorial9(Scene s) async {
     s.placeholder('SENQUEUE1');
     s.setSlot(11, 393225);
     s.placeholder('FIGHT');
-    s.placeholder('EvtSetUnitHasMoved');
+    s.placeholder('_3427');
     s.setSlot(11, 393225);
     s.placeholder('KILL');
     await s.removeUnit(65534, onlyIfDead: true);
@@ -17500,7 +17500,7 @@ Future<void> Prologue_TutorialC(Scene s) async {
 Future<void> Prologue_TutorialD(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 2097232);
     await s.textShow(2278);
     s.placeholder('TEXTEND');
@@ -17515,7 +17515,7 @@ Future<void> Prologue_TutorialD(Scene s) async {
 Future<void> Prologue_TutorialE(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('EvtTextStartType3');
+    s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2279);
     s.placeholder('TEXTEND');
