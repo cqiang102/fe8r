@@ -831,7 +831,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(1524, 8, 8);
           pc = 11;
           continue;
         case 11:
@@ -9666,7 +9666,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(406, 8, 8);
           pc = 7;
           continue;
         case 7:
@@ -10781,7 +10781,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(408, 8, 8);
           pc = 34;
           continue;
         case 34:
@@ -13324,7 +13324,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.setSlot(11, 262154);
     await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('BROWNBOXTEXT');
+    await s.popupText(1513, 8, 8);
     s.showCursorAt(9, 4);
     await s.stall(60);
     await s.endCursor();
@@ -14401,7 +14401,7 @@ Future<void> Ch8_10(Scene s) async {
     await s.waitUnitMoving();
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.fromWhite, 2);
-    s.placeholder('BROWNBOXTEXT');
+    await s.popupText(406, 8, 8);
     s.showCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
@@ -17011,7 +17011,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
-    s.placeholder('BROWNBOXTEXT');
+    await s.popupText(1526, 8, 8);
     s.loadUnits(1, Sym('UnitDef_Event_PrologueMessager'));
     await s.waitUnitMoving();
     await s.cameraTo(14, 0, centered: false);
@@ -18406,7 +18406,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(232, 8, 8);
           pc = 7;
           continue;
         case 7:
@@ -18440,7 +18440,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(233, 8, 8);
           pc = 16;
           continue;
         case 16:
@@ -18474,7 +18474,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(234, 8, 8);
           pc = 25;
           continue;
         case 25:
@@ -18508,7 +18508,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(235, 8, 8);
           pc = 34;
           continue;
         case 34:
@@ -18542,7 +18542,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(236, 8, 8);
           pc = 43;
           continue;
         case 43:
@@ -18576,7 +18576,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(238, 8, 8);
           pc = 52;
           continue;
         case 52:
@@ -18610,7 +18610,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 60;
           continue;
         case 60:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(239, 8, 8);
           pc = 61;
           continue;
         case 61:
@@ -18644,7 +18644,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(240, 8, 8);
           pc = 70;
           continue;
         case 70:
@@ -18678,7 +18678,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 78;
           continue;
         case 78:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(241, 8, 8);
           pc = 79;
           continue;
         case 79:
@@ -18712,7 +18712,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 87;
           continue;
         case 87:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(242, 8, 8);
           pc = 88;
           continue;
         case 88:
@@ -18746,7 +18746,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 96;
           continue;
         case 96:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(243, 8, 8);
           pc = 97;
           continue;
         case 97:
@@ -18780,7 +18780,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 105;
           continue;
         case 105:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(244, 8, 8);
           pc = 106;
           continue;
         case 106:
@@ -18814,7 +18814,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 114;
           continue;
         case 114:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(245, 8, 8);
           pc = 115;
           continue;
         case 115:
@@ -18848,7 +18848,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 123;
           continue;
         case 123:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(246, 8, 8);
           pc = 124;
           continue;
         case 124:
@@ -18882,7 +18882,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 132;
           continue;
         case 132:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(247, 8, 8);
           pc = 133;
           continue;
         case 133:
@@ -18916,7 +18916,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 141;
           continue;
         case 141:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(248, 8, 8);
           pc = 142;
           continue;
         case 142:
@@ -18950,7 +18950,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 150;
           continue;
         case 150:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(249, 8, 8);
           pc = 151;
           continue;
         case 151:
@@ -18984,7 +18984,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 159;
           continue;
         case 159:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(250, 8, 8);
           pc = 160;
           continue;
         case 160:
@@ -19018,7 +19018,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 168;
           continue;
         case 168:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(251, 8, 8);
           pc = 169;
           continue;
         case 169:
@@ -19052,7 +19052,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 177;
           continue;
         case 177:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(252, 8, 8);
           pc = 178;
           continue;
         case 178:
@@ -19086,7 +19086,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 186;
           continue;
         case 186:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(253, 8, 8);
           pc = 187;
           continue;
         case 187:
@@ -19120,7 +19120,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 195;
           continue;
         case 195:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(255, 8, 8);
           pc = 196;
           continue;
         case 196:
@@ -19154,7 +19154,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 204;
           continue;
         case 204:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(256, 8, 8);
           pc = 205;
           continue;
         case 205:
@@ -19188,7 +19188,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 213;
           continue;
         case 213:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(257, 8, 8);
           pc = 214;
           continue;
         case 214:
@@ -19222,7 +19222,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 222;
           continue;
         case 222:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(258, 8, 8);
           pc = 223;
           continue;
         case 223:
@@ -19256,7 +19256,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 231;
           continue;
         case 231:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(259, 8, 8);
           pc = 232;
           continue;
         case 232:
@@ -19290,7 +19290,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 240;
           continue;
         case 240:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(260, 8, 8);
           pc = 241;
           continue;
         case 241:
@@ -19324,7 +19324,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 249;
           continue;
         case 249:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(261, 8, 8);
           pc = 250;
           continue;
         case 250:
@@ -19358,7 +19358,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 258;
           continue;
         case 258:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(262, 8, 8);
           pc = 259;
           continue;
         case 259:
@@ -19392,7 +19392,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 267;
           continue;
         case 267:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(263, 8, 8);
           pc = 268;
           continue;
         case 268:
@@ -19426,7 +19426,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 276;
           continue;
         case 276:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(264, 8, 8);
           pc = 277;
           continue;
         case 277:
@@ -19460,7 +19460,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 285;
           continue;
         case 285:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(265, 8, 8);
           pc = 286;
           continue;
         case 286:
@@ -19494,7 +19494,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 294;
           continue;
         case 294:
-          s.placeholder('BROWNBOXTEXT');
+          await s.popupText(266, 8, 8);
           pc = 295;
           continue;
         case 295:
@@ -20724,7 +20724,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x1B8(Scene s) async {
     s.placeholder('REMOVEPORTRAITS');
     s.placeholder('BACG');
     await s.fade(FadeDirection.fromWhite, 2);
-    s.placeholder('BROWNBOXTEXT');
+    await s.popupText(405, 8, 8);
     await s.textShow(2935);
     await s.textEnd();
     s.textRemoveAll();

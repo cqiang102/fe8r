@@ -922,6 +922,54 @@ class MinimugComponent extends PositionComponent {
 // ⚠️ 位置：原作有 `GetUnitInfoWindowX(unit, width)`（按单位左右自动选边），
 //    那个函数的**实现我没读到** ⇒ 这里固定在右上角，**不是**照抄它的选边规则。
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// 棕色弹窗（`BROWNBOXTEXT` = `EvtDisplayPopupSilently(msg, x, y)`，
+// `include/eventscript.h:732`；处理函数 `src/Event3A_DisplayPopup.c:11-40`）
+//
+// **自己计时结束**（"Silently" = 不等按键）。位置暂固定在屏幕下方中央：
+// 原作把 (x, y) 当**弹窗坐标**用（地图坐标换算到屏幕），那一步的换算式
+// 在 `NewPopup_*` 的那一族里，**我没读** ⇒ 不假装照抄了它的落点。
+// ---------------------------------------------------------------------------
+class PopupTextComponent extends PositionComponent {
+  PopupTextComponent({required this.text, required this.tileSize})
+      : super(
+          size: Vector2(180, tileSize * 1.8),
+          position: Vector2(30, 120),
+          priority: 47,
+        );
+
+  final String text;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(0, 0, size.x, size.y);
+    // 棕色底（名字就叫 BROWNbox）
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(3)),
+      Paint()..color = const Color(0xE0603A18),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(3)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = const Color(0xFFE8C89A),
+    );
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: const Color(0xFFFFFFFF),
+          fontSize: tileSize * 0.5,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: size.x - 8);
+    tp.paint(canvas, const Offset(4, 4));
+  }
+}
+
 class UnitInfoWindowComponent extends PositionComponent {
   UnitInfoWindowComponent({
     required this.lines,

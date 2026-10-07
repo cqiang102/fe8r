@@ -580,6 +580,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'characterEventCount': _characterEvents.length,
       'lastDance': lastDance,
       'lastSteal': lastSteal,
+      'lastPopup': lastPopup,
+      'popupComponents': popupComponentCount,
       'ignoredInputCount': ignoredInputCount,
       'ignoredKeyMask': keyIgnoreMask,
       // ★ 行动菜单**有哪些项**（判据用；也是给"看不见菜单就瞎按键"这个反复
@@ -1895,6 +1897,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           if (scene?.skipping == true) break;
           await Future<void>.delayed(const Duration(milliseconds: 16));
         }
+      case PopupText(:final textId, :final x, :final y):
+        // `BROWNBOXTEXT`：棕色弹窗，**自己计时结束**（不等按键）
+        lastPopup = {'textId': textId, 'x': x, 'y': y};
+        debugPrint('[POPUP] $lastPopup');
+        await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
       case KeyIgnore(:final mask):
         // `IGNORE_KEYS`：屏蔽掩码由**游戏侧**持有（输入的归属）
         keyIgnoreMask = mask;
@@ -5479,6 +5486,34 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 最近一次「踊る」的记录（判据用）
   Map<String, Object?>? lastDance;
+
+  /// 最近一次棕色弹窗（判据用）
+  Map<String, Object?>? lastPopup;
+
+  /// 弹窗组件（转储里数一下，证明"真的画出来了"）
+  PopupTextComponent? _popupComp;
+
+  int get popupComponentCount => _popupComp == null ? 0 : 1;
+
+  /// 显示一个棕色弹窗若干帧（`BROWNBOXTEXT` 用它；"Silently" = 不等按键）
+  Future<void> _showPopupForTest({
+    required int textId,
+    required int x,
+    required int y,
+    required int frames,
+  }) async {
+    if (!isMounted) return;
+    final text = _textOr(gameTexts?.byId(textId)?.plain, 'msg#$textId');
+    final c = PopupTextComponent(text: text, tileSize: 16);
+    _popupComp = c;
+    camera.viewport.add(c);
+    for (var i = 0; i < frames; i++) {
+      if (scene?.skipping == true) break;
+      await Future<void>.delayed(const Duration(milliseconds: 16));
+    }
+    c.removeFromParent();
+    _popupComp = null;
+  }
 
   /// 被 `IGNORE_KEYS` 掩码吞掉的输入次数（判据用）
   int ignoredInputCount = 0;

@@ -105,4 +105,25 @@ void main() {
     expect(d['unitInfoComponents'], 0,
         reason: 'headless 下不挂组件；有头环境下这里会是 1');
   });
+  _popupTests();
+}
+
+// ★ `BROWNBOXTEXT` = `EvtDisplayPopupSilently(msg, x, y)`（`include/eventscript.h:732`）
+void _popupTests() {
+  test('★ 生成物里有 40 处 popupText（x/y 都在 0..0xFF），且不再是占位符', () {
+    final f = File('lib/core/event/scene_data.g.dart');
+    final t = f.readAsStringSync();
+    expect(t.contains('s.popupText('), isTrue);
+    // ★ 抽查：所有 x/y 都必须在 0..0xFF（生成器里有合理性守卫）
+    final calls = RegExp(r's\.popupText\((\d+), (\d+), (\d+)\)')
+        .allMatches(t)
+        .toList();
+    expect(calls.length, greaterThan(30), reason: '应有 30+ 处（实测 40）');
+    for (final m in calls.take(200)) {
+      final x = int.parse(m.group(2)!);
+      final y = int.parse(m.group(3)!);
+      expect(x >= 0 && x <= 0xFF && y >= 0 && y <= 0xFF, isTrue,
+          reason: 'x/y 必须像坐标：${m.group(0)}');
+    }
+  });
 }

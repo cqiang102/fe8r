@@ -214,6 +214,21 @@ def stmt(op, A):
     # 输入屏蔽：`IGNORE_KEYS` = `EvtSetKeyIgnore(mask)`（`include/eventscript.h:623`）
     #   ⇒ `SetKeyStatus_IgnoreMask(mask)`（`src/SetKeyStatus_IgnoreMask.c:7-10`）
     # 掩码的位见 `include/gba/io_reg.h:663-672`。
+    # 棕色弹窗：`BROWNBOXTEXT` = `EvtDisplayPopupSilently(msg, x, y)`
+    #   （`include/eventscript.h:732`；`EV_CMD_DISPLAYPOPUP` subcmd `EVSUBCMD_BROWNTEXTBOX`=1）
+    #   处理函数 `Event3A_DisplayPopup`（`src/Event3A_DisplayPopup.c:11-40`）：
+    #   **跳过中不弹**（`:16-19`）；`textId = ARGV[0]`，为负 ⇒ 取事件槽 2（`:23-28`）。
+    #   ⚠️ 只有三个参数**都是整数**才接（符号参数仍保持占位符）。
+    if op == "BROWNBOXTEXT":
+        # ★ 抽查产物时发现：**不是所有站点**的 (A[1], A[2]) 都是坐标
+        #   （有一条生成了 `popupText(407, 524296, 172104480)` —— 后两个是巨大的值）。
+        #   ⇒ 加**合理性守卫**：x/y 必须落在 0..0xFF（地图坐标的量级），
+        #     不合格的**退回占位符**（继续计在棘轮里），而不是发一个错的值。
+        if (len(A) >= 3 and all(isinstance(x, int) for x in A[:3])
+                and 0 <= A[1] <= 0xFF and 0 <= A[2] <= 0xFF):
+            return (f"await s.popupText({num(A[0])}, {num(A[1])}, {num(A[2])});", False)
+        return (f"s.placeholder('{op}');", True)
+
     if op == "IGNORE_KEYS":
         a = A[0] if A else 0
         if isinstance(a, int):

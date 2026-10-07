@@ -354,6 +354,15 @@ class KeyIgnore extends SceneEvent {
   final int mask;
 }
 
+/// `BROWNBOXTEXT` —— 棕色弹窗（带文本与坐标，自己计时结束）
+class PopupText extends SceneEvent {
+  const PopupText({required this.textId, required this.x, required this.y});
+
+  final int textId;
+  final int x;
+  final int y;
+}
+
 /// `REMU` / `REVEAL` / `SET_STATE` —— 单单位状态
 class UnitStateOp extends SceneEvent {
   const UnitStateOp({required this.kind, required this.arg});
@@ -640,6 +649,14 @@ class Scene {
       _ => a,
     };
   }
+
+  /// `BROWNBOXTEXT` = `EvtDisplayPopupSilently(msg, x, y)`
+  /// （`include/eventscript.h:732`；处理函数 `src/Event3A_DisplayPopup.c:11-40`）
+  ///
+  /// 跳过中不弹（`:16-19`）；弹窗**自己计时结束**（"Silently" = 不等按键）。
+  /// 注意：40 处能接（x/y 都在 0..0xFF），**1 处参数不是坐标** ⇒ 那一处仍是占位符。
+  Future<void> popupText(int textId, int x, int y) =>
+      onEvent(PopupText(textId: textId, x: x, y: y));
 
   /// `REMU`/`REVEAL`/`SET_STATE`：**单单位**状态（`Event34_MessWithUnitState`）
   ///
