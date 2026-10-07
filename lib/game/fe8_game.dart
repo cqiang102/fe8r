@@ -665,6 +665,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       i = FlowInput.cancel;
     } else if (k == LogicalKeyboardKey.keyE) {
       i = FlowInput.endTurn;
+    } else if (k == LogicalKeyboardKey.keyH) {
+      // 试玩用：随时看/收起按键说明（不占用任何原作按键）
+      toggleHelp();
+      return KeyEventResult.handled;
     } else if (k == LogicalKeyboardKey.keyC) {
       // ⚠️ 原来这里写的是 `keyD`，但**上面 keyD 已经映射成 right 了** ——
       // 同一个 `else if` 链里先到先得，所以 `startDialogue`
@@ -876,7 +880,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           if (sel.closesMenu) {
             mapMenu = null;
             _mapMenuNote = sel.note;
-            _runMapMenuCommand(sel.command);
+            _runMapMenuCommand(sel.command, mapMenu!.current.item.label);
           } else {
             // `src/MapMenu_SuspendCommand.c:51-54`：只弹提示，**菜单不关**
             mapMenu = MapMenuState(
@@ -1007,6 +1011,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       onState: dumpState,
       onPress: (keys) {
         for (final k in keys) {
+          // 键盘层独有的键（不是 `FlowInput`）——`h` = 显示/收起按键说明
+          if (k == 'h' || k == 'help') {
+            toggleHelp();
+            continue;
+          }
           final i = inputByName(k);
           if (i != null) routeInput(i);
         }
@@ -1747,7 +1756,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 8 条里有 5 条的**整屏界面**（部队/状況/辞書/設定/中断）还没搬进来 ——
   /// 一律**响亮记录**在 `_mapMenuUnimplemented` 里，绝不当没发生。
   /// 退却/戦績 在故事章节里是 `MENU_NOTSHOWN`，根本不会被选中。
-  void _runMapMenuCommand(MapMenuCommand c) {
+  void _runMapMenuCommand(MapMenuCommand c, String label) {
     switch (c) {
       case MapMenuCommand.endPlayerPhase:
         endTurn();
@@ -1760,6 +1769,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       case MapMenuCommand.suspend:
         _mapMenuUnimplemented.add(c.name);
         _mapMenuNote = '$_mapMenuNote → 界面未实现（${c.name}）';
+        // ★ 屏幕上也要说 —— 否则玩家以为按键没反应（试玩反馈里这类最难判）
+        _playNote = '「$label」这个界面还没做（见 docs/试玩.md）'
+            '${_helpShown ? '\n$kPlayNote' : ''}';
     }
   }
 
@@ -1771,6 +1783,31 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 阶段循环的诊断（正常回合结束时是空串）
   String _turnLoopNote = '';
+
+  /// 屏幕底部那行提示（试玩版用：让"还没做的"看得见）
+  String _playNote = kPlayNote;
+
+  /// 键位说明是否展开（按 `H` 切换）
+  bool _helpShown = false;
+
+  /// 显示/收起按键说明（**键盘与控制通道共用** —— 玩家能按的键，通道也要能按）
+  void toggleHelp() {
+    _helpShown = !_helpShown;
+    _playNote = _helpShown ? '$kKeyHelp\n$kPlayNote' : kPlayNote;
+    _updateHud();
+  }
+
+  /// 试玩版一直在屏幕底部显示的那行（改了它就要同步 `docs/试玩.md`）
+  static const String kPlayNote =
+      '试玩版：序章/第 1 章可玩 · 缺 战斗动画 / 菜单5屏 / 章间大地图 / 存档 · **按 H 看按键**';
+
+  /// 按键说明 —— 与 `onKeyEvent` 的真实映射**逐条对应**，不是另写一份
+  /// （改了 `onKeyEvent` 就要改这里；`test/game/keyboard_test.dart` 钉住几个关键键）
+  static const String kKeyHelp =
+      '按键：方向键/WASD 移动光标 · Z/空格 确认 · X/ESC 取消 · '
+      '回车=START（打开地图菜单 / 跳过剧情）\n'
+      '　　　E 直接结束回合（开发捷径，原作没有） · C 触发剧情演示（开发用） · '
+      '再按 H 收起这一行';
 
   /// `gPlaySt.tutorial_counter` / `tutorial_exec_type`（`include/types.h:223-225`）
   final TutorialQueue tutorial = TutorialQueue();
@@ -3521,6 +3558,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           rnConsumed: tracker.consumed,
           menu: menuOptions(s, f),
           lastCombat: lastCombat,
+          note: _playNote,
         )
         .value;
   }

@@ -60,6 +60,9 @@ class HudView {
     required int rnConsumed,
     required List<ActionOption> menu,
     required String lastCombat,
+    /// 屏幕底部的一行提示（地图菜单选到"还没做的界面"时也走这里 ——
+    /// 不显示的话玩家会以为按键没反应，把"没有的"当成 bug 反馈）
+    String note = '',
   }) {
     final who = field.activeFaction == Faction.red ? '敌方' : '我方';
     // 带上坐标 —— 排查"单位站的位置不对"时这是唯一可靠的依据
@@ -76,6 +79,7 @@ class HudView {
           '光标 (${state.cursorX},${state.cursorY})  ${state.phase.name}$m  '
           '乱数 $rnConsumed',
       'HP  $hp${lastCombat.isEmpty ? '' : '\n$lastCombat'}',
+      if (note.isNotEmpty) note,
     ]);
   }
 

@@ -16,7 +16,9 @@
 // ## 协议（loopback TCP，一行一个 JSON，一行一个回复）
 //
 //     {"cmd":"state"}                    → dumpState() 的全部字段
-//     {"cmd":"press","keys":["start"]}   → 立即注入按键（无间隔）
+//     {"cmd":"press","keys":["start"]}   → 立即注入按键（同一帧；多键走 script）
+//       键名 = `FlowInput` 名（up/down/left/right/confirm/cancel/start/endturn/dialogue）
+//       + 键盘层独有的 `h`（显示/收起按键说明）
 //     {"cmd":"script","seq":"down,confirm"} → 交给 runScript（带 60ms 间隔、支持 wait）
 //     {"cmd":"quit"}                     → 关闭
 //
