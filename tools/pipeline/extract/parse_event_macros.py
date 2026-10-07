@@ -89,11 +89,19 @@ def main():
     entries = {}
     # 宏体可能跨行
     body = re.sub(r"\\\s*\n", " ", es)
+    # ⚠️ 两处放宽（原来各漏掉一整批宏）：
+    #   1. **无参数宏**：`#define EvtGetCurrentTurn _EvtArg0(...)`（`include/eventscript.h:645`）
+    #      —— 原来要求 `(\w+)\s*\(…\)`，无参数宏一条都收不到；
+    #   2. 第 4 个参数不一定是 `(arg)`：`EvtDecCounter(idx)` 的末参是
+    #      `_EvtSubParam16u8((idx), 0)`，走 pass 2（那条也在本轮修了）。
     for m in re.finditer(
-            r"#define\s+(\w+)\s*\(([^)]*)\)\s*"
-            r"_EvtArg0\(\s*([A-Z_0-9]+)\s*,\s*([^,]+),\s*([^,]+),\s*\(([^)]*)\)\s*\)"
+            r"#define\s+(\w+)\s*(?:\(([^)]*)\))?\s*"
+            r"_EvtArg0\(\s*([A-Z_0-9]+)\s*,\s*([^,]+),\s*([^,]+),\s*"
+            r"(?:\(([^)]*)\)|(\w+))\s*\)"
             r"(.*)$", body, re.M):
-        name, params, cmd, ln, sub, arg, rest = m.groups()
+        name, params, cmd, ln, sub, arg, arg_bare, rest = m.groups()
+        params = params or ""
+        arg = arg if arg is not None else (arg_bare or "")
         c = consts.get(cmd)
         if c is None:
             continue
@@ -119,11 +127,18 @@ def main():
     # 解出来的两个参数**都来自同一个字**（低字节 x、高字节 y），
     # 所以标 `packed: u8pair`，由解码端拆 —— 见 parse_event_scripts_asm.py。
     for m in re.finditer(
-            r"#define\s+(\w+)\s*\(([^)]*)\)\s*"
+            # 两个放宽（原来各漏掉一整批宏）：
+            #   1. **无参数宏**（`#define EvtGetCurrentTurn _EvtArg0(...)`，`eventscript.h:645`）
+            #   2. `_EvtSubParam16u8` 的**第 2 个参数可以是裸值**：
+            #      `EvtDecCounter(idx) _EvtArg0(EV_CMD_COUNTER, 2, EVSUBCMD_COUNTER_DEC,
+            #       _EvtSubParam16u8((idx), 0))`（`:627`）——
+            #      原来要求两个参数都带括号，于是 COUNTER_DEC 整条收不到。
+            r"#define\s+(\w+)\s*(?:\(([^)]*)\))?\s*"
             r"_EvtArg0\(\s*([A-Z_0-9]+)\s*,\s*([^,]+),\s*([^,]+),\s*"
-            r"_EvtSubParam16u8\(\(([^)]*)\),\s*\(([^)]*)\)\)\s*\)"
-            r"(.*)$", body, re.M):
+            r"_EvtSubParam16u8\(\(([^)]*)\)\s*,\s*\(?([^),]*)\)?\s*\)"
+            r"\s*\)(.*)$", body, re.M):
         name, params, cmd, ln, sub, _pa, _pb, rest = m.groups()
+        params = params or ""
         c = consts.get(cmd)
         if c is None:
             continue

@@ -3,31 +3,31 @@
  "note": "裸字节事件脚本解成宏形式；字节数对不上的已丢弃",
  "scripts": {
   "EventScr_UnTriggerIfNotUnit": [
-   "GET_PID(0)",
+   "CHECK_ACTIVE",
    "BEQ(0, 0x2000c, 0xa40)",
    "CALL(UnitDef_Ch14BAlly_7 + 0x1C)",
    "LABEL(0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_LoadUnitForDifferentMode": [
    "BNE(0, 0xc, 0x1922)",
-   "CHECKVARIOUS(0)",
+   "CHECK_HARD",
    "BEQ(0, 0xc, 0x320620)",
    "SLOT_OPS(50)",
    "LABEL(0)",
    "SLOT_OPS(76)",
    "CALL(UnitDef_Ch14BAlly_7 + 0x30)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_LoadUnitForTutorial": [
-   "CHECKVARIOUS(0)",
+   "CHECK_TUTORIAL",
    "BNE(0, 0xc, 0x1922)",
-   "CHECKVARIOUS(0)",
+   "CHECK_HARD",
    "BEQ(0, 0xc, 0x3c0620)",
    "SLOT_OPS(60)",
    "CALL(UnitDef_Ch14BAlly_7 + 0x30)",
    "LABEL(0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_LoadReinforce": [
    "EVBIT_MODIFY(4)",
@@ -37,57 +37,57 @@
    "ENUN(0)",
    "EVBIT_F(9)",
    "EVBIT_MODIFY(0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_LoadReinforceHardMode": [
-   "CHECKVARIOUS(0)",
+   "CHECK_TUTORIAL",
    "BNE(0, 0xc, 0x1922)",
-   "CHECKVARIOUS(0)",
+   "CHECK_HARD",
    "BEQ(0, 0xc, 0xa40)",
    "CALL(EventScr_LoadReinforce)",
    "LABEL(0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_TextShowWithFadeIn": [
    "CHECK_EVBIT(8)",
    "BNE(32957, 0xc, 0x101721)",
    "FADI(16)",
    "LABEL(32957)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "CLEARSCREEN(0)",
    "FADU(16)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_SetBackground": [
    "CHECK_EVBIT(8)",
    "BNE(32978, 0xc, 0x101721)",
    "FADI(16)",
    "LABEL(32978)",
-   "SETTEXTTYPE(0)",
+   "REMOVEPORTRAITS",
    "BACG(65535)",
    "FADU(16)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_ApplyActiveUnitTileChange": [
    "EVBIT_MODIFY(1)",
    "TILECHANGE(65534)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_ApplyTileChangeForFactionIfAlly": [
    "SVAL(2, 0x0)",
    "CALL(EventScr_ApplyTileChangeForFaction)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_ApplyTileChangeForFactionIfEnemy": [
    "SVAL(2, 0x2)",
    "CALL(EventScr_ApplyTileChangeForFaction)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_ApplyTileChangeForFactionIfNPC": [
    "SVAL(2, 0x1)",
    "CALL(EventScr_ApplyTileChangeForFaction)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_ChangeAIinQueue": [
    "LABEL(0)",
@@ -97,7 +97,7 @@
    "CHAI_AT(-1, -1)",
    "GOTO(0)",
    "LABEL(1)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_9EE6A0": [
    "BNE(0, 0x3000c, 0xa40)",
@@ -107,10 +107,10 @@
    "SLOT_OPS(66)",
    "ENUF(65535)",
    "LABEL(1)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_9EE6C8": [
-   "GET_PID(0)",
+   "CHECK_ACTIVE",
    "BNE(0, 0x3000c, 0xa40)",
    "CALL(EventScr_ChangeAIinQueue)",
    "GOTO(1)",
@@ -118,7 +118,7 @@
    "SLOT_OPS(66)",
    "ENUF(65535)",
    "LABEL(1)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_9EE8F0": [
    "CHECK_EVENTID(65535)",
@@ -127,21 +127,21 @@
    "SLOT_OPS(50)",
    "MNCH(65535)",
    "ASMC(0)",
-   "END(0)",
+   "ENDB",
    "LABEL(0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_WholeTowerClear": [
    "ASMC(0)",
    "ASMC(0)",
    "ASMC(0)",
    "MNCH(65535)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_9EEAAC": [
    "EVBIT_MODIFY(3)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "MUSI",
+   "TEXTSTART",
    "CHECK_EVENTID(65535)",
    "BNE(0, 0xc, 0xffff0229)",
    "ENUT(65535)",
@@ -157,10 +157,10 @@
    "ENDTEXT(0)",
    "LABEL(1)",
    "CALL(EventScr_9EEB00)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_9EEB00": [
-   "CHECKVARIOUS(0)",
+   "CHECK_MONEY",
    "BLT(0, 0x4000c, 0x30220)",
    "EVBIT_F(3)",
    "SDEQUEUE(2)",
@@ -173,7 +173,7 @@
    "STAL(33)",
    "EvtTextShow2(65535)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "SLOT_OPS(50)",
    "CHANGESTATE(65533)",
    "SLOT_OPS(67)",
@@ -187,42 +187,42 @@
    "SDEQUEUE(2)",
    "EvtTextShow2(65535)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "CALL(UnitDef_Ch14BAlly_7 + 0x1C)",
    "LABEL(1)",
    "SDEQUEUE(2)",
    "SDEQUEUE(2)",
    "EvtTextShow2(65535)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "CALL(UnitDef_Ch14BAlly_7 + 0x1C)",
    "LABEL(2)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_CallBreakStone": [
-   "COLORFADE(0)",
+   "STARTFADE",
    "COLORFADE(8192)",
    "STAL(30)",
    "GLOWINGCROSS(65533)",
    "COLORFADE(8192)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_ONeillSpawn": [
    "LOAD1(1, UnitDef_Event_PrologueEnemy)",
    "ENUN(0)",
    "CURSOR_CHAR(104)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "MUSC(19)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "TEXTSHOW(2256)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUF(4)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_EirikaAttacked": [
    "DISABLEOPTIONS(24576)",
@@ -232,15 +232,15 @@
    "ENUT(4)",
    "SVAL(13, 0x0)",
    "SVAL(1, 0x20000)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x1)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x1)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0xffffffff)",
-   "QUEUE_OPS(0)",
-   "SCRIPT_BATTLE(0)",
-   "END(0)"
+   "SENQUEUE1",
+   "FIGHT_SCRIPT",
+   "ENDA"
   ],
   "EventScr_Prologue_Turn1": [
    "SVAL(2, EventScr_Prologue_ONeillSpawn)",
@@ -248,13 +248,13 @@
    "SVAL(2, EventScr_Prologue_TutMessageTurn1)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Turn2": [
    "SVAL(2, EventScr_Prologue_TutMessageTurn2)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Turn3": [
    "SVAL(2, EventScr_Prologue_OneillSethBattle)",
@@ -262,25 +262,25 @@
    "SVAL(2, EventScr_Prologue_TutEirikaAttack)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_ExecTut": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2265)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(1)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Prologue_Tutorial0)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDB"
   ],
   "EventScr_Prologue_Tutorial2": [
    "EVBIT_T(7)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Prologue_Tutorial3)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Tutorial3": [
    "EVBIT_T(7)",
@@ -288,17 +288,17 @@
    "CALL(EventScr_Prologue_GiveRapier)",
    "SET_ENDTURN(2)",
    "ENUT(183)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_TutMessageTurn1": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2269)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(180)",
    "ENUT(181)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Tutorial5": [
    "EVBIT_T(7)",
@@ -306,56 +306,56 @@
    "DISABLEOPTIONS(65534)",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(4, EventScr_Prologue_Tutorial6)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Tutorial6": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380018)",
    "TEXTSHOW(2272)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(5, EventScr_Prologue_Tutorial7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Tutorial7": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(256)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x20000c)",
    "TEXTSHOW(2273)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Prologue_Tutorial8)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Tutorial8": [
    "IGNORE_KEYS(0)",
    "CURSOR_CHAR(1)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "SETTEXTTYPE(0)",
+   "CURE",
+   "TEXTSTART",
    "TEXTSHOW(2258)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "EvtEnqueueConditionalTutCall(6, EventScr_Prologue_Tutorial9)",
    "ENUT(185)",
    "ENUT(194)",
    "ENUT(195)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_Tutorial9": [
    "EvtMoveUnit(0, 0x5090002, 0x3020, 0xd0540, 0x0)",
    "ENUN(0)",
    "SVAL(13, 0x0)",
    "SVAL(1, 0x1400)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0xffffffff)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(11, 0x60009)",
    "FIGHT(2, 0xffff, 0x23427, 0xb0540)",
    "EvtSetUnitHasMoved(2)",
@@ -366,132 +366,132 @@
    "CALL(EventScr_Prologue_OneEnemyLeft)",
    "SET_ENDTURN(2)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_OneillSethBattle": [
    "EvtMoveUnit(0, 0x6090068, 0x3020, 0xd0540, 0x0)",
    "ENUN(0)",
    "SVAL(13, 0x0)",
    "SVAL(1, 0x0)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x20001)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0xffffffff)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "FIGHT(104, 0x2, 0x23b21, 0x3c0e20)",
    "CURSOR_CHAR(2)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "SETTEXTTYPE(0)",
+   "CURE",
+   "TEXTSTART",
    "TEXTSHOW(2261)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "END(0)"
+   "REMA",
+   "ENDA"
   ],
   "EventScr_Prologue_TutorialC": [
    "EVBIT_T(7)",
    "EvtEnqueueConditionalTutCall(5, EventScr_Prologue_TutorialD)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_TutorialD": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(256)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x200050)",
    "TEXTSHOW(2278)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Prologue_TutorialE)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_TutorialE": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2279)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(231)",
    "DISABLEOPTIONS(0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Prologue_9EF828": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2280)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(201)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1_Turn1Player": [
    "SVAL(2, EventScr_Ch1Tut_ChooseSethTurn1)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1_Misc_DefeatBoss": [
    "SVAL(2, EventScr_Ch1Tut_GuideMsgSeize)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1_Loca_Visit1": [
    "IGNORE_KEYS(0)",
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x8fb)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1_Loca_Visit2": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x8fc)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1_Misc_Area": [
    "SVAL(2, 0x1)",
    "CALL(EventScr_UnTriggerIfNotUnit)",
    "ENUF(11)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1_Turn_EnemyReinforceArrive": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, UnitDef_Event_Ch1EnemyReinforce)",
    "CALL(EventScr_LoadReinforce)",
    "CURSOR_CHAR(131)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "SETTEXTTYPE(0)",
+   "CURE",
+   "TEXTSTART",
    "TEXTSHOW(2292)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_EirikaVisitHouseEnd": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380048)",
    "TEXTSHOW(2305)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(207)",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch1Tut_GuideTerrainHeal)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_GilliamBattle": [
    "SVAL(1, 0x13)",
@@ -501,13 +501,13 @@
    "ENUN(0)",
    "SVAL(13, 0x0)",
    "SVAL(1, 0x0)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x20001)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x201)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0xffffffff)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(11, 0x30008)",
    "FIGHT(3, 0xffff, 0x20540, EventScr_Ch1Tut_GuideMsg944)",
    "SVAL(2, EventScr_Ch1Tut_GuideMsg944)",
@@ -516,303 +516,303 @@
    "ENUN(0)",
    "CURSOR_CHAR(4)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "CURE",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2291)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "REMA",
+   "MUNO",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2310)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(3)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch1Tut_TradeSelectGalliamIdle1)",
    "DISABLEOPTIONS(16384)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_TradeSelectGalliamEnd": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380048)",
    "TEXTSHOW(2312)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "ENUT(135)",
    "EvtEnqueueConditionalTutCall(4, EventScr_Ch1Tut_AfterTrade)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_AfterTrade": [
    "EVBIT_T(7)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380048)",
    "TEXTSHOW(2317)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(199)",
    "ENUT(200)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch1Tut_PostTradeAndItemUseAction)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_PostTradeAndItemUseAction": [
    "CURSOR_CHAR(4)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "SETTEXTTYPE(0)",
+   "CURE",
+   "TEXTSTART",
    "TEXTSHOW(2290)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "DISABLEOPTIONS(0)",
    "CALL(EventScr_Ch1Tut_MsgOnGuideOption)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_AfterSethMoveToEnemy": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380048)",
    "TEXTSHOW(2322)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "DISABLEWEAPONS(2)",
    "EvtEnqueueConditionalTutCall(5, EventScr_Ch1Tut_GuideOnBKSEL)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_GuideOnBKSEL": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(256)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x100054)",
    "TEXTSHOW(2321)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch1Tut_AfterSethBattleEirikaVisit)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch1Tut_AfterSethBattleEirikaVisit": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "ENQUEUE_CALL(0)",
-   "END(0)"
+   "EvtEnqueueCallDirectly(0)",
+   "ENDA"
   ],
   "EventScr_Ch1Tut_MsgOnGuideOption": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2323)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "END(0)"
+   "REMA",
+   "ENDA"
   ],
   "EventScr_Ch2_Turn1Player": [
    "SVAL(2, EventScr_Ch2_Village2 + 0x100)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2_Turn2Player": [
    "SVAL(2, EventScr_Ch2_5)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2_Village2": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x2)",
    "SVAL(3, 0x92b)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x6d)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
+   "ENDA",
+   "MUSI",
    "SVAL(2, 0x2)",
    "SVAL(3, 0x92c)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x6e)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch2Enemy_1)",
    "CALL(EventScr_LoadReinforce)",
    "SVAL(2, EventScr_Ch2_8)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2349)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(208)",
-   "END(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2350)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(232)",
-   "END(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2351)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(188)",
-   "END(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2352)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(6)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2_Village2 + 0x134)",
    "DISABLEOPTIONS(16384)",
-   "END(0)",
+   "ENDA",
    "EVBIT_T(7)",
    "SVAL(13, 0x0)",
    "SVAL(1, 0x6)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x50009)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x931)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x580020)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x934)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x580020)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, EventScr_Ch2Tutorial2)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, EventScr_Ch2_Village2 + 0x134)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "CALL(EventScr_Tutorial_Exec0)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial3": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380048)",
    "TEXTSHOW(2354)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2Tutorial4)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial6": [
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch2Tutorial7)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial7": [
    "IGNORE_KEYS(0)",
-   "ENQUEUE_CALL(0)",
+   "EvtEnqueueCallDirectly(0)",
    "ENUT(184)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2_4": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2363)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(5)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2Tutorial8)",
    "DISABLEOPTIONS(16384)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial10": [
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch2Tutorial22)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial25": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380010)",
    "TEXTSHOW(2371)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch2Tutorial26)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial26": [
    "IGNORE_KEYS(0)",
    "SVAL(2, EventScr_Ch2_Village2 + 0xA0)",
    "CALL(EventScr_CallOnTutorialMode)",
    "DISABLEOPTIONS(0)",
-   "ENQUEUE_CALL(0)",
+   "EvtEnqueueCallDirectly(0)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2_5": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2357)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(6)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2Tutorial11)",
    "DISABLEOPTIONS(16384)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial13": [
    "EVBIT_T(7)",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2Tutorial14)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial16": [
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch2Tutorial17)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial17": [
    "IGNORE_KEYS(0)",
-   "ENQUEUE_CALL(0)",
+   "EvtEnqueueCallDirectly(0)",
    "ENUT(184)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2_6": [
    "CAMERA_CAHR(5)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2360)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(5)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2Tutorial18)",
    "DISABLEOPTIONS(16384)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial19": [
    "EVBIT_T(7)",
@@ -820,46 +820,46 @@
    "DISABLEOPTIONS(65533)",
    "IGNORE_KEYS(0)",
    "EvtEnqueueConditionalTutCall(4, EventScr_Ch2Tutorial20)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial20": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380010)",
    "TEXTSHOW(2362)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch2Tutorial21)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2_7": [
    "CAMERA_CAHR(1)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2372)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CURSOR_FLASHING_CHAR(1)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "EvtEnqueueConditionalTutCall(2, EventScr_Ch2Tutorial27)",
    "DISABLEOPTIONS(16384)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial29": [
    "EVBIT_T(7)",
    "IGNORE_KEYS(0)",
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0x380010)",
    "TEXTSHOW(2375)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "IGNORE_KEYS(266)",
    "EvtEnqueueConditionalTutCall(1, EventScr_Ch2Tutorial30)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch2Tutorial30": [
    "IGNORE_KEYS(0)",
@@ -867,139 +867,139 @@
    "CALL(EventScr_CallOnTutorialMode)",
    "DISABLEOPTIONS(0)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch3_Turn2Player": [
    "SVAL(2, EventScr_Ch3_7)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch3_Talk_NeimiColm": [
    "MUSS(48)",
    "STAL(33)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "TEXTSHOW(2394)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "MURE(2)",
    "CHANGESTATE(9)",
    "SVAL(2, EventScr_Ch3_6)",
    "CALL(EventScr_CallOnTutorialMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch4_3": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x2)",
    "SVAL(3, 0x975)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x1f)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch4_4": [
    "SVAL(2, UnitDef_Ch4Enemy_2)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch4_5": [
    "SVAL(2, 0x0)",
    "CALL(UnitDef_Ch14BAlly_7)",
    "ENUF(8)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch4_6": [
    "SVAL(2, UnitDef_Ch4Enemy_1)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch5_1": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x98e)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x60)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch5_2": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x98f)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x5d)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch5_3": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x990)",
    "CALL(Event_TextWithBG)",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x70)",
    "GIVEITEMTO(65535)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch5_6": [
    "SVAL(2, frontier_df4_banim_b_074_909DE8 + 0x3C)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch5_7": [
    "SVAL(2, frontier_df4_banim_b_074_909DE8 + 0x78)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch6_3": [
-   "SETTEXTTYPE(0)",
+   "EvtTextStartType3",
    "SVAL(11, 0xffffffff)",
    "TEXTSHOW(2486)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(193)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch6_4": [
    "SVAL(2, UnitDef_Ch6Enemy_0)",
    "CALL(EventScr_LoadReinforceHardMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch7_1": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x9c7)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch7_2": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x9c8)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch8_EndingScene": [
    "MUSC(49)",
@@ -1007,145 +1007,145 @@
    "CALL(EventScr_SetBackground)",
    "TEXTSHOW(2513)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "ENUT(223)",
    "MNCH(6)",
-   "END(0)",
+   "ENDA",
    "MUSC(39)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "TEXTSHOW(2514)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2515)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2516)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2517)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, 0x0)",
    "CALL(UnitDef_Ch14BAlly_7)",
    "ENUF(12)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch8Enemy_1)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch8Enemy_2)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch9A_3": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0x9eb)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x9)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch9A_5": [
    "LABEL(0)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_2)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_3)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_4)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_5)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_6)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_7)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_8)",
    "CALL(EventScr_LoadReinforce)",
    "CURSOR_CHAR(18)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "MUSS(20)",
    "STAL(33)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "TEXTSHOW(2527)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch9AEnemy_9)",
    "CALL(EventScr_LoadReinforceHardMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch10A_9": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0xa04)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch10A_10": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0xa05)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch10A_11": [
-   "BGMVOLUMECHANGE(0)",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0xa06)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch10A_12": [
    "SVAL(2, UnitDef_Ch10AEnemy_2)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch11a_BeginningScene": [
    "MUSC(77)",
@@ -1153,7 +1153,7 @@
    "ENUN(0)",
    "CURSOR_CHAR(24)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x27)",
    "CALL(EventScr_SetBackground)",
    "TEXTSHOW(2567)",
@@ -1164,13 +1164,13 @@
    "MUSC(37)",
    "CONTINUETEXT(0)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CALL(EventScr_TextShowWithFadeIn)",
    "CHECK_ALIVE(21)",
    "BEQ(0, 0xc, 0x153b21)",
    "CURSOR_CHAR(21)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x27)",
    "SVAL(3, 0xa08)",
    "CALL(Event_TextWithBG)",
@@ -1180,52 +1180,52 @@
    "ENUN(0)",
    "CURSOR_CHAR(11)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x27)",
    "SVAL(3, 0xa09)",
    "CALL(Event_TextWithBG)",
    "LABEL(1)",
    "SVAL(13, 0x0)",
    "SVAL(1, 0x86)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x0)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x85)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x0)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x5)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "SVAL(1, 0x0)",
-   "QUEUE_OPS(0)",
+   "SENQUEUE1",
    "MOVEUNIT(0)",
    "ENUN(0)",
    "DISA(24)",
    "FADI(16)",
-   "CHANGESTATE(0)",
+   "CLEA",
    "CAMERA2(12, 13)",
    "FADU(16)",
    "LOAD1(1, frontier_df4_banim_b_077_90DB94 + 0x6AC)",
    "ENUN(0)",
    "CURSOR_CHAR(25)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x3b)",
    "CALL(EventScr_SetBackground)",
    "TEXTSHOW(2570)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "FADI(16)",
    "LOAD1(1, frontier_df4_banim_b_077_90DB94 + 0x364)",
    "ENUN(0)",
    "CALL(data_085B9BBC + 0x200)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch12A_1": [
    "MUSS(48)",
    "STAL(33)",
    "LABEL(0)",
-   "GET_PID(0)",
+   "CHECK_ACTIVE",
    "SVAL(7, 0x1)",
    "BEQ(1, 0x7000c, 0x70540)",
    "SVAL(7, 0x17)",
@@ -1256,14 +1256,14 @@
    "TILECHANGE(3)",
    "MURE(2)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch12A_2": [
    "SVAL(2, 0x0)",
    "CALL(UnitDef_Ch14BAlly_7)",
    "ENUF(7)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch12A_3": [
    "SVAL(2, UnitDef_Ch12AEnemy_2)",
@@ -1271,26 +1271,26 @@
    "SVAL(2, UnitDef_Ch12AEnemy_7)",
    "CALL(EventScr_LoadReinforceHardMode)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch12A_4": [
    "SVAL(2, 0x0)",
    "CALL(UnitDef_Ch14BAlly_7)",
    "ENUF(8)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch13A_5": [
    "SVAL(2, UnitDef_Ch13AEnemy_7)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch13A_6": [
    "SVAL(2, UnitDef_Ch13AEnemy_8)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch13A_7": [
    "MUSC(20)",
@@ -1298,16 +1298,16 @@
    "CALL(EventScr_LoadReinforce)",
    "CURSOR_CHAR(14)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "SETTEXTTYPE(0)",
+   "CURE",
+   "TEXTSTART",
    "TEXTSHOW(2608)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14a_BeginningScene": [
-   "SETTEXTTYPE(0)",
+   "REMOVEPORTRAITS",
    "BACG(79)",
    "FADU(128)",
    "FAWI(2)",
@@ -1319,7 +1319,7 @@
    "ENDTEXT(0)",
    "BGMCHANGE_13(32767)",
    "FAWI(2)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "SVAL(11, 0x4000e)",
    "LOMA(15)",
    "MUSC(78)",
@@ -1328,7 +1328,7 @@
    "ENUN(0)",
    "CURSOR_CHAR(2)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x49)",
    "CALL(EventScr_SetBackground)",
    "TEXTSHOW(2627)",
@@ -1336,7 +1336,7 @@
    "MUSC(37)",
    "CONTINUETEXT(0)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CALL(EventScr_TextShowWithFadeIn)",
    "EvtMoveUnit(16, 0x4090001, 0x102f40, 0x4090002, 0x102f40)",
    "EvtMoveUnit(16, 0x4090002, 0x102f40, 0x409000b, 0x102f40)",
@@ -1345,9 +1345,9 @@
    "STAL2(20)",
    "FADI(16)",
    "ENUN(0)",
-   "CHANGESTATE(0)",
-   "CHANGESTATE(0)",
-   "CHANGESTATE(0)",
+   "CLEA",
+   "CLEE",
+   "CLEN",
    "SVAL(11, 0x7000a)",
    "LOMA(14)",
    "LOAD1(1, frontier_df3_unitdef_b_001_91020C)",
@@ -1360,12 +1360,12 @@
    "ENUN(0)",
    "CURSOR_CHAR(82)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "MUSC(38)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "TEXTSHOW(2628)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "FADI(16)",
    "EvtMoveUnit(65535, 0x7080052, 0xa40, data_085B9BBC + 0x200, 0x141220)",
    "CALL(data_085B9BBC + 0x200)",
@@ -1374,40 +1374,40 @@
    "FADU(16)",
    "CURSOR_CHAR(28)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
-   "BGMVOLUMECHANGE(0)",
+   "CURE",
+   "MUSI",
    "SVAL(2, 0x3f)",
    "SVAL(3, 0xa45)",
    "CALL(Event_TextWithBG)",
    "ENUT(12)",
    "ENUT(14)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14A_2": [
    "SVAL(2, frontier_df3_unitdef_b_001_91020C + 0x35C)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14A_3": [
    "SVAL(2, UnitDef_Ch14AEnemy_4)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14A_4": [
    "SVAL(2, 0x0)",
    "CALL(UnitDef_Ch14BAlly_7)",
    "ENUF(12)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14A_5": [
    "SVAL(2, UnitDef_Ch14AEnemy_2)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14A_6": [
    "SVAL(2, 0x0)",
@@ -1415,19 +1415,19 @@
    "COUNTER_SET(0, 2)",
    "ENUF(14)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch14A_7": [
    "SVAL(2, frontier_df3_unitdef_b_002_9105E0)",
    "CALL(EventScr_LoadReinforce)",
-   "COUNTER(0)",
+   "COUNTER_DEC(0, 0)",
    "ENUF(14)",
-   "COUNTER(0)",
+   "COUNTER_CHECK(0, 0)",
    "BNE(0, 0xc, 0xe0229)",
    "ENUT(14)",
    "LABEL(0)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch15a_BeginningScene": [
    "MUSC(38)",
@@ -1436,13 +1436,13 @@
    "FADU(16)",
    "CURSOR_CHAR(2)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x49)",
    "CALL(EventScr_SetBackground)",
    "TEXTSHOW(2776)",
    "ENDTEXT(0)",
    "FADI(4)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "CAMERA(23, 21)",
    "CLEARSCREEN(0)",
    "LOAD1(1, frontier_df3_unitdef_b_005_9109A8 + 0x2B8)",
@@ -1454,118 +1454,118 @@
    "CALL(EventScr_UnitWarpIN)",
    "CURSOR_CHAR(87)",
    "STAL(60)",
-   "DISPLAYCURSOR(0)",
+   "CURE",
    "SVAL(2, 0x49)",
    "CALL(EventScr_SetBackground)",
    "TEXTSHOW(2777)",
    "ENDTEXT(0)",
    "FADI(16)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "DISA(87)",
    "LOAD1(1, frontier_df3_unitdef_b_005_9109A8 + 0x5EC)",
    "ENUN(0)",
    "CALL(data_085B9BBC + 0x200)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch15A_1": [
    "CALL(EventScr_Ch15A_26)",
    "ENUT(119)",
    "MNCH(16)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch15A_2": [
    "NOP(0)",
    "SVAL(3, 0xaf6)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "CALL(data_085B9BBC + 0x168)",
    "SVAL(3, 0x88)",
    "GIVEITEMTO(65535)",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
+   "ENDA",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0xaf7)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
+   "ENDA",
+   "MUSI",
    "SVAL(2, 0x0)",
    "SVAL(3, 0xaf8)",
    "CALL(Event_TextWithBG)",
-   "BGMVOLUMECHANGE(0)",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "MUSS(39)",
    "STAL(33)",
-   "SETTEXTTYPE(0)",
+   "TEXTSTART",
    "TEXTSHOW(2796)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
+   "REMA",
    "MURE(2)",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2797)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2798)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2799)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2800)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
-   "BGMVOLUMECHANGE(0)",
-   "SETTEXTTYPE(0)",
+   "ENDA",
+   "MUSI",
+   "TEXTSTART",
    "TEXTSHOW(2801)",
    "ENDTEXT(0)",
-   "DISPLAYTEXT(0)",
-   "BGMVOLUMECHANGE(0)",
+   "REMA",
+   "MUNO",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, frontier_df3_unitdef_b_006_911070)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, 0x89110ac)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, 0x89110e8)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, UnitDef_Ch15AEnemy_6)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, frontier_df3_unitdef_b_007_911200 + 0x3C)",
    "CALL(EventScr_LoadReinforce)",
    "EVBIT_T(7)",
-   "END(0)",
+   "ENDA",
    "SVAL(2, 0x0)",
    "CALL(UnitDef_Ch14BAlly_7)",
    "SVAL(1, 0x10000)",
@@ -1573,7 +1573,7 @@
    "SVAL(1, 0x11200)",
    "CHAI(130)",
    "EVBIT_T(7)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch16a_BeginningScene": [
    "CALL(EventScr_Ch16A_11)",
@@ -1586,15 +1586,15 @@
    "SVAL(2, UnitDef_Ch16AEnemy_1)",
    "SVAL(3, 0x1)",
    "CALL(EventScr_LoadUnitForTutorial)",
-   "CHANGESTATE(0)",
+   "CLEA",
    "CALL(data_085B9BBC + 0x200)",
    "ENUT(12)",
-   "END(0)"
+   "ENDA"
   ],
   "EventScr_Ch16A_0": [
    "CALL(EventScr_Ch16A_12)",
    "MNCH(17)",
-   "END(0)"
+   "ENDA"
   ]
  }
 }

@@ -2,6 +2,24 @@
  "source": "include/eventscript.h + include/EAstdlib.h",
  "note": "操作码 (cmd, sub) -> 宏名 + 参数",
  "byCmdSub": {
+  "1:0": [
+   {
+    "macro": "ENDA",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "1:1": [
+   {
+    "macro": "ENDB",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "2:0": [
    {
     "macro": "EVBIT_F",
@@ -102,6 +120,15 @@
     "len": 2
    }
   ],
+  "7:1": [
+   {
+    "macro": "SENQUEUE1",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "7:2": [
    {
     "macro": "SDEQUEUE",
@@ -133,6 +160,17 @@
     "arg": "label",
     "extraWords": 0,
     "len": 2
+   }
+  ],
+  "11:0": [
+   {
+    "macro": "EvtEnqueueCallDirectly",
+    "params": [
+     "scr"
+    ],
+    "arg": "0",
+    "extraWords": 1,
+    "len": 4
    }
   ],
   "11:1": [
@@ -222,6 +260,17 @@
     ],
     "arg": "label",
     "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "13:1": [
+   {
+    "macro": "ASMC2",
+    "params": [
+     "func"
+    ],
+    "arg": "0",
+    "extraWords": 1,
     "len": 4
    }
   ],
@@ -336,6 +385,24 @@
     "len": 2
    }
   ],
+  "21:0": [
+   {
+    "macro": "MUSI",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "21:1": [
+   {
+    "macro": "MUNO",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "22:0": [
    {
     "macro": "SOUN",
@@ -391,6 +458,173 @@
     "len": 2
    }
   ],
+  "24:0": [
+   {
+    "macro": "STARTFADE",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "24:1": [
+   {
+    "macro": "ENDFADE",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "25:0": [
+   {
+    "macro": "CHECK_MODE",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:1": [
+   {
+    "macro": "CHECK_CHAPTER_NUMBER",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:2": [
+   {
+    "macro": "CHECK_HARD",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:3": [
+   {
+    "macro": "CHECK_TURNS",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:4": [
+   {
+    "macro": "CHECK_ENEMIES",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:5": [
+   {
+    "macro": "CHECK_OTHERS",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:6": [
+   {
+    "macro": "CHECK_SKIRMISH",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:7": [
+   {
+    "macro": "CHECK_TUTORIAL",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:8": [
+   {
+    "macro": "CHECK_MONEY",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:9": [
+   {
+    "macro": "CHECK_TRIG_EVENTID",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "25:10": [
+   {
+    "macro": "CHECK_POSTGAME",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "26:0": [
+   {
+    "macro": "TEXTSTART",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   },
+   {
+    "macro": "EvtTextStartType2",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   },
+   {
+    "macro": "EvtTextStartType5",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "26:1": [
+   {
+    "macro": "REMOVEPORTRAITS",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "26:3": [
+   {
+    "macro": "EvtTextStartType3",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "26:4": [
+   {
+    "macro": "SOLOTEXTBOXSTART",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "27:0": [
    {
     "macro": "TEXTSHOW",
@@ -409,6 +643,15 @@
      "msg"
     ],
     "arg": "msg",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "27:2": [
+   {
+    "macro": "REMA",
+    "params": [],
+    "arg": "0",
     "extraWords": 0,
     "len": 2
    }
@@ -456,6 +699,16 @@
      "speed"
     ],
     "arg": "bg",
+    "extraWords": 0,
+    "len": 4
+   },
+   {
+    "macro": "EvtBgFadeOut",
+    "params": [
+     "color",
+     "speed"
+    ],
+    "arg": "0",
     "extraWords": 0,
     "len": 4
    }
@@ -571,6 +824,15 @@
     "len": 2
    }
   ],
+  "42:4": [
+   {
+    "macro": "MNC4",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "43:0": [
    {
     "macro": "EvtSetLoadUnitCount",
@@ -589,6 +851,15 @@
      "chance"
     ],
     "arg": "chance",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "43:2": [
+   {
+    "macro": "EvtSetLoadUnitNoREDA",
+    "params": [],
+    "arg": "0",
     "extraWords": 0,
     "len": 2
    }
@@ -652,6 +923,15 @@
     "len": 2
    }
   ],
+  "46:1": [
+   {
+    "macro": "CHECK_ACTIVE",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "47:0": [
    {
     "macro": "EvtMoveUnit",
@@ -687,6 +967,16 @@
      "direction"
     ],
     "arg": "speed",
+    "extraWords": 0,
+    "len": 4
+   },
+   {
+    "macro": "EvtMoveUnitByQueue",
+    "params": [
+     "modify",
+     "pid"
+    ],
+    "arg": "0",
     "extraWords": 0,
     "len": 4
    }
@@ -801,6 +1091,15 @@
     "len": 2
    }
   ],
+  "49:1": [
+   {
+    "macro": "HIDE_ATTACK_RANGE",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "52:0": [
    {
     "macro": "REMU",
@@ -873,6 +1172,33 @@
      "pid"
     ],
     "arg": "pid",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:10": [
+   {
+    "macro": "CLEA",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:11": [
+   {
+    "macro": "CLEN",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "52:12": [
+   {
+    "macro": "CLEE",
+    "params": [],
+    "arg": "0",
     "extraWords": 0,
     "len": 2
    }
@@ -1030,6 +1356,15 @@
     "len": 2
    }
   ],
+  "59:2": [
+   {
+    "macro": "CURE",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "59:5": [
    {
     "macro": "CURSOR_FLASHING_CHAR",
@@ -1063,6 +1398,15 @@
     "len": 2
    }
   ],
+  "60:0": [
+   {
+    "macro": "CHECK_CURSOR",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "63:0": [
    {
     "macro": "FIGHT",
@@ -1091,6 +1435,15 @@
     "len": 4
    }
   ],
+  "63:2": [
+   {
+    "macro": "FIGHT_SCRIPT",
+    "params": [],
+    "arg": "0",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
   "64:0": [
    {
     "macro": "PROM",
@@ -1102,6 +1455,24 @@
     "arg": "pid",
     "extraWords": 0,
     "len": 4
+   }
+  ],
+  "65:15": [
+   {
+    "macro": "EvtWarpSTAL",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "66:15": [
+   {
+    "macro": "EARTHQUAKE_END",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
    }
   ],
   "67:0": [
@@ -1137,12 +1508,595 @@
     "len": 2
    }
   ],
+  "69:15": [
+   {
+    "macro": "GLOWINGCROSS_END",
+    "params": [],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "133:0": [
+   {
+    "macro": "WM_CENTERCAMONLORD",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "134:0": [
+   {
+    "macro": "WM_MOVECAM",
+    "params": [
+     "x1",
+     "y1",
+     "x2",
+     "y2",
+     "speed",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 8
+   }
+  ],
+  "144:0": [
+   {
+    "macro": "WM_DRAWPATH",
+    "params": [
+     "path"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "158:0": [
+   {
+    "macro": "PUTSPRITE",
+    "params": [
+     "wm_uid",
+     "jid",
+     "faction",
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "160:0": [
+   {
+    "macro": "WM_REMSPRITE",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "161:0": [
+   {
+    "macro": "WM_MAKELORDVISIBLE",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "163:0": [
+   {
+    "macro": "WM_FADEINSPRITE",
+    "params": [
+     "wm_uid",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "167:0": [
+   {
+    "macro": "WM_PUTSPRITE",
+    "params": [
+     "wm_uid",
+     "x",
+     "y"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "168:0": [
+   {
+    "macro": "WM_PUTMOVINGSPRITE",
+    "params": [
+     "wm_uid",
+     "acc",
+     "x1",
+     "y1",
+     "x2",
+     "y2",
+     "time",
+     "flag",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 12
+   }
+  ],
+  "172:0": [
+   {
+    "macro": "WM_WAITFORSPRITES",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "175:0": [
+   {
+    "macro": "WM_SHOWTEXTWINDOW",
+    "params": [
+     "speed",
+     "blend"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "178:0": [
+   {
+    "macro": "WM_FADEOUT",
+    "params": [
+     "speed"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "180:0": [
+   {
+    "macro": "WM_SHOWDRAWNMAP",
+    "params": [
+     "x",
+     "y",
+     "map"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "182:0": [
+   {
+    "macro": "WM_MOVECAM2",
+    "params": [
+     "x1",
+     "y1",
+     "x2",
+     "y2",
+     "speed",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 8
+   }
+  ],
+  "184:0": [
+   {
+    "macro": "WM_HIGHLIGHT",
+    "params": [
+     "nation"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "185:0": [
+   {
+    "macro": "WM_HIGHLIGHTCLEAR1",
+    "params": [
+     "nation"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "186:0": [
+   {
+    "macro": "WM_HIGHLIGHTCLEAR2",
+    "params": [
+     "nation"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "188:0": [
+   {
+    "macro": "WM_PLACEDOT",
+    "params": [
+     "a",
+     "pal",
+     "node",
+     "eff"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "189:0": [
+   {
+    "macro": "WM_FXCLEAR1",
+    "params": [
+     "a"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "190:0": [
+   {
+    "macro": "WM_FXCLEAR2",
+    "params": [
+     "a"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "195:0": [
+   {
+    "macro": "WM_SPAWNLORD",
+    "params": [
+     "wm_uid",
+     "pid",
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 1,
+    "len": 6
+   }
+  ],
+  "196:0": [
+   {
+    "macro": "WM_SHOWPORTRAIT",
+    "params": [
+     "face_slot",
+     "face",
+     "config",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 6
+   }
+  ],
+  "197:0": [
+   {
+    "macro": "WM_CLEARPORTRAIT",
+    "params": [
+     "face_slot",
+     "config",
+     "delay"
+    ],
+    "arg": "face_slot",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "198:0": [
+   {
+    "macro": "WM_TEXT",
+    "params": [
+     "text",
+     "unk"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "169:0": [
+   {
+    "macro": "WM_MOVESPRITETO",
+    "params": [
+     "wm_uid",
+     "conf",
+     "node1",
+     "node2",
+     "speed",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 8
+   }
+  ],
+  "162:0": [
+   {
+    "macro": "WM_MAKELORDDISAPPEAR",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "164:0": [
+   {
+    "macro": "WM_FADEOUTSPRITE",
+    "params": [
+     "wm_uid",
+     "speed"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "132:0": [
+   {
+    "macro": "WmEvtSetCamToNode",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "166:0": [
+   {
+    "macro": "WmEvtSetUnitOnNode",
+    "params": [
+     "wm_uid",
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "155:0": [
+   {
+    "macro": "WmEvtSetNextStoryNode",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "154:0": [
+   {
+    "macro": "WM_SETDESTINATION",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "148:0": [
+   {
+    "macro": "WM_REMOVELOCATION",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "146:0": [
+   {
+    "macro": "WM_REMOVEPATH",
+    "params": [
+     "path"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "150:0": [
+   {
+    "macro": "DRAWPATH3",
+    "params": [
+     "path"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "145:0": [
+   {
+    "macro": "WM_DRAWPATH2",
+    "params": [
+     "path"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "147:0": [
+   {
+    "macro": "WM_LOADLOCATION2",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "149:0": [
+   {
+    "macro": "WM_LOADLOCATION3",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "136:0": [
+   {
+    "macro": "WmEvtMoveCamToUnit",
+    "params": [
+     "x",
+     "y",
+     "wm_uid",
+     "speed",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 8
+   }
+  ],
+  "170:0": [
+   {
+    "macro": "WmEvtPasueMove",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "171:0": [
+   {
+    "macro": "WmEvtResumeMove",
+    "params": [
+     "wm_uid"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "131:0": [
+   {
+    "macro": "WM_SETCAM",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "135:0": [
+   {
+    "macro": "WM_MOVECAMTO",
+    "params": [
+     "x",
+     "y",
+     "node",
+     "speed",
+     "delay"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 8
+   }
+  ],
+  "157:0": [
+   {
+    "macro": "WmEvtSetNodeStateNot2",
+    "params": [
+     "node"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "173:0": [
+   {
+    "macro": "WM_SATURATE_COLORS",
+    "params": [
+     "speed"
+    ],
+    "arg": "0",
+    "extraWords": 0,
+    "len": 4
+   }
+  ],
+  "15:0": [
+   {
+    "macro": "COUNTER_CHECK",
+    "params": [
+     "idx"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
   "15:1": [
    {
     "macro": "COUNTER_SET",
     "params": [
      "idx",
      "val"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "15:2": [
+   {
+    "macro": "COUNTER_INC",
+    "params": [
+     "idx"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "15:3": [
+   {
+    "macro": "COUNTER_DEC",
+    "params": [
+     "idx"
     ],
     "arg": "u8pair",
     "packed": "u8pair",
