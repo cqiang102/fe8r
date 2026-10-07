@@ -91,10 +91,12 @@ void main() {
     // 而 `0x38 = CHAPTER_CASTLE_FRELIA`（`include/constants/chapters.h:67`，
     // 内部名 `C00`）—— 也就是**「フレリア城」那一章间章**。
     // 第 1 章 → 第 2 章之间的剧情，就在这章里（C00 自己的开场/结束脚本）。
-    expect(game.worldMap, isNotNull,
-        reason: '`MNCH` 之后必须先走大地图（不是直接切章）');
-    expect(game.dumpState()['worldMapTarget'], 56,
+    // `MNCH` 只**记下**要去大地图；真的进去要等事件演完
+    // （原作是之后的 `EXEC_BM` 起 `ProcScr_WorldMapWrapper`，
+    //  直接在事件处理里起会让 WM 盖在正在演的过场上 —— 截图里验证过）
+    expect(game.dumpState()['pendingWorldMapTarget'], 56,
         reason: '★ `MNCH(0x38)` = CHAPTER_CASTLE_FRELIA');
+    expect(game.worldMap, isNull, reason: '事件还没演完，不该已经在大地图里');
     expect(game.sceneChapterForTest, 1, reason: '还没出发 —— 章节仍是第 1 章');
 
     // 同一章只演一次（`CallEndEvent` 末尾的 `SetFlag(0x84)`）

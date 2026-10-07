@@ -68,6 +68,9 @@ class _GameShellState extends State<_GameShell> {
   @override
   void initState() {
     super.initState();
+    // 把抓帧 key 交给游戏层：实时控制通道的 `shot` 命令要用它
+    // （`GameWidget` 的 onLoad 晚于本 initState，所以这里赋值是安全的）
+    _game.repaintKey = _captureKey;
     final path = screenshotPathFromEnv();
     // 只要给了截图**或**转储路径，就跑同一条脚本。
     // 转储让"验证"从"看像素"变成"断言数据"。

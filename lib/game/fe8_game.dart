@@ -21,7 +21,10 @@ import 'dart:ui' show Color;
 import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
 import 'package:fe8r/game/ctl_server.dart';
+import 'package:flame/components.dart';
+import 'package:flutter/widgets.dart' show GlobalKey;
 import 'package:fe8r/game/world_map_view.dart';
+import 'package:fe8r/ui/debug_screenshot.dart';
 import 'package:fe8r/game/battle_view.dart';
 import 'package:fe8r/game/demo_event.dart';
 import 'package:fe8r/game/hud_view.dart';
@@ -486,6 +489,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 大地图（`MNCH` 之后）
       'worldMap': worldMap?.toJson(),
       'worldMapTarget': _wmTargetChapter,
+      'pendingWorldMapTarget': _pendingWorldMapTarget,
       'worldMapNote': _worldMapNote,
       'lastWmBeginningScript': _lastWmBeginningScript,
       // 教学事件（两段式：入队 → 触发）
@@ -833,7 +837,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 调试：`FE8R_WM=56` 直接进大地图（和 `FE8R_TITLE` / `FE8R_CHAPTER` 同类，
       // **只用于开发**；正常流程由 `MNCH` 进入，见 `ChangeChapter.subcmd`）
       final wmEnv = Platform.environment['FE8R_WM'];
-      if (wmEnv != null) _enterWorldMap(int.tryParse(wmEnv) ?? 0x38);
+      if (wmEnv != null) {
+        // 走**同一条**路（待进入 → update 里进），这样调试入口与真实流程一致
+        _pendingWorldMapTarget = int.tryParse(wmEnv) ?? 0x38;
+      }
 
       // ★ 实时控制通道（`FE8R_CTL=<port>`）：AI/测试可以**边看状态边按键**，
       //   不用再猜一长串写死的输入（见 ctl_server.dart 的头注释）。
@@ -876,7 +883,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   void routeInput(FlowInput i) {
     // ★ 大地图模式：确认 = 前进/出发，其余键先不接（原作 WM 有自己的操作集，
     //   未查证完整清单，所以**不假装**支持 —— 只记一行）。
-    if (worldMap != null) {
+    //
+    // ⚠️ **位置很要命**：我第一版把它放在 `routeInput` 的**最前面**，
+    // 于是它连标题页的按键一起吞掉 ⇒ 开场流程永远走不完
+    // （实测：`FE8R_WM=56` 那轮 32 秒后 `waitingFor` 还是 `title:healthSafety`）。
+    // 原作里大地图 proc 是在开场流程与事件**之后**才起的，所以这里也必须排在
+    // 标题流程后面 —— 这段代码的顺序就是优先级。
+    if (worldMap != null && !inTitleFlow) {
       if (i == FlowInput.confirm) {
         unawaited(worldMapConfirm());
       } else if (i != FlowInput.cancel) {
@@ -884,6 +897,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
       return;
     }
+
     // 开场流程没跑完时，输入全给它 —— 但**只是入队**，由 `update` 按帧消费。
     // 见 [_titlePending] 的说明（时间是帧驱动的，不是按键驱动的）。
     if (inTitleFlow) {
@@ -1030,6 +1044,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// **不要为了"推得快"再加一个会改变被观察对象的开关。**
   CtlServer? _ctl;
 
+  /// 抓帧用的 key（由 `lib/main.dart` 注入）。`shot` 命令要它。
+  GlobalKey? repaintKey;
+
+  /// 立刻抓一帧写 PNG（控制通道的 `shot`）
+  Future<bool> grabScreenshot(String path) async {
+    final k = repaintKey;
+    if (k == null) {
+      debugPrint('[shot] repaintKey 没设上');
+      return false;
+    }
+    return captureNow(k, path);
+  }
+
   /// `FE8R_CTL=<port>` 时开一条 loopback TCP 控制通道
   ///
   /// ⚠️ 默认端口 **41999**，**不要用 19387** —— 那是 DSH Web GUI 自己的端口，
@@ -1053,6 +1080,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         }
       },
       onScript: runScript,
+      onShot: grabScreenshot,
       onQuit: () {
         // 开发通道专用：`quit` 就是退出进程，脚本/CI 靠它收尾
         exit(0);
@@ -1184,6 +1212,24 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   void update(double dt) {
     _tickBanner();
 
+    // ★ **延迟建视图**：`MNCH`（或 `FE8R_WM`）可能发生在 layout 之前，
+    // 那时 `camera.viewport.virtualSize` 会断言失败，所以 `_showWorldMapView`
+    // 直接返回 —— 而"返回"就意味着**大地图永远不显示**（我的第一次截图就是这样：
+    // 画面还是标题页，两张截图 sha256 完全相同）。这里补上重试。
+    if (worldMap != null && _wmView == null) _showWorldMapView();
+
+    // `MNCH` 的**实际入口**：事件与开场流程都结束了才起大地图
+    // （原作是 `EXEC_BM` 起 `ProcScr_WorldMapWrapper`，不是事件处理里直接起）
+    final pend = _pendingWorldMapTarget;
+    if (pend != null &&
+        _mapReady &&
+        !inTitleFlow &&
+        !_sceneRunning &&
+        worldMap == null) {
+      _pendingWorldMapTarget = null;
+      _enterWorldMap(pend);
+    }
+
     // ★ 开场流程**按帧**推进（时间驱动的画面靠这里走，按键只是每帧读一次）。
     // 放在最前面：它没跑完之前，战场输入根本不该被消费。
     if (inTitleFlow) _tickTitleFlow();
@@ -1252,7 +1298,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         //    （`src/Event2A_MoveToChapter.c:24-31`）。序章结束是 MNC2、
         //    第 1 章结束是 MNCH(56) —— 实测见 `scene_data.g.dart`。
         if (subcmd == 1 && _worldMapData != null) {
-          _enterWorldMap(chapterIndex);
+          // 只记下来；`update()` 会在事件/开场流程结束后真的进去
+          _pendingWorldMapTarget = chapterIndex;
+          _worldMapNote = '待进入大地图（目标第 $chapterIndex 章）';
         } else {
           await _gotoChapter(chapterIndex);
         }
@@ -1872,6 +1920,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   WorldMapRules? get worldMapRules =>
       _worldMapData == null ? null : WorldMapRules(_worldMapData!);
   int? _wmTargetChapter;
+
+  /// `MNCH` 只是**记下**要去大地图；真正进入要等当前事件/开场流程走完。
+  ///
+  /// 出处：`MNCH` 只置 `save_menu_type` / `nextAction`（`src/Event2A_MoveToChapter.c:24-31`），
+  /// 起 `ProcScr_WorldMapWrapper` 的是**之后的** `EXEC_BM`。我第一次写成
+  /// "在 `ChangeChapter` 处理里直接进大地图"，结果 WM 盖在**正在演的过场**上
+  /// （截图里是序章王座厅那段对白 + 立绘）。
+  int? _pendingWorldMapTarget;
+
+  /// 本章地图是否已经装配完成（`_startRealScene` 走到末尾）。
+  ///
+  /// 大地图必须**在这之后**才能进：只判 `!_sceneRunning` 不够 ——
+  /// 标题流程结束与本章开场过场开始之间有一瞬 `_sceneRunning == false`，
+  /// 那一下进去就会被随后的过场盖住（截图里就是这样：WM 上叠着序章王座厅的对白）。
+  bool _mapReady = false;
 
   /// 章节 → {`gmapEventId`, `wmBeginning`, `wmChapterIntro`}
   Map<int, Map<String, dynamic>> _chapterWm = const {};
@@ -2844,6 +2907,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 与 `src/Event2A_MoveToChapter.c:39`（`EVSUBCMD_MNC2`）。
   Future<void> _gotoChapter(int chapterIndex) async {
     if (chapterIndex < 0 || chapterIndex >= _chapterLinks.length) return;
+    _mapReady = false;
     _clearWorldMapView();
     worldMap = null;
     _wmTargetChapter = null;
@@ -2874,6 +2938,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         camera.viewport.virtualSize);
 
     await _startRealScene();
+    _mapReady = true;
   }
 
   /// 章节标题（`texts.titles[内部名]`，如 `L01` = 消息 233「脱出行」）

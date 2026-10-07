@@ -127,3 +127,32 @@ Future<void> captureWhenReady(
   // **它不报错，只是在浪费你的时间。**
   exit(0);
 }
+
+/// **立刻**抓一帧写 PNG（不等任何帧）。
+///
+/// 给实时控制通道的 `shot` 用：先 `state` 看状态、再决定何时抓，
+/// 比 `FE8R_SCREENSHOT`（启动时等 3 秒 + 脚本）可控得多。
+/// 返回是否真的写出了文件。
+Future<bool> captureNow(GlobalKey key, String path) async {
+  final ctx = key.currentContext;
+  if (ctx == null || !ctx.mounted) {
+    debugPrint('[shot] 找不到 RepaintBoundary');
+    return false;
+  }
+  final boundary = ctx.findRenderObject() as RenderRepaintBoundary?;
+  if (boundary == null) {
+    debugPrint('[shot] RenderObject 不是 RepaintBoundary');
+    return false;
+  }
+  final image = await boundary.toImage(pixelRatio: 1);
+  final data = await image.toByteData(format: ui.ImageByteFormat.png);
+  if (data == null) {
+    debugPrint('[shot] toByteData 返回 null');
+    return false;
+  }
+  final f = File(path);
+  f.parent.createSync(recursive: true);
+  f.writeAsBytesSync(data.buffer.asUint8List());
+  debugPrint('[shot] → $path (${data.lengthInBytes} B)');
+  return true;
+}

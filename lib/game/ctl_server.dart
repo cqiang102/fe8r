@@ -20,6 +20,7 @@
 //       键名 = `FlowInput` 名（up/down/left/right/confirm/cancel/start/endturn/dialogue）
 //       + 键盘层独有的 `h`（显示/收起按键说明）
 //     {"cmd":"script","seq":"down,confirm"} → 交给 runScript（带 60ms 间隔、支持 wait）
+//     {"cmd":"shot","path":"/tmp/x.png"} → 立刻抓一帧写 PNG
 //     {"cmd":"quit"}                     → 关闭
 //
 // 只在 `FE8R_CTL=<port>` 时监听，且**只绑 127.0.0.1**。
@@ -36,6 +37,7 @@ class CtlServer {
     required this.onState,
     required this.onPress,
     required this.onScript,
+    this.onShot,
     this.onQuit,
     this.log,
   });
@@ -44,6 +46,9 @@ class CtlServer {
   final Map<String, dynamic> Function() onState;
   final void Function(List<String> keys) onPress;
   final Future<void> Function(String seq) onScript;
+
+  /// 立刻抓一帧（`shot`）；没接就回错误，不静默
+  final Future<bool> Function(String path)? onShot;
   final void Function()? onQuit;
   final void Function(String)? log;
 
@@ -81,6 +86,16 @@ class CtlServer {
             final seq = '${req['seq'] ?? ''}';
             unawaited(onScript(seq));
             reply = {'ok': true, 'queued': seq};
+          case 'shot':
+            final path = '${req['path'] ?? ''}';
+            if (onShot == null) {
+              reply = {'ok': false, 'error': '没有接抓帧（repaintKey 没设上？）'};
+            } else if (path.isEmpty) {
+              reply = {'ok': false, 'error': 'shot 需要 path'};
+            } else {
+              final ok = await onShot!(path);
+              reply = {'ok': ok, 'path': path};
+            }
           case 'quit':
             reply = {'ok': true};
             quit = true;
