@@ -347,6 +347,20 @@ class WaitForInput extends SceneEvent {
 /// `SetFlag` / `ClearFlag`（章节旗）—— 由 `ENUT`/`ENUF` 产生
 ///
 /// 出处：`src/Event02_EvBitAndIdMod.c:31-34`（`sub_cmd_lo == 1` 那一支）。
+/// `TEXTEND`（`EV_CMD_ENDTEXT`）—— 收起/锁定文本框
+class EndText extends SceneEvent {
+  const EndText(this.scriptName);
+
+  final String scriptName;
+}
+
+/// `REMA`（`EvtTextRemoveAll`）—— 清掉当前显示的所有文本
+class RemoveAllText extends SceneEvent {
+  const RemoveAllText(this.scriptName);
+
+  final String scriptName;
+}
+
 class SetEventFlag extends SceneEvent {
   const SetEventFlag({required this.flag, required this.value});
 
@@ -597,6 +611,16 @@ class Scene {
       _ => a,
     };
   }
+
+  /// `TEXTEND` = `EvtTextWaitLock`（`EV_CMD_ENDTEXT`，`include/eventscript.h:664`）
+  ///
+  /// 语义是"**等文本锁定**"（显示完）。我们的 [textShow] 本来就是逐页 `await` 的，
+  /// 所以这里没有"未完成的文本"要等；但它**不是空操作** —— 它发一个 [EndText] 事件，
+  /// 游戏据此收起/锁定文本框（原作这一支就是干这个的）。
+  Future<void> textEnd() => onEvent(EndText(currentScript));
+
+  /// `REMA` = `EvtTextRemoveAll`（`EV_CMD_DISPLAYTEXT` subcmd 2，`include/eventscript.h:662`）
+  void textRemoveAll() => onEvent(RemoveAllText(currentScript));
 
   /// `TEXTSHOW(id)` —— 显示文字；文本里有 `[A]` 就等玩家按键
   Future<void> textShow(int textId) async {

@@ -1864,6 +1864,24 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (_trace.length >= 12) _trace.removeAt(0);
     _trace.add('${e.runtimeType}(${e.toString()})');
     switch (e) {
+      case SetEventFlag(:final flag, :final value):
+        // ★ `ENUT` / `ENUF`（`src/Event02_EvBitAndIdMod.c:31-34`）：章节旗
+        // ⚠️ 这里原本**已经有**一条等价分支（第 70 轮加的），我第 72 轮又加了一条、
+        //    于是第二条成了 `unreachable_switch_case`（门禁当场抓到）。
+        //    我一度以为"第 70 轮没落盘"——**那是错的**：它是落盘的，只是我找锚点时
+        //    没找到（锚点是别的开关里的同名片段）。教训：**改之前先搜同名 case**。
+        if (value) {
+          eventFlags.add(flag);
+        } else {
+          eventFlags.remove(flag);
+        }
+        debugPrint('[EVFLAG] $flag = $value');
+      case EndText():
+        // `TEXTEND`（`EV_CMD_ENDTEXT`）：文本锁定 ⇒ 收起/锁定文本框
+        _sceneHudExtra = '文本框锁定';
+      case RemoveAllText():
+        // `REMA`（`EvtTextRemoveAll`）：清掉当前文本
+        _sceneHudExtra = '清空文本';
       case ShowText():
         _currentText = e;
         _sceneShown++;
@@ -1937,14 +1955,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       case WaitForInput():
         break; // ShowText 已经等过了
-      case SetEventFlag(:final flag, :final value):
-
-        // `ENUT` / `ENUF` ⇒ 章节旗（`src/Event02_EvBitAndIdMod.c:31-34`）
-
-        if (value) { eventFlags.add(flag); } else { eventFlags.remove(flag); }
-
-        debugPrint('[EVFLAG] $flag = $value');
-
       case LoadUnits(:final table, :final group):
         _loadUnitsFromTable(table, group);
       case Stall():

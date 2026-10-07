@@ -220,6 +220,19 @@ def stmt(op, A):
     if op in ("SADD", "SSUB", "SMUL", "SDIV", "SAND", "SORR"):
         return (f"s.slotArith('{op}', {num(A[0])}, {lit(A[1]) if len(A) > 1 else '0'});", True)
 
+    # 文本族的另两条（`EV_CMD_DISPLAYTEXT` / `EV_CMD_ENDTEXT`，同一套宏）：
+    #   `REMA`    = `EvtTextRemoveAll`（`include/eventscript.h:662`，subcmd 2）
+    #               ⇒ 清掉当前显示的所有文本
+    #   `TEXTEND` = `EvtTextWaitLock`（`include/eventscript.h:664`，`EV_CMD_ENDTEXT`）
+    #               ⇒ 等文本"锁定"（显示完）
+    # ⚠️ 我们库里 `TEXTEND` 341 次、`REMA` 282 次 —— 文本族是占位符里最大的一块。
+    # 注意 `TEXTEND` **不是**"什么都不做"：它发一个 `EndText` 事件（游戏据此收/锁文本框），
+    # 而不是假装接上了。
+    if op == "REMA":
+        return ("s.textRemoveAll();", True)
+    if op == "TEXTEND":
+        return ("await s.textEnd();", False)
+
     if op == "TEXTSHOW":
         return (f"await s.textShow({num(A[0])});", False)
     if op in ("TEXTSTART", "TEXTEND", "REMA", "CLEARTEXT", "SETTEXTTYPE"):
