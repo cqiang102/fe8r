@@ -105,6 +105,38 @@ void main() {
     expect(os.firstMatch((f) => true), isNull);
   });
 
+  test('★ 每条命令的 script 都在（不只是 FLAG/TURN）', () {
+    // 条目布局 `[cmd|flag][script][参数…]` —— **所有**命令的第 2 个字都是脚本指针。
+    // 原来只给 FLAG/TURN 取，于是 AREA/CHAR/LOCA/VILL/CHES/DOOR/SHOP 的剧情全丢。
+    final raw = jsonDecode(
+        File('tools/pipeline/out/tables/event_lists.json').readAsStringSync())
+        as Map<String, dynamic>;
+    final lists = raw['lists'] as Map<String, dynamic>;
+    var total = 0;
+    var withScript = 0;
+    final byCmd = <String, int>{};
+    for (final l in lists.values) {
+      for (final e in (l as List).cast<Map<String, dynamic>>()) {
+        total++;
+        if (e['script'] != null) {
+          withScript++;
+          byCmd[e['cmd'] as String] = (byCmd[e['cmd'] as String] ?? 0) + 1;
+        }
+      }
+    }
+    expect(total, 337);
+    // ★ 棘轮：这个数**只许升**（每多解出一种命令的 script 就 +N）
+    expect(withScript, 208, reason: '有 script 的条目数变了：$byCmd');
+    // 正向抽查：`AREA`（cmd 0x0B）条目的 script 是那条 blob 里的偏移
+    final ch11a = (lists['EventListScr_Ch11a_Misc'] as List)
+        .cast<Map<String, dynamic>>();
+    final area = ch11a.firstWhere((e) => e['cmd'] == 'AREA');
+    expect(area['script'], 'frontier_df4_menu_008_A66F88 + 0x68');
+    // ⚠️ 这类 script 目前**还演不出来**：它们指向切分出来的 blob
+    // （`frontier_df4_menu_008_*`），而 `scene_data.g.dart` 只生成了
+    // `EventScr_*` / `EventScrWM_*` 两种名字。见 docs/路线图.md 欠账 15。
+  });
+
   test('★ 与解出来的 JSON 一致（序章）', () {
     // 这条把"手写的常量"和"数据管线解出来的字节"对起来 ——
     // 两边不一致说明有一边错了。

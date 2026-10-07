@@ -159,9 +159,20 @@ def decode_list(words, syms=None):
             entries.append({"i": i, "cmd": name, "raw": hex(w0), "truncated": True})
             break
         e = {"i": i, "cmd": name, "doneFlag": flag}
-        if cmd == 0x01:  # FLAG
+        # ★ **每个**命令的第 2 个字都是 script 指针，不只是 FLAG/TURN。
+        #
+        # 条目布局（长度由 `gEventListCmdInfoTable` 决定，见文件头）：
+        #     [cmd | flag][script 指针][该命令自己的参数…]
+        # 证据：`EventListScr_Ch11a_Misc` 的 AREA 条目（cmd 0x0B）
+        #   `.4byte 0x0007000B` / `.4byte frontier_df4_menu_008_A66F88 + 0x68` / `.4byte 0x0A15020E`
+        # 我原来只给 FLAG(0x01) 和 TURN(0x02) 取 script —— 于是
+        # **AREA / CHAR / LOCA / VILL / CHES / DOOR / SHOP 这些条目的剧情脚本全丢**，
+        # "访问村庄 / 开宝箱 / 到达指定区域"那类对话与胜负条件**永远不会触发**。
+        # 这正是"提取器覆盖面小于假设"的典型：表在、字段名对，**内容缺一半**。
+        if n >= 2:
             e["script"] = (syms or {}).get(i + 1) or (
                 hex(words[i + 1]) if words[i + 1] else None)
+        if cmd == 0x01:  # FLAG
             e["checkFlag"] = words[i + 2]
         elif cmd == 0x02:  # TURN
             # `struct EvCheck02 { u32 unk0; u32 script; u8 turn; u8 maxTurn; u16 faction; }`
@@ -209,6 +220,49 @@ def main():
         lists[name] = decode_list(to_words(bs), syms)
 
     print(f"  解出 {len(lists)} 个事件列表")
+
+    # ★ **严丝合缝**：每个列表都必须走到底、以 `cmd 0`（END）结尾，不许出现
+    # "未知命令"或"截断"（`decode_list` 在这两种情况下会打标记）。
+    #
+    # 理由：条目长度由命令决定（`gEventListCmdInfoTable`，见文件头），
+    # 一旦某条长度对不上，**后面所有条目整体错位** —— 而错位后的数据看起来
+    # 仍然"是数据"，静默地把剧情/胜负条件读错。这是最该响的地方。
+    #
+    # ⚠️ 已知白名单（**不猜，只记录事实**）：
+    #   `EventListScr_Ch19b_Character` 的原始数据只有 8 字节
+    #   （`src/data/data_08A5D40C/data_08A5D40C.s:8-9`：
+    #    `.4byte 0x00110B0B` / `.4byte 0x00000000`），低 16 位 = 0x0B0B
+    #   不是任何命令；该文件头写着"byte-neutral **partial SPLIT**"
+    #   ⇒ 符号边界是脚本切的，**不保证**语义上是列表起点。
+    #   这是 carve/分段的事实，修不了（要修得改反编译侧），所以只记账。
+    KNOWN_BAD = {
+        "EventListScr_Ch19b_Character":
+            "原始只有 8 字节且首字 0x00110B0B 不是命令（partial SPLIT 的符号边界）",
+        # 同一类：carve 的分段把列表**从中间切开**（整份文件仍字节中性，
+        # 但符号边界落在半个条目上）。证据：该 `_ref` 文件在 idx15 处
+        # 只剩一个孤零零的 `.4byte 0x00000002`（TURN 命令字），
+        # 缺 script 指针与 3 个参数、也没有 END —— 后续字节被切到别的 section。
+        "EventListScr_Ch18b_Turn":
+            "第 16 个字是孤立 TURN 命令字（`0x00000002`），列表被 section 边界截断",
+    }
+    bad = []
+    for name, entries in lists.items():
+        for e in entries:
+            if e.get("unknown") or e.get("truncated"):
+                bad.append((name, e))
+                break
+    unexplained = [(n, e) for (n, e) in bad if n not in KNOWN_BAD]
+    if bad:
+        print(f"  ⚠️ {len(bad)} 个列表没走到底：")
+        for n, e in bad[:6]:
+            why = KNOWN_BAD.get(n, "**未解释**")
+            print(f"      {n}: {e} —— {why}")
+    if unexplained:
+        print(f"\n❌ {len(unexplained)} 个列表解析异常且**没有解释** —— "
+              f"提取器不该静默通过:", file=sys.stderr)
+        for n, e in unexplained[:10]:
+            print(f"   {n}: {e}", file=sys.stderr)
+        return 1
     # 重点：Misc（胜负条件）
     misc = {k: v for k, v in lists.items() if "Misc" in k}
     print(f"  其中 Misc（胜负条件）{len(misc)} 个")
