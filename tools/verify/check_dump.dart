@@ -433,6 +433,14 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         '预测字段要么没有、要么是结构化的', 'lastForecast=${d['lastForecast']}');
     ok(d['actionLog'] is List, '行动日志在转储里（脚本诊断用）',
         'actionLog=${d['actionLog']}');
+    // ★ Ch1 教学表接上了（第 36 轮）：原来提取器只 glob
+    // `EventListScr_*_Tutorial_ref/*.c`，Ch1 那张在 `data_08A5A828.s` 里 ⇒ 整张漏掉，
+    // 实测 `教学入队失败：EventScr_Ch1Tut_TradeSelectGalliamIdle1`。
+    final tut = (d['tutorialTableSize'] as num?)?.toInt() ?? -1;
+    ok(tut == 14, 'Ch1 教学表 14 条（接上了）', 'tutorialTableSize=$tut');
+    final hud = '${(d['scene'] as Map<String, dynamic>?)?['hudExtra']}';
+    ok(!hud.contains('教学入队失败'),
+        '★ 不再有"教学入队失败"（那条教学脚本找得到了）', 'hudExtra=$hud');
   }
 
   if (scenario == 'item') {

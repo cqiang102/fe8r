@@ -2,6 +2,7 @@
 //
 // 没有 JSON、没有指令列表、没有解释器。
 // `await` 表达"等玩家按键"，`CALL` 就是函数调用。
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fe8r/core/core.dart';
@@ -166,6 +167,7 @@ void main() {
   });
 
   _pagingGroup();
+  _tutorialListTests();
 }
 
 // ---------------------------------------------------------------------------
@@ -374,5 +376,37 @@ void _cameraTests() {
       expect(all, greaterThanOrEqualTo(20),
           reason: '总数太少，说明宏表只抽到了一部分相机宏');
     });
+  });
+}
+
+// ---------------------------------------------------------------------------
+// 教学事件表（`EventListScr_*_Tutorial`）—— 第 36 轮补的覆盖面判据
+//
+// 出处：`src/EnqueueTutEvent.c:24-38`（按下标入队）、
+//       `src/eventinfo_0808618C.c:138-149`（`RunTutorialEvent` 按 `counter-1` 取）。
+// 提取器原来只 glob `EventListScr_*_Tutorial_ref/*.c`，Ch1 那张定义在
+// `src/data/data_08A5A828/data_08A5A828.s` ⇒ **整张漏掉**，Ch1 教学链缺一环。
+// ---------------------------------------------------------------------------
+void _tutorialListTests() {
+  test('★ 教学表：至少 3 张（序章/Ch1/Ch2），且 Ch1 的 14 条与第 5 条对得上', () {
+    final f = File('tools/pipeline/out/tables/tutorial_lists.json');
+    if (!f.existsSync()) fail('缺少 ${f.path}（先跑 parse_tutorial_lists.py）');
+    final d = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    final ls = (d['lists'] as Map).cast<String, dynamic>();
+    expect(ls.length, greaterThanOrEqualTo(3),
+        reason: '只有 2 张就说明 Ch1 又漏了（那正是第 36 轮修的问题）');
+    final ch1 = (ls['EventListScr_Ch1_Tutorial'] as List?)?.cast<String>();
+    expect(ch1, isNotNull, reason: 'Ch1 教学表必须在（在 data_08A5A828.s 里）');
+    expect(ch1!.length, 14);
+    expect(ch1[4], 'EventScr_Ch1Tut_TradeSelectGalliamIdle1',
+        reason: '第 5 条是那条"入队失败"的脚本');
+    final pro = (ls['EventListScr_Prologue_Tutorial'] as List).cast<String>();
+    expect(pro.length, 15);
+    expect(pro.first, 'EventScr_Prologue_Tutorial0');
+    expect(pro.last, 'EventScr_Prologue_TutorialE');
+    // 这个文件的语义就是"教学表"：不许混进别的 EventListScr
+    for (final k in ls.keys) {
+      expect(k.endsWith('_Tutorial'), isTrue, reason: '$k 不该出现在教学表文件里');
+    }
   });
 }

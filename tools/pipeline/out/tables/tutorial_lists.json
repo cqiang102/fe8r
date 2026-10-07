@@ -48,6 +48,22 @@
    "EventScr_Prologue_TutorialC",
    "EventScr_Prologue_TutorialD",
    "EventScr_Prologue_TutorialE"
+  ],
+  "EventListScr_Ch1_Tutorial": [
+   "EventScr_Ch1Tut_EirikaVisitHouseIdle1",
+   "EventScr_Ch1Tut_EirikaVisitHouseIdle2",
+   "EventScr_Ch1Tut_EirikaVisitHouseEnd",
+   "EventScr_Ch1Tut_GuideTerrainHeal",
+   "EventScr_Ch1Tut_TradeSelectGalliamIdle1",
+   "EventScr_Ch1Tut_TradeSelectGalliamIdle2",
+   "EventScr_Ch1Tut_TradeSelectGalliamEnd",
+   "EventScr_Ch1Tut_AfterTrade",
+   "EventScr_Ch1Tut_PostTradeAndItemUseAction",
+   "EventScr_Ch1Tut_SethMoveToEnemy",
+   "EventScr_Ch1Tut_BeforeSethMoveToEnemy",
+   "EventScr_Ch1Tut_AfterSethMoveToEnemy",
+   "EventScr_Ch1Tut_GuideOnBKSEL",
+   "EventScr_Ch1Tut_AfterSethBattleEirikaVisit"
   ]
  }
 }
