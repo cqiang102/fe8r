@@ -305,7 +305,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CURSOR_AT');
+          s.showCursorAt(10, 4);
           pc = 12;
           continue;
         case 12:
@@ -313,7 +313,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 14;
           continue;
         case 14:
@@ -833,17 +833,17 @@ Future<void> CallWithModeCheck(Scene s) async {
 /// `EventScr_Ch10A_0`
 Future<void> Ch10A_0(Scene s) async {
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(79);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.placeholder('TEXTSTART');
     await s.textShow(2545);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(16, 1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSI');
     s.setSlot(2, 19);
     s.setSlot(3, 2546);
@@ -990,11 +990,11 @@ Future<void> Ch10B_0(Scene s) async {
     await s.cameraTo(15, 11, centered: true);
     await s.stall(15);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 520));
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_AT');
+    await s.waitUnitMoving();
+    await s.removeUnit(67);
+    s.showCursorAt(19, 11);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSI');
     s.setSlot(2, 23);
     await s.call(Sym('EventScr_SetBackground'));
@@ -1003,26 +1003,26 @@ Future<void> Ch10B_0(Scene s) async {
     s.placeholder('REMA');
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
-    s.placeholder('DISA');
+    await s.removeUnit(68);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 560));
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(68);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 600));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_026_916D14', 1464));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(67);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2683);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('MUNO');
     s.moveUnit('MOVE', [16, 67, 23, 14]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(67);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -1063,7 +1063,7 @@ Future<void> Ch10B_1(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(14);
           pc = 9;
           continue;
         case 9:
@@ -1071,7 +1071,7 @@ Future<void> Ch10B_1(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 11;
           continue;
         case 11:
@@ -1141,7 +1141,7 @@ Future<void> Ch10B_2(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(14);
           pc = 9;
           continue;
         case 9:
@@ -1149,7 +1149,7 @@ Future<void> Ch10B_2(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 11;
           continue;
         case 11:
@@ -1185,13 +1185,13 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.setSlot(2, 131087);
     await s.call(Sym('EventScr_9EEA58'));
     s.loadUnits(1, Sym('frontier_df4_banim_b_077_90DB94', 52));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.moveUnit('MOVE_1STEP', [16, 105, 3]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(107);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2540);
     s.placeholder('TEXTEND');
@@ -1204,28 +1204,28 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.placeholder('UNIT_COLORS');
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(11, 851975);
     s.placeholder('TILECHANGE');
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('TILECHANGE');
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('TILEREVERT');
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 272));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(105);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 17);
     s.setSlot(3, 2541);
     await s.call(Sym('Event_TextWithBG'));
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 312));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('MUSI');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(67);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 17);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2542);
@@ -1239,16 +1239,16 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.setSlot(11, 1048583);
     await s.loadMap(11);
     s.loadUnits(1, Sym('UnitDef_Ch10ANPC'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch10AEnemy_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(2, Sym('UnitDef_Ch10AEnemy_1'));
     s.setSlot(3, 1);
     await s.call(Sym('EventScr_LoadUnitForTutorial'));
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(11);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.setSlot(2, 57);
     s.setSlot(3, 2543);
@@ -1261,14 +1261,14 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SET_STATE');
     s.loadUnits(3, Sym('UnitDef_Ch10AAlly_1'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(1, 4294967295);
     s.placeholder('SET_STATE');
     s.setSlot(1, 4294967295);
     s.placeholder('SET_STATE');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 37);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2544);
@@ -1375,7 +1375,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('SET_HP');
+          await s.setUnitHpFromSlot(20);
           pc = 25;
           continue;
         case 25:
@@ -1383,7 +1383,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 26;
           continue;
         case 26:
-          s.placeholder('SET_HP');
+          await s.setUnitHpFromSlot(21);
           pc = 27;
           continue;
         case 27:
@@ -1450,11 +1450,11 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 44;
           continue;
         case 44:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(67);
           pc = 45;
           continue;
         case 45:
@@ -1462,7 +1462,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 47;
           continue;
         case 47:
@@ -1510,7 +1510,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 59;
           continue;
         case 59:
@@ -1534,7 +1534,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 64;
           continue;
         case 64:
-          s.placeholder('CURSOR_AT');
+          s.showCursorAt(15, 1);
           pc = 65;
           continue;
         case 65:
@@ -1542,7 +1542,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 66;
           continue;
         case 66:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 67;
           continue;
         case 67:
@@ -1695,9 +1695,9 @@ Future<void> Ch10a_EndingScene(Scene s) async {
 Future<void> Ch11B_0(Scene s) async {
     s.placeholder('MUSC');
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 13);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2707);
@@ -1710,9 +1710,9 @@ Future<void> Ch11B_0(Scene s) async {
     await s.cameraTo(9, 9, centered: true);
     s.placeholder('TEXTSTART');
     s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_1'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_2'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('EVBIT_T');
     return;
@@ -1728,9 +1728,9 @@ Future<void> Ch11B_1(Scene s) async {
     await s.stall(30);
     s.placeholder('EARTHQUAKE_END');
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2708);
     s.placeholder('TEXTEND');
@@ -1743,9 +1743,9 @@ Future<void> Ch11B_1(Scene s) async {
 Future<void> Ch11B_2(Scene s) async {
     s.placeholder('MUSC');
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 13);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2709);
@@ -1761,10 +1761,10 @@ Future<void> Ch11B_2(Scene s) async {
     await s.stall(32);
     s.placeholder('EARTHQUAKE_END');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_029_9184F0'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(25);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2710);
     s.placeholder('TEXTEND');
@@ -1801,11 +1801,11 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(24);
           pc = 4;
           continue;
         case 4:
@@ -1872,7 +1872,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 20; } else { pc = 20; }
           continue;
         case 20:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(21);
           pc = 21;
           continue;
         case 21:
@@ -1906,11 +1906,11 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(11);
           pc = 31;
           continue;
         case 31:
@@ -1993,11 +1993,11 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 52;
           continue;
         case 52:
-          s.placeholder('DISA');
+          await s.removeUnit(24);
           pc = 53;
           continue;
         case 53:
@@ -2021,11 +2021,11 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 59;
           continue;
         case 59:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(25);
           pc = 60;
           continue;
         case 60:
@@ -2065,7 +2065,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 70;
           continue;
         case 70:
@@ -2232,11 +2232,11 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 39;
           continue;
         case 39:
-          s.placeholder('DISA');
+          await s.removeUnit(24);
           pc = 40;
           continue;
         case 40:
@@ -2244,7 +2244,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('CURSOR_AT');
+          s.showCursorAt(2, 6);
           pc = 42;
           continue;
         case 42:
@@ -2252,7 +2252,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 44;
           continue;
         case 44:
@@ -2300,19 +2300,19 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 56;
           continue;
         case 56:
-          s.placeholder('DISA');
+          await s.removeUnit(105);
           pc = 57;
           continue;
         case 57:
-          s.placeholder('DISA');
+          await s.removeUnit(128);
           pc = 58;
           continue;
         case 58:
-          s.placeholder('DISA');
+          await s.removeUnit(129);
           pc = 59;
           continue;
         case 59:
@@ -2324,11 +2324,11 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 62;
           continue;
         case 62:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(105);
           pc = 63;
           continue;
         case 63:
@@ -2336,7 +2336,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 64;
           continue;
         case 64:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 65;
           continue;
         case 65:
@@ -2384,7 +2384,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 77;
           continue;
         case 77:
@@ -2404,7 +2404,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 81;
           continue;
         case 81:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 82;
           continue;
         case 82:
@@ -2424,15 +2424,15 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 86;
           continue;
         case 86:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 87;
           continue;
         case 87:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 88;
           continue;
         case 88:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(67);
           pc = 89;
           continue;
         case 89:
@@ -2440,7 +2440,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 90;
           continue;
         case 90:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 91;
           continue;
         case 91:
@@ -2488,7 +2488,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 102;
           continue;
         case 102:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 103;
           continue;
         case 103:
@@ -2536,11 +2536,11 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 114;
           continue;
         case 114:
-          s.placeholder('DISA_IF');
+          await s.removeUnit(105, onlyIfDead: true);
           pc = 115;
           continue;
         case 115:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(67);
           pc = 116;
           continue;
         case 116:
@@ -2548,7 +2548,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 117;
           continue;
         case 117:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 118;
           continue;
         case 118:
@@ -2764,11 +2764,11 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 171;
           continue;
         case 171:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 172;
           continue;
         case 172:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(67);
           pc = 173;
           continue;
         case 173:
@@ -2776,7 +2776,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 174;
           continue;
         case 174:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 175;
           continue;
         case 175:
@@ -2941,7 +2941,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 31;
           continue;
         case 31:
@@ -3013,24 +3013,24 @@ Future<void> Ch12B_1(Scene s) async {
     s.setSlot(2, 87);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 17, 1]);
     await s.call(Sym('EventScr_UnitWarpIN'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(83);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2722);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.setSlot(2, 87);
     await s.call(Sym('EventScr_UnitWarpOUT'));
-    s.placeholder('DISA');
+    await s.removeUnit(87);
     s.moveUnit('MOVE', [24, 83, 17, 0]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(83);
     s.moveUnit('MOVE', [24, 129, 16, 0]);
     s.moveUnit('MOVE', [24, 130, 18, 0]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(129);
+    await s.removeUnit(130);
     s.setSlot(2, Sym('UnitDef_Ch12BEnemy_1'));
     await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('STAL2');
@@ -3044,9 +3044,9 @@ Future<void> Ch12B_1(Scene s) async {
     await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('STAL2');
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2723);
     s.placeholder('TEXTEND');
@@ -3062,9 +3062,9 @@ Future<void> Ch13A_3(Scene s) async {
     await s.call(Sym('EventScr_LoadReinforce'));
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_4'));
     await s.call(Sym('EventScr_LoadReinforceHardMode'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(79);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2607);
     s.placeholder('TEXTEND');
@@ -3145,7 +3145,7 @@ Future<void> Ch13A_7(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_9'));
     await s.callSlot(0);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(14);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('SETTEXTTYPE');
@@ -3307,7 +3307,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(81);
           pc = 4;
           continue;
         case 4:
@@ -3315,7 +3315,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 6;
           continue;
         case 6:
@@ -3388,11 +3388,11 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 25;
           continue;
         case 25:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(200);
           pc = 26;
           continue;
         case 26:
@@ -3400,7 +3400,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 28;
           continue;
         case 28:
@@ -3428,7 +3428,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(1);
           pc = 35;
           continue;
         case 35:
@@ -3436,7 +3436,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 37;
           continue;
         case 37:
@@ -3647,7 +3647,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 90;
           continue;
         case 90:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 91;
           continue;
         case 91:
@@ -3659,7 +3659,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 93;
           continue;
         case 93:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 94;
           continue;
         case 94:
@@ -3667,11 +3667,11 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 95;
           continue;
         case 95:
-          s.placeholder('SET_HP');
+          await s.setUnitHpFromSlot(81);
           pc = 96;
           continue;
         case 96:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(83);
           pc = 97;
           continue;
         case 97:
@@ -3679,7 +3679,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 98;
           continue;
         case 98:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 99;
           continue;
         case 99:
@@ -3759,13 +3759,13 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     await s.cameraTo(14, 13, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(30);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.setSlot(2, 44);
     await s.call(Sym('EventScr_SetBackground'));
@@ -3785,52 +3785,52 @@ Future<void> Ch13b_EndingScene(Scene s) async {
 Future<void> Ch14A_0(Scene s) async {
     await s.cameraTo(9, 7, centered: true);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C_residue'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(83);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.placeholder('TEXTSTART');
     await s.textShow(2630);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVEONTO', [0, 83, 203]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE_1STEP', [8, 203, 2]);
     s.moveUnit('MOVE_1STEP', [0, 82, 1]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(83);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2631);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE_1STEP', [0, 82, 0]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVEONTO', [0, 83, 203]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(203);
     await s.stall(16);
     s.moveUnit('MOVE', [0, 83, 9, 8]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(83);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2632);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVEONTO', [0, 83, 64]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(64);
     s.moveUnit('MOVE', [0, 83, 17, 11]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(83);
     await s.cameraTo(9, 6, centered: true);
     s.moveUnit('MOVE', [0, 82, 9, 5]);
     s.loadUnits(1, Sym('UnitDef_Ch14AEnemy_6'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EVBIT_T');
     return;
 }
@@ -4061,8 +4061,8 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     await s.fade(FadeDirection.fromWhite, 2);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_004_91075C_p5'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(2);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.setSlot(2, 73);
@@ -4080,21 +4080,21 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('EvtMoveUnit');
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('CHANGESTATE');
     s.placeholder('CHANGESTATE');
     s.placeholder('CHANGESTATE');
     s.setSlot(11, 458762);
     await s.loadMap(14);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_001_91020C'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EvtMoveUnit');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.moveUnit('MOVEUNIT', [16]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(82);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('MUSC');
@@ -4108,7 +4108,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.placeholder('CAMERA_CAHR');
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(28);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('BGMVOLUMECHANGE');
@@ -4124,10 +4124,10 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
 /// `EventScr_Ch14b_BeginningScene`
 Future<void> Ch14b_BeginningScene(Scene s) async {
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 240));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('REMU');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_038_91B948_residue', 240));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.cameraTo(0, 21, centered: false);
     s.placeholder('CLEAN');
     s.placeholder('MUSC');
@@ -4138,14 +4138,14 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SET_STATE');
     s.loadUnits(3, Sym('frontier_df3_unitdef_b_038_91B948_residue', 60));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(1, 4294967295);
     s.placeholder('SET_STATE');
     s.setSlot(1, 4294967295);
     s.placeholder('SET_STATE');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 73);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2778);
@@ -4160,36 +4160,36 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.setSlot(2, 64);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 5, 2]);
     await s.call(Sym('EventScr_UnitWarpIN'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(64);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.setSlot(2, 73);
     s.setSlot(3, 2779);
     await s.call(Sym('Event_TextWithBG'));
     s.setSlot(2, 64);
     await s.call(Sym('EventScr_UnitWarpOUT'));
-    s.placeholder('DISA');
+    await s.removeUnit(64);
     s.moveUnit('MOVE_1STEP', [0, 102, 3]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVEONTO', [0, 102, 83]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1100));
-    s.placeholder('ENUN');
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
+    await s.waitUnitMoving();
     s.placeholder('REVEAL');
-    s.placeholder('DISA');
+    await s.removeUnit(102);
     await s.fade(FadeDirection.toBlack, 16);
     await s.call(Sym('data_085B9BBC', 512));
     await s.cameraTo(12, 7, centered: true);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('REVEAL');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 73);
     s.setSlot(3, 2781);
     await s.call(Sym('Event_TextWithBG'));
@@ -4303,11 +4303,11 @@ Future<void> Ch15A_0(Scene s) async {
     s.placeholder('MUSC');
     s.placeholder('EVBIT_T');
     s.loadUnits(1, Sym('UnitDef_Ch15AAlly_1'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EVBIT_F');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 73);
     s.setSlot(3, 2780);
     await s.call(Sym('Event_TextWithBG'));
@@ -5025,7 +5025,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          s.placeholder('CURSOR_AT');
+          s.showCursorAt(8, 8);
           pc = 35;
           continue;
         case 35:
@@ -5033,7 +5033,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 37;
           continue;
         case 37:
@@ -5609,9 +5609,9 @@ Future<void> Ch15B_22(Scene s) async {
 Future<void> Ch15a_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_005_9109A8_residue_p5'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(2);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.setSlot(2, 73);
@@ -5623,13 +5623,13 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     await s.cameraTo(23, 21, centered: false);
     s.placeholder('CLEARSCREEN');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 696));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('LOADSINGLEUNIT');
     s.setSlot(2, 87);
     s.moveUnit('MOVEUNIT', [65535]);
     await s.callSlot(0);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(87);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.setSlot(2, 73);
@@ -5638,9 +5638,9 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.placeholder('ENDTEXT');
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('DISA');
+    await s.removeUnit(87);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 1516));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.callSlot(0);
     return;
 }
@@ -5698,11 +5698,11 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(15);
           pc = 7;
           continue;
         case 7:
@@ -5710,7 +5710,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 9;
           continue;
         case 9:
@@ -5762,7 +5762,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 22;
           continue;
         case 22:
@@ -5822,7 +5822,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 37;
           continue;
         case 37:
@@ -5834,7 +5834,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 40;
           continue;
         case 40:
@@ -5850,7 +5850,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 44;
           continue;
         case 44:
@@ -5862,7 +5862,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 47;
           continue;
         case 47:
@@ -5947,7 +5947,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 68;
           continue;
         case 68:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 69;
           continue;
         case 69:
@@ -5991,11 +5991,11 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 79;
           continue;
         case 79:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 80;
           continue;
         case 80:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(128);
           pc = 81;
           continue;
         case 81:
@@ -6003,7 +6003,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 82;
           continue;
         case 82:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 83;
           continue;
         case 83:
@@ -6027,7 +6027,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 88;
           continue;
         case 88:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 89;
           continue;
         case 89:
@@ -6049,7 +6049,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 94;
           continue;
         case 94:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 95;
           continue;
         case 95:
@@ -6072,7 +6072,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 100;
           continue;
         case 100:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 101;
           continue;
         case 101:
@@ -6088,7 +6088,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 104;
           continue;
         case 104:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 105;
           continue;
         case 105:
@@ -6096,7 +6096,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 106;
           continue;
         case 106:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 107;
           continue;
         case 107:
@@ -6108,7 +6108,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 109;
           continue;
         case 109:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 110;
           continue;
         case 110:
@@ -6116,7 +6116,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 111;
           continue;
         case 111:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 112;
           continue;
         case 112:
@@ -6124,7 +6124,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 113;
           continue;
         case 113:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 114;
           continue;
         case 114:
@@ -6132,7 +6132,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 115;
           continue;
         case 115:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(128);
           pc = 116;
           continue;
         case 116:
@@ -6140,7 +6140,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 117;
           continue;
         case 117:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 118;
           continue;
         case 118:
@@ -6299,11 +6299,11 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 159;
           continue;
         case 159:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 160;
           continue;
         case 160:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(87);
           pc = 161;
           continue;
         case 161:
@@ -6311,7 +6311,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 162;
           continue;
         case 162:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 163;
           continue;
         case 163:
@@ -6439,7 +6439,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 16;
           continue;
         case 16:
@@ -6455,11 +6455,11 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 20;
           continue;
         case 20:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(251);
           pc = 21;
           continue;
         case 21:
@@ -6467,7 +6467,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 23;
           continue;
         case 23:
@@ -6527,7 +6527,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 38;
           continue;
         case 38:
@@ -6535,7 +6535,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(15);
           pc = 40;
           continue;
         case 40:
@@ -6543,7 +6543,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 42;
           continue;
         case 42:
@@ -6571,11 +6571,11 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 49;
           continue;
         case 49:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 50;
           continue;
         case 50:
@@ -6583,7 +6583,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 52;
           continue;
         case 52:
@@ -6627,7 +6627,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 62;
           continue;
         case 62:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 63;
           continue;
         case 63:
@@ -6647,7 +6647,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 67;
           continue;
         case 67:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 68;
           continue;
         case 68:
@@ -6715,11 +6715,11 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 84;
           continue;
         case 84:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 85;
           continue;
         case 85:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(15);
           pc = 86;
           continue;
         case 86:
@@ -6727,7 +6727,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 87;
           continue;
         case 87:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 88;
           continue;
         case 88:
@@ -6791,7 +6791,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 103;
           continue;
         case 103:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 104;
           continue;
         case 104:
@@ -6799,7 +6799,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 105;
           continue;
         case 105:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 106;
           continue;
         case 106:
@@ -6807,7 +6807,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 107;
           continue;
         case 107:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 108;
           continue;
         case 108:
@@ -6875,7 +6875,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 124;
           continue;
         case 124:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 125;
           continue;
         case 125:
@@ -6903,11 +6903,11 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 131;
           continue;
         case 131:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 132;
           continue;
         case 132:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(15);
           pc = 133;
           continue;
         case 133:
@@ -6915,7 +6915,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 134;
           continue;
         case 134:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 135;
           continue;
         case 135:
@@ -6959,7 +6959,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 145;
           continue;
         case 145:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(15);
           pc = 146;
           continue;
         case 146:
@@ -6967,7 +6967,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 147;
           continue;
         case 147:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 148;
           continue;
         case 148:
@@ -7043,7 +7043,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 166;
           continue;
         case 166:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 167;
           continue;
         case 167:
@@ -7059,7 +7059,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 170;
           continue;
         case 170:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 171;
           continue;
         case 171:
@@ -7075,11 +7075,11 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 174;
           continue;
         case 174:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 175;
           continue;
         case 175:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 176;
           continue;
         case 176:
@@ -7087,7 +7087,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 177;
           continue;
         case 177:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 178;
           continue;
         case 178:
@@ -7231,7 +7231,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 214;
           continue;
         case 214:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 215;
           continue;
         case 215:
@@ -7243,7 +7243,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 217;
           continue;
         case 217:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 218;
           continue;
         case 218:
@@ -7263,7 +7263,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 222;
           continue;
         case 222:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(25);
           pc = 223;
           continue;
         case 223:
@@ -7271,7 +7271,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 224;
           continue;
         case 224:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 225;
           continue;
         case 225:
@@ -7335,7 +7335,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 241;
           continue;
         case 241:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 242;
           continue;
         case 242:
@@ -7343,7 +7343,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 243;
           continue;
         case 243:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 244;
           continue;
         case 244:
@@ -7485,9 +7485,9 @@ Future<void> Ch16a_BeginningScene(Scene s) async {
     s.setSlot(11, 0);
     await s.loadMap(16);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_007_911200_tail'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch16AEnemy_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(2, Sym('UnitDef_Ch16AEnemy_1'));
     s.setSlot(3, 1);
     await s.callSlot(0);
@@ -7642,7 +7642,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 32;
           continue;
         case 32:
@@ -7650,7 +7650,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(192);
           pc = 34;
           continue;
         case 34:
@@ -7658,7 +7658,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 36;
           continue;
         case 36:
@@ -7686,7 +7686,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(15);
           pc = 43;
           continue;
         case 43:
@@ -7694,7 +7694,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 44;
           continue;
         case 44:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 45;
           continue;
         case 45:
@@ -7770,9 +7770,9 @@ Future<void> Ch18b_BeginningScene(Scene s) async {
     s.placeholder('EVBIT_T');
     return;
     s.placeholder('CAMERA_CAHR');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.placeholder('EVENT_WORD');
 }
@@ -7925,7 +7925,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 39;
           continue;
         case 39:
@@ -7941,7 +7941,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 43;
           continue;
         case 43:
@@ -7949,11 +7949,11 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 44;
           continue;
         case 44:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 45;
           continue;
         case 45:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(25);
           pc = 46;
           continue;
         case 46:
@@ -7961,7 +7961,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 48;
           continue;
         case 48:
@@ -8049,7 +8049,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 70;
           continue;
         case 70:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 71;
           continue;
         case 71:
@@ -8061,11 +8061,11 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 73;
           continue;
         case 73:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 74;
           continue;
         case 74:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(200);
           pc = 75;
           continue;
         case 75:
@@ -8073,7 +8073,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 77;
           continue;
         case 77:
@@ -8364,9 +8364,9 @@ Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
     await s.textShow(2318);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(2, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
@@ -8449,17 +8449,17 @@ Future<void> Ch1Tut_EirikaVisitHouseInit(Scene s) async {
     await s.textShow(2286);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(13, 6, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     s.placeholder('EVENT_WORD_SYM');
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(1, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('EvtEnqueueConditionalTutCall');
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('EVBIT_T');
@@ -8469,10 +8469,10 @@ Future<void> Ch1Tut_EirikaVisitHouseInit(Scene s) async {
 /// `EventScr_Ch1Tut_GilliamBattle`
 Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.setSlot(1, 19);
-    s.placeholder('SET_HP');
+    await s.setUnitHpFromSlot(3);
     await s.stall(60);
     s.placeholder('EvtMoveUnit');
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
     s.placeholder('QUEUE_OPS');
@@ -8487,8 +8487,8 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsg944'));
     await s.callSlot(0);
     s.placeholder('EvtMoveUnit');
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(4);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('BGMVOLUMECHANGE');
@@ -8502,7 +8502,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     await s.textShow(2310);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(3, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -8528,11 +8528,11 @@ Future<void> Ch1Tut_GuideOnBKSEL(Scene s) async {
 /// `EventScr_Ch1Tut_GuideTerrainHeal`
 Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('CURSOR_FLASHING');
-    s.placeholder('CURSOR_FLASHING');
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(7, 7, flashing: true);
+    s.showCursorAt(7, 2, flashing: true);
+    s.showCursorAt(2, 2, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2306);
@@ -8556,9 +8556,9 @@ Future<void> Ch1Tut_MsgOnGuideOption(Scene s) async {
 
 /// `EventScr_Ch1Tut_OnBeginning`
 Future<void> Ch1Tut_OnBeginning(Scene s) async {
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2307);
@@ -8575,7 +8575,7 @@ Future<void> Ch1Tut_OnBeginning(Scene s) async {
 
 /// `EventScr_Ch1Tut_PostTradeAndItemUseAction`
 Future<void> Ch1Tut_PostTradeAndItemUseAction(Scene s) async {
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(4);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('SETTEXTTYPE');
@@ -8677,26 +8677,26 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
 Future<void> Ch1_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('UnitDef_Event_Ch1Enemy'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('STAL2');
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(2, 2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 57);
     s.setSlot(3, 2281);
     await s.call(Sym('Event_TextWithBG'));
     s.loadUnits(1, Sym('UnitDef_Event_Ch1NPC'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(11, 0);
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.removeUnit(65534);
+    s.showCursorAtUnit(70);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 36);
     s.setSlot(3, 2282);
     await s.call(Sym('Event_TextWithBG'));
     s.moveUnit('MOVE', [0, 70, 2, 3]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('ENUT');
     s.setSlot(13, 0);
     s.setSlot(1, 70656);
@@ -8709,10 +8709,10 @@ Future<void> Ch1_BeginningScene(Scene s) async {
     s.placeholder('ENUF');
     s.setSlot(11, 131074);
     s.placeholder('KILL');
-    s.placeholder('DISA_IF');
-    s.placeholder('CURSOR_CHAR');
+    await s.removeUnit(65534, onlyIfDead: true);
+    s.showCursorAtUnit(70);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     await s.textShow(2283);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
@@ -8731,20 +8731,20 @@ Future<void> Ch1_BeginningScene(Scene s) async {
     s.moveUnit('MOVE', [24, 65534, 4, 7]);
     s.setSlot(11, 589826);
     s.moveUnit('MOVE', [24, 65534, 2, 8]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('STAL2');
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(2, 2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 57);
     s.setSlot(3, 2284);
     await s.call(Sym('Event_TextWithBG'));
     s.placeholder('REMA');
     s.loadUnits(2, Sym('UnitDef_Event_Ch1Ally'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2285);
     s.placeholder('TEXTEND');
@@ -8919,10 +8919,10 @@ Future<void> Ch1_Turn1Player(Scene s) async {
 Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('UnitDef_Event_Ch1AllyReinforce'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(4);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2289);
     s.placeholder('TEXTEND');
@@ -8938,7 +8938,7 @@ Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, Sym('UnitDef_Event_Ch1EnemyReinforce'));
     await s.callSlot(0);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(131);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('SETTEXTTYPE');
@@ -9065,10 +9065,10 @@ Future<void> Ch20b_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_Ch21A_8'));
     s.setSlot(2, 108);
     await s.call(Sym('EventScr_UnitWarpOUT'));
-    s.placeholder('DISA');
+    await s.removeUnit(108);
     await s.fade(FadeDirection.toBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch21BEnemy_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('ENUT');
     s.placeholder('ENUT');
@@ -9086,13 +9086,13 @@ Future<void> Ch21A_0(Scene s) async {
     await s.cameraTo(11, 4, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 4);
     s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(64);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2949);
     s.placeholder('TEXTEND');
@@ -9196,7 +9196,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 23;
           continue;
         case 23:
@@ -9208,7 +9208,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 26;
           continue;
         case 26:
@@ -9216,11 +9216,11 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 28;
           continue;
         case 28:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(0);
           pc = 29;
           continue;
         case 29:
@@ -9228,7 +9228,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 31;
           continue;
         case 31:
@@ -9312,7 +9312,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          s.placeholder('DISA');
+          await s.removeUnit(64);
           pc = 53;
           continue;
         case 53:
@@ -9357,11 +9357,11 @@ Future<void> Ch21A_9(Scene s) async {
     s.placeholder('EvtColorFadeSetup');
     await s.stall(30);
     s.moveUnit('MOVE_1STEP', [2, 64, 3]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('STAL2');
     s.setSlot(2, 64);
     await s.call(Sym('EventScr_UnitWarpOUT'));
-    s.placeholder('DISA');
+    await s.removeUnit(64);
     s.placeholder('TEXTSTART');
     await s.textShow(2951);
     s.placeholder('TEXTEND');
@@ -9398,13 +9398,13 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     await s.cameraTo(11, 4, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 4);
     s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(64);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2950);
     s.placeholder('TEXTEND');
@@ -9490,14 +9490,14 @@ Future<void> Ch2Tutorial14(Scene s) async {
     s.placeholder('ENUT');
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('SHOW_ATTACK_RANGE');
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(9, 4, flashing: true);
     await s.stall(60);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 5767184);
     await s.textShow(2359);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('IGNORE_KEYS');
     s.placeholder('EvtEnqueueConditionalTutCall');
     return;
@@ -9633,9 +9633,9 @@ Future<void> Ch2Tutorial21(Scene s) async {
 /// `EventScr_Ch2Tutorial22`
 Future<void> Ch2Tutorial22(Scene s) async {
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2332);
     s.placeholder('TEXTEND');
@@ -9645,9 +9645,9 @@ Future<void> Ch2Tutorial22(Scene s) async {
     await s.textShow(2368);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(1, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('EvtEnqueueConditionalTutCall');
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('EVBIT_T');
@@ -9820,14 +9820,14 @@ Future<void> Ch2Tutorial4(Scene s) async {
     s.placeholder('MUNO');
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('SHOW_ATTACK_RANGE');
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(8, 4, flashing: true);
     await s.stall(60);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 5767184);
     await s.textShow(2355);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('IGNORE_KEYS');
     s.placeholder('EvtEnqueueConditionalTutCall');
     return;
@@ -9921,9 +9921,9 @@ Future<void> Ch2_10(Scene s) async {
     await s.textShow(2376);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(5, 7);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2377);
@@ -9941,7 +9941,7 @@ Future<void> Ch2_4(Scene s) async {
     await s.textShow(2363);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(5, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -9957,7 +9957,7 @@ Future<void> Ch2_5(Scene s) async {
     await s.textShow(2357);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(6, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -9973,7 +9973,7 @@ Future<void> Ch2_6(Scene s) async {
     await s.textShow(2360);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(5, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -9990,7 +9990,7 @@ Future<void> Ch2_7(Scene s) async {
     await s.textShow(2372);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(1, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -10029,89 +10029,89 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     s.placeholder('CLEAN');
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch2Ally'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EvtBgmFadeIn');
     s.loadUnits(1, Sym('UnitDef_Ch2Enemy_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch2Enemy_2'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('STAL2');
     s.placeholder('MUSC');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(71);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2325);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE', [24, 72, 14, 9]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_AT');
+    await s.waitUnitMoving();
+    await s.removeUnit(72);
+    s.showCursorAt(12, 3);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.setSlot(2, 2);
     s.setSlot(3, 2326);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(71);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2327);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE', [24, 71, 9, 14]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(11, 327692);
     s.moveUnit('MOVE', [0, 65534, 12, 3]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('SOUN');
     s.setSlot(11, 131084);
     s.placeholder('TILECHANGE');
     s.placeholder('SOUN');
     s.placeholder('NOTIFY');
     s.loadUnits(1, Sym('UnitDef_Ch2NPC'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(1, 5);
-    s.placeholder('SET_HP');
-    s.placeholder('CURSOR_CHAR');
+    await s.setUnitHpFromSlot(7);
+    s.showCursorAtUnit(7);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 37);
     s.setSlot(3, 2328);
     await s.call(Sym('Event_TextWithBG'));
     s.setSlot(2, Sym('EventScr_Ch2_Village2', 192));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.loadUnits(1, Sym('UnitDef_Event_Ch2Ally'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(6);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2329);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE', [24, 6, 2, 3]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(6);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2330);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.setSlot(2, Sym('EventScr_Ch2_Village2', 224));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(5);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2331);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE', [24, 6, 6, 3]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EVBIT_T');
     return;
 }
@@ -10541,7 +10541,7 @@ Future<void> Ch2_Village2(Scene s) async {
     await s.textShow(2352);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(6, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -10582,7 +10582,7 @@ Future<void> Ch3_0(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_FormatFlashingCursor'));
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2381);
     s.placeholder('TEXTEND');
@@ -10598,7 +10598,7 @@ Future<void> Ch3_0(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_FormatFlashingCursor'));
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2395);
@@ -10610,15 +10610,15 @@ Future<void> Ch3_0(Scene s) async {
 
 /// `EventScr_Ch3_5`
 Future<void> Ch3_5(Scene s) async {
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(8);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2383);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE', [0, 8, 3, 9]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
@@ -10696,7 +10696,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 15;
           continue;
         case 15:
@@ -10708,7 +10708,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 18;
           continue;
         case 18:
@@ -10727,7 +10727,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 29; } else { pc = 22; }
           continue;
         case 22:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(8);
           pc = 23;
           continue;
         case 23:
@@ -10735,7 +10735,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 25;
           continue;
         case 25:
@@ -10782,7 +10782,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 37;
           continue;
         case 37:
@@ -10825,7 +10825,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(72);
           pc = 49;
           continue;
         case 49:
@@ -10833,7 +10833,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 50;
           continue;
         case 50:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 51;
           continue;
         case 51:
@@ -11024,7 +11024,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 36;
           continue;
         case 36:
@@ -11036,7 +11036,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(107);
           pc = 39;
           continue;
         case 39:
@@ -11044,7 +11044,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 41;
           continue;
         case 41:
@@ -11120,7 +11120,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 60;
           continue;
         case 60:
@@ -11128,11 +11128,11 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 62;
           continue;
         case 62:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(107);
           pc = 63;
           continue;
         case 63:
@@ -11140,7 +11140,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 64;
           continue;
         case 64:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 65;
           continue;
         case 65:
@@ -11224,11 +11224,11 @@ Future<void> Ch3_Turn1Npc(Scene s) async {
     await s.cameraTo(0, 0, centered: false);
     await s.stall(15);
     s.loadUnits(1, Sym('UnitDef_Ch3NPC'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('MUSC');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(9);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2386);
     s.placeholder('TEXTEND');
@@ -11236,7 +11236,7 @@ Future<void> Ch3_Turn1Npc(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch3_2'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.moveUnit('MOVE_CLOSEST', [0, 9, 2, 4]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(2, Sym('EventScr_Ch3_3'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
@@ -11256,11 +11256,11 @@ Future<void> Ch4_0(Scene s) async {
     await s.cameraTo(7, 0, centered: true);
     await s.stall(15);
     s.loadUnits(1, Sym('UnitDef_Ch4NPC_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('MUSC');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(25);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2412);
     s.placeholder('TEXTEND');
@@ -11268,7 +11268,7 @@ Future<void> Ch4_0(Scene s) async {
     s.moveUnit('MOVE', [24, 25, 15, 2]);
     s.moveUnit('MOVE', [24, 26, 15, 1]);
     s.moveUnit('MOVE', [24, 28, 15, 1]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('CLEN');
     s.placeholder('EVBIT_T');
     return;
@@ -11343,7 +11343,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 18;
           continue;
         case 18:
@@ -11437,7 +11437,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 43;
           continue;
         case 43:
@@ -11449,7 +11449,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 46;
           continue;
         case 46:
@@ -11457,7 +11457,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(25);
           pc = 48;
           continue;
         case 48:
@@ -11465,7 +11465,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 49;
           continue;
         case 49:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 50;
           continue;
         case 50:
@@ -11527,17 +11527,17 @@ Future<void> Ch4_1(Scene s) async {
 /// `EventScr_Ch4_10`
 Future<void> Ch4_10(Scene s) async {
     s.moveUnit('MOVE', [0, 19, 6, 3]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(19);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2410);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2411);
     s.placeholder('TEXTEND');
@@ -11642,7 +11642,7 @@ Future<void> Ch4_2(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 24;
           continue;
         case 24:
@@ -11699,11 +11699,11 @@ Future<void> Ch4_6(Scene s) async {
 /// `EventScr_Ch4_BeginningScene`
 Future<void> Ch4_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch4Ally_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('MUSC');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 46);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2403);
@@ -11712,12 +11712,12 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
     s.loadUnits(1, Sym('UnitDef_Ch4Enemy_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2404);
     s.placeholder('TEXTEND');
@@ -11726,9 +11726,9 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.cameraTo(0, 14, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSI');
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(1, 11);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 2);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2405);
@@ -11742,20 +11742,20 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch4Ally_1'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(19);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2406);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.setSlot(11, 393227);
     s.moveUnit('MOVE', [0, 65534, 9, 3]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(19);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2407);
     s.placeholder('TEXTEND');
@@ -11771,12 +11771,12 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.placeholder('FIGHT');
     s.setSlot(11, 196617);
     s.placeholder('KILL');
-    s.placeholder('DISA_IF');
+    await s.removeUnit(65534, onlyIfDead: true);
     s.setSlot(2, Sym('EventScr_Ch4_8'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2408);
     s.placeholder('TEXTEND');
@@ -11787,9 +11787,9 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(19);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2409);
     s.placeholder('TEXTEND');
@@ -11839,10 +11839,10 @@ Future<void> Ch5_10(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     await s.cameraTo(2, 1, centered: false);
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(2, 1, flashing: true);
     await s.stall(60);
     await s.cameraTo(6, 10, centered: false);
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(6, 10, flashing: true);
     await s.stall(60);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
@@ -11850,7 +11850,7 @@ Future<void> Ch5_10(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('ENUT');
-    s.placeholder('CURE');
+    await s.endCursor();
     return;
 }
 
@@ -11862,7 +11862,7 @@ Future<void> Ch5_11(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     await s.cameraTo(12, 6, centered: false);
-    s.placeholder('CURSOR_FLASHING');
+    s.showCursorAt(12, 6, flashing: true);
     await s.stall(60);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
@@ -11870,7 +11870,7 @@ Future<void> Ch5_11(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.placeholder('ENUT');
-    s.placeholder('CURE');
+    await s.endCursor();
     return;
 }
 
@@ -11909,9 +11909,9 @@ Future<void> Ch5_5(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(14, 16);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2437);
     s.placeholder('TEXTEND');
@@ -11968,7 +11968,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 8;
           continue;
         case 8:
@@ -11984,7 +11984,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('DISA');
+          await s.removeUnit(32);
           pc = 12;
           continue;
         case 12:
@@ -11992,11 +11992,11 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 14;
           continue;
         case 14:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(32);
           pc = 15;
           continue;
         case 15:
@@ -12004,7 +12004,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 17;
           continue;
         case 17:
@@ -12056,7 +12056,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 30;
           continue;
         case 30:
@@ -12064,7 +12064,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(105);
           pc = 32;
           continue;
         case 32:
@@ -12072,7 +12072,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 34;
           continue;
         case 34:
@@ -12092,7 +12092,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 39;
           continue;
         case 39:
@@ -12100,11 +12100,11 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 41;
           continue;
         case 41:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(105);
           pc = 42;
           continue;
         case 42:
@@ -12112,7 +12112,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 44;
           continue;
         case 44:
@@ -12252,7 +12252,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 78;
           continue;
         case 78:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 79;
           continue;
         case 79:
@@ -12344,7 +12344,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 101;
           continue;
         case 101:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 102;
           continue;
         case 102:
@@ -12352,7 +12352,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 103;
           continue;
         case 103:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 104;
           continue;
         case 104:
@@ -12380,11 +12380,11 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 110;
           continue;
         case 110:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 111;
           continue;
         case 111:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 112;
           continue;
         case 112:
@@ -12396,11 +12396,11 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 114;
           continue;
         case 114:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 115;
           continue;
         case 115:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 116;
           continue;
         case 116:
@@ -12408,7 +12408,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 117;
           continue;
         case 117:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 118;
           continue;
         case 118:
@@ -12432,11 +12432,11 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 123;
           continue;
         case 123:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 124;
           continue;
         case 124:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(1);
           pc = 125;
           continue;
         case 125:
@@ -12444,7 +12444,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 126;
           continue;
         case 126:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 127;
           continue;
         case 127:
@@ -12476,7 +12476,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 134;
           continue;
         case 134:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 135;
           continue;
         case 135:
@@ -12496,7 +12496,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 139;
           continue;
         case 139:
-          s.placeholder('CURSOR_AT');
+          s.showCursorAt(12, 6);
           pc = 140;
           continue;
         case 140:
@@ -12504,7 +12504,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 141;
           continue;
         case 141:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 142;
           continue;
         case 142:
@@ -12512,7 +12512,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 143;
           continue;
         case 143:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 144;
           continue;
         case 144:
@@ -12520,11 +12520,11 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 145;
           continue;
         case 145:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 146;
           continue;
         case 146:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(32);
           pc = 147;
           continue;
         case 147:
@@ -12532,7 +12532,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 148;
           continue;
         case 148:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 149;
           continue;
         case 149:
@@ -12568,7 +12568,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 157;
           continue;
         case 157:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(13);
           pc = 158;
           continue;
         case 158:
@@ -12576,7 +12576,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 159;
           continue;
         case 159:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 160;
           continue;
         case 160:
@@ -12795,27 +12795,27 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('BROWNBOXTEXT');
-    s.placeholder('CURSOR_AT');
+    s.showCursorAt(9, 4);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     await s.fade(FadeDirection.toBlack, 16);
     s.setSlot(11, 262155);
     await s.loadMap(9);
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_1'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('SPAWN_ENEMY');
     s.moveUnit('MOVE', [16, 67, 10, 4]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [16, 77, 9, 3]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [16, 67, 10, 2]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [16, 77, 10, 3]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(77);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2455);
     s.placeholder('TEXTEND');
@@ -12828,11 +12828,11 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.setSlot(11, 786452);
     await s.loadMap(7);
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_1'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 45);
     await s.call(Sym('EventScr_SetBackground'));
     s.placeholder('MUSC');
@@ -12847,10 +12847,10 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_2'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 44);
     s.setSlot(3, 2457);
     await s.call(Sym('Event_TextWithBG'));
@@ -12861,27 +12861,27 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.moveUnit('MOVE', [0, 66, 8, 6]);
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.setSlot(11, 458766);
     await s.loadMap(5);
     s.loadUnits(1, Sym('frontier_df4_banim_b_075_90A050'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(106);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     await s.textShow(2458);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     await s.cameraTo(0, 18, centered: false);
     s.loadUnits(1, Sym('UnitDef_Event_Ch5xAlly'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 21);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2459);
@@ -12909,13 +12909,13 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     await s.cameraTo(13, 9, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch5xAlly_0'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(16);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2466);
     s.placeholder('TEXTEND');
@@ -12927,20 +12927,20 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.setSlot(11, 262154);
     await s.loadMap(8);
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_2'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('EVBIT_T');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_3'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EVBIT_F');
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_3'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_4'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(67);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 44);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2467);
@@ -12990,7 +12990,7 @@ Future<void> Ch6_0(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(249);
           pc = 9;
           continue;
         case 9:
@@ -12998,7 +12998,7 @@ Future<void> Ch6_0(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 11;
           continue;
         case 11:
@@ -13125,7 +13125,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(1);
           pc = 5;
           continue;
         case 5:
@@ -13133,7 +13133,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 7;
           continue;
         case 7:
@@ -13237,11 +13237,11 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_TextShowWithFadeIn'));
     s.placeholder('EVBIT_T');
     s.loadUnits(2, Sym('UnitDef_Ch6Ally_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EVBIT_F');
     await s.cameraTo(7, 7, centered: true);
     s.loadUnits(1, Sym('UnitDef_Ch6Mixed'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(2, 75);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 5, 8]);
     await s.call(Sym('EventScr_UnitWarpIN'));
@@ -13250,10 +13250,10 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_UnitWarpIN'));
     s.moveUnit('MOVE_1STEP', [0, 1, 0]);
     s.moveUnit('MOVE_1STEP', [0, 2, 0]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(75);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 34);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2469);
@@ -13285,9 +13285,9 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     s.setSlot(2, 249);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 20, 6]);
     await s.call(Sym('EventScr_UnitWarpIN'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(75);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 39);
     s.setSlot(3, 2472);
     await s.call(Sym('Event_TextWithBG'));
@@ -13303,9 +13303,9 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     s.setSlot(2, 251);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 25, 12]);
     await s.call(Sym('EventScr_UnitWarpIN'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(249);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 39);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2473);
@@ -13487,7 +13487,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 3;
           continue;
         case 3:
@@ -13499,7 +13499,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 6;
           continue;
         case 6:
@@ -13511,7 +13511,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CURSOR_AT');
+          s.showCursorAt(9, 4);
           pc = 9;
           continue;
         case 9:
@@ -13519,7 +13519,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 11;
           continue;
         case 11:
@@ -13527,7 +13527,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(1);
           pc = 13;
           continue;
         case 13:
@@ -13535,7 +13535,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 15;
           continue;
         case 15:
@@ -13766,10 +13766,10 @@ Future<void> Ch7_EndingScene(Scene s) async {
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 440));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2501);
     s.placeholder('TEXTEND');
@@ -13777,18 +13777,18 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.moveUnit('MOVE_1STEP', [0, 2, 1]);
     s.moveUnit('MOVE_1STEP', [0, 1, 0]);
     s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 500));
-    s.placeholder('ENUN');
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(66);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSI');
     s.setSlot(2, 21);
     s.setSlot(3, 2502);
     await s.call(Sym('Event_TextWithBG'));
     s.placeholder('MUNO');
     s.moveUnit('MOVE_1STEP', [0, 66, 0]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [0, 66, 9, 0]);
     s.setSlot(13, 0);
     s.setSlot(1, 265);
@@ -13812,7 +13812,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.moveUnit('MOVE_DEFINED', [2]);
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('ENUT');
     s.placeholder('MNCH');
     return;
@@ -13822,7 +13822,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
 Future<void> Ch8_0(Scene s) async {
     await s.cameraTo(0, 23, centered: false);
     s.loadUnits(1, Sym('UnitDef_Ch8Ally_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('REVEAL');
     s.placeholder('REVEAL');
     s.placeholder('REVEAL');
@@ -13832,9 +13832,9 @@ Future<void> Ch8_0(Scene s) async {
     s.placeholder('SET_STATE');
     s.setSlot(1, 1);
     s.placeholder('SET_STATE');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.placeholder('TEXTSTART');
     await s.textShow(2510);
@@ -13848,12 +13848,12 @@ Future<void> Ch8_0(Scene s) async {
 Future<void> Ch8_10(Scene s) async {
     await s.cameraTo(14, 20, centered: false);
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('MUSC');
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 10);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(3010);
@@ -13868,13 +13868,13 @@ Future<void> Ch8_10(Scene s) async {
     await s.loadMap(78);
     s.placeholder('UNIT_COLORS');
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_3'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.fromWhite, 2);
     s.placeholder('BROWNBOXTEXT');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('REMOVEPORTRAITS');
     await s.fade(FadeDirection.toWhite, 16);
     s.placeholder('BACG');
@@ -13888,7 +13888,7 @@ Future<void> Ch8_10(Scene s) async {
     s.moveUnit('MOVE', [0, 1, 0, 16]);
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toWhite, 16);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -13904,12 +13904,12 @@ Future<void> Ch8_10(Scene s) async {
     await s.loadMap(6);
     s.placeholder('UNIT_COLORS');
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('MUSC');
     await s.fade(FadeDirection.fromWhite, 2);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 10);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(3013);
@@ -13928,11 +13928,11 @@ Future<void> Ch8_11(Scene s) async {
     await s.call(Sym('EventScr_9EEA58'));
     s.placeholder('TILECHANGE');
     s.loadUnits(1, Sym('UnitDef_Ch9AEnemy_11'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(107);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.slotArith('SADD', 2, 7);
     s.placeholder('TEXTSTART');
     await s.textShow(65535);
@@ -13951,12 +13951,12 @@ Future<void> Ch8_11(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [87]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.removeUnit(105);
+    await s.removeUnit(67);
+    s.showCursorAtUnit(107);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.slotArith('SADD', 2, 8);
     s.placeholder('TEXTSTART');
     await s.textShow(65535);
@@ -13975,12 +13975,12 @@ Future<void> Ch8_11(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [29]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.removeUnit(83);
+    await s.removeUnit(87);
+    s.showCursorAtUnit(107);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.slotArith('SADD', 2, 9);
     s.placeholder('TEXTSTART');
     await s.textShow(65535);
@@ -13990,7 +13990,7 @@ Future<void> Ch8_11(Scene s) async {
     s.moveUnit('MOVE', [16, 68, 15, 10]);
     s.placeholder('STAL2');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
@@ -14001,10 +14001,10 @@ Future<void> Ch8_11(Scene s) async {
 Future<void> Ch8_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_1'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(66);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 21);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2505);
@@ -14014,10 +14014,10 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     s.placeholder('TEXTEND');
     await s.call(Sym('EventScr_TextShowWithFadeIn'));
     s.loadUnits(1, Sym('UnitDef_Ch8Enemy_3'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(77);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('MUSC');
     s.placeholder('TEXTSTART');
     await s.textShow(2506);
@@ -14025,39 +14025,39 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     s.placeholder('REMA');
     await s.stall(30);
     s.placeholder('CUSE');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(66);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.moveUnit('MOVE', [0, 66, 20, 19]);
     s.setSlot(11, 1048596);
     s.moveUnit('MOVE_1STEP', [0, 65534, 1]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [0, 66, 20, 15]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(11, 1048597);
     s.moveUnit('MOVE_1STEP', [0, 65534, 0]);
     s.moveUnit('MOVE', [0, 66, 19, 10]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.removeUnit(66);
+    s.showCursorAtUnit(77);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 21);
     s.setSlot(3, 2507);
     await s.call(Sym('Event_TextWithBG'));
     s.setSlot(11, 1048595);
     s.moveUnit('MOVE_1STEP', [0, 65534, 0]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [0, 77, 19, 14]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(11, 1048594);
     s.moveUnit('MOVE_1STEP', [0, 65534, 1]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE', [0, 77, 19, 14]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(77);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2508);
     s.placeholder('TEXTEND');
@@ -14070,16 +14070,16 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     s.moveUnit('MOVE', [16, 65534, 19, 11]);
     s.setSlot(11, 1048596);
     s.moveUnit('MOVE', [16, 65534, 20, 11]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('CLEE');
     s.loadUnits(1, Sym('UnitDef_Ch8Enemy_0'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(2, Sym('UnitDef_Ch8Enemy_4'));
     s.setSlot(3, 1);
     await s.call(Sym('EventScr_LoadUnitForTutorial'));
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 21);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2509);
@@ -14204,7 +14204,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(18);
           pc = 7;
           continue;
         case 7:
@@ -14212,7 +14212,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 9;
           continue;
         case 9:
@@ -14256,23 +14256,23 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 20;
           continue;
         case 20:
-          s.placeholder('DISA');
+          await s.removeUnit(18);
           pc = 21;
           continue;
         case 21:
-          s.placeholder('DISA');
+          await s.removeUnit(131);
           pc = 22;
           continue;
         case 22:
-          s.placeholder('DISA');
+          await s.removeUnit(132);
           pc = 23;
           continue;
         case 23:
-          s.placeholder('DISA');
+          await s.removeUnit(133);
           pc = 24;
           continue;
         case 24:
@@ -14403,7 +14403,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(18);
           pc = 30;
           continue;
         case 30:
@@ -14586,7 +14586,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 17;
           continue;
         case 17:
@@ -14598,7 +14598,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 20;
           continue;
         case 20:
@@ -14606,11 +14606,11 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(34);
           pc = 23;
           continue;
         case 23:
@@ -14618,7 +14618,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 25;
           continue;
         case 25:
@@ -14678,11 +14678,11 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 40;
           continue;
         case 40:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 41;
           continue;
         case 41:
@@ -14690,7 +14690,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 43;
           continue;
         case 43:
@@ -14742,11 +14742,11 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 56;
           continue;
         case 56:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(25);
           pc = 57;
           continue;
         case 57:
@@ -14754,7 +14754,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 59;
           continue;
         case 59:
@@ -14898,7 +14898,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 94;
           continue;
         case 94:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 95;
           continue;
         case 95:
@@ -14910,11 +14910,11 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 97;
           continue;
         case 97:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 98;
           continue;
         case 98:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(1);
           pc = 99;
           continue;
         case 99:
@@ -14922,7 +14922,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 100;
           continue;
         case 100:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 101;
           continue;
         case 101:
@@ -14954,7 +14954,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 108;
           continue;
         case 108:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 109;
           continue;
         case 109:
@@ -14962,11 +14962,11 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 110;
           continue;
         case 110:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 111;
           continue;
         case 111:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(197);
           pc = 112;
           continue;
         case 112:
@@ -14974,7 +14974,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 113;
           continue;
         case 113:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 114;
           continue;
         case 114:
@@ -14998,7 +14998,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 119;
           continue;
         case 119:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 120;
           continue;
         case 120:
@@ -15018,7 +15018,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 124;
           continue;
         case 124:
-          s.placeholder('DISA');
+          await s.removeUnit(197);
           pc = 125;
           continue;
         case 125:
@@ -15030,7 +15030,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 127;
           continue;
         case 127:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 128;
           continue;
         case 128:
@@ -15115,7 +15115,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 15;
           continue;
         case 15:
@@ -15127,7 +15127,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 18;
           continue;
         case 18:
@@ -15135,11 +15135,11 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 20;
           continue;
         case 20:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 21;
           continue;
         case 21:
@@ -15147,7 +15147,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 23;
           continue;
         case 23:
@@ -15171,7 +15171,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 29;
           continue;
         case 29:
@@ -15215,11 +15215,11 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 40;
           continue;
         case 40:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 41;
           continue;
         case 41:
@@ -15227,7 +15227,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 43;
           continue;
         case 43:
@@ -15251,11 +15251,11 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 49;
           continue;
         case 49:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(204);
           pc = 50;
           continue;
         case 50:
@@ -15263,7 +15263,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 52;
           continue;
         case 52:
@@ -15618,7 +15618,7 @@ Future<void> FormatFlashingCursor(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CURSOR_FLASHING');
+          s.showCursorAt(-1, -1, flashing: true);
           pc = 4;
           continue;
         case 4:
@@ -15735,7 +15735,7 @@ Future<void> FormatMoveUnit(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 28;
           continue;
         case 28:
@@ -15819,7 +15819,7 @@ Future<void> LoadReinforce(Scene s) async {
     await s.callSlot(0);
     s.placeholder('EVBIT_T');
     s.placeholder('LOAD1');
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.placeholder('EVBIT_F');
     s.placeholder('EVBIT_MODIFY');
     return;
@@ -15901,7 +15901,7 @@ Future<void> LoadUniqueAlly(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('SET_HP');
+          await s.setUnitHpFromSlot(0);
           pc = 11;
           continue;
         case 11:
@@ -16094,7 +16094,7 @@ Future<void> MoveUnitS2ToLeader(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 8;
           continue;
         case 8:
@@ -16163,7 +16163,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 10;
           continue;
         case 10:
@@ -16171,11 +16171,11 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('SET_HP');
+          await s.setUnitHpFromSlot(2);
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(1);
           pc = 13;
           continue;
         case 13:
@@ -16183,7 +16183,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 15;
           continue;
         case 15:
@@ -16211,11 +16211,11 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 23;
           continue;
         case 23:
@@ -16223,7 +16223,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 25;
           continue;
         case 25:
@@ -16255,7 +16255,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('ENUN');
+          await s.waitUnitMoving();
           pc = 33;
           continue;
         case 33:
@@ -16329,7 +16329,7 @@ Future<void> Prologue_ExecTut(Scene s) async {
     await s.textShow(2265);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(1, flashing: true);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('EvtEnqueueConditionalTutCall');
@@ -16339,9 +16339,9 @@ Future<void> Prologue_ExecTut(Scene s) async {
 
 /// `EventScr_Prologue_GiveRapier`
 Future<void> Prologue_GiveRapier(Scene s) async {
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2255);
     s.placeholder('TEXTEND');
@@ -16357,8 +16357,8 @@ Future<void> Prologue_GiveRapier(Scene s) async {
 /// `EventScr_Prologue_ONeillSpawn`
 Future<void> Prologue_ONeillSpawn(Scene s) async {
     s.loadUnits(1, Sym('UnitDef_Event_PrologueEnemy'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(104);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('MUSC');
@@ -16387,7 +16387,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CURSOR_CHAR');
+          s.showCursorAtUnit(2);
           pc = 4;
           continue;
         case 4:
@@ -16395,7 +16395,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 6;
           continue;
         case 6:
@@ -16454,7 +16454,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
 /// `EventScr_Prologue_OneillSethBattle`
 Future<void> Prologue_OneillSethBattle(Scene s) async {
     s.placeholder('EvtMoveUnit');
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
     s.placeholder('QUEUE_OPS');
@@ -16463,7 +16463,7 @@ Future<void> Prologue_OneillSethBattle(Scene s) async {
     s.setSlot(1, 4294967295);
     s.placeholder('QUEUE_OPS');
     s.placeholder('FIGHT');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(2);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('SETTEXTTYPE');
@@ -16478,38 +16478,38 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.setSlot(11, 655374);
     await s.loadMap(16);
     s.loadUnits(2, Sym('UnitDef_Event_PrologueThroneRoomUnits'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.placeholder('BROWNBOXTEXT');
     s.loadUnits(1, Sym('UnitDef_Event_PrologueMessager'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     await s.cameraTo(14, 0, centered: false);
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(15);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2243);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE', [0, 15, 13, 11]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(15);
     s.moveUnit('MOVE_1STEP', [0, 1, 0]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(1);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2244);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVEONTO', [0, 2, 1]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.removeUnit(1);
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2245);
     s.placeholder('TEXTEND');
@@ -16525,24 +16525,24 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [4]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(2);
+    await s.removeUnit(4);
     s.moveUnit('MOVE', [0, 5, 11, 4]);
     s.moveUnit('MOVE', [0, 6, 15, 4]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE_1STEP', [0, 5, 1]);
     s.moveUnit('MOVE_1STEP', [0, 6, 0]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Event_PrologueGradoShamans'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Event_PrologueGradoCavalry'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Event_PrologueGradoRoyals'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(197);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2246);
     s.placeholder('TEXTEND');
@@ -16556,10 +16556,10 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.loadMap(64);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('UnitDef_Event_PrologueEscapees'));
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 37);
     s.setSlot(3, 2247);
     await s.call(Sym('Event_TextWithBG'));
@@ -16577,28 +16577,28 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [4]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.removeUnit(4);
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 37);
     s.setSlot(3, 2248);
     await s.call(Sym('Event_TextWithBG'));
     s.loadUnits(1, Sym('UnitDef_Event_PrologueValterGroup'));
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE_1STEP', [0, 2, 1]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.moveUnit('MOVE_1STEP', [0, 1, 0]);
-    s.placeholder('ENUN');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    s.showCursorAtUnit(69);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(2, 37);
     s.setSlot(3, 2249);
     await s.call(Sym('Event_TextWithBG'));
     s.moveUnit('MOVE_1STEP', [0, 69, 0]);
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 131072);
     s.placeholder('SENQUEUE1');
@@ -16607,16 +16607,16 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.setSlot(1, 4294967295);
     s.placeholder('SENQUEUE1');
     s.placeholder('FIGHT');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2251);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     s.moveUnit('MOVE_1STEP', [8, 2, 0]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
+    await s.waitUnitMoving();
+    await s.removeUnit(1);
     s.setSlot(13, 0);
     s.setSlot(1, 98564);
     s.placeholder('SENQUEUE1');
@@ -16631,11 +16631,11 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [2]);
-    s.placeholder('ENUN');
-    s.placeholder('DISA');
-    s.placeholder('CURSOR_CHAR');
+    await s.waitUnitMoving();
+    await s.removeUnit(2);
+    s.showCursorAtUnit(69);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2252);
     s.placeholder('TEXTEND');
@@ -16686,9 +16686,9 @@ Future<void> Prologue_TutEirikaAttack(Scene s) async {
     await s.textShow(2275);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(1, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
@@ -16717,9 +16717,9 @@ Future<void> Prologue_TutMessageTurn1(Scene s) async {
 
 /// `EventScr_Prologue_TutMessageTurn2`
 Future<void> Prologue_TutMessageTurn2(Scene s) async {
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(2);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('TEXTSTART');
     await s.textShow(2257);
     s.placeholder('TEXTEND');
@@ -16741,9 +16741,9 @@ Future<void> Prologue_TutMessageTurn2(Scene s) async {
     s.placeholder('REMA');
     s.placeholder('ENUF');
     s.placeholder('ENUT');
-    s.placeholder('CURSOR_FLASHING_CHAR');
+    s.showCursorAtUnit(1, flashing: true);
     await s.stall(60);
-    s.placeholder('CURE');
+    await s.endCursor();
     s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
@@ -16877,7 +16877,7 @@ Future<void> Prologue_Tutorial7(Scene s) async {
 /// `EventScr_Prologue_Tutorial8`
 Future<void> Prologue_Tutorial8(Scene s) async {
     s.placeholder('IGNORE_KEYS');
-    s.placeholder('CURSOR_CHAR');
+    s.showCursorAtUnit(1);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.placeholder('SETTEXTTYPE');
@@ -16895,7 +16895,7 @@ Future<void> Prologue_Tutorial8(Scene s) async {
 /// `EventScr_Prologue_Tutorial9`
 Future<void> Prologue_Tutorial9(Scene s) async {
     s.placeholder('EvtMoveUnit');
-    s.placeholder('ENUN');
+    await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 5120);
     s.placeholder('QUEUE_OPS');
@@ -16906,7 +16906,7 @@ Future<void> Prologue_Tutorial9(Scene s) async {
     s.placeholder('EvtSetUnitHasMoved');
     s.setSlot(11, 393225);
     s.placeholder('KILL');
-    s.placeholder('DISA_IF');
+    await s.removeUnit(65534, onlyIfDead: true);
     s.placeholder('ENUT');
     await s.callSlot(0);
     s.placeholder('SET_ENDTURN');
@@ -19559,7 +19559,7 @@ Future<void> StrictLoadUniqueAlly(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('SET_HP');
+          await s.setUnitHpFromSlot(0);
           pc = 13;
           continue;
         case 13:
@@ -19724,7 +19724,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CURSOR_FLASHING');
+          s.showCursorAt(-1, -1, flashing: true);
           pc = 7;
           continue;
         case 7:
@@ -19748,7 +19748,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 13;
           continue;
         case 13:
@@ -19786,7 +19786,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CURSOR_FLASHING_CHAR');
+          s.showCursorAtUnit(0, flashing: true);
           pc = 23;
           continue;
         case 23:
@@ -19814,7 +19814,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 30;
           continue;
         case 30:
@@ -19895,7 +19895,7 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('CURSOR_FLASHING');
+          s.showCursorAt(255, 255, flashing: true);
           pc = 14;
           continue;
         case 14:
@@ -19933,7 +19933,7 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('CURE');
+          await s.endCursor();
           pc = 24;
           continue;
         case 24:

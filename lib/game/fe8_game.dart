@@ -973,6 +973,41 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       case GiveItem(:final pid, :final itemSlot):
         _giveItem(pid, itemSlot);
 
+      // ---- 单位显隐 / 状态（`src/eventscr_080103F4.c:74-232`）----
+      case RemoveUnit(:final pid, :final onlyIfDead):
+        _removeUnitInScene(pid, onlyIfDead: onlyIfDead);
+
+      case SetUnitHp(:final pid):
+        // `SetUnitHp(unit, gEventSlots[1])`；为 0 时还要置 `US_DEAD`
+        final u = _eventParamUnit(pid);
+        final v = scene?.slotInt(1) ?? 0;
+        if (u != null) {
+          u.hp = v.clamp(0, u.maxHp);
+          _sceneHudExtra = 'SET_HP: ${u.name} -> ${u.hp}';
+          _updateHud();
+        } else {
+          _sceneHudExtra = 'SET_HP: 找不到角色 $pid';
+        }
+
+      // ---- 演出光标（`src/Event3B_DisplayCursor.c`）----
+      case ShowCursor(:final pid, :final x, :final y, :final flashing):
+        final u = pid == null ? null : _eventParamUnit(pid);
+        final cx = u?.x ?? x ?? 0;
+        final cy = u?.y ?? y ?? 0;
+        _eventCursor = (x: cx, y: cy, flashing: flashing);
+        final st = state;
+        if (st != null) state = st.copyWith(cursorX: cx, cursorY: cy);
+        _updateHud();
+
+      case EndCursor():
+        _eventCursor = null;
+        _updateHud();
+
+      case WaitUnitMoving():
+        // 我们的移动是瞬移（见 `_moveUnitInScene`），所以这里立即返回。
+        // 明确记成**已实现**（而不是继续占位）—— 棘轮上的数字才说实话。
+        _sceneHudExtra = 'ENUN: 移动已完成（瞬移）';
+
       case CameraControl(:final x, :final y, :final centered):
         // 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）
         //
@@ -1055,6 +1090,60 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// ⚠️ **失败必须响亮**（写进 `_sceneHudExtra`，转储里能看见）：
   /// 这条曾经因为"道具栏只有 1 槽"而**每次都失败**，却没人知道。
+  /// `GetUnitStructFromEventParameter(arg)` —— 事件脚本的"角色号"参数。
+  ///
+  /// 出处：`include/event.h:271`（原型；实现未 carve）。
+  /// 约定（源码里到处在用）：
+  ///   * `0`      = 当前行动单位（这里退化为"第一个我方单位"）
+  ///   * `0xFFFF` = 同 0
+  ///   * 其它     = `charIndex`
+  ///
+  /// ⚠️ 原来这段逻辑只写在 `_giveItem` 里 —— 现在 `DISA` / `SET_HP` /
+  /// `CURSOR_CHAR` 都要同一套解析，**不能再各写一份**（那正是
+  /// `ChapterLoader` 那次漂移的原因）。
+  MapUnit? _eventParamUnit(int pid) {
+    final f = field;
+    if (f == null) return null;
+    if (pid == 0 || pid == 0xFFFF) {
+      return f.units.where((u) => u.faction == Faction.blue).firstOrNull;
+    }
+    return f.units.where((u) => u.charIndex == pid).firstOrNull;
+  }
+
+  /// `DISA(pid)` —— `ClearUnit(unit)`（`src/eventscr_080103F4.c:217-223`）。
+  ///
+  /// ⚠️ 以前是占位符 → **该消失的人一直站在地图上**。
+  /// 序章王座厅一幕有 4 次 `DISA`（传令兵走掉、艾莉卡被赛特抱走…）。
+  void _removeUnitInScene(int pid, {bool onlyIfDead = false}) {
+    final f = field;
+    if (f == null) return;
+    final u = _eventParamUnit(pid);
+    if (u == null) {
+      _sceneHudExtra = 'DISA: 找不到角色 $pid';
+      _updateHud();
+      return;
+    }
+    // `DISA_IF`：只对已阵亡的生效（`:212-217`）
+    if (onlyIfDead && u.isAlive) return;
+    field = BattleField(
+      width: f.width,
+      height: f.height,
+      turn: f.turn,
+      activeFaction: f.activeFaction,
+      units: [for (final x in f.units) if (!identical(x, u)) x],
+    );
+    _sceneHudExtra = 'DISA: ${u.name} 离场';
+    _updateHud();
+  }
+
+  /// 演出光标（`CURSOR_CHAR` / `CURE`）—— 画面上那个闪动的框。
+  ///
+  /// `null` = 没有演出光标（此时过场里**不画**玩家光标：原作的
+  /// `CURSOR_CHAR` 之前屏幕上是没有光标的）。
+  ({int x, int y, bool flashing})? _eventCursor;
+
+  bool get eventCursorVisible => _eventCursor != null;
+
   void _giveItem(int pid, int itemSlot) {
     final f = field;
     final sc = scene;
@@ -1074,16 +1163,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       return;
     }
 
-    // 目标：`0xFFFF` = 当前行动单位；0 = 主角；否则按角色号找
-    MapUnit? target;
-    if (pid == 0xFFFF) {
-      target = f.units.where((u) => u.faction == Faction.blue).firstOrNull;
-    } else if (pid == 0) {
-      target = f.units.where((u) => u.faction == Faction.blue).firstOrNull;
-    } else {
-      target =
-          f.units.where((u) => u.charIndex == pid && u.isAlive).firstOrNull;
-    }
+    // 目标解析走**同一条路**（`GetUnitStructFromEventParameter`）
+    final target = _eventParamUnit(pid);
     if (target == null) {
       _sceneHudExtra = 'GIVEITEMTO: 找不到角色 $pid';
       return;
@@ -1119,39 +1200,49 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 因为过场的目标格通常是空的。
   void _moveUnitInScene(String op, List<Object> args) {
     final f = field;
-    if (f == null || args.length < 4) return;
+    if (f == null) return;
 
-    final closest = op.contains('CLOSEST');
-    final pid = switch (args[1]) {
-      final int v => v,
-      _ => 0,
-    };
-    final tx = switch (args[2]) {
-      final int v => v,
-      _ => 0,
-    };
-    final ty = switch (args[3]) {
-      final int v => v,
-      _ => 0,
-    };
-
-    // `pid` 是**角色号**（`charIndex`）。0 表示"主角"。
-    MapUnit? u = f.units
-        .where((x) => x.charIndex == pid && x.isAlive)
-        .firstOrNull;
-    if (u == null && pid == 0) {
-      u = f.units
-          .where((x) => x.faction == Faction.blue && x.isAlive)
-          .firstOrNull;
-    }
-    if (u == null) {
-      _sceneHudExtra = '$op: 找不到角色 $pid';
+    final intent = parseMoveIntent(op, args);
+    if (intent == null) {
+      _sceneHudExtra = '$op: 不是移动指令';
       return;
     }
 
-    var nx = tx, ny = ty;
-    if (closest && f.unitAt(nx, ny) != null) {
-      // 目标格被占 -> 找相邻空格（原版语义）
+    // `pid` 是**角色号**（`charIndex`）；0 / 0xFFFF 表示"当前行动单位"
+    final u = _eventParamUnit(intent.pid);
+    if (u == null) {
+      _sceneHudExtra = '$op: 找不到角色 ${intent.pid}';
+      return;
+    }
+
+    // MOVEONTO：第三个参数是**目标单位**，走到它那一格
+    ({int x, int y})? targetUnitPos;
+    if (intent.subcmd == MoveSubcmd.moveOnto) {
+      final t = _eventParamUnit(intent.x ?? 0);
+      if (t == null) {
+        _sceneHudExtra = '$op: 目标单位 ${intent.x} 不在场上';
+        return;
+      }
+      targetUnitPos = (x: t.x, y: t.y);
+    }
+
+    final at = moveTarget(
+      intent,
+      unitPos: (x: u.x, y: u.y),
+      targetUnitPos: targetUnitPos,
+    );
+    if (at == null) {
+      // `MOVE_DEFINED` 的路径来自槽队列（`SAVETOQUEUE`）——没实现。
+      // **不猜坐标**：记一笔，让它显式可见。
+      _sceneHudExtra = intent.subcmd == MoveSubcmd.defined
+          ? '$op: 槽队列路径未实现（pid ${intent.pid} 原地不动）'
+          : '$op: 参数不足以算出目标格 $args';
+      return;
+    }
+
+    var nx = at.x, ny = at.y;
+    // `MOVE_*_CLOSEST`：目标格被占就退到相邻空格（子命令 bit3）
+    if (op.contains('CLOSEST') && f.unitAt(nx, ny) != null) {
       for (final (dx, dy) in const [(0, 1), (0, -1), (1, 0), (-1, 0)]) {
         if (f.unitAt(nx + dx, ny + dy) == null) {
           nx += dx;
@@ -1161,16 +1252,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
     }
 
-    // ⚠️ 我原来写的是"直接传送 + 同时设移动目标" —— 两者矛盾：
-    // 精灵要等下一次 `_rebuildOverlay` 才跟上，而目标又让它再动画一次。
-    //
     // 按原作 `EvtMoveUnit` 的语义：**移动是演出的一部分，要走过去**。
-    // 所以逻辑位置立刻落位（规则层），画面由 `_tickEventMoves` 补间跟上。
+    // 逻辑位置立刻落位（规则层），画面由 `_tickEventMoves` 补间跟上。
     u.x = nx;
     u.y = ny;
     _eventMoveTargets[u.id] = (nx, ny);
     _rebuildOverlay();   // ★ 立刻同步精灵，别等下一次状态变化
-    _sceneHudExtra = '$op($pid -> $nx,$ny)';
+    _sceneHudExtra = '$op(${intent.pid} -> $nx,$ny)';
   }
 
   /// 演出真实场景：序章开场。
@@ -2367,6 +2455,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final fl = flow;
     final v = _battleView;
     if (v == null || s == null || f == null || fl == null) return;
+    // 过场里画的是**演出光标**（`CURSOR_CHAR`），不是玩家光标。
+    // 原作在 `CURSOR_CHAR` 之前屏幕上没有光标 —— 所以过场且没有演出光标时
+    // 把玩家光标藏起来。
+    v.hideCursor = _sceneRunning && _eventCursor == null;
     v.sync(s, f, fl);
   }
 

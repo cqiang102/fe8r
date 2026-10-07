@@ -200,6 +200,57 @@ def stmt(op, A):
     if op == "STAL":
         return (f"await s.stall({num(A[0])});", False)
 
+    # ---- 单位显隐 / 状态 ----
+    #
+    # 出处：`src/Event34_MessWithUnitState`（`src/eventscr_080103F4.c:74-232`）
+    #
+    #     case EVSUBCMD_DISA:      ClearUnit(unit);            // ★ 从地图上拿掉
+    #     case EVSUBCMD_SET_HP:    SetUnitHp(unit, gEventSlots[1]);
+    #                              if (gEventSlots[1] == 0) unit->state |= US_DEAD;
+    #
+    # 序章王座厅那一幕用了 4 次 `DISA`（传令兵走掉、艾莉卡被赛特抱走…）——
+    # 一直是占位符，所以**该消失的人一直站在地图上**。
+    if op == "DISA":
+        return (f"await s.removeUnit({num(A[0]) if A else 0});", False)
+    if op == "DISA_IF":
+        # `EVSUBCMD_DISA_IF`：先等死亡淡出，再落到 `ClearUnit`
+        return (f"await s.removeUnit({num(A[0]) if A else 0}, onlyIfDead: true);", False)
+    if op == "SET_HP":
+        # `EvtSetUnitHpFormSlot1(pid)` —— HP **从槽 1 取**
+        return (f"await s.setUnitHpFromSlot({num(A[0]) if A else 0});", False)
+
+    # ---- 演出用光标（`src/Event3B_DisplayCursor.c`）----
+    #
+    #     case EVSUBCMD_CURSOR_UNIT:     x/y = unit->xPos/yPos
+    #     case EVSUBCMD_CURSOR_AT:       x = 低字节, y = 高字节
+    #     case EVSUBCMD_CURE:            Proc_EndEach(ProcScr_EventDisplayCursor)
+    #
+    # 过场里"说话的人身上有个闪动的框"就是它。序章用了
+    # `CURSOR_CHAR` + `CURE` 各十几次。
+    if op == "CURSOR_CHAR":
+        return (f"s.showCursorAtUnit({num(A[0]) if A else 0});", False)
+    if op == "CURSOR_FLASHING_CHAR":
+        _pid = num(A[0]) if A else 0
+        return (f"s.showCursorAtUnit({_pid}, flashing: true);", False)
+    if op == "CURSOR_AT":
+        _x = num(A[0]) if A else 0
+        _y = num(A[1]) if len(A) > 1 else 0
+        return (f"s.showCursorAt({_x}, {_y});", False)
+    if op == "CURSOR_FLASHING":
+        _x = num(A[0]) if A else 0
+        _y = num(A[1]) if len(A) > 1 else 0
+        return (f"s.showCursorAt({_x}, {_y}, flashing: true);", False)
+    if op == "CURE":
+        # `#define CURE EvtEndCursor`（`include/EAstdlib.h:169`）
+        return ("await s.endCursor();", False)
+
+    # `ENUN` = `EvtWaitUnitMoving`（`include/EAstdlib.h:134`）——
+    # 等所有单位走完。我们的移动是**瞬移**（`_moveUnitInScene` 直接落位），
+    # 所以这是个显式的空操作：**记成"已实现"而不是占位**，
+    # 这样棘轮上的数字才说实话。
+    if op == "ENUN":
+        return ("await s.waitUnitMoving();", False)
+
     # ---- 相机取景 ----
     #
     # 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c`）+

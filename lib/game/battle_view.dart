@@ -178,7 +178,17 @@ class BattleView {
     layer.add(_menu!);
   }
 
+  /// 过场里**不画**玩家光标（画的是演出光标，见 `_rebuildOverlay`）
+  bool hideCursor = false;
+
   void _syncCursor(FlowState s, BattleField f, FlowMachine fl) {
+    if (hideCursor) {
+      if (_cursor != null) {
+        layer.remove(_cursor!);
+        _cursor = null;
+      }
+      return;
+    }
     // 光标位置：选目标时停在目标上，否则在 pending 或光标格
     double cx = s.cursorX.toDouble();
     double cy = s.cursorY.toDouble();

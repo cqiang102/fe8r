@@ -129,6 +129,32 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     final cx = (cam?['x'] as num?)?.toDouble();
     ok(cy == 0, '王座厅：镜头压在 y=0（`CAMERA(14, 0)` 生效）', 'camera=($cx,$cy)');
     ok(cx == 96, '王座厅：x 在死区内不动（96）', 'camera=($cx,$cy)');
+
+    // ★ `DISA` / `MOVEONTO` / `MOVE_1STEP` 真的生效了吗？
+    //
+    // 出处 `EventScr_Prologue_RenaisThroneCutscene`（走位顺序）：
+    //   CURSOR_CHAR(0xF=艾夫拉姆) → Text(0x8C3)
+    //   MOVE(0, 15, 13, 11)  传令兵走到 (13,11)  → DISA(15)   他消失
+    //   MOVE_1STEP(0, 1, FACING_LEFT)  艾莉卡往左一格
+    //   MOVEONTO(0, 2, 1)   赛特走到**艾莉卡那一格** → DISA(1)  她被抱走
+    //
+    // ⚠️ 这三个以前全是坏的：`DISA` 是占位符（人不会消失），
+    // `MOVE_1STEP`/`MOVEONTO` 被当成 (speed,pid,x,y) 读（走到错误的格子）。
+    final names = alive.map((u) => u['charIndex']).toList();
+    ok(!names.contains(15), '王座厅：传令兵（艾夫拉姆 15）已 DISA 离场',
+        'alive=$names');
+    ok(!names.contains(1), '王座厅：艾莉卡（1）已被赛特抱走（DISA）',
+        'alive=$names');
+    // 赛特应该站在**艾莉卡此刻**的格子上。
+    //
+    // ⚠️ 不是她一开始的 (14,4)：脚本前面还有一条
+    // `MOVE_1STEP(0, 1, FACING_LEFT)` —— 她先往左走到 (13,4)，
+    // 赛特再 `MOVEONTO` 过去。**我第一版把预期写成 (14,4)，红了一次**；
+    // 那个红恰好同时证明了两条指令都生效（左移 + 踩到目标格）。
+    final seth = alive.where((u) => u['charIndex'] == 2).firstOrNull;
+    ok(seth != null && seth['x'] == 13 && seth['y'] == 4,
+        '王座厅：赛特站在艾莉卡走到的 (13,4)（MOVE_1STEP + MOVEONTO 生效）',
+        'charIndex=2 at (${seth?['x']},${seth?['y']})');
     // ⚠️ 不要去查 `trace`：它是**最近 12 条**的环形缓冲，
     // 而 `CAMERA` 发生在这一场很靠前的地方，早被挤出去了。
     // （第一版我在这里断言轨迹里有 CameraControl —— 那是错的判据。）

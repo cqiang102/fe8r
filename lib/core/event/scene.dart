@@ -142,6 +142,74 @@ class LoadMap extends SceneEvent {
   String toString() => 'LoadMap(chapter $chapterIndex)';
 }
 
+/// 把单位从地图上拿掉（`DISA` / `DISA_IF`）。
+///
+/// 出处：`src/eventscr_080103F4.c:212-223`
+///
+/// ⚠️ 这一条以前是占位符，后果是**该消失的人一直站在地图上**：
+/// 序章王座厅那一幕里有 4 次 `DISA`（传令兵走掉、艾莉卡被赛特抱走…）。
+class RemoveUnit extends SceneEvent {
+  const RemoveUnit({required this.pid, this.onlyIfDead = false});
+
+  /// 角色号（`GetUnitStructFromEventParameter`）
+  final int pid;
+
+  /// `DISA_IF`：只对已阵亡的生效
+  final bool onlyIfDead;
+
+  @override
+  String toString() => 'RemoveUnit($pid${onlyIfDead ? ', ifDead' : ''})';
+}
+
+/// 设置单位 HP —— 值**从槽 1 取**（`SET_HP` = `EvtSetUnitHpFormSlot1`）。
+///
+/// 出处：`src/eventscr_080103F4.c:127-132`
+class SetUnitHp extends SceneEvent {
+  const SetUnitHp({required this.pid});
+
+  final int pid;
+
+  @override
+  String toString() => 'SetUnitHp($pid <- 槽1)';
+}
+
+/// 演出光标（`CURSOR_CHAR` / `DISPLAYCURSOR` / `CURSOR_FLASHING*`）。
+///
+/// 出处：`src/Event3B_DisplayCursor.c:22-80`。
+/// [pid] 给定时用单位的位置；否则用 [x]/[y]。
+class ShowCursor extends SceneEvent {
+  const ShowCursor({this.pid, this.x, this.y, this.flashing = false});
+
+  final int? pid;
+  final int? x;
+  final int? y;
+  final bool flashing;
+
+  @override
+  String toString() => pid != null
+      ? 'ShowCursor(unit $pid${flashing ? ', flashing' : ''})'
+      : 'ShowCursor($x, $y${flashing ? ', flashing' : ''})';
+}
+
+/// 结束演出光标（`CURE` = `EvtEndCursor`）。
+class EndCursor extends SceneEvent {
+  const EndCursor();
+
+  @override
+  String toString() => 'EndCursor';
+}
+
+/// 等所有单位走完（`ENUN` = `EvtWaitUnitMoving`）。
+///
+/// 本实现里移动是瞬移，所以它立即返回 —— 但它是**已实现**的事件，
+/// 不是占位符。
+class WaitUnitMoving extends SceneEvent {
+  const WaitUnitMoving();
+
+  @override
+  String toString() => 'WaitUnitMoving';
+}
+
 /// 相机取景（`CAMERA(x, y)` / `CAMERA2(x, y)`）。
 ///
 /// 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）。
@@ -521,6 +589,58 @@ class Scene {
       ChangeChapter(chapterIndex: chapterIndex, scriptName: currentScript));
 
   Future<void> stall(int frames) => onEvent(Stall(frames));
+
+  /// `DISA(pid)` —— 把单位从地图上拿掉。
+  ///
+  /// 出处：`src/Event34_MessWithUnitState`（`src/eventscr_080103F4.c:217-223`）
+  ///
+  /// ```c
+  /// case EVSUBCMD_DISA:
+  ///     ClearUnit(unit);          // ★ 连槽位一起清掉
+  ///     break;
+  /// ```
+  ///
+  /// [onlyIfDead] 对应 `DISA_IF`（`:212-217`：先等死亡淡出再落到同一个分支）。
+  Future<void> removeUnit(int pid, {bool onlyIfDead = false}) =>
+      onEvent(RemoveUnit(pid: pid, onlyIfDead: onlyIfDead));
+
+  /// `SET_HP(pid)` —— HP **从槽 1 取**（`EvtSetUnitHpFormSlot1`）。
+  ///
+  /// 出处：`src/eventscr_080103F4.c:127-132`
+  ///
+  /// ```c
+  /// case EVSUBCMD_SET_HP:
+  ///     SetUnitHp(unit, gEventSlots[1]);
+  ///     if (gEventSlots[1] == 0) unit->state |= US_DEAD;
+  /// ```
+  Future<void> setUnitHpFromSlot(int pid) => onEvent(SetUnitHp(pid: pid));
+
+  /// `CURSOR_CHAR(pid)` / `CURSOR_FLASHING_CHAR(pid)` —— 把演出光标放到单位身上。
+  ///
+  /// 出处：`src/Event3B_DisplayCursor.c:22-80`
+  Future<void> showCursorAtUnit(int pid, {bool flashing = false}) =>
+      onEvent(ShowCursor(pid: pid, flashing: flashing));
+
+  /// `DISPLAYCURSOR(x, y)` / `CURSOR_FLASHING(x, y)` —— 光标直接放到坐标上。
+  Future<void> showCursorAt(int x, int y, {bool flashing = false}) =>
+      onEvent(ShowCursor(x: x, y: y, flashing: flashing));
+
+  /// `CURE`（= `EvtEndCursor`）—— 结束演出光标。
+  ///
+  /// 出处：`src/Event3B_DisplayCursor.c:56-58`
+  ///
+  /// ```c
+  /// case EVSUBCMD_CURE:
+  ///     Proc_EndEach(ProcScr_EventDisplayCursor);
+  /// ```
+  Future<void> endCursor() => onEvent(const EndCursor());
+
+  /// `ENUN`（= `EvtWaitUnitMoving`）—— 等所有单位走完。
+  ///
+  /// ⚠️ **本实现是个显式空操作**：`_moveUnitInScene` 是瞬移，没有行走过程。
+  /// 但仍然把它做成一个事件（而不是占位符）—— 这样棘轮上的数字说实话，
+  /// 将来接上行走动画时也只改这一处。
+  Future<void> waitUnitMoving() => onEvent(const WaitUnitMoving());
 
   /// 换地图（`LOMA`）。操作数是 **chapterIndex**（`src/eventscr_0800F390.c:54`）。
   Future<void> loadMap(int chapterIndex) =>
