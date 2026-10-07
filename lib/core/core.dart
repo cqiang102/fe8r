@@ -30,6 +30,7 @@ export 'flow/combat.dart';
 export 'flow/autolevel.dart';
 export 'flow/class_attributes.dart';
 export 'flow/convoy.dart';
+export 'flow/dance.dart';
 export 'flow/rescue.dart';
 export 'flow/staff_use.dart';
 export 'flow/talk.dart';

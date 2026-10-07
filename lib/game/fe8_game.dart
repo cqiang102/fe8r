@@ -578,6 +578,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'convoyAccessAssumed': convoyAccessAssumed,
       'lastTalk': lastTalk,
       'characterEventCount': _characterEvents.length,
+      'lastDance': lastDance,
       // ★ 行动菜单**有哪些项**（判据用；也是给"看不见菜单就瞎按键"这个反复
       //   出现的坑的解法：测试按**名字**定位，而不是数 down 几次）
       'actionMenu': (flow != null && state != null && field != null)
@@ -1410,6 +1411,31 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「踊る」：让一个"已经动过"的相邻同伴**再动一次**
+    //（效果是**推断**的，见 `lib/core/flow/dance.dart` 文件头：
+    //  `RefreshAllies` 是阶段开始的全体刷新，不是踊る的效果）
+    final danceAt = r.danceAt;
+    if (danceAt != null) {
+      final u8 = field?.unitById(s.selectedUnitId ?? -1);
+      if (u8 != null) {
+        final targets = danceTargets(actor: u8, units: field?.units ?? const []);
+        if (targets.isNotEmpty) {
+          final who = targets.first;
+          refreshUnit(who);
+          lastDance = {
+            'actor': u8.id,
+            'target': who.id,
+            'targetHasActedAfter': who.hasActed,
+            'targetCanActNow': !who.hasActed && !who.unselectable,
+          };
+          debugPrint('[DANCE] $lastDance');
+        }
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「話す」：跑那条 CHAR 脚本 + 置 `doneFlag`（`StartAvailableTileEvent` 同族）
     final talkAt = r.talkAt;
     if (talkAt != null) {
@@ -5349,6 +5375,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次「話す」的记录（判据用）
   Map<String, Object?>? lastTalk;
 
+  /// 最近一次「踊る」的记录（判据用）
+  Map<String, Object?>? lastDance;
+
   /// 最近一次「訪問」的记录（判据用）
   Map<String, Object?>? lastVisit;
 
@@ -6495,6 +6524,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     fl.rescueAvailableAt = (x, y) {
       if (unit.hasActed || unit.isRescuing) return false;
       return _rescueTargets(unit).isNotEmpty;
+    };
+    fl.danceAvailableAt = (x, y) {
+      final attrs = _attributesByClassNumber[unit.classId] ?? 0;
+      return danceAvailable(
+        // `CA_DANCE`（舞娘）或 `CA_PLAY`（演奏者）
+        hasAttribute: classHasAttribute(attrs, caDance) ||
+            classHasAttribute(attrs, caPlay),
+        hasActed: unit.hasActed,
+        hasTarget:
+            danceTargets(actor: unit, units: field?.units ?? const []).isNotEmpty,
+      );
     };
     fl.talkAvailableAt = (x, y) {
       return talkAvailable(

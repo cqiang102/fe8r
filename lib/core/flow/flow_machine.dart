@@ -78,7 +78,10 @@ enum ActionOption {
   supply('輸送'),
 
   /// 話す（`TalkCommandUsability`，`src/TalkCommandUsability.c:50-64`）
-  talk('話す');
+  talk('話す'),
+
+  /// 踊る / 演奏（`PlayDanceCommandUsabilityCommon`）
+  dance('踊る');
 
   const ActionOption(this.label);
   final String label;
@@ -265,6 +268,7 @@ class FlowResult {
     this.dropAt,
     this.supplyAt,
     this.talkAt,
+    this.danceAt,
   });
 
   final FlowState state;
@@ -295,6 +299,7 @@ class FlowResult {
   final String? dropAt;
   final String? supplyAt;
   final String? talkAt;
+  final String? danceAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -558,6 +563,10 @@ class FlowMachine {
           return FlowResult(s, talkAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.dance) {
+          return FlowResult(s, danceAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -750,6 +759,9 @@ class FlowMachine {
     if (talkAvailableAt?.call(x, y) ?? false) {
       out.add(ActionOption.talk);
     }
+    if (danceAvailableAt?.call(x, y) ?? false) {
+      out.add(ActionOption.dance);
+    }
     return out;
   }
 
@@ -781,6 +793,9 @@ class FlowMachine {
 
   /// "这个单位能不能「話す」"（相邻且有本章 CHAR 条目）
   bool Function(int x, int y)? talkAvailableAt;
+
+  /// "这个单位能不能「踊る」"（`CA_DANCE`/`CA_PLAY` + 相邻有已行动的同伴）
+  bool Function(int x, int y)? danceAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///
