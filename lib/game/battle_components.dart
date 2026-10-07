@@ -762,3 +762,44 @@ class DamagePopupComponent extends PositionComponent {
     tp.paint(canvas, Offset(size.x * 0.1, -tp.height - dy));
   }
 }
+
+// ---------------------------------------------------------------------------
+// 命中闪白（受力目标身上闪一下）
+//
+// 一次交战有好几段（先手 / 反击 / 追击），**每段都要有反馈** ——
+// 只用"整场净伤害"飘一次的话，看不出打了几下、哪一下没中。
+// 段的字段是结构化的（`AttackResult.hit / crit / damage`，`lib/core/flow/combat.dart:111`），
+// 所以这里不需要解析战报字符串。
+// ---------------------------------------------------------------------------
+class HitFlashComponent extends PositionComponent {
+  HitFlashComponent({
+    required Vector2 at,
+    required double tileSize,
+    this.crit = false,
+  })  : _left = 12,
+        super(
+          position: at.clone(),
+          size: Vector2.all(tileSize),
+          priority: 800,
+        );
+
+  final bool crit;
+  int _left;
+
+  bool tick() {
+    _left -= 1;
+    return _left > 0;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    // 暴击偏红、普通偏白；越接近结束越淡
+    final a = (_left / 12).clamp(0.0, 1.0);
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.x, size.y),
+      Paint()
+        ..color = (crit ? const Color(0xFFFF5A5A) : const Color(0xFFFFFFFF))
+            .withValues(alpha: 0.55 * a),
+    );
+  }
+}

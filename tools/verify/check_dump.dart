@@ -392,10 +392,29 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         '这一局真的打出了伤害（累计 > 0）', 'total=${d['damageDealtTotal']}');
     final log = (d['popupLog'] as List?) ?? const [];
     ok(log.isNotEmpty, '飘过伤害数字', 'popupLog=${log.length} 条: ${log.take(2)}');
-    final first = log.isEmpty ? null : (log.first as Map<String, dynamic>);
-    ok(first != null && '${first['text']}'.startsWith('-'),
-        '飘字是"−N"（受伤方）', 'first=$first');
+    // ⚠️ 语义**改过**：原来断言"第一条飘字必须是 `-N`"。
+    // 现在反馈是**逐段**的（`MISS` / `-N` / `CRIT -N`），第一条完全可能是 `MISS`
+    // —— 这次就是（`ONEILL → EIRIKA 未命中`）。改成"**至少有一条** `-N`"。
+    final texts = [for (final e in log) '${(e as Map)['text']}'];
+    ok(texts.any((t) => t.startsWith('-') && t != '-0'),
+        '飘字里有实际的伤害数字（`-N`）', 'texts=$texts');
+    ok(texts.any((t) => t == 'MISS') || texts.any((t) => t.startsWith('CRIT')),
+        '也有未命中/暴击这类非伤害反馈', 'texts=$texts');
     ok((d['popups'] as int? ?? 0) >= 0, '飘字组件有生命周期字段', 'popups=${d['popups']}');
+    // ★ **逐段**反馈：一次交战里每一段都要有记录（命中/未命中/暴击），
+    // 字段取自 `AttackResult`（`lib/core/flow/combat.dart:111`）——不是解析战报字符串。
+    final fx = (d['hitFxLog'] as List?) ?? const [];
+    ok(fx.isNotEmpty, '逐段命中反馈有记录', 'hitFxLog=${fx.length} 条');
+    final anyHit = fx.any((e) => (e as Map)['hit'] == true);
+    final anyCrit = fx.any((e) => (e as Map)['crit'] == true);
+    ok(anyHit || anyCrit, '记录里有命中（或暴击）',
+        'hitFxLog=${fx.take(3).toList()}');
+    ok(fx.every((e) => (e as Map).containsKey('damage')),
+        '每条记录都带 damage（结构化的，不是文本）', '');
+    // 飘字条数应当 ≥ 段数（每段一次反馈）
+    ok(log.length >= fx.length,
+        '每段都有飘字（飘字 ≥ 段数）',
+        'popupLog=${log.length} / hitFxLog=${fx.length}');
   }
 
   if (scenario == 'worldmap') {

@@ -494,6 +494,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'worldMapNote': _worldMapNote,
       'lastWmBeginningScript': _lastWmBeginningScript,
       'popups': _popups.length,
+      'flashes': _flashes.length,
+      'hitFxLog': _hitFxLog.toList(),
       'popupLog': _popupLog.toList(),
       'damageDealtTotal': _damageDealtTotal,
       // 教学事件（两段式：入队 → 触发）
@@ -1912,11 +1914,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 地图上的伤害数字（用户反馈"战斗没有反馈"）
   final List<DamagePopupComponent> _popups = [];
 
+  /// 命中闪白（每段一次）
+  final List<HitFlashComponent> _flashes = [];
+
   /// 最近几次飘字（x, y, text）—— 判据用
   final List<Map<String, Object?>> _popupLog = [];
 
   /// 本次战斗累计造成的伤害（判据用：不等于 0 就说明真的打到了）
   int _damageDealtTotal = 0;
+
+  /// 逐段反馈记录（命中/未命中/暴击 + 伤害 + 目标）—— 判据用
+  final List<Map<String, Object?>> _hitFxLog = [];
 
   /// 回合横幅剩余帧数 + 当前文字（`ProcScr_PhaseIntro` 的最小等价物）
   int _bannerFrames = 0;
@@ -2511,10 +2519,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     final defBefore = defender.hp;
     final atkBefore = attacker.hp;
     _resolveAttack(f, attacker, defender);
+    // ⚠️ 这里**不再**飘"整场净伤害"：`_resolveAttack` 里已经**逐段**飘了
+    //（MISS / -N / CRIT -N）。上一轮那版是每场一次，看不出打了几下。
     final defDelta = defBefore - defender.hp;
     final atkDelta = atkBefore - attacker.hp;
-    _spawnDamagePopup(defender, defDelta);
-    _spawnDamagePopup(attacker, atkDelta);
+    if (defDelta == 0 && atkDelta == 0) {
+      debugPrint('[FX] 这次交战没有任何 HP 变化（攻击方 ${attacker.id}）');
+    }
     _rebuildOverlay();
     _updateHud();
     await _handleDeaths(f);
@@ -3751,36 +3762,61 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
   }
 
-  /// 在单位头顶飘一个数字（`-N`）。
+  /// 一次命中的即时反馈：闪白 + 飘字（MISS / -N / CRIT -N）。
   ///
-  /// 数值来自**攻击前后 HP 差**（结构化），不是从战报字符串里抠。
-  void _spawnDamagePopup(MapUnit u, int delta) {
-    if (delta == 0) return;
-    final text = delta > 0 ? '-$delta' : '+${-delta}';
+  /// 出处（字段）：`AttackResult.hit / crit / damage`
+  ///（`lib/core/flow/combat.dart:111-140`）。
+  void _spawnHitFx(MapUnit target, AttackResult st) {
+    final tile = _battleView?.tileSize ?? 16.0;
+    final at = Vector2(target.x * tile, target.y * tile);
+
+    if (st.hit) {
+      final f = HitFlashComponent(at: at, tileSize: tile, crit: st.crit);
+      _flashes.add(f);
+      _battleView?.layer.add(f);
+      if (st.damage > 0) _damageDealtTotal += st.damage;
+      _spawnDamageText(target, st.crit ? 'CRIT -${st.damage}' : '-${st.damage}');
+    } else {
+      _spawnDamageText(target, 'MISS');
+    }
+    _hitFxLog.add({
+      'x': target.x,
+      'y': target.y,
+      'hit': st.hit,
+      'crit': st.crit,
+      'damage': st.damage,
+      'unit': target.id,
+    });
+    if (_hitFxLog.length > 16) _hitFxLog.removeAt(0);
+  }
+
+  /// 飘字（文本由调用方给，便于 `MISS` / `CRIT -N`）
+  void _spawnDamageText(MapUnit u, String text) {
     final tile = _battleView?.tileSize ?? 16.0;
     final comp = DamagePopupComponent(
       text: text,
       tileSize: tile,
       at: Vector2(u.x * tile, u.y * tile),
-      isHeal: delta < 0,
+      isHeal: text.startsWith('+'),
     );
     _popups.add(comp);
     _battleView?.layer.add(comp);
-    // ★ 累计伤害**就在飘字这里加**（单一来源）——
-    // 原来我在调用点加 `defDelta`，结果出现过"飘了 -20 但累计仍是 0"
-    // （两边不是同一个来源：另一条攻击路径也会飘字）。
-    if (delta > 0) _damageDealtTotal += delta;
     _popupLog.add({'x': u.x, 'y': u.y, 'text': text, 'unit': u.id});
-    if (_popupLog.length > 8) _popupLog.removeAt(0);
+    if (_popupLog.length > 16) _popupLog.removeAt(0);
   }
 
   /// 每帧推进飘字，到期回收（组件有自己的生命周期，别靠整树重建）
   void _tickPopups() {
-    if (_popups.isEmpty) return;
     for (final p in _popups.toList()) {
       if (!p.tick()) {
         _popups.remove(p);
         p.removeFromParent();
+      }
+    }
+    for (final f in _flashes.toList()) {
+      if (!f.tick()) {
+        _flashes.remove(f);
+        f.removeFromParent();
       }
     }
   }
@@ -3900,6 +3936,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final who = st.attackerIsActor ? name : tname;
       final whom = st.attackerIsActor ? tname : name;
       lines.add('$who → $whom  ${round.results[i]}');
+
+      // ★ **逐段**的即时反馈（闪白 + 飘字）。
+      //
+      // 受力方 = `attackerIsActor ? 防御方 : 攻击方`（反击时反过来），
+      // 数值与命中/暴击都取**结构化字段**（`AttackResult.hit / crit / damage`），
+      // 不解析战报字符串。
+      final target = st.attackerIsActor ? defender : attacker;
+      _spawnHitFx(target, round.results[i]);   // 结果对象（含 hit/crit/damage）
     }
     lastCombat = '$name vs $tname（${round.steps.length} 段，'
         '消耗 ${round.rnConsumed} 乱数）\n${lines.join('\n')}';
