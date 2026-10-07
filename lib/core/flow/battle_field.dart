@@ -120,6 +120,7 @@ class MapUnit {
     this.isRescued = false,
     this.isHidden = false,
     this.unselectable = false,
+    this.notDeployed = false,
   }) : _initItems = items;
 
   /// 单位编号（对应原版的 `gUnitLut` 下标）
@@ -186,6 +187,11 @@ class MapUnit {
   bool isRescued;
   bool isHidden;
   bool unselectable;
+
+  /// `US_NOT_DEPLOYED`（`Event34_MessWithUnitState` 的 `SET_STATE` 会设/清它）。
+  /// 与 `isHidden` 的区别：`isHidden` 是"藏起来"（`REMU`），这个是"不参战"。
+  /// 两者对**渲染**的效果一样（都不在场上）⇒ `visibleUnits` 两个都排除。
+  bool notDeployed;
 
   final String name;
 
@@ -407,6 +413,32 @@ class BattleField {
 /// "同盟判定"是对的（蓝绿互为友军、红方是敌人），但**阵营级**操作要更细的键
 /// ⇒ 用 `faction & 0xC0`（即 FE 的 `FACTION_BLUE/GREEN/RED`）。
 /// 这个坑是这轮写判据时抓出来的（"藏蓝方"把绿方也数进去了）。
+/// `Event34_MessWithUnitState`（`src/eventscr_080103F4.c:60-135`）里的单单位状态操作
+///
+/// * `hide`   = `REMU`   ⇒ `state |= US_HIDDEN | US_BIT16 | US_BIT26`
+///   （`:110-111`）—— 我们只建模 `isHidden`（另两位未建模）；
+/// * `reveal` = `REVEAL` ⇒ 清那三位（`:114-115`）；
+/// * `setState` = `SET_STATE` ⇒ 按 `gEventSlots[1]`：`1` ⇒ 清 `US_NOT_DEPLOYED`、
+///   `0` ⇒ 置它、`-1` ⇒ 看 `US_BIT21`（**我们没建模那一位** ⇒ 按"没置位"处理，
+///   即清 `US_NOT_DEPLOYED`，并在注释里标明这是推断）。
+void unitStateOp(MapUnit u, String kind, int slot1) {
+  switch (kind) {
+    case 'hide':
+      u.isHidden = true;
+    case 'reveal':
+      u.isHidden = false;
+    case 'setState':
+      if (slot1 == 1) {
+        u.notDeployed = false;
+      } else if (slot1 == 0) {
+        u.notDeployed = true;
+      } else {
+        // slot1 == -1：源码看 `US_BIT21`，我们没建模那一位 ⇒ 当它没置位（清）
+        u.notDeployed = false;
+      }
+  }
+}
+
 int hideFactionUnits(BattleField f, int faction) {
   var n = 0;
   for (final u in f.units) {
@@ -418,5 +450,7 @@ int hideFactionUnits(BattleField f, int faction) {
   return n;
 }
 
-List<MapUnit> visibleUnits(BattleField f) =>
-    [for (final u in f.units) if (u.isAlive && !u.isHidden) u];
+List<MapUnit> visibleUnits(BattleField f) => [
+      for (final u in f.units)
+        if (u.isAlive && !u.isHidden && !u.notDeployed) u
+    ];

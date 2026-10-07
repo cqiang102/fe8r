@@ -1787,15 +1787,15 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch10AAlly_0'));
     s.placeholder('STAL2');
     s.setSlot(1, 0);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 1);
     s.setSlot(1, 0);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 2);
     s.loadUnits(3, Sym('UnitDef_Ch10AAlly_1'));
     await s.waitUnitMoving();
     s.setSlot(1, 4294967295);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 2);
     s.showCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
@@ -1921,7 +1921,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('SET_STATE');
+          s.unitStateOp('setState', 20);
           pc = 29;
           continue;
         case 29:
@@ -1929,15 +1929,15 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('SET_STATE');
+          s.unitStateOp('setState', 21);
           pc = 31;
           continue;
         case 31:
-          s.placeholder('REMU');
+          s.unitStateOp('remu', 20);
           pc = 32;
           continue;
         case 32:
-          s.placeholder('REMU');
+          s.unitStateOp('remu', 21);
           pc = 33;
           continue;
         case 33:
@@ -4655,7 +4655,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
 Future<void> Ch14b_BeginningScene(Scene s) async {
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 240));
     await s.waitUnitMoving();
-    s.placeholder('REMU');
+    s.unitStateOp('remu', 83);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_038_91B948_residue', 240));
     await s.waitUnitMoving();
     await s.cameraTo(0, 21, centered: false);
@@ -4664,15 +4664,15 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_038_91B948_residue'));
     s.setSlot(1, 0);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 15);
     s.setSlot(1, 0);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 2);
     s.loadUnits(3, Sym('frontier_df3_unitdef_b_038_91B948_residue', 60));
     await s.waitUnitMoving();
     s.setSlot(1, 4294967295);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 15);
     s.setSlot(1, 4294967295);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 2);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -4707,7 +4707,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1100));
     await s.waitUnitMoving();
     await s.waitUnitMoving();
-    s.placeholder('REVEAL');
+    s.unitStateOp('reveal', 83);
     await s.removeUnit(102);
     await s.fade(FadeDirection.toBlack, 16);
     await s.call(Sym('data_085B9BBC', 512));
@@ -4716,7 +4716,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180));
     await s.waitUnitMoving();
-    s.placeholder('REVEAL');
+    s.unitStateOp('reveal', 1);
     s.showCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
@@ -4841,7 +4841,7 @@ Future<void> Ch15A_0(Scene s) async {
     s.setSlot(2, 73);
     s.setSlot(3, 2780);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('REVEAL');
+    s.unitStateOp('reveal', 15);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -6481,11 +6481,11 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('REMU');
+          s.unitStateOp('remu', 64);
           pc = 70;
           continue;
         case 70:
-          s.placeholder('REMU');
+          s.unitStateOp('remu', 87);
           pc = 71;
           continue;
         case 71:
@@ -9382,7 +9382,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('REVEAL');
+          s.unitStateOp('reveal', 2);
           pc = 24;
           continue;
         case 24:
@@ -11718,7 +11718,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('REVEAL');
+          s.unitStateOp('reveal', 2);
           pc = 77;
           continue;
         case 77:
@@ -14353,15 +14353,15 @@ Future<void> Ch8_0(Scene s) async {
     await s.cameraTo(0, 23, centered: false);
     s.loadUnits(1, Sym('UnitDef_Ch8Ally_0'));
     await s.waitUnitMoving();
-    s.placeholder('REVEAL');
-    s.placeholder('REVEAL');
-    s.placeholder('REVEAL');
+    s.unitStateOp('reveal', 15);
+    s.unitStateOp('reveal', 16);
+    s.unitStateOp('reveal', 17);
     s.setSlot(1, 1);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 15);
     s.setSlot(1, 1);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 16);
     s.setSlot(1, 1);
-    s.placeholder('SET_STATE');
+    s.unitStateOp('setState', 17);
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
@@ -15097,7 +15097,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('SET_STATE');
+          s.unitStateOp('setState', 34);
           pc = 12;
           continue;
         case 12:
@@ -15108,7 +15108,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('SET_STATE');
+          s.unitStateOp('setState', 1);
           pc = 15;
           continue;
         case 15:
@@ -15568,7 +15568,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 129;
           continue;
         case 129:
-          s.placeholder('SET_STATE');
+          s.unitStateOp('setState', 34);
           pc = 130;
           continue;
         case 130:
@@ -16628,7 +16628,7 @@ Future<void> MoveUnitS2ToLeader(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('REMU');
+          s.unitStateOp('remu', -3);
           pc = 9;
           continue;
         case 9:

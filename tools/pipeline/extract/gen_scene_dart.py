@@ -211,6 +211,21 @@ def stmt(op, A):
         arg = num(a) if isinstance(a, int) else lit(a)
         return (f"s.checkSlot('alive', {arg});", True)
 
+    # 单单位状态（`EV_CMD_CHANGESTATE`，`src/eventscr_080103F4.c:60-135`）：
+    #   REMU   = `state |= US_HIDDEN | US_BIT16 | US_BIT26`（`:110-111`）
+    #   REVEAL = 清那三位（`:114-115`）
+    #   SET_STATE = 按 `gEventSlots[1]`：1 => 清 `US_NOT_DEPLOYED`、0 => 置、
+    #               -1 => 看 `US_BIT21`（我们没建模那一位）
+    if op in ("REMU", "REVEAL", "SET_STATE"):
+        a = A[0] if A else 0
+        # ⚠️ 只有**整数**参数才接：少数几处的参数是**符号/表达式**，
+        # 我们解析不了它指谁 ⇒ **保持占位符**（继续计在棘轮里），
+        # 而不是硬塞一个错的值进去（那会变成"看起来接上了"）。
+        if isinstance(a, int):
+            kind = "setState" if op == "SET_STATE" else op.lower()
+            return (f"s.unitStateOp('{kind}', {num(a)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     if op in ("CLEA", "CLEN", "CLEE"):
         faction = {"CLEA": "blue", "CLEN": "green", "CLEE": "red"}[op]
         return (f"s.hideFaction('{faction}');", True)

@@ -347,6 +347,17 @@ class WaitForInput extends SceneEvent {
 /// `SetFlag` / `ClearFlag`（章节旗）—— 由 `ENUT`/`ENUF` 产生
 ///
 /// 出处：`src/Event02_EvBitAndIdMod.c:31-34`（`sub_cmd_lo == 1` 那一支）。
+/// `REMU` / `REVEAL` / `SET_STATE` —— 单单位状态
+class UnitStateOp extends SceneEvent {
+  const UnitStateOp({required this.kind, required this.arg});
+
+  /// `hide` / `reveal` / `setState`
+  final String kind;
+
+  /// 角色编号（负数 = 事件槽 2，由调用方解析）
+  final int arg;
+}
+
 /// `CLEA`/`CLEN`/`CLEE` —— 把某个阵营的单位全部藏起来
 class HideFaction extends SceneEvent {
   const HideFaction(this.faction);
@@ -619,6 +630,14 @@ class Scene {
       _ => a,
     };
   }
+
+  /// `REMU`/`REVEAL`/`SET_STATE`：**单单位**状态（`Event34_MessWithUnitState`）
+  ///
+  /// `arg` 是 `GetUnitStructFromEventParameter` 的入参（**角色编号**；负数 = 事件槽 2）。
+  /// 场景不持有单位表 ⇒ 发一个 [UnitStateOp] 事件，由游戏侧解析并施加
+  /// （`unitStateOp(...)` 在核心层，可测）。
+  void unitStateOp(String kind, int arg) =>
+      onEvent(UnitStateOp(kind: kind, arg: arg));
 
   /// `CLEA`/`CLEN`/`CLEE`：把某个阵营的单位全部"藏起来"
   ///

@@ -1877,6 +1877,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           eventFlags.remove(flag);
         }
         debugPrint('[EVFLAG] $flag = $value');
+      case UnitStateOp(:final kind, :final arg):
+        // `REMU`/`REVEAL`/`SET_STATE`：按**角色编号**找单位（负数 = 事件槽 2）
+        final pid = arg < 0 ? (scene?.slotInt(2) ?? -1) : arg;
+        final target = field?.units
+            .where((x) => x.charIndex == pid && x.isAlive)
+            .toList();
+        if (target != null && target.isNotEmpty) {
+          final slot1 = scene?.slotInt(1) ?? 0;
+          for (final x in target) {
+            unitStateOp(x, kind, slot1);
+          }
+          debugPrint('[UNITSTATE] $kind pid=$pid -> ${target.length} 个');
+        }
       case HideFaction(:final faction):
         // `CLEA`/`CLEN`/`CLEE`：该阵营全部隐藏（等于 `REMU` 的状态位）
         final bit = switch (faction) {

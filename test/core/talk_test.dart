@@ -47,6 +47,7 @@ void main() {
     expect(talkAvailable(hasActed: false, hasTarget: false), isFalse);
   });
   _hideFactionTests();
+  _unitStateTests();
 }
 
 // `CLEA`/`CLEN`/`CLEE`（`src/eventscr_080103F4.c:60-135`）—— 阵营级隐藏
@@ -65,5 +66,36 @@ void _hideFactionTests() {
     expect(hideFactionUnits(f, Faction.blue), 2, reason: '两个蓝方');
     expect(visibleUnits(f).map((x) => x.id).toList(), [3]);
     expect(hideFactionUnits(f, Faction.blue), 0, reason: '★ 已经藏过的不重复计数');
+  });
+}
+
+// `REMU` / `REVEAL` / `SET_STATE`（`src/eventscr_080103F4.c:60-135`）
+void _unitStateTests() {
+  test('★ `REMU` 藏起来、`REVEAL` 显出来（都不在"可见单位"里/回来）', () {
+    final a = u(1);
+    final f = BattleField(width: 4, height: 4, units: [a]);
+    expect(visibleUnits(f).length, 1);
+    unitStateOp(a, 'hide', 0);
+    expect(a.isHidden, isTrue);
+    expect(visibleUnits(f), isEmpty, reason: 'REMU ⇒ 置 US_HIDDEN 那一族');
+    unitStateOp(a, 'reveal', 0);
+    expect(a.isHidden, isFalse);
+    expect(visibleUnits(f).length, 1, reason: 'REVEAL ⇒ 清那三位');
+  });
+
+  test('★ `SET_STATE`：槽 1 = 1 ⇒ 清 `US_NOT_DEPLOYED`；0 ⇒ 置；-1 ⇒ 走推断分支', () {
+    final a = u(1);
+    final f = BattleField(width: 4, height: 4, units: [a]);
+    unitStateOp(a, 'setState', 0);
+    expect(a.notDeployed, isTrue);
+    expect(visibleUnits(f), isEmpty, reason: '未参战 ⇒ 也不该画出来');
+    unitStateOp(a, 'setState', 1);
+    expect(a.notDeployed, isFalse);
+    expect(visibleUnits(f).length, 1);
+    // -1 分支：源码看 `US_BIT21`，我们**没建模那一位** ⇒ 按"没置位"处理（清）
+    a.notDeployed = true;
+    unitStateOp(a, 'setState', -1);
+    expect(a.notDeployed, isFalse,
+        reason: '⚠️ 这是**推断**（US_BIT21 未建模），已写在 `unitStateOp` 的注释里');
   });
 }
