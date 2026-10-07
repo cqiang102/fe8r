@@ -1327,7 +1327,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         // ★ `MNCH`(1) = **先走大地图**；`MNC2`(2) 才是直接进地图
         //    （`src/Event2A_MoveToChapter.c:24-31`）。序章结束是 MNC2、
         //    第 1 章结束是 MNCH(56) —— 实测见 `scene_data.g.dart`。
-        if (subcmd == 1 && _worldMapData != null) {
+        // ★ `MNTS`(0) = **回标题**（不是切章）。
+        //
+        // 出处：`src/Event2A_MoveToChapter.c:23-27`
+        //     case EVSUBCMD_MNTS:
+        //         SetNextGameActionId(GAME_ACTION_EVENT_RETURN);
+        //         proc->evStateBits |= EV_STATE_CHANGEGM;
+        // 中断提示脚本（`SuspendPrompt`）的最后一条就是 `MNTS(0)`
+        // —— 也就是说：写完中断存档 → 淡出 → **回标题**。
+        if (subcmd == 0) {
+          _returnToTitle();
+        } else if (subcmd == 1 && _worldMapData != null) {
           // 只记下来；`update()` 会在事件/开场流程结束后真的进去
           _pendingWorldMapTarget = chapterIndex;
           _worldMapNote = '待进入大地图（目标第 $chapterIndex 章）';
@@ -1916,6 +1926,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               '${_kTutorialNoSuspendMsgId.toRadixString(16)}），**没有写存档**';
         } else {
           _writeSuspendSave();
+          // ★ 写完存档之后**照源码把中断提示脚本演完**：
+          // `SuspendPrompt` 的末条是 `MNTS(0)`（回标题，见 `_returnToTitle`），
+          // 中间那条 `ASMC` 在原件里就是 `WriteSuspendSave`（我们已在上面做了）。
+          // 不演它的话，中断完会**留在战场上** —— 与原作不符。
+          // ⚠️ 键是 **`EventScr_SuspendPrompt`**（不是 `SuspendPrompt` ——
+          // 函数名会被 sanitize，但 `allSceneFns` 的键是**原始脚本名**）。
+          // 我用错了键，于是"查不到就静默什么都不做"，中断完留在战场上。
+          // 现在查不到要**响亮**记下来。
+          const promptScript = 'EventScr_SuspendPrompt';
+          final fn = allSceneFns[promptScript];
+          if (_suspendBytes > 0 && fn != null) {
+            unawaited(runSceneScript(fn));
+          } else if (_suspendBytes > 0) {
+            _suspendNote = '$_suspendNote；找不到中断提示脚本 $promptScript';
+            debugPrint('[SAVE] $_suspendNote');
+          }
         }
         _mapMenuNote = '$_mapMenuNote → ${_suspendNote.isEmpty ? c.name : _suspendNote}';
     }
@@ -3812,6 +3838,67 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
     _sceneView?.show(text: plain, virtualSize: camera.viewport.virtualSize);
     _suspendNote = '消息 0x${id.toRadixString(16)}：$plain';
+  }
+
+  /// 清场用的最小地图（1×1，只有一种地形）—— 只为让 `BattleView.sync` 有东西可查，
+  /// **不参与任何规则**。
+  static final MapGrid _emptyGrid = MapGrid(
+    id: 'empty',
+    chapter: '',
+    width: 1,
+    height: 1,
+    tileSize: 16,
+    metatiles: const [0],
+    terrainIndices: const [0],
+    terrainLegend: const ['TERRAIN_PLAINS'],
+  );
+
+  static MovementCostTable get _uniformCosts =>
+      MovementCostTable(List<int>.filled(64, 1));
+
+  /// `MNTS`：回标题（`GAME_ACTION_EVENT_RETURN`，`src/Event2A_MoveToChapter.c:23-27`）。
+  ///
+  /// 章节就此结束：清掉战场与剧情状态、把标题流程复位。
+  /// 中断提示脚本的末尾就是这一条。
+  void _returnToTitle() {
+    _sceneRunning = false;
+    _pendingWorldMapTarget = null;
+    worldMap = null;
+    _clearWorldMapView();
+    mapMenu = null;
+    state = null;
+    field = null;
+    // 设置回到默认（`PlayConfig` 对象是 final，改它的字段）
+    playConfig.disableAutoEndTurns = false;
+    // ⚠️ 开场流程跑完之后 `titleFlow` 会被丢掉（它是开场用的状态机），
+    // 所以"回标题"必须**重新建一个** —— 只 `reset()` 的话
+    // `inTitleFlow` 仍是 false，游戏留在战场上（实测：`waitingFor` 还是
+    // `input:freeCursor`、`titleFlow=null`）。原作回的是同一条标题链路，
+    // 重建它是移植层的选择，不是原作行为。
+    final texts = gameTexts;
+    if (texts != null) {
+      titleFlow = TitleFlow(texts: texts);
+      titleFlow!.reset();
+    } else {
+      _suspendNote = '$_suspendNote；没有文本表，回不了标题';
+    }
+    // ★ 画面也要收干净：只清 `state`/`field` 不够 —— 战场视图里那 5 个
+    // 单位组件还留在 `world` 里，标题下面会露出上一局的棋子。
+    // 判据抓到的就是这条（`unitComponents=5` 而 `alive=null`）。
+    // 用**空战场**同步一遍，让 `BattleView` 按它自己的规则把组件删掉。
+    final v = _battleView;
+    if (v != null) {
+      v.sync(
+        FlowState(phase: FlowPhase.freeCursor, cursorX: 0, cursorY: 0),
+        BattleField(width: 1, height: 1, units: const []),
+        // `sync` 还要一个状态机；范围/菜单/光标在这几种输入下都不会用到
+        flow ?? FlowMachine(map: _emptyGrid, costsOf: (u) => _uniformCosts),
+      );
+    }
+    status.value = '（中断）回到标题';
+    _rebuildOverlay();
+    _updateHud();
+    debugPrint('[SAVE] MNTS → 回标题');
   }
 
   /// 写中断存档（`StartSuspendPrompt` → `CallSuspendPromptEvent` → `WriteSuspendSave`）。

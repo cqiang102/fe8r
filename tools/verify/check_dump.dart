@@ -56,8 +56,18 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
   if (render == null) {
     ok(false, '渲染计数存在', '转储里没有 render（版本太旧？）');
   } else {
-    ok(render['matches'] == true, '渲染组件数 == 存活单位数',
-        'unitComponents=${render['unitComponents']} alive=${render['aliveUnits']}');
+    // ⚠️ 两种情形：有战场时比"组件数 == 存活数"；
+    // **没有战场时**（例如中断后回标题）`matches` 是 `null`，
+    // 此时该断的是"一件都不该留在画面里" —— 这条判据抓到过"回标题后
+    // 上一局的 5 个棋子还留在 world 里"（`unitComponents=5` 而 `alive=null`）。
+    if (render['matches'] == null) {
+      ok((render['unitComponents'] as int? ?? -1) == 0,
+          '没有战场时不该有单位组件（回标题后要收干净）',
+          'unitComponents=${render['unitComponents']}');
+    } else {
+      ok(render['matches'] == true, '渲染组件数 == 存活单位数',
+          'unitComponents=${render['unitComponents']} alive=${render['aliveUnits']}');
+    }
     // 这一条抓的是"指标本身在撒谎"：总数把光标/标记也算进去
     final total = render['total'] as int?;
     final parts = (render['unitComponents'] as int? ?? 0) +
@@ -213,6 +223,13 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     }
     ok(d['mapMenu'] == null,
         '菜单**关了**（非教学分支走 MENU_ACT_END）', 'mapMenu=${d['mapMenu']}');
+    // ★ 中断提示脚本演完之后应当**回到标题** ——
+    // `SuspendPrompt` 的末条是 `MNTS(0)`（`src/Event2A_MoveToChapter.c:23-27`
+    // `GAME_ACTION_EVENT_RETURN`）。提示里的 `TEXTSHOW(2079)` 要按键翻页，
+    // 所以场景脚本在菜单确认后补了三次确认。
+    ok('${d['waitingFor']}'.startsWith('title:'),
+        '中断之后回到标题（`MNTS`）', 'waitingFor=${d['waitingFor']}');
+    ok(d['titleFlow'] != null, '标题流程被重建了', 'titleFlow=${d['titleFlow']}');
   }
 
   if (scenario == 'battle') {
@@ -858,6 +875,9 @@ Map<String, dynamic> goodSuspendDump() {
   d['suspendPath'] = _selftestSuspendPath;   // 自检里会先写一个最小快照到这儿
   d['suspendBytes'] = 1221;
   d['mapMenu'] = null;
+  // 中断后回到标题（`MNTS`）—— 基准转储必须跟着新断言走，否则自检红
+  d['waitingFor'] = 'title:healthSafety';
+  d['titleFlow'] = <String, Object?>{'screen': 'healthSafety'};
   return d;
 }
 

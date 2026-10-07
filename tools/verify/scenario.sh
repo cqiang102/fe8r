@@ -150,7 +150,9 @@ case "$SCENARIO" in
     #
     # 条目顺序：部隊/状況/辞書/設定/中断/終了 ⇒ 「中断」在第 5 行 ⇒ down×4。
     TITLE=""
-    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,confirm,wait,wait"
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,confirm"
+    # 中断提示脚本 `SuspendPrompt` 里有一条 `TEXTSHOW(2079)` —— 要**按键翻页**它才会走到末尾的 `MNTS(0)`（回标题）。
+    SCRIPT="$SCRIPT,wait,confirm,confirm,confirm,wait,wait,wait"
     ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。
