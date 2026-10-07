@@ -561,6 +561,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'itemMenuText': _itemMenuText,
       'lastItemMenuText': lastItemMenuText,
       'lastSubMenuText': lastSubMenuText,
+      'lastTradeMenuText': lastTradeMenuText,
+      'lastTrade': lastTrade,
       'lastConfirmText': lastConfirmText,
       'discardPromptDefault': discardPromptDefault,
       'usableItemSlots': _usableSlots,
@@ -3044,6 +3046,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
       final m = e.value as Map<String, dynamic>;
       final n = (m['number'] as num?)?.toInt();
+      if (n != null) _classNameByNumber[n] = e.key;
+    }
+    for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
+      final m = e.value as Map<String, dynamic>;
+      final n = (m['number'] as num?)?.toInt();
       if (n != null) _classStats[n] = ClassStats.fromJson(m);
     }
 
@@ -4158,6 +4165,35 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
 
+  /// 交换对象列表（`MakeTradeTargetList` + `TryAddUnitToTradeTargetList`）
+  ///
+  /// 逐条照 `src/bmtarget_0802506C.c:81-114`：同阵营、非幻影职业、
+  /// 对方非 `UNIT_STATUS_BERSERK`、**双方 0 号槽至少一个非空**、非输送队。
+  /// ⚠️ 状态/`CA_SUPPLY` 我们还没建模（见 `trade.dart` 文件头），按"没有"处理。
+  List<MapUnit> tradeTargets(MapUnit subject) {
+    final f = field;
+    if (f == null) return const [];
+    final subjPhantom = _classNameByNumber[subject.classId] == 'CLASS_PHANTOM';
+    final out = <MapUnit>[];
+    for (final u in f.units) {
+      if (u.id == subject.id || !u.isAlive) continue;
+      final allied = u.factionBit == subject.factionBit;
+      if ((u.x - subject.x).abs() + (u.y - subject.y).abs() != 1) continue;
+      if (!isTradeTarget(
+        sameAllegiance: allied,
+        subjectIsPhantom: subjPhantom,
+        unitIsPhantom: _classNameByNumber[u.classId] == 'CLASS_PHANTOM',
+        unitStatus: 0,
+        subjectItem0: subject.items.isNotEmpty ? subject.items[0] : 0,
+        unitItem0: u.items.isNotEmpty ? u.items[0] : 0,
+      )) {
+        continue;
+      }
+      out.add(u);
+    }
+    return out;
+  }
+
   /// 这个单位有没有**相邻同伴**（交换的前提）。
   ///
   /// ⚠️ 原作是 `MakeTradeTargetList(gActiveUnit)` + `GetSelectTargetCount() == 0`
@@ -4212,13 +4248,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'enabled': !unsellable,
       'reason': unsellable ? 'IA_UNSELLABLE' : '',
     });
-    // 交換：没有相邻同伴 ⇒ 不显示；**交换本身未实现** ⇒ 即使有同伴也禁用
-    if (hasAdjacentAlly(u)) {
+    // 交換：没有可交换的同伴 ⇒ 不显示（`ItemSubMenu_IsTradeAvailable` 的
+    // `GetSelectTargetCount() == 0 ⇒ MENU_NOTSHOWN`）；有则**可用**
+    final targets = tradeTargets(u);
+    if (targets.isNotEmpty) {
       entries.add({
         'key': 'trade',
         'label': '交換',
-        'enabled': false,
-        'reason': '交换界面未实现',
+        'enabled': true,
+        'reason': '',
       });
     }
     return entries;
@@ -4273,9 +4311,127 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     return _itemNameByNumber[num] ?? 'item#$num';
   }
 
+  /// 交易界面：目标 → 我的槽 → 对方的槽 → 对调（`TradeMenu_ApplyItemSwap`）
+  List<MapUnit> _tradeTargets = const [];
+  int _tradeTargetIdx = 0;
+  int _tradeMineSlot = 0;
+  int _tradeTheirSlot = 0;
+
+  List<int> _nonEmptySlots(MapUnit u) {
+    final out = <int>[];
+    for (var i = 0; i < u.items.length; i++) {
+      if (u.items[i] != 0) out.add(i);
+    }
+    return out.isEmpty ? [0] : out;
+  }
+
+  String _itemLabel(int w) {
+    final num = ItemTable.itemIndex(w);
+    return _textOr(gameTexts?.byId(_itemNameTextId[num] ?? 0)?.plain,
+        _itemNameByNumber[num] ?? 'item#$num');
+  }
+
+  void _showTradeScreen() {
+    final f = field;
+    final me = f?.unitById(state?.selectedUnitId ?? -1);
+    if (me == null || _tradeTargets.isEmpty) return;
+    final other = _tradeTargets[_tradeTargetIdx.clamp(0, _tradeTargets.length - 1)];
+    final mine = _nonEmptySlots(me);
+    final theirs = _nonEmptySlots(other);
+    _itemMenuText = <String>[
+      '交換：${me.name} ↔ ${other.name}',
+      '我的：${mine.map((s) => _itemLabel(me.items[s])).join(" / ")}',
+      '对方：${theirs.map((s) => _itemLabel(other.items[s])).join(" / ")}',
+      '↑↓ 选   A 决定   B 返回',
+    ].join('\n');
+    lastTradeMenuText = _itemMenuText;
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+  }
+
+  void _applyTrade() {
+    final f = field;
+    final me = f?.unitById(state?.selectedUnitId ?? -1);
+    if (me == null || _tradeTargets.isEmpty) return;
+    final other = _tradeTargets[_tradeTargetIdx.clamp(0, _tradeTargets.length - 1)];
+    final mine = _nonEmptySlots(me);
+    final theirs = _nonEmptySlots(other);
+    final sa = mine[_tradeMineSlot.clamp(0, mine.length - 1)];
+    final sb = theirs[_tradeTheirSlot.clamp(0, theirs.length - 1)];
+    final beforeMe = me.items.toList();
+    final beforeOther = other.items.toList();
+    // ★ 两格对调 + **双方各自压缩**（`trade.dart` 里有出处）
+    final r = applyItemSwap(me.items, sa, other.items, sb);
+    for (var i = 0; i < me.items.length; i++) {
+      me.items[i] = r.a[i];
+    }
+    for (var i = 0; i < other.items.length; i++) {
+      other.items[i] = r.b[i];
+    }
+    lastTrade = {
+      'me': me.id,
+      'other': other.id,
+      'slotA': sa,
+      'slotB': sb,
+      'beforeMe': beforeMe,
+      'beforeOther': beforeOther,
+      'afterMe': me.items.toList(),
+      'afterOther': other.items.toList(),
+    };
+    debugPrint('[TRADE] $lastTrade');
+    _rebuildOverlay();
+    _finishItemAction();
+  }
+
   void _itemSubMenuInput(FlowInput i) {
     final m = itemSubMenu!;
     final entries = (m['entries'] as List).cast<Map<String, Object?>>();
+    final stage = m['stage'];
+    if (stage == 'tradeTarget' || stage == 'tradeMine' || stage == 'tradeTheirs') {
+      final me = field?.unitById(state?.selectedUnitId ?? -1);
+      if (me == null || _tradeTargets.isEmpty) return;
+      final other = _tradeTargets[_tradeTargetIdx.clamp(0, _tradeTargets.length - 1)];
+      int count() => stage == 'tradeTarget'
+          ? _tradeTargets.length
+          : (stage == 'tradeMine'
+              ? _nonEmptySlots(me).length
+              : _nonEmptySlots(other).length);
+      void move(int d) {
+        if (stage == 'tradeTarget') {
+          _tradeTargetIdx = (_tradeTargetIdx + d + _tradeTargets.length) % _tradeTargets.length;
+        } else if (stage == 'tradeMine') {
+          _tradeMineSlot = (_tradeMineSlot + d + count()) % count();
+        } else {
+          _tradeTheirSlot = (_tradeTheirSlot + d + count()) % count();
+        }
+      }
+
+      switch (i) {
+        case FlowInput.up:
+        case FlowInput.left:
+          move(-1);
+          _showTradeScreen();
+        case FlowInput.down:
+        case FlowInput.right:
+          move(1);
+          _showTradeScreen();
+        case FlowInput.cancel:
+          itemSubMenu = {...m, 'stage': 'menu', 'index': 0};
+          _showItemSubMenu();
+        case FlowInput.confirm:
+          if (stage == 'tradeTarget') {
+            itemSubMenu = {...m, 'stage': 'tradeMine'};
+            _showTradeScreen();
+          } else if (stage == 'tradeMine') {
+            itemSubMenu = {...m, 'stage': 'tradeTheirs'};
+            _showTradeScreen();
+          } else {
+            _applyTrade();
+          }
+        default:
+          return;
+      }
+      return;
+    }
     if (m['stage'] == 'confirm') {
       // Yes/No：默认 No（索引 0 = No）；确认 = 选中的那个
       if (i == FlowInput.cancel) {
@@ -4332,6 +4488,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             itemSubMenu = {...m, 'stage': 'confirm', 'yesNoIndex': 0};
             discardPromptDefault = 0;   // 打开时的默认项（照源码 = No）
             _showDiscardConfirm();
+          case 'trade':
+            final me = field?.unitById(state?.selectedUnitId ?? -1);
+            if (me == null) return;
+            _tradeTargets = tradeTargets(me);
+            if (_tradeTargets.isEmpty) return;
+            _tradeTargetIdx = 0;
+            _tradeMineSlot = 0;
+            _tradeTheirSlot = 0;
+            itemSubMenu = {...m, 'stage': 'tradeTarget'};
+            _showTradeScreen();
           default:
             return;
         }
@@ -4507,6 +4673,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   Map<String, Object?>? lastForecast;
   BattleForecastComponent? _forecastComp;
 
+  /// 职业编号 → 职业名（判 `CLASS_PHANTOM` 用；`classes.json`）
+  final Map<int, String> _classNameByNumber = {};
+
+  /// 最近一次交换的记录（判据用）
+  Map<String, Object?>? lastTrade;
+
   /// 地形 id → 枚举名（`terrains.json` 的 `enum`）
   final Map<int, String> _terrainEnumById = {};
 
@@ -4560,6 +4732,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 子菜单 / Yes-No 的留档（三种文本会互相覆盖；我第一版只留了一份，
   /// 加了子菜单之后 `lastItemMenuText` 变成空串 —— 断言当场红）
   String lastSubMenuText = '';
+
+  /// 交易界面的留档（关掉之后判据仍看得到）
+  String lastTradeMenuText = '';
   String lastConfirmText = '';
 
   /// 舍弃确认框**打开时**的默认项（0 = いいえ / No）。

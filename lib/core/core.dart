@@ -43,6 +43,7 @@ export 'flow/chapter_status.dart';
 export 'flow/unit_list.dart';
 export 'flow/game_options.dart';
 export 'flow/item_use.dart';
+export 'flow/trade.dart';
 export 'flow/goal_window.dart';
 export 'flow/unit_display.dart';
 export 'flow/terrain_window.dart';
