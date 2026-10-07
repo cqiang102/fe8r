@@ -575,6 +575,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastDrop': lastDrop,
       'chapterModeIndex': chapterModeIndex,
       'unresolvedAttributes': _unresolvedAttributes.length,
+      'autolevelMisses': _autolevelMisses,
+      'powQueryMisses': _powQueryMisses,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
       'discardPromptDefault': discardPromptDefault,
@@ -4810,7 +4812,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 没有算等级成长带来的增量。完整口径在 `BattleUnit` 的 `GetUnitPower` 计算里，
   /// 而那是 `combat.dart` 的私有实现（`_computeUnitStats`）⇒ 我这一轮**没能复用**，
   /// 先用这个近似把"杖治谁"这条链跑通，已记欠账（魔力项算小 ⇒ 治疗量偏小）。
-  int _powOf(MapUnit u) => (_classStats[u.classId]?.basePow ?? 0).toInt();
+  /// 单位当前魔力（`GetUnitPower`）—— **直接问战斗引擎**
+  /// （`combat.buildBattleUnit(...)` ⇒ 与战斗**同一份计算**，不再各算一套）。
+  int _powOf(MapUnit u) {
+    final c = combat;
+    if (c == null) {
+      _powQueryMisses++;
+      return 0;
+    }
+    return c.buildBattleUnit(u, _profileFor(u)).unit.pow;
+  }
+
+  /// `_powOf` 拿不到引擎的次数（正常应当为 0）
+  int _powQueryMisses = 0;
 
   void _showStaffTargetScreen() {
     final me = field?.unitById(state?.selectedUnitId ?? -1);
@@ -5158,6 +5172,41 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 解析不了 `attributes` 的条目（原样是字符串/别的类型）—— 留痕，别静默
   final List<String> _unresolvedAttributes = [];
+
+  /// 单位 id → 成长累加结果（**按单位缓存**；每次查 profile 都抽乱数会让流跑飞）
+  final Map<int, AutolevelGains> _autolevelCache = {};
+
+  /// 成长累加用的乱数流。
+  ///
+  /// ⚠️ 原文用**全局**乱数流（单位装载时顺路消耗）；我们用一个**独立**流（种子固定）
+  /// —— **规则精确、流的位置与原文不对齐** ⇒ 同一单位的数值与真机可能不同
+  /// （分布/期望一致）。这是**已知的口径差**，不是"应该没问题"。
+  final BattleRngTracker _autolevelRng = BattleRngTracker(GameRng()..initRn(0));
+
+  /// 查不到职业的次数（正常应当为 0）
+  int _autolevelMisses = 0;
+
+  AutolevelGains _autolevelFor(MapUnit u) =>
+      _autolevelCache.putIfAbsent(u.id, () {
+        final cls = _classStats[u.classId];
+        if (cls == null) {
+          _autolevelMisses++;
+          return const AutolevelGains(0, 0, 0, 0, 0, 0, 0);
+        }
+        return autolevelGains(
+          ClassGrowths(
+            hp: cls.growthHP,
+            pow: cls.growthPow,
+            skl: cls.growthSkl,
+            spd: cls.growthSpd,
+            def: cls.growthDef,
+            res: cls.growthRes,
+            lck: cls.growthLck,
+          ),
+          u.level - 1,
+          _autolevelRng,
+        );
+      });
 
   /// 最近一次救出 / 降下的记录（判据用）
   Map<String, Object?>? lastRescue;
@@ -6271,16 +6320,23 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // （`lib/core/battle/weapon_triangle.dart:26-34`）**逐个数相同** —— 恒等映射。
     final weaponType = it?.weaponType ?? WeaponType.sword;
 
+    // ★ **等级要算进数值**（第 58 轮实测：原来所有人都是"1 级数值"）。
+    // 出处：`UnitAutolevelCore`（`src/bmunit.c:78-87`）：逐项
+    // `GetAutoleveledStatIncrease(职业成长, level - 1)`；成长累加见 `autolevel.dart`。
+    // ⚠️ 成长累加**要抽乱数** ⇒ 必须**按单位缓存**（每查一次 profile 都抽一遍会让
+    //    乱数流跑飞，同一个人的数值还会变）。缓存见 `_autolevelFor`。
+    final g = _autolevelFor(u);
+
     return CombatProfile(
       classId: u.classId,
       level: u.level,
       // 这几项直接对应 `struct Unit` 的字段，
-      // 而它们**只来自职业**（角色只有等级和幸运）。
-      pow: cls?.basePow ?? 0,
-      skl: cls?.baseSkl ?? 0,
-      spd: cls?.baseSpd ?? 0,
-      def: cls?.baseDef ?? 0,
-      lck: chr?.baseLck ?? 0,
+      // 而它们**只来自职业**（角色只有等级和幸运）—— 再加**等级成长**。
+      pow: (cls?.basePow ?? 0) + g.pow,
+      skl: (cls?.baseSkl ?? 0) + g.skl,
+      spd: (cls?.baseSpd ?? 0) + g.spd,
+      def: (cls?.baseDef ?? 0) + g.def,
+      lck: (chr?.baseLck ?? 0) + g.lck,
       conBonus: cls?.baseCon ?? 0,
       weaponItem: weapon,
       weaponType: weaponType,

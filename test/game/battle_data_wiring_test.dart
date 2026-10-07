@@ -198,13 +198,21 @@ void main() {
     //     ITEM_SWORD_RAPIER.might   = 7   （`items.json` ← data_items.c）
     //     武器三角：剑 > 斧 → +1 伤害     （`weapon_triangle.json`）
     //     CLASS_FIGHTER.baseDef     = 2   （奥尼尔的职业是 63）
+    //     **等级成长**：`UnitAutolevelCore`（`src/bmunit.c:78-87`）
+    //       ⇒ 守方防御 = baseDef(2) + 成长(1) = 3
     //     ------------------------------------------------
-    //     4 + 7 + 1 - 2 = 10
+    //     4 + 7 + 1 - 3 = 9
     //
-    // 钉死它是有意义的：任何一环没接上（武器编号、属性位、三角表、职业表）
+    // 钉死它是有意义的：任何一环没接上（武器编号、属性位、三角表、职业表、成长）
     // 这个数都会变 —— 而"变了却不报错"正是这个项目最常见的失败形状。
-    expect(res.damage, 10,
-        reason: '4(pow) + 7(细剑威力) + 1(三角) - 2(守方防御) = 10');
+    //
+    // ⚠️ 第 60 轮之前这里是 `- 2 = 10`：那时**等级成长还没接进数值**
+    //（欠账 55），所有人都是"1 级口径"。现在守方多算了成长的那 1 点防御。
+    expect(res.damage, 9,
+        reason: '4(pow) + 7(细剑威力) + 1(三角) - 3(守方防御 = baseDef 2 + 成长 1) = 9');
+    // ★ 这条才是"成长真的加上了"的判据（不是把数字改绿）：
+    expect(game.profileForTest(oneill).def, greaterThanOrEqualTo(2),
+        reason: '守方防御 ≥ 职业基础防御（差值就是等级成长）');
     expect(oneill.hp, before - res.damage,
         reason: '掉血必须落在**被攻击方**身上');
     expect(eirika.hp, eirikaBefore,

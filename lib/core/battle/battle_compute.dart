@@ -62,6 +62,15 @@ class ClassStats {
     this.baseRes = 0,
     this.baseCon = 0,
     this.baseMov = 0,
+    // ★ 等级成长用的**成长值**（`UnitAutolevelCore` 逐项要用）。
+    // 第 59 轮之前这里没有它们 ⇒ 数值无法随等级增长（欠账 55）。
+    this.growthHP = 0,
+    this.growthPow = 0,
+    this.growthSkl = 0,
+    this.growthSpd = 0,
+    this.growthDef = 0,
+    this.growthRes = 0,
+    this.growthLck = 0,
   });
 
   factory ClassStats.fromJson(Map<String, dynamic> j) => ClassStats(
@@ -74,10 +83,22 @@ class ClassStats {
         baseRes: (j['baseRes'] as num?)?.toInt() ?? 0,
         baseCon: (j['baseCon'] as num?)?.toInt() ?? 0,
         baseMov: (j['baseMov'] as num?)?.toInt() ?? 0,
+        growthHP: (j['growthHP'] as num?)?.toInt() ?? 0,
+        growthPow: (j['growthPow'] as num?)?.toInt() ?? 0,
+        growthSkl: (j['growthSkl'] as num?)?.toInt() ?? 0,
+        growthSpd: (j['growthSpd'] as num?)?.toInt() ?? 0,
+        growthDef: (j['growthDef'] as num?)?.toInt() ?? 0,
+        growthRes: (j['growthRes'] as num?)?.toInt() ?? 0,
+        growthLck: (j['growthLck'] as num?)?.toInt() ?? 0,
       );
 
   final int number;
   final int baseHP, basePow, baseSkl, baseSpd, baseDef, baseRes, baseCon, baseMov;
+
+  /// 成长值（百分数；`src/data/data_classes.c` 的 `growthHP` 等）。
+  /// `UnitAutolevelCore` 用的是**职业自己的**成长值（不是职业+角色）。
+  final int growthHP, growthPow, growthSkl, growthSpd, growthDef, growthRes,
+      growthLck;
 }
 
 /// 角色数据（`struct CharacterData`）
