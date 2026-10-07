@@ -37,6 +37,7 @@ class SaveState {
     this.isHard = false,
     this.worldMap,
     this.tutorial,
+    this.convoy = const [],
   });
 
   /// `gPlaySt.chapterIndex`
@@ -74,6 +75,12 @@ class SaveState {
   /// 教学队列（`gPlaySt.tutorial_counter` / `tutorial_exec_type`）
   TutorialQueue? tutorial;
 
+  /// **输送队**（`gConvoyItemArray`，100 格）。
+  ///
+  /// ⚠️ 第 63 轮之前它**不进存档** ⇒ 中断再读回来东西就没了。
+  /// 旧存档没有 `convoy` 键 ⇒ 读成空数组（不是报错）。
+  List<int> convoy;
+
   /// `PLAY_FLAG_TUTORIAL & gPlaySt.chapterStateBits` ⇒ 教学章节**不许**中断存档
   ///
   /// 出处：`src/bmsave.c:52-53`。这不是"暂时没实现"，是原作的规则：
@@ -92,6 +99,7 @@ class SaveState {
         'isHard': isHard,
         if (worldMap != null) 'worldMap': worldMap!.toJson(),
         if (tutorial != null) 'tutorial': tutorial!.toJson(),
+        if (convoy.isNotEmpty) 'convoy': convoy,
       };
 
   factory SaveState.fromJson(Map<String, dynamic> j) => SaveState(
@@ -111,6 +119,7 @@ class SaveState {
         tutorial: j['tutorial'] == null
             ? null
             : TutorialQueue.fromJson(j['tutorial'] as Map<String, dynamic>),
+        convoy: ((j['convoy'] as List?) ?? const []).cast<int>().toList(),
       );
 
   String encode() => jsonEncode(toJson());

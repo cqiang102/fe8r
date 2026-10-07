@@ -123,4 +123,23 @@ void main() {
     expect(SaveState.canSuspend(isTutorialChapter: true), isFalse);
     expect(SaveState.canSuspend(isTutorialChapter: false), isTrue);
   });
+  _convoySaveTests();
+}
+
+// ★ 输送队要进存档（第 63 轮之前不进 ⇒ 中断再读回来东西就没了）。
+// 出处：`gConvoyItemArray`（`src/bmcontainer.c`）、`include/bmcontainer.h:7`（100 格）。
+void _convoySaveTests() {
+  test('★ 输送队随存档往返；**旧存档没有这个键 ⇒ 读成空数组**', () {
+    // 复用本文件已有的构造写法（`FlowState` 不是 const，且需要 cursor）
+    final base = _state();
+    // 新存档：带输送队
+    base.convoy = [11, 22, 0];
+    final back = SaveState.decode(base.encode());
+    expect(back.convoy, [11, 22, 0]);
+
+    // 旧存档：把 convoy 键删掉再解
+    final j = base.toJson()..remove('convoy');
+    final old = SaveState.fromJson(j);
+    expect(old.convoy, isEmpty, reason: '★ 旧存档不许炸，读成空');
+  });
 }

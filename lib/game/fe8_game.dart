@@ -5834,6 +5834,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           ..execType = st.tutorial!.execType;
       }
       worldMap = st.worldMap;
+      // ★ 输送队写回（固定 100 格的表 ⇒ `setAll`，长度不一致时也别炸）
+      for (var i = 0; i < convoyItems.length; i++) {
+        convoyItems[i] = i < st.convoy.length ? st.convoy[i] : 0;
+      }
       _mapReady = true;
       _touchGoalWindow();   // 地图开始 ⇒ 目标窗口（原作 `StartPlayerPhaseSideWindows`）
       status.value = '（继续）$resumeNote';
@@ -5923,6 +5927,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       isHard: _currentPlayFlags.difficulty == NewGameDifficulty.hard,
       worldMap: worldMap,
       tutorial: tutorial,
+      // ★ 输送队要进存档（第 63 轮之前不进 ⇒ 中断再读回来东西就没了）
+      convoy: List<int>.from(convoyItems),
     );
     try {
       final dir = Directory('${Directory.systemTemp.path}/fe8r-saves')
