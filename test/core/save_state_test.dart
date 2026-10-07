@@ -100,7 +100,8 @@ void main() {
     //（就地改踩过一次：`remove(0)` 之后解码结果居然没变，
     //  于是证伪"没生效" —— 判据看起来是活的，其实是改错了地方）
     final j = a.toJson();
-    final units = ((j['field'] as Map)['units'] as List).cast<Map>();
+    final units = ((j['field'] as Map<String, dynamic>)['units'] as List)
+        .cast<Map<String, dynamic>>();
     units[0] = Map<String, dynamic>.from(units[0])..['hp'] = 999;
     expect(diff(a, SaveState.fromJson(j)), isNotEmpty,
         reason: '改了 HP 还判等 ⇒ 这条判据根本没在看 HP');
@@ -111,7 +112,8 @@ void main() {
         reason: '事件旗少了还判等 ⇒ 判据没在看旗');
     // 篡改单位编号（这条最要紧：编号重复是仓库铁律点名的形状）
     final j3 = a.toJson();
-    final u3 = ((j3['field'] as Map)['units'] as List).cast<Map>();
+    final u3 = ((j3['field'] as Map<String, dynamic>)['units'] as List)
+        .cast<Map<String, dynamic>>();
     u3[1] = Map<String, dynamic>.from(u3[1])..['id'] = 1;
     expect(diff(a, SaveState.fromJson(j3)), isNotEmpty,
         reason: '编号变了还判等 ⇒ 判据没在看 id');
