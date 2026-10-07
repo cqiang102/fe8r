@@ -34,6 +34,21 @@ void main() {
     expect('${e['script']}', contains('EventScr_Ch14b_EndingScene'));
   });
 
+  test('★ 地形玩法地块：制圧 5 处（含 Ch1 的 (2,2)）都在数据里', () {
+    // `TILE_COMMAND_SEIZE = 0x11`（`include/eventinfo.h:15`）；
+    // 可用性 `UnitActionMenu_CanSeize`（`src/bmmenu_08022F50.c:68-80`）=
+    // `!US_HAS_MOVED` + `CanUnitSeize` + 该格 `cmdId == 0x11`。
+    final seize = <String>[];
+    for (final e in lists.entries) {
+      for (final it in (e.value as List).cast<Map<String, dynamic>>()) {
+        if (it['cmdId'] == 0x11) seize.add('${e.key}:${it['x']},${it['y']}');
+      }
+    }
+    expect(seize.length, 5, reason: '制圧地块数（提取口径变了就会在这里响）');
+    expect(seize.any((s) => s.startsWith('EventListScr_Ch1_Location:2,2')), isTrue,
+        reason: '第 1 章的制圧点是 (2,2)（BOSS 站的那格）');
+  });
+
   test('LOCA / VILL 条目都带 x/y/cmdId（结构判据）', () {
     var loca = 0, vill = 0;
     for (final v in lists.values) {
