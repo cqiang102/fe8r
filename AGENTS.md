@@ -66,11 +66,26 @@ lib/core  （纯 Dart 规则层）  ←  lib/game （Flame）  ←  lib/ui
 
 # 截图（不走 flutter run）
 ./tools/verify/shot.sh <out.png> [标题画面] [输入脚本]
+
+# ★ 端到端场景：构建 → 跑真游戏喂输入 → 写状态转储 → **判据**
+./tools/verify/scenario.sh prologue      # 开机 → 序章开场 → 可玩地图
+./tools/verify/scenario.sh title
+
+# 只查转储（判据都在这一个文件里）
+dart run tools/verify/check_dump.dart <dump.json> [--scenario prologue]
+dart run tools/verify/check_dump.dart --selftest      # 证明判据**会红**
+
+# 占位符棘轮（placeholder / 缺失脚本只许降）
+dart run tools/verify/check_placeholders.dart
+dart run tools/verify/check_placeholders.dart --update   # 接上源码后收紧基线
 ```
 
 * `tools/verify/run_all.dart` 是**门禁清单的唯一真源**；`ci.sh` 只是环境准备 + 调它。
 * `shot.sh` 的环境变量：`FE8R_DEBUG=1` 显示调试 HUD；`FE8R_DUMP=<path>` 出状态转储；
   `FE8R_TITLE=` / `FE8R_SCRIPT=` 控制跳转与输入脚本。
+* **端到端场景默认不在门禁里**（要 macos release 构建，约 100 秒）：
+  `dart run tools/verify/run_all.dart --e2e` 打开。
+  **所以默认那条"通过 N 项"不含它** —— 汇报时别把它算进"机器验证"。
 * **数字以脚本输出为准**，不要引用本文或任何文档里的历史计数。
 
 ### ⚠️ 沙箱下的已知失败（不是项目坏了）
@@ -149,8 +164,14 @@ update_engine_version.sh: line 71: .../engine.stamp.tmp.<pid>: Operation not per
 机器验证 / 抽查过 / 未验证 / 已知有 bug
 ```
 
-`FE8R_DUMP` 的状态转储就是为此存在的 —— 它第一次跑就抓到两个截图看不出来的问题
-（渲染组件数 6 ≠ 存活单位 5；艾莉卡 items 里没有细剑）。
+`FE8R_DUMP` 的状态转储就是为此存在的 —— 它一次跑就把"名册 / 装备 / 渲染数 /
+相机 / 场景停在哪"全摆出来。它抓到过：**艾莉卡 items 里没有细剑**。
+
+⚠️ **但它也造过一次假发现**：`componentCount` 把光标和标记也算进去，
+`5 个单位 + 1 个光标 = 6`，我把它读成"有幽灵精灵"并当成发现报告了。
+现在指标拆成 `unitComponents / markerComponents / cursorComponents`。
+**一个分不清自己在数什么的指标，比没有指标更糟。**
+
 **一次跑回答多个问题，比"一个疑问一次截图"快一个数量级。**
 
 ### 4. 静默失败必须响亮
@@ -175,7 +196,7 @@ update_engine_version.sh: line 71: .../engine.stamp.tmp.<pid>: Operation not per
 
 ```dart
 assert(field.units.map((u) => u.id).toSet().length == field.units.length);        // id 唯一
-assert(_unitById.length == field.units.where((u) => u.isAlive).length);           // 无幽灵精灵
+assert(_unitById.length == field.units.where((u) => u.isAlive).length);           // 渲染数 == 存活数
 ```
 
 ### 5. 字节相同 ⇒ 改动没生效

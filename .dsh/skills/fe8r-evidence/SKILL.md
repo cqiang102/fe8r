@@ -34,21 +34,33 @@ whenToUse: 当你要声称某个功能"做完/通过/正确"时；当验证结�
 
 ## 2. 优先用状态转储，而不是看图
 
-`FE8R_DUMP=<path>` 出 JSON 状态转储。它比截图强的地方是**一次跑回答多个问题**：
+`FE8R_DUMP=<path>` 出 JSON 状态转储（`tools/verify/check_dump.dart` 是它的判据集）。
+它比截图强的地方是**一次跑回答多个问题**：
 
 ```
-单位 id 唯一: True    渲染组件数: 6    单位数: 5     ← 6 ≠ 5，有幽灵精灵
-EIRIKA items=[108]                                 ← 只有伤药，没拿到细剑
-地图历史: Ch16Map PrologueMap                       ← ✓
+单位 id 唯一: True    渲染组件数: 5 / 存活单位 5   ← 一致
+EIRIKA items=[108, 9]                             ← ✓ 细剑到手了
+地图历史: Ch16Map PrologueMap                      ← ✓ LOMA 切过图
 ```
 
-**这两条我自己看截图永远发现不了 —— 转储一次就抓到了。**
+⚠️ **但指标也会撒谎。** 第一版转储只有一个 `componentCount`，它把**光标和标记**
+也算进去：`5 个单位 + 1 个光标 = 6`。我把这个 "6" 读成"有幽灵精灵"，
+**而且当成了一个发现报告出去** —— 那是假的。
+现在拆成 `unitComponents / markerComponents / cursorComponents`，
+判据只比第一项与存活单位数（` render.matches`）。
 
-写断言时优先加这两条（会当场抓到 id 冲突与幽灵精灵）：
+**一个分不清自己在数什么的指标，比没有指标更糟。**
+
+⚠️ **转储自己也会失败。** `slots` 的键写成 int 时 `jsonEncode` 编不了，
+而且**只有槽非空时才炸**：标题画面正常、一到序章整个转储失败，
+错误行还被 grep 过滤掉了。**转储缺失就是失败**（`scenario.sh` 里这么写的），
+另外加一条 1 毫秒的测试：`dumpState()` 必须可 JSON 编码。
+
+写断言时优先加这两条（会当场抓到 id 冲突与渲染对不上）：
 
 ```dart
 assert(field.units.map((u) => u.id).toSet().length == field.units.length);
-assert(_unitById.length == field.units.where((u) => u.isAlive).length);
+assert(battleView.unitComponentCount == field.units.where((u) => u.isAlive).length);
 ```
 
 ## 3. 截图仍然有用，但要按它的规矩用
