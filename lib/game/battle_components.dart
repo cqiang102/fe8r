@@ -912,6 +912,62 @@ class MinimugComponent extends PositionComponent {
 // 显示**光标下**那块地的地形与 def/avoid。⚠️ 日文地形名 `gTerrainNames[]`
 // **没 carve** ⇒ 这里显示枚举名（`TERRAIN_FOREST`），不是原作那句话。
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// 单位信息窗（`struct UnitInfoWindowProc`，`src/StartUnitHpInfoWindow.c:22-26`）
+//
+// 形状：**名字 + 最多 5 行**，行数 = 道具数且**至少 1 行**
+//（`src/RefreshUnitInventoryInfoWindow.c:41-47` 的 `itemCount != 0 ? itemCount : 1`）。
+// ⚠️ 这与 `MMB`（`MinimugComponent`）**不是同一个 UI**：那个是一行名字/HP + 一行拼起来的
+//    道具；这个是一条道具一行。
+// ⚠️ 位置：原作有 `GetUnitInfoWindowX(unit, width)`（按单位左右自动选边），
+//    那个函数的**实现我没读到** ⇒ 这里固定在右上角，**不是**照抄它的选边规则。
+// ---------------------------------------------------------------------------
+class UnitInfoWindowComponent extends PositionComponent {
+  UnitInfoWindowComponent({
+    required this.lines,
+    required this.tileSize,
+    required Vector2 screen,
+  }) : super(
+          size: Vector2(screen.x * 0.5, tileSize * (0.9 + 1.05 * lines.length)),
+          position: Vector2(screen.x * 0.48, 2),
+          priority: 46,
+        );
+
+  final List<String> lines;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()..color = const Color(0xD910243C),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = const Color(0xFF7FA8D8),
+    );
+    var y = 2.0;
+    for (final l in lines) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: l,
+          style: TextStyle(
+            color: const Color(0xFFFFFFFF),
+            fontSize: tileSize * 0.5,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout(maxWidth: size.x - 6);
+      tp.paint(canvas, Offset(4, y));
+      y += tp.height + 1;
+    }
+  }
+}
+
 class TerrainWindowComponent extends PositionComponent {
   TerrainWindowComponent({
     required this.lines,

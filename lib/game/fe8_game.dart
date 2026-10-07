@@ -594,6 +594,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       //   名字 + 最多 5 行道具，行数 = 道具数且至少 1。
       //   出处：`src/StartUnitHpInfoWindow.c:22-26`、`src/RefreshUnitInventoryInfoWindow.c:41-47`）
       'unitInfo': _unitInfoOfCursor(),
+      // 信息窗**实际画出来的行**（与上面同一个来源；headless 下仍然有值）
+      'unitInfoWindowLines': _unitInfoLines,
+      'unitInfoComponents': _unitInfoComp == null ? 0 : 1,
       'chapterModeIndex': chapterModeIndex,
       'unresolvedAttributes': _unresolvedAttributes.length,
       'autolevelMisses': _autolevelMisses,
@@ -1781,6 +1784,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _tickBanner();
     _tickGoalWindow();
     _tickMinimug();
+    _tickUnitInfoWindow(); // 单位信息窗（与 minimug 同一个每帧同步点）
     _tickTerrainWindow();
     _tickForecast();
     _tickPopups();
@@ -5655,6 +5659,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 单位小窗口（minimug）：光标下那个单位
   MinimugComponent? _minimugComp;
+
+  /// 单位信息窗组件（`UnitInfoWindowComponent`）
+  UnitInfoWindowComponent? _unitInfoComp;
   int? _minimugUnitId;
   String _minimugText = '';
 
@@ -6424,6 +6431,40 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _terrainComp!.removeFromParent();
       _terrainComp = null;
     }
+  }
+
+  /// 每帧同步**单位信息窗**（`UnitInfoWindowComponent`）。
+  ///
+  /// ★ 组件的行**直接取自** [_unitInfoOfCursor]（转储里 `unitInfo` 用的是同一个函数）
+  /// ⇒ "画出来的"和"判据说该有的"不可能各算一套。
+  void _tickUnitInfoWindow() {
+    final info = _unitInfoOfCursor();
+    if (info == null) {
+      _removeUnitInfo();
+      return;
+    }
+    final lines = (info['lines'] as List).cast<String>().toList();
+    lines.insert(0, '${info['name']}  HP ${info['hp']}/${info['maxHp']}');
+    _unitInfoLines = lines;
+    if (_unitInfoComp != null &&
+        _unitInfoComp!.lines.length == lines.length &&
+        _sameLines(_unitInfoComp!.lines, lines)) {
+      return; // 没变就不重建
+    }
+    _removeUnitInfo();
+    if (!isMounted) return;
+    final c = UnitInfoWindowComponent(
+        lines: lines, tileSize: 16, screen: camera.viewport.virtualSize);
+    _unitInfoComp = c;
+    camera.viewport.add(c);
+  }
+
+  /// 信息窗**实际会画的行**（headless 下也留着，判据看得见）
+  List<String> _unitInfoLines = const [];
+
+  void _removeUnitInfo() {
+    _unitInfoComp?.removeFromParent();
+    _unitInfoComp = null;
   }
 
   void _removeMinimug() {

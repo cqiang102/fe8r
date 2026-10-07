@@ -69,4 +69,40 @@ void main() {
     g.state = FlowState(phase: FlowPhase.freeCursor, cursorX: 0, cursorY: 0);
     expect(g.dumpState()['unitInfo'], isNull);
   });
+
+  test('★ 画出来的行 == 数据里的行（两者同源，不可能各算一套）', () {
+    final g = Fe8Game();
+    g.loadRuleData();
+    final map = flat();
+    final f = BattleField(width: 6, height: 6, units: [
+      MapUnit(id: 1, faction: 0, x: 2, y: 2, hp: 13, maxHp: 20, name: '赛特',
+          items: [
+            makeNewItem(itemNum('ITEM_SWORD_IRON'), 46),
+            makeNewItem(itemNum('ITEM_VULNERARY'), 3),
+            0, 0, 0
+          ]),
+    ]);
+    g.map = map;
+    g.field = f;
+    g.flow = FlowMachine(
+        map: map, costsOf: (u) => MovementCostTable(List<int>.filled(64, 1)));
+    g.state = FlowState(phase: FlowPhase.freeCursor, cursorX: 2, cursorY: 2);
+    g.playConfig.disableAutoEndTurns = true;
+    g.update(0.016); // 跑一帧同步（headless 下不挂组件，但行会算出来）
+    final d = g.dumpState();
+    final info = d['unitInfo'] as Map;
+    final drawn = (d['unitInfoWindowLines'] as List).cast<String>();
+    // 第 0 行 = 名字 + HP；其后**逐条**对应 `unitInfo.lines`
+    expect(drawn.first, contains('赛特'));
+    expect(drawn.first, contains('HP 13/20'));
+    expect(drawn.length, 1 + (info['lines'] as List).length,
+        reason: '★ 画出来的行 = 1 行头 + 数据里的每一行');
+    for (var i = 0; i < (info['lines'] as List).length; i++) {
+      expect(drawn[i + 1], (info['lines'] as List)[i],
+          reason: '第 ${i + 1} 行必须与 `unitInfo.lines` 完全一致');
+    }
+    // headless：不建组件（`isMounted` 为假）—— 如实断言，不假装画上了
+    expect(d['unitInfoComponents'], 0,
+        reason: 'headless 下不挂组件；有头环境下这里会是 1');
+  });
 }
