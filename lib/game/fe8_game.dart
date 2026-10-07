@@ -408,6 +408,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 按下的键只是完成一个 `Completer`，演出要继续得等微任务轮次。
   /// 第一版同步连着发，结果三个按键只推动了第一句 ——
   /// 截图上是"剧情 第0句"的空对话框。
+  /// 无输入延迟 —— **验证用**。
+  ///
+  /// 过场里每个 confirm 之间有 60ms 间隔，而场景是**时间门控**的
+  /// （`stall` / `fade`）。间隔一大，confirm 的**速率**就不够，
+  /// 长过场推不动（实测：200 个 confirm 才到第 36 句）。
+  ///
+  /// `FE8R_NODELAY=1` 把间隔压到 0，让脚本能推完长过场。
+  /// **这是测试设施，不是游戏内的调试开关** —— 它只影响自动输入脚本。
+  static final bool _noInputDelay =
+      (Platform.environment['FE8R_NODELAY'] ?? '') == '1';
+
   Future<void> runScript(String script) async {
     for (final raw in script.split(',')) {
       final t = raw.trim().toLowerCase();
@@ -416,7 +427,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 紧跟其后的按键会在加载完成前发出而丢掉
       // （截图里验证过：加了按键但画面字节完全相同）。
       if (t == 'wait') {
-        await Future<void>.delayed(const Duration(milliseconds: 900));
+        await Future<void>.delayed(Duration(
+            milliseconds: _noInputDelay ? 120 : 900));
         continue;
       }
       final i = switch (t) {
@@ -432,7 +444,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       };
       if (i != null) {
         routeInput(i);   // ← 与真实按键同一条路
-        await Future<void>.delayed(const Duration(milliseconds: 60));
+        if (!_noInputDelay) {
+          await Future<void>.delayed(const Duration(milliseconds: 60));
+        }
       }
     }
   }
