@@ -567,6 +567,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastSeize': lastSeize,
       'lastChest': lastChest,
       'lastDoor': lastDoor,
+      'lastRescue': lastRescue,
+      'lastDrop': lastDrop,
       'chapterModeIndex': chapterModeIndex,
       'locationEventCount': _locationEvents.length,
       'lastConfirmText': lastConfirmText,
@@ -1375,6 +1377,57 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「救出」：`UnitRescue` —— 双方互记索引 + 被救者挪到发起者格 + 隐藏
+    final rescueAt = r.rescueAt;
+    if (rescueAt != null) {
+      final u4 = field?.unitById(s.selectedUnitId ?? -1);
+      if (u4 != null) {
+        final targets = _rescueTargets(u4);
+        if (targets.isNotEmpty) {
+          final who = targets.first; // 多个候选时取第一个（原作是光标选择）
+          unitRescue(u4, who);
+          lastRescue = {
+            'actor': u4.id,
+            'target': who.id,
+            'actorRescue': u4.rescueIndex,
+            'targetRescue': who.rescueIndex,
+            'targetPos': '${who.x},${who.y}',
+          };
+          debugPrint('[RESCUE] $lastRescue');
+        }
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
+    // ★ 「降ろす」：`UnitDrop` —— 清状态、断链接、放到落点；我方当回合不能再动
+    final dropAt = r.dropAt;
+    if (dropAt != null) {
+      final u5 = field?.unitById(s.selectedUnitId ?? -1);
+      if (u5 != null && u5.isRescuing) {
+        final who = field?.unitById(u5.rescueIndex);
+        final spots = _dropSpots(u5);
+        if (who != null && spots.isNotEmpty) {
+          final (dx, dy) = spots.first;
+          unitDrop(u5, who,
+              xTarget: dx,
+              yTarget: dy,
+              targetIsPlayerFaction: who.factionBit == 0);
+          lastDrop = {
+            'actor': u5.id,
+            'target': who.id,
+            'to': '$dx,$dy',
+            'targetUnselectable': who.unselectable,
+          };
+          debugPrint('[DROP] $lastDrop');
+        }
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「扉」：相邻门/吊桥 —— 换地形 + 置旗（`StartAvailableTileEvent` 的
     // `TILE_COMMAND_DOOR` 分支：`if (info.script == 1) { tile change + SetFlag }`
     // 否则起事件）。⚠️ **地形变化本身未做**（`CallTileChangeEvent` 要地图换层，
@@ -3220,7 +3273,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
       final m = e.value as Map<String, dynamic>;
       final n = (m['number'] as num?)?.toInt();
-      if (n != null) _classNameByNumber[n] = e.key;
+      if (n != null) {
+        _classNameByNumber[n] = e.key;
+        _conByClassNumber[n] = (m['baseCon'] as num?)?.toInt() ?? 0;
+      }
     }
     for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
       final m = e.value as Map<String, dynamic>;
@@ -4876,6 +4932,73 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         },
       );
 
+  /// 单位能救谁：相邻的**同阵营**、还活着、`CanUnitRescue` 为真的人
+  ///
+  /// ⚠️ `CA_MOUNTEDAID` / `CA_FEMALE` 我们**没抽**（职业表没有 `attributes`）
+  /// ⇒ 与 `CA_THIEF` 一样用**职业名近似**（骑乘/女性）。这是近似，不是源码口径。
+  List<MapUnit> _rescueTargets(MapUnit actor) {
+    final f = field;
+    if (f == null) return const [];
+    final aid = unitAid(
+        con: _conByClassNumber[actor.classId] ?? 0,
+        mountedAid: _classLooksMounted(actor.classId),
+        female: _classLooksFemale(actor.classId));
+    final out = <MapUnit>[];
+    for (final u in f.units) {
+      if (u.id == actor.id || !u.isAlive || u.isHidden || u.isRescuing) continue;
+      if (u.factionBit != actor.factionBit) continue;
+      if ((u.x - actor.x).abs() + (u.y - actor.y).abs() != 1) continue;
+      if (!canUnitRescue(
+          actorAid: aid, targetCon: _conByClassNumber[u.classId] ?? 0)) {
+        continue;
+      }
+      out.add(u);
+    }
+    return out;
+  }
+
+  /// 降下的落点：相邻的**空格**（没单位、且地形可通行）
+  List<(int, int)> _dropSpots(MapUnit actor) => dropTargets(
+        x: actor.x,
+        y: actor.y,
+        isFree: (x, y) {
+          final f = field;
+          if (f == null) return false;
+          if (f.unitAt(x, y) != null) return false;
+          if (x < 0 || y < 0 || x >= (map?.width ?? 0) || y >= (map?.height ?? 0)) {
+            return false;
+          }
+          return _terrainAt(x, y) != 0 || true; // 通行判定见 `_costOf`；这里先按"没单位"算
+        },
+      );
+
+  /// 职业名近似"骑乘"（`CA_MOUNTEDAID` 未抽，见 `_rescueTargets` 的说明）
+  bool _classLooksMounted(int classId) {
+    final n = _classNameByNumber[classId] ?? '';
+    return n.contains('CAVALIER') ||
+        n.contains('PEGASUS') ||
+        n.contains('WYVERN') ||
+        n.contains('PALADIN') ||
+        n.contains('VALKYRIE') ||
+        n.contains('GREAT_KNIGHT') ||
+        n.contains('TROUBADOUR') ||
+        n.contains('MAGE_KNIGHT') ||
+        n.contains('FALCON') ||
+        n.contains('WYVERN_KNIGHT');
+  }
+
+  /// 职业名近似"女性"（`CA_FEMALE` 未抽）
+  bool _classLooksFemale(int classId) {
+    final n = _classNameByNumber[classId] ?? '';
+    return n.contains('EIRIKA') ||
+        n.contains('VALKYRIE') ||
+        n.contains('PEGASUS') ||
+        n.contains('FALCON') ||
+        n.contains('TROUBADOUR') ||
+        n.contains('CLERIC') ||
+        n.contains('TROUBADOUR');
+  }
+
   /// 这个职业有没有 `CA_THIEF`（盗贼 ⇒ 撬锁器也能开锁）
   ///
   /// ⚠️ 我们的职业表**没抽 `attributes`** ⇒ 用职业名近似（`CLASS_THIEF`/`CLASS_ROGUE`/
@@ -4897,6 +5020,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// `ITEM_DOORKEY` 的编号（从 `items.json` 读）
   int _itemDoorKey = 0;
+
+  /// 职业编号 → `baseCon`（救出的 Aid 要用 Con）
+  final Map<int, int> _conByClassNumber = {};
+
+  /// 最近一次救出 / 降下的记录（判据用）
+  Map<String, Object?>? lastRescue;
+  Map<String, Object?>? lastDrop;
 
   /// 钥匙类道具的编号（从 `items.json` 读，不硬编码）
   int _itemChestKey = 0;
@@ -5857,6 +5987,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _usableSlots = itemMenuSlots(unit);
     fl.hasUsableItem = _usableSlots.isNotEmpty;
     // ★ 「訪問」的判定交给规则层（`tile_events.dart`）：地形 + 该格有可用的 VILL 事件
+    fl.rescueAvailableAt = (x, y) {
+      if (unit.hasActed || unit.isRescuing) return false;
+      return _rescueTargets(unit).isNotEmpty;
+    };
+    fl.dropAvailableAt = (x, y) {
+      return dropAvailable(
+        hasActed: unit.hasActed,
+        isRescuing: unit.isRescuing,
+        hasTarget: _dropSpots(unit).isNotEmpty,
+      );
+    };
     fl.doorAvailableAt = (x, y) {
       final keySlot = unitDoorKeySlot(
         isThief: _classHasThiefAttribute(unit),

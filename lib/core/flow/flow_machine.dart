@@ -68,7 +68,11 @@ enum ActionOption {
   chest('宝箱'),
 
   /// 扉（`DoorCommandUsability`，`src/bmmenu_08023D5C.c:58-72`）
-  door('扉');
+  door('扉'),
+
+  /// 救出 / 降下（`CanUnitRescue` / `UnitRescue` / `DropUsability`）
+  rescue('救出'),
+  drop('降ろす');
 
   const ActionOption(this.label);
   final String label;
@@ -251,6 +255,8 @@ class FlowResult {
     this.seizeAt,
     this.chestAt,
     this.doorAt,
+    this.rescueAt,
+    this.dropAt,
   });
 
   final FlowState state;
@@ -275,6 +281,10 @@ class FlowResult {
 
   /// 本次输入是否请求**开门/吊桥**（值是"x,y"，调用方据此找相邻目标）。
   final String? doorAt;
+
+  /// 本次输入是否请求**救出** / **降下**（值是"x,y"）
+  final String? rescueAt;
+  final String? dropAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -519,6 +529,14 @@ class FlowMachine {
           return FlowResult(s, doorAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.rescue) {
+          return FlowResult(s, rescueAt: '$at,$atY');
+        }
+
+        if (picked == ActionOption.drop) {
+          return FlowResult(s, dropAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -699,6 +717,12 @@ class FlowMachine {
     if (canDoor) {
       out.add(ActionOption.door);
     }
+    if (rescueAvailableAt?.call(x, y) ?? false) {
+      out.add(ActionOption.rescue);
+    }
+    if (dropAvailableAt?.call(x, y) ?? false) {
+      out.add(ActionOption.drop);
+    }
     return out;
   }
 
@@ -718,6 +742,12 @@ class FlowMachine {
 
   /// "站在 (x,y) 上能不能开「扉」" —— 由调用方注入（要地图 + 钥匙 + 目标列表）
   bool Function(int x, int y)? doorAvailableAt;
+
+  /// "这个单位能不能「救出」"（要相邻同伴 + `CanUnitRescue`）
+  bool Function(int x, int y)? rescueAvailableAt;
+
+  /// "这个单位能不能「降ろす」"（要 `US_RESCUING` + 相邻空落点）
+  bool Function(int x, int y)? dropAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///

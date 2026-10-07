@@ -114,6 +114,12 @@ class MapUnit {
     this.maxHp = 20,
     this.hasActed = false,
     this.name = '',
+    this.con = 0,
+    this.rescueIndex = 0,
+    this.isRescuing = false,
+    this.isRescued = false,
+    this.isHidden = false,
+    this.unselectable = false,
   }) : _initItems = items;
 
   /// 单位编号（对应原版的 `gUnitLut` 下标）
@@ -168,6 +174,18 @@ class MapUnit {
 
   /// 本回合是否已行动
   bool hasActed;
+
+  /// 体格（`UNIT_CON`；原作从职业的 `baseCon` 来，加道具加成）
+  int con;
+
+  /// 救出关系（对应 `actor->rescue` / `target->rescue`；0 = 无）
+  int rescueIndex;
+
+  /// `US_RESCUING` / `US_RESCUED` / `US_HIDDEN` / `US_UNSELECTABLE`
+  bool isRescuing;
+  bool isRescued;
+  bool isHidden;
+  bool unselectable;
 
   final String name;
 

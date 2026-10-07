@@ -27,6 +27,7 @@ export 'battle/battle_compute.dart';
 export 'battle/hit_effects.dart';
 export 'battle/phase.dart';
 export 'flow/combat.dart';
+export 'flow/rescue.dart';
 export 'flow/chapter_objectives.dart';
 export 'flow/battle_field.dart';
 export 'flow/chapters.dart';
