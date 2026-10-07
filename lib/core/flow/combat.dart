@@ -249,33 +249,13 @@ class CombatResolver {
     return CombatRound(steps: steps, results: results);
   }
 
-  /// 结算一次攻击。
+  /// **一次攻击的全部数值计算**（掷乱数**之前**的那一段）。
   ///
-  /// 顺序严格跟随原版：
-  ///   1. 算攻防命中必杀（`ComputeBattleUnit*`）
-  ///   2. 武器三角
-  ///   3. 命中判定（Roll2RN）→ 未命中就结束
-  ///   4. 必杀判定（Roll1RN）
-  ///   5. 扣血（含恶魔武器反噬，会再消耗 1 个乱数）
-  AttackResult attack({
-    required BattleRngTracker tracker,
-    required GameRng rng,
-    required MapUnit attackerUnit,
-    required MapUnit defenderUnit,
-    required CombatProfile attackerProfile,
-    required CombatProfile defenderProfile,
-    required int terrainDefense,
-    required int terrainAvoid,
-    int attackerTerrainDefense = 0,
-    int attackerTerrainAvoid = 0,
-  }) {
-    final atk = buildBattleUnit(attackerUnit, attackerProfile);
-    final def = buildBattleUnit(defenderUnit, defenderProfile);
-
-    atk.setTerrain(
-        defense: attackerTerrainDefense, avoid: attackerTerrainAvoid);
-    def.setTerrain(defense: terrainDefense, avoid: terrainAvoid);
-
+  /// ★ 抽出来的理由：战斗预测（[forecast]）必须和实战**用同一份计算** ——
+  /// 各写一份就等于给自己埋一个"预测和实际不一致"的静默 bug。
+  /// 顺序照 `src/bmbattle_0802A0C8.c`（武器三角**最先**，见下面的教训）。
+  void _computeUnitStats(
+      BattleUnit atk, BattleUnit def, CombatProfile attackerProfile) {
     // ---- 0. 武器三角必须**最先**应用 ----
     //
     // ⚠️ 我原来把它放在 `computeAttack` / `computeHitRate` **之后**，
@@ -331,6 +311,119 @@ class CombatResolver {
     }
     BattleStats.computeEffectiveCritRate(atk, def, items);
     BattleStats.computeSilencerRate(atk, def);
+
+  }
+
+  /// 战斗预测（战场上的数值面板）。
+  ///
+  /// 出处：`src/InitBattleForecastBattleStats.c`（每方算 `hitCount`（含追击）与
+  /// `isEffective`）+ `BattleForecast_LoopDisplay.c`（画 HP/伤害/命中/必杀/次数）。
+  ///
+  /// **不掷乱数、不改 HP** —— 只是把 [attack] 用的那份数值算一遍，
+  /// 再借 `battleUnwind` 数出每方打几下。
+  BattleForecast forecast({
+    required MapUnit actorUnit,
+    required MapUnit targetUnit,
+    required CombatProfile actorProfile,
+    required CombatProfile targetProfile,
+    required int actorTerrainDefense,
+    required int actorTerrainAvoid,
+    required int targetTerrainDefense,
+    required int targetTerrainAvoid,
+  }) {
+    final actorBu = buildBattleUnit(actorUnit, actorProfile)
+      ..followUpWeaponEffect = items.weaponEffectOf(actorProfile.weaponItem);
+    final targetBu = buildBattleUnit(targetUnit, targetProfile)
+      ..followUpWeaponEffect = items.weaponEffectOf(targetProfile.weaponItem);
+    BattleStats.computeSpeed(actorBu, items);
+    BattleStats.computeSpeed(targetBu, items);
+
+    int? aDmg, aHit, aCrit, aHits;
+    int? dDmg, dHit, dCrit, dHits;
+    battleUnwind(
+      actor: actorBu,
+      target: targetBu,
+      perform: (step) {
+        // 每一步都重建（和 `attack` 一样：半血武器按当前 HP 算攻击力）
+        final atk = step.attackerIsActor
+            ? buildBattleUnit(actorUnit, actorProfile)
+            : buildBattleUnit(targetUnit, targetProfile);
+        final def = step.attackerIsActor
+            ? buildBattleUnit(targetUnit, targetProfile)
+            : buildBattleUnit(actorUnit, actorProfile);
+        atk.setTerrain(
+            defense: step.attackerIsActor
+                ? actorTerrainDefense
+                : targetTerrainDefense,
+            avoid: step.attackerIsActor ? actorTerrainAvoid : targetTerrainAvoid);
+        def.setTerrain(
+            defense: step.attackerIsActor
+                ? targetTerrainDefense
+                : actorTerrainDefense,
+            avoid: step.attackerIsActor ? targetTerrainAvoid : actorTerrainAvoid);
+        _computeUnitStats(
+            atk, def, step.attackerIsActor ? actorProfile : targetProfile);
+        if (step.attackerIsActor) {
+          aDmg = atk.battleAttack - def.battleDefense;
+          aHit = atk.battleEffectiveHitRate;
+          aCrit = atk.battleEffectiveCritRate;
+          aHits = (aHits ?? 0) + 1;
+        } else {
+          dDmg = atk.battleAttack - def.battleDefense;
+          dHit = atk.battleEffectiveHitRate;
+          dCrit = atk.battleEffectiveCritRate;
+          dHits = (dHits ?? 0) + 1;
+        }
+        return const BattleStepOutcome(finished: false); // 只看数值，不推进 HP
+      },
+    );
+
+    return BattleForecast(
+      actorName: actorUnit.name,
+      targetName: targetUnit.name,
+      actorHp: actorUnit.hp,
+      actorMaxHp: actorUnit.maxHp,
+      targetHp: targetUnit.hp,
+      targetMaxHp: targetUnit.maxHp,
+      actorDamage: aDmg,
+      actorHit: aHit,
+      actorCrit: aCrit,
+      actorHits: aHits,
+      targetDamage: dDmg,
+      targetHit: dHit,
+      targetCrit: dCrit,
+      targetHits: dHits,
+    );
+  }
+
+  /// 结算一次攻击。
+  ///
+  /// 顺序严格跟随原版：
+  ///   1. 算攻防命中必杀（`ComputeBattleUnit*`）
+  ///   2. 武器三角
+  ///   3. 命中判定（Roll2RN）→ 未命中就结束
+  ///   4. 必杀判定（Roll1RN）
+  ///   5. 扣血（含恶魔武器反噬，会再消耗 1 个乱数）
+  AttackResult attack({
+    required BattleRngTracker tracker,
+    required GameRng rng,
+    required MapUnit attackerUnit,
+    required MapUnit defenderUnit,
+    required CombatProfile attackerProfile,
+    required CombatProfile defenderProfile,
+    required int terrainDefense,
+    required int terrainAvoid,
+    int attackerTerrainDefense = 0,
+    int attackerTerrainAvoid = 0,
+  }) {
+    final atk = buildBattleUnit(attackerUnit, attackerProfile);
+    final def = buildBattleUnit(defenderUnit, defenderProfile);
+
+    atk.setTerrain(
+        defense: attackerTerrainDefense, avoid: attackerTerrainAvoid);
+    def.setTerrain(defense: terrainDefense, avoid: terrainAvoid);
+
+    _computeUnitStats(atk, def, attackerProfile);
 
     final effectiveHit = atk.battleEffectiveHitRate;
 
@@ -399,4 +492,53 @@ class CombatResolver {
         level: bu.unit.level,
         items: bu.unit.items,
       );
+}
+
+/// 战斗预测面板上的数值（`InitBattleForecastBattleStats` 一族）
+class BattleForecast {
+  const BattleForecast({
+    required this.actorName,
+    required this.targetName,
+    required this.actorHp,
+    required this.actorMaxHp,
+    required this.targetHp,
+    required this.targetMaxHp,
+    required this.actorDamage,
+    required this.actorHit,
+    required this.actorCrit,
+    required this.actorHits,
+    required this.targetDamage,
+    required this.targetHit,
+    required this.targetCrit,
+    required this.targetHits,
+  });
+
+  final String actorName;
+  final String targetName;
+  final int actorHp, actorMaxHp, targetHp, targetMaxHp;
+
+  /// 每一下的伤害（**未**钳到目标 HP；这是面板上的"伤害"列）
+  final int? actorDamage, targetDamage;
+  final int? actorHit, targetHit;
+  final int? actorCrit, targetCrit;
+
+  /// 打几下（含追击）—— `BattleForecastHitCountUpdate` 的语义
+  final int? actorHits, targetHits;
+
+  Map<String, Object?> toJson() => {
+        'actorName': actorName,
+        'targetName': targetName,
+        'actorHp': actorHp,
+        'actorMaxHp': actorMaxHp,
+        'targetHp': targetHp,
+        'targetMaxHp': targetMaxHp,
+        'actorDamage': actorDamage,
+        'actorHit': actorHit,
+        'actorCrit': actorCrit,
+        'actorHits': actorHits,
+        'targetDamage': targetDamage,
+        'targetHit': targetHit,
+        'targetCrit': targetCrit,
+        'targetHits': targetHits,
+      };
 }

@@ -86,8 +86,11 @@ case "$SCENARIO" in
     #   → 5×confirm 走完 健康警告/标题/主菜单/难度/存档槽
     #   → start **跳过序章过场**（`EV_STATE_SKIPPING`，START 键触发）
     #   → 第 1 回合：光标 (14,8)→赛特 (4,4)，选中，移到 (9,4)，待机，结束回合
-    #   → 第 2 回合：选中，绕开挡路的敌人到 (13,5)，打奥尼尔一下（-12）
-    #   → 第 3 回合：原地再打一下（-8），奥尼尔阵亡
+    #   → 第 2/3 回合：试图攻击（`down,confirm`）—— ⚠️ **实测这两回合没有
+    #     目标在射程内**，所以玩家**从没主动出手**；奥尼尔是被**敌方阶段
+    #     艾莉卡的反击**打死的（`hitFxLog` 里那两条 damage=10 打的是 unit 144）。
+    #     即"每回合原地待机、靠反击杀敌"。原先的注释写的是"打奥尼尔一下"，
+    #     与实测不符 —— 已按实测改正（不是把断言删掉，是把说法改对）。
     TITLE=""
     # ★ 一轮 = "**取消到自由光标 → 确定性重定位 → 原地待机/攻击 → 结束回合**"
     #
@@ -108,10 +111,20 @@ case "$SCENARIO" in
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
     CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
     RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
-    ACT="confirm,confirm,down,confirm,confirm,endturn"
+    # ★ **每回合的"行动"段不再共用一条** —— 因为行动菜单的构成会变：
+    #   有目标 = [待機, 攻撃(, 道具)]、没目标 = [待機(, 道具)]。
+    #   原来 5 个回合共用 `confirm,confirm,down,confirm,confirm,endturn`，
+    #   在"没有目标"的回合里那个 `down` 会落到**「道具」**上，于是那一串确认
+    #   变成了"进道具菜单 → 装备"（日志里连续三条 `[EQUIP]`）——
+    #   第 28 轮给行动菜单加了「道具」之后这段脚本就失效了，
+    #   而 `battle` 只在 `--e2e` 里跑，前几轮没跑到 ⇒ 直到这轮才发现。
+    NOACT="confirm,confirm,confirm,endturn"                     # 没有目标：待機
+    HITACT="confirm,confirm,down,confirm,confirm,endturn"       # 有目标：攻撃
     EVENTS=$(python3 -c "print(','.join(['confirm']*10))")
-    for _ in 1 2 3 4 5; do
-      SCRIPT="$SCRIPT,$CANCEL,$RESYNC,$ACT,$EVENTS"
+    for i in 1 2 3 4 5; do
+      A="$NOACT"
+      if [ "$i" = "2" ] || [ "$i" = "3" ]; then A="$HITACT"; fi
+      SCRIPT="$SCRIPT,$CANCEL,$RESYNC,$A,$EVENTS"
     done
     # 第 1 章的开场脚本会先淡到黑；再跳一次过场 + 等两拍，
     # 截图才看得到地图（判据看的是转储，不看这张图）。

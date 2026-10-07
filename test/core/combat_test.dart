@@ -165,4 +165,77 @@ void main() {
     expect(forest, lessThan(flat),
         reason: '地形回避 30 应当让命中数明显下降');
   });
+  _forecastTests();
+}
+
+// ---------------------------------------------------------------------------
+// 战斗预测 vs 实战（★ 本轮加的判据）
+//
+// 预测（`CombatResolver.forecast`）与实战（`attack` / `resolveCombat`）
+// **共用** `_computeUnitStats` —— 这个测试就是去证明它们确实一致：
+// 抽出来的共享函数一旦被谁改回去（各算各的），这里当场红。
+// ---------------------------------------------------------------------------
+void _forecastTests() {
+  test('★ 预测的伤害 == 实际每一下的伤害；预测的"几下" == 实际的段数', () {
+    final r = _resolver();
+    final f = BattleField(width: 4, height: 4, units: [
+      MapUnit(id: 1, faction: 0, x: 0, y: 0, hp: 30, maxHp: 30, items: [1]),
+      MapUnit(id: 2, faction: 0x80, x: 1, y: 0, hp: 30, maxHp: 30, items: [2]),
+    ]);
+    final a = f.unitById(1)!;
+    final b = f.unitById(2)!;
+
+    final fc = r.forecast(
+      actorUnit: a, targetUnit: b,
+      actorProfile: _attacker, targetProfile: _defender,
+      actorTerrainDefense: 0, actorTerrainAvoid: 0,
+      targetTerrainDefense: 0, targetTerrainAvoid: 0,
+    );
+    expect(fc.actorDamage, isNotNull);
+    expect(fc.actorHits, greaterThanOrEqualTo(1));
+
+    // 实战：固定乱数，跑一整回合
+    final rng = GameRng()..initRn(1);
+    final round = r.resolveCombat(
+      tracker: BattleRngTracker(rng), rng: rng,
+      actorUnit: a, targetUnit: b,
+      actorProfile: _attacker, targetProfile: _defender,
+      actorTerrainDefense: 0, actorTerrainAvoid: 0,
+      targetTerrainDefense: 0, targetTerrainAvoid: 0,
+    );
+    final actorSteps = round.results.where((x) => x.damage > 0 || x.hit).length;
+    expect(actorSteps, greaterThanOrEqualTo(1));
+    // 每一段"命中且非必杀"的伤害都要等于预测值
+    for (var i = 0; i < round.steps.length; i++) {
+      final st = round.steps[i];
+      final res = round.results[i];
+      if (!st.attackerIsActor || !res.hit) continue;
+      if (res.crit) continue; // 必杀是 3 倍，不在面板的"伤害"列里
+      expect(res.damage, fc.actorDamage,
+          reason: '第 $i 段（非必杀）的伤害必须等于预测值');
+    }
+    // 预测的"几下" == 攻方实际出手的段数
+    final actorSegments = round.steps.where((s) => s.attackerIsActor).length;
+    expect(actorSegments, fc.actorHits,
+        reason: '预测的出手次数必须等于实际段数（含追击）');
+  });
+
+  test('预测**不改状态**：不算完 HP、不耗乱数', () {
+    final r = _resolver();
+    final f = BattleField(width: 4, height: 4, units: [
+      MapUnit(id: 1, faction: 0, x: 0, y: 0, hp: 30, maxHp: 30, items: [1]),
+      MapUnit(id: 2, faction: 0x80, x: 1, y: 0, hp: 30, maxHp: 30, items: [2]),
+    ]);
+    final rng0 = GameRng()..initRn(1);
+    final tracker = BattleRngTracker(rng0);
+    r.forecast(
+      actorUnit: f.unitById(1)!, targetUnit: f.unitById(2)!,
+      actorProfile: _attacker, targetProfile: _defender,
+      actorTerrainDefense: 0, actorTerrainAvoid: 0,
+      targetTerrainDefense: 0, targetTerrainAvoid: 0,
+    );
+    expect(f.unitById(1)!.hp, 30);
+    expect(f.unitById(2)!.hp, 30);
+    expect(tracker.consumed, 0, reason: '预测一个乱数都不该消耗');
+  });
 }

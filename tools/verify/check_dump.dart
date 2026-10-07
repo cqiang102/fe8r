@@ -415,6 +415,17 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(d['gameOptions'] == null, 'B 把設定屏关掉了', '');
   }
 
+  if (scenario == 'battle') {
+    // ⚠️ 这条场景**从没让玩家主动攻击过**（打中奥尼尔的是敌方阶段艾莉卡的反击，
+    // 见 `hitFxLog`）。所以这里**看不到** `selectTarget` 阶段的战斗预测 ——
+    // 预测的判据改放在**核心层**（`test/core/combat_test.dart` 的
+    // "预测的伤害 == 实际每一下的伤害"，直接对照 `forecast` 与 `resolveCombat`），
+    // 比脚本级更准也更可重复。
+    ok(d['lastForecast'] == null || d['lastForecast'] is Map,
+        '预测字段要么没有、要么是结构化的（不留半成品）',
+        'lastForecast=${d['lastForecast']}');
+  }
+
   if (scenario == 'item') {
     // ★ 用道具：数值必须**算对**（伤药 10 但受 maxHp 截断 ⇒ 赛特 13/20 只回 7）
     final u = d['lastItemUse'] as Map<String, dynamic>?;

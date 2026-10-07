@@ -957,3 +957,62 @@ class TerrainWindowComponent extends PositionComponent {
     }
   }
 }
+
+// ---------------------------------------------------------------------------
+// 战斗预测面板（`BattleForecast_LoopDisplay`，`src/BattleForecast_LoopDisplay.c`）
+//
+// 数值来自 `CombatEngine.forecast` —— 与实战**共用**同一份计算。
+// ---------------------------------------------------------------------------
+class BattleForecastComponent extends PositionComponent {
+  BattleForecastComponent({
+    required this.forecast,
+    required this.tileSize,
+    required Vector2 screen,
+  }) : super(
+          size: Vector2(screen.x * 0.75, tileSize * 2.4),
+          position: Vector2(screen.x * 0.125, 2),
+          priority: 50,
+        );
+
+  final BattleForecast forecast;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()..color = const Color(0xE610243C),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = const Color(0xFFE0C060),
+    );
+    final lines = <String>[
+      '${forecast.actorName}  HP ${forecast.actorHp}/${forecast.actorMaxHp}',
+      '  伤害 ${forecast.actorDamage ?? "-"}  命中 ${forecast.actorHit ?? "-"}'
+          '  必杀 ${forecast.actorCrit ?? "-"}  ${forecast.actorHits ?? 0} 下',
+      '${forecast.targetName}  HP ${forecast.targetHp}/${forecast.targetMaxHp}',
+      '  伤害 ${forecast.targetDamage ?? "-"}  命中 ${forecast.targetHit ?? "-"}'
+          '  必杀 ${forecast.targetCrit ?? "-"}  ${forecast.targetHits ?? 0} 下',
+    ];
+    var y = 2.0;
+    for (final l in lines) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: l,
+          style: TextStyle(
+            color: const Color(0xFFFFFFFF),
+            fontSize: tileSize * 0.45,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout(maxWidth: size.x - 6);
+      tp.paint(canvas, Offset(4, y));
+      y += tp.height + 1;
+    }
+  }
+}

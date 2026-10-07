@@ -540,6 +540,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             },
       'goalText': _goalText,
       'goalTextId': _chapterGoalTextId[sceneChapter],
+      'forecast': forecastForTarget?.toJson(),
+      'lastForecast': lastForecast,
       'terrainWindow': lastTerrainWindow,
       // 当前是否**该**显示（设置可能刚被改掉；`lastTerrainWindow` 是留档，不会自己消失）
       'terrainWindowVisible':
@@ -1432,6 +1434,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _tickGoalWindow();
     _tickMinimug();
     _tickTerrainWindow();
+    _tickForecast();
     _tickPopups();
 
     // ★ **延迟建视图**：`MNCH`（或 `FE8R_WM`）可能发生在 layout 之前，
@@ -4479,6 +4482,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次"装备"的记录（判据用）
   Map<String, Object?>? lastEquip;
 
+  /// 战斗预测的当前值（选目标阶段算）
+  BattleForecast? forecastForTarget;
+
+  /// 最近一次算出来的预测（**留档**）—— 动作做完 `forecastForTarget` 会被清掉，
+  /// 判据要拿它和"实际打出的伤害"对比（欠账 21 的同一个坑）。
+  Map<String, Object?>? lastForecast;
+  BattleForecastComponent? _forecastComp;
+
   /// 地形 id → 枚举名（`terrains.json` 的 `enum`）
   final Map<int, String> _terrainEnumById = {};
 
@@ -5111,6 +5122,82 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (a[i] != b[i]) return false;
     }
     return true;
+  }
+
+  /// 每帧同步战斗预测。
+  ///
+  /// 触发点：**选目标阶段**（`FlowPhase.selectTarget`）—— 原作在选目标时把
+  /// `InitBattleForecastBattleStats`（`src/InitBattleForecastBattleStats.c`）
+  /// 算出来的面板滑出来。
+  ///
+  /// ★ 数值走的是 `CombatEngine.forecast`，而它和实战 `attack` **共用**
+  /// `_computeUnitStats` —— 所以"预测与实战不一致"这类 bug 在结构上就不可能出现
+  ///（判据仍然会去对一遍，见 `battle` 场景）。
+  void _tickForecast() {
+    final s = state;
+    final f = field;
+    if (s == null || f == null || s.phase != FlowPhase.selectTarget) {
+      forecastForTarget = null;
+      _removeForecast();
+      return;
+    }
+    final unit = f.unitById(s.selectedUnitId ?? -1);
+    if (unit == null) {
+      _removeForecast();
+      return;
+    }
+    final at = s.pendingX ?? unit.x;
+    final atY = s.pendingY ?? unit.y;
+    final fl = flow;
+    if (fl == null) return;
+    final targets = fl.validTargets(f, unit, at, atY); // FlowMachine 的方法 → List<MapUnit>
+    if (targets.isEmpty) {
+      _removeForecast();
+      return;
+    }
+    final target = targets[s.targetIndex.clamp(0, targets.length - 1)];
+    final c = combat;
+    if (c == null) return;
+    final fc = c.forecast(
+      actorUnit: unit,
+      targetUnit: target,
+      actorProfile: _profileFor(unit),
+      targetProfile: _profileFor(target),
+      actorTerrainDefense: _terrainBonuses(
+              _terrainAt(unit.x, unit.y), _profileFor(unit).classId)
+          .defense,
+      actorTerrainAvoid: _terrainBonuses(
+              _terrainAt(unit.x, unit.y), _profileFor(unit).classId)
+          .avoid,
+      targetTerrainDefense: _terrainBonuses(
+              _terrainAt(target.x, target.y), _profileFor(target).classId)
+          .defense,
+      targetTerrainAvoid: _terrainBonuses(
+              _terrainAt(target.x, target.y), _profileFor(target).classId)
+          .avoid,
+    );
+    forecastForTarget = fc;
+    lastForecast = {
+      ...fc.toJson(),
+      'actorId': unit.id,
+      'targetId': target.id,
+    };
+    if (_forecastComp != null) return;
+    if (!isMounted) return;
+    final comp = BattleForecastComponent(
+      forecast: fc,
+      tileSize: 16,
+      screen: camera.viewport.virtualSize,
+    );
+    _forecastComp = comp;
+    camera.viewport.add(comp);
+  }
+
+  void _removeForecast() {
+    if (_forecastComp != null) {
+      _forecastComp!.removeFromParent();
+      _forecastComp = null;
+    }
   }
 
   /// 每帧同步地形窗口。
