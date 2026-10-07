@@ -33,6 +33,15 @@ mkdir -p "$OUT_DIR"
 DUMP="$OUT_DIR/$SCENARIO.json"
 PNG="$OUT_DIR/$SCENARIO.png"
 
+# ★ **场景必须封闭**：清掉上一次跑留下的中断存档。
+#
+# 踩过的坑：`resume` 场景第一次跑时，`/tmp` 里还留着**上一轮**写的 suspend.json
+# ⇒ 标题主菜单第一项变成「继续」⇒ 启动时直接读档，
+# 于是"打开地图菜单 → 中断"那一段**根本没发生**（转储里 suspendNote 空、resumable=false，
+# 而断言却因为读了旧文件而全绿 —— 一个会骗人的绿灯）。
+SUSPEND_FILE="$(python3 -c 'import tempfile,os;print(os.path.join(tempfile.gettempdir(),"fe8r-saves","suspend.json"))')"
+rm -f "$SUSPEND_FILE"
+
 # `FE8R_WM=<目标章>`：调试入口，走**和 `MNCH` 同一条路**（先记下、待地图就绪再进）。
 # 默认空 ⇒ 正常流程（由章间脚本里的 `MNCH` 触发）。
 WM=""
@@ -153,6 +162,15 @@ case "$SCENARIO" in
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,confirm"
     # 中断提示脚本 `SuspendPrompt` 里有一条 `TEXTSHOW(2079)` —— 要**按键翻页**它才会走到末尾的 `MNTS(0)`（回标题）。
     SCRIPT="$SCRIPT,wait,confirm,confirm,confirm,wait,wait,wait"
+    ;;
+  resume)
+    # ★ 中断 → 回标题 → **「继续」读回来**。
+    #
+    # 与 `suspend` 同一段脚本，之后继续走标题链路：
+    #   健康警告(confirm) → 标题(confirm) → 主菜单（有中断存档 ⇒ **第一项就是「继续」**）
+    #   → confirm ⇒ 读档 ⇒ 直接进地图（不演开场）。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,confirm,wait,confirm,confirm,confirm,wait,wait,wait,confirm,wait,confirm,wait,wait,wait,wait,wait,confirm,wait,wait,wait"
     ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。

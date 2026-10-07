@@ -232,6 +232,52 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(d['titleFlow'] != null, '标题流程被重建了', 'titleFlow=${d['titleFlow']}');
   }
 
+  if (scenario == 'resume') {
+    // ★ 集成级的"存 → 读 → 逐字段相同"：**把存档文件与实际状态对比**。
+    // 这是 M4 最硬的一条 —— 不是"文件写出来了"，而是"读回来和存进去的一致"。
+    final path = '${d['suspendPath']}';
+    ok(path.isNotEmpty, '这次跑确实写过中断存档', 'suspendPath=$path');
+    final f = File(path);
+    ok(f.existsSync(), '存档文件在盘上', 'path=$path');
+    if (f.existsSync()) {
+      final saved = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+      ok(d['chapter'] == saved['chapter'],
+          '读到的是**同一章**',
+          'dump=${d['chapter']} save=${saved['chapter']}');
+      final sf = saved['field'] as Map<String, dynamic>;
+      ok(d['turn'] == sf['turn'],
+          '回合数一致', 'dump=${d['turn']} save=${sf['turn']}');
+      final su = (sf['units'] as List).cast<Map<String, dynamic>>();
+      final du = (d['units'] as List).cast<Map<String, dynamic>>();
+      ok(du.length == su.length,
+          '单位数一致', 'dump=${du.length} save=${su.length}');
+      // 逐单位比 hp / 坐标（按 id 对齐）
+      final byId = {for (final u in su) u['id'] as int: u};
+      final bad = <String>[];
+      for (final u in du) {
+        final s0 = byId[u['id'] as int];
+        if (s0 == null) {
+          bad.add('${u['id']} 在存档里没有');
+          continue;
+        }
+        if (u['hp'] != s0['hp'] || u['x'] != s0['x'] || u['y'] != s0['y']) {
+          bad.add('${u['id']}: dump hp=${u['hp']}(${u['x']},${u['y']}) '
+              'save hp=${s0['hp']}(${s0['x']},${s0['y']})');
+        }
+      }
+      ok(bad.isEmpty, '每个单位的 hp/坐标都与存档一致', '不一致：${bad.take(3)}');
+      // 事件旗也要读回来（丢了会让演过的事件重演）
+      final saveFlags = (saved['eventFlags'] as List).cast<int>().toSet();
+      final dumpFlags = ((d['eventFlags'] as List?) ?? const []).cast<int>().toSet();
+      ok(dumpFlags.containsAll(saveFlags),
+          '事件旗读回来了', 'dump=$dumpFlags save=$saveFlags');
+    }
+    // 读档之后应当**在地图上**（不是又回标题、也不是还在演开场）
+    ok('${d['waitingFor']}'.startsWith('input:') ||
+            '${d['waitingFor']}'.startsWith('scene:'),
+        '读档后回到战场（不演开场）', 'waitingFor=${d['waitingFor']}');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

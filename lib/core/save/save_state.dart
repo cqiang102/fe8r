@@ -33,6 +33,8 @@ class SaveState {
     required this.eventFlags,
     required this.rngConsumed,
     this.disableAutoEndTurns = false,
+    this.isTutorial = false,
+    this.isHard = false,
     this.worldMap,
     this.tutorial,
   });
@@ -55,6 +57,17 @@ class SaveState {
   /// `gPlaySt.config.disableAutoEndTurns`
   bool disableAutoEndTurns;
 
+  /// `gPlaySt.chapterStateBits & PLAY_FLAG_TUTORIAL`
+  ///
+  /// 出处：`include/types.h:185-188`（`chapterStateBits` 的注释列出
+  /// `PLAY_FLAG_TUTORIAL` / `PLAY_FLAG_HARD`）+ `src/GameControl_InitTutorialGame.c:33`
+  /// （教学模式在这里置位）。**读回来必须恢复它** —— 地图菜单「中断」的可用性
+  /// （`src/masked_0802257c.c:61-67`）就看这一位。
+  bool isTutorial;
+
+  /// `gPlaySt.chapterStateBits & PLAY_FLAG_HARD`
+  bool isHard;
+
   /// 大地图状态（主存档里才有；中断存档里没有 —— 这里带上并在文档里说明）
   WorldMapState? worldMap;
 
@@ -75,6 +88,8 @@ class SaveState {
         'eventFlags': eventFlags.toList()..sort(),
         'rngConsumed': rngConsumed,
         'disableAutoEndTurns': disableAutoEndTurns,
+        'isTutorial': isTutorial,
+        'isHard': isHard,
         if (worldMap != null) 'worldMap': worldMap!.toJson(),
         if (tutorial != null) 'tutorial': tutorial!.toJson(),
       };
@@ -88,6 +103,8 @@ class SaveState {
             .toSet(),
         rngConsumed: j['rngConsumed'] as int? ?? 0,
         disableAutoEndTurns: j['disableAutoEndTurns'] as bool? ?? false,
+        isTutorial: j['isTutorial'] as bool? ?? false,
+        isHard: j['isHard'] as bool? ?? false,
         worldMap: j['worldMap'] == null
             ? null
             : WorldMapState.fromJson(j['worldMap'] as Map<String, dynamic>),

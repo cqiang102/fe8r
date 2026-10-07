@@ -499,6 +499,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'suspendPath': _suspendPath,
       'suspendBytes': _suspendBytes,
       'suspendNote': _suspendNote,
+      'resumeNote': resumeNote,
+      'resumable': titleFlow?.resumable ?? false,
       'popupLog': _popupLog.toList(),
       'damageDealtTotal': _damageDealtTotal,
       // 教学事件（两段式：入队 → 触发）
@@ -861,7 +863,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       unawaited(_startCtlIfRequested());
 
       final forced = Platform.environment['FE8R_TITLE'];
-      titleFlow = TitleFlow(texts: gameTexts!);
+      titleFlow = _newTitleFlow();
       final jump = (forced == null || forced.isEmpty)
           ? null
           : TitleFlow.screenByName(forced);
@@ -1039,9 +1041,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       camera.viewport.remove(v);
       _titleView = null;
     }
+    // ★ 「继续」与「新游戏」在这里分岔：前者**读回中断存档**、直接进地图；
+    // 后者才演本章开场（`_startRealScene`）。
+    final wasResume = f.mainItem == MainMenuItem.resume;
     titleFlow = null;
     _titlePending.clear();
-    unawaited(_startRealScene());
+    if (wasResume) {
+      unawaited(_resumeFromSuspend());
+    } else {
+      unawaited(_startRealScene());
+    }
   }
 
   /// 按脚本驱动一串输入（调试 / 视觉验证用）。
@@ -1836,7 +1845,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   void _openMapMenu() {
     final kind = battleMapKindOf(sceneChapter);
     final diff = titleFlow?.difficulty ?? Difficulty.normal;
-    final ng = NewGamePlayFlags(switch (diff) {
+    // ★ 从存档继续时用**存档里的**教学/难度位；新游戏才看难度屏选的那个
+    final ng = _playFlagsFromSave ?? NewGamePlayFlags(switch (diff) {
       Difficulty.easy => NewGameDifficulty.easy,
       Difficulty.normal => NewGameDifficulty.normal,
       Difficulty.hard => NewGameDifficulty.hard,
@@ -1979,6 +1989,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 逐段反馈记录（命中/未命中/暴击 + 伤害 + 目标）—— 判据用
   final List<Map<String, Object?>> _hitFxLog = [];
+
+  /// 当前生效的新游戏标志：优先用**存档恢复**的，否则用难度屏选的
+  NewGamePlayFlags get _currentPlayFlags =>
+      _playFlagsFromSave ??
+      NewGamePlayFlags(switch (titleFlow?.difficulty ?? Difficulty.normal) {
+        Difficulty.easy => NewGameDifficulty.easy,
+        Difficulty.normal => NewGameDifficulty.normal,
+        Difficulty.hard => NewGameDifficulty.hard,
+      });
+
+  /// 从存档继续时恢复的"新游戏标志"（教学模式/难度）——
+  /// 地图菜单的可用性要用它，而这时 `titleFlow` 已经拆掉了。
+  NewGamePlayFlags? _playFlagsFromSave;
 
   /// 打开地图菜单时用的上下文（`availability` 是**函数**，要带它求值）
   MapMenuContext? _mapMenuCtx;
@@ -3856,6 +3879,79 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
 
+  /// 建一个标题流程，并把「继续」那一项按**是否存在中断存档**开关。
+  ///
+  /// 出处：`TitleFlow.mainMenuOptions` 里 `if (resumable) out.add(resume)`。
+  /// ⚠️ 这一句必须在**每次**建标题流程时都设（`onLoad` 与中断回标题都要），
+  /// 否则中断回标题之后菜单里**看不到「继续」**（我第一次只设了 onLoad）。
+  TitleFlow _newTitleFlow() {
+    final f = TitleFlow(texts: gameTexts!);
+    f.resumable = _suspendFile().existsSync();
+    return f;
+  }
+
+  /// 中断存档文件（路径与写盘处一致）
+  File _suspendFile() => File(
+      '${Directory.systemTemp.path}/fe8r-saves/suspend.json');
+
+  /// 「继续」：读回中断存档并**直接进地图**（不演本章开场）。
+  ///
+  /// 出处：`src/bmsave.c:111`（`ReadSuspendSave`）——
+  /// 它把 `gPlaySt` / `gActionData` / 三阵营单位 / 旗全部读回来；
+  /// 读回来之后游戏**直接回到战场**，不重演章节开场。
+  ///
+  /// ⚠️ 我们这边是"读 JSON → 重建 `BattleField`/`FlowState` → 装本章地图"。
+  /// 地图本身还是要按章号装（存档里没有地图瓦片）。
+  Future<void> _resumeFromSuspend() async {
+    final file = _suspendFile();
+    if (!file.existsSync()) {
+      _playNote = '没有中断存档，回标题';
+      debugPrint('[SAVE] 继续：没有 ${file.path}');
+      titleFlow = TitleFlow(texts: gameTexts!)..reset();
+      return;
+    }
+    try {
+      final st = SaveState.decode(file.readAsStringSync());
+      sceneChapter = st.chapter;
+      await _loadChapterMap(st.chapter);
+      field = st.field;
+      state = st.flow;
+      eventFlags
+        ..clear()
+        ..addAll(st.eventFlags);
+      playConfig.disableAutoEndTurns = st.disableAutoEndTurns;
+      // 教学模式/难度位也要恢复：地图菜单「中断」的可用性看这一位
+      //（`titleFlow` 这时已经拆掉了，所以要把它存到字段上，见 `_playFlagsFromSave`）
+      _playFlagsFromSave = NewGamePlayFlags(
+        st.isHard
+            ? NewGameDifficulty.hard
+            : (st.isTutorial
+                ? NewGameDifficulty.normal
+                : NewGameDifficulty.easy),
+      );
+      if (st.tutorial != null) {
+        tutorial
+          ..counter = st.tutorial!.counter
+          ..execType = st.tutorial!.execType;
+      }
+      worldMap = st.worldMap;
+      _mapReady = true;
+      status.value = '（继续）$resumeNote';
+      _playNote = '继续：$resumeNote';
+      _rebuildOverlay();
+      _updateHud();
+      debugPrint('[SAVE] 继续：$resumeNote');
+    } catch (e, st) {
+      _playNote = '中断存档读不了：$e';
+      debugPrint('[SAVE] 读中断存档失败：$e\n$st');
+    }
+  }
+
+  /// 读档结果的说明（判据用）
+  String get resumeNote => field == null
+      ? '没有战场'
+      : '第 $sceneChapter 章 回合 ${field!.turn} 单位 ${field!.units.length}';
+
   /// `MNTS`：回标题（`GAME_ACTION_EVENT_RETURN`，`src/Event2A_MoveToChapter.c:23-27`）。
   ///
   /// 章节就此结束：清掉战场与剧情状态、把标题流程复位。
@@ -3877,7 +3973,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 重建它是移植层的选择，不是原作行为。
     final texts = gameTexts;
     if (texts != null) {
-      titleFlow = TitleFlow(texts: texts);
+      titleFlow = _newTitleFlow();
       titleFlow!.reset();
     } else {
       _suspendNote = '$_suspendNote；没有文本表，回不了标题';
@@ -3922,6 +4018,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       eventFlags: eventFlags,
       rngConsumed: tracker.consumed,
       disableAutoEndTurns: playConfig.disableAutoEndTurns,
+      // ⚠️ 写盘时也用它：写了 isTutorial/isHard，读回来才不会把教学模式弄丢
+      isTutorial: _currentPlayFlags.playFlagTutorial,
+      isHard: _currentPlayFlags.difficulty == NewGameDifficulty.hard,
       worldMap: worldMap,
       tutorial: tutorial,
     );

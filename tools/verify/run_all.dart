@@ -502,6 +502,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'suspend'],
           note: '地图菜单「中断」→ 写快照 + 读回校验；教学模式那条由单测覆盖',
           requires: ['tools/verify/scenario.sh']),
+      // 读档继续：中断写盘 → 回标题 → 「继续」读回，逐字段与文件比对
+      Step('L4', '端到端场景（读档继续）', 'bash',
+          ['tools/verify/scenario.sh', 'resume'],
+          note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
+          requires: ['tools/verify/scenario.sh']),
       // 章间大地图（`MNCH` 那条路；用 `FE8R_WM=56` 走同一流程）
       Step('L4', '端到端场景（章间大地图）', 'bash',
           ['tools/verify/scenario.sh', 'worldmap'],
