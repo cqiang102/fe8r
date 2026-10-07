@@ -1,3 +1,4 @@
+import 'dart:io';
 // FE8 重制版 —— 程序入口
 //
 // 层次（技术方案 §4.2，由 tools/verify/check_architecture.dart 强制）：
@@ -12,6 +13,18 @@ import 'package:fe8r/game/fe8_game.dart';
 import 'package:fe8r/ui/debug_screenshot.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+
+/// ★ **调试覆盖层开关。**
+///
+/// 左上角状态条（版本 / 加载状态）与底部 HUD（回合 / 阵营 / 光标 / 缺表提示）
+/// 都是**开发用的** —— 玩家不该看到。
+///
+/// `FE8R_DEBUG=1` 打开；不设就是干净画面。
+///
+/// ⚠️ 截图脚本（`tools/verify/shot.sh`）会带上它 —— 
+/// 视觉验证需要 HUD 上的"缺表""未执行指令"这类信息。
+final bool _debugOverlay =
+    (Platform.environment['FE8R_DEBUG'] ?? '') == '1';
 
 void main() {
   runApp(
@@ -76,11 +89,19 @@ class _GameShellState extends State<_GameShell> {
       // `FE8R_SCRIPT` 直接注入输入，从没经过真实键盘路径。
       //
       // 键盘现在由 `Fe8Game with KeyboardEvents` 处理（见 fe8_game.dart）。
+      // ★ **调试信息默认隐藏。**
+      //
+      // 左上角状态条与底部 HUD 都是**开发用的**（版本、加载状态、
+      // 回合/阵营/光标/缺表提示）。玩家不该看到它们。
+      //
+      // `FE8R_DEBUG=1` 打开 —— 开发时照旧，正常启动时画面是干净的。
+      // 环境变量在 `main()` 里读一次（见 `_debugOverlay`）。
       body: RepaintBoundary(
         key: _captureKey,
         child: Stack(
           children: [
             GameWidget(game: _game),
+            if (_debugOverlay) ...[
             // 左上角信息条：确认版本与加载状态
             Positioned(
               left: 12,
@@ -127,6 +148,7 @@ class _GameShellState extends State<_GameShell> {
                 ),
               ),
             ),
+            ],
           ],
         ),
       ),

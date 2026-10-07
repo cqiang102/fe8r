@@ -45,6 +45,7 @@ if [ "$NEEDS_BUILD" = 1 ]; then
 fi
 
 rm -f "$OUT"
+FE8R_DEBUG=1 \
 FE8R_SCREENSHOT="$OUT" \
 FE8R_TITLE="$TITLE" \
 FE8R_SCRIPT="$SCRIPT" \
