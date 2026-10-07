@@ -202,6 +202,21 @@ def decode_list(words, syms=None):
             e["turn"] = w2 & 0xFF
             e["maxTurn"] = (w2 >> 8) & 0xFF
             e["faction"] = (w2 >> 16) & 0xFFFF
+        elif cmd in (0x05, 0x06):
+            # LOCA / VILL —— `struct EvCheck05 { u32 unk0; u32 script; u8 x; u8 y; u16 cmdId; }`
+            #（`src/eventinfo_080851B8.c:88-94`，`EvCheck05_LOCA` / `EvCheck06_VILL`）
+            #
+            # ★ 第 42 轮补：原来这两个命令**只落了个 script**，`x`/`y`/`cmdId` 全丢 ——
+            # 于是"訪問/村"这类**按坐标匹配**的玩法没法做（数据看起来"在"，
+            # 但缺了唯一能定位它的三个字段）。真值抽查：
+            # `EventListScr_Ch14b_Location` 第 1 条 VILL = `0x00100E01`
+            # ⇒ x=1, y=14, cmdId=0x10 (`TILE_COMMAND_VISIT`)。
+            e["script"] = (syms or {}).get(i + 1) or (
+                hex(words[i + 1]) if words[i + 1] else None)
+            w2 = words[i + 2]
+            e["x"] = w2 & 0xFF
+            e["y"] = (w2 >> 8) & 0xFF
+            e["cmdId"] = (w2 >> 16) & 0xFFFF
         elif cmd == 0x03:  # CHAR（说话事件）
             # `struct EvCheck03 { u32 unk0; u32 script; u8 pidA; u8 pidB; ... }`
             e["script"] = (syms or {}).get(i + 1) or (

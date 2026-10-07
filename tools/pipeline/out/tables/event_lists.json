@@ -76,13 +76,19 @@
     "i": 0,
     "cmd": "VILL",
     "doneFlag": 0,
-    "script": "EventScr_Ch14b_EndingScene + 0x14"
+    "script": "EventScr_Ch14b_EndingScene + 0x14",
+    "x": 1,
+    "y": 14,
+    "cmdId": 16
    },
    {
     "i": 3,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 1,
+    "y": 13,
+    "cmdId": 32
    },
    {
     "i": 6,
@@ -94,13 +100,19 @@
     "i": 9,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "EventScr_Ch14b_EndingScene + 0x50"
+    "script": "EventScr_Ch14b_EndingScene + 0x50",
+    "x": 17,
+    "y": 6,
+    "cmdId": 16
    },
    {
     "i": 12,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "EventScr_Ch14b_EndingScene + 0x78"
+    "script": "EventScr_Ch14b_EndingScene + 0x78",
+    "x": 5,
+    "y": 13,
+    "cmdId": 16
    },
    {
     "i": 15,
@@ -411,37 +423,55 @@
     "i": 0,
     "cmd": "VILL",
     "doneFlag": 9,
-    "script": "EventScr_Ch2_Village1"
+    "script": "EventScr_Ch2_Village1",
+    "x": 4,
+    "y": 2,
+    "cmdId": 16
    },
    {
     "i": 3,
     "cmd": "LOCA",
     "doneFlag": 9,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 4,
+    "y": 1,
+    "cmdId": 32
    },
    {
     "i": 6,
     "cmd": "VILL",
     "doneFlag": 10,
-    "script": "EventScr_Ch2_Village2"
+    "script": "EventScr_Ch2_Village2",
+    "x": 7,
+    "y": 2,
+    "cmdId": 16
    },
    {
     "i": 9,
     "cmd": "LOCA",
     "doneFlag": 10,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 7,
+    "y": 1,
+    "cmdId": 32
    },
    {
     "i": 12,
     "cmd": "VILL",
     "doneFlag": 11,
-    "script": "EventScr_Ch2_Village2 + 0x3C"
+    "script": "EventScr_Ch2_Village2 + 0x3C",
+    "x": 1,
+    "y": 12,
+    "cmdId": 16
    },
    {
     "i": 15,
     "cmd": "LOCA",
     "doneFlag": 11,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 1,
+    "y": 11,
+    "cmdId": 32
    },
    {
     "i": 18,
@@ -471,49 +501,73 @@
     "i": 6,
     "cmd": "VILL",
     "doneFlag": 8,
-    "script": "EventScr_Ch5_0"
+    "script": "EventScr_Ch5_0",
+    "x": 12,
+    "y": 10,
+    "cmdId": 16
    },
    {
     "i": 9,
     "cmd": "LOCA",
     "doneFlag": 8,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 12,
+    "y": 9,
+    "cmdId": 32
    },
    {
     "i": 12,
     "cmd": "VILL",
     "doneFlag": 9,
-    "script": "EventScr_Ch5_1"
+    "script": "EventScr_Ch5_1",
+    "x": 12,
+    "y": 19,
+    "cmdId": 16
    },
    {
     "i": 15,
     "cmd": "LOCA",
     "doneFlag": 9,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 12,
+    "y": 18,
+    "cmdId": 32
    },
    {
     "i": 18,
     "cmd": "VILL",
     "doneFlag": 10,
-    "script": "EventScr_Ch5_2"
+    "script": "EventScr_Ch5_2",
+    "x": 5,
+    "y": 6,
+    "cmdId": 16
    },
    {
     "i": 21,
     "cmd": "LOCA",
     "doneFlag": 10,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 5,
+    "y": 5,
+    "cmdId": 32
    },
    {
     "i": 24,
     "cmd": "VILL",
     "doneFlag": 11,
-    "script": "EventScr_Ch5_3"
+    "script": "EventScr_Ch5_3",
+    "x": 5,
+    "y": 1,
+    "cmdId": 16
    },
    {
     "i": 27,
     "cmd": "LOCA",
     "doneFlag": 11,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 5,
+    "y": 0,
+    "cmdId": 32
    },
    {
     "i": 30,
@@ -601,25 +655,37 @@
     "i": 3,
     "cmd": "VILL",
     "doneFlag": 8,
-    "script": "EventScr_Ch9A_2"
+    "script": "EventScr_Ch9A_2",
+    "x": 1,
+    "y": 11,
+    "cmdId": 16
    },
    {
     "i": 6,
     "cmd": "LOCA",
     "doneFlag": 8,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 1,
+    "y": 10,
+    "cmdId": 32
    },
    {
     "i": 9,
     "cmd": "VILL",
     "doneFlag": 9,
-    "script": "EventScr_Ch9A_3"
+    "script": "EventScr_Ch9A_3",
+    "x": 11,
+    "y": 15,
+    "cmdId": 16
    },
    {
     "i": 12,
     "cmd": "LOCA",
     "doneFlag": 9,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 11,
+    "y": 14,
+    "cmdId": 32
    },
    {
     "i": 15,
@@ -865,19 +931,28 @@
     "i": 0,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "EventScr_Ch1_Loca_Visit1"
+    "script": "EventScr_Ch1_Loca_Visit1",
+    "x": 13,
+    "y": 6,
+    "cmdId": 16
    },
    {
     "i": 3,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "EventScr_Ch1_Loca_Visit2"
+    "script": "EventScr_Ch1_Loca_Visit2",
+    "x": 10,
+    "y": 4,
+    "cmdId": 16
    },
    {
     "i": 6,
     "cmd": "LOCA",
     "doneFlag": 3,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 2,
+    "y": 2,
+    "cmdId": 17
    },
    {
     "i": 9,
@@ -1102,7 +1177,10 @@
     "i": 12,
     "cmd": "LOCA",
     "doneFlag": 3,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 14,
+    "y": 1,
+    "cmdId": 17
    },
    {
     "i": 15,
@@ -1208,25 +1286,37 @@
     "i": 0,
     "cmd": "VILL",
     "doneFlag": 0,
-    "script": "EventScr_Ch4_2"
+    "script": "EventScr_Ch4_2",
+    "x": 1,
+    "y": 11,
+    "cmdId": 16
    },
    {
     "i": 3,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 1,
+    "y": 10,
+    "cmdId": 32
    },
    {
     "i": 6,
     "cmd": "VILL",
     "doneFlag": 0,
-    "script": "EventScr_Ch4_3"
+    "script": "EventScr_Ch4_3",
+    "x": 8,
+    "y": 2,
+    "cmdId": 16
    },
    {
     "i": 9,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 8,
+    "y": 1,
+    "cmdId": 32
    },
    {
     "i": 12,
@@ -1419,7 +1509,10 @@
     "i": 12,
     "cmd": "LOCA",
     "doneFlag": 3,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 13,
+    "y": 7,
+    "cmdId": 17
    },
    {
     "i": 15,
@@ -1489,13 +1582,19 @@
     "i": 0,
     "cmd": "VILL",
     "doneFlag": 0,
-    "script": "EventScr_Ch6_1"
+    "script": "EventScr_Ch6_1",
+    "x": 11,
+    "y": 18,
+    "cmdId": 16
    },
    {
     "i": 3,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 11,
+    "y": 17,
+    "cmdId": 32
    },
    {
     "i": 6,
@@ -1578,19 +1677,28 @@
     "i": 0,
     "cmd": "LOCA",
     "doneFlag": 3,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 9,
+    "y": 4,
+    "cmdId": 17
    },
    {
     "i": 3,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "EventScr_Ch7_1"
+    "script": "EventScr_Ch7_1",
+    "x": 1,
+    "y": 15,
+    "cmdId": 16
    },
    {
     "i": 6,
     "cmd": "LOCA",
     "doneFlag": 0,
-    "script": "EventScr_Ch7_2"
+    "script": "EventScr_Ch7_2",
+    "x": 17,
+    "y": 21,
+    "cmdId": 16
    },
    {
     "i": 9,
@@ -1700,7 +1808,10 @@
     "i": 12,
     "cmd": "LOCA",
     "doneFlag": 3,
-    "script": "0x1"
+    "script": "0x1",
+    "x": 10,
+    "y": 2,
+    "cmdId": 17
    },
    {
     "i": 15,
