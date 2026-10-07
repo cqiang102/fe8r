@@ -179,6 +179,86 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(alive.isNotEmpty, '第 1 章场上有单位', 'alive=${alive.length}');
   }
 
+  // `mapmenu`：START 打开地图菜单 —— **"显示哪几条"** 的端到端判据。
+  //
+  // 这一组证的是源码里那三条可见性结论（都不是"我摆的"）：
+  //   * `MapMenu_IsRecordsCommandAvailable`（`src/MapMenu_IsRecordsCommandAvailable.c:53`）
+  //     故事章节 → `MENU_NOTSHOWN` ⇒ 「戦績」**不占行**
+  //   * `MapMenu_IsRetreatCommandAvailable`（`src/bmmenu_08024C7C.c:62`）
+  //     `BATTLEMAP_KIND_STORY` → `MENU_NOTSHOWN` ⇒ 「退却」**不占行**
+  //   * `StartMenuCore`（`src/StartMenuCore.c:61-72,92-98`）
+  //     ⇒ 行距 2 个 UI 图块、面板高 = 2*行数 + 2
+  //
+  // ⚠️ 场景默认难度是 `Difficulty.normal` → `config.controller = 1` → 教学模式
+  // → 序章那句 `ASMC(BmGuideTextSetAllGreen)` 会执行 → 辞书**显示**。
+  // 这也是"教学模式"这条链第一次在真机上被验。
+  if (scenario == 'mapmenu' || scenario == 'menuend') {
+    final mm = d['mapMenu'] as Map<String, dynamic>?;
+    final inputs = d['mapMenuInputs'] as Map<String, dynamic>?;
+
+    if (scenario == 'menuend') {
+      // 主动选「終了」→ 我方阶段结束、回合数 +1、菜单关闭
+      ok(d['turn'] == 2, '菜单里选「終了」后进到第 2 回合', 'turn=${d['turn']}');
+      ok(mm == null, '选完菜单就关了', 'mapMenu=$mm');
+      ok((d['mapMenuNote'] as String? ?? '').contains('終了'),
+          '记录里写着是「終了」', 'note=${d['mapMenuNote']}');
+      return out;
+    }
+
+    ok(map?['id'] == 'PrologueMap', '地图菜单：在序章可玩地图上',
+        'map.id=${map?['id']}');
+    ok(mm != null, '地图菜单打开了（START）', 'mapMenu=$mm');
+    if (mm == null) return out;
+
+    final items = (mm['items'] as List? ?? const []).cast<String>().toList();
+    ok(items.length == 6, '菜单是 6 条（8 条里 2 条 MENU_NOTSHOWN）',
+        'items=$items');
+    ok(!items.any((s) => s.contains('退却')), '「退却」不显示（故事章节）',
+        'items=$items');
+    ok(!items.any((s) => s.contains('戦績')), '「戦績」不显示（不是迷宫）',
+        'items=$items');
+    ok(items.join(',') == '部隊,状況,辞書,設定,中断,終了',
+        '顺序 = 源码数组顺序（滤掉隐藏项之后）', 'items=$items');
+
+    final layout = mm['layout'] as Map<String, dynamic>?;
+    ok(layout?['h'] == 14, '面板高 = 2*6 + 2 = 14 个 UI 图块', 'layout=$layout');
+    ok(layout?['rowPitch'] == 2, '行距是 2 个 UI 图块（`yTileInner += 2`）',
+        'rowPitch=${layout?['rowPitch']}');
+    // ★ 左右分侧用的是**光标的屏幕像素**（`src/exact_0804f924.c:49` 的 `120`；
+    //   调用点传的是 `gBmSt.cursorTarget.x - gBmSt.camera.x`，
+    //   `src/playerphase_0801C5A8.c:110`）。地图一格 16px
+    //   （`lib/core/map/camera.dart` 的 `tilePx`）。
+    //
+    //   这一条**能抓到"拿图块坐标去比 120"那个 bug**：那时光标在 x=14
+    //   会被算成 `14 < 120` → 0x17，而真值是 `224 >= 120` → 1。
+    //   判据两边是**独立的数据**：cursor/camera 来自规则层，x 来自菜单几何。
+    final cur = d['cursor'] as Map<String, dynamic>?;
+    final cam = d['camera'] as Map<String, dynamic>?;
+    final screenPx = ((cur?['x'] as num?)?.toDouble() ?? 0) * 16 -
+        ((cam?['x'] as num?)?.toDouble() ?? 0);
+    final wantX = screenPx < 120 ? 0x17 : 1;
+    ok(layout?['x'] == wantX,
+        '分侧 = 光标屏幕像素 < 120 ? 0x17 : 1（这里是 ${screenPx.toInt()} px）',
+        'x=${layout?['x']} want=$wantX cursor=${cur?['x']} camera=${cam?['x']}');
+    ok(layout?['w'] == 6, '面板宽 6 个 UI 图块（`gMapMenuDef.rect.w`）',
+        'w=${layout?['w']}');
+
+    ok(inputs?['battleMapKind'] == 'story', '输入的 kind 是 story',
+        'inputs=$inputs');
+    ok(inputs?['difficulty'] == 'normal', '默认难度 normal → 教学模式',
+        'difficulty=${inputs?['difficulty']}');
+    ok(inputs?['tutorial'] == false, 'PLAY_FLAG_TUTORIAL = 0（这条链上没人置它）',
+        'tutorial=${inputs?['tutorial']}');
+    ok(inputs?['guideLocked'] == false, '教学模式 ⇒ 辞书没锁',
+        'guideLocked=${inputs?['guideLocked']}');
+    final hidden =
+        (inputs?['hidden'] as List? ?? const []).cast<String>().toList();
+    ok(hidden.length == 2 && hidden.any((s) => s.startsWith('戦績')),
+        '隐藏的两条就是 戦績/退却，且带着源码函数名', 'hidden=$hidden');
+    ok(((d['mapMenuUnimplemented'] as List?) ?? const []).isEmpty,
+        '没选中任何"未实现"的条目', 'unimplemented=${d['mapMenuUnimplemented']}');
+  }
+
   if (scenario == 'prologue') {
     ok(map?['id'] == 'PrologueMap', '序章：地图是 PrologueMap',
         'map.id=${map?['id']}');
@@ -437,6 +517,103 @@ Map<String, dynamic> goodDump() => {
       'mapLoadFailures': <String>[],
     };
 
+/// 一份**正常**的地图菜单转储（selftest 的基准）
+///
+/// 对应 `Difficulty.normal` 的序章：`config.controller = 1` → 教学模式 →
+/// 辞书没锁、`中断` 可用、`戦績`/`退却` 因为是故事章节而不显示。
+Map<String, dynamic> goodMapMenuDump() {
+  final d = goodDump();
+  d['mapMenu'] = <String, Object>{
+    'index': 0,
+    'item': '部隊',
+    'itemCommand': 'MapMenu_UnitCommand',
+    'itemAvailability': 'enabled',
+    'items': <String>['部隊', '状況', '辞書', '設定', '中断', '終了'],
+    'layout': <String, int>{'x': 0x17, 'y': 2, 'w': 6, 'h': 14, 'rowPitch': 2},
+  };
+  d['mapMenuNote'] = '打开（START）：6 条（8 条里隐藏了 2 条）';
+  d['mapMenuInputs'] = <String, Object?>{
+    'chapterIndex': 0,
+    'battleMapKind': 'story',
+    'battleMapKindVerified': false,
+    'guideLocked': false,
+    'tutorial': false,
+    'tutorialMode': true,
+    'difficulty': 'normal',
+    'hidden': <String>[
+      '戦績(MapMenu_IsRecordsCommandAvailable)',
+      '退却(MapMenu_IsRetreatCommandAvailable)',
+    ],
+  };
+  d['mapMenuUnimplemented'] = <String>[];
+  return d;
+}
+
+/// 一组**故意坏掉**的地图菜单转储 —— 每条都必须被 `check(..., scenario:'mapmenu')` 抓到
+Map<String, Map<String, dynamic>> brokenMapMenuDumps() {
+  Map<String, dynamic> base() => goodMapMenuDump();
+  Map<String, dynamic> menuOf(Map<String, dynamic> d) =>
+      d['mapMenu'] as Map<String, dynamic>;
+  Map<String, dynamic> layoutOf(Map<String, dynamic> d) =>
+      menuOf(d)['layout'] as Map<String, dynamic>;
+  Map<String, dynamic> inputsOf(Map<String, dynamic> d) =>
+      d['mapMenuInputs'] as Map<String, dynamic>;
+
+  final out = <String, Map<String, dynamic>>{};
+
+  final a = base();
+  menuOf(a)['items'] = <String>[
+    '部隊', '状況', '辞書', '戦績', '設定', '退却', '中断', '終了',
+  ];
+  out['菜单显示了 8 条（退却/戦績 没被滤掉）'] = a;
+
+  final b = base();
+  layoutOf(b)['h'] = 18;
+  out['面板高度按 8 行算'] = b;
+
+  final c = base();
+  layoutOf(c)['rowPitch'] = 1;
+  out['行距还是 1 个 UI 图块'] = c;
+
+  final e = base();
+  inputsOf(e)['guideLocked'] = true;
+  out['辞书被锁住却还显示了'] = e;
+
+  final f = base();
+  inputsOf(f)['battleMapKind'] = null;
+  out['GetBattleMapKind 读不到却照样开菜单'] = f;
+
+  final g = base();
+  g['mapMenuUnimplemented'] = <String>['unitList'];
+  out['选中了未实现的条目'] = g;
+
+  final h = base();
+  layoutOf(h)['x'] = 1;
+  out['面板画在了左边（分侧用错坐标）'] = h;
+
+  return out;
+}
+
+/// 一组**故意坏掉**的「菜单里选終了」转储
+Map<String, Map<String, dynamic>> brokenMenuEndDumps() {
+  final base = goodMapMenuDump();
+  base['mapMenu'] = null;
+  base['turn'] = 2;
+  base['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段';
+
+  final out = <String, Map<String, dynamic>>{};
+
+  final a = Map<String, dynamic>.from(base);
+  a['turn'] = 1; // 「終了」没真的结束我方阶段
+  out['选了終了但回合没推进'] = a;
+
+  final b = Map<String, dynamic>.from(base);
+  b['mapMenu'] = goodMapMenuDump()['mapMenu']; // 菜单没关
+  out['选完菜单还开着'] = b;
+
+  return out;
+}
+
 int runSelfTest() {
   var bad = 0;
 
@@ -465,11 +642,49 @@ int runSelfTest() {
     }
   }
 
+  // ③ 地图菜单那一组判据也必须**会红**
+  //
+  // 理由同 R7 那次的教训（一条永远不可能失败的规则）：新加的断言
+  // 如果没被证伪过，就不知道它是活的。
+  for (final sc in const ['mapmenu', 'menuend']) {
+    final good = sc == 'mapmenu'
+        ? goodMapMenuDump()
+        : (goodMapMenuDump()
+          ..['mapMenu'] = null
+          ..['turn'] = 2
+          ..['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段');
+    final goodFailed =
+        check(good, scenario: sc).where((f) => !f.ok).toList();
+    if (goodFailed.isNotEmpty) {
+      stderr.writeln('✗ selftest：$sc 的基准转储不通过：');
+      for (final f in goodFailed) {
+        stderr.writeln('    ${f.name}: ${f.detail}');
+      }
+      bad++;
+    } else {
+      stdout.writeln('  ✓ $sc 基准转储全绿');
+    }
+
+    final broken =
+        sc == 'mapmenu' ? brokenMapMenuDumps() : brokenMenuEndDumps();
+    for (final e in broken.entries) {
+      final failed = check(e.value, scenario: sc).where((f) => !f.ok).toList();
+      if (failed.isEmpty) {
+        stderr.writeln('✗ 「${e.key}」没有被任何判据抓到 —— 判据是死的');
+        bad++;
+      } else {
+        stdout.writeln('  ✓ 「${e.key}」被抓到：${failed.first.name}');
+      }
+    }
+  }
+
   if (bad > 0) {
     stderr.writeln('✗ selftest 失败 $bad 项');
     return 1;
   }
-  stdout.writeln('判据自检通过：基准全绿 + ${brokenDumps().length} 个坏转储全被抓到');
+  stdout.writeln('判据自检通过：基准全绿 + '
+      '${brokenDumps().length + brokenMapMenuDumps().length + brokenMenuEndDumps().length}'
+      ' 个坏转储全被抓到');
   return 0;
 }
 

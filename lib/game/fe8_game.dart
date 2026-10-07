@@ -422,9 +422,33 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'talksNote': _talksNote,
       'mapMenu': mapMenu == null
           ? null
-          : {'index': mapMenu!.index, 'item': mapMenu!.current.label,
-             'items': [for (final e in mapMenuItems) e.label]},
+          : {
+              'index': mapMenu!.index,
+              'item': mapMenu!.current.item.label,
+              'itemCommand': mapMenu!.current.item.commandFn,
+              'itemAvailability': mapMenu!.current.availability.name,
+              // 只有 `MENU_NOTSHOWN` 之外的条目会在这里（`src/StartMenuCore.c:64`）
+              'items': [
+                for (final e in mapMenu!.entries)
+                  e.isDisabled ? '${e.item.label}（灰）' : e.item.label
+              ],
+              // `src/StartMenuCore.c:92-98` 算出来的面板，单位是 UI 图块（8px）
+              'layout': _mapMenuLayout == null
+                  ? null
+                  : {
+                      'x': _mapMenuLayout!.x,
+                      'y': _mapMenuLayout!.y,
+                      'w': _mapMenuLayout!.w,
+                      'h': _mapMenuLayout!.h,
+                      'rowPitch': 2,
+                    },
+            },
       'mapMenuNote': _mapMenuNote,
+      // ★ 决定"显示哪几条"的**输入**也摆出来 ——
+      // 只报结论（"5 条"）的话，"输入是怎么来的"就被结论吸收掉了。
+      'mapMenuInputs': _mapMenuInputs,
+      // 选中了但**界面还没做**的条目，逐次记下来（不静默）
+      'mapMenuUnimplemented': _mapMenuUnimplemented,
       'lastBattleQuote': _lastBattleQuote,
       'lastDefeatQuote': _lastDefeatQuote,
       'lastEndEvent': _lastEndEvent,
@@ -791,11 +815,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         case FlowInput.down:
           mapMenu = mapMenu!.move(1);
         case FlowInput.confirm:
-          final (action, st) = mapMenu!.select();
-          mapMenu = null;
+          final sel = mapMenu!.select();
+          if (sel.closesMenu) {
+            mapMenu = null;
+            _mapMenuNote = sel.note;
+            _runMapMenuCommand(sel.command);
+          } else {
+            // `src/MapMenu_SuspendCommand.c:51-54`：只弹提示，**菜单不关**
+            mapMenu = MapMenuState(
+              entries: mapMenu!.entries,
+              index: mapMenu!.index,
+              note: sel.note,
+            );
+            _mapMenuNote = sel.note;
+          }
           _syncMapMenuPanel();
-          _mapMenuNote = st.note;
-          if (action == MapMenuAction.endTurn) endTurn();
         case FlowInput.cancel:
           mapMenu = null;
           _syncMapMenuPanel();
@@ -813,9 +847,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         st != null &&
         (st.phase == FlowPhase.freeCursor || st.phase == FlowPhase.unitDone);
     if (i == FlowInput.start && playing) {
-      mapMenu = const MapMenuState();
-      _mapMenuNote = '打开（START）';
-      _syncMapMenuPanel();
+      _openMapMenu();
       _updateHud();
       return;
     }
@@ -1499,8 +1531,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 胜负条件载入的**结论**（转储里带出来）
   String _objectivesNote = '';
 
-  /// 把面板挂到世界层/更新高亮（几何照 `gMapMenuDef`，见 `MapMenuComponent`）
+  /// 把面板挂到世界层/更新高亮
+  ///
+  /// 几何全部来自 `lib/core/flow/map_menu.dart` 的 `mapMenuLayout()`
+  /// （`src/StartMenuCore.c:34-98`），这里只负责搬像素。
   MapMenuComponent? _mapMenuPanel;
+  MapMenuLayout? _mapMenuLayout;
 
   void _syncMapMenuPanel() {
     final m = mapMenu;
@@ -1508,23 +1544,123 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       world.remove(_mapMenuPanel!);
       _mapMenuPanel = null;
     }
-    if (m == null) return;
+    _mapMenuLayout = null;
+    if (m == null || m.isEmpty) return;
     final v = camera.viewport.virtualSize;
+
+    // `gBmSt.cursorTarget.x - gBmSt.camera.x`（`src/playerphase_0801C5A8.c:110`）：
+    // 光标的**屏幕像素** x —— 地图一格 16px（`lib/core/map/camera.dart` 的 `tilePx`）。
+    final cursorScreenPx =
+        (state?.cursorX ?? 0) * tilePx.toDouble() - _cameraX;
+
+    final layout = mapMenuLayout(
+      entries: m.entries,
+      cursorScreenPx: cursorScreenPx.round(),
+    );
+    _mapMenuLayout = layout;
+
+    // 一屏 20 个 UI 图块（160px / 8px）—— UI 图块是 8px，地图图块才是 16px
+    final tileSize = v.y / 20.0;
     final comp = MapMenuComponent(
-      labels: [for (final e in mapMenuItems) e.label],
+      layout: layout,
       selectedIndex: m.index,
-      tileSize: (v.y / 20.0),   // 20 图块高（160px / 8）
-    )..position = Vector2(
-        MapMenuComponent.xFor(state?.cursorX.toDouble() ?? 0, v.y / 20.0),
-        MapMenuComponent.rectY * (v.y / 20.0),
-      );
+      tileSize: tileSize,
+    )..position = MapMenuComponent.originFor(layout, tileSize);
     world.add(comp);
     _mapMenuPanel = comp;
+  }
+
+  /// 打开地图菜单（START）
+  ///
+  /// ★ **查不到 `GetBattleMapKind()` 就不打开**，并把缺失写进转储 ——
+  /// 绝不兜底成 `story`（兜底会让"未查证的章节"看起来和序章一模一样）。
+  void _openMapMenu() {
+    final kind = battleMapKindOf(sceneChapter);
+    final diff = titleFlow?.difficulty ?? Difficulty.normal;
+    final ng = NewGamePlayFlags(switch (diff) {
+      Difficulty.easy => NewGameDifficulty.easy,
+      Difficulty.normal => NewGameDifficulty.normal,
+      Difficulty.hard => NewGameDifficulty.hard,
+    });
+
+    if (kind == null) {
+      mapMenu = null;
+      _mapMenuLayout = null;
+      _mapMenuNote = '未查证：GetBattleMapKind(0x${sceneChapter.toRadixString(16)}) 读不到'
+          '（日版本体没有 carve）→ 不打开菜单';
+      _mapMenuInputs = {
+        'chapterIndex': sceneChapter,
+        'battleMapKind': null,
+        'battleMapKindVerified': false,
+        'guideLocked': ng.guideLocked,
+        'tutorial': ng.playFlagTutorial,
+        'tutorialMode': ng.isTutorialMode,
+        'difficulty': diff.name,
+      };
+      _syncMapMenuPanel();
+      return;
+    }
+
+    final ctx = MapMenuContext(
+      chapterIndex: sceneChapter,
+      battleMapKind: kind,
+      guideLocked: ng.guideLocked,
+      tutorial: ng.playFlagTutorial,
+      flags: eventFlags,
+    );
+    final entries = buildMapMenu(ctx);
+    mapMenu = MapMenuState(entries: entries);
+    _mapMenuNote = '打开（START）：${entries.length} 条'
+        '（${mapMenuItems.length} 条里隐藏了 '
+        '${mapMenuItems.length - entries.length} 条）';
+    _mapMenuInputs = {
+      'chapterIndex': sceneChapter,
+      'battleMapKind': kind.name,
+      // 抽查过（见 lib/core/flow/battle_map_kind.dart 的头注释），不是机器验证
+      'battleMapKindVerified': false,
+      'guideLocked': ng.guideLocked,
+      'tutorial': ng.playFlagTutorial,
+      'tutorialMode': ng.isTutorialMode,
+      'difficulty': diff.name,
+      'hidden': [
+        for (final it in mapMenuItems)
+          if (it.availability(ctx) == MenuAvailability.notShown)
+            '${it.label}(${it.availabilityFn})'
+      ],
+    };
+    _syncMapMenuPanel();
+  }
+
+  /// 执行地图菜单条目（`MenuItemDef::onSelected`）
+  ///
+  /// 8 条里有 5 条的**整屏界面**（部队/状況/辞書/設定/中断）还没搬进来 ——
+  /// 一律**响亮记录**在 `_mapMenuUnimplemented` 里，绝不当没发生。
+  /// 退却/戦績 在故事章节里是 `MENU_NOTSHOWN`，根本不会被选中。
+  void _runMapMenuCommand(MapMenuCommand c) {
+    switch (c) {
+      case MapMenuCommand.endPlayerPhase:
+        endTurn();
+      case MapMenuCommand.unitList:
+      case MapMenuCommand.status:
+      case MapMenuCommand.guide:
+      case MapMenuCommand.records:
+      case MapMenuCommand.options:
+      case MapMenuCommand.retreat:
+      case MapMenuCommand.suspend:
+        _mapMenuUnimplemented.add(c.name);
+        _mapMenuNote = '$_mapMenuNote → 界面未实现（${c.name}）';
+    }
   }
 
   /// 地图菜单状态（`null` = 没打开）
   MapMenuState? mapMenu;
   String _mapMenuNote = '';
+
+  /// 决定可见性的输入（含"未查证"标记）
+  Map<String, dynamic>? _mapMenuInputs;
+
+  /// 被选中但界面还没做的条目
+  final List<String> _mapMenuUnimplemented = [];
 
   /// 战斗/阵亡对话表（日版 carve 数组 → `tools/pipeline/out/tables/*_talk*.json`）
   TalkTables? talks;

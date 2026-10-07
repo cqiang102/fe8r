@@ -456,6 +456,16 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'battle'],
           note: '真机里打死奥尼尔 → EndingScene → MNC2(1) → Ch1Map',
           requires: ['tools/verify/scenario.sh']),
+      // 地图菜单：**显示哪几条**（`MENU_NOTSHOWN` 不占行、行距 2 图块、分侧用像素）
+      Step('L4', '端到端场景（地图菜单）', 'bash',
+          ['tools/verify/scenario.sh', 'mapmenu'],
+          note: 'START → 6 条（戦績/退却 被 MENU_NOTSHOWN 滤掉）+ 面板几何',
+          requires: ['tools/verify/scenario.sh']),
+      // 地图菜单里主动选「終了」= 两种回合结束里的那一种
+      Step('L4', '端到端场景（菜单里选終了）', 'bash',
+          ['tools/verify/scenario.sh', 'menuend'],
+          note: 'START → 5×down → 确认 → 第 2 回合、菜单关闭',
+          requires: ['tools/verify/scenario.sh']),
     ],
 
     Step('L3', '静态契约', 'flutter',

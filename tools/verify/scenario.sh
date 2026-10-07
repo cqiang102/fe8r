@@ -104,6 +104,27 @@ case "$SCENARIO" in
     # 截图才看得到地图（判据看的是转储，不看这张图）。
     SCRIPT="$SCRIPT,start,wait,wait"
     ;;
+  mapmenu)
+    # ★ 序章可玩地图 → START 打开地图菜单（**只是打开**）。
+    #
+    # 这一段前缀与 `battle` 相同（4×wait 覆盖 Nintendo/IS 两屏 → 5×confirm
+    # 走完 健康警告/标题/主菜单/难度/存档槽 → start 跳过序章过场 → 两拍等画面）。
+    # 随后那个 `start` 才是"打开地图菜单"。
+    #
+    # 判据看的是**显示哪几条**（`src/StartMenuCore.c:61-72`）：
+    # 故事章节 ⇒ 戦績/退却 是 MENU_NOTSHOWN、不占行；行距 2 个 UI 图块；
+    # 默认难度 normal ⇒ 教学模式 ⇒ 辞书没锁。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,wait,wait"
+    ;;
+  menuend)
+    # 同上，但一路按到 **「終了」** 再确认 —— 验"主动结束回合"这条路。
+    #
+    # 6 条（部隊/状況/辞書/設定/中断/終了）⇒ 「終了」在第 6 行 ⇒ down ×5。
+    # 条目数一变这条脚本就得改 —— 这正是它该红的地方。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,down,confirm,wait,wait"
+    ;;
   *)
     echo "未知场景 $SCENARIO" >&2
     exit 2

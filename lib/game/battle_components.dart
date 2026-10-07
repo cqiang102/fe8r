@@ -529,69 +529,92 @@ class ChapterTitleCardComponent extends PositionComponent {
 // ---------------------------------------------------------------------------
 // 地图菜单面板（START 打开，`gMapMenuDef`）
 //
-// 几何**照日版源码**（`src/data/frontier_df4_uistuff/frontier_df4_uistuff.c:12403-12412`）：
+// 几何**全部来自源码**，不给这里留"我摆的"这类自由度：
 //
-//     0x00060201                                ← rect: x=1, y=2, w=6, h=0（按条目数自动）
-//     0x00000000                                ← style = 0
-//     (u32)&frontier_df4_uistuff_030_5C534C     ← menuItems（8 条，顺序见 map_menu.dart）
+// * 面板矩形 `gMapMenuDef.rect = 0x00060201` → x=1 / y=2 / w=6 / h=0
+//   （`src/data/frontier_df4_uistuff/frontier_df4_uistuff.c:12403-12412`）
+// * 左右分侧 `if (xSubject < 120) rect.x = xTileRight;` —— 注意 `xSubject` 是
+//   **光标的屏幕像素 x**（`src/exact_0804f924.c:43-55`，调用点
+//   `src/playerphase_0801C5A8.c:110` 传 `cursorTarget.x - camera.x`）
+// * 条目位置与**行距**、面板高度：`src/StartMenuCore.c:59-98`
 //
-// 位置规则照 `StartOrphanMenuAdjusted`（`src/exact_0804f924.c:43-55`）：
+//     xTileInner = rect.x + 1;  yTileInner = rect.y + 1;
+//     每个显示出来的条目：item->xTile = xTileInner; item->yTile = yTileInner;
+//                         yTileInner += 2;              // ★ 一行 2 个 UI 图块 = 16px
+//     if (rect.y + rect.h < yTileInner) proc->rect.h = yTileInner + 1 - rect.y;
 //
-//     if (xSubject < 120) rect.x = xTileRight;   // 光标在屏幕左半边 → 用右边那套 x
-//     else                rect.x = xTileLeft;
+// 三者都算在 `lib/core/flow/map_menu.dart` 的 `mapMenuLayout()` 里（纯函数、有测试），
+// 这里只负责画出来。
 //
-// 调用点给的是 `(…, 光标x, 1, 0x17)` —— 也就是 tile 1 与 tile 23。
+// ⚠️ 上一版这里用的是"1 图块/行"（沿用了行动菜单的习惯），面板高度只有应有的一半；
+// 而且把**地图图块坐标**当成像素去比 120，导致左侧那套 x 永远走不到。
+// 两处都是"照源码重算"之后才对上的。
 //
-// ⚠️ **行高未查证**：`h = 0` 表示按条目数自动长，行高在 `Menu_Draw` /
-// `MenuProc` 的 `xTile/yTile`（baseline-resident）里。这里沿用本项目行动菜单
-// 的同款约定（1 图块/行），并在此标注。
+// 单位说明：UI 图块 = 8px（GBA 的 BG 图块），地图图块 = 16px。
+// 一屏是 30×20 个 UI 图块，所以 `tileSize = 屏高 / 20`。
 // ---------------------------------------------------------------------------
 
-/// 地图菜单面板
+/// 地图菜单面板（`MapMenuLayout` 的画法）
 class MapMenuComponent extends PositionComponent {
   MapMenuComponent({
-    required this.labels,
+    required this.layout,
     required this.selectedIndex,
     required this.tileSize,
-  }) : super(size: Vector2(tileSize * 6, tileSize * labels.length));
+  }) : super(
+          size: Vector2(
+            tileSize * layout.w,
+            tileSize * layout.h,
+          ),
+        );
 
-  final List<String> labels;
+  /// 由 `mapMenuLayout()` 算好的几何（UI 图块）
+  final MapMenuLayout layout;
+
+  /// `MenuProc::itemCurrent`
   final int selectedIndex;
+
+  /// 一个 **UI 图块**（8px）在屏幕上的像素尺寸
   final double tileSize;
 
-  /// 源码 `rect`：x=1 / 23、y=2（单位是图块）
-  static const int rectXLeft = 1;    // `xTileLeft`
-  static const int rectXRight = 0x17; // `xTileRight`
-  static const int rectY = 2;
-  static const int rectW = 6;
-
-  /// 光标在屏幕左半边（`xSubject < 120`）时菜单画在右边那套 x 上
-  static double xFor(double cursorX, double tileSize) {
-    final col = cursorX < 120 ? rectXRight : rectXLeft;
-    return col * tileSize;
-  }
+  /// 面板左上角在屏幕上的像素坐标
+  static Vector2 originFor(MapMenuLayout layout, double tileSize) =>
+      Vector2(layout.x * tileSize, layout.y * tileSize);
 
   @override
   Future<void> onLoad() async {
-    add(RectangleComponent(
-      position: Vector2(0, selectedIndex * tileSize),
-      size: Vector2(size.x, tileSize),
-      paint: Paint()..color = const Color(0x66FFE066),
-      priority: 0,
-    ));
-    for (var i = 0; i < labels.length; i++) {
+    final rows = layout.rows;
+    if (selectedIndex >= 0 && selectedIndex < rows.length) {
+      final sel = rows[selectedIndex];
+      add(RectangleComponent(
+        // 行内框：从 item->yTile 起，**2 个 UI 图块高**（一行字 8px + 间距 8px）
+        position: Vector2(0, (sel.yTile - layout.y) * tileSize),
+        size: Vector2(size.x, tileSize * 2),
+        paint: Paint()..color = const Color(0x66FFE066),
+        priority: 0,
+      ));
+    }
+    for (var i = 0; i < rows.length; i++) {
+      final r = rows[i];
+      final disabled = r.entry.isDisabled;
       add(TextComponent(
-        text: labels[i],
+        text: r.entry.item.label,
         textRenderer: TextPaint(
           style: TextStyle(
+            // `Menu_Draw` 的颜色语义：选中 = 高亮色，`MENU_DISABLED` = 灰
             color: i == selectedIndex
                 ? const Color(0xFFFFE066)
-                : const Color(0xFFD8DEE9),
-            fontSize: tileSize * 0.52,
+                : (disabled
+                    ? const Color(0xFF6B7280)
+                    : const Color(0xFFD8DEE9)),
+            fontSize: tileSize * 0.9,
           ),
         ),
         anchor: Anchor.centerLeft,
-        position: Vector2(4, i * tileSize + tileSize / 2),
+        // `item->xTile = rect.x + 1` ⇒ 文字比面板左边缘内缩 **1 个 UI 图块**
+        position: Vector2(
+          (r.xTile - layout.x) * tileSize,
+          (r.yTile - layout.y) * tileSize + tileSize,
+        ),
         priority: 1,
       ));
     }
