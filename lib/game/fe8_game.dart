@@ -20,6 +20,7 @@ import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
 import 'package:fe8r/game/battle_components.dart';
+import 'package:fe8r/game/ctl_server.dart';
 import 'package:fe8r/game/battle_view.dart';
 import 'package:fe8r/game/demo_event.dart';
 import 'package:fe8r/game/hud_view.dart';
@@ -815,6 +816,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         final n = int.tryParse(ch);
         if (n != null) sceneChapter = n;
       }
+      // ★ 实时控制通道（`FE8R_CTL=<port>`）：AI/测试可以**边看状态边按键**，
+      //   不用再猜一长串写死的输入（见 ctl_server.dart 的头注释）。
+      unawaited(_startCtlIfRequested());
+
       final forced = Platform.environment['FE8R_TITLE'];
       titleFlow = TitleFlow(texts: gameTexts!);
       final jump = forced == null ? null : TitleFlow.screenByName(forced);
@@ -987,18 +992,46 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 能用的做法是**中等速率 + 持续够久**：900 个 confirm、60ms 间隔。
   /// **不要为了"推得快"再加一个会改变被观察对象的开关。**
-  Future<void> runScript(String script) async {
-    for (final raw in script.split(',')) {
-      final t = raw.trim().toLowerCase();
-      if (t.isEmpty) continue;
-      // `wait` = 多等一会儿。**场景/地图是异步加载的**，
-      // 紧跟其后的按键会在加载完成前发出而丢掉
-      // （截图里验证过：加了按键但画面字节完全相同）。
-      if (t == 'wait') {
-        await Future<void>.delayed(const Duration(milliseconds: 900));
-        continue;
-      }
-      final i = switch (t) {
+  CtlServer? _ctl;
+
+  /// `FE8R_CTL=<port>` 时开一条 loopback TCP 控制通道
+  ///
+  /// ⚠️ 默认端口 **41999**，**不要用 19387** —— 那是 DSH Web GUI 自己的端口，
+  /// 第一次试就撞上了：客户端连到 GUI，收到 `HTTP/1.1 400 Bad Request`。
+  Future<void> _startCtlIfRequested() async {
+    final env = Platform.environment['FE8R_CTL'];
+    if (env == null) return;
+    final port = int.tryParse(env) ?? kCtlDefaultPort;
+    _ctl = CtlServer(
+      port: port,
+      onState: dumpState,
+      onPress: (keys) {
+        for (final k in keys) {
+          final i = inputByName(k);
+          if (i != null) routeInput(i);
+        }
+      },
+      onScript: runScript,
+      onQuit: () {
+        // 开发通道专用：`quit` 就是退出进程，脚本/CI 靠它收尾
+        exit(0);
+      },
+      log: (m) => debugPrint('[ctl] $m'),
+    );
+    try {
+      await _ctl!.start();
+      debugPrint('[ctl] 已监听 127.0.0.1:$port');
+    } catch (e) {
+      // 响亮：端口占用/权限不足都要看得见，不许静默变成"没有通道"
+      debugPrint('[ctl] ✗ 起不来（端口 $port）：$e');
+      _ctl = null;
+    }
+  }
+
+  /// 按键名 → `FlowInput`（`runScript` 与实时控制通道**共用这一份**）
+  ///
+  /// 出处：真实按键映射在 `onKeyEvent`（`src/event_0800D110.c:25-28` 的 START 语义）。
+  static FlowInput? inputByName(String name) => switch (name.trim().toLowerCase()) {
         'up' => FlowInput.up,
         'down' => FlowInput.down,
         'left' => FlowInput.left,
@@ -1010,6 +1043,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         'start' => FlowInput.start,
         _ => null,
       };
+
+  Future<void> runScript(String script) async {
+    for (final raw in script.split(',')) {
+      final t = raw.trim().toLowerCase();
+      if (t.isEmpty) continue;
+      // `wait` = 多等一会儿。**场景/地图是异步加载的**，
+      // 紧跟其后的按键会在加载完成前发出而丢掉
+      // （截图里验证过：加了按键但画面字节完全相同）。
+      if (t == 'wait') {
+        await Future<void>.delayed(const Duration(milliseconds: 900));
+        continue;
+      }
+      final i = inputByName(t);
       if (i != null) {
         routeInput(i);   // ← 与真实按键同一条路
         await Future<void>.delayed(const Duration(milliseconds: 60));
