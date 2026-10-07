@@ -56,6 +56,7 @@ export 'flow/unit_move.dart';
 export 'battle/weapon_triangle.dart';
 export 'battle/battle_unit.dart';
 export 'map/camera.dart';
+export 'map/map_change.dart';
 export 'map/map_grid.dart';
 export 'map/movement_range.dart';
 export 'rng/game_rng.dart';

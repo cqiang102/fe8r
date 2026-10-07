@@ -22,6 +22,8 @@
 
 import 'dart:convert';
 
+import 'map_change.dart';
+
 import '../terrain/terrain_type.dart';
 
 /// 一张地图的语义数据。不可变。
@@ -101,15 +103,62 @@ class MapGrid {
   }
 
   /// 该格的 metatile 索引（视觉用）
-  int metatileAt(int x, int y) => metatiles[_index(x, y)];
+  /// 查瓦片：**先看覆盖层**（地形变化写进覆盖，底层网格不动）。
+  ///
+  /// ⚠️ 越界仍然**抛 `RangeError`**（沿用既有契约，`map_grid_test` 钉着它）——
+  /// 我第一版照搬了游戏层那份的"越界返回 0"，把契约改掉了，测试当场红 ✗。
+  int metatileAt(int x, int y) {
+    final i = _index(x, y);
+    return _metatileOverrides[i] ?? metatiles[i];
+  }
 
   /// 该格的地形类型（**规则用**：移动消耗 / 回避 / 防御加成）
+  /// ★ **地形变化的覆盖层**（第 51 轮）。
+  ///
+  /// 瓦片/地形网格本身是 `List.unmodifiable`（很多调用方依赖它不变），所以换地形
+  /// 走**覆盖层** —— 等价于原作的 `gBmMapBaseTiles[y][x] = tile`
+  /// （`ApplyMapChangesById`，`src/masked_0802e4c4.c`）：底层数据不动，查询先看覆盖。
+  final Map<int, int> _metatileOverrides = {};
+  final Map<int, int> _terrainOverrides = {};
+
+  /// 已应用过的变更 id（对应 `EnableMapChange` / `IsMapChangeEnabled`）
+  final Set<int> appliedMapChanges = {};
+
+  /// 应用一条地形变化。返回 false = **这条已经应用过**
+  /// （对应 `TriggerMapChanges` 开头的 `if (IsMapChangeEnabled(id)) return;`）。
+  bool applyMapChange(MapChangeRecord r) {
+    if (appliedMapChanges.contains(r.id)) return false;
+    var i = 0;
+    for (var iy = 0; iy < r.ySize; iy++) {
+      for (var ix = 0; ix < r.xSize; ix++) {
+        if (i >= r.tiles.length) {
+          appliedMapChanges.add(r.id);
+          return true;
+        }
+        final v = r.tiles[i++];
+        if (v == 0) continue; // ★ `0` = 这格不动（稀疏语义）
+        final gx = r.xOrigin + ix;
+        final gy = r.yOrigin + iy;
+        if (gx < 0 || gy < 0 || gx >= width || gy >= height) continue;
+        _metatileOverrides[gy * width + gx] = v;
+      }
+    }
+    appliedMapChanges.add(r.id);
+    return true;
+  }
+
+  /// 换某一格的地形（门/桥开了会变成地板这类）
+  void applyTerrainOverride(int x, int y, int terrainIndex) {
+    if (x < 0 || y < 0 || x >= width || y >= height) return;
+    _terrainOverrides[y * width + x] = terrainIndex;
+  }
+
   TerrainType terrainAt(int x, int y) =>
-      _types[terrainIndices[_index(x, y)]];
+      _types[_terrainOverrides[_index(x, y)] ?? terrainIndices[_index(x, y)]];
 
   /// 该格的地形名原文。未知值也能原样取到，方便发现数据异常。
-  String terrainNameAt(int x, int y) =>
-      terrainLegend[terrainIndices[_index(x, y)]];
+  String terrainNameAt(int x, int y) => terrainLegend[
+      _terrainOverrides[_index(x, y)] ?? terrainIndices[_index(x, y)]];
 
   /// 各地形出现次数，键是地形名
   Map<String, int> terrainHistogram() {
