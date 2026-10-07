@@ -496,6 +496,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'popups': _popups.length,
       'flashes': _flashes.length,
       'hitFxLog': _hitFxLog.toList(),
+      'suspendPath': _suspendPath,
+      'suspendBytes': _suspendBytes,
+      'suspendNote': _suspendNote,
       'popupLog': _popupLog.toList(),
       'damageDealtTotal': _damageDealtTotal,
       // 教学事件（两段式：入队 → 触发）
@@ -936,10 +939,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           // 教训：改完 UI 那条链**必须跑 `--e2e`**（`menuend` 场景就是钉它的），
           // 我那次只跑了 `flutter test`（不覆盖菜单输入路径）。
           final selLabel = mapMenu!.current.item.label;
+          // ⚠️ **availability 也要在这里取**：下面会把 `mapMenu` 置空，
+          // 而 `_runMapMenuCommand` 是在置空**之后**调的 ——
+          // 我在中断分支里写 `mapMenu!.current.item.availability` 就 Null 崩了
+          //（与第 5 轮地图菜单那次是**同一个形状**：先置空、再解引用）。
+          // ⚠️ `availability` 是**函数** `(MapMenuContext) → MenuAvailability`，
+          // 得带上下文**求值**才是"禁用/可用"（我一开始把它当值用，类型直接不过）。
+          final selAvailability =
+              mapMenu!.current.item.availability(_mapMenuCtx!);
           if (sel.closesMenu) {
             mapMenu = null;
             _mapMenuNote = sel.note;
-            _runMapMenuCommand(sel.command, selLabel);
+            _runMapMenuCommand(sel.command, selLabel, selAvailability);
           } else {
             // `src/MapMenu_SuspendCommand.c:51-54`：只弹提示，**菜单不关**
             mapMenu = MapMenuState(
@@ -1847,6 +1858,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       flags: eventFlags,
     );
     final entries = buildMapMenu(ctx);
+    _mapMenuCtx = ctx;   // `availability` 是函数，求值要用它
     mapMenu = MapMenuState(entries: entries);
     _mapMenuNote = '打开（START）：${entries.length} 条'
         '（${mapMenuItems.length} 条里隐藏了 '
@@ -1874,7 +1886,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 8 条里有 5 条的**整屏界面**（部队/状況/辞書/設定/中断）还没搬进来 ——
   /// 一律**响亮记录**在 `_mapMenuUnimplemented` 里，绝不当没发生。
   /// 退却/戦績 在故事章节里是 `MENU_NOTSHOWN`，根本不会被选中。
-  void _runMapMenuCommand(MapMenuCommand c, String label) {
+  void _runMapMenuCommand(
+      MapMenuCommand c, String label, MenuAvailability availability) {
     switch (c) {
       case MapMenuCommand.endPlayerPhase:
         endTurn();
@@ -1885,11 +1898,26 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       case MapMenuCommand.options:
       case MapMenuCommand.retreat:
       case MapMenuCommand.suspend:
-        _mapMenuUnimplemented.add(c.name);
-        _mapMenuNote = '$_mapMenuNote → 界面未实现（${c.name}）';
-        // ★ 屏幕上也要说 —— 否则玩家以为按键没反应（试玩反馈里这类最难判）
-        _playNote = '「$label」这个界面还没做（见 docs/试玩.md）'
-            '${_helpShown ? '\n$kPlayNote' : ''}';
+        // 出处：`src/MapMenu_SuspendCommand.c:1-10`
+        //
+        // ```c
+        // if (menuItem->availability == MENU_DISABLED) {
+        //     MenuFrozenHelpBox(menu, 0x7E2);   // "You cannot stop in the middle of the tutorial."
+        //     return MENU_ACT_SND6B;
+        // }
+        // StartSuspendPrompt();
+        // ```
+        // ⇒ **禁用时弹 0x7E2 冻结提示、菜单不关**；否则走中断流程。
+        // 可用性由 `MapMenu_IsSuspendCommandAvailable`（`src/masked_0802257c.c:61-67`）
+        // 给：教学模式章节 ⇒ `MENU_DISABLED`。
+        if (availability == MenuAvailability.disabled) {
+          _showMessageById(_kTutorialNoSuspendMsgId);
+          _suspendNote = '教学章节：中断被禁用（弹消息 0x'
+              '${_kTutorialNoSuspendMsgId.toRadixString(16)}），**没有写存档**';
+        } else {
+          _writeSuspendSave();
+        }
+        _mapMenuNote = '$_mapMenuNote → ${_suspendNote.isEmpty ? c.name : _suspendNote}';
     }
   }
 
@@ -1925,6 +1953,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 逐段反馈记录（命中/未命中/暴击 + 伤害 + 目标）—— 判据用
   final List<Map<String, Object?>> _hitFxLog = [];
+
+  /// 打开地图菜单时用的上下文（`availability` 是**函数**，要带它求值）
+  MapMenuContext? _mapMenuCtx;
+
+  /// 中断存档：路径 / 字节数 / 说明（写了什么、或**为什么没写**）
+  String? _suspendPath;
+  int _suspendBytes = 0;
+  String _suspendNote = '';
 
   /// 回合横幅剩余帧数 + 当前文字（`ProcScr_PhaseIntro` 的最小等价物）
   int _bannerFrames = 0;
@@ -3759,6 +3795,61 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (name == null) continue;
       _specialEventFired = '$what：$name';
       await _runNamedScript(name);
+    }
+  }
+
+  /// `MenuFrozenHelpBox` 用的那条消息（`src/MapMenu_SuspendCommand.c:4`）：
+  /// 0x7E2「You cannot stop in the middle of the tutorial.」
+  static const int _kTutorialNoSuspendMsgId = 0x7E2;
+
+  /// 按消息 id 把文本显示在对话框里（找不到就**响亮**记下来）
+  void _showMessageById(int id) {
+    final plain = gameTexts?.byId(id)?.plain ?? '';
+    if (plain.isEmpty) {
+      _suspendNote = '消息 0x${id.toRadixString(16)} 取不到文本（texts 表里没有？）';
+      debugPrint('[MSG] $_suspendNote');
+      return;
+    }
+    _sceneView?.show(text: plain, virtualSize: camera.viewport.virtualSize);
+    _suspendNote = '消息 0x${id.toRadixString(16)}：$plain';
+  }
+
+  /// 写中断存档（`StartSuspendPrompt` → `CallSuspendPromptEvent` → `WriteSuspendSave`）。
+  ///
+  /// ⚠️ **格式是 JSON**，不是 GBA 的 SRAM 布局 —— 见 `lib/core/save/save_state.dart`
+  /// 的文件头（原格式为 8KB SRAM 设计，我们只复刻语义）。
+  ///
+  /// ⚠️ 还没做的：原作中断之后会**回标题**（提示事件里那条流程）。
+  /// 这里只写盘 + 在屏幕上说明路径，回标题留到下一步（不假装做了）。
+  void _writeSuspendSave() {
+    final f = field;
+    final fl = state;          // ⚠️ `flow` 是状态机（FlowMachine），`state` 才是快照
+    if (f == null || fl == null) {
+      _suspendNote = '没有战场状态，没写';
+      return;
+    }
+    final st = SaveState(
+      chapter: sceneChapter,
+      field: f,
+      flow: fl,
+      eventFlags: eventFlags,
+      rngConsumed: tracker.consumed,
+      disableAutoEndTurns: playConfig.disableAutoEndTurns,
+      worldMap: worldMap,
+      tutorial: tutorial,
+    );
+    try {
+      final dir = Directory('${Directory.systemTemp.path}/fe8r-saves')
+        ..createSync(recursive: true);
+      final file = File('${dir.path}/suspend.json');
+      file.writeAsStringSync(st.encode());
+      _suspendPath = file.path;
+      _suspendBytes = file.lengthSync();
+      _suspendNote = '已写中断存档（$_suspendBytes B）';
+      _playNote = '中断：$_suspendNote'; // 屏幕上也要说（否则玩家以为没反应）
+    } catch (e) {
+      _suspendNote = '写中断存档失败：$e';
+      debugPrint('[SAVE] $_suspendNote');
     }
   }
 

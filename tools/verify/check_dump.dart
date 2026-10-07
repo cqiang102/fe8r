@@ -166,6 +166,55 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
   //   打死首领 → 置 `EVFLAG_DEFEAT_BOSS` → 命中 `EventScr_Prologue_EndingScene`
   //   → `MNC2(1)` → **真的换到了第 1 章的地图**
   // 这条链在真实对局里跑通，而不是只在单元测试里。
+  if (scenario == 'suspend') {
+    // ★ 教学模式章节的「中断」：照源码**拒绝**，且不写存档。
+    //（`src/MapMenu_SuspendCommand.c:1-10` + `src/masked_0802257c.c:61-67`）
+    // ⚠️ **断言改过**：我原来断言"序章里中断必须被拒绝（教学章节）"。
+    // 那是错的：`src/SaveMenuWriteNewGame.c:30-45` 是
+    //   难度 0 ⇒ isTutorial = 0 / 难度 1 ⇒ 1 / 难度 2 ⇒ 1（+困难）
+    // 而这条脚本在难度屏上按确认取的是**默认项 0** ⇒ 这局**不是**教学模式
+    // ⇒ 中断**就该写存档**。源码没变，是我的期望写错了。
+    //
+    // 教学模式那条路（`MapMenu_SuspendCommand` 弹 0x7E2、不写盘）由**单测**覆盖：
+    // `map_menu_test`（可用性 = MENU_DISABLED）+ `save_state_test`（canSuspend）。
+    // 不在这里做，因为"难度屏选到 index 1"的按键方向我**没验证**，不猜。
+    final note = '${d['suspendNote']}';
+    ok(note.isNotEmpty, '中断按下去有说明（不是静默）', 'suspendNote=$note');
+    ok(note.contains('已写中断存档'), '说明是"已写中断存档"', 'suspendNote=$note');
+    final path = d['suspendPath'] as String?;
+    ok(path != null && path.isNotEmpty, '记录了存档路径', 'suspendPath=$path');
+    ok((d['suspendBytes'] as int? ?? 0) > 0, '写了非空内容',
+        'suspendBytes=${d['suspendBytes']}');
+    // ★ 真·落盘检查：把写出来的文件**读回来**，必须是合法的快照
+    //（有 chapter / field / flow / eventFlags 这些键）。
+    if (path != null && path.isNotEmpty) {
+      final f = File(path);
+      ok(f.existsSync(), '存档文件真的在盘上', 'path=$path');
+      if (f.existsSync()) {
+        Object? j;
+        try {
+          j = jsonDecode(f.readAsStringSync());
+        } catch (e) {
+          j = null;
+        }
+        final okJson = j is Map &&
+            j.containsKey('chapter') &&
+            j.containsKey('field') &&
+            j.containsKey('flow') &&
+            j.containsKey('eventFlags');
+        ok(okJson, '文件内容是一份合法快照（存 → 读得回来）',
+            'keys=${j is Map ? j.keys.toList() : j}');
+        if (j is Map && j['field'] is Map) {
+          final units = (j['field'] as Map)['units'];
+          ok(units is List && units.isNotEmpty, '快照里有单位',
+              'units=${units is List ? units.length : units}');
+        }
+      }
+    }
+    ok(d['mapMenu'] == null,
+        '菜单**关了**（非教学分支走 MENU_ACT_END）', 'mapMenu=${d['mapMenu']}');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');
@@ -801,6 +850,17 @@ Map<String, Map<String, dynamic>> brokenMenuEndDumps() {
 /// 两次回合结束（一次菜单、一次自动）之后应当：turn 3、我方阶段、
 /// 两个我方都能动、**没有任何人还是"已行动"**、敌方已经动过。
 /// `worldmap` 场景的基准转储（在 turnend 的基础上叠大地图字段）
+const String _selftestSuspendPath = '/tmp/fe8r-suspend-selftest.json';
+
+Map<String, dynamic> goodSuspendDump() {
+  final d = goodMapMenuDump();
+  d['suspendNote'] = '已写中断存档（1221 B）';
+  d['suspendPath'] = _selftestSuspendPath;   // 自检里会先写一个最小快照到这儿
+  d['suspendBytes'] = 1221;
+  d['mapMenu'] = null;
+  return d;
+}
+
 Map<String, dynamic> goodRangeDump() {
   final d = goodDump();
   d['phase'] = 'unitSelected';
@@ -950,7 +1010,33 @@ int runSelfTest() {
   //
   // 理由同 R7 那次的教训（一条永远不可能失败的规则）：新加的断言
   // 如果没被证伪过，就不知道它是活的。
-  for (final sc in const ['mapmenu', 'menuend', 'turnend', 'worldmap', 'range']) {
+  // 自检用的最小快照文件：`suspend` 场景的断言会**读盘**校验，
+  // 所以基准转储必须指向一个真实存在的文件（否则基准自己就红）。
+  File(_selftestSuspendPath).writeAsStringSync(jsonEncode({
+    'chapter': 1,
+    'field': {
+      'width': 2,
+      'height': 2,
+      'turn': 1,
+      'activeFaction': 0,
+      'units': [
+        {'id': 1, 'faction': 0, 'x': 0, 'y': 0, 'hp': 20, 'maxHp': 20},
+      ],
+    },
+    'flow': {'phase': 'freeCursor', 'cursorX': 0, 'cursorY': 0},
+    'eventFlags': <int>[],
+    'rngConsumed': 0,
+    'disableAutoEndTurns': false,
+  }));
+
+  for (final sc in const [
+    'mapmenu',
+    'menuend',
+    'turnend',
+    'worldmap',
+    'range',
+    'suspend',
+  ]) {
     final good = switch (sc) {
       'mapmenu' => goodMapMenuDump(),
       'menuend' => (goodMapMenuDump()
@@ -959,6 +1045,7 @@ int runSelfTest() {
         ..['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段'),
       'worldmap' => goodWorldMapDump(),
       'range' => goodRangeDump(),
+      'suspend' => goodSuspendDump(),
       _ => goodTurnEndDump(),
     };
     final goodFailed =

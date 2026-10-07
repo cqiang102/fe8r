@@ -140,6 +140,18 @@ case "$SCENARIO" in
     RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
     SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"
     ;;
+  suspend)
+    # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。
+    #
+    # 序章是**教学模式** ⇒ `MapMenu_IsSuspendCommandAvailable`
+    #（`src/masked_0802257c.c:61-67`）返回 `MENU_DISABLED`
+    # ⇒ `MapMenu_SuspendCommand`（`src/MapMenu_SuspendCommand.c:1-10`）弹
+    # `MenuFrozenHelpBox(0x7E2)` 并**不写存档、菜单不关**。
+    #
+    # 条目顺序：部隊/状況/辞書/設定/中断/終了 ⇒ 「中断」在第 5 行 ⇒ down×4。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,confirm,wait,wait"
+    ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。
     #
