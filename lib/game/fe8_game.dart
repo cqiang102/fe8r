@@ -573,6 +573,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastDoor': lastDoor,
       'lastRescue': lastRescue,
       'lastDrop': lastDrop,
+      'lastConvoy': lastConvoy,
+      'convoyCount': convoyCount(convoyItems),
+      'convoyAccessAssumed': convoyAccessAssumed,
+      // ★ 行动菜单**有哪些项**（判据用；也是给"看不见菜单就瞎按键"这个反复
+      //   出现的坑的解法：测试按**名字**定位，而不是数 down 几次）
+      'actionMenu': (flow != null && state != null && field != null)
+          ? flow!
+              .availableActions(state!, field!,
+                  hasUsableItem: _usableSlots.isNotEmpty)
+              .map((o) => o.label)
+              .toList()
+          : null,
+      'actionIndex': state?.actionIndex,
       'chapterModeIndex': chapterModeIndex,
       'unresolvedAttributes': _unresolvedAttributes.length,
       'autolevelMisses': _autolevelMisses,
@@ -992,6 +1005,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ 輸送界面开着时输入归它 —— 注意它**不经过** `itemSubMenu`
+    //（輸送是**行动菜单**里的一项，不是道具子菜单里的一项）⇒ 必须在最前面拦。
+    if (_convoyOpen) {
+      _convoyInput(i);
+      return;
+    }
+
     // ★ 道具子菜单开着时输入归它（`ItemSubMenu`）
     if (itemSubMenu != null) {
       _itemSubMenuInput(i);
@@ -1388,6 +1408,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「輸送」：进入存取界面（`SupplyUsability` 通过后才有这一项）
+    final supplyAt = r.supplyAt;
+    if (supplyAt != null) {
+      final u6 = field?.unitById(s.selectedUnitId ?? -1);
+      if (u6 != null) {
+        _convoyUnitId = u6.id;
+        _convoyStage = 'menu';
+        _convoyCursor = 0;
+        _convoyOpen = true;
+        _showConvoyScreen();
+      }
+      state = r.state;
+      return; // 不结束行动：輸送可以反复存取（原作也是菜单里来回）
+    }
+
     // ★ 「救出」：`UnitRescue` —— 双方互记索引 + 被救者挪到发起者格 + 隐藏
     final rescueAt = r.rescueAt;
     if (rescueAt != null) {
@@ -4648,6 +4683,188 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _finishItemAction();
   }
 
+  /// 輸送界面的状态（`_convoyStage`：`menu` / `mine` / `store`）
+  int _convoyUnitId = -1;
+  String _convoyStage = 'menu';
+  int _convoyCursor = 0;
+
+  /// 輸送菜单的两项：0 = 送る、1 = 引き出す
+  int _convoyMenuIndex = 0;
+
+  /// 輸送界面开着（见 `routeInput` 顶部的说明）
+  bool _convoyOpen = false;
+
+  void _convoyInput(FlowInput i) {
+    final u = field?.unitById(_convoyUnitId);
+    if (u == null) {
+      _convoyOpen = false;
+      return;
+    }
+    if (_convoyStage == 'menu') {
+      if (i == FlowInput.cancel) {
+        _convoyOpen = false; // 回到行动菜单（phase 一直是 actionMenu）
+        return;
+      }
+      if (i == FlowInput.up || i == FlowInput.left) {
+        _convoyMenuIndex = (_convoyMenuIndex - 1 + 2) % 2;
+        _showConvoyScreen();
+        return;
+      }
+      if (i == FlowInput.down || i == FlowInput.right) {
+        _convoyMenuIndex = (_convoyMenuIndex + 1) % 2;
+        _showConvoyScreen();
+        return;
+      }
+      if (i == FlowInput.confirm) {
+        _convoyStage = _convoyMenuIndex == 0 ? 'store' : 'take';
+        _convoyCursor = 0;
+        _showConvoyScreen();
+      }
+      return;
+    }
+    if (_convoyStage == 'take') {
+      // 从输送队取一件（`RemoveItemFromConvoy`）
+      final idxs = <int>[
+        for (var k = 0; k < convoyItems.length; k++)
+          if (convoyItems[k] != 0) k
+      ];
+      if (idxs.isEmpty) {
+        _convoyStage = 'menu';
+        _showConvoyScreen();
+        return;
+      }
+      if (i == FlowInput.up || i == FlowInput.left) {
+        _convoyCursor = (_convoyCursor - 1 + idxs.length) % idxs.length;
+        _showConvoyScreen();
+      } else if (i == FlowInput.down || i == FlowInput.right) {
+        _convoyCursor = (_convoyCursor + 1) % idxs.length;
+        _showConvoyScreen();
+      } else if (i == FlowInput.cancel) {
+        _convoyStage = 'menu';
+        _showConvoyScreen();
+      } else if (i == FlowInput.confirm) {
+        _convoyTake(idxs[_convoyCursor.clamp(0, idxs.length - 1)]);
+        _rebuildOverlay();
+        _convoyStage = 'menu';
+        _showConvoyScreen();
+      }
+      return;
+    }
+    // 'store'：在我的道具里选一件送进去
+    final slots = <int>[
+      for (var k = 0; k < u.items.length; k++)
+        if (u.items[k] != 0) k
+    ];
+    if (slots.isEmpty) {
+      _convoyStage = 'menu';
+      _showConvoyScreen();
+      return;
+    }
+    if (i == FlowInput.up || i == FlowInput.left) {
+      _convoyCursor = (_convoyCursor - 1 + slots.length) % slots.length;
+      _showConvoyScreen();
+    } else if (i == FlowInput.down || i == FlowInput.right) {
+      _convoyCursor = (_convoyCursor + 1) % slots.length;
+      _showConvoyScreen();
+    } else if (i == FlowInput.cancel) {
+      _convoyStage = 'menu';
+      _showConvoyScreen();
+    } else if (i == FlowInput.confirm) {
+      _convoyStore(slots[_convoyCursor.clamp(0, slots.length - 1)]);
+      _rebuildOverlay();
+      _convoyStage = 'menu';
+      _showConvoyScreen();
+    }
+  }
+
+  void _showConvoyScreen() {
+    final u = field?.unitById(_convoyUnitId);
+    if (u == null) return;
+    final lines = <String>[
+      '輸送队（${convoyCount(convoyItems)}/$convoyItemCount）',
+      '我的：${u.items.where((w) => w != 0).map((w) => _itemLabel(w)).join(" / ")}',
+      _convoyStage == 'menu'
+          ? (_convoyMenuIndex == 0 ? '▶ 送る     引き出す' : '  送る   ▶ 引き出す')
+          : '↑↓ 选   A 决定   B 返回',
+      '輸送队：${convoyItems.where((w) => w != 0).take(6).map((w) => _itemLabel(w)).join(" / ")}',
+    ];
+    _itemMenuText = lines.join('\n');
+    lastConvoyMenuText = _itemMenuText;
+    _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+  }
+
+  /// 送一件进输送队（`AddItemToConvoy` + `UnitRemoveItem`）
+  bool _convoyStore(int slot) {
+    final u = field?.unitById(_convoyUnitId);
+    if (u == null) return false;
+    final word = u.items[slot];
+    if (word == 0) return false;
+    final idx = addItemToConvoy(convoyItems, word);
+    if (idx < 0) {
+      // ★ 满了：**不丢**（`AddItemToConvoy` 返回 -1，道具留在原处）
+      lastConvoy = {
+        'action': 'store',
+        'ok': false,
+        'reason': 'convoyFull',
+        'unit': u.id,
+        'slot': slot,
+        'count': convoyCount(convoyItems),
+      };
+      debugPrint('[CONVOY] $lastConvoy');
+      _itemMenuText = '输送队满了（$convoyItemCount 格）';
+      _sceneView?.show(text: _itemMenuText, virtualSize: camera.viewport.virtualSize);
+      return false;
+    }
+    u.items[slot] = 0;
+    final compacted = unitRemoveInvalidItems(u.items);
+    for (var i = 0; i < u.items.length; i++) {
+      u.items[i] = compacted[i];
+    }
+    lastConvoy = {
+      'action': 'store',
+      'ok': true,
+      'unit': u.id,
+      'slot': slot,
+      'convoyIndex': idx,
+      'count': convoyCount(convoyItems),
+      'unitItems': u.items.toList(),
+    };
+    debugPrint('[CONVOY] $lastConvoy');
+    return true;
+  }
+
+  /// 从输送队取一件（有空格才行）
+  bool _convoyTake(int index) {
+    final u = field?.unitById(_convoyUnitId);
+    if (u == null) return false;
+    final word = convoyItems[index];
+    if (word == 0) return false;
+    final free = u.items.indexWhere((w) => w == 0);
+    if (free < 0) {
+      lastConvoy = {
+        'action': 'take',
+        'ok': false,
+        'reason': 'unitFull',
+        'unit': u.id,
+        'index': index,
+      };
+      debugPrint('[CONVOY] $lastConvoy');
+      return false;
+    }
+    u.items[free] = word;
+    removeItemFromConvoy(convoyItems, index); // 置 0 + 压缩
+    lastConvoy = {
+      'action': 'take',
+      'ok': true,
+      'unit': u.id,
+      'index': index,
+      'count': convoyCount(convoyItems),
+      'unitItems': u.items.toList(),
+    };
+    debugPrint('[CONVOY] $lastConvoy');
+    return true;
+  }
+
   void _itemSubMenuInput(FlowInput i) {
     final m = itemSubMenu!;
     final entries = (m['entries'] as List).cast<Map<String, Object?>>();
@@ -5221,6 +5438,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   Map<String, Object?>? lastRescue;
   Map<String, Object?>? lastDrop;
 
+  /// **输送队**（`gConvoyItemArray`：100 格，`include/bmcontainer.h:7`）
+  final List<int> convoyItems = List<int>.filled(convoyItemCount, 0);
+
+  /// 最近一次輸送操作的记录（判据用）
+  Map<String, Object?>? lastConvoy;
+
+  /// 本章允不允许用输送队（`HasConvoyAccess()`）。
+  ///
+  /// ⚠️ 那个函数的**实现在反编译里没读到**（`src/` 里只有调用点），
+  /// 所以这里恒为 `true` 并且**在转储里标出来**（`convoyAccessAssumed`）——
+  /// 不假装它是查证过的。
+  bool convoyAccessAssumed = true;
+
   /// 钥匙类道具的编号（从 `items.json` 读，不硬编码）
   int _itemChestKey = 0;
   int _itemChestKeyBundle = 0;
@@ -5295,6 +5525,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 杖界面的留档（关掉之后判据仍看得到）
   String lastStaffMenuText = '';
+
+  /// 輸送界面的留档
+  String lastConvoyMenuText = '';
 
   /// 上一次杖的目标列表长度（`0` = 当时没人可治）
   int lastStaffTargetsShown = 0;
@@ -6189,6 +6422,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     fl.rescueAvailableAt = (x, y) {
       if (unit.hasActed || unit.isRescuing) return false;
       return _rescueTargets(unit).isNotEmpty;
+    };
+    fl.supplyAvailableAt = (x, y) {
+      final leader = convoyLeaderId(chapterModeIndex: chapterModeIndex);
+      return supplyAvailable(
+        hasConvoyAccess: convoyAccessAssumed,
+        isPhantom: _classNameByNumber[unit.classId] == 'CLASS_PHANTOM',
+        isLeader: unit.charIndex == leader,
+      );
     };
     fl.dropAvailableAt = (x, y) {
       return dropAvailable(

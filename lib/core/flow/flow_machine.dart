@@ -72,7 +72,10 @@ enum ActionOption {
 
   /// 救出 / 降下（`CanUnitRescue` / `UnitRescue` / `DropUsability`）
   rescue('救出'),
-  drop('降ろす');
+  drop('降ろす'),
+
+  /// 輸送（`SupplyUsability`，`src/SupplyUsability.c:51-80`）
+  supply('輸送');
 
   const ActionOption(this.label);
   final String label;
@@ -257,6 +260,7 @@ class FlowResult {
     this.doorAt,
     this.rescueAt,
     this.dropAt,
+    this.supplyAt,
   });
 
   final FlowState state;
@@ -282,9 +286,10 @@ class FlowResult {
   /// 本次输入是否请求**开门/吊桥**（值是"x,y"，调用方据此找相邻目标）。
   final String? doorAt;
 
-  /// 本次输入是否请求**救出** / **降下**（值是"x,y"）
+  /// 本次输入是否请求**救出** / **降下** / **輸送**（值是"x,y"）
   final String? rescueAt;
   final String? dropAt;
+  final String? supplyAt;
 
   /// 本次输入是否请求**使用某个槽位的道具**。
   ///
@@ -540,6 +545,10 @@ class FlowMachine {
           return FlowResult(s, dropAt: '$at,$atY');
         }
 
+        if (picked == ActionOption.supply) {
+          return FlowResult(s, supplyAt: '$at,$atY');
+        }
+
         if (picked == ActionOption.item) {
           return FlowResult(s.copyWith(
             phase: FlowPhase.itemMenu,
@@ -726,6 +735,9 @@ class FlowMachine {
     if (dropAvailableAt?.call(x, y) ?? false) {
       out.add(ActionOption.drop);
     }
+    if (supplyAvailableAt?.call(x, y) ?? false) {
+      out.add(ActionOption.supply);
+    }
     return out;
   }
 
@@ -751,6 +763,9 @@ class FlowMachine {
 
   /// "这个单位能不能「降ろす」"（要 `US_RESCUING` + 相邻空落点）
   bool Function(int x, int y)? dropAvailableAt;
+
+  /// "这个单位能不能「輸送」"（`HasConvoyAccess` + 非幻影 + 领袖）
+  bool Function(int x, int y)? supplyAvailableAt;
 
   /// 道具菜单里的**可用槽数** —— 由调用方注入（游戏层拿道具表算出"哪些槽能用"）。
   ///
