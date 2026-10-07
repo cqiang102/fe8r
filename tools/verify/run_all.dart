@@ -216,6 +216,13 @@ Future<void> main(List<String> argv) async {
       Step('L0', '事件列表', 'true', const [], skip: true, note: decompNote),
 
     if (hasDecomp())
+      Step('L0', '角色表 + 道具表', 'python3',
+          ['extract/parse_char_item_data.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: 'gCharacterData / gItemData —— 战斗属性的另两半')
+    else
+      Step('L0', '角色/道具表', 'true', const [], skip: true, note: decompNote),
+
+    if (hasDecomp())
       Step('L0', '文本表', 'python3',
           ['extract/parse_text.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: '3339 条消息 / 61 个章节标题')

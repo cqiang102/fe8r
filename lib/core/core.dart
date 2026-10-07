@@ -23,6 +23,7 @@ export 'event/scene.dart';
 export 'event/event_script.dart';
 export 'event/event_vm.dart';
 export 'battle/battle_stats.dart';
+export 'battle/battle_compute.dart';
 export 'battle/hit_effects.dart';
 export 'battle/phase.dart';
 export 'flow/combat.dart';

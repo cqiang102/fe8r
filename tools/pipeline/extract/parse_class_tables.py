@@ -50,7 +50,26 @@ ENTRY_RX = re.compile(r"\[\s*(CLASS_\w+)\s*-\s*1\s*\]\s*=\s*\{")
 FIELD_RX = re.compile(r"\.(\w+)\s*=\s*([^,}]+?)\s*,")
 FIELD_ARRAY_RX = re.compile(r"\.(\w+)\s*=\s*\{(.*?)\}\s*,", re.S)
 
-WANTED_SCALAR = ("number",)
+# ⚠️ **这里原来只有 `("number",)`** —— 于是 `classes.json` 里
+# **只有地形/移动数据，没有一行基础属性**。
+#
+# 后果：战斗只能靠硬编码的演示 profile（`_profileFor` 里
+# `classId: isArcher ? 0x1B : 0x2A`），**奥尼尔因此打不掉**。
+#
+# 出处 `include/bmunit.h:61-100` 的 `struct ClassData`：
+# 基础值 / 上限 / 成长 都在，只是没被抽。
+WANTED_SCALAR = (
+    "number", "nameTextId", "descTextId", "promotion", "SMSId",
+    # 基础值（这就是战斗属性的来源）
+    "baseHP", "basePow", "baseSkl", "baseSpd", "baseDef", "baseRes",
+    "baseCon", "baseMov",
+    # 上限
+    "maxHP", "maxPow", "maxSkl", "maxSpd", "maxDef", "maxRes", "maxCon",
+    "classRelativePower",
+    # 成长
+    "growthHP", "growthPow", "growthSkl", "growthSpd", "growthDef",
+    "growthRes", "growthLck",
+)
 WANTED_PTR = (
     "pTerrainAvoidLookup",
     "pTerrainDefenseLookup",
