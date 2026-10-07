@@ -854,10 +854,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final cls = (m['classIndex'] as num?)?.toInt() ?? 0;
       added.add(MapUnit(
         id: 0x100 + added.length,          // 蓝色方，编号从 0x100 起
-        // `allegiance`：0=蓝 1=红 2=绿（原作的 FACTION_*）
+        // `allegiance` -> 阵营。
+        //
+        // ⚠️ **出处：`include/bmunit.h:299-302`**
+        //
+        //     FACTION_ID_BLUE   = 0
+        //     FACTION_ID_GREEN  = 1     <- ★ 1 是「绿」，不是红
+        //     FACTION_ID_RED    = 2
+        //     FACTION_ID_PURPLE = 3
+        //
+        // 我第一版写成了 `1 => red, 2 => green`（想当然地以为
+        // 蓝红绿是 0/1/2）—— 结果**序章的敌人被载入成绿色 NPC**，
+        // 于是"地图上没有敌人"、打不到奥尼尔。
         faction: switch ((m['allegiance'] as num?)?.toInt() ?? 0) {
-          1 => Faction.red,
-          2 => Faction.green,
+          1 => Faction.green,
+          2 => Faction.red,
           _ => Faction.blue,
         },
         x: (m['x'] as num?)?.toInt() ?? 0,
