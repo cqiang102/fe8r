@@ -161,7 +161,8 @@ class SceneView {
   ///
   /// ⚠️ **脚本会阻塞到淡完** —— `src/Event17_Fade.c` 里四个分支
   /// 返回的都是 `EVC_ADVANCE_YIELD`。
-  Future<void> fade(FadeDirection dir, int speed, Vector2 virtualSize) {
+  Future<void> fade(FadeDirection dir, int speed, Vector2 virtualSize,
+      {bool instant = false}) {
     final done = Completer<void>();
     _fadeOverlay
       ..size = virtualSize.clone()
@@ -182,6 +183,13 @@ class SceneView {
     final frames = speed <= 0 ? 16.0 : (256.0 / speed).clamp(2.0, 120.0);
     final secs = frames / 60.0;
     _fadeOverlay.removeAll(_fadeOverlay.children.whereType<OpacityEffect>());
+    if (instant) {
+      // 快进（`EVENT_IS_SKIPPING`）：不播过场，直接到终态
+      // （`include/event.h:57` / `src/Event17_Fade.c:49`）
+      _fadeOverlay.opacity = dir.endsVisible ? 0 : 1;
+      done.complete();
+      return done.future;
+    }
     _fadeOverlay.add(OpacityEffect.to(
       dir.endsVisible ? 0 : 1,
       EffectController(duration: secs),

@@ -440,11 +440,21 @@ Future<void> main(List<String> argv) async {
     // 平时那条 `dart run tools/verify/run_all.dart` 永远退出 1 ——
     // 于是大家就会习惯性地加 `--allow-missing-decomp`，
     // **把"有东西没验"这件事变成背景噪音**。
-    if (argv.contains('--e2e'))
+    if (argv.contains('--e2e')) ...[
       Step('L4', '端到端场景（序章）', 'bash',
           ['tools/verify/scenario.sh', 'prologue'],
           note: '开机 → 序章开场 → 可玩地图；细剑/名册/渲染数/相机',
           requires: ['tools/verify/scenario.sh']),
+      Step('L4', '端到端场景（王座厅取景）', 'bash',
+          ['tools/verify/scenario.sh', 'throne'],
+          note: '第一幕中途：地图 Ch16Map / 镜头 (96,0) / DISA / 走位',
+          requires: ['tools/verify/scenario.sh']),
+      // ★ **"把第一章之前做到玩得通"的核心判据**
+      Step('L4', '端到端场景（序章 → 第 1 章）', 'bash',
+          ['tools/verify/scenario.sh', 'battle'],
+          note: '真机里打死奥尼尔 → EndingScene → MNC2(1) → Ch1Map',
+          requires: ['tools/verify/scenario.sh']),
+    ],
 
     Step('L3', '静态契约', 'flutter',
         ['analyze', '--fatal-infos', 'lib', 'test', 'tools'],

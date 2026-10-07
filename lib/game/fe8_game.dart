@@ -412,6 +412,47 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               'saveSlot': titleFlow!.saveSlot,
             },
       'objectiveHit': _lastObjectiveHit,
+      // 胜负条件的**诊断**：列表有没有载入、当前能推出哪些标志、
+      // 第一条命中的是谁。上一版只有 `objectiveHit`，于是"条件没命中"
+      // 和"命中了但脚本名为 null"在转储里长得一模一样。
+      'objectivesNote': _objectivesNote,
+      'objectives': _objectives == null
+          ? null
+          : {
+              'chapter': sceneChapter,
+              'count': _objectives!.entries.length,
+              'entries': [
+                for (final e in _objectives!.entries)
+                  {
+                    'cmd': e.cmd,
+                    'doneFlag': e.doneFlag,
+                    'checkFlag': e.checkFlag,
+                    'script': e.script,
+                  },
+              ],
+              // 只算不改：把当前能推导出的标志列出来
+              'derivedFlags': (field == null)
+                  ? null
+                  : (deriveEventFlags(
+                      units: [
+                        for (final u in field!.units)
+                          BattleUnitView(
+                            charIndex: u.charIndex,
+                            faction: u.faction,
+                            alive: u.isAlive,
+                          ),
+                      ],
+                      chapterIndex: sceneChapter,
+                      defeatTalk: [
+                        for (final e in _defeatTalk) DefeatTalkEntry.fromJson(e)
+                      ],
+                      charNameOf: (i) => _charNames?[i],
+                    ).toList()
+                      ..sort()),
+              'firstMatch': _objectives!
+                  .firstMatch(eventFlags.contains)
+                  ?.script,
+            },
       'mapHistory': _sceneMapHistory.trim(),
       // ⚠️ `mapHistory` 只记**成功**的切换。失败的那次原来哪都不写 ——
       // 于是"序章有三张图"这件事在我自己的诊断里也是完整的，
@@ -481,6 +522,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   @visibleForTesting
   CombatProfile profileForTest(MapUnit u) => _profileFor(u);
 
+  /// 测试钩子：按编号取道具数据（诊断用）
+  @visibleForTesting
+  ItemStats? itemStatsForTest(int index) => _itemStats[index];
+
   @override
   KeyEventResult onKeyEvent(
     KeyEvent event,
@@ -504,8 +549,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     } else if (k == LogicalKeyboardKey.arrowRight ||
         k == LogicalKeyboardKey.keyD) {
       i = FlowInput.right;
+    } else if (k == LogicalKeyboardKey.enter) {
+      // ⚠️ **回车是 START，不是 A**（`src/event_0800D110.c:27`：
+      // `newKeys & START_BUTTON` 触发快进剧情）。
+      // 我原来把它当成 confirm 了。
+      i = FlowInput.start;
     } else if (k == LogicalKeyboardKey.keyZ ||
-        k == LogicalKeyboardKey.enter ||
         k == LogicalKeyboardKey.space) {
       i = FlowInput.confirm;
     } else if (k == LogicalKeyboardKey.keyX ||
@@ -598,6 +647,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       field = _makeDemoField(grid);
       flow = FlowMachine(map: grid, costTable: _demoCostTable());
       ai = EnemyAi(map: grid, costTable: _demoCostTable());
+      // ⚠️ **章节链路必须先载入**，再载入规则层数据 ——
+      // `_loadObjectives()` 要用 `_chapterLinks[chapter].eventGroupName`
+      // 去拼 `EventListScr_<组名>_Misc`。顺序反了 `_chapterLinks` 就是空的，
+      // **胜负条件表永远载不进来**（`_objectives == null`），
+      // "打死首领 → 结束脚本 → 切章"这条链一步都不走 —— 而且不报错。
+      _loadChapterMaps();
+      _loadChapterLinks();
       // ★ 规则层数据表（职业/角色/道具/单位表/章节/胜负条件）——
       // 它同时负责建 `_items` 与 `combat`（**必须是同一个道具表对象**，
       // 否则伤害算在演示表上：细剑是 9 号而演示表只有 8 项 → 威力 0）。
@@ -618,8 +674,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _sceneView = SceneView(onHudChanged: _updateHud);
       // 脸编号 → 角色名（表就是可读的 C 源码里的符号名）
       _sceneView!.loadFaceIds('tools/pipeline/out/tables/face_ids.json');
-      _loadChapterMaps();
-      _loadChapterLinks();
+      // ⚠️ **章节链路必须在 `loadRuleData()` 之前** ——
+      // `_loadObjectives()` 要用 `_chapterLinks[chapter].eventGroupName`
+      // 去拼 `EventListScr_<组名>_Misc`。反过来的话 `_chapterLinks` 是空的，
+      // **胜负条件表永远不会载入**（`_objectives == null`），
+      // 于是"打死首领 → 结束脚本 → 切章"这条链一步都不走。
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
 
@@ -692,6 +751,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 见 [_titlePending] 的说明（时间是帧驱动的，不是按键驱动的）。
     if (inTitleFlow) {
       if (_titlePending.length < 32) _titlePending.add(i);
+      return;
+    }
+    // 演出期间按 START = **快进整段剧情**
+    // （`src/event_0800D110.c:25-28` 置 `EV_STATE_SKIPPING`）
+    if (i == FlowInput.start && _sceneRunning) {
+      scene?.startSkip();
       return;
     }
     input(i);
@@ -788,6 +853,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         'cancel' || 'x' => FlowInput.cancel,
         'endturn' || 'e' => FlowInput.endTurn,
         'dialogue' || 'd' => FlowInput.startDialogue,
+        'start' => FlowInput.start,
         _ => null,
       };
       if (i != null) {
@@ -916,6 +982,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         _currentText = e;
         _sceneShown++;
         _updateSceneDialogue();
+        // 快进中不等人（`Event21_TextBg.c:42` 里查 `EVENT_IS_SKIPPING`）
+        if (scene?.skipping == true) break;
         _sceneWait = Completer<void>();
         await _sceneWait!.future;
         case ChangeChapter(:final chapterIndex):
@@ -959,14 +1027,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
         case Fade(:final dir, :final speed):
           // 脚本阻塞到淡完 —— 见 src/Event17_Fade.c（四个分支都 ADVANCE_YIELD）
-          await _sceneView?.fade(dir, speed, camera.viewport.virtualSize);
+          // ⚠️ `src/Event17_Fade.c:49` 查 `EVENT_IS_SKIPPING` → 快进时立即到位
+          await _sceneView?.fade(dir, speed, camera.viewport.virtualSize,
+              instant: scene?.skipping == true);
 
       case WaitForInput():
         break; // ShowText 已经等过了
       case LoadUnits(:final table, :final group):
         _loadUnitsFromTable(table, group);
       case Stall():
-        await Future<void>.delayed(Duration(milliseconds: e.frames * 16));
+        // `STAL` 是时间门控的；快进时直接跳过（原作里这些等待同样被跳过）
+        if (scene?.skipping != true) {
+          await Future<void>.delayed(Duration(milliseconds: e.frames * 16));
+        }
       case MoveUnitInScene(:final op, :final args):
         _moveUnitInScene(op, args);
 
@@ -1356,6 +1429,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 已经被判定过的条件（避免同一帧重复触发）
   bool _objectiveRunning = false;
 
+  /// 胜负条件载入的**结论**（转储里带出来）
+  String _objectivesNote = '';
+
   void _loadObjectives() {
     // ① 事件列表：章节 → Misc 列表
     final ef = File('tools/pipeline/out/tables/event_lists.json');
@@ -1363,16 +1439,23 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final d = jsonDecode(ef.readAsStringSync()) as Map<String, dynamic>;
       final lists = d['lists'] as Map<String, dynamic>;
       // 章节号 → 事件组名（`PrologueEvents`）→ 列表名（`EventListScr_Prologue_Misc`）
-      final ev = _chapterLinks.isNotEmpty && sceneChapter < _chapterLinks.length
-          ? _chapterLinks[sceneChapter]['eventGroupName'] as String?
-          : null;
+      // ⚠️ 空链路 = 顺序错了（见 onLoad 里的说明）。**不要静默返回。**
+      if (_chapterLinks.isEmpty) {
+        _objectivesNote = '胜负条件：章节链路还没载入（调用顺序错了）';
+        return;
+      }
+      final ev =
+          sceneChapter < _chapterLinks.length
+              ? _chapterLinks[sceneChapter]['eventGroupName'] as String?
+              : null;
       if (ev != null) {
         final key = 'EventListScr_${ev.replaceAll('Events', '')}_Misc';
         final raw = lists[key];
         if (raw is List) {
           _objectives = ChapterObjectives.fromJson(raw);
+          _objectivesNote = '胜负条件 $key：${_objectives!.entries.length} 条';
         } else {
-          status.value = '第 $sceneChapter 章没有 Misc 列表（找的是 $key）';
+          _objectivesNote = '第 $sceneChapter 章没有 Misc 列表（找的是 $key）';
         }
       }
     }
@@ -1628,11 +1711,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         continue;
       }
       final charIndex = def.charIndex;
+      // ★ 移动力来自**职业表**（`ClassData.baseMov`），不是默认值。
+      //
+      // ⚠️ `MapUnit.movement` 的默认值是 5，而这里原来**没有传**它 ——
+      // 于是赛特（圣骑士，`baseMov = 8`）只能走 5 格。走不到人面前，
+      // 战斗就打不起来（而且不报错）。
+      final clsStats = _classStats[def.classIndex];
+      if (clsStats == null) {
+        _sceneHudExtra = '缺职业 ${def.classIndex}（classes.json）—— 移动力按 5';
+      }
       added.add(def.toMapUnit(
         // ⚠️ **编号必须全局唯一**：原来是 `0x100 + added.length`，
         // 每次 LOAD 都从 0x100 重新数 → 敌人的组件顶掉我方的组件。
-        id: _nextUnitId(),
+        id: _nextUnitId(faction),
         faction: faction,
+        movement: clsStats?.baseMov ?? 5,
         makeItem: _makeNewItem,
         // 名字给**人看**（战报里会出现）——角色名来自 `char_names.json`；
         // 查不到就退回"角色NN"，不要用 `C$cls` 这种占位。
@@ -1646,9 +1739,54 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _sceneHudExtra = '$_sceneHudExtra  $_sceneMapHistory';
   }
 
-  /// 单位编号的分配器 —— **全局递增**，保证不撞。
-  int _unitIdSeq = 0x100;
-  int _nextUnitId() => _unitIdSeq++;
+  /// 单位编号分配器 —— **按阵营区块**分配。
+  ///
+  /// ## 出处：编号的**高位就是阵营**
+  ///
+  /// `include/bmunit.h:477`
+  ///
+  /// ```c
+  /// #define UNIT_FACTION(aUnit) ((aUnit)->index & 0xC0)
+  /// ```
+  ///
+  /// 编号是 `gUnitLut` 的下标，区块固定：
+  ///
+  ///     我方   0x01..0x3F
+  ///     友军   0x41..0x7F
+  ///     敌方   0x81..0xBF
+  ///
+  /// 而阶段推进的 `GetPhaseAbleUnitCount(units, faction)`
+  /// （`PhaseRules.getPhaseAbleUnitCount`，`lib/core/battle/phase.dart:122`）就是
+  /// **按 id 区间数的**：
+  ///
+  /// ```c
+  /// for (id = faction + 1; id < faction + 0x40; id++) { ... }
+  /// ```
+  ///
+  /// ⚠️ 我原来从 `0x100` 开始递增（为了修"敌人顶掉我方组件"那个 id 撞车 bug），
+  /// 结果 id 落在**区块之外**：`phaseAbleCount(red)` 恒为 0 →
+  /// 敌方阶段被 `shouldAutoEndPhase` 当成"没人能动"直接跳过 →
+  /// **AI 一步都不走**，战斗永远打不起来。而且完全不报错。
+  ///
+  /// 按区块分配同时解决了 id 撞车（区块不重叠）——
+  /// 比"从 0x100 开始全局递增"更贴近原作。
+  final Map<int, int> _unitIdSeq = {
+    Faction.blue: 0x01,
+    Faction.green: 0x41,
+    Faction.red: 0x81,
+  };
+
+  int _nextUnitId(int faction) {
+    final key = faction & 0xC0;
+    final next = _unitIdSeq[key] ?? 0x01;
+    // 区块上限 0x3F 个；真撞上就显式报出来，不要静默绕回去
+    if ((next & 0xC0) != key) {
+      _sceneHudExtra = '单位编号超出阵营区块：faction=$key next=0x${next.toRadixString(16)}';
+      return next;
+    }
+    _unitIdSeq[key] = next + 1;
+    return next;
+  }
 
   /// 往战场里加单位（并同步到画面）
   void _addUnits(List<MapUnit> units) {
@@ -2194,11 +2332,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     // 地形防御/回避：按**防御方的职业**查真实表
     final terrainId = _terrainAt(defender.x, defender.y);
-    final (terrainDef, terrainAvo) =
-        _terrainBonuses(terrainId, defProfile.classId);
+    final defTb = _terrainBonuses(terrainId, defProfile.classId);
+    final terrainDef = defTb.defense;
+    final terrainAvo = defTb.avoid;
     final atkTerrainId = _terrainAt(attacker.x, attacker.y);
-    final (atkDef, atkAvo) =
-        _terrainBonuses(atkTerrainId, atkProfile.classId);
+    final atkTb = _terrainBonuses(atkTerrainId, atkProfile.classId);
+    final atkDef = atkTb.defense;
+    final atkAvo = atkTb.avoid;
 
     // 完整交战：先手 → 反击 → 追击（序列由规则层的 battleUnwind 决定）
     final round = c.resolveCombat(
@@ -2374,9 +2514,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 早先这里写死过"森林 (1,10)、山峰 (2,20)"并标注为"非移植近似值" ——
   /// 那个近似值不只是精度不对，**语义也不对**：它给飞行单位也加了森林回避，
   /// 而原版飞行职业用的是 `_Fly` 表，地形回避基本为 0。
-  (int, int) _terrainBonuses(int terrainId, int classId) {
+  /// 按**职业**查该地形上的加成。
+  ///
+  /// ⚠️ 返回值是 `(avoid, defense)` 的**具名**记录 —— 调用点必须用
+  /// `.defense` / `.avoid` 取值。以前这里返回位置记录，而调用方按
+  /// `(def, avo)` 解构，于是防御和回避**整个对调**（山峰的 40 回避
+  /// 被当成防御），伤害恒为 0、序章打不动人。
+  ({int avoid, int defense}) _terrainBonuses(int terrainId, int classId) {
     final t = classTable;
-    if (t == null) return (0, 0);
+    if (t == null) return (avoid: 0, defense: 0);
     return t.terrainBonuses(classId, terrainId);
   }
 

@@ -414,6 +414,29 @@ class Scene {
     Set<String>? defined,
   }) : defined = defined ?? const {};
 
+  /// **快进中**（START 键）—— 对应原作的 `EV_STATE_SKIPPING`。
+  ///
+  /// 出处：`include/event.h:57`
+  ///
+  /// ```c
+  /// EV_STATE_SKIPPING = (1 << 0x2), // currently skipping events (trigger with start)
+  /// #define EVENT_IS_SKIPPING(aEventProc) (((aEventProc)->evStateBits >> 2) & 1)
+  /// ```
+  ///
+  /// 触发：`src/event_0800D110.c:27`（START 键）。
+  /// 各指令里的检查：`Event17_Fade.c:49`、`Event21_TextBg.c:42`、
+  /// `Event2F_MoveUnit`、`Event3B_DisplayCursor`、`Event34`（KILL 的死亡淡出）…
+  ///
+  /// ⚠️ 触发条件是 `START_BUTTON` 的 **newKeys**（按下那一刻），不是按住。
+  bool get skipping => _skipping;
+  bool _skipping = false;
+
+  /// 开始快进（重复调用无副作用）
+  void startSkip() => _skipping = true;
+
+  /// 结束快进（`EV_EXEC_CUTSCENE` 分支会清掉它，`src/eventscr_0800D860.c:79-83`）
+  void stopSkip() => _skipping = false;
+
   final GameTexts texts;
 
   /// 演出中发生一件事时调用。

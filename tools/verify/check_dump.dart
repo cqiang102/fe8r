@@ -160,6 +160,25 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     // （第一版我在这里断言轨迹里有 CameraControl —— 那是错的判据。）
   }
 
+  // `battle`：**序章 → 第 1 章** 的端到端判据。
+  //
+  // 这是整个"把第一章之前做到玩得通"最关键的一条：它证明
+  //   打死首领 → 置 `EVFLAG_DEFEAT_BOSS` → 命中 `EventScr_Prologue_EndingScene`
+  //   → `MNC2(1)` → **真的换到了第 1 章的地图**
+  // 这条链在真实对局里跑通，而不是只在单元测试里。
+  if (scenario == 'battle') {
+    ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
+    ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');
+    final hist = d['mapHistory'] as String? ?? '';
+    ok(hist.contains('Ch1Map'), '地图历史里出现 Ch1Map', 'history=$hist');
+    ok(d['objectiveHit'] == 'EventScr_Prologue_EndingScene',
+        '命中的是序章结束脚本', 'objectiveHit=${d['objectiveHit']}');
+    ok(((d['mapLoadFailures'] as List?) ?? const []).isEmpty,
+        '没有 LOMA 失败', 'failures=${d['mapLoadFailures']}');
+    // 到了第 1 章要有单位（换图会清空战场，随后脚本 LOAD1）
+    ok(alive.isNotEmpty, '第 1 章场上有单位', 'alive=${alive.length}');
+  }
+
   if (scenario == 'prologue') {
     ok(map?['id'] == 'PrologueMap', '序章：地图是 PrologueMap',
         'map.id=${map?['id']}');

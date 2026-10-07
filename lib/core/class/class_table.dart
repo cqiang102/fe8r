@@ -127,7 +127,11 @@ class ClassTable {
       }
       if (m != null) {
         for (final name in m) {
-          mov.putIfAbsent(name, () => table(name));
+          // ⚠️ 表里的值是 **s8**，`-1` 表示不可通行；而 `MovementCostTable`
+          // 与 C 的 `gWorkingTerrainMoveCosts`（u8）一致用 **255**。
+          // 不转的话 `-1` 会被当成"消耗 -1"，比可通行还便宜。
+          mov.putIfAbsent(
+              name, () => table(name).map((e) => e < 0 ? 255 : e).toList());
         }
       }
 
@@ -163,16 +167,24 @@ class ClassTable {
   ///
   /// 职业不存在或地形下标越界时返回 `(0, 0)` ——
   /// 与 C 里读到 0 的行为一致，不是"错误兜底"。
-  (int avoid, int defense) terrainBonuses(int classNumber, int terrainId) {
+  /// ⚠️ 返回值的**字段顺序是 `(avoid, defense)`** —— 与
+  /// `SetBattleUnitTerrainBonuses` 里两行的书写顺序一致。
+  ///
+  /// 而 `lib/game/fe8_game.dart` 一度写成位置解构
+  /// `final (terrainDef, terrainAvo) = _terrainBonuses(...)`，
+  /// **整个对调**：山峰的回避 40 被当成防御 → 攻击方伤害恒为 0 →
+  /// 序章打不动任何敌人（而且不报错）。
+  /// 现在调用点用**具名字段**取值，位置写错编译不过。
+  ({int avoid, int defense}) terrainBonuses(int classNumber, int terrainId) {
     final c = byNumber[classNumber];
-    if (c == null) return (0, 0);
-    if (terrainId < 0 || terrainId >= 65) return (0, 0);
+    if (c == null) return (avoid: 0, defense: 0);
+    if (terrainId < 0 || terrainId >= 65) return (avoid: 0, defense: 0);
 
     final a = terrainAvoid[c.terrainAvoidTable];
     final d = terrainDefense[c.terrainDefenseTable];
     return (
-      a != null ? a[terrainId] : 0,
-      d != null ? d[terrainId] : 0,
+      avoid: a != null ? a[terrainId] : 0,
+      defense: d != null ? d[terrainId] : 0,
     );
   }
 

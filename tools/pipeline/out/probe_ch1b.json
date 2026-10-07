@@ -1,0 +1,419 @@
+{
+ "chapter": 1,
+ "map": {
+  "width": 15,
+  "height": 10,
+  "id": "Ch1Map"
+ },
+ "camera": {
+  "x": 0.0,
+  "y": 0.0
+ },
+ "phase": "freeCursor",
+ "cursor": {
+  "x": 14,
+  "y": 9
+ },
+ "turn": 1,
+ "activeFaction": 0,
+ "selectedUnitId": null,
+ "units": [
+  {
+   "id": 147,
+   "name": "BREGUET",
+   "charIndex": 70,
+   "classId": 9,
+   "faction": 128,
+   "x": 2,
+   "y": 2,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11540,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11540
+   ],
+   "itemNames": [
+    "LANCE_IRON"
+   ]
+  },
+  {
+   "id": 148,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 78,
+   "faction": 128,
+   "x": 1,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11540,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11540
+   ],
+   "itemNames": [
+    "LANCE_IRON"
+   ]
+  },
+  {
+   "id": 149,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 78,
+   "faction": 128,
+   "x": 2,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11540,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11540
+   ],
+   "itemNames": [
+    "LANCE_IRON"
+   ]
+  },
+  {
+   "id": 150,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 78,
+   "faction": 128,
+   "x": 2,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11540,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11540
+   ],
+   "itemNames": [
+    "LANCE_IRON"
+   ]
+  },
+  {
+   "id": 151,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 63,
+   "faction": 128,
+   "x": 1,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11551,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11551
+   ],
+   "itemNames": [
+    "AXE_IRON"
+   ]
+  },
+  {
+   "id": 152,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 63,
+   "faction": 128,
+   "x": 2,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11551,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11551
+   ],
+   "itemNames": [
+    "AXE_IRON"
+   ]
+  },
+  {
+   "id": 153,
+   "name": "角色128",
+   "charIndex": 128,
+   "classId": 63,
+   "faction": 128,
+   "x": 2,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11551,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11551
+   ],
+   "itemNames": [
+    "AXE_IRON"
+   ]
+  },
+  {
+   "id": 65,
+   "name": "角色193",
+   "charIndex": 193,
+   "classId": 5,
+   "faction": 64,
+   "x": 2,
+   "y": 2,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11540,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11540
+   ],
+   "itemNames": [
+    "LANCE_IRON"
+   ]
+  },
+  {
+   "id": 66,
+   "name": "FRELIAN",
+   "charIndex": 192,
+   "classId": 15,
+   "faction": 64,
+   "x": 2,
+   "y": 2,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    11777,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    11777
+   ],
+   "itemNames": [
+    "SWORD_IRON"
+   ]
+  },
+  {
+   "id": 15,
+   "name": "EIRIKA",
+   "charIndex": 1,
+   "classId": 2,
+   "faction": 0,
+   "x": 14,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    10249,
+    876,
+    0,
+    0,
+    0
+   ],
+   "held": [
+    10249,
+    876
+   ],
+   "itemNames": [
+    "SWORD_RAPIER",
+    "VULNERARY"
+   ]
+  },
+  {
+   "id": 16,
+   "name": "SETH",
+   "charIndex": 2,
+   "classId": 7,
+   "faction": 0,
+   "x": 14,
+   "y": 9,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    7683,
+    5143,
+    876,
+    0,
+    0
+   ],
+   "held": [
+    7683,
+    5143,
+    876
+   ],
+   "itemNames": [
+    "SWORD_STEEL",
+    "LANCE_SILVER",
+    "VULNERARY"
+   ]
+  }
+ ],
+ "unitIdsUnique": true,
+ "render": {
+  "unitComponents": 11,
+  "markerComponents": 0,
+  "cursorComponents": 1,
+  "total": 12,
+  "aliveUnits": 11,
+  "matches": true
+ },
+ "eventFlags": [],
+ "scene": {
+  "running": false,
+  "objectiveRunning": false,
+  "showDialogue": false,
+  "script": "",
+  "shown": 16,
+  "currentTextId": null,
+  "hudExtra": "ENUN: 移动已完成（瞬移）",
+  "slots": {
+   "1": "4294967295",
+   "2": "EventScr_Ch1Tut_OnBeginning",
+   "3": "2284"
+  },
+  "missing": [
+   "Event_TextWithBG",
+   "data_085B9BBC",
+   "EventScr_Ch1Tut_GuideWTA"
+  ],
+  "placeholders": [
+   "MUSC",
+   "BROWNBOXTEXT",
+   "TEXTSTART",
+   "TEXTEND",
+   "REMA",
+   "SENQUEUE1",
+   "EVBIT_F",
+   "CLEA",
+   "CLEE",
+   "CLEN",
+   "FIGHT",
+   "CHECK_TUTORIAL",
+   "CALL",
+   "ENUT",
+   "MUSI",
+   "MUNO",
+   "DISPLAYCURSOR",
+   "SETTEXTTYPE",
+   "ENDTEXT",
+   "DISPLAYTEXT",
+   "ENUF",
+   "EVBIT_T",
+   "CHECK_ENEMIES",
+   "EVENT_WORD_SYM",
+   "CHECK_EVBIT",
+   "BACG",
+   "STAL2",
+   "KILL",
+   "CHECK_ALIVE",
+   "CHECK_DEPLOYED"
+  ]
+ },
+ "titleFlow": null,
+ "objectiveHit": "EventScr_Prologue_EndingScene",
+ "objectivesNote": "胜负条件 EventListScr_Ch1_Misc：4 条",
+ "objectives": {
+  "chapter": 1,
+  "count": 4,
+  "entries": [
+   {
+    "cmd": 1,
+    "doneFlag": 7,
+    "checkFlag": 2,
+    "script": "EventScr_Ch1_Misc_DefeatBoss"
+   },
+   {
+    "cmd": 11,
+    "doneFlag": 10,
+    "checkFlag": 0,
+    "script": null
+   },
+   {
+    "cmd": 1,
+    "doneFlag": 0,
+    "checkFlag": 101,
+    "script": "data_085B9EE8"
+   },
+   {
+    "cmd": 0,
+    "doneFlag": 0,
+    "checkFlag": 0,
+    "script": null
+   }
+  ],
+  "derivedFlags": [],
+  "firstMatch": null
+ },
+ "mapHistory": "Ch16Map RenaisCastleMap PrologueMap Ch1Map",
+ "mapNote": "LOMA(1) → Ch1Map",
+ "mapLoadFailures": [],
+ "trace": [
+  "ShowText(ShowText(0x8ed 第10/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8ed 第11/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8ed 第12/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8ed 第13/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8ed 第14/15页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8ed 第15/15页))",
+  "WaitForInput(WaitForInput)"
+ ],
+ "lastCombat": "SETH vs ONEILL（1 段，消耗 3 乱数）\nSETH → ONEILL  AttackResult(命中 8->0 (-8) 消耗 3 个乱数)",
+ "hud": "回合 1  我方  可行动 2  光标 (14,9)  freeCursor  乱数 8\nHP  BREGUET(2,2):20 角色128(1,9):20 角色128(2,9):20 角色128(2,9):20 角色128(1,9):20 角色128(2,9):20 角色128(2,9):20 角色193(2,2):20 FRELIAN(2,2):20 EIRIKA(14,9):20 SETH(14,9):20\nSETH vs ONEILL（1 段，消耗 3 乱数）\nSETH → ONEILL  AttackResult(命中 8->0 (-8) 消耗 3 个乱数)",
+ "status": "Ch1Map  15×10  PLAINS×86 CLIFF×22 PEAK×13"
+}

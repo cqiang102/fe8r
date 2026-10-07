@@ -56,6 +56,31 @@ case "$SCENARIO" in
     TITLE=""
     SCRIPT="$(python3 -c "print(','.join(['confirm']*80))")"
     ;;
+  battle)
+    # ★ 序章 → 打死奥尼尔 → `MNC2(1)` → **第 1 章**（`Ch1Map`）
+    #
+    # 这是一段**固定输入脚本**，靠的是"AI 是确定性的"这条性质
+    # （`EnemyAi.decide` 是战场状态的纯函数，见 lib/core/flow/enemy_ai.dart）。
+    # 它同时依赖：
+    #   * 序章我方在 (4,4)/(4,5)、奥尼尔在 (14,8)
+    #   * 赛特移动力 8（`CLASS_PALADIN.baseMov`）、奥尼尔 5
+    #   * 移动消耗表（**目前是演示表**：除 0 号地形外全 1）
+    # 这些只要变，这段脚本就会**红**（这正是不该静默的地方）。
+    #
+    # 分段：
+    #   开机 4×wait（≈3.6s，覆盖 Nintendo/IS 两屏的 200 帧）
+    #   → 5×confirm 走完 健康警告/标题/主菜单/难度/存档槽
+    #   → start **跳过序章过场**（`EV_STATE_SKIPPING`，START 键触发）
+    #   → 第 1 回合：光标 (14,8)→赛特 (4,4)，选中，移到 (9,4)，待机，结束回合
+    #   → 第 2 回合：选中，绕开挡路的敌人到 (13,5)，打奥尼尔一下（-12）
+    #   → 第 3 回合：原地再打一下（-8），奥尼尔阵亡
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$SCRIPT,$(python3 -c "print(','.join(['left']*10+['up']*4))")"
+    SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,right,confirm,down,confirm,endturn"
+    SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,up,confirm,down,confirm,confirm,endturn"
+    SCRIPT="$SCRIPT,confirm,confirm,down,confirm,confirm,endturn"
+    ;;
   *)
     echo "未知场景 $SCENARIO" >&2
     exit 2

@@ -106,6 +106,26 @@ void main() {
     expect(() => jsonEncode(d), returnsNormally);
   });
 
+  test('★ 载入的单位编号必须落在**阵营区块**里（否则敌方阶段会被跳过）', () {
+    // `UNIT_FACTION(u) = u->index & 0xC0`（`include/bmunit.h:477`）：
+    //   我方 0x01..0x3F / 友军 0x41..0x7F / 敌方 0x81..0xBF
+    // 而 `GetPhaseAbleUnitCount` 是**按 id 区间**数的 —— 编号跑出区块，
+    // 敌方阶段会被当成"没人能动"直接跳过（**AI 一步都不走，还不报错**）。
+    final game = loadTables();
+    game.field = BattleField(width: 30, height: 30, units: []);
+    game.loadUnitsForTest('UnitDef_Event_PrologueAlly', 1);
+    game.loadUnitsForTest('UnitDef_Event_PrologueEnemy', 1);
+
+    for (final u in game.field!.units) {
+      expect(u.id & 0xC0, u.faction,
+          reason: '${u.name} 的编号 0x${u.id.toRadixString(16)} 与阵营 '
+              '0x${u.faction.toRadixString(16)} 不在同一个区块');
+    }
+    // 阶段计数必须真的数得到人
+    expect(game.field!.phaseAbleCount(Faction.blue), 2);
+    expect(game.field!.phaseAbleCount(Faction.red), 3);
+  });
+
   test('★ 序章战斗：艾莉卡拿细剑打奥尼尔，伤害落在**奥尼尔**身上', () {
     // 这一条钉的是"序章战斗能不能真的打掉血"：
     //   * `_profileFor` 从三张表取职业/角色/武器（不是演示值）

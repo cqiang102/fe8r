@@ -69,6 +69,22 @@ enum FlowInput {
 
   /// 开始剧情演出（键盘 D）—— 只在外壳层处理，流程状态机忽略它
   startDialogue,
+
+  /// **START 键**（键盘回车）。
+  ///
+  /// 出处：`src/event_0800D110.c:25-28`
+  ///
+  /// ```c
+  /// if (EventEngine_CanStartSkip(proc) && (gKeyStatusPtr->newKeys & START_BUTTON)) {
+  ///     EventEngine_StartSkip(proc);   // 置 EV_STATE_SKIPPING
+  ///     return;
+  /// }
+  /// ```
+  ///
+  /// 演出期间按下它会**快进整段剧情**（`EVENT_IS_SKIPPING` 在
+  /// 淡入淡出 / 等按键 / 移动 / 死亡淡出里都被检查）。
+  /// 流程状态机本身忽略它。
+  start,
 }
 
 /// 流程状态机的状态快照。**完全可序列化。**
@@ -302,6 +318,10 @@ class FlowMachine {
       case FlowInput.endTurn:
         return FlowResult(s, endTurn: true);
 
+      // START 在外壳层处理（快进剧情），流程状态机忽略
+      case FlowInput.start:
+        return FlowResult(s);
+
       case FlowInput.startDialogue:
         return FlowResult(s);
     }
@@ -335,6 +355,7 @@ class FlowMachine {
 
       case FlowInput.endTurn:
       case FlowInput.startDialogue:
+      case FlowInput.start:
         return FlowResult(s);
 
       case FlowInput.cancel:
@@ -413,6 +434,7 @@ class FlowMachine {
 
       case FlowInput.endTurn:
       case FlowInput.startDialogue:
+      case FlowInput.start:
         return FlowResult(s);
     }
   }
@@ -461,6 +483,7 @@ class FlowMachine {
 
       case FlowInput.endTurn:
       case FlowInput.startDialogue:
+      case FlowInput.start:
         return FlowResult(s);
     }
   }

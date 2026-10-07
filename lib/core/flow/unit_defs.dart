@@ -162,6 +162,7 @@ class UnitDef {
     required int faction,
     required int Function(int itemIndex) makeItem,
     String name = '',
+    int movement = 5,
   }) =>
       MapUnit(
         id: id,
@@ -172,6 +173,7 @@ class UnitDef {
         classId: classIndex,
         level: level,
         name: name,
+        movement: movement,
         items: inventoryFromDefinition(items, makeItem),
       );
 

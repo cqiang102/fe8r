@@ -45,8 +45,8 @@ void main() {
       final flier = t.byNumber.values
           .firstWhere((c) => c.terrainAvoidTable == 'TerrainTable_Avo_Fly');
 
-      final (infAvo, _) = t.terrainBonuses(infantry.number, forest);
-      final (flyAvo, _) = t.terrainBonuses(flier.number, forest);
+      final infAvo = t.terrainBonuses(infantry.number, forest).avoid;
+      final flyAvo = t.terrainBonuses(flier.number, forest).avoid;
 
       expect(infAvo, greaterThan(0), reason: '步兵躲森林应当有回避加成');
       expect(flyAvo, 0, reason: '飞行职业用 _Fly 表，地形回避为 0');
@@ -57,16 +57,17 @@ void main() {
     test('平原不给任何加成', () {
       const plains = 0x01;
       for (final c in t.byNumber.values.take(20)) {
-        final (a, d) = t.terrainBonuses(c.number, plains);
+        final tb = t.terrainBonuses(c.number, plains);
+        final a = tb.avoid, d = tb.defense;
         expect(a, 0);
         expect(d, 0);
       }
     });
 
     test('未知职业 / 越界地形返回 (0,0)，而不是抛异常', () {
-      expect(t.terrainBonuses(9999, 1), (0, 0));
-      expect(t.terrainBonuses(1, 999), (0, 0));
-      expect(t.terrainBonuses(1, -1), (0, 0));
+      expect(t.terrainBonuses(9999, 1), (avoid: 0, defense: 0));
+      expect(t.terrainBonuses(1, 999), (avoid: 0, defense: 0));
+      expect(t.terrainBonuses(1, -1), (avoid: 0, defense: 0));
     });
 
     test('移动消耗表是按职业按天气的三张', () {

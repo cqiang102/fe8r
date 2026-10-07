@@ -132,6 +132,7 @@ class ChapterLoader {
     required int width,
     required int height,
     required int Function(int itemIndex) makeItem,
+    int Function(int classId)? movementOf,
   }) {
     final names = unitTableNames(chapterIndex);
     if (names.isEmpty) return null;
@@ -156,6 +157,7 @@ class ChapterLoader {
           id: nextId++,
           faction: faction,
           makeItem: makeItem,
+          movement: movementOf?.call(u.classIndex) ?? 5,
           name: '${u.charIndex}',
         ));
       }
