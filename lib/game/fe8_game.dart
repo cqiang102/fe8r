@@ -576,6 +576,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastConvoy': lastConvoy,
       'convoyCount': convoyCount(convoyItems),
       'convoyAccessAssumed': convoyAccessAssumed,
+      'lastTalk': lastTalk,
+      'characterEventCount': _characterEvents.length,
       // ★ 行动菜单**有哪些项**（判据用；也是给"看不见菜单就瞎按键"这个反复
       //   出现的坑的解法：测试按**名字**定位，而不是数 down 几次）
       'actionMenu': (flow != null && state != null && field != null)
@@ -1408,6 +1410,44 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //（提交要等子菜单决定，`commitItemAction`）。我一开始把它留在
     // `committedMove` 块里 ⇒ 子菜单永远不弹（实测 `itemSubMenu=None`、零条日志）。
     // —— 和第 28 轮"只发意图不提交"是同一个坑的**镜像**。
+    // ★ 「話す」：跑那条 CHAR 脚本 + 置 `doneFlag`（`StartAvailableTileEvent` 同族）
+    final talkAt = r.talkAt;
+    if (talkAt != null) {
+      final u7 = field?.unitById(s.selectedUnitId ?? -1);
+      if (u7 != null) {
+        final targets = talkTargets(
+          actor: u7,
+          units: field?.units ?? const [],
+          eventFor: (t) => checkForCharacterEvents(
+              _characterEvents, u7.charIndex, t.charIndex, eventFlags),
+        );
+        if (targets.isNotEmpty) {
+          final who = targets.first;
+          final ev = checkForCharacterEvents(
+              _characterEvents, u7.charIndex, who.charIndex, eventFlags);
+          if (ev != null) {
+            if (ev.doneFlag != 0) eventFlags.add(ev.doneFlag);
+            lastTalk = {
+              'actor': u7.id,
+              'actorPid': u7.charIndex,
+              'target': who.id,
+              'targetPid': who.charIndex,
+              'doneFlag': ev.doneFlag,
+              'script': ev.script,
+            };
+            debugPrint('[TALK] $lastTalk');
+            final fn = ev.script == null ? null : allSceneFns[ev.script!];
+            if (fn != null) {
+              unawaited(runSceneScript(fn));
+            }
+          }
+        }
+      }
+      state = r.state;
+      _finishItemAction();
+      return;
+    }
+
     // ★ 「輸送」：进入存取界面（`SupplyUsability` 通过后才有这一项）
     final supplyAt = r.supplyAt;
     if (supplyAt != null) {
@@ -2680,6 +2720,23 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           sceneChapter < _chapterLinks.length
               ? _chapterLinks[sceneChapter]['eventGroupName'] as String?
               : null;
+      // ★ 「話す」要用的 Character 列表（同一套命名约定）
+      if (ev != null) {
+        final baseC = ev.replaceAll('Events', '');
+        final ch = lists['EventListScr_${baseC}_Character'];
+        if (ch is List) {
+          _characterEvents = [
+            for (final e in ch.cast<Map<String, dynamic>>())
+              if (e['cmd'] == 'CHAR')
+                CharacterEvent(
+                  pidA: (e['pidA'] as num?)?.toInt() ?? 0,
+                  pidB: (e['pidB'] as num?)?.toInt() ?? 0,
+                  doneFlag: (e['doneFlag'] as num?)?.toInt() ?? 0,
+                  script: e['script'] as String?,
+                ),
+          ];
+        }
+      }
       // ★ 「訪問」要用的 Location 列表（同一套命名约定：`EventListScr_<base>_Location`）
       if (ev != null) {
         final base0 = ev.replaceAll('Events', '');
@@ -2899,6 +2956,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 测试钩子：直接给本章的 `locationBasedEvents`（正常路径从 `event_lists.json` 读）
   @visibleForTesting
   set locationEventsForTest(List<LocationEvent> v) => _locationEvents = v;
+
+  /// 测试钩子：直接给本章的 `characterBasedEvents`（`CHAR` 条目）
+  @visibleForTesting
+  set characterEventsForTest(List<CharacterEvent> v) => _characterEvents = v;
 
   /// 建剧情 `Scene`（`onLoad` 里走 `_loadSceneData`；测试要单独来一次）
   @visibleForTesting
@@ -5282,6 +5343,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 本章的 `locationBasedEvents` 条目（`EventListScr_<章节>_Location`）
   List<LocationEvent> _locationEvents = const [];
 
+  /// 本章的 `characterBasedEvents` 条目（`EventListScr_<章节>_Character`，`CHAR`）
+  List<CharacterEvent> _characterEvents = const [];
+
+  /// 最近一次「話す」的记录（判据用）
+  Map<String, Object?>? lastTalk;
+
   /// 最近一次「訪問」的记录（判据用）
   Map<String, Object?>? lastVisit;
 
@@ -6428,6 +6495,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     fl.rescueAvailableAt = (x, y) {
       if (unit.hasActed || unit.isRescuing) return false;
       return _rescueTargets(unit).isNotEmpty;
+    };
+    fl.talkAvailableAt = (x, y) {
+      return talkAvailable(
+        hasActed: unit.hasActed,
+        hasTarget: talkTargets(
+          actor: unit,
+          units: field?.units ?? const [],
+          eventFor: (t) => checkForCharacterEvents(
+              _characterEvents, unit.charIndex, t.charIndex, eventFlags),
+        ).isNotEmpty,
+      );
     };
     fl.supplyAvailableAt = (x, y) {
       final leader = convoyLeaderId(chapterModeIndex: chapterModeIndex);

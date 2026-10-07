@@ -32,6 +32,7 @@ export 'flow/class_attributes.dart';
 export 'flow/convoy.dart';
 export 'flow/rescue.dart';
 export 'flow/staff_use.dart';
+export 'flow/talk.dart';
 export 'flow/chapter_objectives.dart';
 export 'flow/battle_field.dart';
 export 'flow/chapters.dart';
