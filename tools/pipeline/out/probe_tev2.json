@@ -9,14 +9,14 @@
   "x": 0.0,
   "y": 0.0
  },
- "phase": "freeCursor",
+ "phase": "unitSelected",
  "cursor": {
-  "x": 11,
-  "y": 7
+  "x": 4,
+  "y": 5
  },
- "turn": 2,
+ "turn": 3,
  "activeFaction": 0,
- "selectedUnitId": null,
+ "selectedUnitId": 14,
  "units": [
   {
    "id": 13,
@@ -24,8 +24,8 @@
    "charIndex": 2,
    "classId": 7,
    "faction": 0,
-   "x": 8,
-   "y": 5,
+   "x": 10,
+   "y": 7,
    "hp": 13,
    "maxHp": 20,
    "alive": true,
@@ -80,11 +80,11 @@
    "charIndex": 104,
    "classId": 63,
    "faction": 128,
-   "x": 11,
+   "x": 9,
    "y": 7,
-   "hp": 20,
+   "hp": 0,
    "maxHp": 20,
-   "alive": true,
+   "alive": false,
    "items": [
     11551,
     0,
@@ -105,9 +105,9 @@
    "charIndex": 130,
    "classId": 63,
    "faction": 128,
-   "x": 12,
+   "x": 9,
    "y": 7,
-   "hp": 20,
+   "hp": 6,
    "maxHp": 20,
    "alive": true,
    "items": [
@@ -131,8 +131,8 @@
    "classId": 63,
    "faction": 128,
    "x": 11,
-   "y": 8,
-   "hp": 20,
+   "y": 7,
+   "hp": 6,
    "maxHp": 20,
    "alive": true,
    "items": [
@@ -152,14 +152,15 @@
  ],
  "unitIdsUnique": true,
  "render": {
-  "unitComponents": 5,
+  "unitComponents": 4,
   "markerComponents": 0,
   "cursorComponents": 1,
-  "total": 6,
-  "aliveUnits": 5,
+  "total": 5,
+  "aliveUnits": 4,
   "matches": true
  },
  "eventFlags": [
+  7,
   8
  ],
  "scene": {
@@ -167,12 +168,12 @@
   "objectiveRunning": false,
   "showDialogue": false,
   "script": "",
-  "shown": 9,
+  "shown": 6,
   "currentTextId": null,
   "hudExtra": "ENUN: 移动已完成（瞬移）",
   "slots": {
-   "1": "13",
-   "2": "EventScr_Prologue_TutMessageTurn1",
+   "1": "4294967295",
+   "2": "EventScr_Prologue_TutEirikaAttack",
    "3": "9"
   },
   "missing": [
@@ -206,25 +207,23 @@
    "EVBIT_T",
    "ENUF",
    "CHECK_ENEMIES",
-   "EVENT_WORD_SYM"
+   "EVENT_WORD_SYM",
+   "EvtMoveUnit",
+   "TUTORIALTEXTBOXSTART",
+   "FIGHT_SCRIPT"
   ]
  },
  "titleFlow": null,
  "objectiveHit": "EventScr_Prologue_OneEnemyLeft",
  "objectivesNote": "胜负条件 EventListScr_Prologue_Misc：4 条",
  "turnEventsNote": "回合事件 EventListScr_Prologue_Turn：5 条",
- "turnEventFired": "EventScr_Prologue_ONeillAttack（没有这个脚本）",
+ "turnEventFired": "EventScr_Prologue_Turn3",
  "moveCostsNote": "",
  "moveCostsWeather": "normal",
  "range": {
-  "count": 20,
+  "count": 15,
   "tiles": [
-   "0,0",
-   "1,0",
-   "1,1",
-   "1,2",
    "3,2",
-   "0,3",
    "1,3",
    "2,3",
    "3,3",
@@ -270,27 +269,29 @@
     "script": null
    }
   ],
-  "derivedFlags": [],
-  "firstMatch": "EventScr_Prologue_OneEnemyLeft"
+  "derivedFlags": [
+   2
+  ],
+  "firstMatch": null
  },
  "mapHistory": "Ch16Map RenaisCastleMap PrologueMap",
  "mapNote": "LOMA(0) → PrologueMap",
  "mapLoadFailures": [],
  "trace": [
-  "ShowText(ShowText(0x8d0 第4/6页))",
   "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8d0 第5/6页))",
+  "ShowText(ShowText(0x8d5 第3/5页))",
   "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8d0 第6/6页))",
+  "ShowText(ShowText(0x8d5 第4/5页))",
   "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8dd 第1/3页))",
+  "ShowText(ShowText(0x8d5 第5/5页))",
   "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8dd 第2/3页))",
+  "ShowText(ShowText(0x8e3))",
   "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8dd 第3/3页))",
-  "WaitForInput(WaitForInput)"
+  "ShowCursor(ShowCursor(unit 1, flashing))",
+  "Stall(Stall(60))",
+  "EndCursor(EndCursor)"
  ],
- "lastCombat": "",
- "hud": "回合 2  我方  可行动 2  光标 (11,7)  freeCursor  乱数 0\nHP  SETH(8,5):13 EIRIKA(4,5):20 ONEILL(11,7):20 角色130(12,7):20 角色128(11,8):20",
+ "lastCombat": "角色128 vs SETH（2 段，消耗 5 乱数）\n角色128 → SETH  AttackResult(未命中 13->13 (-0) 消耗 2 个乱数)\nSETH → 角色128  AttackResult(命中 20->6 (-14) 消耗 3 个乱数)",
+ "hud": "回合 3  我方  可行动 2  光标 (4,5)  unitSelected  乱数 20\nHP  SETH(10,7):13 EIRIKA(4,5):20 角色130(9,7):6 角色128(11,7):6\n角色128 vs SETH（2 段，消耗 5 乱数）\n角色128 → SETH  AttackResult(未命中 13->13 (-0) 消耗 2 个乱数)\nSETH → 角色128  AttackResult(命中 20->6 (-14) 消耗 3 个乱数)",
  "status": "胜负条件命中 -> EventScr_Prologue_OneEnemyLeft"
 }

@@ -396,5 +396,16 @@ void _cursorThroughAllyTests() {
     final after = m.advance(s, field, FlowInput.confirm).state;
     expect(after.phase, FlowPhase.unitSelected,
         reason: '友军格不能作为落点（确认时应被拒绝）');
+
+    // ★ **自己那一格必须能停** —— "原地待机"就是按自己的格子。
+    // ⚠️ 这条曾经红过：我加"不能停在有人格子上"时把自己也挡住了，
+    // 于是原地待机按不出来（而且没有任何报错）。
+    s = m.advance(s, field, FlowInput.up).state;   // 回到 (4,4)
+    expect((s.cursorX, s.cursorY), (4, 4));
+    final own = m.advance(s, field, FlowInput.confirm).state;
+    expect(own.phase, FlowPhase.actionMenu,
+        reason: '站在自己那一格确认 → 应该弹出行动菜单（原地待机）');
+    expect(own.pendingX, 4);
+    expect(own.pendingY, 4);
   });
 }

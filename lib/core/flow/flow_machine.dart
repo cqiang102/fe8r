@@ -368,8 +368,13 @@ class FlowMachine {
         return FlowResult(s.copyWith(cursorX: nx, cursorY: ny));
 
       case FlowInput.confirm:
-        // 不能停在已被占据的格子上 —— **确认**时才判（同上，原作如此）
-        if (field.unitAt(s.cursorX, s.cursorY) != null) {
+        // 不能停在**别人**的格子上 —— 确认时才判（同上，原作如此）。
+        //
+        // ⚠️ 自己的那一格是**合法落点**（"原地待机"就是这么按的）。
+        // 我第一版写成 `unitAt(...) != null`，把自己也挡了 ——
+        // 于是**站在原地待机这个操作根本做不出来**（不是"多按一下"）。
+        final occupant = field.unitAt(s.cursorX, s.cursorY);
+        if (occupant != null && occupant.id != s.selectedUnitId) {
           return FlowResult(s);
         }
         return FlowResult(s.copyWith(

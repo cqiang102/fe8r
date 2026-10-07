@@ -163,6 +163,26 @@ def decode_list(words, syms=None):
             e["script"] = (syms or {}).get(i + 1) or (
                 hex(words[i + 1]) if words[i + 1] else None)
             e["checkFlag"] = words[i + 2]
+        elif cmd == 0x02:  # TURN
+            # `struct EvCheck02 { u32 unk0; u32 script; u8 turn; u8 maxTurn; u16 faction; }`
+            # （`src/eventinfo_08085B30.c:69-88` `EvCheck02_TURN`）
+            #
+            # ⚠️ 原来这里**没有分支**：TURN 条目只落了个 `doneFlag`，
+            # `script` / `turn` / `maxTurn` / `faction` 全丢 —— 于是"回合事件"
+            # 这张表虽然被导出了，**却没法用**（而且看起来"数据在"）。
+            e["script"] = (syms or {}).get(i + 1) or (
+                hex(words[i + 1]) if words[i + 1] else None)
+            w2 = words[i + 2]
+            e["turn"] = w2 & 0xFF
+            e["maxTurn"] = (w2 >> 8) & 0xFF
+            e["faction"] = (w2 >> 16) & 0xFFFF
+        elif cmd == 0x03:  # CHAR（说话事件）
+            # `struct EvCheck03 { u32 unk0; u32 script; u8 pidA; u8 pidB; ... }`
+            e["script"] = (syms or {}).get(i + 1) or (
+                hex(words[i + 1]) if words[i + 1] else None)
+            w2 = words[i + 2]
+            e["pidA"] = w2 & 0xFF
+            e["pidB"] = (w2 >> 8) & 0xFF
         entries.append(e)
         i += n
     return entries

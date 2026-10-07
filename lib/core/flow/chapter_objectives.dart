@@ -104,6 +104,9 @@ class ChapterObjective {
     required this.script,
     required this.doneFlag,
     required this.checkFlag,
+    this.turn = 0,
+    this.maxTurn = 0,
+    this.faction = 0,
   });
 
   factory ChapterObjective.fromJson(Map<String, dynamic> j) => ChapterObjective(
@@ -111,6 +114,9 @@ class ChapterObjective {
         script: j['script'] as String?,
         doneFlag: (j['doneFlag'] as num?)?.toInt() ?? 0,
         checkFlag: (j['checkFlag'] as num?)?.toInt() ?? 0,
+        turn: (j['turn'] as num?)?.toInt() ?? 0,
+        maxTurn: (j['maxTurn'] as num?)?.toInt() ?? 0,
+        faction: (j['faction'] as num?)?.toInt() ?? 0,
       );
 
   /// 命令（本实现只用 [EventListCmd.flag]）
@@ -125,8 +131,39 @@ class ChapterObjective {
   /// 要检查的事件标志
   final int checkFlag;
 
+  /// `TURN` 条目的回合区间与阵营（`struct EvCheck02`）
+  final int turn;
+  final int maxTurn;
+  final int faction;
+
   bool get isFlag => cmd == EventListCmd.flag;
   bool get isEnd => cmd == EventListCmd.end;
+  bool get isTurn => cmd == EventListCmd.turn;
+
+  /// `EvCheck02_TURN`（`src/eventinfo_08085B30.c:69-88`）的判定
+  ///
+  /// ```c
+  /// if (maxTurn == 0)        maxTurn = turn;
+  /// else if (maxTurn == 0xff) maxTurn = INT32_MAX;
+  ///
+  /// if ((turn <= gPlaySt.chapterTurnNumber) &&
+  ///     (gPlaySt.chapterTurnNumber <= maxTurn) &&
+  ///     (gPlaySt.faction == faction))                       -> 命中
+  /// ```
+  ///
+  /// ⚠️ 两个边界条件很容易写错：
+  ///   * `maxTurn == 0` 表示"**只有 turn 那一回合**"，不是"0 到 turn"
+  ///   * `maxTurn == 0xFF` 表示"**从 turn 起无限期**"
+  bool matchesTurn(int currentTurn, int currentFaction) {
+    if (cmd != EventListCmd.turn) return false;
+    var hi = maxTurn;
+    if (hi == 0) {
+      hi = turn;
+    } else if (hi == 0xFF) {
+      hi = 0x7FFFFFFF;
+    }
+    return turn <= currentTurn && currentTurn <= hi && faction == currentFaction;
+  }
 
   @override
   String toString() =>
@@ -159,6 +196,56 @@ class ChapterObjectives {
       ]);
 
   final List<ChapterObjective> entries;
+
+  /// 按 `EvCheck02_TURN` 找第一条满足的**回合事件**。
+  ///
+  /// 调用时机：`BmMain_ChangePhase` → `RunPhaseSwitchEvents`
+  /// （`src/bm_08015434.c:88-90`）—— **每次阶段切换后**用它搜
+  /// `turnBasedEvents` 表；命中就把脚本演出来并置上 `doneFlag`。
+  ChapterObjective? firstTurnMatch({
+    required int turn,
+    required int faction,
+    required bool Function(int flag) hasFlag,
+  }) {
+    for (final e in entries) {
+      if (e.isEnd) break;
+      if (!e.isTurn) continue;
+      if (e.doneFlag != 0 && hasFlag(e.doneFlag)) continue;
+      if (e.matchesTurn(turn, faction)) return e;
+    }
+    return null;
+  }
+
+  /// 找**所有**满足的回合事件（原作是 `SearchAvailableEvent` +
+  /// `SearchNextAvailableEvent` 的循环，`src/RunPhaseSwitchEvents.c:45-49`）：
+  ///
+  /// ```c
+  /// pInfo = SearchAvailableEvent(&info);
+  /// if (pInfo) {
+  ///     while (pInfo) {
+  ///         StartEventFromInfo(&info, EV_EXEC_CUTSCENE);
+  ///         pInfo = SearchNextAvailableEvent(&info);   // 越过刚演的这条继续找
+  ///     }
+  /// }
+  /// ```
+  ///
+  /// ⚠️ 所以一次阶段切换可能连演**多段**。只取第一条的话，
+  /// 序章第一回合敌军阶段就只会演 `Turn1`，把
+  /// `EventScr_Prologue_ONeillAttack`（奥尼尔攻击教学）吞掉。
+  List<ChapterObjective> allTurnMatches({
+    required int turn,
+    required int faction,
+    required bool Function(int flag) hasFlag,
+  }) {
+    final out = <ChapterObjective>[];
+    for (final e in entries) {
+      if (e.isEnd) break;
+      if (!e.isTurn) continue;
+      if (e.doneFlag != 0 && hasFlag(e.doneFlag)) continue;
+      if (e.matchesTurn(turn, faction)) out.add(e);
+    }
+    return out;
+  }
 
   /// **按原作的顺序**找第一条满足的条件。
   ///

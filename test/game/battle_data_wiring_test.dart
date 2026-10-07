@@ -126,6 +126,26 @@ void main() {
     expect(game.field!.phaseAbleCount(Faction.red), 3);
   });
 
+  test('★ 同一张单位表载入两次**不会**变成两份（`LoadUnit_0`）', () {
+    // 序章开场脚本末尾 `CALL(EventScr_Prologue_ONeillSpawn)`（LOAD1 敌人），
+    // 回合 1 的敌方阶段事件 `EventScr_Prologue_Turn1` **又调一次**
+    // （`src/data/data_08A612F4/data_08A612F4.s:32-40`）。
+    //
+    // 出处 `LoadUnit_0`（`src/eventscr_0800F8D4.c:45-95`）：
+    // 场上已有同角色时**不新建**，只改阵营/挪位置。
+    final game = loadTables();
+    game.field = BattleField(width: 30, height: 30, units: []);
+    game.loadUnitsForTest('UnitDef_Event_PrologueEnemy', 1);
+    final first = game.field!.units.length;
+    expect(first, 3);
+    game.loadUnitsForTest('UnitDef_Event_PrologueEnemy', 1);
+    expect(game.field!.units.length, first,
+        reason: '★ 第二次 LOAD 不能凭空多出单位来');
+    // 编号也必须仍然唯一
+    final ids = game.field!.units.map((u) => u.id).toList();
+    expect(ids.toSet().length, ids.length);
+  });
+
   test('★ 序章战斗：艾莉卡拿细剑打奥尼尔，伤害落在**奥尼尔**身上', () {
     // 这一条钉的是"序章战斗能不能真的打掉血"：
     //   * `_profileFor` 从三张表取职业/角色/武器（不是演示值）

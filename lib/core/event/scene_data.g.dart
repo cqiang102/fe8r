@@ -28,7 +28,7 @@ Future<void> scr_9EE6A0(Scene s) async {
           if (s.slotInt(0) != 196620) { pc = 1; } else { pc = 1; }
           continue;
         case 1:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_ChangeAIinQueue'));
           pc = 2;
           continue;
         case 2:
@@ -69,7 +69,7 @@ Future<void> scr_9EE6C8(Scene s) async {
           if (s.slotInt(0) != 196620) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_ChangeAIinQueue'));
           pc = 3;
           continue;
         case 3:
@@ -406,7 +406,7 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_9EEB00'));
           pc = 18;
           continue;
         case 18:
@@ -536,7 +536,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          await s.callSlot(0);
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
           pc = 30;
           continue;
         case 30:
@@ -567,7 +567,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          await s.callSlot(0);
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
           pc = 38;
           continue;
         case 38:
@@ -631,21 +631,21 @@ Future<void> ApplyTileChangeForFaction(Scene s) async {
 /// `EventScr_ApplyTileChangeForFactionIfAlly`
 Future<void> ApplyTileChangeForFactionIfAlly(Scene s) async {
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_ApplyTileChangeForFaction'));
     return;
 }
 
 /// `EventScr_ApplyTileChangeForFactionIfEnemy`
 Future<void> ApplyTileChangeForFactionIfEnemy(Scene s) async {
     s.setSlot(2, 2);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_ApplyTileChangeForFaction'));
     return;
 }
 
 /// `EventScr_ApplyTileChangeForFactionIfNPC`
 Future<void> ApplyTileChangeForFactionIfNPC(Scene s) async {
     s.setSlot(2, 1);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_ApplyTileChangeForFaction'));
     return;
 }
 
@@ -676,7 +676,7 @@ Future<void> CallIfCommonMode(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CALL');
+          await s.callSlot(2);
           pc = 4;
           continue;
         case 4:
@@ -703,7 +703,7 @@ Future<void> CallOnChapterNumber(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CALL');
+          await s.callSlot(2);
           pc = 3;
           continue;
         case 3:
@@ -737,7 +737,7 @@ Future<void> CallOnHardMode(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 5; } else { pc = 4; }
           continue;
         case 4:
-          s.placeholder('CALL');
+          await s.callSlot(2);
           pc = 5;
           continue;
         case 5:
@@ -764,7 +764,7 @@ Future<void> CallOnTutorialMode(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CALL');
+          await s.callSlot(2);
           pc = 3;
           continue;
         case 3:
@@ -819,7 +819,7 @@ Future<void> CallWithModeCheck(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CALL');
+          await s.callSlot(2);
           pc = 11;
           continue;
         case 11:
@@ -858,7 +858,7 @@ Future<void> Ch10A_10(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2565);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -869,7 +869,7 @@ Future<void> Ch10A_11(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2566);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -878,7 +878,7 @@ Future<void> Ch10A_11(Scene s) async {
 /// `EventScr_Ch10A_12`
 Future<void> Ch10A_12(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch10AEnemy_2'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -978,7 +978,7 @@ Future<void> Ch10A_9(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2564);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -1821,7 +1821,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_SetBackground'));
           pc = 8;
           continue;
         case 8:
@@ -1861,7 +1861,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_TextShowWithFadeIn'));
           pc = 18;
           continue;
         case 18:
@@ -1892,7 +1892,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          await s.callSlot(0);
+          await s.call(Sym('Event_TextWithBG'));
           pc = 26;
           continue;
         case 26:
@@ -1930,7 +1930,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          await s.callSlot(0);
+          await s.call(Sym('Event_TextWithBG'));
           pc = 36;
           continue;
         case 36:
@@ -2041,7 +2041,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 63;
           continue;
         case 63:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_SetBackground'));
           pc = 64;
           continue;
         case 64:
@@ -2069,7 +2069,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 70;
           continue;
         case 70:
-          await s.callSlot(0);
+          await s.call(Sym('data_085B9BBC', 512));
           pc = 71;
           continue;
         case 71:
@@ -2876,7 +2876,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          await s.callSlot(0);
+          await s.call(Sym('Event_TextWithBG'));
           pc = 13;
           continue;
         case 13:
@@ -2894,7 +2894,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          await s.callSlot(0);
+          await s.call(Sym('Event_TextWithBG'));
           pc = 18;
           continue;
         case 18:
@@ -2912,7 +2912,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          await s.callSlot(0);
+          await s.call(Sym('Event_TextWithBG'));
           pc = 23;
           continue;
         case 23:
@@ -2930,7 +2930,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          await s.callSlot(0);
+          await s.call(Sym('Event_TextWithBG'));
           pc = 28;
           continue;
         case 28:
@@ -2967,7 +2967,7 @@ Future<void> Ch12A_1(Scene s) async {
 /// `EventScr_Ch12A_2`
 Future<void> Ch12A_2(Scene s) async {
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
@@ -2976,9 +2976,9 @@ Future<void> Ch12A_2(Scene s) async {
 /// `EventScr_Ch12A_3`
 Future<void> Ch12A_3(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch12AEnemy_2'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.setSlot(2, Sym('UnitDef_Ch12AEnemy_7'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -2986,7 +2986,7 @@ Future<void> Ch12A_3(Scene s) async {
 /// `EventScr_Ch12A_4`
 Future<void> Ch12A_4(Scene s) async {
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
@@ -3127,7 +3127,7 @@ Future<void> Ch13A_4(Scene s) async {
 /// `EventScr_Ch13A_5`
 Future<void> Ch13A_5(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_7'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -3135,7 +3135,7 @@ Future<void> Ch13A_5(Scene s) async {
 /// `EventScr_Ch13A_6`
 Future<void> Ch13A_6(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_8'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -3144,7 +3144,7 @@ Future<void> Ch13A_6(Scene s) async {
 Future<void> Ch13A_7(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_9'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.showCursorAtUnit(14);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
@@ -3860,7 +3860,7 @@ Future<void> Ch14A_1(Scene s) async {
 /// `EventScr_Ch14A_2`
 Future<void> Ch14A_2(Scene s) async {
     s.setSlot(2, Sym('frontier_df3_unitdef_b_001_91020C', 860));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -3868,7 +3868,7 @@ Future<void> Ch14A_2(Scene s) async {
 /// `EventScr_Ch14A_3`
 Future<void> Ch14A_3(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch14AEnemy_4'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -3876,7 +3876,7 @@ Future<void> Ch14A_3(Scene s) async {
 /// `EventScr_Ch14A_4`
 Future<void> Ch14A_4(Scene s) async {
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
@@ -3885,7 +3885,7 @@ Future<void> Ch14A_4(Scene s) async {
 /// `EventScr_Ch14A_5`
 Future<void> Ch14A_5(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch14AEnemy_2'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -3893,7 +3893,7 @@ Future<void> Ch14A_5(Scene s) async {
 /// `EventScr_Ch14A_6`
 Future<void> Ch14A_6(Scene s) async {
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('COUNTER_SET');
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
@@ -3910,7 +3910,7 @@ Future<void> Ch14A_7(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 2;
           continue;
         case 2:
@@ -4066,14 +4066,14 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.setSlot(2, 73);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2627);
     s.placeholder('ENDTEXT');
     s.placeholder('MUSC');
     s.placeholder('CONTINUETEXT');
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_TextShowWithFadeIn'));
     s.placeholder('EvtMoveUnit');
     s.placeholder('EvtMoveUnit');
     s.placeholder('EvtMoveUnit');
@@ -4104,7 +4104,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('DISPLAYTEXT');
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('EvtMoveUnit');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('MUSC');
     s.placeholder('CAMERA_CAHR');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -4114,7 +4114,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 63);
     s.setSlot(3, 2629);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('ENUT');
     s.placeholder('ENUT');
     s.placeholder('EVBIT_T');
@@ -4318,7 +4318,7 @@ Future<void> Ch15A_0(Scene s) async {
 
 /// `EventScr_Ch15A_1`
 Future<void> Ch15A_1(Scene s) async {
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Ch15A_26'));
     s.placeholder('ENUT');
     s.placeholder('MNCH');
     return;
@@ -4481,9 +4481,9 @@ Future<void> Ch15A_19(Scene s) async {
 Future<void> Ch15A_2(Scene s) async {
     s.placeholder('NOP');
     s.setSlot(3, 2806);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 136);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
@@ -4491,14 +4491,14 @@ Future<void> Ch15A_2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2807);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2808);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -4552,27 +4552,27 @@ Future<void> Ch15A_2(Scene s) async {
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('frontier_df3_unitdef_b_006_911070'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, 143724716);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, 143724776);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('UnitDef_Ch15AEnemy_6'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('frontier_df3_unitdef_b_007_911200', 60));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.setSlot(1, 65536);
     s.placeholder('CHAI');
     s.setSlot(1, 70144);
@@ -5615,7 +5615,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.setSlot(2, 73);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2776);
     s.placeholder('ENDTEXT');
     await s.fade(FadeDirection.toBlack, 4);
@@ -5628,12 +5628,12 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.placeholder('LOADSINGLEUNIT');
     s.setSlot(2, 87);
     s.moveUnit('MOVEUNIT', [65535]);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_UnitWarpIN'));
     s.showCursorAtUnit(87);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
     s.setSlot(2, 73);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2777);
     s.placeholder('ENDTEXT');
     await s.fade(FadeDirection.toBlack, 16);
@@ -5641,13 +5641,13 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     await s.removeUnit(87);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 1516));
     await s.waitUnitMoving();
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 512));
     return;
 }
 
 /// `EventScr_Ch16A_0`
 Future<void> Ch16A_0(Scene s) async {
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Ch16A_12'));
     s.placeholder('MNCH');
     return;
 }
@@ -7481,7 +7481,7 @@ Future<void> Ch16B_5(Scene s) async {
 
 /// `EventScr_Ch16a_BeginningScene`
 Future<void> Ch16a_BeginningScene(Scene s) async {
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Ch16A_11'));
     s.setSlot(11, 0);
     await s.loadMap(16);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_007_911200_tail'));
@@ -7490,9 +7490,9 @@ Future<void> Ch16a_BeginningScene(Scene s) async {
     await s.waitUnitMoving();
     s.setSlot(2, Sym('UnitDef_Ch16AEnemy_1'));
     s.setSlot(3, 1);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadUnitForTutorial'));
     s.placeholder('CHANGESTATE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 512));
     s.placeholder('ENUT');
     return;
 }
@@ -8485,7 +8485,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.setSlot(11, 196616);
     s.placeholder('FIGHT');
     s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsg944'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EvtMoveUnit');
     await s.waitUnitMoving();
     s.showCursorAtUnit(4);
@@ -8583,7 +8583,7 @@ Future<void> Ch1Tut_PostTradeAndItemUseAction(Scene s) async {
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
     s.placeholder('DISABLEOPTIONS');
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Ch1Tut_MsgOnGuideOption'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -8873,7 +8873,7 @@ Future<void> Ch1_Loca_Visit1(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2299);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -8884,7 +8884,7 @@ Future<void> Ch1_Loca_Visit2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2300);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -8893,7 +8893,7 @@ Future<void> Ch1_Loca_Visit2(Scene s) async {
 /// `EventScr_Ch1_Misc_Area`
 Future<void> Ch1_Misc_Area(Scene s) async {
     s.setSlot(2, 1);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_UnTriggerIfNotUnit'));
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
@@ -8902,7 +8902,7 @@ Future<void> Ch1_Misc_Area(Scene s) async {
 /// `EventScr_Ch1_Misc_DefeatBoss`
 Future<void> Ch1_Misc_DefeatBoss(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsgSeize'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -8910,7 +8910,7 @@ Future<void> Ch1_Misc_DefeatBoss(Scene s) async {
 /// `EventScr_Ch1_Turn1Player`
 Future<void> Ch1_Turn1Player(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch1Tut_ChooseSethTurn1'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -8937,7 +8937,7 @@ Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
 Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, Sym('UnitDef_Event_Ch1EnemyReinforce'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.showCursorAtUnit(131);
     await s.stall(60);
     s.placeholder('DISPLAYCURSOR');
@@ -9717,7 +9717,7 @@ Future<void> Ch2Tutorial25(Scene s) async {
 Future<void> Ch2Tutorial26(Scene s) async {
     s.placeholder('IGNORE_KEYS');
     s.setSlot(2, Sym('EventScr_Ch2_Village2', 160));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('ENQUEUE_CALL');
     s.placeholder('EVBIT_T');
@@ -9802,7 +9802,7 @@ Future<void> Ch2Tutorial3(Scene s) async {
 Future<void> Ch2Tutorial30(Scene s) async {
     s.placeholder('IGNORE_KEYS');
     s.setSlot(2, Sym('EventScr_Ch2_9'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('DISABLEOPTIONS');
     s.placeholder('EVBIT_T');
     return;
@@ -10381,7 +10381,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
 /// `EventScr_Ch2_Turn1Player`
 Future<void> Ch2_Turn1Player(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch2_Village2', 256));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -10389,7 +10389,7 @@ Future<void> Ch2_Turn1Player(Scene s) async {
 /// `EventScr_Ch2_Turn2Player`
 Future<void> Ch2_Turn2Player(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch2_5'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -10492,9 +10492,9 @@ Future<void> Ch2_Village2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 2);
     s.setSlot(3, 2347);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 109);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
@@ -10502,17 +10502,17 @@ Future<void> Ch2_Village2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 2);
     s.setSlot(3, 2348);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 110);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('UnitDef_Ch2Enemy_1'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.setSlot(2, Sym('EventScr_Ch2_8'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
     s.placeholder('SETTEXTTYPE');
@@ -10565,7 +10565,7 @@ Future<void> Ch2_Village2(Scene s) async {
     s.placeholder('QUEUE_OPS');
     s.setSlot(1, Sym('EventScr_Ch2_Village2', 308));
     s.placeholder('QUEUE_OPS');
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
 
@@ -11214,7 +11214,7 @@ Future<void> Ch3_Talk_NeimiColm(Scene s) async {
     s.placeholder('MURE');
     s.placeholder('CHANGESTATE');
     s.setSlot(2, Sym('EventScr_Ch3_6'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11246,7 +11246,7 @@ Future<void> Ch3_Turn1Npc(Scene s) async {
 /// `EventScr_Ch3_Turn2Player`
 Future<void> Ch3_Turn2Player(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch3_7'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11662,9 +11662,9 @@ Future<void> Ch4_3(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 2);
     s.setSlot(3, 2421);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 31);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
@@ -11674,7 +11674,7 @@ Future<void> Ch4_3(Scene s) async {
 /// `EventScr_Ch4_4`
 Future<void> Ch4_4(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch4Enemy_2'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11682,7 +11682,7 @@ Future<void> Ch4_4(Scene s) async {
 /// `EventScr_Ch4_5`
 Future<void> Ch4_5(Scene s) async {
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
@@ -11691,7 +11691,7 @@ Future<void> Ch4_5(Scene s) async {
 /// `EventScr_Ch4_6`
 Future<void> Ch4_6(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch4Enemy_1'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11822,9 +11822,9 @@ Future<void> Ch5_1(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2446);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 96);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
@@ -11879,9 +11879,9 @@ Future<void> Ch5_2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2447);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 93);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
@@ -11893,8 +11893,8 @@ Future<void> Ch5_3(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2448);
-    await s.callSlot(0);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 112);
     await s.giveItem(65535, 3);
     s.placeholder('BGMVOLUMECHANGE');
@@ -11923,7 +11923,7 @@ Future<void> Ch5_5(Scene s) async {
 /// `EventScr_Ch5_6`
 Future<void> Ch5_6(Scene s) async {
     s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8', 60));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11931,7 +11931,7 @@ Future<void> Ch5_6(Scene s) async {
 /// `EventScr_Ch5_7`
 Future<void> Ch5_7(Scene s) async {
     s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8', 120));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -13220,7 +13220,7 @@ Future<void> Ch6_3(Scene s) async {
 /// `EventScr_Ch6_4`
 Future<void> Ch6_4(Scene s) async {
     s.setSlot(2, Sym('UnitDef_Ch6Enemy_0'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforceHardMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -13456,7 +13456,7 @@ Future<void> Ch7_1(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2503);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -13467,7 +13467,7 @@ Future<void> Ch7_2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2504);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -14094,7 +14094,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
 Future<void> Ch8_EndingScene(Scene s) async {
     s.placeholder('MUSC');
     s.setSlot(2, 21);
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2513);
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
@@ -14133,16 +14133,16 @@ Future<void> Ch8_EndingScene(Scene s) async {
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, 0);
-    await s.callSlot(0);
+    await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('UnitDef_Ch8Enemy_1'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('UnitDef_Ch8Enemy_2'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_LoadReinforce'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -14167,9 +14167,9 @@ Future<void> Ch9A_3(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     s.setSlot(2, 0);
     s.setSlot(3, 2539);
-    await s.callSlot(0);
+    await s.call(Sym('Event_TextWithBG'));
     s.placeholder('BGMVOLUMECHANGE');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 9);
     await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
@@ -14315,7 +14315,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 5;
           continue;
         case 5:
@@ -14329,7 +14329,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 9;
           continue;
         case 9:
@@ -14343,7 +14343,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 13;
           continue;
         case 13:
@@ -14357,7 +14357,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 17;
           continue;
         case 17:
@@ -14371,7 +14371,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 21;
           continue;
         case 21:
@@ -14385,7 +14385,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 25;
           continue;
         case 25:
@@ -14399,7 +14399,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 29;
           continue;
         case 29:
@@ -14449,7 +14449,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforceHardMode'));
           pc = 42;
           continue;
         case 42:
@@ -15816,7 +15816,7 @@ Future<void> GiveTreasureToLuckyDog(Scene s) async {
 /// `EventScr_LoadReinforce`
 Future<void> LoadReinforce(Scene s) async {
     s.placeholder('EVBIT_MODIFY');
-    await s.callSlot(0);
+    await s.call(Sym('data_085B9BBC', 360));
     s.placeholder('EVBIT_T');
     s.placeholder('LOAD1');
     await s.waitUnitMoving();
@@ -15845,7 +15845,7 @@ Future<void> LoadReinforceHardMode(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
           continue;
         case 4:
-          await s.callSlot(0);
+          await s.call(Sym('EventScr_LoadReinforce'));
           pc = 5;
           continue;
         case 5:
@@ -15954,7 +15954,7 @@ Future<void> LoadUnitForDifferentMode(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          await s.callSlot(0);
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 48));
           pc = 7;
           continue;
         case 7:
@@ -15989,7 +15989,7 @@ Future<void> LoadUnitForTutorial(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          await s.callSlot(0);
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 48));
           pc = 6;
           continue;
         case 6:
@@ -16654,9 +16654,9 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
 /// `EventScr_Prologue_Turn1`
 Future<void> Prologue_Turn1(Scene s) async {
     s.setSlot(2, Sym('EventScr_Prologue_ONeillSpawn'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.setSlot(2, Sym('EventScr_Prologue_TutMessageTurn1'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -16664,7 +16664,7 @@ Future<void> Prologue_Turn1(Scene s) async {
 /// `EventScr_Prologue_Turn2`
 Future<void> Prologue_Turn2(Scene s) async {
     s.setSlot(2, Sym('EventScr_Prologue_TutMessageTurn2'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -16672,9 +16672,9 @@ Future<void> Prologue_Turn2(Scene s) async {
 /// `EventScr_Prologue_Turn3`
 Future<void> Prologue_Turn3(Scene s) async {
     s.setSlot(2, Sym('EventScr_Prologue_OneillSethBattle'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.setSlot(2, Sym('EventScr_Prologue_TutEirikaAttack'));
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
     return;
 }
@@ -16804,7 +16804,7 @@ Future<void> Prologue_Tutorial2(Scene s) async {
 Future<void> Prologue_Tutorial3(Scene s) async {
     s.placeholder('EVBIT_T');
     s.placeholder('IGNORE_KEYS');
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Prologue_GiveRapier'));
     s.placeholder('SET_ENDTURN');
     s.placeholder('ENUT');
     return;
@@ -16908,7 +16908,7 @@ Future<void> Prologue_Tutorial9(Scene s) async {
     s.placeholder('KILL');
     await s.removeUnit(65534, onlyIfDead: true);
     s.placeholder('ENUT');
-    await s.callSlot(0);
+    await s.call(Sym('EventScr_Prologue_OneEnemyLeft'));
     s.placeholder('SET_ENDTURN');
     s.placeholder('EVBIT_T');
     return;
@@ -19976,7 +19976,7 @@ Future<void> UnTriggerIfNotUnit(Scene s) async {
           if (s.slotInt(0) == 131084) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          await s.callSlot(0);
+          await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
           pc = 3;
           continue;
         case 3:

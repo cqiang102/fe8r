@@ -275,6 +275,20 @@ class BattleField {
   bool isControllable(MapUnit u) =>
       PhaseRules.isSameAllegiance(u.faction, activeFaction);
 
+  /// 换掉某个单位（阵营变了之类 —— `MapUnit.faction` 是 final）。
+  ///
+  /// `UnitChangeFaction`（`src/eventscr_0800F8D4.c:62`）的等价物。
+  BattleField withUnitReplaced(int id, MapUnit replacement) => BattleField(
+        width: width,
+        height: height,
+        turn: turn,
+        activeFaction: activeFaction,
+        units: [
+          for (final u in units)
+            if (u.id == id) replacement else u,
+        ],
+      );
+
   /// 把单位移动到新位置
   void moveUnit(MapUnit u, int x, int y) {
     u.x = x;

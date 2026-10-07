@@ -155,27 +155,47 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x34C",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x390",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 10
+    "doneFlag": 10,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x3C4",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 12
+    "doneFlag": 12,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x3F8",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 12,
     "cmd": "TURN",
-    "doneFlag": 14
+    "doneFlag": 14,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x43C",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 15,
@@ -206,27 +226,47 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 3
+    "doneFlag": 3,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x1C",
+    "turn": 14,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x2C",
+    "turn": 6,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x44",
+    "turn": 6,
+    "maxTurn": 7,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x5C",
+    "turn": 3,
+    "maxTurn": 7,
+    "faction": 0
    },
    {
     "i": 12,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x90",
+    "turn": 4,
+    "maxTurn": 8,
+    "faction": 0
    },
    {
     "i": 15,
@@ -239,47 +279,83 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x1B8",
+    "turn": 1,
+    "maxTurn": 0,
+    "faction": 128
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x270",
+    "turn": 15,
+    "maxTurn": 21,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x2B4",
+    "turn": 16,
+    "maxTurn": 22,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 10
+    "doneFlag": 10,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x318",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 12,
     "cmd": "TURN",
-    "doneFlag": 12
+    "doneFlag": 12,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x36C",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 15,
     "cmd": "TURN",
-    "doneFlag": 14
+    "doneFlag": 14,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x3F4",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 18,
     "cmd": "TURN",
-    "doneFlag": 16
+    "doneFlag": 16,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x47C",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 21,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x534",
+    "turn": 19,
+    "maxTurn": 29,
+    "faction": 0
    },
    {
     "i": 24,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_017_A6F47C + 0x598",
+    "turn": 5,
+    "maxTurn": 6,
+    "faction": 0
    },
    {
     "i": 27,
@@ -290,17 +366,29 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 13
+    "doneFlag": 13,
+    "script": "frontier_df3_eventscr_ch_020_A6FB9C + 0x10",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 11
+    "doneFlag": 11,
+    "script": "EventScr_Ch20B_1",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 12
+    "doneFlag": 12,
+    "script": "EventScr_Ch20B_2",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 9,
@@ -408,42 +496,66 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch8_EndingScene + 0x2C",
+    "pidA": 1,
+    "pidB": 15
    },
    {
     "i": 4,
     "cmd": "CHAR",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch8_EndingScene + 0x2C",
+    "pidA": 15,
+    "pidB": 1
    },
    {
     "i": 8,
     "cmd": "CHAR",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "EventScr_Ch8_EndingScene + 0x48",
+    "pidA": 15,
+    "pidB": 2
    },
    {
     "i": 12,
     "cmd": "CHAR",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "EventScr_Ch8_EndingScene + 0x48",
+    "pidA": 2,
+    "pidB": 15
    },
    {
     "i": 16,
     "cmd": "CHAR",
-    "doneFlag": 9
+    "doneFlag": 9,
+    "script": "EventScr_Ch8_EndingScene + 0x68",
+    "pidA": 2,
+    "pidB": 17
    },
    {
     "i": 20,
     "cmd": "CHAR",
-    "doneFlag": 9
+    "doneFlag": 9,
+    "script": "EventScr_Ch8_EndingScene + 0x68",
+    "pidA": 17,
+    "pidB": 2
    },
    {
     "i": 24,
     "cmd": "CHAR",
-    "doneFlag": 10
+    "doneFlag": 10,
+    "script": "EventScr_Ch8_EndingScene + 0x88",
+    "pidA": 4,
+    "pidB": 16
    },
    {
     "i": 28,
     "cmd": "CHAR",
-    "doneFlag": 10
+    "doneFlag": 10,
+    "script": "EventScr_Ch8_EndingScene + 0x88",
+    "pidA": 16,
+    "pidB": 4
    },
    {
     "i": 32,
@@ -490,47 +602,83 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0xD8",
+    "turn": 5,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0x24",
+    "turn": 3,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0x3C",
+    "turn": 4,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0xC",
+    "turn": 2,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 12,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0x6C",
+    "turn": 3,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 15,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0x54",
+    "turn": 4,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 18,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0x84",
+    "turn": 5,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 21,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_5 + 0x9C",
+    "turn": 5,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 24,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch9A_4",
+    "turn": 10,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 27,
@@ -541,22 +689,38 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Prologue_Turn1",
+    "turn": 1,
+    "maxTurn": 0,
+    "faction": 128
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Prologue_Turn2",
+    "turn": 2,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Prologue_Turn3",
+    "turn": 3,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "EventScr_Prologue_ONeillAttack",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 128
    },
    {
     "i": 12,
@@ -624,22 +788,38 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch1_Turn1Player",
+    "turn": 1,
+    "maxTurn": 1,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch1_Turn1Enemy",
+    "turn": 1,
+    "maxTurn": 1,
+    "faction": 128
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch1_Turn_AllyReinforceArrive",
+    "turn": 2,
+    "maxTurn": 2,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 11
+    "doneFlag": 11,
+    "script": "EventScr_Ch1_Turn_EnemyReinforceArrive",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 12,
@@ -720,17 +900,29 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch2_Turn1Player",
+    "turn": 1,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch2_Turn2Player",
+    "turn": 2,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch2_Village2 + 0x78",
+    "turn": 3,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
@@ -741,12 +933,18 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch2_Talk_EirikaRoss",
+    "pidA": 1,
+    "pidB": 7
    },
    {
     "i": 4,
     "cmd": "CHAR",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "EventScr_Ch2_Talk_RossGarcia",
+    "pidA": 7,
+    "pidB": 10
    },
    {
     "i": 8,
@@ -795,12 +993,20 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch3_Turn1Npc",
+    "turn": 1,
+    "maxTurn": 1,
+    "faction": 64
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "EventScr_Ch3_Turn2Player",
+    "turn": 2,
+    "maxTurn": 2,
+    "faction": 0
    },
    {
     "i": 6,
@@ -811,7 +1017,10 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 9
+    "doneFlag": 9,
+    "script": "EventScr_Ch3_Talk_NeimiColm",
+    "pidA": 8,
+    "pidB": 9
    },
    {
     "i": 4,
@@ -905,17 +1114,29 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch4_0",
+    "turn": 2,
+    "maxTurn": 0,
+    "faction": 64
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch4_4",
+    "turn": 2,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 8
+    "doneFlag": 8,
+    "script": "EventScr_Ch4_6",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 9,
@@ -1007,17 +1228,29 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch5_5",
+    "turn": 2,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch5_6",
+    "turn": 6,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch5_7",
+    "turn": 8,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
@@ -1028,7 +1261,10 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch5_4",
+    "pidA": 13,
+    "pidB": 32
    },
    {
     "i": 4,
@@ -1163,7 +1399,11 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch6_4",
+    "turn": 4,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 3,
@@ -1245,7 +1485,11 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch7_0",
+    "turn": 1,
+    "maxTurn": 0,
+    "faction": 128
    },
    {
     "i": 3,
@@ -1320,17 +1564,29 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch8_0",
+    "turn": 2,
+    "maxTurn": 2,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 12
+    "doneFlag": 12,
+    "script": "EventScr_Ch8_EndingScene + 0xC4",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch8_EndingScene + 0xDC",
+    "turn": 5,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
@@ -1419,12 +1675,18 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch9A_0",
+    "pidA": 1,
+    "pidB": 18
    },
    {
     "i": 4,
     "cmd": "CHAR",
-    "doneFlag": 7
+    "doneFlag": 7,
+    "script": "EventScr_Ch9A_1",
+    "pidA": 4,
+    "pidB": 18
    },
    {
     "i": 8,
@@ -1479,22 +1741,38 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch10A_0",
+    "turn": 1,
+    "maxTurn": 0,
+    "faction": 128
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch10A_12",
+    "turn": 2,
+    "maxTurn": 5,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 13
+    "doneFlag": 13,
+    "script": "EventScr_Ch10A_8",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 14
+    "doneFlag": 14,
+    "script": "EventScr_Ch10A_14",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 128
    },
    {
     "i": 12,
@@ -1547,22 +1825,38 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df4_menu_008_A66F88 + 0x50",
+    "turn": 9,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df4_menu_008_A66F88 + 0xEC",
+    "turn": 4,
+    "maxTurn": 5,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df4_menu_008_A66F88 + 0x104",
+    "turn": 8,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df4_menu_008_A66F88 + 0x11C",
+    "turn": 12,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 12,
@@ -1573,12 +1867,18 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 10
+    "doneFlag": 10,
+    "script": "frontier_df4_menu_008_A66F88",
+    "pidA": 1,
+    "pidB": 25
    },
    {
     "i": 4,
     "cmd": "CHAR",
-    "doneFlag": 11
+    "doneFlag": 11,
+    "script": "frontier_df4_menu_008_A66F88 + 0x28",
+    "pidA": 25,
+    "pidB": 26
    },
    {
     "i": 8,
@@ -1689,72 +1989,128 @@
    {
     "i": 0,
     "cmd": "TURN",
-    "doneFlag": 14
+    "doneFlag": 14,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x74",
+    "turn": 1,
+    "maxTurn": 255,
+    "faction": 0
    },
    {
     "i": 3,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch16b_BeginningScene + 0x4C",
+    "turn": 4,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 6,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch16b_BeginningScene + 0x4C",
+    "turn": 6,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 9,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "EventScr_Ch16b_BeginningScene + 0x4C",
+    "turn": 8,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 12,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x24",
+    "turn": 4,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 15,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x24",
+    "turn": 6,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 18,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x24",
+    "turn": 8,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 21,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x3C",
+    "turn": 10,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 24,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0x3C",
+    "turn": 12,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 27,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0xC",
+    "turn": 3,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 30,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0xC",
+    "turn": 5,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 33,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0xC",
+    "turn": 7,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 36,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0xC",
+    "turn": 9,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 39,
     "cmd": "TURN",
-    "doneFlag": 0
+    "doneFlag": 0,
+    "script": "frontier_df3_eventscr_ch_016_A6EFD8 + 0xC",
+    "turn": 11,
+    "maxTurn": 0,
+    "faction": 0
    },
    {
     "i": 42,
@@ -1765,17 +2121,26 @@
    {
     "i": 0,
     "cmd": "CHAR",
-    "doneFlag": 9
+    "doneFlag": 9,
+    "script": "EventScr_Ch16b_BeginningScene + 0x34",
+    "pidA": 34,
+    "pidB": 33
    },
    {
     "i": 4,
     "cmd": "CHAR",
-    "doneFlag": 9
+    "doneFlag": 9,
+    "script": "EventScr_Ch16b_BeginningScene + 0x28",
+    "pidA": 11,
+    "pidB": 33
    },
    {
     "i": 8,
     "cmd": "CHAR",
-    "doneFlag": 9
+    "doneFlag": 9,
+    "script": "EventScr_Ch16b_BeginningScene + 0x40",
+    "pidA": 6,
+    "pidB": 33
    },
    {
     "i": 12,

@@ -281,4 +281,52 @@ void _unitIdTests() {
     expect(enemy[0]['charIndex'], 104);
     expect([enemy[0]['x'], enemy[0]['y']], [14, 8]);
   });
+
+  _turnEventTests();
+}
+
+void _turnEventTests() {
+  ChapterObjectives prologueTurn() => ChapterObjectives.fromJson(const [
+        {'i': 0, 'cmd': 'TURN', 'doneFlag': 0, 'script': 'EventScr_Prologue_Turn1', 'turn': 1, 'maxTurn': 0, 'faction': 128},
+        {'i': 3, 'cmd': 'TURN', 'doneFlag': 0, 'script': 'EventScr_Prologue_Turn2', 'turn': 2, 'maxTurn': 0, 'faction': 0},
+        {'i': 6, 'cmd': 'TURN', 'doneFlag': 0, 'script': 'EventScr_Prologue_Turn3', 'turn': 3, 'maxTurn': 0, 'faction': 0},
+        {'i': 9, 'cmd': 'TURN', 'doneFlag': 8, 'script': 'EventScr_Prologue_ONeillAttack', 'turn': 1, 'maxTurn': 255, 'faction': 128},
+        {'i': 12, 'cmd': 'END'},
+      ]);
+
+  String? at(int turn, int faction, {Set<int> flags = const {}}) =>
+      prologueTurn()
+          .firstTurnMatch(turn: turn, faction: faction, hasFlag: flags.contains)
+          ?.script;
+
+  test('turn 1 敌方阶段 → Turn1；自军阶段不命中', () {
+    expect(at(1, 128), 'EventScr_Prologue_Turn1');
+    expect(at(1, 0), isNull, reason: 'Turn1 是敌军的');
+  });
+
+  test('maxTurn == 0 表示"只有那一回合"', () {
+    expect(at(2, 0), 'EventScr_Prologue_Turn2');
+    expect(at(3, 0), 'EventScr_Prologue_Turn3');
+    expect(at(4, 0), isNull, reason: 'maxTurn=0 → 只在 turn 2 命中');
+  });
+
+  test('maxTurn == 0xFF 表示"从 turn 起一直有效"', () {
+    expect(at(1, 128), 'EventScr_Prologue_Turn1',
+        reason: 'Turn1 在前，先命中它');
+    // turn 9 时 Turn1（只到 turn 1）已经不命中，但 ONeillAttack 仍然命中
+    // —— 这正是 `maxTurn == 0xFF` 的含义（从 turn 1 起无限期）
+    expect(at(9, 128), 'EventScr_Prologue_ONeillAttack',
+        reason: 'maxTurn=0xFF 意味着"从 turn 1 起一直有效"');
+    // ⚠️ 我第一版把这里写成 isNull（以为"回合数超了就不命中"）——
+    // 红了一次，**是判据错**，不是代码错。
+  });
+
+  test('doneFlag 已置上就跳过（ONeillAttack 只演一次）', () {
+    expect(at(5, 128, flags: {8}), isNull,
+        reason: 'doneFlag 8 置上后，ONeillAttack 不再命中');
+  });
+
+  test('阵营不符不命中', () {
+    expect(at(5, 0), isNull);
+  });
 }

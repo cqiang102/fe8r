@@ -105,6 +105,31 @@ def to_macro(words, syms, macros):
         w = words[i]
         cmd, name, ln, sub, arg = decode_word(w)
         step = max(1, ln // 2)
+        # ★ `CALL(scr)`（cmd 0x0A）—— **目标在紧随的那个字里**。
+        #
+        # `include/EAstdlib.h:36` `#define CALL EvtCall`
+        # `include/eventscript.h:607` `#define EvtCall(scr) _EvtAutoCmdLen4(EV_CMD_CALL), (EventListScr)(scr),`
+        # `include/eventscript.h:578` `#define _EvtAutoCmdLen4(cmd) _EvtArg0(cmd, 4, 0, 0)`
+        #
+        # 所以 **arg0 恒为 0**，脚本指针是下一个字。
+        # 引擎（`src/sub_800DC40.c:8-11`）：
+        #
+        # ```c
+        # int dst = EVT_CMD_ARG32_BE(proc->pEventCurrent);   // 取的就是那个字
+        # if (dst < 0) dst = gEventSlots[2];                 // 负 → 槽 2
+        # ```
+        #
+        # ⚠️ 以前这里没有这个特例，落到兜底 `CALL(0)` ——
+        # **指针被当成"槽 0"，整段被调脚本静默丢掉**：
+        # 序章回合事件 `EventScr_Prologue_Turn1` 因此一个动作都没发生。
+        if cmd == 0x0A and sub == 0:
+            if i + 1 < len(words):
+                tgt = syms.get(i + 1, hex(words[i + 1]))
+            else:
+                tgt = '0'
+            lines.append(f"CALL({tgt})")
+            i += step
+            continue
         m = macros.get((cmd, sub))
         if m:
             params = m["params"]

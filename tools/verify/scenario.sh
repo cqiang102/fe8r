@@ -76,15 +76,30 @@ case "$SCENARIO" in
     #   → 第 2 回合：选中，绕开挡路的敌人到 (13,5)，打奥尼尔一下（-12）
     #   → 第 3 回合：原地再打一下（-8），奥尼尔阵亡
     TITLE=""
+    # ★ 一轮 = "**取消到自由光标 → 确定性重定位 → 原地待机/攻击 → 结束回合**"
+    #
+    # 为什么这么写（而不是手算坐标）：
+    #   * `cancel` ×4 —— 无论现在停在哪个阶段（已选中 / 行动菜单 / 选目标），
+    #     都先退回自由光标，否则方向键会被"移动范围"限制住
+    #   * 重定位：**先撞到地图角落**（`left`×20 到底、`up`×20 到底，光标会被
+    #     夹在地图内），再 `right`×4 `down`×4 → 必定落在赛特 (4,4)。
+    #     这样**不依赖光标原来在哪**（回合事件里的 `CURSOR_CHAR` 会挪动它）
+    #   * 行动：确认(选中) → 确认(自己那格 = 原地待机) → 下+确认(有目标就打)
+    #     → 确认(目标) → 结束回合
+    #   * 回合事件会演对白，后面补 10 个确认把它们翻过去
+    #
+    # 这条脚本里的每一步都对应一条判据：
+    #   * "友军格挡不住光标"、"自己那格能停" —— `flow_machine_test.dart`
+    #   * "第 2 个敌方阶段敌人还会动" —— `turn_loop_test.dart`
+    #   * "回合事件会演" —— `chapter_objectives_test.dart` + 转储 turnEventsNote
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
-    SCRIPT="$SCRIPT,$(python3 -c "print(','.join(['left']*10+['up']*4))")"
-    # 第 1 回合：光标 (14,8)→赛特 (4,4)，选中，沿 (4,5) 穿过艾莉卡往东走，
-    #              落在 (8,5)（山峰不可通行，真实消耗表下能到的就这一条路），待机
-    SCRIPT="$SCRIPT,confirm,down,down,right,right,right,right,confirm,down,confirm,endturn"
-    # 第 2 回合：走 (9,5)→(9,6 林)→(9,7)→(10,7 林)，打奥尼尔一下（-14）
-    SCRIPT="$SCRIPT,confirm,right,down,down,right,confirm,down,confirm,confirm,endturn"
-    # 第 3 回合：原地再打一下（-14），奥尼尔阵亡
-    SCRIPT="$SCRIPT,confirm,confirm,down,confirm,confirm,endturn"
+    CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
+    RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
+    ACT="confirm,confirm,down,confirm,confirm,endturn"
+    EVENTS=$(python3 -c "print(','.join(['confirm']*10))")
+    for _ in 1 2 3 4 5; do
+      SCRIPT="$SCRIPT,$CANCEL,$RESYNC,$ACT,$EVENTS"
+    done
     # 第 1 章的开场脚本会先淡到黑；再跳一次过场 + 等两拍，
     # 截图才看得到地图（判据看的是转储，不看这张图）。
     SCRIPT="$SCRIPT,start,wait,wait"

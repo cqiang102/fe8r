@@ -11,10 +11,10 @@
  },
  "phase": "freeCursor",
  "cursor": {
-  "x": 11,
-  "y": 7
+  "x": 4,
+  "y": 4
  },
- "turn": 2,
+ "turn": 1,
  "activeFaction": 0,
  "selectedUnitId": null,
  "units": [
@@ -24,8 +24,8 @@
    "charIndex": 2,
    "classId": 7,
    "faction": 0,
-   "x": 8,
-   "y": 5,
+   "x": 4,
+   "y": 4,
    "hp": 13,
    "maxHp": 20,
    "alive": true,
@@ -80,8 +80,8 @@
    "charIndex": 104,
    "classId": 63,
    "faction": 128,
-   "x": 11,
-   "y": 7,
+   "x": 14,
+   "y": 8,
    "hp": 20,
    "maxHp": 20,
    "alive": true,
@@ -105,7 +105,7 @@
    "charIndex": 130,
    "classId": 63,
    "faction": 128,
-   "x": 12,
+   "x": 14,
    "y": 7,
    "hp": 20,
    "maxHp": 20,
@@ -130,8 +130,8 @@
    "charIndex": 128,
    "classId": 63,
    "faction": 128,
-   "x": 11,
-   "y": 8,
+   "x": 14,
+   "y": 7,
    "hp": 20,
    "maxHp": 20,
    "alive": true,
@@ -159,20 +159,18 @@
   "aliveUnits": 5,
   "matches": true
  },
- "eventFlags": [
-  8
- ],
+ "eventFlags": [],
  "scene": {
   "running": false,
   "objectiveRunning": false,
   "showDialogue": false,
   "script": "",
-  "shown": 9,
+  "shown": 51,
   "currentTextId": null,
   "hudExtra": "ENUN: 移动已完成（瞬移）",
   "slots": {
    "1": "13",
-   "2": "EventScr_Prologue_TutMessageTurn1",
+   "2": "EventScr_Prologue_9EF828",
    "3": "9"
   },
   "missing": [
@@ -204,43 +202,17 @@
    "DISPLAYCURSOR",
    "EvtEnqueueConditionalTutCall",
    "EVBIT_T",
-   "ENUF",
-   "CHECK_ENEMIES",
-   "EVENT_WORD_SYM"
+   "ENUF"
   ]
  },
  "titleFlow": null,
- "objectiveHit": "EventScr_Prologue_OneEnemyLeft",
+ "objectiveHit": null,
  "objectivesNote": "胜负条件 EventListScr_Prologue_Misc：4 条",
  "turnEventsNote": "回合事件 EventListScr_Prologue_Turn：5 条",
- "turnEventFired": "EventScr_Prologue_ONeillAttack（没有这个脚本）",
+ "turnEventFired": null,
  "moveCostsNote": "",
  "moveCostsWeather": "normal",
- "range": {
-  "count": 20,
-  "tiles": [
-   "0,0",
-   "1,0",
-   "1,1",
-   "1,2",
-   "3,2",
-   "0,3",
-   "1,3",
-   "2,3",
-   "3,3",
-   "4,3",
-   "2,4",
-   "3,4",
-   "4,4",
-   "4,5",
-   "5,5",
-   "6,5",
-   "7,5",
-   "8,5",
-   "9,5",
-   "8,6"
-  ]
- },
+ "range": null,
  "objectives": {
   "chapter": 0,
   "count": 4,
@@ -277,20 +249,20 @@
  "mapNote": "LOMA(0) → PrologueMap",
  "mapLoadFailures": [],
  "trace": [
+  "ShowText(ShowText(0x8d0 第1/6页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d0 第2/6页))",
+  "WaitForInput(WaitForInput)",
+  "ShowText(ShowText(0x8d0 第3/6页))",
+  "WaitForInput(WaitForInput)",
   "ShowText(ShowText(0x8d0 第4/6页))",
   "WaitForInput(WaitForInput)",
   "ShowText(ShowText(0x8d0 第5/6页))",
   "WaitForInput(WaitForInput)",
   "ShowText(ShowText(0x8d0 第6/6页))",
-  "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8dd 第1/3页))",
-  "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8dd 第2/3页))",
-  "WaitForInput(WaitForInput)",
-  "ShowText(ShowText(0x8dd 第3/3页))",
   "WaitForInput(WaitForInput)"
  ],
  "lastCombat": "",
- "hud": "回合 2  我方  可行动 2  光标 (11,7)  freeCursor  乱数 0\nHP  SETH(8,5):13 EIRIKA(4,5):20 ONEILL(11,7):20 角色130(12,7):20 角色128(11,8):20",
- "status": "胜负条件命中 -> EventScr_Prologue_OneEnemyLeft"
+ "hud": "回合 1  我方  可行动 2  光标 (4,4)  freeCursor  乱数 0\nHP  SETH(4,4):13 EIRIKA(4,5):20 ONEILL(14,8):20 角色130(14,7):20 角色128(14,7):20",
+ "status": "PrologueMap  15×10  PEAK×101 PLAINS×32 RIVER×10"
 }

@@ -416,6 +416,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 第一条命中的是谁。上一版只有 `objectiveHit`，于是"条件没命中"
       // 和"命中了但脚本名为 null"在转储里长得一模一样。
       'objectivesNote': _objectivesNote,
+      'turnEventsNote': _turnEventsNote,
+      'turnEventFired': _turnEventFired,
       'moveCostsNote': _moveCostsNote,
       'moveCostsWeather': _weatherNow.name,
       // 当前移动范围（选中单位时才有）——调"走到哪"这类脚本时，
@@ -936,6 +938,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _rebuildOverlay();
     _updateHud();   // ★ 相机跟着光标（原作是每帧跟）
 
+    // ★ 单位行动结束之后：等待事件 + 自动结束阶段
+    // （`RunPotentialWaitEvents` / `PlayerPhase_HandleAutoEnd`）
+    if (r.committedMove) _afterUnitAction();
+
     if (r.endTurn) endTurn();
   }
 
@@ -1386,17 +1392,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       return;
     }
 
-    _sceneRunning = true;
-    _sceneShown = 0;
-    _showDialogue = true;
-    _updateSceneDialogue();
-
-    await fn(sc);
-
-    _sceneRunning = false;
-    _currentText = null;
-    _showDialogue = false;
-    _updateSceneDialogue();
+    await runSceneScript(fn);
   }
 
   /// ★ **当前章节号** —— 由 `MNC2` 推进（序章结束时切到第 1 章）。
@@ -1450,6 +1446,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 胜负条件载入的**结论**（转储里带出来）
   String _objectivesNote = '';
 
+  /// 回合事件表（`turnBasedEvents`，`EvListTurn`）
+  ChapterObjectives? _turnEvents;
+  String _turnEventsNote = '';
+
   void _loadObjectives() {
     // ① 事件列表：章节 → Misc 列表
     final ef = File('tools/pipeline/out/tables/event_lists.json');
@@ -1467,13 +1467,30 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               ? _chapterLinks[sceneChapter]['eventGroupName'] as String?
               : null;
       if (ev != null) {
-        final key = 'EventListScr_${ev.replaceAll('Events', '')}_Misc';
+        final base = ev.replaceAll('Events', '');
+        final key = 'EventListScr_${base}_Misc';
         final raw = lists[key];
         if (raw is List) {
           _objectives = ChapterObjectives.fromJson(raw);
           _objectivesNote = '胜负条件 $key：${_objectives!.entries.length} 条';
         } else {
           _objectivesNote = '第 $sceneChapter 章没有 Misc 列表（找的是 $key）';
+        }
+        // ★ **回合事件表**（`turnBasedEvents`）——
+        // `RunPhaseSwitchEvents` 在**每次阶段切换后**搜这张表
+        // （`src/RunPhaseSwitchEvents.c:38-39`）。条目的判定是
+        // `EvCheck02_TURN`（`src/eventinfo_08085B30.c:69-88`）。
+        //
+        // ⚠️ 我原来**根本没读这张表** —— 序章的回合 1/2/3 事件与
+        // "奥尼尔攻击"教学（`EventScr_Prologue_ONeillAttack`）一次都没演过。
+        final tkey = 'EventListScr_${base}_Turn';
+        final traw = lists[tkey];
+        if (traw is List) {
+          _turnEvents = ChapterObjectives.fromJson(traw);
+          _turnEventsNote = '回合事件 $tkey：${_turnEvents!.entries.length} 条';
+        } else {
+          _turnEvents = null;
+          _turnEventsNote = '第 $sceneChapter 章没有 Turn 列表（找的是 $tkey）';
         }
       }
     }
@@ -1487,7 +1504,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           (e as Map<String, dynamic>),
       ];
     }
-    eventFlags.clear();
+
+    // ⚠️ **这里不清事件标志。**
+    //
+    // 原来这里是 `eventFlags.clear()`，而 `_loadObjectives()` 会在
+    // **每演完一条胜负条件之后**被调一次 —— 于是：
+    //   * `doneFlag` 立刻被抹掉 → 同一条事件**无限重演**
+    //     （实测 `EventScr_Prologue_OneEnemyLeft` 每回合都重演）
+    //   * 刚推导出来的 `EVFLAG_DEFEAT_BOSS` 也被抹掉 →
+    //     **打死首领不再触发结束脚本**（切不到下一章）
+    //
+    // 原作在**战斗地图开始**时清：`StartBattleMap`
+    // （`src/bmio_08030D50.c:140-153`）里调 `ResetChapterFlags()`。
+    // 对应到我们这边就是 `_gotoChapter()`（换章 = 新地图）。
   }
 
   /// 角色编号 → 源码里的符号名（`defeat_talk.json` 用的是符号名）
@@ -1526,6 +1555,103 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       defeatTalk: [for (final e in _defeatTalk) DefeatTalkEntry.fromJson(e)],
       charNameOf: (i) => _charNames?[i],
     ));
+  }
+
+  /// 跑一段剧情脚本（开场 / 回合事件 / 胜负条件共用一条路径）
+  Future<void> runSceneScript(Future<void> Function(Scene) fn) async {
+    final sc = scene;
+    if (sc == null) return;
+    _sceneRunning = true;
+    _sceneShown = 0;
+    _showDialogue = true;
+    _updateSceneDialogue();
+    try {
+      await fn(sc);
+    } finally {
+      _sceneRunning = false;
+      _currentText = null;
+      _showDialogue = false;
+      _updateSceneDialogue();
+    }
+  }
+
+  /// 最近一次命中的回合事件（脚本名）
+  String? _turnEventFired;
+
+  /// `RunPhaseSwitchEvents`（`src/RunPhaseSwitchEvents.c:24-54`）——
+  /// **每次阶段切换后**搜回合事件表并演出来。
+  ///
+  /// ```c
+  /// info.listScript = GetChapterEventDataPointer(gPlaySt.chapterIndex)->turnBasedEvents;
+  /// pInfo = SearchAvailableEvent(&info);
+  /// if (pInfo) { ... StartEventFromInfo(&info, EV_EXEC_CUTSCENE); ... }
+  /// ```
+  ///
+  /// 命中就置 `doneFlag`（对应 `info->flag`），所以同一条不会重复触发。
+  Future<void> _runPhaseSwitchEvents() async {
+    if (_sceneRunning) return;
+    final t = _turnEvents;
+    final f = field;
+    if (t == null || f == null) return;
+
+    // ★ **一次阶段切换把所有命中的都演完**（原作 `SearchNextAvailableEvent`
+    // 的 while 循环，`src/RunPhaseSwitchEvents.c:45-49`）。
+    // 只演第一条会把序章"奥尼尔攻击"那条教学吞掉。
+    final hits = t.allTurnMatches(
+      turn: f.turn,
+      faction: f.activeFaction,
+      hasFlag: eventFlags.contains,
+    );
+    for (final hit in hits) {
+      if (hit.doneFlag != 0) eventFlags.add(hit.doneFlag);
+      final name = hit.script;
+      if (name == null) continue;
+      final fn = allSceneFns[name];
+      if (fn == null) {
+        _turnEventFired = '$name（没有这个脚本）';
+        continue;
+      }
+      _turnEventFired = name;
+      await runSceneScript(fn);
+    }
+  }
+
+  /// 一次单位行动结束之后要做的事。
+  ///
+  /// 原作在玩家阶段 proc 里连着两步（`src/data/ProcScr_uistuff148_ref/`
+  /// `dat_ProcScr_uistuff148_ref.c:283-289`）：
+  ///
+  /// ```c
+  /// PROC_CALL_2(RunPotentialWaitEvents);          // 等待事件（Misc 表）
+  /// PROC_CALL_2(EnsureCameraOntoActiveUnitPosition);
+  /// PROC_CALL(PlayerPhase_FinishAction);
+  /// PROC_GOTO(0x0);                               // ← 回到阶段开头
+  /// ```
+  ///
+  /// 而阶段开头第一件事是：
+  ///
+  /// ```c
+  /// PROC_CALL(PlayerPhase_HandleAutoEnd);         // 没有能动的单位 → 结束阶段
+  /// ```
+  ///
+  /// 所以"最后一个单位行动完 → 自动结束回合"是**这两步连起来**的结果，
+  /// 不是另加的功能。`PlayerPhase_HandleAutoEnd`（`src/playerphase_0801D808.c:52`）：
+  ///
+  /// ```c
+  /// if (!(gPlaySt.config.disableAutoEndTurns) && (GetPhaseAbleUnitCount(gPlaySt.faction) == 0))
+  ///     Proc_Goto(proc, 3);
+  /// ```
+  void _afterUnitAction() {
+    final f = field;
+    if (f == null) return;
+
+    // ① 等待事件（`RunPotentialWaitEvents` → `CheckForWaitEvents`）
+    unawaited(_checkObjectives());
+    // 脚本已经接管的话，阶段要不要结束得等它演完（原作是 PROC_WHILE 等事件引擎）
+    if (_sceneRunning) return;
+
+    // ② 自动结束（`PlayerPhase_HandleAutoEnd`；配置项默认开启）
+    if (f.phaseAbleCount(f.activeFaction) == 0) endTurn();
   }
 
   /// **检查胜负条件** —— 每次行动后与回合结束时调用。
@@ -1738,6 +1864,48 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (clsStats == null) {
         _sceneHudExtra = '缺职业 ${def.classIndex}（classes.json）—— 移动力按 5';
       }
+      // ★ **同一个角色已经在场上 → 不新建**。
+      //
+      // 出处 `LoadUnit_0`（`src/eventscr_0800F8D4.c:45-95`）：
+      //
+      // ```c
+      // unit = GetUnitFromCharIdAndFaction(def->charIndex, FACTION_BLUE);
+      // if (unit) { UnitChangeFaction(unit, allegianceLookup[def->allegiance]); ... }
+      // if (!unit) unit = LoadUnit(def);          // ← 只有找不到才新建
+      // else if (def->allegiance == FACTION_ID_BLUE) LoadUnit_MoveToPosition(unit, def, b, quiet);
+      // ```
+      //
+      // ⚠️ 不做这一步的症状：序章**敌人被载入两次** ——
+      // 开场脚本末尾 `CALL(EventScr_Prologue_ONeillSpawn)` 一次，
+      // 回合 1 的敌方阶段事件 `EventScr_Prologue_Turn1` 又调一次
+      // （`src/data/data_08A612F4/data_08A612F4.s:32-40`）→
+      // 奥尼尔和两个杂兵各变成两个。
+      //
+      // 非我方分支里原作只查 BLUE 区块（`GetUnitFromCharIdAndFaction`
+      // 只搜一个区块，`src/GetUnitFromCharIdAndFaction.c:31-42`），
+      // 按那条读会**照样重复**；这里按"角色在场上唯一"处理，
+      // 与可观测行为一致。**这一处与原作的非我方分支不完全等同，记在此处。**
+      final existing = cur.units
+          .where((u) => u.charIndex == charIndex)
+          .firstOrNull;
+      if (existing != null) {
+        existing.x = def.x;
+        existing.y = def.y;
+        if (existing.faction != faction) {
+          // 阵营变了（`UnitChangeFaction`）——`MapUnit.faction` 是 final，
+          // 所以整块换掉，保留编号之外的属性
+          final replaced = def.toMapUnit(
+            id: existing.id,
+            faction: faction,
+            movement: _classStats[def.classIndex]?.baseMov ?? 5,
+            makeItem: _makeNewItem,
+            name: existing.name,
+          );
+          field = cur.withUnitReplaced(existing.id, replaced);
+        }
+        continue;
+      }
+
       added.add(def.toMapUnit(
         // ⚠️ **编号必须全局唯一**：原来是 `0x100 + added.length`，
         // 每次 LOAD 都从 0x100 重新数 → 敌人的组件顶掉我方的组件。
@@ -1841,6 +2009,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   Future<void> _gotoChapter(int chapterIndex) async {
     if (chapterIndex < 0 || chapterIndex >= _chapterLinks.length) return;
     sceneChapter = chapterIndex;
+    // `StartBattleMap` → `ResetChapterFlags()`（`src/bmio_08030D50.c:151`）：
+    // **战斗地图开始时清事件标志**。事件标志必须跨事件保留 ——
+    // `StartEventFromInfo` 靠 `SetFlag(info->flag)` 记「这条演过了」
+    // （`src/eventinfo_080851B8.c:148`）。
+    eventFlags.clear();
     await _loadChapterMap(chapterIndex);
 
     // ★ **章节标题卡 + 地图淡入**。
@@ -2300,17 +2473,37 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 场上没有友军 NPC 时，绿色阶段必须被跳过（判据是原版的
   /// `GetPhaseAbleUnitCount == 0`，不是我另写的一套规则）。
   void endTurn() {
+    unawaited(_endTurn());
+  }
+
+  /// 回合结束的完整序列。
+  ///
+  /// 原作是一条 proc 链：`SwitchPhases` →（`RunPhaseSwitchEvents`）→
+  /// 敌方/NPC 阶段由 `gProcScr_CpPerform` **逐个单位**行动，每个单位
+  /// 行动完都 `PROC_CALL_2(RunPotentialWaitEvents)`
+  /// （`src/data/data_085D1F2C/data_085D1F2C.c:40`）。
+  ///
+  /// ⚠️ 这两步都必须是**阻塞**的：等待事件可能起一段剧情（打死首领 →
+  /// 结束脚本 → `MNC2` 切章），后面的事得等它演完。
+  /// 我原来把 `_checkObjectives` 写成 `unawaited(...)`、而且只在
+  /// `endTurn` 开头查一次 —— 于是**敌方阶段里打死首领，什么都不会发生**
+  /// （Seth 反击杀掉奥尼尔那条路就是这么断的）。
+  Future<void> _endTurn() async {
     final f = field;
     final s = state;
     if (f == null || s == null) return;
 
     // 回合结束是胜负判定点之一（原作 `CheckForWaitEvents` 挂在等待事件上）
-    unawaited(_checkObjectives());
+    await _checkObjectives();
 
     // 最多转 4 个阶段，防止任何意外造成死循环
     for (var guard = 0; guard < 4; guard++) {
       final hops = advanceToNextActivePhase(f);
       if (hops == 0) break;
+
+      // ★ `RunPhaseSwitchEvents`（`src/bm_08015434.c:88-90`：
+      // `SwitchPhases()` 之后马上 `if (RunPhaseSwitchEvents() == true) return false;`）
+      await _runPhaseSwitchEvents();
 
       if (f.activeFaction == Faction.blue) {
         // 回到玩家回合
@@ -2327,7 +2520,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         return;
       }
 
-      _runFactionAi(f);
+      await _runFactionAi(f);
     }
 
     _rebuildOverlay();
@@ -2338,7 +2531,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 单位按 **id 升序**处理，且每一步都重新查询战场状态——
   /// 因为前面的单位移动后会改变后面单位的落点选择。
-  void _runFactionAi(BattleField f) {
+  Future<void> _runFactionAi(BattleField f) async {
     final brain = ai;
     if (brain == null) return;
 
@@ -2365,6 +2558,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         final tgt = f.unitById(a.targetId);
         if (tgt != null && tgt.hp <= 0) tgt.hp = 0;
       }
+
+      // ★ AI 行动之后也要查等待事件（`gProcScr_CpPerform` 的
+      // `PROC_CALL_2(RunPotentialWaitEvents)`，见函数注释）。
+      // 敌方阶段里被打死的首领就是靠这一步触发的。
+      await _checkObjectives();
     }
   }
 

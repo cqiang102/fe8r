@@ -155,11 +155,17 @@ def num(v, d=0):
 def stmt(op, A):
     """(语句, 是否为 await 调用)"""
     if op == "CALL":
-        if is_sym(A[0]) if A else False:
-            return (f"await s.call({lit(A[0])});", False)
-        if A and isinstance(A[0], int) and A[0] >= 0:
-            return (f"await s.callSlot({A[0]});", False)
-        return (f"s.placeholder('CALL');", True)
+        # 目标脚本是**符号**时直接调它（`Event0A_Call` 拿的是指针）
+        for a in A:
+            if is_sym(a):
+                return (f"await s.call({lit(a)});", False)
+        # 指针为负 → 从**槽 2** 取（`src/sub_800DC40.c:10-11`）
+        if A and isinstance(A[0], int) and A[0] < 0:
+            return ("await s.callSlot(2);", False)
+        # 其余情况**响亮**记下来，不要假装成"槽 0"。
+        # ⚠️ 原来 `A[0] == 0` 会生成 `callSlot(0)` —— 槽 0 从来不是
+        # `CALL` 的目标，那一下把整段被调脚本吞掉了。
+        return (f"s.placeholder('CALL({A[0] if A else '?'})');", True)
 
     if op == "SVAL":
         return (f"s.setSlot({num(A[0])}, {lit(A[1]) if len(A) > 1 else '0'});", True)
