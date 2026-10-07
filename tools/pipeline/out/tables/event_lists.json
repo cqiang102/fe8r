@@ -1070,25 +1070,33 @@
     "i": 0,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x14"
+    "givenItem": 20,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 3,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x28"
+    "givenItem": 40,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 6,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x1"
+    "givenItem": 1,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 9,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x1c"
+    "givenItem": 28,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 12,
@@ -1395,13 +1403,17 @@
     "i": 6,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x6d"
+    "givenItem": 109,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 9,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x1a"
+    "givenItem": 26,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 12,
@@ -1672,13 +1684,17 @@
     "i": 6,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x4"
+    "givenItem": 4,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 9,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x67"
+    "givenItem": 103,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 12,
@@ -1690,7 +1706,9 @@
     "i": 15,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x5b"
+    "givenItem": 91,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 18,
@@ -1960,19 +1978,25 @@
     "i": 0,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x50"
+    "givenItem": 80,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 3,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x96"
+    "givenItem": 150,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 6,
     "cmd": "CHES",
     "doneFlag": 0,
-    "script": "0x5d"
+    "givenItem": 93,
+    "givenMoney": 0,
+    "script": "1"
    },
    {
     "i": 9,

@@ -169,9 +169,24 @@ def decode_list(words, syms=None):
         # **AREA / CHAR / LOCA / VILL / CHES / DOOR / SHOP 这些条目的剧情脚本全丢**，
         # "访问村庄 / 开宝箱 / 到达指定区域"那类对话与胜负条件**永远不会触发**。
         # 这正是"提取器覆盖面小于假设"的典型：表在、字段名对，**内容缺一半**。
-        if n >= 2:
+        # ⚠️ **布局因命令而异**（逐个对着源码核过，别再"一刀切"）：
+        #   * `EvCheck03_CHAR`  `src/EvCheck03_CHAR.c:24-31`  `{unk0, script, ...}` ⇒ word1
+        #   * `EvCheck05_LOCA`  `src/exact_08085c70.c:88-94`   `{unk0, script, x, y, cmdId}` ⇒ word1
+        #   * `EvCheck08_DOOR`  `src/exact_08085cc4.c:105`     `{unk0, script, unk8}` ⇒ word1
+        #   * `EvCheck07_CHES`  `src/exact_08085cc4.c:96-103`  `{unk0, givenItem, givenMoney, x, y, cmdId}`
+        #     —— **没有 script 字段**！函数里直接 `info->script = 1;`
+        #     （`src/exact_08085cc4.c`），所以"script = 1"是**数据里的哨兵**，
+        #     宝箱内容走 `givenItem`/`givenMoney`。
+        W1_IS_SCRIPT = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0A, 0x0B,
+                        0x0C, 0x0D, 0x0E, 0x0F, 0x10}
+        if n >= 2 and cmd in W1_IS_SCRIPT:
             e["script"] = (syms or {}).get(i + 1) or (
                 hex(words[i + 1]) if words[i + 1] else None)
+        if cmd == 0x07:  # CHES：word1 = givenItem | givenMoney（u16 + u16）
+            w1 = words[i + 1]
+            e["givenItem"] = w1 & 0xFFFF
+            e["givenMoney"] = (w1 >> 16) & 0xFFFF
+            e["script"] = "1"  # `EvCheck07_CHES` 里写死的哨兵，不是指针
         if cmd == 0x01:  # FLAG
             e["checkFlag"] = words[i + 2]
         elif cmd == 0x02:  # TURN

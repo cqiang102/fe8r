@@ -132,6 +132,28 @@ void main() {
         .cast<Map<String, dynamic>>();
     final area = ch11a.firstWhere((e) => e['cmd'] == 'AREA');
     expect(area['script'], 'frontier_df4_menu_008_A66F88 + 0x68');
+    // ★ `CHES` 的布局**和别的命令不一样**：`struct EvCheck07`
+    // （`src/exact_08085cc4.c:96-103`）是
+    // `{unk0, givenItem, givenMoney, x, y, cmdId}` —— **没有 script 字段**，
+    // 函数里直接 `info->script = 1;`。所以：
+    //   * word1 是 **道具 id**（低 16 位）与金钱（高 16 位），**不是脚本**
+    //   * `script` 固定是数据里的哨兵 `"1"`
+    // 我原来把这一刀切地当成"word1 就是脚本"，于是把**道具 id 报成了脚本名**。
+    final ches = <Map<String, dynamic>>[
+      for (final l in lists.values)
+        for (final e in (l as List).cast<Map<String, dynamic>>())
+          if (e['cmd'] == 'CHES') e,
+    ];
+    expect(ches.length, 12);
+    expect(ches.every((e) => e['script'] == '1'), isTrue,
+        reason: 'CHES 的 script 是哨兵 1，不是指针');
+    expect(ches.every((e) => e.containsKey('givenItem')), isTrue,
+        reason: 'CHES 必须带 givenItem/givenMoney');
+    // 正向抽查：Ch3 的第一个宝箱给道具 20（`0x14`）
+    final ch3 = ches.firstWhere((e) => e['i'] == 0);
+    expect(ch3['givenItem'], 20);
+    expect(ch3['givenMoney'], 0);
+
     // ⚠️ 这类 script 目前**还演不出来**：它们指向切分出来的 blob
     // （`frontier_df4_menu_008_*`），而 `scene_data.g.dart` 只生成了
     // `EventScr_*` / `EventScrWM_*` 两种名字。见 docs/路线图.md 欠账 15。
