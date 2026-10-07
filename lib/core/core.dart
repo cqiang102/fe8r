@@ -35,6 +35,7 @@ export 'flow/enemy_ai.dart';
 export 'flow/flow_machine.dart';
 export 'flow/turn_loop.dart';
 export 'flow/unit_defs.dart';
+export 'flow/map_menu.dart';
 export 'flow/move_costs.dart';
 export 'flow/talks.dart';
 export 'flow/unit_move.dart';

@@ -419,6 +419,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'turnEventsNote': _turnEventsNote,
       'endEventNote': _endEventNote,
       'talksNote': _talksNote,
+      'mapMenu': mapMenu == null
+          ? null
+          : {'index': mapMenu!.index, 'item': mapMenu!.current.label,
+             'items': [for (final e in mapMenuItems) e.label]},
+      'mapMenuNote': _mapMenuNote,
       'lastBattleQuote': _lastBattleQuote,
       'lastDefeatQuote': _lastDefeatQuote,
       'lastEndEvent': _lastEndEvent,
@@ -774,6 +779,43 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (_titlePending.length < 32) _titlePending.add(i);
       return;
     }
+    // ★ 地图菜单（START 打开）—— 两种回合结束里的"主动选择"
+    //
+    // 出处：`src/playerphase_0801C5A8.c:141-158`（START → `Proc_Goto(proc, 9)`）
+    // 条目与顺序：`gMapMenuDef`（`frontier_df4_uistuff.c:12166+`）
+    if (mapMenu != null) {
+      switch (i) {
+        case FlowInput.up:
+          mapMenu = mapMenu!.move(-1);
+        case FlowInput.down:
+          mapMenu = mapMenu!.move(1);
+        case FlowInput.confirm:
+          final (action, st) = mapMenu!.select();
+          mapMenu = null;
+          _mapMenuNote = st.note;
+          if (action == MapMenuAction.endTurn) endTurn();
+        case FlowInput.cancel:
+          mapMenu = null;
+          _mapMenuNote = '关闭';
+        default:
+          break;
+      }
+      _updateHud();
+      return;
+    }
+    // 只有在自由光标/已选中这类"玩家阶段正常状态"才开菜单
+    final st = state;
+    final playing = !inTitleFlow &&
+        !_sceneRunning &&
+        st != null &&
+        (st.phase == FlowPhase.freeCursor || st.phase == FlowPhase.unitDone);
+    if (i == FlowInput.start && playing) {
+      mapMenu = const MapMenuState();
+      _mapMenuNote = '打开（START）';
+      _updateHud();
+      return;
+    }
+
     // 演出期间按 START = **快进整段剧情**
     // （`src/event_0800D110.c:25-28` 置 `EV_STATE_SKIPPING`）
     if (i == FlowInput.start) {
@@ -1452,6 +1494,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 胜负条件载入的**结论**（转储里带出来）
   String _objectivesNote = '';
+
+  /// 地图菜单状态（`null` = 没打开）
+  MapMenuState? mapMenu;
+  String _mapMenuNote = '';
 
   /// 战斗/阵亡对话表（日版 carve 数组 → `tools/pipeline/out/tables/*_talk*.json`）
   TalkTables? talks;
