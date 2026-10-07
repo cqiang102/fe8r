@@ -217,6 +217,15 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '事件列表', 'true', const [], skip: true, note: decompNote),
 
+    // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
+    // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
+    if (hasDecomp())
+      Step('L0', '教学事件表', 'python3',
+          ['extract/parse_tutorial_lists.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline', note: '序章 15 条 / Ch2 29 条（指针数组，按 counter-1 取）')
+    else
+      Step('L0', '教学事件表', 'true', const [], skip: true, note: decompNote),
+
     if (hasDecomp())
       Step('L0', '角色表 + 道具表', 'python3',
           ['extract/parse_char_item_data.py', '--out', 'out/tables'],

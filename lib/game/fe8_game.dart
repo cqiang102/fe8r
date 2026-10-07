@@ -477,6 +477,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastEndEvent': _lastEndEvent,
       'turnEventFired': _turnEventFired,
       'turnLoopNote': _turnLoopNote,
+      // 教学事件（两段式：入队 → 触发）
+      'tutorial': tutorial.toJson(),
+      'tutorialTableSize': _currentTutorials.length,
+      'tutorialNote': _tutorialNote,
+      'lastTutorialFired': _lastTutorialFired,
       // `gPlaySt.config` 现在只有这一项有行为影响
       'configDisableAutoEndTurns': playConfig.disableAutoEndTurns,
       // `RunPhaseSwitchEvents` 被跑过的次数（一次阶段切换一次 —— 判据用）
@@ -1237,6 +1242,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         // 明确记成**已实现**（而不是继续占位）—— 棘轮上的数字才说实话。
         _sceneHudExtra = 'ENUN: 移动已完成（瞬移）';
 
+      case EnqueueTutCall(:final execType, :final script):
+        // `Event0B_EnqueueCall` sub 1 → `EnqueueTutEvent`（`src/eventscr_0800DC94.c:87-94`）
+        //
+        // ⚠️ 入队**不是**立刻演：原版只是记 `tutorial_counter = i + 1`
+        // （i = 脚本在本章 `tutorialEvents[]` 里的下标）与 `tutorial_exec_type`。
+        // 查不到就什么都不做 —— 所以这里失败也要响亮记下来。
+        if (tutorial.enqueue(script, execType, _currentTutorials)) {
+          _sceneHudExtra = '教学入队：$script（type $execType）';
+        } else {
+          _sceneHudExtra = '教学入队失败：$script 不在本章表里';
+          _tutorialNote = '入队失败：$script 不在 ${_currentTutorials.length} 条教学表里';
+        }
+
       case CameraControl(:final x, :final y, :final centered):
         // 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）
         //
@@ -1708,6 +1726,48 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 阶段循环的诊断（正常回合结束时是空串）
   String _turnLoopNote = '';
 
+  /// `gPlaySt.tutorial_counter` / `tutorial_exec_type`（`include/types.h:223-225`）
+  final TutorialQueue tutorial = TutorialQueue();
+
+  /// 每章的教学事件表（`tutorial_lists.json` ← `EventListScr_*_Tutorial_ref/*.c`）
+  Map<String, List<String>> _tutorialLists = const {};
+  String _tutorialNote = '';
+  String? _lastTutorialFired;
+
+  /// 本章的教学表名（`ChapterEventGroup.tutorialEvents`）→ 脚本名列表
+  ///
+  /// 原版是 `GetChapterEventDataPointer(gPlaySt.chapterIndex)->tutorialEvents`，
+  /// 一个"脚本指针 + 0 结尾"的数组，`EnqueueTutEvent` 按**指针**查下标。
+  List<String> get _currentTutorials {
+    final g = _chapterGroup;
+    final name = g?['tutorialEvents'];
+    if (name is! String) return const [];
+    return _tutorialLists[name] ?? const [];
+  }
+
+  /// `RunTutorialEvent(type)`（`src/eventinfo_0808618C.c:138-149`）—— 命中就起脚本
+  ///
+  /// 调用点（都指到了源码）：
+  ///   * 阶段切换 → `src/RunPhaseSwitchEvents.c:36`（`TUTORIAL_EVT_TYPE_PHASECHANGE`）
+  ///   * 单位行动后 → `src/CheckForWaitEvents.c:45`（`POSTACTION`）
+  ///   * 玩家阶段开始/每次行动回到 label 0 → `src/eventinfo_0808682C.c:45-52`
+  ///     （`StartPlayerPhaseStartTutorialEvent`，`PLAYERPHASE`）
+  Future<void> _runTutorial(int type) async {
+    final name = tutorial.take(type, _currentTutorials);
+    if (name == null) return;
+    if (name.startsWith('?')) {
+      _tutorialNote = name; // 越界：响亮记下来，不静默
+      return;
+    }
+    _lastTutorialFired = name;
+    final fn = allSceneFns[name];
+    if (fn == null) {
+      _tutorialNote = '教学脚本 $name 没有生成函数（不在 scene_data.g.dart 里）';
+      return;
+    }
+    await runSceneScript(fn);
+  }
+
   /// `RunPhaseSwitchEvents` 被调用的次数。判据用它钉住"每个阶段一次"。
   int _phaseSwitchEventRuns = 0;
 
@@ -2002,6 +2062,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 那也算"跑过一次"——被调用次数才是这条判据要测的东西。
     _phaseSwitchEventRuns += 1;
     if (_sceneRunning) return;
+
+    // ★ `RunPhaseSwitchEvents` 的**第一件事**就是教学事件
+    // （`src/RunPhaseSwitchEvents.c:36`：`ret = RunTutorialEvent(TUTORIAL_EVT_TYPE_PHASECHANGE);`），
+    // 然后才是回合事件。用户说的"阶段切换也会触发对话"就是这一条。
+    await _runTutorial(TutorialEvtType.phaseChange.id);
+
     final t = _turnEvents;
     final f = field;
     if (t == null || f == null) return;
@@ -2169,7 +2235,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (f == null) return;
 
     // ① 等待事件（`RunPotentialWaitEvents` → `CheckForWaitEvents`）
+    //    里面含 `RunTutorialEvent(TUTORIAL_EVT_TYPE_POSTACTION)`
+    //    （`src/CheckForWaitEvents.c:45`）
     await _checkObjectives();
+    await _runTutorial(TutorialEvtType.postAction.id);
+    // ①'' 行动完之后 proc 会 `PROC_GOTO(0)` 回到 label 0，那里是
+    //     `StartPlayerPhaseStartTutorialEvent`（`src/eventinfo_0808682C.c:45-52`）
+    await _runTutorial(TutorialEvtType.playerPhase.id);
     // ①' 章节结束剧情（`PlayerPhase_FinishAction` → `MaybeCallEndEvent`）
     await _maybeCallEndEvent();
     // 事件引擎还在跑就不判（原作 label 0 的 `PROC_WHILE(EventEngineExists)`）
@@ -2534,6 +2606,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         (e as Map<String, dynamic>),
     ];
     _eventGroups = d['eventGroups'] as Map<String, dynamic>;
+
+    // 教学事件表（指针数组）—— 出处 `parse_tutorial_lists.py` 的头注释
+    final tl = File('tools/pipeline/out/tables/tutorial_lists.json');
+    if (tl.existsSync()) {
+      final td = jsonDecode(tl.readAsStringSync()) as Map<String, dynamic>;
+      _tutorialLists = {
+        for (final e in (td['lists'] as Map<String, dynamic>).entries)
+          e.key: (e.value as List).cast<String>(),
+      };
+    } else {
+      _tutorialNote = '缺少 tutorial_lists.json —— 教学事件不会触发';
+    }
   }
 
   /// 切到某一章：重建地图与单位，然后演这一章的**开场脚本**。
@@ -3068,6 +3152,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           turn: f.turn,
           faction: f.activeFaction,
         );
+        // label 0 的 `StartPlayerPhaseStartTutorialEvent`
+        await _runTutorial(TutorialEvtType.playerPhase.id);
         _rebuildOverlay();
         _updateHud();
         return;

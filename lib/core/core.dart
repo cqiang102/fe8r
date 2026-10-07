@@ -38,6 +38,7 @@ export 'flow/unit_defs.dart';
 export 'flow/battle_map_kind.dart';
 export 'flow/map_menu.dart';
 export 'flow/play_config.dart';
+export 'flow/tutorial_events.dart';
 export 'flow/move_costs.dart';
 export 'flow/talks.dart';
 export 'flow/unit_move.dart';

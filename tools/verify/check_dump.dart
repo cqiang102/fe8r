@@ -314,6 +314,25 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         'disableAutoEndTurns=${d['configDisableAutoEndTurns']}');
     ok((d['turnLoopNote'] as String? ?? '').isEmpty,
         '阶段循环没有异常告警', 'turnLoopNote=${d['turnLoopNote']}');
+
+    // ★ 教学事件（两段式：入队 → 触发）—— 用户说的"阶段切换/玩家阶段开始时触发对话"
+    //
+    // 序章那张表是 `EventListScr_Prologue_Tutorial`（15 条，
+    // `src/data/EventListScr_Prologue_Tutorial_ref/dat_…_ref.c`）。
+    ok(d['tutorialTableSize'] == 15,
+        '本章教学表 15 条（序章 Tutorial0..E）',
+        'tableSize=${d['tutorialTableSize']}');
+    // 入队**真的执行了**：开场脚本 `EventScr_Prologue_ExecTut` 里那句
+    // `EvtEnqueueConditionalTutCall(2, EventScr_Prologue_Tutorial0)`
+    // → `EnqueueTutEvent` → `counter = 1`（下标 0 + 1）、`execType = 2`（ONSELECT）。
+    // ⚠️ 这一条**原来恒为 0**：整条命令是 `s.placeholder('EvtEnqueueConditionalTutCall')`。
+    final tut = d['tutorial'] as Map<String, dynamic>?;
+    ok(tut?['counter'] == 1 && tut?['execType'] == 2,
+        '教学链第一环已入队（T0 / type 2 = ONSELECT，等着"选中单位"那个钩子）',
+        'tutorial=$tut last=${d['lastTutorialFired']}');
+    ok((d['tutorialNote'] as String? ?? '').isEmpty,
+        '教学事件没有出错（入队失败 / 脚本缺函数 / 表缺失都会写这里）',
+        'tutorialNote=${d['tutorialNote']}');
     ok((d['scene'] as Map?)?['running'] == false, '没有卡在剧情里',
         'scene=${d['scene']}');
     // 敌方真的动过（出生在 x=14）
@@ -696,6 +715,10 @@ Map<String, dynamic> goodTurnEndDump() {
   d['phaseSwitchEventRuns'] = 6;
   d['configDisableAutoEndTurns'] = false;
   d['turnLoopNote'] = '';
+  d['tutorialTableSize'] = 15;
+  d['tutorial'] = <String, Object?>{'counter': 1, 'execType': 2, 'pending': true};
+  d['tutorialNote'] = '';
+  d['lastTutorialFired'] = null;
   for (final u in (d['units'] as List).cast<Map<String, dynamic>>()) {
     u['hasActed'] = false;
     if (u['faction'] == 0x80) u['x'] = 9; // 敌方已经离开出生列 x=14
@@ -736,6 +759,18 @@ Map<String, Map<String, dynamic>> brokenTurnEndDumps() {
   final h = goodTurnEndDump();
   h['turnLoopNote'] = '转满 6 步没回到我方阶段';
   out['阶段循环转满了 6 步'] = h;
+
+  final i = goodTurnEndDump();
+  i['tutorial'] = <String, Object?>{'counter': 0, 'execType': 0, 'pending': false};
+  out['教学事件一条都没入队（占位符那版）'] = i;
+
+  final j = goodTurnEndDump();
+  j['tutorialTableSize'] = 0;
+  out['教学表没载进来'] = j;
+
+  final k = goodTurnEndDump();
+  k['tutorialNote'] = '入队失败：EventScr_… 不在 0 条教学表里';
+  out['教学入队失败'] = k;
 
   return out;
 }

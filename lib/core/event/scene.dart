@@ -210,6 +210,28 @@ class WaitUnitMoving extends SceneEvent {
   String toString() => 'WaitUnitMoving';
 }
 
+/// 教学事件**入队**（`EvtEnqueueConditionalTutCall(exec_type, scr)`）。
+///
+/// 出处：`src/eventscr_0800DC94.c:76-100` `Event0B_EnqueueCall`
+/// （`EV_CMD_ENQUEUE_CALL`，sub 1 = `EVSUBCMD_ENQUEUE_TRIGGER`）→
+/// `EnqueueTutEvent`（`src/EnqueueTutEvent.c:24-38`）。
+///
+/// 它**不立刻演**：只是把"下一个 `<type>` 钩子来的时候演这段"记进
+/// `gPlaySt.tutorial_counter` / `tutorial_exec_type`。
+/// 真正的演出在 `RunTutorialEvent`（见 `lib/core/flow/tutorial_events.dart`）。
+class EnqueueTutCall extends SceneEvent {
+  const EnqueueTutCall({required this.execType, required this.script});
+
+  /// `TUTORIAL_EVT_TYPE_*`（`include/eventinfo.h:30-36`）
+  final int execType;
+
+  /// 要入队的脚本名
+  final String script;
+
+  @override
+  String toString() => 'EnqueueTutCall(type $execType, $script)';
+}
+
 /// 相机取景（`CAMERA(x, y)` / `CAMERA2(x, y)`）。
 ///
 /// 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）。
@@ -503,6 +525,13 @@ class Scene {
       await call(Sym(v));
     }
   }
+
+  /// `EvtEnqueueConditionalTutCall(exec_type, scr)` —— 入队，不是立刻演
+  ///
+  /// 出处：`src/eventscr_0800DC94.c:87-94`（sub 1 → `EnqueueTutEvent`）
+  void enqueueTutCall(int execType, Sym script) => onEvent(
+        EnqueueTutCall(execType: execType, script: script.name),
+      );
 
   final Map<int, Object> _slots = {};
 

@@ -167,6 +167,25 @@ def stmt(op, A):
         # `CALL` 的目标，那一下把整段被调脚本吞掉了。
         return (f"s.placeholder('CALL({A[0] if A else '?'})');", True)
 
+    # 教学事件入队 —— `EvtEnqueueConditionalTutCall(scr, exec_type)`
+    # 解出来是 `EvtEnqueueConditionalTutCall(<exec_type>, <scr>)`（命令字的 arg0
+    # 是 exec_type，脚本指针在紧接着的那个字里）。
+    # 出处：`include/eventscript.h:609` 的宏 + `src/eventscr_0800DC94.c:84-94`。
+    #
+    # ⚠️ 它原来是占位符 —— 于是序章那条 15 步教学链**一步都没触发**，
+    # 而用户看到的正是"阶段切换/玩家阶段开始时应该跳教学对话"。
+    if op in ("EvtEnqueueConditionalTutCall", "ENQUEUE_CALL"):
+        if len(A) >= 2 and is_sym(A[1]):
+            return (f"s.enqueueTutCall({num(A[0])}, {lit(A[1])});", True)
+        return (f"s.placeholder('{op}');", True)
+
+    # `EvtEnqueueCallDirectly(scr)` —— 同一命令的 sub 0：**直接调**（不是入队）
+    if op == "EvtEnqueueCallDirectly":
+        for a in A:
+            if is_sym(a):
+                return (f"await s.call({lit(a)});", False)
+        return (f"s.placeholder('{op}');", True)
+
     if op == "SVAL":
         return (f"s.setSlot({num(A[0])}, {lit(A[1]) if len(A) > 1 else '0'});", True)
     if op == "SVAL2":
