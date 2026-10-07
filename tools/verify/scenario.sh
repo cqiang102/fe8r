@@ -225,6 +225,18 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,right,wait"                                    # 改值（不是 minimug 了）
     SCRIPT="$SCRIPT,cancel,wait,wait,wait"                         # B 关设定
     ;;
+  terrainoff)
+    # ★ 跨功能：設定里改「地形ウィンドウ」⇒ 地形窗口不显示。
+    # 它是 `gGameOptionsUiOrder` 的**第 4 行**（下标 3）⇒ 对应
+    # `gPlaySt.config.disableTerrainDisplay`（`src/uiconfig.c` 的 switch）；
+    # 开不开看 `src/player_interface_0808F2C0.c:49-52`。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$SCRIPT,start,down,down,down,confirm,wait,wait"        # 地图菜单 → 設定
+    SCRIPT="$SCRIPT,down,down,down,wait"                           # 走到「地形ウィンドウ」
+    SCRIPT="$SCRIPT,right,wait"                                    # オン → オフ
+    SCRIPT="$SCRIPT,cancel,wait,wait,wait"                         # B 关设定
+    ;;
   suspend)
     # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。
     #

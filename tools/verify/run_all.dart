@@ -516,6 +516,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 地形窗口：設定里改「地形ウィンドウ」⇒ 地形窗口不显示（跨功能）
+      Step('L4', '端到端场景（地形窗口 / 设置联动）', 'bash',
+          ['tools/verify/scenario.sh', 'terrainoff'],
+          note: 'disableTerrainDisplay 一改，terrainWindowVisible 立刻为 false',
+          requires: ['tools/verify/scenario.sh']),
       // 单位小窗口：設定里改「ユニットウィンドウ」⇒ 小窗口收起（跨功能）
       Step('L4', '端到端场景（单位小窗口 / 设置联动）', 'bash',
           ['tools/verify/scenario.sh', 'uioff'],

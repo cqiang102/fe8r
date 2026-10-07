@@ -540,6 +540,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             },
       'goalText': _goalText,
       'goalTextId': _chapterGoalTextId[sceneChapter],
+      'terrainWindow': lastTerrainWindow,
+      // 当前是否**该**显示（设置可能刚被改掉；`lastTerrainWindow` 是留档，不会自己消失）
+      'terrainWindowVisible':
+          terrainWindowVisible(disableTerrainDisplay: playConfig.disableTerrainDisplay),
+      'disableTerrainDisplay': playConfig.disableTerrainDisplay,
       'minimug': {
         'unitId': _minimugUnitId,
         'text': _minimugText,
@@ -1426,6 +1431,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _tickBanner();
     _tickGoalWindow();
     _tickMinimug();
+    _tickTerrainWindow();
     _tickPopups();
 
     // ★ **延迟建视图**：`MNCH`（或 `FE8R_WM`）可能发生在 layout 之前，
@@ -2995,6 +3001,24 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       debugPrint('[OPTIONS] 读不到 game_options.json —— 設定屏会明确说取不到，不兜底');
     }
 
+    // 地形窗口的三张表（`terrains.json` 的 `tables`）
+    final tj = read('terrains.json');
+    List<int> valsOf(String key) {
+      final tb = (tj['tables'] as Map<String, dynamic>?)?[key];
+      final v = (tb as Map<String, dynamic>?)?['values'];
+      return v is List ? v.cast<int>() : const [];
+    }
+
+    final tenum = tj['enum'] as Map<String, dynamic>? ?? {};
+    for (final e in tenum.entries) {
+      final v = (e.value as num?)?.toInt();
+      if (v != null) _terrainEnumById[v] = e.key;
+    }
+
+    _terrainDefCommon = valsOf('TerrainTable_Def_Common');
+    _terrainAvoCommon = valsOf('TerrainTable_Avo_Common');
+    _terrainMovCostBerserker = valsOf('TerrainTable_MovCost_BerserkerNormal');
+
     // 章节的目标窗口文本 id（`goalWindowTextId`，`src/data/chapter_settings.h`）
     final chjGoal = read('chapters.json');
     for (final e in (chjGoal['chapters'] as List? ?? const [])) {
@@ -4455,6 +4479,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次"装备"的记录（判据用）
   Map<String, Object?>? lastEquip;
 
+  /// 地形 id → 枚举名（`terrains.json` 的 `enum`）
+  final Map<int, String> _terrainEnumById = {};
+
+  /// 地形窗口用的两张**通用**表（`TerrainTable_Def_Common` / `Avo_Common`）
+  /// 与"不可通行"判据（`TerrainTable_MovCost_BerserkerNormal`）
+  List<int> _terrainDefCommon = const [];
+  List<int> _terrainAvoCommon = const [];
+  List<int> _terrainMovCostBerserker = const [];
+
+  /// 地形窗口（`gProcScr_TerrainDisplay`）
+  TerrainWindowComponent? _terrainComp;
+  Map<String, Object?>? lastTerrainWindow;
+
   /// 单位小窗口（minimug）：光标下那个单位
   MinimugComponent? _minimugComp;
   int? _minimugUnitId;
@@ -5074,6 +5111,64 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (a[i] != b[i]) return false;
     }
     return true;
+  }
+
+  /// 每帧同步地形窗口。
+  ///
+  /// 出处：`src/player_interface_0808F2C0.c:49-52`（`disableTerrainDisplay == 0`
+  /// 才 `Proc_Start(gProcScr_TerrainDisplay)`）+ `DrawTerrainMapUi`
+  ///（`src/player_interface_0808E8CC.c:182-205`：看**光标下**那块地；
+  /// def/avoid 只在 `TerrainTable_MovCost_BerserkerNormal > 0` 时显示）。
+  void _tickTerrainWindow() {
+    final grid = map;
+    final s = state;
+    if (grid == null || s == null ||
+        !terrainWindowVisible(disableTerrainDisplay: playConfig.disableTerrainDisplay)) {
+      _removeTerrainWindow();
+      return;
+    }
+    // ⚠️ `terrainAt` 返回 `TerrainType` 包装，不是 int —— 要 `.id`
+    //（早期轮次踩过同一个包装）
+    final tid = grid.terrainAt(s.cursorX, s.cursorY).id;
+    if (tid < 0) {
+      _removeTerrainWindow();
+      return;
+    }
+    final cost = tid < _terrainMovCostBerserker.length
+        ? _terrainMovCostBerserker[tid]
+        : -1;
+    final lines = <String>[
+      '地形 ${_terrainEnumName(tid)}',
+      if (terrainShowsDefAvo(berserkerNormalCost: cost))
+        '防御 +${tid < _terrainDefCommon.length ? _terrainDefCommon[tid] : 0}  '
+            '回避 +${tid < _terrainAvoCommon.length ? _terrainAvoCommon[tid] : 0}',
+    ];
+    lastTerrainWindow = {
+      'terrainId': tid,
+      'enumName': _terrainEnumName(tid),
+      'berserkerCost': cost,
+      'def': tid < _terrainDefCommon.length ? _terrainDefCommon[tid] : null,
+      'avo': tid < _terrainAvoCommon.length ? _terrainAvoCommon[tid] : null,
+      'showsDefAvo': terrainShowsDefAvo(berserkerNormalCost: cost),
+      'visible': true,
+    };
+    if (_terrainComp != null && _sameLines(_terrainComp!.lines, lines)) return;
+    _removeTerrainWindow();
+    if (!isMounted) return;
+    final c = TerrainWindowComponent(
+        lines: lines, tileSize: 16, screen: camera.viewport.virtualSize);
+    _terrainComp = c;
+    camera.viewport.add(c);
+  }
+
+  /// 地形枚举名（`terrains.json` 的 `enum`，反查 id → 名）
+  String _terrainEnumName(int id) => _terrainEnumById[id] ?? 'TERRAIN_$id';
+
+  void _removeTerrainWindow() {
+    if (_terrainComp != null) {
+      _terrainComp!.removeFromParent();
+      _terrainComp = null;
+    }
   }
 
   void _removeMinimug() {

@@ -356,6 +356,30 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
           '道具名来自文本表（不是 `ITEM_*` 枚举名）',
           'minimug=${mt.replaceAll('\n', ' | ')}');
     }
+    // ★ 地形窗口：显示的是**光标下**那块地（`DrawTerrainMapUi`）
+    final tw = d['terrainWindow'] as Map<String, dynamic>?;
+    ok(tw != null && tw['visible'] == true, '地形窗口显示着', 'terrainWindow=$tw');
+    if (tw != null) {
+      // 与**地图数据**交叉印证：光标处的地形 id 必须与窗口里的一致
+      final grid = d['map'] as Map<String, dynamic>?;
+      final legend = (grid?['terrainLegend'] as List?)?.cast<String>();
+      final inds = (grid?['terrainIndices'] as List?)?.cast<int>();
+      final cw = (grid?['width'] as num?)?.toInt();
+      final cx = (d['cursorX'] as num?)?.toInt();
+      final cy = (d['cursorY'] as num?)?.toInt();
+      if (legend != null && inds != null && cw != null && cx != null && cy != null) {
+        final idx = inds[cy * cw + cx];
+        ok(legend[idx] == tw['enumName'],
+            '★ 窗口里的地形 == **地图上光标处**的地形（两个独立来源）',
+            'map=${legend[idx]} window=${tw['enumName']}');
+      }
+      final cost = (tw['berserkerCost'] as num?)?.toInt() ?? 0;
+      ok(tw['showsDefAvo'] == (cost > 0),
+          'def/avoid 只在可通行时显示（`MovCost_BerserkerNormal > 0`）',
+          'cost=$cost shows=${tw['showsDefAvo']}');
+      ok('${tw['enumName']}'.startsWith('TERRAIN_'), '地形用枚举名显示',
+          '${tw['enumName']}');
+    }
   }
 
   if (scenario == 'options') {
@@ -489,6 +513,16 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
       ok(dis.any((x) => x.contains('交換') && x.contains('未实现')),
           '「交換」被标成禁用并写明原因（而不是静默）', 'disabled=$dis');
     }
+  }
+
+  if (scenario == 'terrainoff') {
+    // ★ 改了「地形ウィンドウ」之后，地形窗口不该再显示
+    ok((d['disableTerrainDisplay'] as num?)?.toInt() != 0,
+        '★ 設定改到了 `disableTerrainDisplay`',
+        'disableTerrainDisplay=${d['disableTerrainDisplay']}');
+    ok(d['terrainWindowVisible'] == false,
+        '★ 地形窗口不该显示（`terrainWindowVisible=false`）',
+        'terrainWindowVisible=${d['terrainWindowVisible']}');
   }
 
   if (scenario == 'uioff') {
@@ -992,6 +1026,18 @@ Map<String, dynamic> goodDump() => {
   },
   'goalText': '目的：ボス撃破',
   'goalTextId': 293,
+  // 地形窗口（`DrawTerrainMapUi`）—— 基准也要有（数值与可通行规则自洽）
+  'terrainWindow': <String, Object?>{
+    'terrainId': 1,
+    'enumName': 'TERRAIN_PLAINS',
+    'berserkerCost': 1,
+    'def': 0,
+    'avo': 0,
+    'showsDefAvo': true,
+    'visible': true,
+  },
+  'terrainWindowVisible': true,
+  'disableTerrainDisplay': 0,
   // 单位小窗口（`MMB_Loop_Display`）—— 基准也要有
   'minimug': <String, Object?>{
     'unitId': 1,

@@ -905,3 +905,55 @@ class MinimugComponent extends PositionComponent {
     }
   }
 }
+
+// ---------------------------------------------------------------------------
+// 地形窗口（`gProcScr_TerrainDisplay`，`src/player_interface_0808E8CC.c:182-205`）
+//
+// 显示**光标下**那块地的地形与 def/avoid。⚠️ 日文地形名 `gTerrainNames[]`
+// **没 carve** ⇒ 这里显示枚举名（`TERRAIN_FOREST`），不是原作那句话。
+// ---------------------------------------------------------------------------
+class TerrainWindowComponent extends PositionComponent {
+  TerrainWindowComponent({
+    required this.lines,
+    required this.tileSize,
+    required Vector2 screen,
+  }) : super(
+          size: Vector2(screen.x * 0.5, tileSize * 1.8),
+          position: Vector2(screen.x - screen.x * 0.5 - 2, screen.y - tileSize * 1.8 - 2),
+          priority: 44,
+        );
+
+  final List<String> lines;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()..color = const Color(0xD910243C),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = const Color(0xFF7FA8D8),
+    );
+    var y = 2.0;
+    for (final l in lines) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: l,
+          style: TextStyle(
+            color: const Color(0xFFFFFFFF),
+            fontSize: tileSize * 0.5,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout(maxWidth: size.x - 6);
+      tp.paint(canvas, Offset(4, y));
+      y += tp.height + 1;
+    }
+  }
+}
