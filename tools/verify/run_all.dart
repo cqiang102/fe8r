@@ -507,6 +507,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 地图菜单各项**各走各的**（部隊 不该串到中断）+ 状況屏开/关
+      Step('L4', '端到端场景（状況屏 / 部隊 未实现）', 'bash',
+          ['tools/verify/scenario.sh', 'status'],
+          note: '部隊 不写存档；状況 显示章号/回合/HP 并被 B 关掉',
+          requires: ['tools/verify/scenario.sh']),
       // 章间大地图（`MNCH` 那条路；用 `FE8R_WM=56` 走同一流程）
       Step('L4', '端到端场景（章间大地图）', 'bash',
           ['tools/verify/scenario.sh', 'worldmap'],

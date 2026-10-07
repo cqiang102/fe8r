@@ -473,6 +473,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
                     },
             },
       'mapMenuNote': _mapMenuNote,
+      'mapMenuNoteLog': _mapMenuNoteLog.toList(),
       // ★ 决定"显示哪几条"的**输入**也摆出来 ——
       // 只报结论（"5 条"）的话，"输入是怎么来的"就被结论吸收掉了。
       'mapMenuInputs': _mapMenuInputs,
@@ -500,6 +501,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'suspendBytes': _suspendBytes,
       'suspendNote': _suspendNote,
       'resumeNote': resumeNote,
+      'chapterStatus': chapterStatus == null
+          ? null
+          : {
+              'unitIndex': chapterStatus!.unitIndex,
+              'shownIndex': chapterStatus!.shownIndex,
+              'unitCount': chapterStatus!.unitCount,
+            },
+      'statusNote': statusNote,
+      'statusText': _statusText,
       'resumable': titleFlow?.resumable ?? false,
       'popupLog': _popupLog.toList(),
       'damageDealtTotal': _damageDealtTotal,
@@ -899,6 +909,30 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ 「状況」屏开着时输入归它（`ChapterStatus_LoopKeyHandler`）：
+    // 左右换人、B 关闭、A 关闭并聚焦。
+    final cs = chapterStatus;
+    if (cs != null) {
+      switch (i) {
+        case FlowInput.left:
+          chapterStatusKey(cs, ChapterStatusKey.left);
+        case FlowInput.right:
+          chapterStatusKey(cs, ChapterStatusKey.right);
+        case FlowInput.cancel:
+          chapterStatusKey(cs, ChapterStatusKey.b);
+        case FlowInput.confirm:
+          chapterStatusKey(cs, ChapterStatusKey.a);
+        default:
+          return;
+      }
+      if (cs.closed) {
+        _closeChapterStatus(focus: cs.focusUnitOnExit);
+      } else {
+        _showStatusText(cs, _myUnits());
+      }
+      return;
+    }
+
     // ★ 大地图模式：确认 = 前进/出发，其余键先不接（原作 WM 有自己的操作集，
     //   未查证完整清单，所以**不假装**支持 —— 只记一行）。
     //
@@ -1911,12 +1945,27 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     switch (c) {
       case MapMenuCommand.endPlayerPhase:
         endTurn();
+      // ⚠️ **Dart 的 `case a: case b:` 是共用同一个 body**（不会各自穿透到下一段）。
+      // 我在第 19 轮把这一段的 body 换成了"中断"的逻辑，于是
+      // 部隊/状況/辞書/戦績/設定 **全都去跑中断**了 —— 选「部隊」会写中断存档、
+      // 教学模式章节选「部隊」还会弹"不能中断"的提示。
+      // 没有任何场景覆盖到这几项，所以一直没红。**各自分开**：
       case MapMenuCommand.unitList:
-      case MapMenuCommand.status:
       case MapMenuCommand.guide:
       case MapMenuCommand.records:
       case MapMenuCommand.options:
       case MapMenuCommand.retreat:
+        _mapMenuUnimplemented.add(c.name);
+        _mapMenuNote = '$_mapMenuNote → 界面未实现（${c.name}）';
+        _mapMenuNoteLog.add('${c.name}：未实现');
+        // 屏幕上也要说 —— 否则玩家以为按键没反应（试玩反馈里这类最难判）
+        _playNote = '「$label」这个界面还没做（见 docs/试玩.md）'
+            '${_helpShown ? '\n$kPlayNote' : ''}';
+      case MapMenuCommand.status:
+        // `MapMenu_StatusCommand`（`src/MapMenu_StatusCommand.c:50-54`）：
+        // `StartChapterStatusScreen(NULL)` ⇒ 开「状況」屏。
+        _openChapterStatus();
+        _mapMenuNoteLog.add('status：开状況屏');
       case MapMenuCommand.suspend:
         // 出处：`src/MapMenu_SuspendCommand.c:1-10`
         //
@@ -2002,6 +2051,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 从存档继续时恢复的"新游戏标志"（教学模式/难度）——
   /// 地图菜单的可用性要用它，而这时 `titleFlow` 已经拆掉了。
   NewGamePlayFlags? _playFlagsFromSave;
+
+  /// 地图菜单里按过哪些项（**按顺序**）—— 转储只有"最后一次"的值，
+  /// 中间步骤就断言不了（我写过一条这样的断言，结果永远看不到）。
+  final List<String> _mapMenuNoteLog = [];
 
   /// 打开地图菜单时用的上下文（`availability` 是**函数**，要带它求值）
   MapMenuContext? _mapMenuCtx;
@@ -3878,6 +3931,62 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
+
+  /// 「状況」屏的状态（开着时非 null）
+  ChapterStatusState? chapterStatus;
+
+  /// 打开「状況」屏（`StartChapterStatusScreen`）
+  void _openChapterStatus() {
+    final f = field;
+    if (f == null) {
+      _playNote = '没有战场，开不了状況';
+      return;
+    }
+    final mine = _myUnits();
+    final st = ChapterStatusState(unitCount: mine.length);
+    chapterStatus = st;
+    _showStatusText(st, mine);
+  }
+
+  List<MapUnit> _myUnits() => field?.units
+          .where((u) => u.isAlive && u.factionBit == Faction.blue)
+          .toList() ??
+      const <MapUnit>[];
+
+  String _statusText = '';
+
+  void _showStatusText(ChapterStatusState st, List<MapUnit> mine) {
+    final f = field!;
+    final i = st.shownIndex;
+    final u = i >= 0 && i < mine.length ? mine[i] : null;
+    _statusText = <String>[
+      '状況  第 $sceneChapter 章  回合 ${f.turn}',
+      if (u == null)
+        '（没有可显示的我方单位）'
+      else
+        '${u.name.isEmpty ? "单位${u.id}" : u.name}  '
+            'HP ${u.hp}/${u.maxHp}  Lv ${u.level}  移动 ${u.movement}',
+      '${i + 1} / ${mine.length}     B 关闭   ← → 换人',
+    ].join('\n');
+    _sceneView?.show(text: _statusText, virtualSize: camera.viewport.virtualSize);
+    _playNote = '状況：${u?.name ?? "—"}（$statusNote）';
+  }
+
+  /// 状況屏的说明（判据用）
+  String get statusNote =>
+      chapterStatus == null ? '关着' : '开着 index=${chapterStatus!.unitIndex}';
+
+  /// 关闭「状況」屏（B / A）
+  void _closeChapterStatus({bool focus = false}) {
+    final st = chapterStatus;
+    if (st == null) return;
+    st.closed = true;
+    if (focus) st.focusUnitOnExit = true;
+    chapterStatus = null;
+    _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
+    _playNote = kPlayNote;
+    _updateHud();
+  }
 
   /// 建一个标题流程，并把「继续」那一项按**是否存在中断存档**开关。
   ///

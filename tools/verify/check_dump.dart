@@ -278,6 +278,31 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         '读档后回到战场（不演开场）', 'waitingFor=${d['waitingFor']}');
   }
 
+  if (scenario == 'status') {
+    // ★ ① 「部隊」**不该**跑中断（Dart 的 `case a: case b:` 共用 body，
+    //    我一度让 部隊/状況/辞書/戦績/設定 全都去跑中断 —— 这条就是钉它的）。
+    ok('${d['suspendNote']}' == '' && d['suspendPath'] == null,
+        '选「部隊」没有写中断存档（没有串到中断那条路）',
+        'suspendNote=${d['suspendNote']} path=${d['suspendPath']}');
+    // ⚠️ 这条原来查 `mapMenuNote`（**最后一次**动作的值），而"部隊"那一步
+    // 早被后面的"状況"覆盖了 ⇒ 永远看不到。改用**按顺序的菜单日志**。
+    final log2 = ((d['mapMenuNoteLog'] as List?) ?? const []).map((e) => '$e').toList();
+    ok(log2.any((e) => e.contains('unitList') || e.contains('未实现')),
+        '菜单日志里记着「部隊」那一步（未实现）', 'menuLog=$log2');
+    ok(log2.any((e) => e.contains('status')), '日志里也记着「状況」',
+        'menuLog=$log2');
+    // ★ ② 「状況」屏开过、内容来自状态、并被 B 关掉
+    ok('${d['mapMenuNote']}'.contains('状況'),
+        '「状況」按 `MapMenu_StatusCommand` 走', 'mapMenuNote=${d['mapMenuNote']}');
+    final t = '${d['statusText']}';
+    ok(t.contains('状況') && t.contains('回合 ${d['turn']}'),
+        '状況屏显示了章号/回合（值来自战场状态）',
+        'statusText=${t.replaceAll('\n', ' | ')}');
+    ok(t.contains('HP') && t.contains('移动'),
+        '显示了单位的 HP / 移动', 'statusText=${t.replaceAll('\n', ' | ')}');
+    ok('${d['statusNote']}' == '关着', 'B 把状況屏关掉了', 'statusNote=${d['statusNote']}');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

@@ -172,6 +172,18 @@ case "$SCENARIO" in
     TITLE=""
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,confirm,wait,confirm,confirm,confirm,wait,wait,wait,confirm,wait,confirm,wait,wait,wait,wait,wait,confirm,wait,wait,wait"
     ;;
+  status)
+    # ★ 两件事一起验：
+    #   ① 选「部隊」（第 1 项）**不该**去跑中断 —— Dart 的 `case a: case b:`
+    #      共用 body，我一度让这几项全都跑中断（选部隊会写存档）；
+    #   ② 选「状況」（第 2 项）应当开「状況」屏（`StartChapterStatusScreen`），
+    #      显示回合/单位，B 关掉。
+    TITLE=""
+    BASE="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$BASE,start,confirm,wait,wait"                       # 部隊（第 1 项）
+    SCRIPT="$SCRIPT,start,down,confirm,wait,wait"                # 状況（第 2 项）
+    SCRIPT="$SCRIPT,cancel,wait,wait"                            # B 关闭
+    ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。
     #
