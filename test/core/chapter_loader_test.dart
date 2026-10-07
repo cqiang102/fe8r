@@ -2,6 +2,7 @@
 //
 // 这是整条链的第一个**消费者**：把「章节 → 事件组 → 单位表」
 // 组装成能打的 BattleField。
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fe8r/core/core.dart';
@@ -14,14 +15,35 @@ void main() {
     late UnitDefs unitDefs;
     late ChapterLoader loader;
 
+    /// `MakeNewItem`（`src/MakeNewItem.c:27`）—— 用**真实道具表**算耐久。
+    ///
+    /// 装配单位时必须给这个：`UnitDefinition.items[]` 里存的是**道具编号**，
+    /// 而单位道具栏里存的是 `(uses << 8) | index`。
+    late int Function(int) makeItem;
+
     setUpAll(() {
       for (final p in [
         'tools/pipeline/out/tables/chapters.json',
         'tools/pipeline/out/tables/chapter_links.json',
         'tools/pipeline/out/tables/unit_defs.json',
+        'tools/pipeline/out/tables/items.json',
       ]) {
         if (!File(p).existsSync()) fail('缺少 $p');
       }
+      final items = (jsonDecode(
+              File('tools/pipeline/out/tables/items.json').readAsStringSync())
+          as Map<String, dynamic>)['entries'] as Map<String, dynamic>;
+      final stats = <int, ItemStats>{
+        for (final v in items.values)
+          if ((v as Map<String, dynamic>)['number'] is int)
+            v['number'] as int: ItemStats.fromJson(v),
+      };
+      makeItem = (idx) {
+        final s = stats[ItemTable.itemIndex(idx)];
+        // 查不到就返回 0（＝放不进去）—— 不编一个耐久出来
+        if (s == null) return 0;
+        return makeNewItem(idx, s.maxUses, unbreakable: s.unbreakable);
+      };
       chapters = Chapters.parse(
           File('tools/pipeline/out/tables/chapters.json').readAsStringSync());
       links = ChapterLinks.parse(
@@ -52,7 +74,7 @@ void main() {
       // 返回空战场会让调用方以为"这章没有敌人"，而真相是数据缺失。
       var nullCount = 0;
       for (final c in chapters.list) {
-        final f = loader.load(c.index, width: 20, height: 20);
+        final f = loader.load(c.index, width: 20, height: 20, makeItem: makeItem);
         if (f == null) {
           nullCount++;
           continue;
@@ -65,7 +87,7 @@ void main() {
     test('装配出的单位落在真实坐标上', () {
       BattleField? any;
       for (final c in chapters.list) {
-        final f = loader.load(c.index, width: 40, height: 40);
+        final f = loader.load(c.index, width: 40, height: 40, makeItem: makeItem);
         if (f != null) {
           any = f;
           break;
@@ -94,7 +116,7 @@ void main() {
       // （125 -> 369 张），补全之后敌方单位也能装配出来了。
       final factions = <int>{};
       for (final c in chapters.list) {
-        final f = loader.load(c.index, width: 40, height: 40);
+        final f = loader.load(c.index, width: 40, height: 40, makeItem: makeItem);
         if (f == null) continue;
         factions.addAll(f.units.map((u) => u.faction));
       }
@@ -111,10 +133,24 @@ void main() {
     });
 
     test('章节的回合数初始为 1、行动方为我方', () {
-      final f = loader.load(0, width: 30, height: 30);
+      final f = loader.load(0, width: 30, height: 30, makeItem: makeItem);
       expect(f, isNotNull);
       expect(f!.turn, 1);
       expect(f.activeFaction, Faction.blue);
+    });
+
+    test('★ 装配出的单位带着**角色身份**与**整条道具栏**（原来都没有）', () {
+      // `ChapterLoader.load` 原来手写 `MapUnit(...)`，漏了 `charIndex` 和
+      // `items` —— 装配出来的单位没有角色、没有武器。
+      // 现在两条路都走 `UnitDef.toMapUnit`（`src/UnitInitFromDefinition.c`）。
+      final f = loader.load(0, width: 30, height: 30, makeItem: makeItem)!;
+
+      // `UnitDef_Event_PrologueAlly`：SETH charIndex = 2，items = {0x03,0x17,0x6C,0}
+      final seth = f.units.firstWhere((u) => u.charIndex == 2);
+      expect(seth.classId, 7, reason: 'SETH 的职业是 7（源码）');
+      expect(seth.items.length, unitItemCount);
+      expect(seth.heldItems.map(ItemTable.itemIndex), [0x03, 0x17, 0x6C]);
+      expect(seth.items[0], (30 << 8) | 0x03, reason: '钢剑 maxUses = 30');
     });
   });
 }

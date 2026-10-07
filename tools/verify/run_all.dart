@@ -400,6 +400,41 @@ Future<void> main(List<String> argv) async {
         ['tools/dsh/verify_preset.py'],
         note: '源码优先预设：工具集未变 / 派生可复现 / 基线未过期'),
 
+    // ★ 占位符棘轮：`s.placeholder(...)` 与缺失脚本**只许降不许升**。
+    //
+    // 12 个真 bug 里有 3 个就是这个形状（`MNC2` / `LoadUnits` / `MOVE`
+    // 都是"先放个占位"，然后忘了接）。它们都不报错，只表现为"不对" ——
+    // 所以"还有多少没接上"必须是一个**会自己变红的数字**。
+    Step('L4', '占位符棘轮（只许降）', 'dart',
+        ['run', 'tools/verify/check_placeholders.dart'],
+        note: 'placeholder 调用点 / op 名 / 缺失脚本，任一变大即红'),
+
+    // ★ 转储判据的**自检**：把一组"故意坏掉的转储"喂给检查器，
+    // 要求每一条都被抓到。
+    //
+    // 为什么自检也算一步：本项目的铁律是「**门禁绿 ≠ 门禁有效**」
+    // （R7 曾经是一条永不失败的规则）。一个只看正常转储的检查器，
+    // 无法证明它真的会红 —— 这一条就是在证明它会红。
+    Step('L4', '转储判据自检（判据本身会红）', 'dart',
+        ['run', 'tools/verify/check_dump.dart', '--selftest'],
+        note: '基准全绿 + 6 个坏转储全被抓到'),
+
+    // 端到端场景：跑真游戏 → 转储 → 判据。
+    //
+    // **默认不入列**（要 macos release 构建：约 1 分钟构建 + 1 分钟场景）。
+    // 用 `dart run tools/verify/run_all.dart --e2e` 显式打开。
+    //
+    // ⚠️ 这里刻意**不写成 `skip: true` 的占位步骤**：
+    // 门禁的规则是"有跳过就不算通过"，一个默认恒跳过的步骤会让
+    // 平时那条 `dart run tools/verify/run_all.dart` 永远退出 1 ——
+    // 于是大家就会习惯性地加 `--allow-missing-decomp`，
+    // **把"有东西没验"这件事变成背景噪音**。
+    if (argv.contains('--e2e'))
+      Step('L4', '端到端场景（序章）', 'bash',
+          ['tools/verify/scenario.sh', 'prologue'],
+          note: '开机 → 序章开场 → 可玩地图；细剑/名册/渲染数/相机',
+          requires: ['tools/verify/scenario.sh']),
+
     Step('L3', '静态契约', 'flutter',
         ['analyze', '--fatal-infos', 'lib', 'test', 'tools'],
         note: 'analyzer 全绿'),
@@ -491,6 +526,10 @@ Future<void> main(List<String> argv) async {
   stdout.writeln('      L1 章节触发条件与剧情数据管线');
   stdout.writeln('      L4 视觉验证（技术方案 §6.5 的参考渲染器对比，'
       '可复用 lib/ui/debug_screenshot.dart 的抓帧能力）');
+  if (!argv.contains('--e2e')) {
+    stdout.writeln('      L4 端到端场景（`--e2e` 打开；默认不跑，'
+        '所以默认的"通过 N 项"**不含**它）');
+  }
 
   final failed = results.where((r) => r.$2 == 'fail').toList();
   final passed = results.where((r) => r.$2 == 'pass').length;

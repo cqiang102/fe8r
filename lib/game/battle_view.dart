@@ -37,8 +37,18 @@ class BattleView {
   ActionMenuComponent? _menu;
   final List<TargetMarkerComponent> _markers = [];
 
-  int get componentCount =>
-      _unitById.length + _markers.length + (_cursor != null ? 1 : 0);
+  /// 单位组件数 —— **只数单位**。
+  ///
+  /// ⚠️ 原来只有一个 `componentCount`（单位 + 标记 + 光标），
+  /// 于是 `5 个单位 + 1 个光标 = 6` 被我读成"多了一个幽灵精灵"。
+  /// **指标分不清自己在数什么，就会制造假 bug 报告。**
+  int get unitComponentCount => _unitById.length;
+
+  int get markerCount => _markers.length;
+
+  int get cursorCount => _cursor != null ? 1 : 0;
+
+  int get componentCount => unitComponentCount + markerCount + cursorCount;
 
   /// 把 core 的结论同步到组件树。
   ///

@@ -106,8 +106,9 @@ class ItemStats {
     this.crit = 0,
     this.weight = 0,
     this.encodedRange = 0,
-    this.weaponType = '',
+    this.weaponType = 0,
     this.maxUses = 0,
+    this.attributes = 0,
   });
 
   factory ItemStats.fromJson(Map<String, dynamic> j) => ItemStats(
@@ -117,18 +118,57 @@ class ItemStats {
         crit: (j['crit'] as num?)?.toInt() ?? 0,
         weight: (j['weight'] as num?)?.toInt() ?? 0,
         encodedRange: (j['encodedRange'] as num?)?.toInt() ?? 0,
-        weaponType: j['weaponType'] as String? ?? '',
+        weaponType: (j['weaponType'] as num?)?.toInt() ?? 0,
         maxUses: (j['maxUses'] as num?)?.toInt() ?? 0,
+        attributes: (j['attributes'] as num?)?.toInt() ?? 0,
       );
 
   final int number;
   final int might, hit, crit, weight, encodedRange;
 
-  /// 源码里的 `ITYPE_*` 名字（`ITYPE_SWORD` / `ITYPE_LANCE` / …）
-  final String weaponType;
+  /// `ITYPE_*` 的**数值**（`include/bmitem.h:84-96`）：
+  ///
+  /// ```c
+  /// ITYPE_SWORD = 0, ITYPE_LANCE = 1, ITYPE_AXE = 2, ITYPE_BOW = 3,
+  /// ITYPE_STAFF = 4, ITYPE_ANIMA = 5, ITYPE_LIGHT = 6, ITYPE_DARK = 7, ...
+  /// ```
+  ///
+  /// 与 `WeaponType.sword/lance/axe/bow/staff/anima/light/dark`
+  /// （`lib/core/battle/weapon_triangle.dart:26-34`）**逐个数相同** ——
+  /// 所以映射是恒等的，不需要 switch。
+  ///
+  /// ⚠️ 提取器原来把它当**字符串**留下（`'ITYPE_LANCE'`），
+  /// 属性位（`IA_*`）也当字符串 —— 两头都没接上。
+  final int weaponType;
+
+  /// `IA_WEAPON = (1 << 0)`（`include/bmitem.h:56`）—— 判断"这是不是武器"。
+  ///
+  /// ⚠️ 不能靠 `weaponType` 判断：`ITYPE_SWORD = 0`，
+  /// 而"没有武器类型"的条目也是 0 —— 两者分不开。
+  bool get isWeapon => attributes & iaWeapon != 0;
+
+  /// `IA_WEAPON = (1 << 0)`
+  static const int iaWeapon = 1 << 0;
 
   /// `GetItemMaxUses` —— `MakeNewItem` 用它算耐久
   final int maxUses;
+
+  /// `IA_*` 位掩码（`include/bmitem.h:52-`）。
+  ///
+  /// ⚠️ 提取器原来把它当成**字符串**留下（`'IA_WEAPON'`），
+  /// 于是：
+  ///   * `MakeNewItem` 的 `IA_UNBREAKABLE` 分支永远不成立
+  ///   * `_realItems()` 也就没往上拷（`attributesOf` 恒为 0）
+  ///     → `IA_NEGATE_CRIT` / `IA_NEGATE_FLYING` 的判定永远为假
+  ///
+  /// 现在由提取器按位或求值（`IA_WEAPON | IA_UNSELLABLE | IA_LOCK_4` → 262161）。
+  final int attributes;
+
+  /// `IA_UNBREAKABLE`（`include/bmitem.h:58` `(1 << 3)`）
+  bool get unbreakable => attributes & iaUnbreakable != 0;
+
+  /// `IA_UNBREAKABLE = (1 << 3)`
+  static const int iaUnbreakable = 1 << 3;
 
   /// `GetItemMinRange` —— `encodedRange >> 4`
   int get minRange => encodedRange >> 4;

@@ -77,6 +77,8 @@
 
 import 'dart:convert';
 
+import 'battle_field.dart';
+
 /// 一条单位配置。
 class UnitDef {
   const UnitDef({
@@ -130,6 +132,48 @@ class UnitDef {
         2 => 0x80, // 敌方
         _ => null,
       };
+
+  /// 把一条单位配置变成战场单位 —— **唯一的一条路**。
+  ///
+  /// 出处：`src/UnitInitFromDefinition.c`
+  ///
+  /// ```c
+  /// unit->pCharacterData = GetCharacterData(uDef->charIndex);
+  /// if (uDef->classIndex) unit->pClassData = GetClassData(uDef->classIndex);
+  /// unit->level = uDef->level;
+  /// GenUnitDefinitionFinalPosition(uDef, &unit->xPos, &unit->yPos, FALSE);
+  /// ...
+  /// UnitClearInventory(unit);
+  /// for (i = 0; (i < UNIT_DEFINITION_ITEM_COUNT) && (uDef->items[i]); ++i)
+  ///     UnitAddItem(unit, MakeNewItem(uDef->items[i]));
+  /// ```
+  ///
+  /// ## 为什么收成一条路
+  ///
+  /// 以前有**两份**构造 `MapUnit` 的代码（游戏里的 `_loadUnitsFromTable`
+  /// 与 `ChapterLoader.load`），而且两份**都漏东西**：
+  /// 前者只读 `item0`，后者连 `charIndex` / `items` 都没有。
+  /// 同一个转换写两遍，就一定会漂。
+  ///
+  /// [makeItem] 由调用方给出 —— `MakeNewItem` 要查道具表（算耐久），
+  /// 道具表是数据层持有的东西，这里不碰。
+  MapUnit toMapUnit({
+    required int id,
+    required int faction,
+    required int Function(int itemIndex) makeItem,
+    String name = '',
+  }) =>
+      MapUnit(
+        id: id,
+        faction: faction,
+        x: x,
+        y: y,
+        charIndex: charIndex,
+        classId: classIndex,
+        level: level,
+        name: name,
+        items: inventoryFromDefinition(items, makeItem),
+      );
 
   static UnitDef fromJson(Map<String, dynamic> j) => UnitDef(
         index: j['index'] as int,

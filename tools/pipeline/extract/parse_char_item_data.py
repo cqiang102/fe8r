@@ -47,6 +47,37 @@ def num(tok):
         return None
 
 
+def eval_const(expr, known):
+    """求值 C 常量表达式里**本项目实际出现的**几种写法。
+
+    支持的形状（`include/bmitem.h` 的 `IA_*` 就是这种）：
+
+        IA_WEAPON          = (1 << 0),
+        IA_UNBREAKABLE     = (1 << 3),
+        .attributes = IA_WEAPON | IA_UNSELLABLE | IA_LOCK_4,
+
+    ⚠️ **不能用"没解析出来就隐式递增"那条路** —— `(1 << 0)` 会变成 0、
+    `(1 << 3)` 会变成 1，得到一堆**看着合理但完全错**的位掩码。
+    这正是本项目最怕的一类 bug（不报错、值不对）。
+
+    解析不出来就返回 None，由调用方退回原来的字符串 —— 不猜。
+    """
+    acc = 0
+    for part in expr.split("|"):
+        tok = part.strip().strip("()").strip()
+        m = re.fullmatch(r"(\d+)\s*<<\s*(\d+)", tok)
+        if m:
+            acc |= int(m.group(1)) << int(m.group(2))
+            continue
+        v = num(tok)
+        if v is None:
+            v = known.get(tok)
+        if v is None:
+            return None
+        acc |= v
+    return acc
+
+
 def enum_values(*headers):
     """把 `NAME = 0xNN` / `NAME,`（隐式递增）抽成字典。
 
@@ -62,9 +93,24 @@ def enum_values(*headers):
         if not os.path.exists(p):
             continue
         t = strip_comments(open(p, encoding="utf-8", errors="replace").read())
-        for m in re.finditer(r"^\s*([A-Z][A-Z0-9_]*)\s*(?:=\s*([^,]+?))?\s*,", t, re.M):
+        # ⚠️ 值必须**限制在同一行**（`[^,\n]`），而且逗号要在行尾。
+        #
+        # 原来写的是 `[^,]+?` —— 它能跨行，于是
+        #
+        #     IA_LOCK_ANY = (IA_LOCK_0 | ... | IA_UNUSABLE)
+        # };
+        #
+        # enum {
+        #     ITYPE_SWORD = 0,          <-- ★ 被当成上面那条的值吞掉了
+        #     ITYPE_LANCE = 1,
+        #
+        # **紧跟多行值的那个枚举的第一项会静默消失** ——
+        # `ITYPE_SWORD` 因此查不到（`consts.get()` 返回 None），
+        # 物品的 weaponType 就留在字符串上，映射全错。
+        for m in re.finditer(
+                r"^\s*([A-Z][A-Z0-9_]*)\s*(?:=\s*([^,\n]+?))?\s*,\s*$", t, re.M):
             name, val = m.group(1), m.group(2)
-            v = num(val) if val else None
+            v = eval_const(val, out) if val else None
             if v is None:
                 v = nxt
             out[name] = v
@@ -95,8 +141,14 @@ def extract(path, want, consts=None):
                 # 枚举名 -> 数字（这一步不做，索引就是空的）
                 if consts and tok in consts:
                     e[f] = consts[tok]
-                else:
-                    e[f] = tok
+                    continue
+                # `A | B | C` 形式的位掩码（`IA_*`）—— 按位或求值
+                if consts:
+                    mask = eval_const(tok, consts)
+                    if mask is not None:
+                        e[f] = mask
+                        continue
+                e[f] = tok
         out[key] = e
         for f in want:
             if f not in e:
@@ -132,6 +184,8 @@ def main():
         "include/constants/characters.h",
         "include/constants/items.h",
         "include/constants/classes.h",
+        # `IA_*` 在 bmitem.h 里（不在 constants/ 下）——道具属性位掩码要用它
+        "include/bmitem.h",
     )
     print(f"  常量表 {len(consts)} 个")
 

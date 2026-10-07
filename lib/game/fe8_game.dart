@@ -336,28 +336,74 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             'maxHp': u.maxHp,
             'alive': u.isAlive,
             'items': u.items,
+            'held': u.heldItems,
+            'itemNames': [
+              for (final it in u.heldItems)
+                _itemNames[ItemTable.itemIndex(it)] ?? '?${ItemTable.itemIndex(it)}',
+            ],
           },
       ],
       'unitIdsUnique': f == null
           ? null
           : f.units.map((u) => u.id).toSet().length == f.units.length,
-      // 渲染层：组件数应当等于存活单位数（id 冲突会在这里暴露）
-      'renderedUnitComponents': _battleView?.componentCount,
+      // ---- 渲染层 ----
+      //
+      // ⚠️ **必须分类计数**。原来只有一个 `componentCount`，而它把
+      // 光标和标记也算进去了：`5 个单位 + 1 个光标 = 6`
+      // 于是"6 ≠ 5"被我读成"有幽灵精灵" —— **那是假的**，指标本身错了。
+      // 一个分不清自己在数什么的指标，比没有指标更糟。
+      'render': {
+        'unitComponents': _battleView?.unitComponentCount,
+        'markerComponents': _battleView?.markerCount,
+        'cursorComponents': _battleView?.cursorCount,
+        'total': _battleView?.componentCount,
+        'aliveUnits': f?.units.where((u) => u.isAlive).length,
+        // 这一条才是判据：**渲染出来的单位组件数 == 存活单位数**
+        'matches': _battleView == null || f == null
+            ? null
+            : _battleView!.unitComponentCount ==
+                f.units.where((u) => u.isAlive).length,
+      },
       'eventFlags': eventFlags.toList()..sort(),
       'scene': {
-        'running': sc != null,
+        // ⚠️ 原来是 `sc != null` —— 场景对象加载后一直非空，
+        // 于是这个字段**恒为 true**，看起来像"场景在跑"，其实什么都没说。
+        'running': _sceneRunning,
+        'objectiveRunning': _objectiveRunning,
+        'showDialogue': _showDialogue,
         'script': sc?.currentScript,
         'shown': _sceneShown,
         'currentTextId': _currentText?.message.id,
+        'hudExtra': _sceneHudExtra,
+        'slots': {
+          // ⚠️ 键必须是 **String** —— `jsonEncode` 编不了 `Map<int, ...>`，
+          // 而且是**只有在槽非空时**才炸：标题画面那会儿 `slots` 是空的，
+          // 转储照写；一到序章（脚本真的用了槽）就整个转储失败。
+          for (final k in const [0, 1, 2, 3, 0xC])
+            if (sc?.slot(k) != null) '$k': '${sc!.slot(k)}',
+        },
         'missing': sc?.missing.toList(),
         'placeholders': sc?.placeholderCalls.keys.toList(),
       },
+      'titleFlow': titleFlow == null
+          ? null
+          : {
+              'screen': titleFlow!.screen.name,
+              'framesOnScreen': titleFlow!.framesOnScreen,
+              'difficulty': titleFlow!.difficulty.name,
+              'saveSlot': titleFlow!.saveSlot,
+            },
       'objectiveHit': _lastObjectiveHit,
       'mapHistory': _sceneMapHistory.trim(),
       'trace': _trace.toList(),
       'lastCombat': lastCombat,
+      'hud': hud.value,
+      'status': status.value,
     };
   }
+
+  /// 道具编号 → 源码里的名字（只用于**转储**，让人一眼看懂带的是什么）
+  final Map<int, String> _itemNames = {};
 
   /// 最近一次命中的胜负条件（诊断用）
   String? _lastObjectiveHit;
@@ -397,6 +443,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 放在 game 里而不是外层 `Focus` —— 见类文档。
   /// 测试钩子：允许测试观察 `input()` 被调用（不改变生产行为）。
   void Function(FlowInput)? onInputForTest;
+
+  /// 测试钩子：按 `LOAD1` 的同一条路把一个单位定义表载入战场。
+  ///
+  /// 为什么需要：`_loadUnitsFromTable` 是私有的，而"道具栏按源码装载"
+  /// 这件事**只有在真实表 + 真实道具表下才能验证**
+  /// （赛特带 3 件、艾莉卡带 1 件、细剑放得进 1 号槽）。
+  @visibleForTesting
+  void loadUnitsForTest(String name, int group) =>
+      _loadUnitsFromTable(name, group);
+
+  /// 测试钩子：一个单位参与战斗的 profile —— **与真实战斗走同一个
+  /// `_profileFor`**，所以它能测到"接没接上三张表"这类问题。
+  @visibleForTesting
+  CombatProfile profileForTest(MapUnit u) => _profileFor(u);
 
   @override
   KeyEventResult onKeyEvent(
@@ -515,13 +575,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       field = _makeDemoField(grid);
       flow = FlowMachine(map: grid, costTable: _demoCostTable());
       ai = EnemyAi(map: grid, costTable: _demoCostTable());
-      classTable = _loadClassTable();
-      _items = _demoItems();
-      combat = CombatResolver(
-        items: _items,
-        triangle: _loadTriangleTable(),
-        monsterClassList: _monsterClassList(),
-      );
+      // ★ 规则层数据表（职业/角色/道具/单位表/章节/胜负条件）——
+      // 它同时负责建 `_items` 与 `combat`（**必须是同一个道具表对象**，
+      // 否则伤害算在演示表上：细剑是 9 号而演示表只有 8 项 → 威力 0）。
+      loadRuleData();
       rng.initRn(1);
       state = FlowState(
         phase: FlowPhase.freeCursor,
@@ -540,11 +597,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _sceneView!.loadFaceIds('tools/pipeline/out/tables/face_ids.json');
       _loadChapterMaps();
       _loadChapterLinks();
-      _loadUnitDefs();
-      _loadBattleData();
-      _loadCharNames();
-      _loadObjectives();
-      _loadChapters();
       _sceneView!.attachTo(camera.viewport);
       _rebuildOverlay();
 
@@ -613,9 +665,62 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
-    // 开场流程没跑完时，输入全给它
-    if (inTitleFlow && _titleInput(i)) return;
+    // 开场流程没跑完时，输入全给它 —— 但**只是入队**，由 `update` 按帧消费。
+    // 见 [_titlePending] 的说明（时间是帧驱动的，不是按键驱动的）。
+    if (inTitleFlow) {
+      if (_titlePending.length < 32) _titlePending.add(i);
+      return;
+    }
     input(i);
+  }
+
+  /// 开场流程的按键队列 —— **每帧消费一次**。
+  ///
+  /// ## 为什么必须按键与帧分开
+  ///
+  /// 原作的每个开场画面都是一个 proc，`timer` **每帧 +1**，
+  /// 按键则每帧读一次 `newKeys`（`src/titlescreen_080CB2A0.c:33-52`）：
+  ///
+  /// ```c
+  /// if (newKeys & (A_BUTTON | START_BUTTON)) → 主菜单
+  /// else if (timer_idle == 815)              → 职业介绍（等太久自动播）
+  /// ```
+  ///
+  /// ⚠️ 我原来把 `TitleFlow.tick()` 直接接在按键处理里 ——
+  /// 于是 `framesOnScreen` 其实是"**按了几次键**"：
+  ///
+  ///   * Nintendo / IS 的淡入淡出（30 帧淡入 + 40 帧停 + 30 帧淡出）
+  ///     **不给按键就永远停在第一屏**
+  ///   * 815 帧的"等太久→播职业介绍"永远不会发生
+  ///   * 连打按键会把 100 帧的过场"按"过去
+  ///
+  /// 这类 bug 的特点还是那个：**不报错**，只是"时间不对"。
+  final List<FlowInput> _titlePending = [];
+
+  /// 每帧推进开场流程一次。
+  void _tickTitleFlow() {
+    final f = titleFlow;
+    if (f == null) return;
+
+    // 每帧消费一次按键（对应原版每帧读一次 `newKeys`）
+    final i = _titlePending.isEmpty ? null : _titlePending.removeAt(0);
+    final done = f.tick(
+      confirm: i == FlowInput.confirm,
+      cancel: i == FlowInput.cancel,
+      up: i == FlowInput.up,
+      down: i == FlowInput.down,
+    );
+    if (!done) return;
+
+    // 流程跑完 → 拆掉开场画面，开始演序章
+    final v = _titleView;
+    if (v != null) {
+      camera.viewport.remove(v);
+      _titleView = null;
+    }
+    titleFlow = null;
+    _titlePending.clear();
+    unawaited(_startRealScene());
   }
 
   /// 按脚本驱动一串输入（调试 / 视觉验证用）。
@@ -628,17 +733,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 按下的键只是完成一个 `Completer`，演出要继续得等微任务轮次。
   /// 第一版同步连着发，结果三个按键只推动了第一句 ——
   /// 截图上是"剧情 第0句"的空对话框。
-  /// 无输入延迟 —— **验证用**。
   ///
   /// 过场里每个 confirm 之间有 60ms 间隔，而场景是**时间门控**的
   /// （`stall` / `fade`）。间隔一大，confirm 的**速率**就不够，
   /// 长过场推不动（实测：200 个 confirm 才到第 36 句）。
   ///
-  /// `FE8R_NODELAY=1` 把间隔压到 0，让脚本能推完长过场。
-  /// **这是测试设施，不是游戏内的调试开关** —— 它只影响自动输入脚本。
-  static final bool _noInputDelay =
-      (Platform.environment['FE8R_NODELAY'] ?? '') == '1';
-
+  /// ⚠️ **`FE8R_NODELAY` 已经被删掉**。它把输入间隔压到 0，于是
+  /// 3000 个 confirm 在**场景开始之前**就被丢光了，画面停在"过场还没开始"；
+  /// 我把它读成了"过场跑完了"，据此得出「`loadMap(0)` 从未执行」的**错误结论**，
+  /// **还写进了提交信息**。
+  ///
+  /// 能用的做法是**中等速率 + 持续够久**：900 个 confirm、60ms 间隔。
+  /// **不要为了"推得快"再加一个会改变被观察对象的开关。**
   Future<void> runScript(String script) async {
     for (final raw in script.split(',')) {
       final t = raw.trim().toLowerCase();
@@ -647,8 +753,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 紧跟其后的按键会在加载完成前发出而丢掉
       // （截图里验证过：加了按键但画面字节完全相同）。
       if (t == 'wait') {
-        await Future<void>.delayed(Duration(
-            milliseconds: _noInputDelay ? 120 : 900));
+        await Future<void>.delayed(const Duration(milliseconds: 900));
         continue;
       }
       final i = switch (t) {
@@ -664,9 +769,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       };
       if (i != null) {
         routeInput(i);   // ← 与真实按键同一条路
-        if (!_noInputDelay) {
-          await Future<void>.delayed(const Duration(milliseconds: 60));
-        }
+        await Future<void>.delayed(const Duration(milliseconds: 60));
       }
     }
   }
@@ -729,30 +832,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (r.endTurn) endTurn();
   }
 
-  /// 开场流程的输入（在它跑完之前，输入全给它）
-  bool _titleInput(FlowInput i) {
-    final f = titleFlow;
-    if (f == null) return false;
-    if (f.tick(
-      confirm: i == FlowInput.confirm,
-      cancel: i == FlowInput.cancel,
-      up: i == FlowInput.up,
-      down: i == FlowInput.down,
-    )) {
-      // 流程跑完 → 拆掉画面，开始演序章
-      final v = _titleView;
-      if (v != null) {
-        camera.viewport.remove(v);
-        _titleView = null;
-      }
-      titleFlow = null;
-      unawaited(_startRealScene());
-    }
-    return true;
-  }
-
   @override
   void update(double dt) {
+    // ★ 开场流程**按帧**推进（时间驱动的画面靠这里走，按键只是每帧读一次）。
+    // 放在最前面：它没跑完之前，战场输入根本不该被消费。
+    if (inTitleFlow) _tickTitleFlow();
+
     // 剧情演出的移动是**按帧推进**的：VM 已经因为 waitingForMove 停住，
     // 由这里把单位一格一格挪到位，挪完再通知 VM 继续。
     _tickEventMoves(dt);
@@ -840,6 +925,24 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   String _sceneHudExtra = '';
 
+  /// `MakeNewItem`（`src/MakeNewItem.c:27`）—— 用**真实道具表**算耐久。
+  ///
+  /// ```c
+  /// int MakeNewItem(int item) {
+  ///     int uses = GetItemMaxUses(item);
+  ///     if (GetItemAttributes(item) & IA_UNBREAKABLE) uses = 0;
+  ///     return (uses << 8) + GetItemIndex(item);
+  /// }
+  /// ```
+  ///
+  /// 查不到道具就**返回 0**（＝不放进去），调用方会把它当成失败 ——
+  /// 这样"道具表没接上"会表现成"东西没进来"，而不是编一个耐久出来。
+  int _makeNewItem(int itemIndex) {
+    final s = _itemStats[ItemTable.itemIndex(itemIndex)];
+    if (s == null) return 0;
+    return makeNewItem(itemIndex, s.maxUses, unbreakable: s.unbreakable);
+  }
+
   /// `GIVEITEMTO(pid)` —— 把**槽 `itemSlot`** 里的道具给角色。
   ///
   /// ## 出处
@@ -863,6 +966,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// ⚠️ 不做这一步的话，艾莉卡**没有武器** —— 战斗中她打不了人，
   /// 而 `UnitDef_Event_PrologueAlly` 里她带的确实是伤药（0x6C）。
+  ///
+  /// ⚠️ **失败必须响亮**（写进 `_sceneHudExtra`，转储里能看见）：
+  /// 这条曾经因为"道具栏只有 1 槽"而**每次都失败**，却没人知道。
   void _giveItem(int pid, int itemSlot) {
     final f = field;
     final sc = scene;
@@ -876,9 +982,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     // `MakeNewItem`：高字节耐久、低字节编号
     final idx = ItemTable.itemIndex(raw);
-    // `GetItemMaxUses` —— 来自 items.json（`ItemData` 里没有这个字段）
-    final maxUses = _itemStats[idx]?.maxUses ?? 0;
-    final item = (maxUses << 8) | idx;
+    final item = _makeNewItem(idx);
+    if (item == 0) {
+      _sceneHudExtra = 'GIVEITEMTO: 道具表里没有 $idx';
+      return;
+    }
 
     // 目标：`0xFFFF` = 当前行动单位；0 = 主角；否则按角色号找
     MapUnit? target;
@@ -895,14 +1003,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       return;
     }
 
-    // `UnitAddItem`：第一个空槽
-    final slot = target.items.indexOf(0);
+    // `UnitAddItem`：第一个空槽（满了会返回 -1，**不静默丢弃**）
+    final slot = target.addItem(item);
     if (slot < 0) {
-      _sceneHudExtra = 'GIVEITEMTO: ${target.name} 道具栏满了';
+      _sceneHudExtra = 'GIVEITEMTO: ${target.name} 道具栏满了（$unitItemCount 槽）';
       return;
     }
-    target.items[slot] = item;
-    _sceneHudExtra = 'GIVEITEMTO: ${target.name} <- 道具 $idx（$maxUses 次）';
+    _sceneHudExtra = 'GIVEITEMTO: ${target.name} <- 道具 $idx（$slot 号槽）';
     _updateHud();
   }
 
@@ -1211,7 +1318,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         ..weight = v.weight
         ..hit = v.hit
         ..crit = v.crit
-        ..encodedRange = v.encodedRange;
+        ..encodedRange = v.encodedRange
+        // ⚠️ `attributes` 也必须拷 —— 否则 `attributesOf()` 恒为 0，
+        // `IA_NEGATE_CRIT` / `IA_NEGATE_FLYING` 的判定永远为假。
+        ..attributes = v.attributes;
     }
     return t;
   }
@@ -1241,12 +1351,52 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     for (final m in (ij['entries'] as Map<String, dynamic>? ?? {}).values) {
       final mm = m as Map<String, dynamic>;
       final n = mm['number'];
-      if (n is int) _itemStats[n] = ItemStats.fromJson(mm);
+      if (n is int) {
+        _itemStats[n] = ItemStats.fromJson(mm);
+        // 只给转储用：`ITEM_SWORD_RAPIER` 比 `9` 好读太多
+        final key = mm['key'] as String?;
+        if (key != null) _itemNames[n] = key.replaceFirst('ITEM_', '');
+      }
     }
 
-    if (_itemStats.isNotEmpty) _items = _realItems();
+    // ★ **结算器必须拿真实表，而且与 `_items` 是同一个对象。**
+    //
+    // `CombatResolver.items` 存的是**表对象**，不是 `_items` 这个变量 ——
+    // 所以"先建结算器、再换 `_items`"会让伤害/命中一路算在演示表上
+    // （演示表只有 8 项，细剑是 9 号 → 查不到 → 威力 0 → "打不死人"）。
+    if (_itemStats.isEmpty) {
+      // 表缺失是**响亮**的失败，不是静默退回演示值
+      _items = _demoItems();
+      status.value = '⚠️ 道具表缺失（items.json），退回演示表';
+    } else {
+      _items = _realItems();
+    }
+    combat = CombatResolver(
+      items: _items,
+      triangle: _loadTriangleTable(),
+      monsterClassList: _monsterClassList(),
+    );
     status.value = '战斗数据：职业 ${_classStats.length} / '
         '角色 ${_charStats.length} / 道具 ${_itemStats.length}';
+  }
+
+  /// 载入**规则层**的数据表：职业 / 角色 / 道具 / 单位表 / 章节 / 胜负条件。
+  ///
+  /// ## 为什么单独一个方法，而不是写在 `onLoad` 里
+  ///
+  /// 这一步是**纯 IO + 纯 Dart**（不碰 Flame），所以测试可以直接调。
+  /// 整条 `onLoad` 是测不动的：它要过 `TiledComponent.load`，
+  /// 而图片解码在 widget test 的假异步里不会完成 ——
+  /// 实测 `status` 会永远停在「启动中…」，于是"战斗数据接错了"这类问题
+  /// **在测试里根本走不到**，只能靠肉眼看画面（这正是这次踩的坑）。
+  @visibleForTesting
+  void loadRuleData() {
+    classTable = _loadClassTable();
+    _loadUnitDefs();
+    _loadBattleData();
+    _loadCharNames();
+    _loadObjectives();
+    _loadChapters();
   }
 
   /// 单位定义表（`unit_defs.json`）—— `LOAD1/LOAD2/LOAD3` 用它
@@ -1292,50 +1442,28 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           (m['y'] ?? 0) == 0) {
         continue;
       }
-      final cls = (m['classIndex'] as num?)?.toInt() ?? 0;
-      added.add(MapUnit(
-        // ⚠️ **编号必须全局唯一**。
-        //
-        // 我原来写的是 `0x100 + added.length` —— 每次 `LOAD` 都从 0x100 重新数：
-        //
-        //     载入我方 2 人 -> 0x100, 0x101
-        //     载入敌方 3 人 -> 0x100, 0x101, 0x102     <- ★ 撞上了
-        //
-        // 而 `BattleView._unitById` 是**按 id 复用组件**的
-        // （`if (existing != null) existing.sync(...)`）——
-        // 于是**敌人的组件把我方的顶掉了**：
-        // HUD 上赛特在 (4,4)，画面上那一格却是空的。
-        //
-        // 这正是用户反复说的「我方单位显示的还是不对」。
+      final def = UnitDef.fromJson(m);
+      // `allegiance` -> 阵营。**查表，不猜**：
+      //   `include/bmunit.h:299-302`
+      //     FACTION_ID_BLUE = 0 / GREEN = 1 / RED = 2 / PURPLE = 3
+      // 我第一版写成 `1 => red, 2 => green`（想当然以为"蓝红绿"），
+      // 于是序章敌人被载入成绿色 NPC —— "地图上没有敌人"。
+      final faction = def.factionBit;
+      if (faction == null) {
+        _sceneHudExtra = '载入 $name：阵营越界 ${def.allegiance}（跳过）';
+        continue;
+      }
+      final charIndex = def.charIndex;
+      added.add(def.toMapUnit(
+        // ⚠️ **编号必须全局唯一**：原来是 `0x100 + added.length`，
+        // 每次 LOAD 都从 0x100 重新数 → 敌人的组件顶掉我方的组件。
         id: _nextUnitId(),
-        // `allegiance` -> 阵营。
-        //
-        // ⚠️ **出处：`include/bmunit.h:299-302`**
-        //
-        //     FACTION_ID_BLUE   = 0
-        //     FACTION_ID_GREEN  = 1     <- ★ 1 是「绿」，不是红
-        //     FACTION_ID_RED    = 2
-        //     FACTION_ID_PURPLE = 3
-        //
-        // 我第一版写成了 `1 => red, 2 => green`（想当然地以为
-        // 蓝红绿是 0/1/2）—— 结果**序章的敌人被载入成绿色 NPC**，
-        // 于是"地图上没有敌人"、打不到奥尼尔。
-        faction: switch ((m['allegiance'] as num?)?.toInt() ?? 0) {
-          1 => Faction.green,
-          2 => Faction.red,
-          _ => Faction.blue,
-        },
-        x: (m['x'] as num?)?.toInt() ?? 0,
-        y: (m['y'] as num?)?.toInt() ?? 0,
-        charIndex: (m['charIndex'] as num?)?.toInt() ?? 0,
-        item0: (m['item0'] as num?)?.toInt() ?? 0,
-        classId: cls,
-        level: (m['level'] as num?)?.toInt() ?? 1,
-        // 名字给**人看**（战报里会出现）——用角色名，别再放 `C$cls` 这种。
-        // 角色名来自 `char_names.json`；查不到就退回"角色NN"。
-        name: _charNames?[(m['charIndex'] as num?)?.toInt() ?? 0]
-                ?.replaceFirst('CHARACTER_', '') ??
-            '角色${(m['charIndex'] as num?)?.toInt() ?? 0}',
+        faction: faction,
+        makeItem: _makeNewItem,
+        // 名字给**人看**（战报里会出现）——角色名来自 `char_names.json`；
+        // 查不到就退回"角色NN"，不要用 `C$cls` 这种占位。
+        name: _charNames?[charIndex]?.replaceFirst('CHARACTER_', '') ??
+            '角色$charIndex',
       ));
     }
     _addUnits(added);
@@ -1905,7 +2033,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       if (slot == 0) continue;
       final idx = ItemTable.itemIndex(slot);
       final s = _itemStats[idx];
-      if (s != null && s.weaponType.isNotEmpty) {
+      // "是不是武器"看 `IA_WEAPON` 属性位（`include/bmitem.h:56`），
+      // **不能看 weaponType** —— `ITYPE_SWORD = 0`，与"没有类型"分不开。
+      if (s != null && s.isWeapon) {
         weapon = slot;
         break;
       }
@@ -1917,13 +2047,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       _sceneHudExtra = '缺职业 ${u.classId} 的基础值（classes.json）';
     }
 
-    final weaponType = switch (it?.weaponType) {
-      'ITYPE_LANCE' => WeaponType.lance,
-      'ITYPE_AXE' => WeaponType.axe,
-      'ITYPE_BOW' => WeaponType.bow,
-      'ITYPE_STAFF' => WeaponType.staff,
-      _ => WeaponType.sword,
-    };
+    // `ITYPE_*`（`include/bmitem.h:84-96`）与 `WeaponType.*`
+    // （`lib/core/battle/weapon_triangle.dart:26-34`）**逐个数相同** —— 恒等映射。
+    final weaponType = it?.weaponType ?? WeaponType.sword;
 
     return CombatProfile(
       classId: u.classId,

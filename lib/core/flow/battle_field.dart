@@ -1,4 +1,9 @@
-// PORT OF: include/bmunit.h（struct Unit）+ src/bm.c（战场状态）
+// PORT OF: include/bmunit.h（struct Unit / UNIT_ITEM_COUNT / UnitDefinition）
+//          src/UnitInitFromDefinition.c（道具装载循环）
+//          src/exact_08017714.c（UnitClearInventory）
+//          src/exact_080176f0.c（UnitAddItem）
+//          src/MakeNewItem.c
+//          src/bm.c（战场状态）
 //          ⚠️ 刻意不复用 lib/core/battle/battle_unit.dart 的 BattleUnit
 //
 // 战场单位与场地的**语义模型**（纯 Dart，可序列化）。
@@ -12,7 +17,85 @@
 
 import 'dart:convert';
 
+import '../battle/battle_unit.dart' show unitItemCount;
 import '../battle/phase.dart';
+
+/// `UNIT_DEFINITION_ITEM_COUNT` —— `include/bmunit.h:12`
+///
+/// 单位定义表里每行只有 **4** 个道具槽（`struct UnitDefinition.items[4]`），
+/// 而单位自己的道具栏是 **5** 槽（`unitItemCount`，见 `battle_unit.dart`）。
+/// **两者不是同一个数**，混用就会少装一件或越界。
+const int unitDefinitionItemCount = 4;
+
+/// `UnitClearInventory` —— `src/exact_08017714.c:37`
+///
+/// ```c
+/// for (i = 0; i < UNIT_ITEM_COUNT; ++i)
+///     unit->items[i] = 0;
+/// ```
+List<int> unitClearInventory() => List<int>.filled(unitItemCount, 0);
+
+/// `UnitAddItem` —— `src/exact_080176f0.c:37`
+///
+/// ```c
+/// s8 UnitAddItem(struct Unit* unit, int item) {
+///     for (i = 0; i < UNIT_ITEM_COUNT; ++i)
+///         if (unit->items[i] == 0) { unit->items[i] = item; return TRUE; }
+///     return FALSE;   // 满了
+/// }
+/// ```
+///
+/// 返回写进的下标；道具栏满了返回 `-1`（对应 C 的 `FALSE`）。
+/// **满了不是"随便找个地方塞"，是真的放不进去** —— 调用方必须区分。
+int unitAddItem(List<int> inventory, int item) {
+  for (var i = 0; i < inventory.length; ++i) {
+    if (inventory[i] == 0) {
+      inventory[i] = item;
+      return i;
+    }
+  }
+  return -1;
+}
+
+/// `MakeNewItem` —— `src/MakeNewItem.c:27`
+///
+/// ```c
+/// int MakeNewItem(int item) {
+///     int uses = GetItemMaxUses(item);
+///     if (GetItemAttributes(item) & IA_UNBREAKABLE) uses = 0;
+///     return (uses << 8) + GetItemIndex(item);
+/// }
+/// ```
+///
+/// 注意 `GetItemMaxUses` 对不磨损道具返回 `0xFF`，而 `MakeNewItem` 又把它
+/// 归零 —— 两个分支合起来就是"不磨损 ⇒ 耐久字段为 0"。
+int makeNewItem(int itemIndex, int maxUses, {bool unbreakable = false}) =>
+    ((unbreakable ? 0 : maxUses) << 8) + (itemIndex & 0xFF);
+
+/// `UnitInitFromDefinition` 的道具装载部分 —— `src/UnitInitFromDefinition.c:62`
+///
+/// ```c
+/// UnitClearInventory(unit);                       // 5 槽清零
+/// for (i = 0; (i < UNIT_DEFINITION_ITEM_COUNT) && (uDef->items[i]); ++i)
+///     UnitAddItem(unit, MakeNewItem(uDef->items[i]));
+/// ```
+///
+/// [defItems] 是 `UnitDefinition.items[0..3]`（**原始道具编号**，不是编码后的），
+/// [makeItem] 由调用方给出（它需要道具表才能算耐久）。
+///
+/// **`0` 是终止符**：遇到就停，后面的槽不再看 —— 这是源码的循环条件，
+/// 不是"跳过这一件继续"。
+List<int> inventoryFromDefinition(
+  List<int> defItems,
+  int Function(int itemIndex) makeItem,
+) {
+  final inv = unitClearInventory();
+  for (var i = 0; i < unitDefinitionItemCount && i < defItems.length; ++i) {
+    if (defItems[i] == 0) break;
+    unitAddItem(inv, makeItem(defItems[i]));
+  }
+  return inv;
+}
 
 /// 地图上的一个单位。
 class MapUnit {
@@ -53,9 +136,25 @@ class MapUnit {
   /// 每项是 `MakeNewItem` 的编码：`耐久 << 8 | 编号`。
   /// `GIVEITEMTO` 往这里塞东西。
   ///
-  /// 构造时若显式给了 `items` 就用它（`UnitDefinition.items[0..3]`），
-  /// 否则退回 `[item0]`。
-  late final List<int> items = _initItems ?? [if (item0 != 0) item0];
+  /// ## ⚠️ 必须是 **5 槽**，不是"有几件就多长"
+  ///
+  /// 出处：`include/bmunit.h:11` `enum { UNIT_ITEM_COUNT = 5 };`
+  ///
+  /// 我原来写的是 `[if (item0 != 0) item0]` —— 一个**只有 1 个元素的表**。
+  /// 后果有两个，**都不报错**：
+  ///
+  /// 1. `UnitAddItem`（第一个空槽）永远找不到空槽
+  ///    → `GIVEITEMTO` 永远失败 → **序章里艾莉卡拿不到细剑**，没有武器
+  /// 2. `UnitDefinition.items[1..3]` 被丢掉
+  ///    → 赛特本该带 3 件（`{0x03, 0x17, 0x6C}`），实际只剩 1 件
+  ///
+  /// 装载规则（`src/UnitInitFromDefinition.c:62`）：
+  ///
+  /// ```c
+  /// for (i = 0; (i < UNIT_DEFINITION_ITEM_COUNT) && (uDef->items[i]); ++i)
+  ///     UnitAddItem(unit, MakeNewItem(uDef->items[i]));
+  /// ```
+  late final List<int> items = _buildInventory(_initItems, item0);
   final List<int>? _initItems;
 
   final int classId;
@@ -77,6 +176,27 @@ class MapUnit {
 
   bool get isAlive => hp > 0;
 
+  /// `UnitAddItem` —— 放进第一个空槽。满了返回 `-1`（调用方必须处理）。
+  int addItem(int item) => unitAddItem(items, item);
+
+  /// 道具栏**非空**项（`0` 是空槽）
+  List<int> get heldItems => items.where((i) => i != 0).toList();
+
+  /// 构造时的道具栏：显式给了就用它，否则从 `item0` 起。
+  ///
+  /// 两条路都**补齐到 `UNIT_ITEM_COUNT` 槽** —— 见 [items] 的说明。
+  static List<int> _buildInventory(List<int>? given, int item0) {
+    final inv = unitClearInventory();
+    if (given != null) {
+      for (var i = 0; i < given.length && i < unitItemCount; ++i) {
+        inv[i] = given[i];
+      }
+    } else if (item0 != 0) {
+      inv[0] = item0;
+    }
+    return inv;
+  }
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'faction': faction,
@@ -89,6 +209,10 @@ class MapUnit {
         'maxHp': maxHp,
         'hasActed': hasActed,
         'name': name,
+        // 道具栏也要进存档 —— 它是 `struct Unit.items[UNIT_ITEM_COUNT]`，
+        // 漏了它「存档后武器不见了」是必然的（现在至少不会被静默丢掉）
+        'items': items,
+        'charIndex': charIndex,
       };
 
   factory MapUnit.fromJson(Map<String, dynamic> j) => MapUnit(
@@ -103,6 +227,8 @@ class MapUnit {
         maxHp: j['maxHp'] as int? ?? 20,
         hasActed: j['hasActed'] as bool? ?? false,
         name: j['name'] as String? ?? '',
+        charIndex: j['charIndex'] as int? ?? 0,
+        items: (j['items'] as List?)?.cast<int>(),
       );
 }
 

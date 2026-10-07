@@ -87,7 +87,6 @@ class ChapterLoader {
 
   final ChapterLinks links;
   final UnitDefs unitDefs;
-
   /// 这一章能不能装配（事件组解析出来了 + 单位表在）
   bool canLoad(int chapterIndex) => _unitsOf(chapterIndex).isNotEmpty;
 
@@ -122,9 +121,18 @@ class ChapterLoader {
   /// 装配出一个章节的战场。
   ///
   /// [width] / [height] 来自地图（TMX），因为单位配置里只有坐标没有尺寸。
+  /// [makeItem] 是 `MakeNewItem`（`src/MakeNewItem.c:27`）——
+  /// 它要查道具表算耐久，所以由调用方（持有道具表的那一层）给。
+  /// **不给默认值**：道具耐久编不出来时应当显式处理，而不是塞一个 0 进去。
+  ///
   /// 返回 null 表示**这一章装配不出来**（事件组没解析出来，或单位表缺失）——
   /// 不返回一个空的战场来假装成功。
-  BattleField? load(int chapterIndex, {required int width, required int height}) {
+  BattleField? load(
+    int chapterIndex, {
+    required int width,
+    required int height,
+    required int Function(int itemIndex) makeItem,
+  }) {
     final names = unitTableNames(chapterIndex);
     if (names.isEmpty) return null;
 
@@ -141,13 +149,13 @@ class ChapterLoader {
       for (final u in table.units) {
         final faction = _factionOf(u);
         if (faction == null) continue; // 阵营越界：跳过而不是猜
-        units.add(MapUnit(
+        // ⚠️ **必须走 `UnitDef.toMapUnit`**（与游戏里的 `LOAD1` 同一条路）——
+        // 这里原来手写 `MapUnit(...)`，漏了 `charIndex` 和 `items`：
+        // 装配出来的单位**没有角色身份、没有武器**。
+        units.add(u.toMapUnit(
           id: nextId++,
           faction: faction,
-          x: u.x,
-          y: u.y,
-          classId: u.classIndex,
-          level: u.level,
+          makeItem: makeItem,
           name: '${u.charIndex}',
         ));
       }
