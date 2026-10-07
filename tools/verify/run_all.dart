@@ -333,6 +333,17 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '覆盖率棘轮', 'true', const [], skip: true, note: decompNote),
 
+    // 家族级 carve 审计（比覆盖率棘轮细一层：按**符号家族**对账，
+    // 未提取的逐个列出）—— `coverage_report.dart` 的"目录名"口径看不见
+    // 第 36/38 轮那两个真缺口。
+    if (hasDecomp())
+      Step('L0', 'carve 审计（家族级）', 'dart',
+          ['run', 'tools/verify/carve_audit.dart', '--check'],
+          note: '未提取数只许降（基线 tools/verify/carve_baseline.json）')
+    else
+      Step('L0', 'carve 审计（家族级）', 'true', const [], skip: true,
+          note: decompNote),
+
     if (hasDecomp())
       Step('L0', '数据表逐字节校验', 'python3',
           ['extract/verify_tables.py'],

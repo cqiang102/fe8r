@@ -1,0 +1,22 @@
+{
+ "EventListScr_*_Tutorial(s)": {
+  "defined": 16,
+  "extracted": 3,
+  "notExtracted": 13
+ },
+ "AnimConf_*（carve 出的定义）": {
+  "defined": 24,
+  "extracted": 24,
+  "notExtracted": 0
+ },
+ "AnimConf_*（layout 登记）": {
+  "defined": 77,
+  "extracted": 24,
+  "notExtracted": 77
+ },
+ "EventScr_*（场景脚本）": {
+  "defined": 311,
+  "extracted": 484,
+  "notExtracted": 7
+ }
+}
