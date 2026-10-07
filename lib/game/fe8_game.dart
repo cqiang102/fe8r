@@ -1935,6 +1935,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       case WaitForInput():
         break; // ShowText 已经等过了
+      case SetEventFlag(:final flag, :final value):
+
+        // `ENUT` / `ENUF` ⇒ 章节旗（`src/Event02_EvBitAndIdMod.c:31-34`）
+
+        if (value) { eventFlags.add(flag); } else { eventFlags.remove(flag); }
+
+        debugPrint('[EVFLAG] $flag = $value');
+
       case LoadUnits(:final table, :final group):
         _loadUnitsFromTable(table, group);
       case Stall():

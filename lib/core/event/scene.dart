@@ -344,6 +344,16 @@ class WaitForInput extends SceneEvent {
 }
 
 /// 加载单位表
+/// `SetFlag` / `ClearFlag`（章节旗）—— 由 `ENUT`/`ENUF` 产生
+///
+/// 出处：`src/Event02_EvBitAndIdMod.c:31-34`（`sub_cmd_lo == 1` 那一支）。
+class SetEventFlag extends SceneEvent {
+  const SetEventFlag({required this.flag, required this.value});
+
+  final int flag;
+  final bool value;
+}
+
 class LoadUnits extends SceneEvent {
   const LoadUnits(this.table, this.group);
   final String table;
@@ -758,6 +768,33 @@ class Scene {
   /// 认得但本阶段不执行的调用（`CURSOR_CHAR` / `MUSI` / `CHECK_TUTORIAL`…）
   void placeholder(String op) {
     placeholderCalls[op] = (placeholderCalls[op] ?? 0) + 1;
+  }
+
+  /// **场景内的局部位**（`proc->evStateBits`，`src/Event02_EvBitAndIdMod.c:14-38`）
+  ///
+  /// ⚠️ 这是**场景局部**的位（32 位），**不是**章节旗：
+  ///   * `EVBIT_T` / `EVBIT_F` 动的就是它（`sub_cmd_lo == 0`）；
+  ///   * `ENUT` / `ENUF` 动的是**章节旗**（`SetFlag` / `ClearFlag`，`sub_cmd_lo == 1`）
+  ///     —— 那才是我们也有的 `eventFlags`。
+  /// `arg < 0` 时取**事件槽 2**（`gEventSlots[2]`）。
+  int evStateBits = 0;
+
+  void evBitMod(String kind, bool set, int arg) {
+    var a = arg;
+    if (a < 0) a = slotInt(2);
+    if (kind == 'flag') {
+      onEvent(SetEventFlag(flag: a, value: set));
+    } else if (set) {
+      evStateBits |= 1 << a;
+    } else {
+      evStateBits &= ~(1 << a);
+    }
+  }
+
+  /// `CHECK_EVBIT` / `CHECK_EVENTID` 读的那一位（`src/Event03_CheckEvBitOrId.c:14-33`）
+  bool evBit(int arg) {
+    final a = arg < 0 ? slotInt(2) : arg;
+    return ((evStateBits >> a) & 1) == 1;
   }
 
   void noteUnmapped(RawArg a) => unmappedArgs.add(a.text);

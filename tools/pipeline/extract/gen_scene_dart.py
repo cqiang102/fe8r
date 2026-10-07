@@ -186,6 +186,20 @@ def stmt(op, A):
                 return (f"await s.call({lit(a)});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 事件位 / 章节旗 —— 同一个处理函数（`src/Event02_EvBitAndIdMod.c:14-38`）：
+    #     sub_cmd_lo == 0：`EVBIT_F` ⇒ `evStateBits &= ~(1<<arg)`、`EVBIT_T` ⇒ `|=`
+    #     sub_cmd_lo == 1：`ENUF` ⇒ `ClearFlag(arg)`、`ENUT` ⇒ `SetFlag(arg)`
+    # `arg < 0` 时取**事件槽 2**（`gEventSlots[2]`）。
+    # ⚠️ 这四条原来是占位符，而且 `placeholder(op)` **不带参数** ⇒ 位号被丢掉了。
+    #    我们库里 `EVBIT_T` 出现 271 次、`ENUT` 133 次 ⇒ 不接的话
+    #    "只演一次"和"章节旗"这些行为全是空的。
+    if op in ("EVBIT_T", "EVBIT_F", "ENUT", "ENUF"):
+        a = A[0] if A else 0
+        kind = "flag" if op.startswith("ENU") else "evbit"
+        set_ = "true" if op.endswith("T") else "false"
+        arg = num(a) if isinstance(a, int) else lit(a)
+        return (f"s.evBitMod('{kind}', {set_}, {arg});", True)
+
     if op == "SVAL":
         return (f"s.setSlot({num(A[0])}, {lit(A[1]) if len(A) > 1 else '0'});", True)
     if op == "SVAL2":
