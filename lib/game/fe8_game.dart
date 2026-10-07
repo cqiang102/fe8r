@@ -530,6 +530,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastItemUse': lastItemUse,
       'lastEquip': lastEquip,
       'lastDiscard': lastDiscard,
+      'goalWindow': goalWindow == null
+          ? null
+          : {
+              'visible': goalWindow!.visible,
+              'stage': '${goalWindow!.stage}',
+              'shownCount': goalWindow!.shownCount,
+              'wantVisible': goalWindow!.wantVisible,
+            },
+      'goalText': _goalText,
+      'goalTextId': _chapterGoalTextId[sceneChapter],
       'itemSubMenu': itemSubMenu,
       'subMenuDisabled': _subMenuDisabled,
       'equippedWeapon': _equippedWeaponWord(),
@@ -1408,6 +1418,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   @override
   void update(double dt) {
     _tickBanner();
+    _tickGoalWindow();
     _tickPopups();
 
     // ★ **延迟建视图**：`MNCH`（或 `FE8R_WM`）可能发生在 layout 之前，
@@ -2977,6 +2988,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       debugPrint('[OPTIONS] 读不到 game_options.json —— 設定屏会明确说取不到，不兜底');
     }
 
+    // 章节的目标窗口文本 id（`goalWindowTextId`，`src/data/chapter_settings.h`）
+    final chjGoal = read('chapters.json');
+    for (final e in (chjGoal['chapters'] as List? ?? const [])) {
+      final m = e as Map<String, dynamic>;
+      final i = (m['index'] as num?)?.toInt();
+      final g = (m['goalWindowTextId'] as num?)?.toInt();
+      if (i != null && g != null) _chapterGoalTextId[i] = g;
+    }
+
     final cj = read('classes.json');
     for (final e in (cj['classes'] as Map<String, dynamic>? ?? {}).entries) {
       final m = e.value as Map<String, dynamic>;
@@ -3313,6 +3333,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     await _startRealScene();
     _mapReady = true;
+    // 地图开始 ⇒ 目标窗口（原作 `StartPlayerPhaseSideWindows`：
+    // `disableGoalDisplay == 0` 且旗 102 未置位时 `Proc_Start(gProcScr_GoalDisplay)`）
+    _touchGoalWindow();
   }
 
   /// 章节标题（`texts.titles[内部名]`，如 `L01` = 消息 233「脱出行」）
@@ -3428,6 +3451,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 这条条件永远不成立（实测：`FE8R_WM=56` 那轮 WM 一次都没进，
     // 而日志里连一条 `[WM]` 都没有）。
     _mapReady = true;
+    _touchGoalWindow();   // LOMA 装完地图 ⇒ 同一套侧窗
     _updateHud();
   }
 
@@ -4424,6 +4448,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 最近一次"装备"的记录（判据用）
   Map<String, Object?>? lastEquip;
 
+  /// 目标窗口（`GoalDisplay`）—— 章节的 `goalWindowTextId` → 文本 id
+  final Map<int, int> _chapterGoalTextId = {};
+
+  /// 当前目标窗口状态（null = 还没建）
+  GoalWindowState? goalWindow;
+  GoalWindowComponent? _goalWindowComp;
+  String _goalText = '';
+
   /// 最近一次"捨てる"的记录（判据用）
   Map<String, Object?>? lastDiscard;
 
@@ -4489,7 +4521,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 配置值：`disableAutoEndTurns` 与 `playConfig` **共享**（改它真的生效）；
     // 其余字段先放在这个容器里（名字来自源码 `src/uiconfig.c`，默认值未核对）
     final cfg = GameConfigValues(initial: {
-      'disableAutoEndTurns': playConfig.disableAutoEndTurns ? 1 : 0,
+      for (final e in toField.entries)
+        if (e.value is Map && (e.value as Map)['field'] is String)
+          (e.value as Map)['field'] as String:
+              playConfig.getField((e.value as Map)['field'] as String),
     });
     final opts = <GameOptionState>[];
     for (final i in order) {
@@ -4552,9 +4587,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // ★ 写回配置。`disableAutoEndTurns` 是我们的流程**真的在读**的那一个
       //（`PlayerPhase_HandleAutoEnd`，`src/playerphase_0801D808.c:52-58`）
       // ⇒ 改它**真的生效**；其余字段目前只存在屏上（转储里成对记账）。
+      // ★ 写回：**所有**解出映射的字段都按源码字段名写进 `playConfig`
+      //（第 27 轮只做了 auto-end 一个；现在 `PlayConfig` 有真字段了）
       for (final o in st.options) {
-        if (o.field == 'disableAutoEndTurns' && o.value != null) {
-          playConfig.disableAutoEndTurns = o.value == 1;
+        final f = o.field;
+        if (f != null && o.value != null) {
+          if (!playConfig.setField(f, o.value!)) {
+            debugPrint('[OPTIONS] 字段名认不出：$f（没写）');
+          }
         }
       }
       _gameOptionsLast = {
@@ -4747,6 +4787,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       }
       worldMap = st.worldMap;
       _mapReady = true;
+      _touchGoalWindow();   // 地图开始 ⇒ 目标窗口（原作 `StartPlayerPhaseSideWindows`）
       status.value = '（继续）$resumeNote';
       _playNote = '继续：$resumeNote';
       _rebuildOverlay();
@@ -4909,11 +4950,85 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
   }
 
+  /// 目标窗口要显示吗（两个条件）
+  bool get goalWindowWanted =>
+      playConfig.disableGoalDisplay == 0 &&
+      !eventFlags.contains(kEvFlagObjWindowDisable);
+
+  /// 阵营切换：按条件滑入/收起
+  void _touchGoalWindow() {
+    final want = goalWindowWanted;
+    final st = goalWindow ?? GoalWindowState(wantVisible: want);
+    st.wantVisible = want;
+    goalWindow = st;
+    if (!want) {
+      _hideGoalWindow();
+      return;
+    }
+    // 文本：章节的 `goalWindowTextId` → 文本表（取不到就**明确说**，不编）
+    final id = _chapterGoalTextId[sceneChapter];
+    final txt = id == null ? null : gameTexts?.byId(id)?.plain;
+    _goalText = (txt == null || txt.isEmpty)
+        ? (id == null
+            ? '（本章没有 goalWindowTextId）'
+            : '（文本 #$id 取不到）')
+        : txt;
+    st.onSideChange();
+    _showGoalWindowComp();
+  }
+
+  void _showGoalWindowComp() {
+    // ⚠️ 无头跑（单元测试）时游戏没挂载，`viewport.add` 会炸 ——
+    // 状态机照跑（判据看状态），只是不建组件。
+    if (!isMounted) return;
+    final v = camera.viewport;
+    if (_goalWindowComp != null) {
+      _goalWindowComp!.removeFromParent();
+      _goalWindowComp = null;
+    }
+    final c = GoalWindowComponent(
+      text: _goalText,
+      tileSize: 16,
+      screen: v.virtualSize,
+    );
+    _goalWindowComp = c;
+    v.add(c);
+  }
+
+  void _hideGoalWindow() {
+    if (_goalWindowComp != null) {
+      _goalWindowComp!.removeFromParent();
+      _goalWindowComp = null;
+    }
+  }
+
+  /// 每帧推进目标窗口：滑入 6 帧 / 停留 / 滑出 4 帧（帧数出处见 `goal_window.dart`）
+  void _tickGoalWindow() {
+    final st = goalWindow;
+    if (st == null) return;
+    // ⚠️ **与原作有差异**：原作的 `gProcScr_GoalDisplay` 在 Init 时读一次配置，
+    // 中途改设置要等**下一次阵营切换**才生效。我们每帧重读 ⇒ 在設定里关掉
+    // 「クリア目的表示」**立刻**收起（这样"设置真的管用"当场可验）。
+    st.wantVisible = goalWindowWanted;
+    st.tick();
+    if (!st.visible) {
+      _hideGoalWindow();
+    } else if (_goalWindowComp == null) {
+      _showGoalWindowComp();
+    }
+  }
+
   /// 显示"我方回合 / 敌军回合 / 友军回合"横幅
   ///
   /// 文字照着原作那张表的口径（阵营 → 谁的回合），**没动用的阶段不显示**
   /// （对应 `PhaseIntro_EndIfNoUnits`：没人就跳过整段）。
   void _showPhaseBanner(BattleField f) {
+    // ★ 阵营切换 ⇒ 目标窗口滑入（`gProcScr_GoalDisplay` 的
+    // `GoalDisplay_Loop_OnSideChange`）。**两个条件**缺一不可：
+    // `config.disableGoalDisplay == 0` && 旗 102 未置位
+    //（`src/player_interface_0808F2C0.c:61-64`；旗名 `EVFLAG_OBJWINDOW_DISABLE`
+    //  = 102，`include/constants/event-flags.h:16`）。
+    _touchGoalWindow();
     if (f.phaseAbleCount(f.activeFaction) == 0) return; // 空阶段不演
     final (String text, bool isEnemy) = switch (f.activeFaction) {
       Faction.blue => ('我方回合', false),

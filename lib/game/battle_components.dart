@@ -803,3 +803,52 @@ class HitFlashComponent extends PositionComponent {
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// 目标窗口（`gProcScr_GoalDisplay`，`src/player_interface_0808F584.c`）
+//
+// 每次**阵营切换**滑入 → 停留 → 滑出（6/4 帧，见 `goal_window.dart` 的出处）。
+// 它**不接输入**（原作这个窗口也不吃按键）—— 所以放在 `camera.viewport` 上，
+// 与阶段横幅同一套做法。⚠️ 第 30 轮的教训：**不要借用对话框**画这类东西。
+// ---------------------------------------------------------------------------
+class GoalWindowComponent extends PositionComponent {
+  GoalWindowComponent({
+    required this.text,
+    required this.tileSize,
+    required Vector2 screen,
+  }) : super(
+          size: Vector2(screen.x, tileSize * 1.4),
+          position: Vector2(0, 2),
+          priority: 40,
+        );
+
+  final String text;
+  final double tileSize;
+
+  @override
+  void render(Canvas canvas) {
+    final r = Rect.fromLTWH(2, 0, size.x - 4, size.y);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()..color = const Color(0xCC10243C),
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(r, const Radius.circular(2)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = const Color(0xFF7FA8D8),
+    );
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: const Color(0xFFFFFFFF),
+          fontSize: tileSize * 0.55,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: size.x - 8);
+    tp.paint(canvas, Offset(5, (size.y - tp.height) / 2));
+  }
+}

@@ -199,6 +199,19 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 子菜单「捨てる」→ 弹 Yes/No
     SCRIPT="$SCRIPT,down,wait,confirm,wait,wait,wait"      # 下移到「はい」→ 确认
     ;;
+  goaloff)
+    # ★ 跨功能判据：在**設定**里关掉「クリア目的表示」⇒ 目标窗口收起。
+    #
+    # 设定屏的显示顺序（`gGameOptionsUiOrder`）里「クリア目的表示」是**第 7 行**（下标 6）；
+    # 它对应 `gPlaySt.config.disableGoalDisplay`
+    #（`src/uiconfig.c` 的 switch；可见性在 `src/player_interface_0808F2C0.c:61-64`）。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$SCRIPT,start,down,down,down,confirm,wait,wait"        # 地图菜单 → 設定
+    SCRIPT="$SCRIPT,down,down,down,down,down,down,wait"            # 走到「クリア目的表示」
+    SCRIPT="$SCRIPT,right,wait"                                    # オン → オフ
+    SCRIPT="$SCRIPT,cancel,wait,wait,wait"                         # B 关设定
+    ;;
   suspend)
     # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。
     #

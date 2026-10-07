@@ -322,6 +322,25 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(log.any((e) => e.contains('unitList')), '菜单日志记着開了部隊', 'menuLog=$log');
   }
 
+  if (scenario == 'prologue') {
+    // ★ 目标窗口：文本来自章节的 `goalWindowTextId`（`src/data/chapter_settings.h`），
+    // 可见性由 `disableGoalDisplay` + 旗 102 决定（`player_interface_0808F2C0.c:61-64`）
+    final g = d['goalWindow'] as Map<String, dynamic>?;
+    ok(g != null, '地图开始时目标窗口被创建', 'goalWindow=$g');
+    if (g != null) {
+      ok(g['wantVisible'] == true, '默认应当显示（两个条件都满足）',
+          'wantVisible=${g['wantVisible']}');
+      final shown = (g['shownCount'] as num?)?.toInt() ?? 0;
+      ok(shown >= 1, '至少滑入过一次', 'shownCount=$shown');
+    }
+    final txt = '${d['goalText']}';
+    ok(txt.isNotEmpty && !txt.startsWith('（'),
+        '目标文本从 `goalWindowTextId` 解析出来了（不是占位）', 'goalText=$txt');
+    ok(d['goalTextId'] == 293,
+        '序章的 goalWindowTextId = 293（`src/data/chapter_settings.h:41`）',
+        '${d['goalTextId']}');
+  }
+
   if (scenario == 'options') {
     // ★ 「設定」屏：真名字（文本 id 解析出来的）+ 真值 + **改了真生效**
     final txt = '${d['gameOptionsText']}';
@@ -452,6 +471,19 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     if (dis.isNotEmpty) {
       ok(dis.any((x) => x.contains('交換') && x.contains('未实现')),
           '「交換」被标成禁用并写明原因（而不是静默）', 'disabled=$dis');
+    }
+  }
+
+  if (scenario == 'goaloff') {
+    // ★ 关了「クリア目的表示」之后：两个字段都要如实反映
+    ok(d['goalTextId'] != null, '章节有 goalWindowTextId', '${d['goalTextId']}');
+    final g = d['goalWindow'] as Map<String, dynamic>?;
+    ok(g != null, '目标窗口的状态在转储里', 'goalWindow=$g');
+    if (g != null) {
+      ok(g['wantVisible'] == false,
+          '★ 设置关掉之后 `wantVisible=false`（`disableGoalDisplay` 生效）',
+          'wantVisible=${g['wantVisible']}');
+      ok(g['visible'] == false, '★ 窗口**收起**了', 'visible=${g['visible']}');
     }
   }
 
@@ -921,6 +953,15 @@ Map<String, Map<String, dynamic>> brokenDumps() {
 
 /// 一份**正常**的序章转储（selftest 的基准）
 Map<String, dynamic> goodDump() => {
+  // 目标窗口（`player_interface_0808F2C0.c:61-64`）—— 基准要有，否则自检红
+  'goalWindow': <String, Object?>{
+    'visible': true,
+    'stage': 'GoalWindowStage.shown',
+    'shownCount': 3,
+    'wantVisible': true,
+  },
+  'goalText': '目的：ボス撃破',
+  'goalTextId': 293,
       'chapter': 0,
       'map': {'width': 15, 'height': 10, 'id': 'PrologueMap'},
       'camera': {'x': 0.0, 'y': 0.0},

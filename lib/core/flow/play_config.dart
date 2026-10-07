@@ -118,6 +118,81 @@ class PlayConfig {
   ///
   /// 默认 0（开启自动结束）：`src/InitPlayConfig.c:24`。
   bool disableAutoEndTurns;
+
+  // ---- ★ 其余配置字段（`struct PlaySt_OptionBits`，`include/types.h:141-169`）----
+  //
+  // 位宽照源码（`unitDisplayType:2` / `textSpeed:2` / `windowColor:2` /
+  // `animationType:2` / `battleForecastType:2`，其余 1 位）。
+  // **默认值未核对**（原作在 `src/InitPlayConfig.c`）⇒ 这里一律 0。
+  int unitColor = 0; // :1
+  int disableTerrainDisplay = 0; // :1
+  int unitDisplayType = 0; // :2
+  int autoCursor = 1; // :1  ← 我们的默认（原作的默认值未核对）
+  int textSpeed = 0; // :2
+  int gameSpeed = 0; // :1
+  int disableBgm = 0; // :1
+  int disableSoundEffects = 0; // :1
+  int windowColor = 0; // :2
+  int noSubtitleHelp = 0; // :1
+  int disableGoalDisplay = 0; // :1
+  int animationType = 0; // :2
+  int battleForecastType = 0; // :2
+
+  /// 按**源码字段名**读（设定屏的解出来的映射用的就是这些名字）
+  int getField(String f) => switch (f) {
+        'unitColor' => unitColor,
+        'disableTerrainDisplay' => disableTerrainDisplay,
+        'unitDisplayType' => unitDisplayType,
+        'autoCursor' => autoCursor,
+        'textSpeed' => textSpeed,
+        'gameSpeed' => gameSpeed,
+        'disableBgm' => disableBgm,
+        'disableSoundEffects' => disableSoundEffects,
+        'windowColor' => windowColor,
+        'disableAutoEndTurns' => disableAutoEndTurns ? 1 : 0,
+        'noSubtitleHelp' => noSubtitleHelp,
+        'disableGoalDisplay' => disableGoalDisplay,
+        'animationType' => animationType,
+        'battleForecastType' => battleForecastType,
+        _ => 0,
+      };
+
+  /// 按源码字段名写。**认不出的字段名返回 false**（不静默忽略）
+  bool setField(String f, int v) {
+    switch (f) {
+      case 'unitColor':
+        unitColor = v;
+      case 'disableTerrainDisplay':
+        disableTerrainDisplay = v;
+      case 'unitDisplayType':
+        unitDisplayType = v;
+      case 'autoCursor':
+        autoCursor = v;
+      case 'textSpeed':
+        textSpeed = v;
+      case 'gameSpeed':
+        gameSpeed = v;
+      case 'disableBgm':
+        disableBgm = v;
+      case 'disableSoundEffects':
+        disableSoundEffects = v;
+      case 'windowColor':
+        windowColor = v;
+      case 'disableAutoEndTurns':
+        disableAutoEndTurns = v == 1;
+      case 'noSubtitleHelp':
+        noSubtitleHelp = v;
+      case 'disableGoalDisplay':
+        disableGoalDisplay = v;
+      case 'animationType':
+        animationType = v;
+      case 'battleForecastType':
+        battleForecastType = v;
+      default:
+        return false;
+    }
+    return true;
+  }
 }
 
 /// 新游戏那一刻写进 `gPlaySt` 的、与地图菜单可见性有关的那几位

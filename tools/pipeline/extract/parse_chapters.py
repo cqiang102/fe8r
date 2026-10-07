@@ -60,14 +60,19 @@ int main(void)
     printf("COUNT %d\n", n);
     for (int i = 0; i < n; i++) {
         const struct ROMChapterData* c = &gChapterDataTable[i];
-        printf("CH %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+        printf("CH %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
             i,
             (c->internalName && c->internalName[0]) ? c->internalName : "-",
             c->map.obj1Id, c->map.obj2Id, c->map.paletteId, c->map.tileConfigId,
             c->map.mainLayerId, c->map.changeLayerId,
             c->initialFogLevel, (int)c->hasPrepScreen,
             c->initialPosX, c->initialPosY, c->initialWeather, c->battleTileSet,
-            c->mapEventDataId, c->gmapEventId);
+            c->mapEventDataId, c->gmapEventId,
+            // ★ 目标窗口那几项：`GoalDisplay_Init`（`src/player_interface_0808F584.c`）
+            // 读 `goalWindowTextId`（窗口里的字）与 `goalWindowDataType`（第二行按类型拼）
+            // —— 字段名与真值都来自 `src/data/chapter_settings.h`（carve 过的）
+            c->goalWindowTextId, c->goalWindowDataType,
+            c->goalWindowEndTurnNumber, c->statusObjectiveTextId);
     }
     return 0;
 }
@@ -83,7 +88,11 @@ LIBC_SYMBOLS = {
 FIELDS = ("index", "internalName", "obj1Id", "obj2Id", "paletteId",
           "tileConfigId", "mainLayerId", "changeLayerId", "initialFogLevel",
           "hasPrepScreen", "initialPosX", "initialPosY", "initialWeather",
-          "battleTileSet", "mapEventDataId", "gmapEventId")
+          "battleTileSet", "mapEventDataId", "gmapEventId",
+          # 目标窗口（`goalWindowTextId` / `goalWindowDataType`）+
+          # 状态屏的目标文本与终止回合数
+          "goalWindowTextId", "goalWindowDataType",
+          "goalWindowEndTurnNumber", "statusObjectiveTextId")
 
 
 def strip_section_attrs(text):
