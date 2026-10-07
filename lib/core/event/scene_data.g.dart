@@ -931,7 +931,7 @@ Future<void> Ch10A_8(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 7; } else { pc = 4; }
           continue;
         case 4:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 10, centered: false);
           pc = 5;
           continue;
         case 5:
@@ -987,7 +987,7 @@ Future<void> Ch10A_9(Scene s) async {
 /// `EventScr_Ch10B_0`
 Future<void> Ch10B_0(Scene s) async {
     s.placeholder('MUSC');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(15, 11, centered: true);
     await s.stall(15);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 520));
     s.placeholder('ENUN');
@@ -1200,7 +1200,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(9, 11, centered: true);
     s.placeholder('UNIT_COLORS');
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
@@ -1253,7 +1253,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.setSlot(2, 57);
     s.setSlot(3, 2543);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 0, centered: false);
     s.loadUnits(2, Sym('UnitDef_Ch10AAlly_0'));
     s.placeholder('STAL2');
     s.setSlot(1, 0);
@@ -1438,7 +1438,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 30, centered: false);
           pc = 41;
           continue;
         case 41:
@@ -1526,7 +1526,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 62;
           continue;
         case 62:
-          s.placeholder('CAMERA');
+          await s.cameraTo(19, 0, centered: false);
           pc = 63;
           continue;
         case 63:
@@ -1707,7 +1707,7 @@ Future<void> Ch11B_0(Scene s) async {
     s.placeholder('TILEREVERT');
     s.placeholder('TILECHANGE');
     s.placeholder('CLEAN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(9, 9, centered: true);
     s.placeholder('TEXTSTART');
     s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_1'));
     s.placeholder('ENUN');
@@ -1721,7 +1721,7 @@ Future<void> Ch11B_0(Scene s) async {
 /// `EventScr_Ch11B_1`
 Future<void> Ch11B_1(Scene s) async {
     s.placeholder('MUSC');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(9, 9, centered: true);
     s.placeholder('EARTHQUAKE_START');
     await s.stall(30);
     s.placeholder('TILECHANGE');
@@ -1754,7 +1754,7 @@ Future<void> Ch11B_2(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('TILECHANGE');
     s.placeholder('CLEAN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(12, 10, centered: true);
     s.placeholder('TEXTSTART');
     s.placeholder('EARTHQUAKE_START');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -2009,7 +2009,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('CAMERACONTROL');
+          await s.cameraTo(12, 13, centered: true);
           pc = 56;
           continue;
         case 56:
@@ -3376,7 +3376,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('CAMERA');
+          await s.cameraTo(23, 0, centered: false);
           pc = 22;
           continue;
         case 22:
@@ -3756,7 +3756,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(14, 13, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_033_9191E0', 1964));
     s.placeholder('ENUN');
@@ -3783,7 +3783,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
 
 /// `EventScr_Ch14A_0`
 Future<void> Ch14A_0(Scene s) async {
-    s.placeholder('CAMERA2');
+    await s.cameraTo(9, 7, centered: true);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C_residue'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -3827,7 +3827,7 @@ Future<void> Ch14A_0(Scene s) async {
     s.moveUnit('MOVE', [0, 83, 17, 11]);
     s.placeholder('ENUN');
     s.placeholder('DISA');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(9, 6, centered: true);
     s.moveUnit('MOVE', [0, 82, 9, 5]);
     s.loadUnits(1, Sym('UnitDef_Ch14AEnemy_6'));
     s.placeholder('ENUN');
@@ -3894,7 +3894,7 @@ Future<void> Ch14A_5(Scene s) async {
 Future<void> Ch14A_6(Scene s) async {
     s.setSlot(2, 0);
     await s.callSlot(0);
-    s.placeholder('COUNTER');
+    s.placeholder('COUNTER_SET');
     s.placeholder('ENUF');
     s.placeholder('EVBIT_T');
     return;
@@ -4128,7 +4128,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('REMU');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_038_91B948_residue', 240));
     s.placeholder('ENUN');
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 21, centered: false);
     s.placeholder('CLEAN');
     s.placeholder('MUSC');
     await s.fade(FadeDirection.fromBlack, 16);
@@ -4154,7 +4154,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('SPAWN_ENEMY');
     s.setSlot(2, 64);
@@ -4181,7 +4181,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.placeholder('DISA');
     await s.fade(FadeDirection.toBlack, 16);
     await s.call(Sym('data_085B9BBC', 512));
-    s.placeholder('CAMERA2');
+    await s.cameraTo(12, 7, centered: true);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180));
@@ -5013,7 +5013,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(12, 5, centered: true);
           pc = 32;
           continue;
         case 32:
@@ -5620,7 +5620,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     s.placeholder('ENDTEXT');
     await s.fade(FadeDirection.toBlack, 4);
     s.placeholder('DISPLAYTEXT');
-    s.placeholder('CAMERACONTROL');
+    await s.cameraTo(23, 21, centered: false);
     s.placeholder('CLEARSCREEN');
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 696));
     s.placeholder('ENUN');
@@ -6283,7 +6283,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 155;
           continue;
         case 155:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 0, centered: false);
           pc = 156;
           continue;
         case 156:
@@ -7360,7 +7360,7 @@ Future<void> Ch16A_9(Scene s) async {
     await s.call(Sym('EventScr_LoadReinforce'));
     s.setSlot(2, Sym('UnitDef_Ch16AEnemy_3'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('CAMERA');
+    await s.cameraTo(19, 27, centered: false);
     s.setSlot(2, Sym('UnitDef_Ch16AEnemy_4'));
     await s.call(Sym('EventScr_LoadReinforce'));
     s.setSlot(2, Sym('frontier_df3_unitdef_b_009_91187C'));
@@ -7674,7 +7674,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(12, 15, centered: true);
           pc = 40;
           continue;
         case 40:
@@ -7682,7 +7682,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 27, centered: false);
           pc = 42;
           continue;
         case 42:
@@ -9083,7 +9083,7 @@ Future<void> Ch21A_0(Scene s) async {
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(11, 4, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21AMixed'));
     s.placeholder('ENUN');
@@ -9395,7 +9395,7 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     s.placeholder('CLEA');
     s.placeholder('CLEE');
     s.placeholder('CLEN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(11, 4, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch21BMixed'));
     s.placeholder('ENUN');
@@ -10571,7 +10571,7 @@ Future<void> Ch2_Village2(Scene s) async {
 
 /// `EventScr_Ch3_0`
 Future<void> Ch3_0(Scene s) async {
-    s.placeholder('CAMERA2');
+    await s.cameraTo(7, 7, centered: true);
     await s.stall(15);
     s.setSlot(13, 0);
     s.setSlot(1, 196610);
@@ -10587,7 +10587,7 @@ Future<void> Ch3_0(Scene s) async {
     await s.textShow(2381);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(7, 10, centered: true);
     await s.stall(15);
     s.setSlot(13, 0);
     s.setSlot(1, 589828);
@@ -11221,7 +11221,7 @@ Future<void> Ch3_Talk_NeimiColm(Scene s) async {
 
 /// `EventScr_Ch3_Turn1Npc`
 Future<void> Ch3_Turn1Npc(Scene s) async {
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 0, centered: false);
     await s.stall(15);
     s.loadUnits(1, Sym('UnitDef_Ch3NPC'));
     s.placeholder('ENUN');
@@ -11253,7 +11253,7 @@ Future<void> Ch3_Turn2Player(Scene s) async {
 
 /// `EventScr_Ch4_0`
 Future<void> Ch4_0(Scene s) async {
-    s.placeholder('CAMERA2');
+    await s.cameraTo(7, 0, centered: true);
     await s.stall(15);
     s.loadUnits(1, Sym('UnitDef_Ch4NPC_0'));
     s.placeholder('ENUN');
@@ -11417,7 +11417,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(7, 7, centered: true);
           pc = 38;
           continue;
         case 38:
@@ -11723,7 +11723,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 14, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSI');
     s.placeholder('CURSOR_AT');
@@ -11739,7 +11739,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('CLEAN');
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch4Ally_1'));
     s.placeholder('ENUN');
@@ -11784,7 +11784,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch4_9'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     await s.call(Sym('data_085B9BBC', 512));
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('MUSC');
     s.placeholder('CURSOR_CHAR');
@@ -11838,10 +11838,10 @@ Future<void> Ch5_10(Scene s) async {
     await s.textShow(2451);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CAMERA');
+    await s.cameraTo(2, 1, centered: false);
     s.placeholder('CURSOR_FLASHING');
     await s.stall(60);
-    s.placeholder('CAMERA');
+    await s.cameraTo(6, 10, centered: false);
     s.placeholder('CURSOR_FLASHING');
     await s.stall(60);
     s.placeholder('TUTORIALTEXTBOXSTART');
@@ -11861,7 +11861,7 @@ Future<void> Ch5_11(Scene s) async {
     await s.textShow(2453);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CAMERA');
+    await s.cameraTo(12, 6, centered: false);
     s.placeholder('CURSOR_FLASHING');
     await s.stall(60);
     s.placeholder('TUTORIALTEXTBOXSTART');
@@ -12388,7 +12388,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 112;
           continue;
         case 112:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(7, 14, centered: true);
           pc = 113;
           continue;
         case 113:
@@ -12488,7 +12488,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 137;
           continue;
         case 137:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 0, centered: false);
           pc = 138;
           continue;
         case 138:
@@ -12560,7 +12560,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 155;
           continue;
         case 155:
-          s.placeholder('CAMERA');
+          await s.cameraTo(5, 18, centered: false);
           pc = 156;
           continue;
         case 156:
@@ -12876,7 +12876,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.textShow(2458);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 18, centered: false);
     s.loadUnits(1, Sym('UnitDef_Event_Ch5xAlly'));
     s.placeholder('ENUN');
     s.placeholder('CURSOR_CHAR');
@@ -12906,7 +12906,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.placeholder('CLEAN');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(13, 9, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_0'));
     s.placeholder('ENUN');
@@ -13113,7 +13113,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(7, 8, centered: true);
           pc = 2;
           continue;
         case 2:
@@ -13239,7 +13239,7 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch6Ally_0'));
     s.placeholder('ENUN');
     s.placeholder('EVBIT_F');
-    s.placeholder('CAMERA2');
+    await s.cameraTo(7, 7, centered: true);
     s.loadUnits(1, Sym('UnitDef_Ch6Mixed'));
     s.placeholder('ENUN');
     s.setSlot(2, 75);
@@ -13278,7 +13278,7 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_UnitWarpOUT'));
     s.setSlot(2, 249);
     await s.call(Sym('EventScr_UnitWarpOUT'));
-    s.placeholder('CAMERA2');
+    await s.cameraTo(19, 5, centered: true);
     s.setSlot(2, 75);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 19, 6]);
     await s.call(Sym('EventScr_UnitWarpIN'));
@@ -13296,7 +13296,7 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_UnitWarpOUT'));
     s.setSlot(2, 251);
     await s.call(Sym('EventScr_UnitWarpOUT'));
-    s.placeholder('CAMERA2');
+    await s.cameraTo(21, 11, centered: true);
     s.setSlot(2, 249);
     s.moveUnit('MOVE_CLOSEST', [65535, 65533, 26, 12]);
     await s.call(Sym('EventScr_UnitWarpIN'));
@@ -13507,7 +13507,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(9, 4, centered: true);
           pc = 8;
           continue;
         case 8:
@@ -13523,7 +13523,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 21, centered: false);
           pc = 12;
           continue;
         case 12:
@@ -13820,7 +13820,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
 
 /// `EventScr_Ch8_0`
 Future<void> Ch8_0(Scene s) async {
-    s.placeholder('CAMERA');
+    await s.cameraTo(0, 23, centered: false);
     s.loadUnits(1, Sym('UnitDef_Ch8Ally_0'));
     s.placeholder('ENUN');
     s.placeholder('REVEAL');
@@ -13846,7 +13846,7 @@ Future<void> Ch8_0(Scene s) async {
 
 /// `EventScr_Ch8_10`
 Future<void> Ch8_10(Scene s) async {
-    s.placeholder('CAMERA');
+    await s.cameraTo(14, 20, centered: false);
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
     s.placeholder('ENUN');
     s.placeholder('MUSC');
@@ -14946,7 +14946,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 106;
           continue;
         case 106:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(14, 4, centered: true);
           pc = 107;
           continue;
         case 107:
@@ -15103,7 +15103,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(20, 7, centered: true);
           pc = 12;
           continue;
         case 12:
@@ -15376,7 +15376,7 @@ Future<void> ChangeAIinQueue(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('CHANGEAI');
+          s.placeholder('CHAI_AT');
           pc = 5;
           continue;
         case 5:
@@ -16484,7 +16484,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.placeholder('BROWNBOXTEXT');
     s.loadUnits(1, Sym('UnitDef_Event_PrologueMessager'));
     s.placeholder('ENUN');
-    s.placeholder('CAMERA');
+    await s.cameraTo(14, 0, centered: false);
     s.placeholder('CURSOR_CHAR');
     await s.stall(60);
     s.placeholder('CURE');
@@ -17040,7 +17040,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 20, centered: false);
           pc = 12;
           continue;
         case 12:
@@ -17056,7 +17056,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(12, 12, centered: true);
           pc = 16;
           continue;
         case 16:
@@ -17120,7 +17120,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 20, centered: false);
           pc = 9;
           continue;
         case 9:
@@ -17136,7 +17136,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(12, 12, centered: true);
           pc = 13;
           continue;
         case 13:
@@ -17222,7 +17222,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(7, 10, centered: true);
           pc = 15;
           continue;
         case 15:
@@ -17238,7 +17238,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(10, 10, centered: true);
           pc = 19;
           continue;
         case 19:
@@ -17254,7 +17254,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CAMERA');
+          await s.cameraTo(19, 20, centered: false);
           pc = 23;
           continue;
         case 23:
@@ -17329,7 +17329,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(7, 10, centered: true);
           pc = 12;
           continue;
         case 12:
@@ -17345,7 +17345,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(10, 10, centered: true);
           pc = 16;
           continue;
         case 16:
@@ -17361,7 +17361,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('CAMERA');
+          await s.cameraTo(19, 20, centered: false);
           pc = 20;
           continue;
         case 20:
@@ -17436,7 +17436,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 0, centered: false);
           pc = 12;
           continue;
         case 12:
@@ -17452,7 +17452,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('CAMERA');
+          await s.cameraTo(19, 20, centered: false);
           pc = 16;
           continue;
         case 16:
@@ -17516,7 +17516,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 0, centered: false);
           pc = 9;
           continue;
         case 9:
@@ -17532,7 +17532,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CAMERA');
+          await s.cameraTo(19, 20, centered: false);
           pc = 13;
           continue;
         case 13:
@@ -17640,7 +17640,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(10, 15, centered: true);
           pc = 21;
           continue;
         case 21:
@@ -17656,7 +17656,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CAMERA2');
+          await s.cameraTo(12, 6, centered: true);
           pc = 25;
           continue;
         case 25:
@@ -17742,7 +17742,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 20, centered: false);
           pc = 15;
           continue;
         case 15:
@@ -17817,7 +17817,7 @@ Future<void> Ruin_48(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CAMERA');
+          await s.cameraTo(0, 20, centered: false);
           pc = 12;
           continue;
         case 12:
@@ -19891,7 +19891,7 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CAMERA');
+          await s.cameraTo(255, 255, centered: false);
           pc = 13;
           continue;
         case 13:

@@ -16,7 +16,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math' as math;
 import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
@@ -180,10 +179,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// gBmSt.cameraMax.x = gBmMapSize.x*16 - 240;
   /// gBmSt.cameraMax.y = gBmMapSize.y*16 - 160;
   /// ```
-  double get _cameraMaxX =>
-      math.max(0, (map?.width ?? 0) * metatileSize - screenSize.x);
-  double get _cameraMaxY =>
-      math.max(0, (map?.height ?? 0) * metatileSize - screenSize.y);
+  /// 相机上限 —— 实现在 `lib/core/map/camera.dart`（`cameraMaxX/Y`），
+  /// 出处 `src/bmmap_08019584.c:74-75`。**不要再在这里写一份。**
+  double get _cameraMaxX => cameraMaxX(map?.width ?? 0).toDouble();
+  double get _cameraMaxY => cameraMaxY(map?.height ?? 0).toDouble();
 
   /// 死区（`include/bm.h:5-8`）—— **相对相机左上角**：
   ///
@@ -269,21 +268,40 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 一步到位把相机放到目标旁边（`GetCameraCenteredX/Y`）。
   ///
   /// 用于进场 / `LOMA` 之后 —— 那时没有"平滑跟随"，直接落位。
+  /// 把相机**居中**到某一格 —— `GetCameraCenteredX/Y`
+  /// （`src/bm.c:381-410`，实现搬到了 `lib/core/map/camera.dart`）。
   void _centerCameraOn(int tileX, int tileY) {
     final g = map;
     if (g == null) return;
+    _cameraX =
+        cameraCenteredX((tileX * metatileSize).toInt(), _cameraMaxX.toInt())
+            .toDouble();
+    _cameraY =
+        cameraCenteredY((tileY * metatileSize).toInt(), _cameraMaxY.toInt())
+            .toDouble();
+    _applyCamera();
+  }
 
-    double axis(double mapPx, double screen, double target, double maxV) {
-      var r = target - screen / 2;
-      if (r < 0) r = 0;
-      if (r > maxV) r = maxV;
-      return (r ~/ 16) * 16; // `& ~0xF`
-    }
-
-    _cameraX = axis(g.width * metatileSize, screenSize.x,
-        tileX * metatileSize, _cameraMaxX);
-    _cameraY = axis(g.height * metatileSize, screenSize.y,
-        tileY * metatileSize, _cameraMaxY);
+  /// 把相机对准某一格但不强行居中 —— `GetCameraAdjustedX/Y`
+  /// （`src/bm.c:343-379`）。
+  ///
+  /// 这是 `CAMERA(x, y)`（**不是** `CAMERA2`）的语义：只有目标越出
+  /// `CAMERA_MARGIN_*` 死区时才移动，而且**不做 16 像素对齐**。
+  ///
+  /// 序章王座厅那一幕靠它把镜头从地图中央压到王座上：
+  /// `LOMA(0x10)` 之后相机在 `y=80`（居中于 (14,10)），
+  /// `CAMERA(14, 0)` 把 y 顶到 0 —— 王座才进画面。
+  void _adjustCameraTo(int tileX, int tileY) {
+    final g = map;
+    if (g == null) return;
+    _cameraX =
+        cameraAdjustedX(
+                _cameraX.toInt(), (tileX * metatileSize).toInt(), _cameraMaxX.toInt())
+            .toDouble();
+    _cameraY =
+        cameraAdjustedY(
+                _cameraY.toInt(), (tileY * metatileSize).toInt(), _cameraMaxY.toInt())
+            .toDouble();
     _applyCamera();
   }
 
@@ -849,9 +867,17 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     // 相机是**逐帧**跟着光标走的（`HandlePlayerCursorMovement`
     // 每帧调 `HandleMoveCameraWithMapCursor(4)`，
-    // `src/playerphase_0801C4FC.c:70-77`）。
-    // 按住 B 时是 8 像素/帧（快速滚动）。
-    if (state != null && !inTitleFlow) {
+    // `src/playerphase_0801C4FC.c:70-77`）。按住 B 时是 8 像素/帧。
+    //
+    // ⚠️ **只在玩家阶段跑**。`HandlePlayerCursorMovement` 的调用点是
+    // `PlayerPhase_MainIdle`（`src/playerphase_0801C5A8.c:62`）——
+    // 事件演出期间**没有这一步**。
+    //
+    // 我原来写成"只要不在开场流程里就每帧跟" —— 于是过场里
+    // 玩家光标（停在 (2,2)）把 `LOMA`/`CAMERA` 设好的镜头**每帧拖回去**：
+    // 王座厅那一幕 `LOMA` 把相机放到 x=96，下一帧就被拖到 0，
+    // 接着 `CAMERA(14,0)` 从 0 算 → 48。**镜头永远到不了脚本要的位置。**
+    if (state != null && !inTitleFlow && !_sceneRunning) {
       _handleMoveCameraWithMapCursor(_fastCamera ? 8 : 4);
     }
 
@@ -946,6 +972,40 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       case GiveItem(:final pid, :final itemSlot):
         _giveItem(pid, itemSlot);
+
+      case CameraControl(:final x, :final y, :final centered):
+        // 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）
+        //
+        // ```c
+        // x = ARGV[0]; y = ARGV[0] >> 8;            // 低/高字节
+        // if (x < 0 || y < 0) { x = slotB low; y = slotB high; }
+        // ...
+        // SetSomeRealCamPos(x, y, sc2);              // 已淡入 → 立即生效
+        // SetCursorMapPosition(x, y);                // ★ 光标也移过去
+        // ```
+        //
+        // `sc2`（sub-cmd bit3）= `centered`：
+        //   0 → `GetCameraAdjustedX/Y`（只保证目标在死区内）
+        //   1 → `GetCameraCenteredX/Y`（居中）
+        var cx = x;
+        var cy = y;
+        if (cx < 0 || cy < 0) {
+          final cam = lomaCamera(scene?.slotInt(0xB) ?? 0);
+          cx = cam.x;
+          cy = cam.y;
+        }
+        if (centered) {
+          _centerCameraOn(cx, cy);
+        } else {
+          _adjustCameraTo(cx, cy);
+        }
+        // `SetCursorMapPosition(x, y)` —— 光标跟着过去。
+        // `FlowState` 是不可变的，所以走 `copyWith`。
+        final st = state;
+        if (st != null) {
+          state = st.copyWith(cursorX: cx, cursorY: cy);
+        }
+        _updateHud();
     }
   }
 

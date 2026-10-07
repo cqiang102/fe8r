@@ -1136,6 +1136,110 @@
     "extraWords": 0,
     "len": 2
    }
+  ],
+  "15:1": [
+   {
+    "macro": "COUNTER_SET",
+    "params": [
+     "idx",
+     "val"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "38:0": [
+   {
+    "macro": "CAMERA",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "38:8": [
+   {
+    "macro": "CAMERA2",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "46:0": [
+   {
+    "macro": "CHECK_AT",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "57:1": [
+   {
+    "macro": "CHAI_AT",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "59:0": [
+   {
+    "macro": "CURSOR_AT",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "59:4": [
+   {
+    "macro": "CURSOR_FLASHING",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "60:1": [
+   {
+    "macro": "SET_CURSOR",
+    "params": [
+     "x",
+     "y"
+    ],
+    "arg": "u8pair",
+    "packed": "u8pair",
+    "extraWords": 0,
+    "len": 2
+   }
   ]
  }
 }

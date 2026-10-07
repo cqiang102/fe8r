@@ -200,6 +200,25 @@ def stmt(op, A):
     if op == "STAL":
         return (f"await s.stall({num(A[0])});", False)
 
+    # ---- 相机取景 ----
+    #
+    # 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c`）+
+    #       `include/eventscript.h:672-675`
+    #
+    #     #define EvtMoveCameraTo(x, y)       sub EVSUBCMD_CAMERA_AT  → CAMERA(x, y)
+    #     #define EvtMoveCameraToCenter(x, y) sub EVSUBCMD_CAMERA2_AT → CAMERA2(x, y)
+    #
+    # 两个参数（x, y）**打包在同一个字里**：低字节 x、高字节 y
+    # （`_EvtSubParam16u8`，`include/eventscript.h:563`）。
+    # 区别只在"怎么对准"：
+    #   * `CAMERA`  → `GetCameraAdjustedX/Y`（只在越出死区时移动，**不对齐 16 像素**）
+    #   * `CAMERA2` → `GetCameraCenteredX/Y`（居中、夹在 [0, cameraMax]、对齐 16 像素）
+    if op in ("CAMERA", "CAMERA2"):
+        _x = num(A[0]) if A else 0
+        _y = num(A[1]) if len(A) > 1 else 0
+        _c = "true" if op == "CAMERA2" else "false"
+        return (f"await s.cameraTo({_x}, {_y}, centered: {_c});", False)
+
     # ---- 淡入/淡出 ----
     #
     # ⚠️ **缩写名是反的**，看 `src/Event17_Fade.c`：

@@ -108,7 +108,22 @@ def to_macro(words, syms, macros):
         m = macros.get((cmd, sub))
         if m:
             params = m["params"]
-            if params:
+            if m.get("packed") == "u8pair":
+                # `_EvtSubParam16u8((a), (b))`：**两个参数来自同一个字** ——
+                # 低字节是 a、高字节是 b（`include/eventscript.h:563`）。
+                #
+                # 例：`CAMERA(x, y)` → `EvtMoveCameraTo`。
+                # 不拆的话参数个数对不上，生成器只能记成占位符。
+                lo = arg & 0xFF
+                hi = (arg >> 8) & 0xFF
+                # 有符号：`Event26_CameraControl` 里 x/y 是 `s8`，
+                # 负值表示"用槽 0xB"（见那里 `if (x < 0 || y < 0)`）
+                if lo >= 0x80:
+                    lo -= 0x100
+                if hi >= 0x80:
+                    hi -= 0x100
+                lines.append(f"{m['macro']}({lo}, {hi})")
+            elif params:
                 # 第一个参数取 arg0；多参数时后面的来自紧随的指针字
                 args = [str(arg)]
                 for k in range(1, len(params)):

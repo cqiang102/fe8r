@@ -115,6 +115,25 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
   }
 
   // ---- 7) 场景专属判据 ----
+  //
+  // `throne`：序章第一幕**演到一半**停下来看取景。
+  //
+  // 判据是"镜头在脚本要的位置上"，来自两处源码：
+  //   * `LOMA(0x10)` 把相机居中到槽 0xB 的 (14,10) → y = 160-80 = 80
+  //   * `CAMERA(0xE, 0)` 再把镜头压到 (14,0) → `GetCameraAdjustedY` → y = 0
+  // `CAMERA` 曾经是占位符，所以 y 一直是 80（停在地图中央）。
+  if (scenario == 'throne') {
+    ok(map?['id'] == 'Ch16Map', '王座厅：地图是 Ch16Map', 'map.id=${map?['id']}');
+    final cam = d['camera'] as Map<String, dynamic>?;
+    final cy = (cam?['y'] as num?)?.toDouble();
+    final cx = (cam?['x'] as num?)?.toDouble();
+    ok(cy == 0, '王座厅：镜头压在 y=0（`CAMERA(14, 0)` 生效）', 'camera=($cx,$cy)');
+    ok(cx == 96, '王座厅：x 在死区内不动（96）', 'camera=($cx,$cy)');
+    // ⚠️ 不要去查 `trace`：它是**最近 12 条**的环形缓冲，
+    // 而 `CAMERA` 发生在这一场很靠前的地方，早被挤出去了。
+    // （第一版我在这里断言轨迹里有 CameraControl —— 那是错的判据。）
+  }
+
   if (scenario == 'prologue') {
     ok(map?['id'] == 'PrologueMap', '序章：地图是 PrologueMap',
         'map.id=${map?['id']}');

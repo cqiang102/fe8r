@@ -28,6 +28,17 @@
 `_EvtArg0(..., (arg))` 只有一个 16 位参数，但宏可能有更多个
 （如 `EvtLoadUnit1(restriction, units)` 的 `units` 是**紧跟在后面的表指针**）。
 所以每个条目还记 `extraWords`：命令字之后还要跟几个**指针字**。
+
+## 还有第三种形状：**两个 u8 打包进一个参数**
+
+    #define EvtMoveCameraTo(x, y) \
+        _EvtArg0(EV_CMD_CAMERACONTROL, 2, EVSUBCMD_CAMERA_AT, _EvtSubParam16u8((x), (y))),
+    #define _EvtSubParam16u8(a, b) (((a) & 0xFF) + ((b & 0xFF) << 8))
+
+`CAMERA(x, y)` 就是它。原来的正则要求参数是 `(...)`（不含内层括号），
+所以**整条被漏掉** —— `CAMERA` 一直是占位符，王座厅那一幕的取景因此停在地图中央。
+
+这类条目标 `packed: "u8pair"`：解出来的时候要把那一个字拆成低字节/高字节两个参数。
 """
 import argparse
 import json
@@ -98,12 +109,43 @@ def main():
             "len": l_,
         })
 
-    # ---- 2) 别名（`#define LOAD1 EvtLoadUnit1`）----
+    # ---- 2) `_EvtSubParam16u8((a), (b))` 形式：两个 u8 打包进一个参数 ----
+    #
+    # 出处：`include/eventscript.h:563`
+    #
+    #     #define _EvtSubParam16u8(u8a, u8b) (((u8a) & 0xFF) + ((u8b & 0xFF) << 8))
+    #
+    # 例：`EvtMoveCameraTo(x, y)`（= `CAMERA(x, y)`）。
+    # 解出来的两个参数**都来自同一个字**（低字节 x、高字节 y），
+    # 所以标 `packed: u8pair`，由解码端拆 —— 见 parse_event_scripts_asm.py。
+    for m in re.finditer(
+            r"#define\s+(\w+)\s*\(([^)]*)\)\s*"
+            r"_EvtArg0\(\s*([A-Z_0-9]+)\s*,\s*([^,]+),\s*([^,]+),\s*"
+            r"_EvtSubParam16u8\(\(([^)]*)\),\s*\(([^)]*)\)\)\s*\)"
+            r"(.*)$", body, re.M):
+        name, params, cmd, ln, sub, _pa, _pb, rest = m.groups()
+        c = consts.get(cmd)
+        if c is None:
+            continue
+        s_ = val(sub, consts) or 0
+        l_ = val(ln, consts) or 2
+        # 两个参数的名字来自 `_EvtSubParam16u8((a), (b))`，
+        # 而不是宏自己的参数表（宏的参数表里是 (x, y)，这里 (a, b) 就是它们）
+        entries.setdefault((c, s_), []).append({
+            "macro": name,
+            "params": [p.strip() for p in params.split(",") if p.strip()],
+            "arg": "u8pair",
+            "packed": "u8pair",
+            "extraWords": rest.count("EventListScr"),
+            "len": l_,
+        })
+
+    # ---- 3) 别名（`#define LOAD1 EvtLoadUnit1`）----
     alias_to = {}
     for m in re.finditer(r"^#define\s+([A-Z][A-Z0-9_]*)\s+(\w+)\s*$", ea, re.M):
         alias_to[m.group(2)] = m.group(1)
 
-    # ---- 3) 别名优先 ----
+    # ---- 4) 别名优先 ----
     for k, lst in entries.items():
         for e in lst:
             e["macro"] = alias_to.get(e["macro"], e["macro"])

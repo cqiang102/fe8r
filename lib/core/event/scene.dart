@@ -142,6 +142,37 @@ class LoadMap extends SceneEvent {
   String toString() => 'LoadMap(chapter $chapterIndex)';
 }
 
+/// 相机取景（`CAMERA(x, y)` / `CAMERA2(x, y)`）。
+///
+/// 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）。
+///
+/// 序章王座厅那一幕就是靠它把镜头压到王座上：
+///
+///     SVAL(EVT_SLOT_B, 0x000A000E)   ← LOMA 的初始相机 (14,10)
+///     LOMA(0x10)                     ← 换到 Ch16Map
+///     ...
+///     CAMERA(0xE, 0)                 ← ★ 镜头移到 (14,0)：王座在画面里
+///
+/// ⚠️ 这一条一直是占位符，所以镜头停在地图中央 —— 用户看到的"取景不对"。
+class CameraControl extends SceneEvent {
+  const CameraControl({
+    required this.x,
+    required this.y,
+    this.centered = false,
+  });
+
+  /// 目标格（`s8`；**负数表示"用槽 0xB"**，见 `Event26_CameraControl`）
+  final int x;
+  final int y;
+
+  /// sub-cmd bit3：`false` = `CAMERA`（不居中），`true` = `CAMERA2`（居中）
+  final bool centered;
+
+  @override
+  String toString() =>
+      'CameraControl($x, $y${centered ? ', centered' : ''})';
+}
+
 /// 是/否选择（`[Yes]`(24) / `[No]`(25)）。
 ///
 /// ## 出处
@@ -494,6 +525,25 @@ class Scene {
   /// 换地图（`LOMA`）。操作数是 **chapterIndex**（`src/eventscr_0800F390.c:54`）。
   Future<void> loadMap(int chapterIndex) =>
       onEvent(LoadMap(chapterIndex: chapterIndex, scriptName: currentScript));
+
+  /// 相机取景（`CAMERA(x, y)` / `CAMERA2(x, y)`）。
+  ///
+  /// 出处：`src/Event26_CameraControl`（`src/eventscr_0800F41C.c:10-62`）
+  ///
+  /// ```c
+  /// case 0: // position
+  ///     x = EVT_CMD_ARGV(proc->pEventCurrent)[0];        // 低字节
+  ///     y = EVT_CMD_ARGV(proc->pEventCurrent)[0] >> 8;   // 高字节
+  ///     if (x < 0 || y < 0) {                            // 负数 = 用槽 0xB
+  ///         x = ((u16 *)(gEventSlots + 0xB))[0];
+  ///         y = ((u16 *)(gEventSlots + 0xB))[1];
+  ///     }
+  /// ```
+  ///
+  /// [centered] 就是 sub-cmd 的 bit3（`EVT_SUB_CMD_HI`，`include/event.h:135`）：
+  /// `CAMERA` 不置位（走 `GetCameraAdjusted*`），`CAMERA2` 置位（走 `GetCameraCentered*`）。
+  Future<void> cameraTo(int x, int y, {bool centered = false}) =>
+      onEvent(CameraControl(x: x, y: y, centered: centered));
 
   /// 淡入/淡出。
   ///

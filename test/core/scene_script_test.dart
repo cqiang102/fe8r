@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   _chapterChainTests();
+  _cameraTests();
 
   group('场景剧情（生成的 async 函数）', () {
     late GameTexts texts;
@@ -286,5 +287,67 @@ void _chapterChainTests() {
     final ch = log.whereType<ChangeChapter>().toList();
     expect(ch, isNotEmpty, reason: '结束脚本应当触发换章');
     expect(ch.first.chapterIndex, 1, reason: '第 1 章');
+  });
+}
+
+// ---------------------------------------------------------------------------
+// `CAMERA(14, 0)` —— 王座厅那一幕的取景
+//
+// ## 为什么单独一条
+//
+// `CAMERA` 曾经是**占位符**：`parse_event_macros.py` 的正则要求参数是
+// `(...)`（不含内层括号），而它的写法是
+//
+//     #define EvtMoveCameraTo(x, y) \
+//         _EvtArg0(EV_CMD_CAMERACONTROL, 2, EVSUBCMD_CAMERA_AT, _EvtSubParam16u8((x), (y))),
+//
+// 于是整条宏没被抽到 → 生成器只能记占位 → **镜头停在地图中央**。
+// 用户说的"背景地图应该是王宫里"，一半就是这件事。
+void _cameraTests() {
+  group('CAMERA 生成成真指令', () {
+    late GameTexts texts;
+    late List<SceneEvent> log;
+
+    Scene makeScene() => Scene(
+          texts: texts,
+          scripts: allSceneFns,
+          defined: definedSceneScripts,
+          onEvent: (e) async => log.add(e),
+        );
+
+    setUpAll(() {
+      final tf = File('tools/pipeline/out/tables/texts.json');
+      if (!tf.existsSync()) fail('缺少 ${tf.path}');
+      texts = GameTexts.parse(tf.readAsStringSync());
+    });
+    setUp(() => log = []);
+
+    test('★ 王座过场里有 `CAMERA(14, 0)`，而且是**不居中**的那种', () async {
+      await allSceneFns['EventScr_Prologue_RenaisThroneCutscene']!(makeScene());
+      final cams = log.whereType<CameraControl>().toList();
+      expect(cams, isNotEmpty, reason: 'CAMERA 又变回占位符了？');
+      final first = cams.first;
+      // 源码：`SVAL(EVT_SLOT_B, 0x000A000E)` 之后 `CAMERA(0xE, 0)`
+      expect((first.x, first.y), (14, 0));
+      expect(first.centered, isFalse,
+          reason: '`CAMERA` 走 GetCameraAdjusted*；`CAMERA2` 才是居中');
+    });
+
+    test('整包里 `CAMERA` / `CAMERA2` 都生成了（不是只剩一个）', () {
+      // ⚠️ **不要在这里跑全部 311 个脚本**：占位符不写槽，
+      // 而有些脚本的分支靠槽值（`EventScr_CutsceneExecEnd_Sub1`
+      // 就是 `pc 3→4→5→3` 的自环）—— 全部跑会**死循环**。
+      // 静态数生成产物就够了。
+      final src = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+      final all = RegExp(r's\.cameraTo\(').allMatches(src).length;
+      final centered =
+          RegExp(r's\.cameraTo\([^;]*centered: true\)').allMatches(src).length;
+      final adjusted = all - centered;
+      // `CAMERA`（不居中）与 `CAMERA2`（居中）两条路都要有
+      expect(adjusted, greaterThan(0), reason: '`CAMERA` 一条都没生成');
+      expect(centered, greaterThan(0), reason: '`CAMERA2` 一条都没生成');
+      expect(all, greaterThanOrEqualTo(20),
+          reason: '总数太少，说明宏表只抽到了一部分相机宏');
+    });
   });
 }

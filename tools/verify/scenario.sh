@@ -47,6 +47,15 @@ case "$SCENARIO" in
     TITLE="difficulty"
     SCRIPT=""
     ;;
+  throne)
+    # 序章第一幕（王座厅）**中途**停住：80 个 confirm。
+    #
+    # 用来验"取景"：`LOMA(0x10)` 之后脚本会 `CAMERA(0xE, 0)`，
+    # 把镜头从地图中央压到王座上（相机 y: 80 → 0）。
+    # `CAMERA` 曾经是占位符，所以镜头一直停在地图中央。
+    TITLE=""
+    SCRIPT="$(python3 -c "print(','.join(['confirm']*80))")"
+    ;;
   *)
     echo "未知场景 $SCENARIO" >&2
     exit 2
