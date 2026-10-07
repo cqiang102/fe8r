@@ -580,6 +580,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'characterEventCount': _characterEvents.length,
       'lastDance': lastDance,
       'lastSteal': lastSteal,
+      'ignoredInputCount': ignoredInputCount,
+      'ignoredKeyMask': keyIgnoreMask,
       // ★ 行动菜单**有哪些项**（判据用；也是给"看不见菜单就瞎按键"这个反复
       //   出现的坑的解法：测试按**名字**定位，而不是数 down 几次）
       'actionMenu': (flow != null && state != null && field != null)
@@ -1018,6 +1020,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ `IGNORE_KEYS`：被屏蔽的键**直接吞掉**（`SetKeyStatus_IgnoreMask`，
+    //   `src/SetKeyStatus_IgnoreMask.c:7-10`）—— 计数进转储，作为判据。
+    final mask = keyIgnoreMask;
+    if (mask != 0 && (mask & keyBitOf(i)) != 0) {
+      ignoredInputCount++;
+      return;
+    }
     // ★ 輸送界面开着时输入归它 —— 注意它**不经过** `itemSubMenu`
     //（輸送是**行动菜单**里的一项，不是道具子菜单里的一项）⇒ 必须在最前面拦。
     if (_convoyOpen) {
@@ -1886,6 +1895,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           if (scene?.skipping == true) break;
           await Future<void>.delayed(const Duration(milliseconds: 16));
         }
+      case KeyIgnore(:final mask):
+        // `IGNORE_KEYS`：屏蔽掩码由**游戏侧**持有（输入的归属）
+        keyIgnoreMask = mask;
+        debugPrint('[KEYIGNORE] mask=$mask');
       case UnitStateOp(:final kind, :final arg):
         // `REMU`/`REVEAL`/`SET_STATE`：按**角色编号**找单位（负数 = 事件槽 2）
         final pid = arg < 0 ? (scene?.slotInt(2) ?? -1) : arg;
@@ -5466,6 +5479,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 最近一次「踊る」的记录（判据用）
   Map<String, Object?>? lastDance;
+
+  /// 被 `IGNORE_KEYS` 掩码吞掉的输入次数（判据用）
+  int ignoredInputCount = 0;
+
+  /// `IGNORE_KEYS` 的屏蔽掩码（**游戏侧**真正生效的那份；位见 `include/gba/io_reg.h:663-672`）
+  int keyIgnoreMask = 0;
 
   /// 最近一次「盗む」的记录（判据用）
   Map<String, Object?>? lastSteal;

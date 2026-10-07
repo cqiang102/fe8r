@@ -211,6 +211,15 @@ def stmt(op, A):
         arg = num(a) if isinstance(a, int) else lit(a)
         return (f"s.checkSlot('alive', {arg});", True)
 
+    # 输入屏蔽：`IGNORE_KEYS` = `EvtSetKeyIgnore(mask)`（`include/eventscript.h:623`）
+    #   ⇒ `SetKeyStatus_IgnoreMask(mask)`（`src/SetKeyStatus_IgnoreMask.c:7-10`）
+    # 掩码的位见 `include/gba/io_reg.h:663-672`。
+    if op == "IGNORE_KEYS":
+        a = A[0] if A else 0
+        if isinstance(a, int):
+            return (f"s.setKeyIgnore({num(a)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 帧等待（`EV_CMD_STALL`，`src/eventscr_0800DD9C.c:9-31` 的 `Event0E_STAL`）：
     #   `STAL1` = `EvtSleepWithCancel`   ⇒ subcode 奇数：**可取消**
     #             （源码 `subcode & 1` 时，看跳过位或 **B 键**就提前结束）

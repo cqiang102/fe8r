@@ -8832,7 +8832,7 @@ Future<void> Ch19A_11(Scene s) async {
 /// `EventScr_Ch1Tut_AfterSethBattleEirikaVisit`
 Future<void> Ch1Tut_AfterSethBattleEirikaVisit(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('EvtEnqueueCallDirectly');
     return;
 }
@@ -8840,13 +8840,13 @@ Future<void> Ch1Tut_AfterSethBattleEirikaVisit(Scene s) async {
 /// `EventScr_Ch1Tut_AfterSethMoveToEnemy`
 Future<void> Ch1Tut_AfterSethMoveToEnemy(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2322);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.placeholder('DISABLEWEAPONS');
     s.enqueueTutCall(5, Sym('EventScr_Ch1Tut_GuideOnBKSEL'));
     return;
@@ -8869,7 +8869,7 @@ Future<void> Ch1Tut_AfterTrade(Scene s) async {
 /// `EventScr_Ch1Tut_BeforeSethMoveToEnemy`
 Future<void> Ch1Tut_BeforeSethMoveToEnemy(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 393225);
     s.placeholder('SENQUEUE1');
@@ -8883,7 +8883,7 @@ Future<void> Ch1Tut_BeforeSethMoveToEnemy(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -8915,14 +8915,14 @@ Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
 /// `EventScr_Ch1Tut_EirikaVisitHouseEnd`
 Future<void> Ch1Tut_EirikaVisitHouseEnd(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2305);
     await s.textEnd();
     s.textRemoveAll();
     s.evBitMod('flag', true, 207);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Ch1Tut_GuideTerrainHeal'));
     return;
 }
@@ -8954,7 +8954,7 @@ Future<void> Ch1Tut_EirikaVisitHouseIdle1(Scene s) async {
 /// `EventScr_Ch1Tut_EirikaVisitHouseIdle2`
 Future<void> Ch1Tut_EirikaVisitHouseIdle2(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 393229);
     s.placeholder('SENQUEUE1');
@@ -8968,7 +8968,7 @@ Future<void> Ch1Tut_EirikaVisitHouseIdle2(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -9043,13 +9043,13 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
 /// `EventScr_Ch1Tut_GuideOnBKSEL`
 Future<void> Ch1Tut_GuideOnBKSEL(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(256);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 1048660);
     await s.textShow(2321);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Ch1Tut_AfterSethBattleEirikaVisit'));
     s.evBitMod('evbit', true, 7);
     return;
@@ -9057,7 +9057,7 @@ Future<void> Ch1Tut_GuideOnBKSEL(Scene s) async {
 
 /// `EventScr_Ch1Tut_GuideTerrainHeal`
 Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.showCursorAt(7, 7, flashing: true);
     s.showCursorAt(7, 2, flashing: true);
     s.showCursorAt(2, 2, flashing: true);
@@ -9145,13 +9145,13 @@ Future<void> Ch1Tut_SethMoveToEnemy(Scene s) async {
 /// `EventScr_Ch1Tut_TradeSelectGalliamEnd`
 Future<void> Ch1Tut_TradeSelectGalliamEnd(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2312);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.evBitMod('flag', true, 135);
     s.enqueueTutCall(4, Sym('EventScr_Ch1Tut_AfterTrade'));
     return;
@@ -9178,14 +9178,14 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle1(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle1'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec0'));
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(1022);
     return;
 }
 
 /// `EventScr_Ch1Tut_TradeSelectGalliamIdle2`
 Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 131080);
     s.placeholder('SENQUEUE1');
@@ -9199,7 +9199,7 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -9399,7 +9399,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
 
 /// `EventScr_Ch1_Loca_Visit1`
 Future<void> Ch1_Loca_Visit1(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('MUSI');
     s.setSlot(2, 0);
     s.setSlot(3, 2299);
@@ -9976,14 +9976,14 @@ Future<void> Ch2Tutorial11(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial11'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec0'));
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(1022);
     return;
 }
 
 /// `EventScr_Ch2Tutorial12`
 Future<void> Ch2Tutorial12(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262152);
     s.placeholder('SENQUEUE1');
@@ -9997,7 +9997,7 @@ Future<void> Ch2Tutorial12(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -10011,7 +10011,7 @@ Future<void> Ch2Tutorial13(Scene s) async {
 /// `EventScr_Ch2Tutorial14`
 Future<void> Ch2Tutorial14(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('MUSC');
     s.placeholder('TEXTSTART');
     await s.textShow(2334);
@@ -10028,7 +10028,7 @@ Future<void> Ch2Tutorial14(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.endCursor();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
@@ -10036,7 +10036,7 @@ Future<void> Ch2Tutorial14(Scene s) async {
 /// `EventScr_Ch2Tutorial15`
 Future<void> Ch2Tutorial15(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262153);
     s.placeholder('SENQUEUE1');
@@ -10049,7 +10049,7 @@ Future<void> Ch2Tutorial15(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial15'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -10062,7 +10062,7 @@ Future<void> Ch2Tutorial16(Scene s) async {
 
 /// `EventScr_Ch2Tutorial17`
 Future<void> Ch2Tutorial17(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('EvtEnqueueCallDirectly');
     s.evBitMod('flag', true, 184);
     s.evBitMod('evbit', true, 7);
@@ -10091,7 +10091,7 @@ Future<void> Ch2Tutorial18(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial18'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec0'));
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(1022);
     return;
 }
 
@@ -10100,7 +10100,7 @@ Future<void> Ch2Tutorial19(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.placeholder('ASMC');
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.enqueueTutCall(4, Sym('EventScr_Ch2Tutorial20'));
     return;
 }
@@ -10108,7 +10108,7 @@ Future<void> Ch2Tutorial19(Scene s) async {
 /// `EventScr_Ch2Tutorial2`
 Future<void> Ch2Tutorial2(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 327689);
     s.placeholder('SENQUEUE1');
@@ -10122,27 +10122,27 @@ Future<void> Ch2Tutorial2(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
 /// `EventScr_Ch2Tutorial20`
 Future<void> Ch2Tutorial20(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670032);
     await s.textShow(2362);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Ch2Tutorial21'));
     return;
 }
 
 /// `EventScr_Ch2Tutorial21`
 Future<void> Ch2Tutorial21(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TEXTSTART');
     await s.textShow(2335);
     await s.textEnd();
@@ -10162,7 +10162,7 @@ Future<void> Ch2Tutorial21(Scene s) async {
 
 /// `EventScr_Ch2Tutorial22`
 Future<void> Ch2Tutorial22(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.showCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
@@ -10211,7 +10211,7 @@ Future<void> Ch2Tutorial23(Scene s) async {
 /// `EventScr_Ch2Tutorial24`
 Future<void> Ch2Tutorial24(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 131076);
     s.placeholder('SENQUEUE1');
@@ -10225,27 +10225,27 @@ Future<void> Ch2Tutorial24(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
 /// `EventScr_Ch2Tutorial25`
 Future<void> Ch2Tutorial25(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670032);
     await s.textShow(2371);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Ch2Tutorial26'));
     return;
 }
 
 /// `EventScr_Ch2Tutorial26`
 Future<void> Ch2Tutorial26(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(2, Sym('EventScr_Ch2_Village2', 160));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('DISABLEOPTIONS');
@@ -10282,7 +10282,7 @@ Future<void> Ch2Tutorial27(Scene s) async {
 /// `EventScr_Ch2Tutorial28`
 Future<void> Ch2Tutorial28(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262150);
     s.placeholder('SENQUEUE1');
@@ -10296,20 +10296,20 @@ Future<void> Ch2Tutorial28(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
 /// `EventScr_Ch2Tutorial29`
 Future<void> Ch2Tutorial29(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670032);
     await s.textShow(2375);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Ch2Tutorial30'));
     return;
 }
@@ -10317,20 +10317,20 @@ Future<void> Ch2Tutorial29(Scene s) async {
 /// `EventScr_Ch2Tutorial3`
 Future<void> Ch2Tutorial3(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670088);
     await s.textShow(2354);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(2, Sym('EventScr_Ch2Tutorial4'));
     return;
 }
 
 /// `EventScr_Ch2Tutorial30`
 Future<void> Ch2Tutorial30(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(2, Sym('EventScr_Ch2_9'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('DISABLEOPTIONS');
@@ -10341,7 +10341,7 @@ Future<void> Ch2Tutorial30(Scene s) async {
 /// `EventScr_Ch2Tutorial4`
 Future<void> Ch2Tutorial4(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('MUSI');
     s.placeholder('TEXTSTART');
     await s.textShow(2333);
@@ -10358,7 +10358,7 @@ Future<void> Ch2Tutorial4(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.endCursor();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.placeholder('EvtEnqueueConditionalTutCall');
     return;
 }
@@ -10366,7 +10366,7 @@ Future<void> Ch2Tutorial4(Scene s) async {
 /// `EventScr_Ch2Tutorial5`
 Future<void> Ch2Tutorial5(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262152);
     s.placeholder('SENQUEUE1');
@@ -10379,7 +10379,7 @@ Future<void> Ch2Tutorial5(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial5'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -10392,7 +10392,7 @@ Future<void> Ch2Tutorial6(Scene s) async {
 
 /// `EventScr_Ch2Tutorial7`
 Future<void> Ch2Tutorial7(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('EvtEnqueueCallDirectly');
     s.evBitMod('flag', true, 184);
     s.evBitMod('evbit', true, 7);
@@ -10426,7 +10426,7 @@ Future<void> Ch2Tutorial8(Scene s) async {
 /// `EventScr_Ch2Tutorial9`
 Future<void> Ch2Tutorial9(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 196615);
     s.placeholder('SENQUEUE1');
@@ -10440,7 +10440,7 @@ Future<void> Ch2Tutorial9(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -10930,7 +10930,7 @@ Future<void> Ch2_Village1(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('IGNORE_KEYS');
+          s.setKeyIgnore(0);
           pc = 1;
           continue;
         case 1:
@@ -17305,7 +17305,7 @@ Future<void> Prologue_Tutorial0(Scene s) async {
 /// `EventScr_Prologue_Tutorial1`
 Future<void> Prologue_Tutorial1(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 327684);
     s.placeholder('SENQUEUE1');
@@ -17319,7 +17319,7 @@ Future<void> Prologue_Tutorial1(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -17333,7 +17333,7 @@ Future<void> Prologue_Tutorial2(Scene s) async {
 /// `EventScr_Prologue_Tutorial3`
 Future<void> Prologue_Tutorial3(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     await s.call(Sym('EventScr_Prologue_GiveRapier'));
     s.placeholder('SET_ENDTURN');
     s.evBitMod('flag', true, 183);
@@ -17343,7 +17343,7 @@ Future<void> Prologue_Tutorial3(Scene s) async {
 /// `EventScr_Prologue_Tutorial4`
 Future<void> Prologue_Tutorial4(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
     s.placeholder('SENQUEUE1');
@@ -17362,7 +17362,7 @@ Future<void> Prologue_Tutorial4(Scene s) async {
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial4'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec0'));
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(1022);
     return;
 }
 
@@ -17371,7 +17371,7 @@ Future<void> Prologue_Tutorial5(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.placeholder('ASMC');
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(4, Sym('EventScr_Prologue_Tutorial6'));
     return;
 }
@@ -17379,13 +17379,13 @@ Future<void> Prologue_Tutorial5(Scene s) async {
 /// `EventScr_Prologue_Tutorial6`
 Future<void> Prologue_Tutorial6(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 3670040);
     await s.textShow(2272);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(5, Sym('EventScr_Prologue_Tutorial7'));
     return;
 }
@@ -17393,20 +17393,20 @@ Future<void> Prologue_Tutorial6(Scene s) async {
 /// `EventScr_Prologue_Tutorial7`
 Future<void> Prologue_Tutorial7(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(256);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 2097164);
     await s.textShow(2273);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Prologue_Tutorial8'));
     return;
 }
 
 /// `EventScr_Prologue_Tutorial8`
 Future<void> Prologue_Tutorial8(Scene s) async {
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('CUMO_CHAR');
     await s.stall(60);
     await s.endCursor();
@@ -17471,7 +17471,7 @@ Future<void> Prologue_TutorialA(Scene s) async {
 /// `EventScr_Prologue_TutorialB`
 Future<void> Prologue_TutorialB(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 393224);
     s.placeholder('SENQUEUE1');
@@ -17485,7 +17485,7 @@ Future<void> Prologue_TutorialB(Scene s) async {
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.placeholder('DISABLEOPTIONS');
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     return;
 }
 
@@ -17499,13 +17499,13 @@ Future<void> Prologue_TutorialC(Scene s) async {
 /// `EventScr_Prologue_TutorialD`
 Future<void> Prologue_TutorialD(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(256);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 2097232);
     await s.textShow(2278);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(266);
     s.enqueueTutCall(1, Sym('EventScr_Prologue_TutorialE'));
     s.evBitMod('evbit', true, 7);
     return;
@@ -17514,7 +17514,7 @@ Future<void> Prologue_TutorialD(Scene s) async {
 /// `EventScr_Prologue_TutorialE`
 Future<void> Prologue_TutorialE(Scene s) async {
     s.evBitMod('evbit', true, 7);
-    s.placeholder('IGNORE_KEYS');
+    s.setKeyIgnore(0);
     s.placeholder('TUTORIALTEXTBOXSTART');
     s.setSlot(11, 4294967295);
     await s.textShow(2279);

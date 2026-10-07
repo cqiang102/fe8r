@@ -47,6 +47,36 @@ enum FlowPhase {
 ///
 /// 只放**已经实现**的项：原版还有 道具 / 交换 / 救出 / 再移动 等，
 /// 属于后续里程碑。这里放一个做不了的选项只会让玩家点了没反应。
+/// GBA 键位（`include/gba/io_reg.h:663-672`）—— `IGNORE_KEYS` 的掩码用这些位
+const int kKeyA = 0x0001;
+const int kKeyB = 0x0002;
+const int kKeySelect = 0x0004;
+const int kKeyStart = 0x0008;
+const int kKeyRight = 0x0010;
+const int kKeyLeft = 0x0020;
+const int kKeyUp = 0x0040;
+const int kKeyDown = 0x0080;
+const int kKeyR = 0x0100;
+const int kKeyL = 0x0200;
+
+/// `FlowInput` → GBA 键位（`include/gba/io_reg.h:663-672`）
+///
+/// `IGNORE_KEYS`（`EvtSetKeyIgnore` ⇒ `SetKeyStatus_IgnoreMask`，
+/// `src/SetKeyStatus_IgnoreMask.c:7-10`）的掩码就是这些位；
+/// 游戏在输入入口按它吞键。放在这里是因为 `FlowInput` 定义在本文件。
+int keyBitOf(FlowInput i) => switch (i) {
+      FlowInput.confirm => kKeyA,
+      FlowInput.cancel => kKeyB,
+      FlowInput.up => kKeyUp,
+      FlowInput.down => kKeyDown,
+      FlowInput.left => kKeyLeft,
+      FlowInput.right => kKeyRight,
+      // `endTurn`（地图上的"结束回合"）对应 START 键
+      FlowInput.endTurn => kKeyStart,
+      // 其余（`startDialogue` / `start` 等）不是实体键或暂不参与屏蔽 ⇒ 0
+      _ => 0,
+    };
+
 enum ActionOption {
   wait('待机'),
   attack('攻击'),

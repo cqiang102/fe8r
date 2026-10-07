@@ -347,6 +347,13 @@ class WaitForInput extends SceneEvent {
 /// `SetFlag` / `ClearFlag`（章节旗）—— 由 `ENUT`/`ENUF` 产生
 ///
 /// 出处：`src/Event02_EvBitAndIdMod.c:31-34`（`sub_cmd_lo == 1` 那一支）。
+/// `IGNORE_KEYS` —— 输入屏蔽掩码（游戏侧生效）
+class KeyIgnore extends SceneEvent {
+  const KeyIgnore(this.mask);
+
+  final int mask;
+}
+
 /// `REMU` / `REVEAL` / `SET_STATE` —— 单单位状态
 class UnitStateOp extends SceneEvent {
   const UnitStateOp({required this.kind, required this.arg});
@@ -733,6 +740,20 @@ class Scene {
             scriptName: currentScript,
             subcmd: subcmd),
       );
+
+  /// `IGNORE_KEYS`（`EvtSetKeyIgnore`，`include/eventscript.h:623`）
+  /// ⇒ `SetKeyStatus_IgnoreMask(mask)`（`src/SetKeyStatus_IgnoreMask.c:7-10`：
+  /// 就是把参数存进 `gKeyStatusIgnoredSt`）。
+  ///
+  /// 位值来自 `include/gba/io_reg.h:663-672`（见 [keyBit]）。游戏在输入入口查这个掩码。
+  int ignoredKeyMask = 0;
+
+  /// ⚠️ **发事件**而不是只改自己的字段：输入的所有者是**游戏**层，
+  /// 场景存一份没有意义（游戏查不到）。两处都留（场景侧供转储、游戏侧真正生效）。
+  void setKeyIgnore(int mask) {
+    ignoredKeyMask = mask;
+    onEvent(KeyIgnore(mask));
+  }
 
   /// `STAL` / `STAL1` / `STAL2`：按帧等待（`EV_CMD_STALL`，`src/eventscr_0800DD9C.c:9-31`）
   ///

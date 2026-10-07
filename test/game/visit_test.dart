@@ -88,4 +88,44 @@ void main() {
     await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(g.lastVisit, isNull, reason: '平地不该能訪問');
   });
+  _keyIgnoreTests();
+}
+
+// ★ `IGNORE_KEYS`（`EvtSetKeyIgnore` ⇒ `SetKeyStatus_IgnoreMask`，
+// `src/SetKeyStatus_IgnoreMask.c:7-10`；位见 `include/gba/io_reg.h:663-672`）
+void _keyIgnoreTests() {
+  test('★ 屏蔽 A 键 ⇒ 确认输入被吞掉（计数 +1，状态不变）；掩码为 0 ⇒ 又正常', () {
+    final g = Fe8Game();
+    g.loadRuleData();
+    final map = villageMap();
+    final f = BattleField(width: 4, height: 4, units: [
+      MapUnit(id: 1, faction: 0, x: 1, y: 1, hp: 20, maxHp: 20),
+    ]);
+    g.map = map;
+    g.field = f;
+    g.flow = FlowMachine(
+        map: map, costsOf: (u) => MovementCostTable(List<int>.filled(64, 1)));
+    g.state = FlowState(phase: FlowPhase.freeCursor, cursorX: 1, cursorY: 1);
+    g.playConfig.disableAutoEndTurns = true;
+
+    // 不屏蔽：确认键正常选中
+    g.routeInput(FlowInput.confirm);
+    expect(g.state!.selectedUnitId, 1, reason: '掩码为 0 时输入正常');
+
+    // 屏蔽 A 键（= 确认）
+    g.keyIgnoreMask = kKeyA;
+    final before = g.state!.phase;
+    g.routeInput(FlowInput.confirm);
+    expect(g.dumpState()['ignoredInputCount'], 1,
+        reason: '★ 被掩码吞掉的输入要**计数**（这是判据）');
+    expect(g.state!.phase, before, reason: '状态不该变');
+
+    // 屏蔽 B 键不该影响 confirm；清掉掩码后一切恢复
+    g.keyIgnoreMask = kKeyB;
+    g.routeInput(FlowInput.confirm);
+    expect(g.dumpState()['ignoredInputCount'], 1, reason: 'B 键的掩码不吞 confirm');
+    g.keyIgnoreMask = 0;
+    g.routeInput(FlowInput.cancel);
+    expect(g.dumpState()['ignoredInputCount'], 1);
+  });
 }
