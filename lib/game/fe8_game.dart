@@ -445,6 +445,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 和"命中了但脚本名为 null"在转储里长得一模一样。
       'objectivesNote': _objectivesNote,
       'turnEventsNote': _turnEventsNote,
+      'specialEventsNote': _specialEventsNote,
+      'specialEventFired': _specialEventFired,
       'endEventNote': _endEventNote,
       'talksNote': _talksNote,
       'mapMenu': mapMenu == null
@@ -1168,6 +1170,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
 
     final r = fl.advance(s, f, i);
+
+    // ★ 三个触发点（原作分别在"选中单位 / 确定目的地 / 移动完成"之后调用）
+    //   `src/TryCallSelectEvents.c` / `src/StartDestSelectedEvent.c` /
+    //   `src/StartAfterUnitMovedEvent.c`。不 await：它们要演事件。
+    unawaited(_fireSpecialTriggers(s, r));
 
     // 提交一次移动
     if (r.committedMove && s.selectedUnitId != null) {
@@ -2079,6 +2086,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ChapterObjectives? _turnEvents;
   String _turnEventsNote = '';
 
+  /// ★ 三个**专门的**事件表（原来一张都没读，所以这三类剧情对话一条都不演）
+  ///
+  /// 出处：`TryCallSelectEvents`（`src/TryCallSelectEvents.c:14-30`）、
+  /// `StartDestSelectedEvent`（`src/StartDestSelectedEvent.c`）、
+  /// `StartAfterUnitMovedEvent`（`src/StartAfterUnitMovedEvent.c`）
+  /// —— 三者都先 `RunTutorialEvent(...)`，再搜自己那张表。
+  ChapterObjectives? _selectEvents;
+  ChapterObjectives? _destEvents;
+  ChapterObjectives? _movedEvents;
+  String _specialEventsNote = '';
+  String _specialEventFired = '';
+
   void _loadObjectives() {
     // ① 事件列表：章节 → Misc 列表
     final ef = File('tools/pipeline/out/tables/event_lists.json');
@@ -2121,6 +2140,27 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           _turnEvents = null;
           _turnEventsNote = '第 $sceneChapter 章没有 Turn 列表（找的是 $tkey）';
         }
+
+        // ★ 三张"专属"事件表：`specialEventsWhenUnitSelected` /
+        // `...DestSelected` / `...AfterUnitMoved`（字段名见 `chapter_links.json`）。
+        //
+        // ⚠️ 之前**一张都没读**：序章教学链第一环 `T0`（`execType = 2` = ONSELECT）
+        // 入队后永远不触发 —— 这正是用户说的"对话触发不对"。
+        final evGroup =
+            _eventGroups[ev] as Map<String, dynamic>?; // 事件组字段表
+        ChapterObjectives? pick(String field) {
+          final n = evGroup?[field];
+          if (n is! String) return null;
+          final raw = lists[n];
+          return raw is List ? ChapterObjectives.fromJson(raw) : null;
+        }
+
+        _selectEvents = pick('specialEventsWhenUnitSelected');
+        _destEvents = pick('specialEventsWhenDestSelected');
+        _movedEvents = pick('specialEventsAfterUnitMoved');
+        _specialEventsNote = '专属事件表：选中 ${_selectEvents?.entries.length ?? "-"} 条 / '
+            '目的地 ${_destEvents?.entries.length ?? "-"} 条 / '
+            '移动后 ${_movedEvents?.entries.length ?? "-"} 条';
       }
     }
 
@@ -3635,6 +3675,61 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   @visibleForTesting
   Future<void> worldMapConfirmForTest() => worldMapConfirm();
+
+  /// 三个专用触发点（选中 / 目的地 / 移动后）。
+  ///
+  /// 每个都照源码的顺序：**先教学钩子**（`RunTutorialEvent`），再搜自己的事件表。
+  /// 三张表在各自函数里都有 **skirmish 守卫**（`GetBattleMapKind() ==
+  /// BATTLEMAP_KIND_SKIRMISH` 直接返回 0）——我们只在**确认是遭遇战**时跳过，
+  /// 章节种类未查证的按剧情处理（并记账，见 `battle_map_kind.dart`）。
+  Future<void> _fireSpecialTriggers(FlowState before, FlowResult r) async {
+    if (_isSkirmishChapter) return;
+
+    // ① 选中单位（`TryCallSelectEvents.c:14-30`）
+    if (before.phase != FlowPhase.unitSelected &&
+        r.state.phase == FlowPhase.unitSelected) {
+      await _runTutorial(TutorialEvtType.onSelect.id);
+      await _runSpecialList('选中', _selectEvents, all: true);
+    }
+
+    // ② 目的地确定（`StartDestSelectedEvent`）与
+    // ③ 移动完成（`StartAfterUnitMovedEvent`，`src/playerphase.c:94`：
+    //    移动结算完、**行动菜单打开之前**）
+    if (r.committedMove) {
+      await _runTutorial(TutorialEvtType.destSelected.id);
+      await _runSpecialList('目的地', _destEvents, all: false);
+      await _runTutorial(TutorialEvtType.afterMove.id);
+      await _runSpecialList('移动后', _movedEvents, all: false);
+    }
+  }
+
+  /// 章节是不是**遭遇战**（`GetBattleMapKind() == BATTLEMAP_KIND_SKIRMISH`）。
+  ///
+  /// 章节种类只有三个章节被验证过（`battle_map_kind.dart`），其余返回 `null`
+  /// ⇒ 这里当"不是遭遇战"（照剧情走），并把未查证这件事留在转储里。
+  bool get _isSkirmishChapter =>
+      battleMapKindOf(sceneChapter) == BattleMapKind.skirmish;
+
+  /// 搜一张专用事件表并演出命中项。
+  ///
+  /// [all] = true 时演**全部**命中（`TryCallSelectEvents` 是 `while` 循环），
+  /// 否则只演第一条（另两个函数是 `if (SearchAvailableEvent(...))`）。
+  Future<void> _runSpecialList(
+    String what,
+    ChapterObjectives? list, {
+    required bool all,
+  }) async {
+    if (list == null) return;
+    var hits = list.allAfevMatches(hasFlag: eventFlags.contains);
+    if (!all) hits = hits.take(1).toList();
+    for (final hit in hits) {
+      if (hit.doneFlag != 0) eventFlags.add(hit.doneFlag);
+      final name = hit.script;
+      if (name == null) continue;
+      _specialEventFired = '$what：$name';
+      await _runNamedScript(name);
+    }
+  }
 
   /// 显示"我方回合 / 敌军回合 / 友军回合"横幅
   ///

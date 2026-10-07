@@ -141,6 +141,18 @@ class ChapterObjective {
   bool get isEnd => cmd == EventListCmd.end;
   bool get isTurn => cmd == EventListCmd.turn;
 
+  /// `FLAG`（cmd 1）—— 检查函数是 `EvCheck01_AFEV`（`src/eventinfo_08085B30.c:56-66`）
+  ///
+  /// ```c
+  /// if (listScript->unk8 == 0 || listScript->unk8 == 100
+  ///     || CheckFlag(listScript->unk8) == 1) { info->flag = ...; return 1; }
+  /// ```
+  /// ⇒ **`checkFlag == 0` 时永远成立**（"总触发"条目）。
+  ///
+  /// ⚠️ 这条映射**不是猜的**：胜利条件那条链（`EventScr_Prologue_EndingScene`
+  /// 在 `EVFLAG_WIN = 2` 时触发）用的就是它，`chapter_flow_test` 机器验证过。
+  bool get isFlagGate => cmd == EventListCmd.flag;
+
   /// `EvCheck02_TURN`（`src/eventinfo_08085B30.c:69-88`）的判定
   ///
   /// ```c
@@ -203,6 +215,27 @@ class ChapterObjectives {
   /// 调用时机：`BmMain_ChangePhase` → `RunPhaseSwitchEvents`
   /// （`src/bm_08015434.c:88-90`）—— **每次阶段切换后**用它搜
   /// `turnBasedEvents` 表；命中就把脚本演出来并置上 `doneFlag`。
+  /// `TryCallSelectEvents` / `StartDestSelectedEvent` / `StartAfterUnitMovedEvent`
+  /// 用的搜索：这三张表里是 `FLAG` 条目，**全部命中都要演**（SELECT 是 while 循环）。
+  ///
+  /// 出处：`src/TryCallSelectEvents.c:21-29`（`while (SearchAvailableEvent(...))`）、
+  ///       `src/StartDestSelectedEvent.c:22-27`、`src/StartAfterUnitMovedEvent.c:22-27`
+  ///       （后两个只取一条 —— 调用方自己 `take(1)`）。
+  List<ChapterObjective> allAfevMatches({
+    required bool Function(int flag) hasFlag,
+  }) {
+    final out = <ChapterObjective>[];
+    for (final e in entries) {
+      if (e.isEnd) break;
+      if (!e.isFlagGate) continue;
+      if (e.doneFlag != 0 && hasFlag(e.doneFlag)) continue;
+      if (e.checkFlag == 0 || e.checkFlag == 100 || hasFlag(e.checkFlag)) {
+        out.add(e);
+      }
+    }
+    return out;
+  }
+
   ChapterObjective? firstTurnMatch({
     required int turn,
     required int faction,

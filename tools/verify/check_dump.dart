@@ -339,9 +339,13 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     // → `EnqueueTutEvent` → `counter = 1`（下标 0 + 1）、`execType = 2`（ONSELECT）。
     // ⚠️ 这一条**原来恒为 0**：整条命令是 `s.placeholder('EvtEnqueueConditionalTutCall')`。
     final tut = d['tutorial'] as Map<String, dynamic>?;
-    ok(tut?['counter'] == 1 && tut?['execType'] == 2,
-        '教学链第一环已入队（T0 / type 2 = ONSELECT，等着"选中单位"那个钩子）',
-        'tutorial=$tut last=${d['lastTutorialFired']}');
+    // ⚠️ 这条**改过语义**：原来钉的是"T0 入队了、但永远等着 ONSELECT 钩子"
+    // （`counter == 1`、`lastTutorialFired == null`）。`TryCallSelectEvents` 那条
+    // 钩子接上之后，选中单位就会把 T0 **演掉** ⇒ 现在钉"已触发"。
+    // 这正是"判据会随实现推进而变"的正常形态 —— 但它必须是**改判据**，不是删判据。
+    ok('${d['lastTutorialFired']}'.startsWith('EventScr_Prologue_Tutorial'),
+        '教学链第一环**已触发**（选中单位 → ONSELECT）',
+        'last=${d['lastTutorialFired']} tutorial=$tut');
     ok((d['tutorialNote'] as String? ?? '').isEmpty,
         '教学事件没有出错（入队失败 / 脚本缺函数 / 表缺失都会写这里）',
         'tutorialNote=${d['tutorialNote']}');
@@ -366,6 +370,16 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         'count=${r?['count']}');
     // 山峰不可通行：序章地图有 101 格山峰，可达格列表里一个都不该有
     final tiles = ((r?['tiles'] as List?) ?? const []).cast<String>();
+    // ★ 选中单位必须触发教学链的第一环（`TryCallSelectEvents.c:33`）
+    //
+    // 序章的 `T0` 是 `execType = 2`（ONSELECT）：**原来这一环永远不触发**
+    // （`lastTutorialFired` 恒为 null），因为"选中单位"这个触发点根本没接。
+    // 这就是用户说的"对话触发不对"。
+    ok(d['lastTutorialFired'] == 'EventScr_Prologue_Tutorial0',
+        '选中单位触发了教学链第一环 T0（ONSELECT）',
+        'lastTutorialFired=${d['lastTutorialFired']} tutorial=${d['tutorial']}');
+    ok(d['specialEventsNote'] != null && '${d['specialEventsNote']}'.contains('选中'),
+        '三张专属事件表已载入', 'specialEventsNote=${d['specialEventsNote']}');
     ok(tiles.contains('4,3') && tiles.contains('2,4'),
         '相邻可走格在可达列表里（(4,3) 与 (2,4)）',
         'tiles=${tiles.take(8).toList()}…（共 ${tiles.length}）');
@@ -763,6 +777,10 @@ Map<String, dynamic> goodRangeDump() {
     'count': 20,
     'tiles': <String>['0,0', '4,3', '2,4'],
   };
+  d['lastTutorialFired'] = 'EventScr_Prologue_Tutorial0';
+  d['tutorial'] = <String, Object?>{'counter': 0, 'execType': 0, 'pending': false};
+  d['specialEventsNote'] = '专属事件表：选中 1 条 / 目的地 1 条 / 移动后 1 条';
+  d['specialEventFired'] = '';
   return d;
 }
 
@@ -796,9 +814,10 @@ Map<String, dynamic> goodTurnEndDump() {
   d['phaseBanner'] = '';
   d['waitingFor'] = 'input:freeCursor';
   d['tutorialTableSize'] = 15;
-  d['tutorial'] = <String, Object?>{'counter': 1, 'execType': 2, 'pending': true};
+  // 教学链在 turnend 里**已经走过去一环**了（选中单位 → T0 演掉）
+  d['tutorial'] = <String, Object?>{'counter': 0, 'execType': 0, 'pending': false};
   d['tutorialNote'] = '';
-  d['lastTutorialFired'] = null;
+  d['lastTutorialFired'] = 'EventScr_Prologue_Tutorial0';
   for (final u in (d['units'] as List).cast<Map<String, dynamic>>()) {
     u['hasActed'] = false;
     if (u['faction'] == 0x80) u['x'] = 9; // 敌方已经离开出生列 x=14
@@ -840,9 +859,13 @@ Map<String, Map<String, dynamic>> brokenTurnEndDumps() {
   h['turnLoopNote'] = '转满 6 步没回到我方阶段';
   out['阶段循环转满了 6 步'] = h;
 
+  // "教学链第一环没触发"—— 这正是 `TryCallSelectEvents` 钩子接上**之前**的真实现状
+  // （T0 入队了、`lastTutorialFired` 恒为 null）。改这条坏转储是因为
+  // 我把 turnend 的断言从"入队了"改成了"已触发"：**断言改了，证伪样本也要改**，
+  // 否则新断言就是一条永远不会红的死断言（R7 的教训）。
   final i = goodTurnEndDump();
-  i['tutorial'] = <String, Object?>{'counter': 0, 'execType': 0, 'pending': false};
-  out['教学事件一条都没入队（占位符那版）'] = i;
+  i['lastTutorialFired'] = null;
+  out['教学链第一环没触发（钩子没接的那版）'] = i;
 
   final j = goodTurnEndDump();
   j['tutorialTableSize'] = 0;
