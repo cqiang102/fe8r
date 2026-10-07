@@ -210,4 +210,59 @@ void main() {
     expect(eirika.hp, eirikaBefore,
         reason: '单次 attack 只结算一次攻击（反击由 resolveCombat 决定）');
   });
+
+  test('★ 最后一个能动的单位用**攻击**结束行动 → 阶段必须自动结束', () {
+    // 用户报：「回合终了 和 我方全部行动完成结束 有 bug」。
+    //
+    // 原因是这条：`PlayerPhase_HandleAutoEnd` 只在**待机**那条路上被调过
+    // （`if (r.committedMove && r.attack == null) _afterUnitAction();`），
+    // 而唯一的调用点把**攻击**排除了 —— 注释说"延到 `_attackWithQuote` 里"，
+    // 但 `_attackWithQuote` 根本没调。
+    //
+    // ⇒ 用攻击收尾时阶段不会自动结束，只能靠菜单「終了」。
+    //
+    // 源码依据（proc 脚本即源码）：`dat_ProcScr_uistuff148_ref.c:285-290`
+    //   `ApplyUnitAction; HandlePostActionTraps; RunPotentialWaitEvents;
+    //    … PlayerPhase_FinishAction; PROC_GOTO(0)`
+    // → label 0（`:258-265`）
+    //   `… PROC_WHILE(EventEngineExists); PlayerPhase_HandleAutoEnd`
+    // **攻击与待机是同一条尾巴。**
+    final game = loadTables();
+    game.field = BattleField(width: 15, height: 10, units: []);
+    game.loadUnitsForTest('UnitDef_Event_PrologueAlly', 1);
+    game.loadUnitsForTest('UnitDef_Event_PrologueEnemy', 1);
+
+    final f = game.field!;
+    final seth = f.units.firstWhere((u) => u.charIndex == 2);
+    final eirika = f.units.firstWhere((u) => u.charIndex == 1);
+    final oneill = f.units.firstWhere((u) => u.charIndex == 104);
+
+    // 艾莉卡先待机 → 赛特成为**最后一个**还能动的我方单位
+    f.finishUnit(eirika);
+    expect(f.phaseAbleCount(Faction.blue), 1,
+        reason: '现在只剩赛特能动（自动结束的判据就是他行动完之后 == 0）');
+
+    // 把赛特挪到奥尼尔旁边（移动本身不是这条判据要测的东西）
+    f.moveUnit(seth, oneill.x - 1, oneill.y);
+    // ⚠️ 顺序要与真实路径一致：输入处理器是 **先 `moveUnit` + `finishUnit`，
+    //    再 `_attackWithQuote`**（`fe8_game.dart` 的 `committedMove` 分支）。
+    //    `finishUnit` 不在这条调用里做 —— 少写这一句，判据测的就不是真实路径。
+    f.finishUnit(seth);
+    // 赛特拿的是铁剑；给奥尼尔留够 HP，这一下打不死（不然会走结束剧情那条路）
+    game.rng.initRn(1);
+
+    final turnBefore = f.turn;
+    expect(turnBefore, 1);
+
+    // 走**真实**的攻击路径（`_attackWithQuote` → `_afterUnitAction`）
+    expect(game.autoEndTriggersForTest, 0, reason: '攻击之前没人判定过自动结束');
+    expect(turnBefore, 1);
+
+    return game.attackWithQuoteForTest(seth, oneill).then((_) {
+      expect(oneill.hp, lessThan(oneill.maxHp), reason: '这一下真的打到了');
+      expect(game.autoEndTriggersForTest, 1,
+          reason: '最后一个能动的单位行动完（这里是**攻击**）→ '
+              '`PlayerPhase_HandleAutoEnd` 必须被求值到一次');
+    });
+  });
 }

@@ -466,6 +466,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'menuend'],
           note: 'START → 5×down → 确认 → 第 2 回合、菜单关闭',
           requires: ['tools/verify/scenario.sh']),
+      // 两条回合结束各走一遍：菜单「終了」+ 全部行动完自动结束
+      Step('L4', '端到端场景（两条回合结束）', 'bash',
+          ['tools/verify/scenario.sh', 'turnend'],
+          note: 'turn1 菜单終了 → turn2 两人待机自动结束 → turn3/无人"已行动"/敌我都能动',
+          requires: ['tools/verify/scenario.sh']),
     ],
 
     Step('L3', '静态契约', 'flutter',

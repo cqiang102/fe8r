@@ -259,6 +259,51 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         '没选中任何"未实现"的条目', 'unimplemented=${d['mapMenuUnimplemented']}');
   }
 
+  // `turnend`：**两条回合结束**各走一遍之后的裁决状态。
+  //
+  // 用户报"回合终了和我方全部行动完成结束有 bug"。
+  // 这两条路在原作里最终都汇到同一处（结束 `gProcScr_PlayerPhase`）：
+  //   * 主动：`CommandEffectEndPlayerPhase` → `Proc_EndEach(gProcScr_PlayerPhase)`
+  //           （`src/bmmenu_080225C4.c:61-65`）
+  //   * 自动：`PlayerPhase_HandleAutoEnd` → `Proc_Goto(proc, 3)`，而 label 3 就是
+  //           `PROC_WHILE(DoesBMXFADEExist); PROC_END`
+  //           （`src/playerphase_0801D808.c:52` + `dat_ProcScr_uistuff148_ref.c:318-320`）
+  //
+  // 之后由父 proc 调 `BmMain_ChangePhase`（`src/bm_08015434.c:82-95`）：
+  //   清**当前**阵营的灰化 → `SwitchPhases`（**离开 GREEN 时回合 +1**，
+  //   `src/bm_080153B0.c:88-93`）→ `RunPhaseSwitchEvents`
+  //
+  // 所以判据是四条：回合数 +1、回到我方、我方**所有人都能再动**、敌方也能动。
+  if (scenario == 'turnend') {
+    ok(d['turn'] == 3, '两次结束（一次菜单、一次自动）后是第 3 回合',
+        'turn=${d['turn']}');
+    ok(d['activeFaction'] == 0, '回到我方（FACTION_BLUE = 0）',
+        'activeFaction=${d['activeFaction']}');
+    ok(d['phase'] == 'freeCursor', '停在我方自由光标', 'phase=${d['phase']}');
+
+    final able = d['phaseAble'] as Map<String, dynamic>?;
+    ok(able?['blue'] == 2, '我方 2 个单位都能动（`GetPhaseAbleUnitCount`）',
+        'phaseAble=$able');
+    ok(able?['red'] == 3, '敌方 3 个也能动（红方灰化也清了）', 'phaseAble=$able');
+
+    // ★ 这条才是"两条路有没有差别"的核心：
+    //   `ClearActiveFactionGrayedStates` 在每个阵营**自己阶段结束时**清，
+    //   所以第 3 回合开始时**没有任何人**是"已行动"。
+    final stillActed =
+        alive.where((u) => u['hasActed'] == true).map((u) => u['name']).toList();
+    ok(stillActed.isEmpty, '第 3 回合开始时没人还是"已行动"',
+        'stillActed=$stillActed');
+
+    ok(d['turnEventFired'] == 'EventScr_Prologue_Turn3',
+        '第 3 回合的回合事件跑了', 'turnEventFired=${d['turnEventFired']}');
+    ok((d['scene'] as Map?)?['running'] == false, '没有卡在剧情里',
+        'scene=${d['scene']}');
+    // 敌方真的动过（出生在 x=14）
+    ok(alive.where((u) => u['faction'] == 0x80).every((u) => u['x'] != 14),
+        '敌方离开出生列（AI 真的行动了）',
+        'enemies=${alive.where((u) => u['faction'] == 0x80).map((u) => '${u['x']},${u['y']}').toList()}');
+  }
+
   if (scenario == 'prologue') {
     ok(map?['id'] == 'PrologueMap', '序章：地图是 PrologueMap',
         'map.id=${map?['id']}');
@@ -614,6 +659,58 @@ Map<String, Map<String, dynamic>> brokenMenuEndDumps() {
   return out;
 }
 
+/// 一份**正常**的 `turnend` 转储（selftest 的基准）
+///
+/// 两次回合结束（一次菜单、一次自动）之后应当：turn 3、我方阶段、
+/// 两个我方都能动、**没有任何人还是"已行动"**、敌方已经动过。
+Map<String, dynamic> goodTurnEndDump() {
+  final d = goodDump();
+  d['turn'] = 3;
+  d['activeFaction'] = 0;
+  d['phase'] = 'freeCursor';
+  d['phaseAble'] = <String, Object>{
+    'blue': 2,
+    'green': 0,
+    'red': 3,
+    'active': 0,
+  };
+  d['turnEventFired'] = 'EventScr_Prologue_Turn3';
+  for (final u in (d['units'] as List).cast<Map<String, dynamic>>()) {
+    u['hasActed'] = false;
+    if (u['faction'] == 0x80) u['x'] = 9; // 敌方已经离开出生列 x=14
+  }
+  return d;
+}
+
+/// 一组**故意坏掉**的 `turnend` 转储
+Map<String, Map<String, dynamic>> brokenTurnEndDumps() {
+  final out = <String, Map<String, dynamic>>{};
+
+  final a = goodTurnEndDump();
+  a['turn'] = 2; // 其中一条"回合结束"没生效
+  out['只结束了一次（回合停在 2）'] = a;
+
+  final b = goodTurnEndDump();
+  (b['units'] as List).cast<Map<String, dynamic>>().first['hasActed'] = true;
+  out['有人在新回合还挂着"已行动"'] = b;
+
+  final c = goodTurnEndDump();
+  (c['phaseAble'] as Map<String, dynamic>)['blue'] = 1;
+  out['新回合我方只有 1 个能行动'] = c;
+
+  final e = goodTurnEndDump();
+  e['activeFaction'] = 0x80; // 停在了敌方
+  out['结束完停在了敌方阶段'] = e;
+
+  final f = goodTurnEndDump();
+  for (final u in (f['units'] as List).cast<Map<String, dynamic>>()) {
+    if (u['faction'] == 0x80) u['x'] = 14; // 敌人没动
+  }
+  out['敌方一步都没动'] = f;
+
+  return out;
+}
+
 int runSelfTest() {
   var bad = 0;
 
@@ -646,13 +743,15 @@ int runSelfTest() {
   //
   // 理由同 R7 那次的教训（一条永远不可能失败的规则）：新加的断言
   // 如果没被证伪过，就不知道它是活的。
-  for (final sc in const ['mapmenu', 'menuend']) {
-    final good = sc == 'mapmenu'
-        ? goodMapMenuDump()
-        : (goodMapMenuDump()
-          ..['mapMenu'] = null
-          ..['turn'] = 2
-          ..['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段');
+  for (final sc in const ['mapmenu', 'menuend', 'turnend']) {
+    final good = switch (sc) {
+      'mapmenu' => goodMapMenuDump(),
+      'menuend' => (goodMapMenuDump()
+        ..['mapMenu'] = null
+        ..['turn'] = 2
+        ..['mapMenuNote'] = '終了（CommandEffectEndPlayerPhase）：结束我方阶段'),
+      _ => goodTurnEndDump(),
+    };
     final goodFailed =
         check(good, scenario: sc).where((f) => !f.ok).toList();
     if (goodFailed.isNotEmpty) {
@@ -665,8 +764,11 @@ int runSelfTest() {
       stdout.writeln('  ✓ $sc 基准转储全绿');
     }
 
-    final broken =
-        sc == 'mapmenu' ? brokenMapMenuDumps() : brokenMenuEndDumps();
+    final broken = switch (sc) {
+      'mapmenu' => brokenMapMenuDumps(),
+      'menuend' => brokenMenuEndDumps(),
+      _ => brokenTurnEndDumps(),
+    };
     for (final e in broken.entries) {
       final failed = check(e.value, scenario: sc).where((f) => !f.ok).toList();
       if (failed.isEmpty) {

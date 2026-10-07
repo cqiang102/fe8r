@@ -125,6 +125,31 @@ case "$SCENARIO" in
     TITLE=""
     SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait,start,down,down,down,down,down,confirm,wait,wait"
     ;;
+  turnend)
+    # ★ **两条回合结束**在同一次运行里各走一遍：
+    #   ① 第 1 回合：赛特待机 → START → 地图菜单 →「終了」（主动结束）
+    #   ② 第 2 回合：赛特待机 → 光标下移到艾莉卡 → 她也待机（**不按任何键**）→
+    #      `PlayerPhase_HandleAutoEnd`（`src/playerphase_0801D808.c:52`）自动结束
+    #   之后应当：turn 3、我方阶段、`GetPhaseAbleUnitCount(blue) == 2`、
+    #   所有人的 `hasActed` 都是 false（`ClearActiveFactionGrayedStates`
+    #   在各自阶段结束时清，`src/bm_08015434.c:82-95`）。
+    #
+    # ⚠️ 输入脚本里**不能有多余的 confirm**：第 2 回合光标停在赛特那格，
+    #    多按一次确认就会让他再行动一次 —— 那会污染转储（我踩过两次）。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    EVENTS=$(python3 -c "print(','.join(['confirm']*10))")
+    CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
+    RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
+    ACT="confirm,confirm,down,confirm"          # 选中 → 自己那格 → 菜单选「待機」→ 确定
+    MENU_END="start,down,down,down,down,down,confirm"
+    WAITS=$(python3 -c "print(','.join(['wait']*4))")
+    # ① 主动结束
+    SCRIPT="$SCRIPT,$EVENTS,$CANCEL,$RESYNC,$ACT,$MENU_END,$WAITS"
+    # ② 自动结束（两个单位都待机，中间不按任何结束回合的键）
+    SCRIPT="$SCRIPT,$CANCEL,$RESYNC,$ACT,down,$ACT,$WAITS"
+    SCRIPT="$SCRIPT,$(python3 -c "print(','.join(['wait']*4))")"
+    ;;
   *)
     echo "未知场景 $SCENARIO" >&2
     exit 2

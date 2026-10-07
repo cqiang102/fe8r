@@ -354,6 +354,19 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             'hp': u.hp,
             'maxHp': u.maxHp,
             'alive': u.isAlive,
+            // ★ **"本回合行动过没有" 必须能看见。**
+            //
+            // 两条"回合结束"（START→菜单→終了 / 所有单位行动完自动结束）
+            // 操纵的正是这个状态：原版 `ClearActiveFactionGrayedStates`
+            // 在每个阵营**自己的阶段结束**时清掉
+            // `US_UNSELECTABLE | US_HAS_MOVED | US_HAS_MOVED_AI`
+            // （`src/ClearActiveFactionGrayedStates.c:47-52`，
+            // 由 `BmMain_ChangePhase` 在 `SwitchPhases()` **之前**调用，
+            // `src/bm_08015434.c:82-95`）。
+            //
+            // 之前转储里没有这个字段 —— 也就是说"回合结束后单位还能不能动"
+            // 这件事**当时根本没法观察**，只能靠看画面猜。
+            'hasActed': u.hasActed,
             'items': u.items,
             'held': u.heldItems,
             'itemNames': [
@@ -362,6 +375,16 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             ],
           },
       ],
+      // `GetPhaseAbleUnitCount(faction)`（`src/bmphase.c:8-34`）的**分阵营**结果。
+      // 自动结束的判据就是它 == 0（`src/playerphase_0801D808.c:52`）。
+      'phaseAble': f == null
+          ? null
+          : {
+              'blue': f.phaseAbleCount(Faction.blue),
+              'green': f.phaseAbleCount(Faction.green),
+              'red': f.phaseAbleCount(Faction.red),
+              'active': f.activeFaction,
+            },
       'unitIdsUnique': f == null
           ? null
           : f.units.map((u) => u.id).toSet().length == f.units.length,
@@ -575,6 +598,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 测试钩子：按编号取道具数据（诊断用）
   @visibleForTesting
   ItemStats? itemStatsForTest(int index) => _itemStats[index];
+
+  /// **一次完整的攻击**（含对白/阵亡/以及行动之后的"等待事件 + 自动结束"）。
+  ///
+  /// 判据要能走 `_attackWithQuote` 这条真实路径 —— 原来的测试都是直接调
+  /// `combat.attack(...)`，绕过了 `_afterUnitAction`，于是
+  /// "最后一个能动的单位用攻击结束行动"时阶段不自动结束这件事
+  /// **一直没被任何测试看到**。
+  @visibleForTesting
+  Future<void> attackWithQuoteForTest(MapUnit attacker, MapUnit defender) =>
+      _attackWithQuote(field!, attacker, defender);
+
+  /// `PlayerPhase_HandleAutoEnd` **判定命中**的次数。
+  ///
+  /// 用它当判据而不是"回合数 +1"：`_endTurn()` 需要 `state`（`FlowState`），
+  /// 而单元测试里没有流程状态机 —— 只断言"最终回合数"会把
+  /// "自动结束压根没被求值"和"求值了但后面没走完"混在一起。
+  /// 这一条只问源码里那个问题：**`GetPhaseAbleUnitCount == 0` 被求值到了吗**。
+  @visibleForTesting
+  int autoEndTriggersForTest = 0;
 
   @override
   KeyEventResult onKeyEvent(
@@ -1025,7 +1067,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //
     // ⚠️ 攻击的情况**延到对白演完之后**（`_attackWithQuote` 里）——
     // 否则"该不该结束回合"会在伤害落地之前就算出来。
-    if (r.committedMove && r.attack == null) _afterUnitAction();
+    if (r.committedMove && r.attack == null) unawaited(_afterUnitAction());
 
     if (r.endTurn) endTurn();
   }
@@ -2054,6 +2096,28 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _rebuildOverlay();
     _updateHud();
     await _handleDeaths(f);
+
+    // ★ 攻击结束之后**同样**要过"等待事件 + 自动结束阶段"这一关。
+    //
+    // 顺序出处（proc 脚本即源码）：行动末尾是
+    // `dat_ProcScr_uistuff148_ref.c:285-290`
+    //   `PROC_CALL_2(ApplyUnitAction); PROC_CALL_2(HandlePostActionTraps);
+    //    PROC_CALL_2(RunPotentialWaitEvents); … PlayerPhase_FinishAction; PROC_GOTO(0)`
+    // 回到 label 0，而 label 0（`:258-265`）上是
+    //   `StartPlayerPhaseStartTutorialEvent; PROC_WHILE(EventEngineExists);
+    //    PlayerPhase_HandleAutoEnd`
+    // —— **攻击和待机走的是同一条尾巴**。
+    //
+    // ⚠️ 原来这里**没有这一句**，而唯一的调用点又是
+    // `if (r.committedMove && r.attack == null) _afterUnitAction();`
+    // ——于是"最后一个能动的单位用**攻击**结束行动"时，
+    // `PlayerPhase_HandleAutoEnd` 永远不会被求值：阶段不会自动结束，
+    // 只能靠玩家自己开菜单选「終了」。这正是用户报的
+    // "回合终了 和 我方全部行动完成结束 有 bug"。
+    //
+    // 只在**我方阶段**做：敌方/NPC 阶段由 `_runFactionAi` 自己管，
+    // `PlayerPhase_HandleAutoEnd` 按名字也只管玩家阶段。
+    if (f.activeFaction == Faction.blue) await _afterUnitAction();
   }
 
   /// 结算之后处理阵亡（台词 + 标志）。
@@ -2064,19 +2128,36 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
   }
 
-  void _afterUnitAction() {
+  /// 一次行动结算完：**等待事件 → 章节结束剧情 → 然后**才判要不要自动结束阶段。
+  ///
+  /// 顺序出处（proc 脚本就是源码，不是我排的）：
+  /// `dat_ProcScr_uistuff148_ref.c:279-290` 行动末尾
+  /// `… RunPotentialWaitEvents; PlayerPhase_FinishAction; PROC_GOTO(0)`
+  /// → label 0（`:258-266`）
+  /// `StartPlayerPhaseStartTutorialEvent; PROC_WHILE(EventEngineExists);
+  ///  PlayerPhase_HandleAutoEnd`
+  /// —— **先等事件引擎跑完，再判自动结束**。
+  ///
+  /// ⚠️ 原来这里是 `unawaited(_checkObjectives())` + `if (_sceneRunning) return;`：
+  /// `unawaited` 之后那一行**立刻**执行，而 `_sceneRunning` 要等异步体跑起来
+  /// 才被置上 —— 也就是"剧情还没起来就把阶段结束了"。两条结束路径因此不一致
+  /// （菜单那条在 `_endTurn` 里是 `await _checkObjectives()` 的）。
+  Future<void> _afterUnitAction() async {
     final f = field;
     if (f == null) return;
 
     // ① 等待事件（`RunPotentialWaitEvents` → `CheckForWaitEvents`）
-    unawaited(_checkObjectives());
+    await _checkObjectives();
     // ①' 章节结束剧情（`PlayerPhase_FinishAction` → `MaybeCallEndEvent`）
-    unawaited(_maybeCallEndEvent());
-    // 脚本已经接管的话，阶段要不要结束得等它演完（原作是 PROC_WHILE 等事件引擎）
+    await _maybeCallEndEvent();
+    // 事件引擎还在跑就不判（原作 label 0 的 `PROC_WHILE(EventEngineExists)`）
     if (_sceneRunning) return;
 
     // ② 自动结束（`PlayerPhase_HandleAutoEnd`；配置项默认开启）
-    if (f.phaseAbleCount(f.activeFaction) == 0) endTurn();
+    if (f.phaseAbleCount(f.activeFaction) == 0) {
+      autoEndTriggersForTest += 1;
+      endTurn();
+    }
   }
 
   /// **检查胜负条件** —— 每次行动后与回合结束时调用。
