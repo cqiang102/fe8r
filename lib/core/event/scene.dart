@@ -226,6 +226,47 @@ class MoveUnitInScene extends SceneEvent {
   String toString() => '$op(${args.join(', ')})';
 }
 
+/// 把**槽 3** 里的道具给某个角色（`GIVEITEMTO`）。
+///
+/// ## 出处：`src/eventscr_080106FC.c:90-93`
+///
+/// ```c
+/// case EVSUBCMD_GIVEITEMTO:
+///     NewPopup_ItemGot(proc, target, gEventSlots[3]);
+///     break;
+/// ```
+///
+/// 而 `NewPopup_ItemGot` -> ... -> `UnitAddItem`（`src/exact_080176f0.c:37`）：
+///
+/// ```c
+/// s8 UnitAddItem(struct Unit* unit, int item) {
+///     for (i = 0; i < UNIT_ITEM_COUNT; ++i)
+///         if (unit->items[i] == 0) { unit->items[i] = item; return TRUE; }
+///     return FALSE;
+/// }
+/// ```
+///
+/// **道具的编码**由 `MakeNewItem`（`src/MakeNewItem.c:27`）给出：
+///
+///     return (uses << 8) + GetItemIndex(item);
+///
+/// 序章里艾莉卡的细剑就是这么来的（`EventScr_Prologue_GiveRapier`）：
+///
+///     SVAL(EVT_SLOT_3, ITEM_SWORD_RAPIER)
+///     GIVEITEMTO(CHARACTER_EIRIKA)
+class GiveItem extends SceneEvent {
+  const GiveItem({required this.pid, required this.itemSlot});
+
+  /// 目标角色（`charIndex`；`0xFFFF` = 当前行动单位）
+  final int pid;
+
+  /// 道具所在的槽（原作是槽 3）
+  final int itemSlot;
+
+  @override
+  String toString() => 'GiveItem(pid=$pid, slot=$itemSlot)';
+}
+
 /// 暂停若干帧
 class Stall extends SceneEvent {
   const Stall(this.frames);
@@ -439,6 +480,10 @@ class Scene {
   void moveUnit(String op, List<Object> args) {
     onEvent(MoveUnitInScene(op, args));
   }
+
+  /// 把槽里的道具给角色（`GIVEITEMTO`）
+  Future<void> giveItem(int pid, int itemSlot) =>
+      onEvent(GiveItem(pid: pid, itemSlot: itemSlot));
 
   /// 换章节（`MNC2`）—— 序章结束时会切到第 1 章
   Future<void> changeChapter(int chapterIndex) => onEvent(

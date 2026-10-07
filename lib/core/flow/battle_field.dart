@@ -23,6 +23,7 @@ class MapUnit {
     required this.y,
     this.charIndex = 0,
     this.item0 = 0,
+    List<int>? items,
     this.classId = 0,
     this.level = 1,
     this.movement = 5,
@@ -30,7 +31,7 @@ class MapUnit {
     this.maxHp = 20,
     this.hasActed = false,
     this.name = '',
-  });
+  }) : _initItems = items;
 
   /// 单位编号（对应原版的 `gUnitLut` 下标）
   final int id;
@@ -44,8 +45,18 @@ class MapUnit {
   /// 角色编号（`UnitDefinition.charIndex`）—— 胜负判定用它认首领
   final int charIndex;
 
-  /// 装备的道具（`UnitDefinition.items[0]`）—— 战斗属性要靠它查武器
+  /// `UnitDefinition.items[0]` —— 初始的第一件道具（兼容旧调用）
   final int item0;
+
+  /// **道具栏**（`struct Unit.items[UNIT_ITEM_COUNT]`）。
+  ///
+  /// 每项是 `MakeNewItem` 的编码：`耐久 << 8 | 编号`。
+  /// `GIVEITEMTO` 往这里塞东西。
+  ///
+  /// 构造时若显式给了 `items` 就用它（`UnitDefinition.items[0..3]`），
+  /// 否则退回 `[item0]`。
+  late final List<int> items = _initItems ?? [if (item0 != 0) item0];
+  final List<int>? _initItems;
 
   final int classId;
   final int level;

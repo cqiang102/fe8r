@@ -16,6 +16,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui' show Color;
 
 import 'package:fe8r/core/core.dart';
@@ -163,10 +164,138 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 地图的 metatile 尺寸（像素）
   static const double metatileSize = 16;
 
+  /// 视口尺寸 —— GBA 就是 240×160（`DISPLAY_WIDTH` / `DISPLAY_HEIGHT`）。
+  static final Vector2 screenSize = Vector2(240, 160);
+
+  /// 相机左上角（世界像素坐标）—— 对应 `gBmSt.camera`。
+  ///
+  /// 原作里它是**逐帧**被 `HandleMoveCameraWithMapCursor` 推着走的，
+  /// 不是一步到位。
+  double _cameraX = 0;
+  double _cameraY = 0;
+
+  /// 相机的边界（`src/bmmap_08019584.c:74-75`）
+  ///
+  /// ```c
+  /// gBmSt.cameraMax.x = gBmMapSize.x*16 - 240;
+  /// gBmSt.cameraMax.y = gBmMapSize.y*16 - 160;
+  /// ```
+  double get _cameraMaxX =>
+      math.max(0, (map?.width ?? 0) * metatileSize - screenSize.x);
+  double get _cameraMaxY =>
+      math.max(0, (map?.height ?? 0) * metatileSize - screenSize.y);
+
+  /// 死区（`include/bm.h:5-8`）—— **相对相机左上角**：
+  ///
+  ///     CAMERA_MARGIN_LEFT   = 16 * 3  = 48
+  ///     CAMERA_MARGIN_RIGHT  = 16 * 11 = 176
+  ///     CAMERA_MARGIN_TOP    = 16 * 2  = 32
+  ///     CAMERA_MARGIN_BOTTOM = 16 * 7  = 112
+  static const double _marginLeft = 16 * 3;
+  static const double _marginRight = 16 * 11;
+  static const double _marginTop = 16 * 2;
+  static const double _marginBottom = 16 * 7;
+
+  /// `HandleMoveCameraWithMapCursor`（`src/bm.c:267`）—— **逐帧**调用。
+  ///
+  /// ```c
+  /// if (gBmSt.camera.x + CAMERA_MARGIN_LEFT > xCursor) {
+  ///     if (xCursor - CAMERA_MARGIN_LEFT < 0) gBmSt.camera.x = 0;
+  ///     else gBmSt.camera.x -= step;              // ★ 只走 step 像素
+  /// }
+  /// if (gBmSt.camera.x + CAMERA_MARGIN_RIGHT < xCursor) {
+  ///     if (xCursor - CAMERA_MARGIN_RIGHT > cameraMax.x) camera.x = cameraMax.x;
+  ///     else gBmSt.camera.x += step;
+  /// }
+  /// （y 同理，用 TOP / BOTTOM）
+  /// ```
+  ///
+  /// ⚠️ **不是每帧硬居中。** 我第一版写成"状态一变就重新居中"，
+  /// 那是**我自己发明的**，和原作行为不同：
+  /// 原作是"光标待在死区内相机不动，越界才平滑跟"。
+  void _handleMoveCameraWithMapCursor(double step) {
+    final st = state;
+    if (st == null) return;
+
+    // 光标的世界像素位置（`gBmSt.playerCursorDisplay`）
+    final cx = st.cursorX * metatileSize;
+    final cy = st.cursorY * metatileSize;
+
+    if (_cameraX + _marginLeft > cx) {
+      if (cx - _marginLeft < 0) {
+        _cameraX = 0;
+      } else {
+        _cameraX -= step;
+      }
+    }
+    if (_cameraX + _marginRight < cx) {
+      if (cx - _marginRight > _cameraMaxX) {
+        _cameraX = _cameraMaxX;
+      } else {
+        _cameraX += step;
+      }
+    }
+    if (_cameraY + _marginTop > cy) {
+      if (cy - _marginTop < 0) {
+        _cameraY = 0;
+      } else {
+        _cameraY -= step;
+      }
+    }
+    if (_cameraY + _marginBottom < cy) {
+      if (cy - _marginBottom > _cameraMaxY) {
+        _cameraY = _cameraMaxY;
+      } else {
+        _cameraY += step;
+      }
+    }
+
+    _cameraX = _cameraX.clamp(0, _cameraMaxX);
+    _cameraY = _cameraY.clamp(0, _cameraMaxY);
+    _applyCamera();
+  }
+
+  /// 把 `_cameraX/_cameraY`（**视野左上角**）搬到 Flame 上。
+  ///
+  /// ⚠️ Flame 的 `viewfinder.position` 是**视野中心**，不是左上角 ——
+  /// 出处：`flame/lib/src/camera/viewfinder.dart:33-34`
+  /// 「a point that is to be positioned at the **center** of the viewport」。
+  /// 所以这里要加半屏。
+  void _applyCamera() {
+    camera.viewfinder.position =
+        Vector2(_cameraX + screenSize.x / 2, _cameraY + screenSize.y / 2);
+  }
+
+  /// 一步到位把相机放到目标旁边（`GetCameraCenteredX/Y`）。
+  ///
+  /// 用于进场 / `LOMA` 之后 —— 那时没有"平滑跟随"，直接落位。
+  void _centerCameraOn(int tileX, int tileY) {
+    final g = map;
+    if (g == null) return;
+
+    double axis(double mapPx, double screen, double target, double maxV) {
+      var r = target - screen / 2;
+      if (r < 0) r = 0;
+      if (r > maxV) r = maxV;
+      return (r ~/ 16) * 16; // `& ~0xF`
+    }
+
+    _cameraX = axis(g.width * metatileSize, screenSize.x,
+        tileX * metatileSize, _cameraMaxX);
+    _cameraY = axis(g.height * metatileSize, screenSize.y,
+        tileY * metatileSize, _cameraMaxY);
+    _applyCamera();
+  }
+
+
+
   @override
   Color backgroundColor() => const Color(0xFF101418);
 
-  /// 加载真实剧本与文本（不存在就返回 null —— 不静默用假数据顶替）
+  /// 载入剧本与文本（在 `onLoad` 里调一次）。
+  ///
+  /// 剧本**不是**从文件读的 —— 它是生成的 Dart `async` 函数
+  /// （`lib/core/event/scene_data.g.dart`，由 C 源码直接生成）。
   void _loadSceneData() {
     try {
       final tf = File('tools/pipeline/out/tables/texts.json');
@@ -180,11 +309,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         gameTexts!.applyTranslations(t.messages);
         gameTexts!.uiTerms.addAll(t.ui);
       }
-      // ⚠️ 剧本**不是**从文件读的 —— 它是生成的 Dart `async` 函数
-      //（`lib/core/event/scene_data.g.dart`，由 C 源码直接生成）。
-      // 没有 JSON、没有指令列表、没有解释器。
-      //
-      // `onEvent` 决定"等多久"：游戏里等到按键。
+
       scene = Scene(
         texts: gameTexts!,
         scripts: allSceneFns,
@@ -289,13 +414,32 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       world.add(tiled);
       _tiled = tiled;
 
-      // 3) 相机：把整张地图装进视口，保持像素锐利
-      final mapSize = Vector2(
-        grid.width * metatileSize,
-        grid.height * metatileSize,
-      );
-      camera.viewport = FixedResolutionViewport(resolution: mapSize);
-      camera.viewfinder.position = mapSize / 2;
+      // 3) 相机：**固定 240×160 的视野，跟着光标走**。
+      //
+      // ⚠️ 原来是把**整张地图塞进视口**（`resolution: mapSize`）——
+      // 于是地图越大缩得越小，而原点停在中心，
+      // **玩家看到的区域和光标所在的位置完全无关**。
+      //
+      // 出处：`src/bmmap_08019584.c:74-75`
+      //
+      //     gBmSt.cameraMax.x = gBmMapSize.x*16 - 240;
+      //     gBmSt.cameraMax.y = gBmMapSize.y*16 - 160;
+      //
+      // 即：视口 **240×160**（GBA 屏），相机上限 = 地图像素尺寸 - 视口尺寸。
+      // `FixedResolutionViewport` 会把 240×160 **等比放大并居中**
+      // （`flame/src/camera/viewports/fixed_aspect_ratio_viewport.dart:43-47`）
+      //
+      //     size = ...等比...
+      //     position = (canvas - size)/2 + anchor*size
+      //
+      // 而 `anchor` 的默认值**本来就是 `Anchor.topLeft`**
+      // （`flame/src/camera/viewport.dart:54`）—— 不需要也没必要设它。
+      //
+      // ⚠️ 我曾在这里写过 `..anchor = Anchor.topLeft`，
+      // **截图字节完全没变** —— 因为那是个空操作。
+      // 真正的问题是 viewfinder（见 `_centerCameraOn`），当时找错了地方。
+      camera.viewport = FixedResolutionViewport(resolution: screenSize);
+      _centerCameraOn(grid.width ~/ 2, grid.height ~/ 2);
 
       // 4) 战场与交互流程（规则层）
       field = _makeDemoField(grid);
@@ -393,6 +537,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 这和文档里记过的那次是**同一类 bug**：
   /// 「视觉验证经由 `FE8R_SCRIPT` 绕过了真实按键路径」。
   /// 修法不是再补一处，而是**让两条路合并**。
+  /// 按键状态（原作按 B 会加速光标/相机）
+  void noteKeyHeld(FlowInput i, bool down) {
+    if (i == FlowInput.cancel) _cancelHeld = down;
+  }
+
   void routeInput(FlowInput i) {
     // 开场流程没跑完时，输入全给它
     if (inTitleFlow && _titleInput(i)) return;
@@ -505,7 +654,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     state = r.state;
     _rebuildOverlay();
-    _updateHud();
+    _updateHud();   // ★ 相机跟着光标（原作是每帧跟）
 
     if (r.endTurn) endTurn();
   }
@@ -537,8 +686,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 剧情演出的移动是**按帧推进**的：VM 已经因为 waitingForMove 停住，
     // 由这里把单位一格一格挪到位，挪完再通知 VM 继续。
     _tickEventMoves(dt);
+
+    // 相机是**逐帧**跟着光标走的（`HandlePlayerCursorMovement`
+    // 每帧调 `HandleMoveCameraWithMapCursor(4)`，
+    // `src/playerphase_0801C4FC.c:70-77`）。
+    // 按住 B 时是 8 像素/帧（快速滚动）。
+    if (state != null && !inTitleFlow) {
+      _handleMoveCameraWithMapCursor(_fastCamera ? 8 : 4);
+    }
+
     super.update(dt);
   }
+
+  /// 是否按住"加速"键（原作是 B = 取消键）。
+  bool get _fastCamera => _cancelHeld;
+
+  bool _cancelHeld = false;
 
   /// 开始剧情演出
   ///
@@ -599,10 +762,79 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         await Future<void>.delayed(Duration(milliseconds: e.frames * 16));
       case MoveUnitInScene(:final op, :final args):
         _moveUnitInScene(op, args);
+
+      case GiveItem(:final pid, :final itemSlot):
+        _giveItem(pid, itemSlot);
     }
   }
 
   String _sceneHudExtra = '';
+
+  /// `GIVEITEMTO(pid)` —— 把**槽 `itemSlot`** 里的道具给角色。
+  ///
+  /// ## 出处
+  ///
+  /// `src/eventscr_080106FC.c:90`：
+  ///
+  /// ```c
+  /// case EVSUBCMD_GIVEITEMTO:
+  ///     NewPopup_ItemGot(proc, target, gEventSlots[3]);
+  /// ```
+  ///
+  /// 道具最终由 `UnitAddItem`（`src/exact_080176f0.c:37`）放进**第一个空槽**；
+  /// 编码由 `MakeNewItem`（`src/MakeNewItem.c:27`）给出：
+  ///
+  ///     (uses << 8) + GetItemIndex(item)      // 耐久在高字节
+  ///
+  /// 序章里艾莉卡的**细剑**就是这么来的：
+  ///
+  ///     SVAL(EVT_SLOT_3, ITEM_SWORD_RAPIER)
+  ///     GIVEITEMTO(CHARACTER_EIRIKA)
+  ///
+  /// ⚠️ 不做这一步的话，艾莉卡**没有武器** —— 战斗中她打不了人，
+  /// 而 `UnitDef_Event_PrologueAlly` 里她带的确实是伤药（0x6C）。
+  void _giveItem(int pid, int itemSlot) {
+    final f = field;
+    final sc = scene;
+    if (f == null || sc == null) return;
+
+    final raw = sc.slotInt(itemSlot);
+    if (raw == 0) {
+      _sceneHudExtra = 'GIVEITEMTO: 槽 $itemSlot 是空的';
+      return;
+    }
+
+    // `MakeNewItem`：高字节耐久、低字节编号
+    final idx = ItemTable.itemIndex(raw);
+    // `GetItemMaxUses` —— 来自 items.json（`ItemData` 里没有这个字段）
+    final maxUses = _itemStats[idx]?.maxUses ?? 0;
+    final item = (maxUses << 8) | idx;
+
+    // 目标：`0xFFFF` = 当前行动单位；0 = 主角；否则按角色号找
+    MapUnit? target;
+    if (pid == 0xFFFF) {
+      target = f.units.where((u) => u.faction == Faction.blue).firstOrNull;
+    } else if (pid == 0) {
+      target = f.units.where((u) => u.faction == Faction.blue).firstOrNull;
+    } else {
+      target =
+          f.units.where((u) => u.charIndex == pid && u.isAlive).firstOrNull;
+    }
+    if (target == null) {
+      _sceneHudExtra = 'GIVEITEMTO: 找不到角色 $pid';
+      return;
+    }
+
+    // `UnitAddItem`：第一个空槽
+    final slot = target.items.indexOf(0);
+    if (slot < 0) {
+      _sceneHudExtra = 'GIVEITEMTO: ${target.name} 道具栏满了';
+      return;
+    }
+    target.items[slot] = item;
+    _sceneHudExtra = 'GIVEITEMTO: ${target.name} <- 道具 $idx（$maxUses 次）';
+    _updateHud();
+  }
 
   /// 剧情里的**自动移动**（`MOVE` / `MOVE_CLOSEST` / …）。
   ///
@@ -1119,6 +1351,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     );
     _eventMoveTargets.clear();
     eventFlags.clear();
+    //  结尾会把相机居中到  的坐标
+    // （）。这里先居中到地图中央，
+    // 之后的  指令会再调整。
+    _centerCameraOn((g?.width ?? 2) ~/ 2, (g?.height ?? 2) ~/ 2);
 
     sceneMapNote = 'LOMA($chapterIndex) → $mapName';
     // 地图切换历史 —— 用它判断脚本走到了哪一步
@@ -1567,7 +1803,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     //   **后果：奥尼尔打不掉**（`C63:20` 一直满血）。
     final cls = _classStats[u.classId];
     final chr = _charStats[u.charIndex];
-    final it = _itemStats[ItemTable.itemIndex(u.item0)];
+    // 装备的武器 —— 取道具栏里第一件**武器**。
+    // 原作里 `unit->weapon` 由 `EquipUnitItem` 维护；这里用"第一件武器"
+    // 等价于它的**自动装备**行为（拿到细剑就会用上）。
+    var weapon = 0;
+    for (final slot in u.items) {
+      if (slot == 0) continue;
+      final idx = ItemTable.itemIndex(slot);
+      final s = _itemStats[idx];
+      if (s != null && s.weaponType.isNotEmpty) {
+        weapon = slot;
+        break;
+      }
+    }
+    final it = _itemStats[ItemTable.itemIndex(weapon)];
 
     // 三张表缺任何一张就**明确报出来**，不静默退回假数据
     if (cls == null) {
@@ -1593,7 +1842,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       def: cls?.baseDef ?? 0,
       lck: chr?.baseLck ?? 0,
       conBonus: cls?.baseCon ?? 0,
-      weaponItem: u.item0,
+      weaponItem: weapon,
       weaponType: weaponType,
     );
   }

@@ -2820,7 +2820,7 @@ Future<void> Ch12A_0(Scene s) async {
     s.placeholder('MUNO');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 89);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('TILECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -3507,7 +3507,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 54;
           continue;
         case 54:
-          s.placeholder('GIVEITEMTOMAIN');
+          await s.giveItem(0, 3);
           pc = 55;
           continue;
         case 55:
@@ -3569,7 +3569,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 70;
           continue;
         case 70:
-          s.placeholder('GIVEITEMTOMAIN');
+          await s.giveItem(0, 3);
           pc = 71;
           continue;
         case 71:
@@ -4210,7 +4210,7 @@ Future<void> Ch14b_EndingScene(Scene s) async {
     s.placeholder('MUNO');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 136);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
     s.placeholder('MUSI');
@@ -4485,7 +4485,7 @@ Future<void> Ch15A_2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 136);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
     s.placeholder('BGMVOLUMECHANGE');
@@ -4936,7 +4936,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(1, 3);
           pc = 12;
           continue;
         case 12:
@@ -4948,7 +4948,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(1, 3);
           pc = 15;
           continue;
         case 15:
@@ -4978,7 +4978,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(15, 3);
           pc = 23;
           continue;
         case 23:
@@ -4990,7 +4990,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(15, 3);
           pc = 26;
           continue;
         case 26:
@@ -7119,7 +7119,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 185;
           continue;
         case 185:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(15, 3);
           pc = 186;
           continue;
         case 186:
@@ -7143,7 +7143,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 191;
           continue;
         case 191:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(1, 3);
           pc = 192;
           continue;
         case 192:
@@ -8153,7 +8153,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 97;
           continue;
         case 97:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(0, 3);
           pc = 98;
           continue;
         case 98:
@@ -8165,7 +8165,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 100;
           continue;
         case 100:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(0, 3);
           pc = 101;
           continue;
         case 101:
@@ -8177,7 +8177,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 103;
           continue;
         case 103:
-          s.placeholder('GIVEITEMTOMAIN');
+          await s.giveItem(0, 3);
           pc = 104;
           continue;
         case 104:
@@ -8285,7 +8285,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 132;
           continue;
         case 132:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(0, 3);
           pc = 133;
           continue;
         case 133:
@@ -10472,7 +10472,7 @@ Future<void> Ch2_Village1(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(65535, 3);
           pc = 20;
           continue;
         case 20:
@@ -10496,7 +10496,7 @@ Future<void> Ch2_Village2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 109);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
     s.placeholder('BGMVOLUMECHANGE');
@@ -10506,7 +10506,7 @@ Future<void> Ch2_Village2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 110);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
     s.setSlot(2, Sym('UnitDef_Ch2Enemy_1'));
@@ -11666,7 +11666,7 @@ Future<void> Ch4_3(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 31);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11810,7 +11810,7 @@ Future<void> Ch5_0(Scene s) async {
     s.placeholder('MUNO');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 14);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.setSlot(2, Sym('EventScr_Ch5_9'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
@@ -11826,7 +11826,7 @@ Future<void> Ch5_1(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 96);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11883,7 +11883,7 @@ Future<void> Ch5_2(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 93);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -11896,7 +11896,7 @@ Future<void> Ch5_3(Scene s) async {
     await s.callSlot(0);
     await s.callSlot(0);
     s.setSlot(3, 112);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('BGMVOLUMECHANGE');
     s.placeholder('EVBIT_T');
     return;
@@ -12741,7 +12741,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(0, 3);
           pc = 33;
           continue;
         case 33:
@@ -13096,7 +13096,7 @@ Future<void> Ch6_1(Scene s) async {
     s.placeholder('MUNO');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 111);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.setSlot(2, Sym('EventScr_Ch6_3'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     s.placeholder('EVBIT_T');
@@ -13385,7 +13385,7 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(1, 3);
           pc = 17;
           continue;
         case 17:
@@ -14157,7 +14157,7 @@ Future<void> Ch9A_2(Scene s) async {
     s.placeholder('MURE');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 96);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -14171,7 +14171,7 @@ Future<void> Ch9A_3(Scene s) async {
     s.placeholder('BGMVOLUMECHANGE');
     await s.callSlot(0);
     s.setSlot(3, 9);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(65535, 3);
     s.placeholder('EVBIT_T');
     return;
 }
@@ -15333,7 +15333,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(0, 3);
           pc = 70;
           continue;
         case 70:
@@ -15785,7 +15785,7 @@ Future<void> GiveTreasureToLuckyDog(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('GIVEITEMTO');
+          await s.giveItem(65535, 3);
           pc = 10;
           continue;
         case 10:
@@ -16348,7 +16348,7 @@ Future<void> Prologue_GiveRapier(Scene s) async {
     s.placeholder('REMA');
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 9);
-    s.placeholder('GIVEITEMTO');
+    await s.giveItem(1, 3);
     s.setSlot(2, Sym('EventScr_Prologue_9EF828'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     return;

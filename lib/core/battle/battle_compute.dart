@@ -107,6 +107,7 @@ class ItemStats {
     this.weight = 0,
     this.encodedRange = 0,
     this.weaponType = '',
+    this.maxUses = 0,
   });
 
   factory ItemStats.fromJson(Map<String, dynamic> j) => ItemStats(
@@ -117,6 +118,7 @@ class ItemStats {
         weight: (j['weight'] as num?)?.toInt() ?? 0,
         encodedRange: (j['encodedRange'] as num?)?.toInt() ?? 0,
         weaponType: j['weaponType'] as String? ?? '',
+        maxUses: (j['maxUses'] as num?)?.toInt() ?? 0,
       );
 
   final int number;
@@ -124,6 +126,9 @@ class ItemStats {
 
   /// 源码里的 `ITYPE_*` 名字（`ITYPE_SWORD` / `ITYPE_LANCE` / …）
   final String weaponType;
+
+  /// `GetItemMaxUses` —— `MakeNewItem` 用它算耐久
+  final int maxUses;
 
   /// `GetItemMinRange` —— `encodedRange >> 4`
   int get minRange => encodedRange >> 4;

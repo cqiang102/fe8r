@@ -183,6 +183,13 @@ def stmt(op, A):
         return (f"s.moveUnit('{op}', {lst(A)});", True)
 
     # 换章节 —— `MNC2(n)` = `EvtChangeChapterBM(n)`（`include/eventscript.h:681`）
+    # `GIVEITEMTO(pid)` —— 把槽 3 的道具给角色
+    # 出处：`src/eventscr_080106FC.c:90`（`EVSUBCMD_GIVEITEMTO`）
+    if op in ("GIVEITEMTO", "GIVEITEMTOMAIN"):
+        if A:
+            return (f"await s.giveItem({lit(A[0])}, 3);", False)
+        return (f"s.placeholder('{op}');", True)
+
     if op == "MNC2":
         return (f"await s.changeChapter({num(A[0]) if A else 0});", False)
 
