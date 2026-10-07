@@ -1195,7 +1195,7 @@ Future<void> CallIfCommonMode(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 1;
           continue;
         case 1:
@@ -1226,7 +1226,7 @@ Future<void> CallOnChapterNumber(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_CHAPTER_NUMBER');
+          s.checkSlotValue('chapter');
           pc = 1;
           continue;
         case 1:
@@ -1260,7 +1260,7 @@ Future<void> CallOnHardMode(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
@@ -1314,7 +1314,7 @@ Future<void> CallWithModeCheck(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 1;
           continue;
         case 1:
@@ -1454,7 +1454,7 @@ Future<void> Ch10A_8(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 7; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
@@ -5435,7 +5435,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 4;
           continue;
         case 4:
@@ -6198,7 +6198,7 @@ Future<void> Ch16A_1(Scene s) async {
     await s.fade(FadeDirection.fromWhite, 4);
     s.placeholder('EVBIT_MODIFY');
     return;
-    s.placeholder('CHECK_MODE');
+    s.checkSlotValue('mode');
     s.placeholder('EVENT_WORD');
 }
 
@@ -6412,7 +6412,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 52;
           continue;
         case 52:
@@ -6454,7 +6454,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 62;
           continue;
         case 62:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 63;
           continue;
         case 63:
@@ -6564,7 +6564,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 90;
           continue;
         case 90:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 91;
           continue;
         case 91:
@@ -6682,7 +6682,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 120;
           continue;
         case 120:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 121;
           continue;
         case 121:
@@ -6750,7 +6750,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 138;
           continue;
         case 138:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 139;
           continue;
         case 139:
@@ -6798,7 +6798,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 151;
           continue;
         case 151:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 152;
           continue;
         case 152:
@@ -7677,7 +7677,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 192;
           continue;
         case 192:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 193;
           continue;
         case 193:
@@ -7809,7 +7809,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 226;
           continue;
         case 226:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 227;
           continue;
         case 227:
@@ -8064,7 +8064,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 4;
           continue;
         case 4:
@@ -8333,7 +8333,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 6;
           continue;
         case 6:
@@ -8539,7 +8539,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 60;
           continue;
         case 60:
@@ -8627,7 +8627,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 82;
           continue;
         case 82:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 83;
           continue;
         case 83:
@@ -8711,7 +8711,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 104;
           continue;
         case 104:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 105;
           continue;
         case 105:
@@ -8767,7 +8767,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 119;
           continue;
         case 119:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 120;
           continue;
         case 120:
@@ -9670,7 +9670,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 8;
           continue;
         case 8:
@@ -9762,7 +9762,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('CHECK_MODE');
+          s.checkSlotValue('mode');
           pc = 32;
           continue;
         case 32:
@@ -15019,7 +15019,7 @@ Future<void> Ch9B_9(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 8; } else { pc = 5; }
           continue;
         case 5:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 6;
           continue;
         case 6:
@@ -15929,7 +15929,7 @@ Future<void> ConfigHardModeLoadUnitHard(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 1;
           continue;
         case 1:
@@ -16032,7 +16032,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
           if (s.slotInt(1) == 12) { pc = 3; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_CHAPTER_NUMBER');
+          s.checkSlotValue('chapter');
           pc = 7;
           continue;
         case 7:
@@ -16368,7 +16368,7 @@ Future<void> LoadReinforceHardMode(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
@@ -16466,7 +16466,7 @@ Future<void> LoadUnitForDifferentMode(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 1; } else { pc = 1; }
           continue;
         case 1:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 2;
           continue;
         case 2:
@@ -16508,7 +16508,7 @@ Future<void> LoadUnitForTutorial(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_HARD');
+          s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:

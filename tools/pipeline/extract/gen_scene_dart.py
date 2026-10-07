@@ -248,6 +248,15 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 条件族第三批（写 `gEventSlots[0xC]`）：`src/eventscr_0800E2C8.c:77-87`
+    #   CHECK_MODE             => gEventSlots[0xC] = gPlaySt.chapterModeIndex
+    #   CHECK_CHAPTER_NUMBER   => gEventSlots[0xC] = proc->chapterIndex
+    #   CHECK_HARD             => (& PLAY_FLAG_HARD) ? 1 : 0（`:85-87` 起）
+    if op in ("CHECK_MODE", "CHECK_CHAPTER_NUMBER", "CHECK_HARD"):
+        kind = {"CHECK_MODE": "mode", "CHECK_CHAPTER_NUMBER": "chapter",
+                "CHECK_HARD": "hard"}[op]
+        return (f"s.checkSlotValue('{kind}');", True)
+
     # 单单位状态（`EV_CMD_CHANGESTATE`，`src/eventscr_080103F4.c:60-135`）：
     #   REMU   = `state |= US_HIDDEN | US_BIT16 | US_BIT26`（`:110-111`）
     #   REVEAL = 清那三位（`:114-115`）

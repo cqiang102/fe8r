@@ -6572,6 +6572,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     if (sc == null) return;
     // 回合数：流程状态里有 `turn` 就用它，否则退回 1（`CHECK_TURNS` 仍能工作，只是值=1）
     sc.turnNumber = state?.turn ?? 1;
+    // 条件族的第三批取值（`CHECK_MODE` / `CHECK_CHAPTER_NUMBER` / `CHECK_HARD`）
+    sc.chapterModeIndex = chapterModeIndex;
+    sc.chapterIndex = sceneChapter;
+    sc.isHard = _currentPlayFlags.difficulty == NewGameDifficulty.hard;
     final f = field;
     if (f == null) return;
     sc.redUnitCount = f.units

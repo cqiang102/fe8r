@@ -46,4 +46,14 @@ void main() {
     // 所以整条链现在是通的：CHECK 写槽 0xC → BEQ/BNE 读它。
     expect(RegExp(r's\.branch|cmp|slotInt').hasMatch(t), isTrue);
   });
+
+  test('★ 条件族第三批：CHECK_MODE / CHECK_CHAPTER_NUMBER / CHECK_HARD 写条件槽', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    // 出处：src/eventscr_0800E2C8.c:77-87
+    expect(t.contains("s.checkSlotValue('mode')"), isTrue, reason: 'gPlaySt.chapterModeIndex');
+    expect(t.contains("s.checkSlotValue('chapter')"), isTrue, reason: 'proc->chapterIndex');
+    expect(t.contains("s.checkSlotValue('hard')"), isTrue, reason: 'PLAY_FLAG_HARD');
+    expect(t.contains("s.placeholder('CHECK_MODE')"), isFalse);
+    expect(t.contains("s.placeholder('CHECK_HARD')"), isFalse);
+  });
 }

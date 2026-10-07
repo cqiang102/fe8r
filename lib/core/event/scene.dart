@@ -908,6 +908,15 @@ class Scene {
   /// `gPlaySt.chapterTurnNumber`（由游戏侧更新；`CHECK_TURNS` 要用）
   int turnNumber = 1;
 
+  /// `gPlaySt.chapterModeIndex`（`CHECK_MODE` 用；1=教学/艾莉卡、2=Ephraim…）
+  int chapterModeIndex = 1;
+
+  /// `proc->chapterIndex`（`CHECK_CHAPTER_NUMBER` 用）
+  int chapterIndex = 0;
+
+  /// `gPlaySt.chapterStateBits & PLAY_FLAG_HARD`（`CHECK_HARD` 用）
+  bool isHard = false;
+
   /// 红方 / 绿方的**在场**单位数（`CountRedUnits` / `CountGreenUnits`），由游戏侧更新
   int redUnitCount = 0;
   int greenUnitCount = 0;
@@ -921,6 +930,10 @@ class Scene {
   void checkSlotValue(String kind) {
     final v = switch (kind) {
       'turn' => turnNumber,
+      // 第三批（`src/eventscr_0800E2C8.c:77-87`）
+      'mode' => chapterModeIndex,
+      'chapter' => chapterIndex,
+      'hard' => isHard ? 1 : 0,
       'redCount' => redUnitCount,
       'greenCount' => greenUnitCount,
       _ => 0,
