@@ -1,0 +1,12 @@
+{
+  "name": "dsh-preset-fe8-flutter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DSH Agent preset for the FE8 (Fire Emblem: The Sacred Stones) Flutter / Flame remake: the shipped standard tool set with a project persona.",
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

@@ -345,14 +345,15 @@ Future<void> main(List<String> argv) async {
           ['test', 'test/core/rng_oracle_test.dart'],
           note: '161 用例逐位对照')
     else
-      Step('L2', 'C Oracle ↔ Dart（乱数，跳过）', 'true', const [], note: decompNote),
+      Step('L2', 'C Oracle ↔ Dart（乱数，跳过）', 'true', const [], skip: true,
+          note: decompNote),
 
     if (hasDecomp())
       Step('L2', 'C Oracle ↔ Dart（战斗数值）', 'flutter',
           ['test', 'test/core/battle_oracle_test.dart'],
           note: '655 用例：战斗数值 / 特效 / 乱数消耗 / 武器三角')
     else
-      Step('L2', 'C Oracle ↔ Dart（战斗数值，跳过）', 'true', const [],
+      Step('L2', 'C Oracle ↔ Dart（战斗数值，跳过）', 'true', const [], skip: true,
           note: decompNote),
 
     if (hasDecomp())
@@ -360,7 +361,7 @@ Future<void> main(List<String> argv) async {
           ['test', 'test/core/turn_switch_oracle_test.dart'],
           note: '47 用例：阶段顺序 / 回合数递增与 999 上限')
     else
-      Step('L2', 'C Oracle ↔ Dart（回合推进，跳过）', 'true', const [],
+      Step('L2', 'C Oracle ↔ Dart（回合推进，跳过）', 'true', const [], skip: true,
           note: decompNote),
 
     if (hasDecomp())
@@ -368,7 +369,7 @@ Future<void> main(List<String> argv) async {
           ['test', 'test/core/phase_oracle_test.dart'],
           note: '103 用例：阵营判定 / 可行动单位计数')
     else
-      Step('L2', 'C Oracle ↔ Dart（阶段与阵营，跳过）', 'true', const [],
+      Step('L2', 'C Oracle ↔ Dart（阶段与阵营，跳过）', 'true', const [], skip: true,
           note: decompNote),
 
     if (hasDecomp())
@@ -376,7 +377,7 @@ Future<void> main(List<String> argv) async {
           ['test', 'test/core/movement_oracle_test.dart'],
           note: '54 用例逐格对照')
     else
-      Step('L2', 'C Oracle ↔ Dart（移动范围，跳过）', 'true', const [],
+      Step('L2', 'C Oracle ↔ Dart（移动范围，跳过）', 'true', const [], skip: true,
           note: decompNote),
 
     // M1：全量分层分类（D19 要求未分类为 0）。分类器是代码不是表格，
@@ -386,6 +387,18 @@ Future<void> main(List<String> argv) async {
           ['tools/m1/classify.py'], note: 'D19：6213 个文件全部有结论')
     else
       Step('L1', 'M1 分层分类', 'true', const [], skip: true, note: decompNote),
+
+    // Agent 预设：工具集必须与内置 standard 逐字节一致，且派生可复现、基线未过期。
+    //
+    // ⚠️ 这条判据本身已**逐条证伪**（见 tools/dsh/verify_preset.py 的注释）：
+    //    · 偷改一行工具配置 → 判据 A 红
+    //    · 手改生成物       → 判据 B 红
+    //    · 伪造基线快照     → 判据 C 红
+    // 不用 `requires`：基线快照是**提交进仓库**的文件，缺了就是失败，不是跳过。
+    // （DSH 应用不在时判据 C 会明确降级为警告，而不是静默通过。）
+    Step('L3', 'Agent 预设（工具集 = standard）', 'python3',
+        ['tools/dsh/verify_preset.py'],
+        note: '源码优先预设：工具集未变 / 派生可复现 / 基线未过期'),
 
     Step('L3', '静态契约', 'flutter',
         ['analyze', '--fatal-infos', 'lib', 'test', 'tools'],
