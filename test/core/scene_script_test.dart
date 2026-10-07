@@ -53,6 +53,16 @@ void main() {
           reason: '大地图脚本数不对：${wm.length}（`src/events_wm.c` 有 132 个）');
       expect(allSceneFns.containsKey('EventScrWM_Prologue_Beginning'), isTrue);
       expect(allSceneFns.containsKey('EventScrWM_Ch1_Beginning'), isTrue);
+
+      // ★ 事件表里那些**按偏移引用**的 blob 脚本（`xxx + 0xNN`）：
+      // 它们的定义在 `.c` 里也是类型化数组 + 事件宏，只是名字不以 `EventScr` 开头。
+      // 生成器现在会按**每条宏的字数**累加、在被引用的**字节偏移**处切开
+      // （偏移是字节，不是字 —— 这个换算错了我白跑过一轮）。
+      final blobKeys =
+          allSceneFns.keys.where((k) => RegExp(r' \+ 0x[0-9A-Fa-f]+$').hasMatch(k)).toList();
+      expect(blobKeys.length, greaterThanOrEqualTo(17),
+          reason: '按偏移切出的 blob 脚本数变了：${blobKeys.toSet()}');
+      expect(blobKeys.contains('frontier_df3_eventscr_ch_017_A6F47C + 0x1B8'), isTrue);
       expect(allSceneFns.containsKey('EventScr_Prologue_BeginningScene'), isTrue);
       expect(allSceneFns.containsKey('EventScr_Prologue_EirikaAttacked'), isTrue,
           reason: '缺失的上游脚本也生成占位，否则调用处编译不过');

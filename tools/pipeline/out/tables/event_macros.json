@@ -2194,6 +2194,339 @@
     "extraWords": 0,
     "len": 2
    }
+  ],
+  "0:0": [
+   {
+    "macro": "EvtNop",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "10:0": [
+   {
+    "macro": "CALL",
+    "params": [
+     "scr"
+    ],
+    "arg": "",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "13:0": [
+   {
+    "macro": "ASMC",
+    "params": [
+     "func"
+    ],
+    "arg": "",
+    "extraWords": 1,
+    "len": 4
+   }
+  ],
+  "28:0": [
+   {
+    "macro": "TEXTCONT",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "29:0": [
+   {
+    "macro": "TEXTEND",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "34:0": [
+   {
+    "macro": "CLEAN",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "48:0": [
+   {
+    "macro": "ENUN",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "62:0": [
+   {
+    "macro": "PREP",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "137:0": [
+   {
+    "macro": "WM_WAITFORCAM",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "151:0": [
+   {
+    "macro": "WM_CREATENEXTDESTINATION",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "153:0": [
+   {
+    "macro": "WM_WAITFORFX",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "165:0": [
+   {
+    "macro": "WM_WAITFORSPRITELOAD",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "177:0": [
+   {
+    "macro": "WM_WAITFORTEXT",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "179:0": [
+   {
+    "macro": "WM_TEXTDECORATE",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "193:0": [
+   {
+    "macro": "SKIPWN",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "194:0": [
+   {
+    "macro": "WmEvtNoFade",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "199:0": [
+   {
+    "macro": "WM_TEXTSTART",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "201:0": [
+   {
+    "macro": "WM_REMOVETEXT",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "181:0": [
+   {
+    "macro": "WM_WAITFORFXCLEAR1",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "183:0": [
+   {
+    "macro": "WM_WAITFORFXCLEAR2",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "174:0": [
+   {
+    "macro": "WmEvtWaitFadeInDark",
+    "params": [],
+    "arg": "",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:0": [
+   {
+    "macro": "SADD",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:1": [
+   {
+    "macro": "SSUB",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:2": [
+   {
+    "macro": "SMUL",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:3": [
+   {
+    "macro": "SDIV",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:4": [
+   {
+    "macro": "SMOD",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:5": [
+   {
+    "macro": "SAND",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:6": [
+   {
+    "macro": "SORR",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:7": [
+   {
+    "macro": "SXOR",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:8": [
+   {
+    "macro": "SLSL",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
+  ],
+  "6:9": [
+   {
+    "macro": "SLSR",
+    "params": [
+     "to",
+     "a",
+     "b"
+    ],
+    "arg": "u4quad",
+    "packed": "u4quad",
+    "extraWords": 0,
+    "len": 2
+   }
   ]
  }
 }

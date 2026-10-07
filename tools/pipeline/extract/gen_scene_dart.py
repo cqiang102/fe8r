@@ -398,7 +398,75 @@ def main():
     files = sorted(set(files))
     print(f"扫描 {len(files)} 个源文件")
 
+    # ★ 事件表里那些**按偏移引用**的 blob 脚本（`frontier_df4_menu_008_A66F88 + 0x68` …）。
+    #
+    # 它们的定义在 `.c` 里也是**类型化数组 + 事件宏**
+    #（`EventListScr frontier_df3_eventscr_ch_016_A6EFD8[] __attribute__((...)) = { EVENT_WORD(...) EVBIT_T(7) ENDA … }`，
+    #  `src/data/frontier_df3_eventscr_ch/frontier_df3_eventscr_ch.c:3739`），
+    # 只是**名字不以 `EventScr` 开头** ⇒ 生成器原来一条都收不到。
+    #
+    # ⚠️ 不能像上一轮那样"把整个数组当脚本存"：那些函数**没有调用者**，
+    # 只会把占位符棘轮推上去（上一轮就是这么 +284 的）。这里**只存切片**。
+    wanted_blobs, blob_refs = set(), {}
+    unresolved_early = []   # 字节偏移不是 4 的倍数（先记下来，最后报）
+    el = os.path.join(HERE, "..", "out", "tables", "event_lists.json")
+    if os.path.exists(el):
+        import json as _j
+        for _lst in _j.load(open(el, encoding="utf-8"))["lists"].values():
+            for _e in _lst:
+                _sc = _e.get("script")
+                if not isinstance(_sc, str) or _sc.startswith("EventScr"):
+                    continue
+                _m = re.match(r"^(\w+)\s*\+\s*(0x[0-9A-Fa-f]+)$", _sc)
+                if _m:
+                    # ⚠️ **偏移是字节**（事件表里写的是 `(u8 *)sym + 0x68`），
+                    # 而字数累加是按**字**（4 字节）——不换算就永远对不上边界
+                    # （`0xC` 是 3 个字、不是 12 个字；我为此白跑了一轮）。
+                    _b = int(_m.group(2), 16)
+                    if _b % 4:
+                        unresolved_early.append(_sc)
+                    wanted_blobs.add(_m.group(1))
+                    blob_refs.setdefault(_m.group(1), {})[_b // 4] = _sc
+                else:
+                    wanted_blobs.add(_sc)
+                    blob_refs.setdefault(_sc, {})[0] = _sc
+
+    # 宏名 → **字数**（`event_macros.json` 的 `len` 是半字）
+    macro_words = {}
+    mp = os.path.join(HERE, "..", "out", "tables", "event_macros.json")
+    if os.path.exists(mp):
+        import json as _j2
+        for _specs in _j2.load(open(mp, encoding="utf-8"))["byCmdSub"].values():
+            for _sp in _specs:
+                macro_words.setdefault(_sp["macro"], max(1, _sp["len"] // 2))
+    macro_words.setdefault("EVENT_WORD", 2)   # 命令字 + 指针
+    # `CALL` 是 `_EvtAutoCmdLen4(EV_CMD_CALL), (EventListScr)(scr),`
+    #（`include/eventscript.h:607`）⇒ 4 半字 = 2 字。它不走 `_EvtArg0`，宏表里没有。
+    macro_words.setdefault("CALL", 2)
+
+    # `EAstdlib.h` 的**别名**：`#define ENDA EvtReturn` / `#define COUNTER_DEC EvtDecCounter`…
+    alias = {}
+    ea = os.path.join(DECOMP, "include", "EAstdlib.h")
+    if os.path.exists(ea):
+        for line in open(ea, encoding="utf-8", errors="replace"):
+            m = re.match(r"#define\s+([A-Z][A-Z0-9_]*)\s+(\w+)\s*$", line)
+            if m:
+                alias[m.group(1)] = m.group(2)
+
+    def words_of(op):
+        if op in macro_words:
+            return macro_words[op]
+        t = alias.get(op)
+        return macro_words.get(t) if t else None
+
+    unresolved = []
+    name_alt = "|".join(re.escape(w) for w in sorted(wanted_blobs))
+    name_pat = "EventScr\\w*" + (("|" + name_alt) if name_alt else "")
+    print(f"  事件表按偏移引用的 blob 符号 {len(wanted_blobs)} 个"
+          f"（偏移 {sum(len(v) for v in blob_refs.values())} 个）")
+
     scripts = {}
+    ops_body = {}      # 数组的原始体（逐元素数字数要用）
     for f in files:
         raw = strip_comments(open(f, encoding="utf-8", errors="replace").read())
         # ⚠️ 两个都放宽：
@@ -411,7 +479,8 @@ def main():
         # 4. **类型名也不一样**：WM 那些写的是 `EventScr EventScrWM_X[358] …`，
         #    不是 `EventListScr …`。（4 处差异叠在一起 ⇒ 132 条一条都收不到。）
         for m in re.finditer(
-                r"(?:EventListScr|EventScr)\s+(EventScr\w*)\s*\[\s*\d*\s*\]\s*[^=]*=\s*\{",
+                r"(?:EventListScr|EventScr)\s+(" + name_pat +
+                r")\s*\[\s*\d*\s*\]\s*[^=]*=\s*\{",
                 raw):
             name = m.group(1)
             i = m.end()
@@ -419,6 +488,7 @@ def main():
                 j = raw.index("\n};", i)
             except ValueError:
                 continue
+            ops_body[name] = raw[i:j]
             ops = []
             for line in raw[i:j].split("\n"):
                 line = line.strip().rstrip(",").strip()
@@ -429,7 +499,57 @@ def main():
                     continue
                 ar = [parse_arg(x) for x in split_args(mm.group(2))] if mm.group(2) else []
                 ops.append((mm.group(1), ar))
-            scripts[name] = ops
+            if name in blob_refs:
+                # 按**每一个元素**的字数累加定位，再在被引用的偏移处切开。
+                #
+                # ⚠️ 不能只遍历 `ops`（它只收"标识符+括号"的行）：数组体里还有
+                # **裸字面量/表达式**（如 `.4byte` 风格的一个字），
+                # 那些被跳过 ⇒ 累加的字数比真实短 ⇒ "偏移 152 不在宏边界上"
+                # 这类假失败。这里直接按顶层逗号切元素，逐个数。
+                offs = sorted(blob_refs[name])
+                body_txt = ops_body.get(name, "")
+                # ⚠️ 这些数组体的元素是**按行**写的宏（逗号在宏自己的展开里，
+                # `_EvtArg0(...)` 末尾自带逗号），不是顶层逗号分隔 ——
+                # 用 `split_args` 只会切出 1 个元素（我踩过）。
+                elems = []
+                for _l in body_txt.split("\n"):
+                    _l = _l.strip().rstrip(",").strip()
+                    if _l and not _l.startswith("#"):
+                        elems.append(_l)
+                pos, starts = 0, []
+                for el in elems:
+                    if not el:
+                        continue
+                    mm = re.match(r"([A-Za-z_]\w*)\s*(?:\((.*)\))?$", el, re.S)
+                    if mm:
+                        w = words_of(mm.group(1))
+                        if w is None:
+                            unresolved.append((name, f"宏 {mm.group(1)} 的字数未知"))
+                            starts = None
+                            break
+                    else:
+                        w = 1          # 裸字面量 = 1 个字
+                    starts.append(pos)
+                    pos += w
+                if starts is not None:
+                    idx_of = {o: i for i, o in enumerate(starts)}
+                    for k, off in enumerate(offs):
+                        if off not in idx_of:
+                            unresolved.append((blob_refs[name][off],
+                                               f"偏移 {off} 不在宏边界上"))
+                            continue
+                        end_off = offs[k + 1] if k + 1 < len(offs) else pos
+                        if end_off not in idx_of:
+                            unresolved.append((blob_refs[name][off],
+                                               f"下一个偏移 {end_off} 不在宏边界上"))
+                            continue
+                        sub = ops[idx_of[off]:idx_of[end_off]]
+                        if sub:
+                            # 键 = 事件表里的**原字符串**（`allSceneFns` 按原始名查）
+                            scripts[blob_refs[name][off]] = sub
+                # ★ **不存整块**：它没有调用者（上一轮就是这么把棘轮推上去的）
+            else:
+                scripts[name] = ops
 
     # ---- ★ 并入从 `.s` 裸字节解出来的脚本 ----
     #
@@ -461,6 +581,13 @@ def main():
                 asm_added += 1
         print(f"  并入汇编脚本 {asm_added} 个")
 
+    if blob_refs:
+        got = sum(1 for _s in blob_refs.values() for _o in _s.values()
+                  if _o in scripts)
+        total = sum(len(_s) for _s in blob_refs.values())
+        print(f"  按偏移切出的 blob 脚本 {got}/{total}")
+        for nm, why in unresolved[:5]:
+            print(f"      未切出：{nm} —— {why}")
     print(f"解析出 {len(scripts)} 个脚本，{sum(len(v) for v in scripts.values())} 条指令")
 
     # 引用完整性

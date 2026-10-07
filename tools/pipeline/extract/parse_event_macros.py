@@ -155,6 +155,50 @@ def main():
             "len": l_,
         })
 
+    # ---- 1b) `_EvtAutoCmdLenN(cmd)` 形式 ----
+    #
+    # 出处：`include/eventscript.h:577-578`
+    #     #define _EvtAutoCmdLen2(cmd) _EvtArg0(cmd, 2, 0, 0)
+    #     #define _EvtAutoCmdLen4(cmd) _EvtArg0(cmd, 4, 0, 0)
+    # ⇒ 等价于 `_EvtArg0(cmd, N, 0, 0)`：**无 sub、无参数**。
+    # 例：`EvtWaitUnitMoving`（`ENUN`）= `_EvtAutoCmdLen2(EV_CMD_ENUN),`
+    #（`include/eventscript.h`）—— 上一轮只做 `_EvtArg0` 形式，这一批全漏。
+    for m in re.finditer(
+            r"#define\s+(\w+)\s*(?:\(([^)]*)\))?\s*"
+            r"_EvtAutoCmdLen(\d)\(\s*([A-Z_0-9]+)\s*\)(.*)$", body, re.M):
+        name, params, n, cmd, rest = m.groups()
+        c = consts.get(cmd)
+        if c is None:
+            continue
+        entries.setdefault((c, 0), []).append({
+            "macro": name,
+            "params": [x.strip() for x in (params or "").split(",") if x.strip()],
+            "arg": "",
+            "extraWords": rest.count("EventListScr"),
+            "len": int(n),
+        })
+
+    # ---- 2b) `_EvtSubParam16u4(a, b, c, d)`：**四个 nibble** 打包进一个字 ----
+    #
+    # 例：`EvtSlotAND(to, a, b)` = `_EvtArg0(EV_CMD_SLOT_OPS, 2, EVSUBCMD_SAND,
+    #     _EvtSubParam16u4(to, a, b, 0))`（`SAND`）—— 原来只做 `_EvtSubParam16u8`。
+    for m in re.finditer(
+            r"#define\s+(\w+)\s*\(([^)]*)\)\s*"
+            r"_EvtArg0\(\s*([A-Z_0-9]+)\s*,\s*([^,]+),\s*([^,]+),\s*"
+            r"_EvtSubParam16u4\(([^)]*)\)\s*\)(.*)$", body, re.M):
+        name, params, cmd, ln, sub, quad, rest = m.groups()
+        c = consts.get(cmd)
+        if c is None:
+            continue
+        entries.setdefault((c, val(sub, consts) or 0), []).append({
+            "macro": name,
+            "params": [x.strip() for x in params.split(",") if x.strip()],
+            "arg": "u4quad",
+            "packed": "u4quad",
+            "extraWords": rest.count("EventListScr"),
+            "len": val(ln, consts) or 2,
+        })
+
     # ---- 3) 别名（`#define LOAD1 EvtLoadUnit1`）----
     alias_to = {}
     for m in re.finditer(r"^#define\s+([A-Z][A-Z0-9_]*)\s+(\w+)\s*$", ea, re.M):
