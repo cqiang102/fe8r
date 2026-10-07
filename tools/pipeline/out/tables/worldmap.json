@@ -1,5 +1,5 @@
 {
- "note": "大地图节点与路径。节点顺序 = gWMNodeData 顺序（= WMLoc_GetChapterId 的 i）。",
+ "note": "大地图节点与路径 + 章节→章间脚本。节点顺序 = gWMNodeData 顺序（= WMLoc_GetChapterId 的 i）。",
  "nodes": [
   {
    "placementFlag": 0,
@@ -885,5 +885,560 @@
     "y": 88
    }
   ]
- }
+ },
+ "chapterWm": [
+  {
+   "index": 0,
+   "internalName": "L00",
+   "gmapEventId": 1,
+   "wmBeginning": "EventScrWM_Prologue_Beginning",
+   "wmChapterIntro": "EventScrWM_Prologue_ChapterIntro"
+  },
+  {
+   "index": 1,
+   "internalName": "L01",
+   "gmapEventId": 2,
+   "wmBeginning": "EventScrWM_Ch1_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch1_ChapterIntro"
+  },
+  {
+   "index": 2,
+   "internalName": "L02",
+   "gmapEventId": 3,
+   "wmBeginning": "EventScrWM_Ch2_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch2_ChapterIntro"
+  },
+  {
+   "index": 3,
+   "internalName": "L03",
+   "gmapEventId": 4,
+   "wmBeginning": "EventScrWM_Ch3_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch3_ChapterIntro"
+  },
+  {
+   "index": 4,
+   "internalName": "L04",
+   "gmapEventId": 5,
+   "wmBeginning": "EventScrWM_Ch4_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch4_ChapterIntro"
+  },
+  {
+   "index": 5,
+   "internalName": "I05",
+   "gmapEventId": 6,
+   "wmBeginning": "EventScrWM_Ch5x_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch5x_ChapterIntro"
+  },
+  {
+   "index": 6,
+   "internalName": "L05",
+   "gmapEventId": 7,
+   "wmBeginning": "EventScrWM_Ch5_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch5_ChapterIntro"
+  },
+  {
+   "index": 7,
+   "internalName": "L06",
+   "gmapEventId": 8,
+   "wmBeginning": "EventScrWM_Ch6_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch6_ChapterIntro"
+  },
+  {
+   "index": 8,
+   "internalName": "L07",
+   "gmapEventId": 9,
+   "wmBeginning": "EventScrWM_Ch7_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch7_ChapterIntro"
+  },
+  {
+   "index": 9,
+   "internalName": "L08",
+   "gmapEventId": 10,
+   "wmBeginning": "EventScrWM_Ch8_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch8_ChapterIntro"
+  },
+  {
+   "index": 10,
+   "internalName": "E09",
+   "gmapEventId": 11,
+   "wmBeginning": "EventScrWM_Ch9a_Beginning",
+   "wmChapterIntro": "EventScrWM_Ch9a_ChapterIntro"
+  },
+  {
+   "index": 11,
+   "internalName": "E10",
+   "gmapEventId": 12,
+   "wmBeginning": "EventScrWM_Ch10a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_1"
+  },
+  {
+   "index": 12,
+   "internalName": "E11",
+   "gmapEventId": 13,
+   "wmBeginning": "EventScrWM_Ch12a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_2"
+  },
+  {
+   "index": 13,
+   "internalName": "E12",
+   "gmapEventId": 14,
+   "wmBeginning": "EventScrWM_Ch13a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_3"
+  },
+  {
+   "index": 14,
+   "internalName": "E13",
+   "gmapEventId": 15,
+   "wmBeginning": "EventScrWM_Ch14a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_4"
+  },
+  {
+   "index": 15,
+   "internalName": "E14",
+   "gmapEventId": 16,
+   "wmBeginning": "EventScrWM_Ch15a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_37"
+  },
+  {
+   "index": 16,
+   "internalName": "E15",
+   "gmapEventId": 17,
+   "wmBeginning": "EventScrWM_Ch16a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_38"
+  },
+  {
+   "index": 17,
+   "internalName": "E16",
+   "gmapEventId": 18,
+   "wmBeginning": "EventScrWM_Ch17a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_39"
+  },
+  {
+   "index": 18,
+   "internalName": "E17",
+   "gmapEventId": 19,
+   "wmBeginning": "EventScrWM_Ch18a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_40"
+  },
+  {
+   "index": 19,
+   "internalName": "E18",
+   "gmapEventId": 20,
+   "wmBeginning": "EventScrWM_Ch19a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_41"
+  },
+  {
+   "index": 20,
+   "internalName": "E19",
+   "gmapEventId": 21,
+   "wmBeginning": "EventScrWM_Ch20a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_42"
+  },
+  {
+   "index": 21,
+   "internalName": "E20",
+   "gmapEventId": 22,
+   "wmBeginning": "EventScrWM_Ch21a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_43"
+  },
+  {
+   "index": 22,
+   "internalName": "E20B",
+   "gmapEventId": 23,
+   "wmBeginning": "EventScrWM_Ch21ax_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_55"
+  },
+  {
+   "index": 23,
+   "internalName": "I09",
+   "gmapEventId": 24,
+   "wmBeginning": "EventScrWM_Ch9b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_5"
+  },
+  {
+   "index": 24,
+   "internalName": "I10",
+   "gmapEventId": 25,
+   "wmBeginning": "EventScrWM_Ch10b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_6"
+  },
+  {
+   "index": 25,
+   "internalName": "I11",
+   "gmapEventId": 26,
+   "wmBeginning": "EventScrWM_Ch12b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_7"
+  },
+  {
+   "index": 26,
+   "internalName": "I12",
+   "gmapEventId": 27,
+   "wmBeginning": "EventScrWM_Ch13b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_8"
+  },
+  {
+   "index": 27,
+   "internalName": "I13",
+   "gmapEventId": 28,
+   "wmBeginning": "EventScrWM_Ch14b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_9"
+  },
+  {
+   "index": 28,
+   "internalName": "I14",
+   "gmapEventId": 29,
+   "wmBeginning": "EventScrWM_Ch15b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_44"
+  },
+  {
+   "index": 29,
+   "internalName": "I15",
+   "gmapEventId": 30,
+   "wmBeginning": "EventScrWM_Ch16b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_45"
+  },
+  {
+   "index": 30,
+   "internalName": "I16",
+   "gmapEventId": 31,
+   "wmBeginning": "EventScrWM_Ch17b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_46"
+  },
+  {
+   "index": 31,
+   "internalName": "I17",
+   "gmapEventId": 32,
+   "wmBeginning": "EventScrWM_Ch18b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_47"
+  },
+  {
+   "index": 32,
+   "internalName": "I18",
+   "gmapEventId": 33,
+   "wmBeginning": "EventScrWM_Ch19b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_48"
+  },
+  {
+   "index": 33,
+   "internalName": "I19",
+   "gmapEventId": 34,
+   "wmBeginning": "EventScrWM_Ch20b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_49"
+  },
+  {
+   "index": 34,
+   "internalName": "I20",
+   "gmapEventId": 35,
+   "wmBeginning": "EventScrWM_Ch21b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_50"
+  },
+  {
+   "index": 35,
+   "internalName": "I20B",
+   "gmapEventId": 36,
+   "wmBeginning": "EventScrWM_Ch21bx_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_56"
+  },
+  {
+   "index": 36,
+   "internalName": "T01",
+   "gmapEventId": 37,
+   "wmBeginning": "EventScrWM_ValniTower1_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_11"
+  },
+  {
+   "index": 37,
+   "internalName": "T02",
+   "gmapEventId": 38,
+   "wmBeginning": "EventScrWM_ValniTower2_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_12"
+  },
+  {
+   "index": 38,
+   "internalName": "T03",
+   "gmapEventId": 39,
+   "wmBeginning": "EventScrWM_ValniTower3_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_13"
+  },
+  {
+   "index": 39,
+   "internalName": "T04",
+   "gmapEventId": 40,
+   "wmBeginning": "EventScrWM_ValniTower4_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_14"
+  },
+  {
+   "index": 40,
+   "internalName": "T05",
+   "gmapEventId": 41,
+   "wmBeginning": "EventScrWM_ValniTower5_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_15"
+  },
+  {
+   "index": 41,
+   "internalName": "T06",
+   "gmapEventId": 42,
+   "wmBeginning": "EventScrWM_ValniTower6_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_16"
+  },
+  {
+   "index": 42,
+   "internalName": "T07",
+   "gmapEventId": 43,
+   "wmBeginning": "EventScrWM_ValniTower7_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_17"
+  },
+  {
+   "index": 43,
+   "internalName": "T08",
+   "gmapEventId": 44,
+   "wmBeginning": "EventScrWM_ValniTower8_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_18"
+  },
+  {
+   "index": 44,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 45,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 46,
+   "internalName": "R01",
+   "gmapEventId": 45,
+   "wmBeginning": "EventScrWM_LagdouRuins1_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_23"
+  },
+  {
+   "index": 47,
+   "internalName": "R02",
+   "gmapEventId": 46,
+   "wmBeginning": "EventScrWM_LagdouRuins2_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_24"
+  },
+  {
+   "index": 48,
+   "internalName": "R03",
+   "gmapEventId": 47,
+   "wmBeginning": "EventScrWM_LagdouRuins3_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_25"
+  },
+  {
+   "index": 49,
+   "internalName": "R04",
+   "gmapEventId": 48,
+   "wmBeginning": "EventScrWM_LagdouRuins4_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_26"
+  },
+  {
+   "index": 50,
+   "internalName": "R05",
+   "gmapEventId": 49,
+   "wmBeginning": "EventScrWM_LagdouRuins5_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_27"
+  },
+  {
+   "index": 51,
+   "internalName": "R06",
+   "gmapEventId": 50,
+   "wmBeginning": "EventScrWM_LagdouRuins6_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_28"
+  },
+  {
+   "index": 52,
+   "internalName": "R07",
+   "gmapEventId": 51,
+   "wmBeginning": "EventScrWM_LagdouRuins7_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_29"
+  },
+  {
+   "index": 53,
+   "internalName": "R08",
+   "gmapEventId": 52,
+   "wmBeginning": "EventScrWM_LagdouRuins8_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_30"
+  },
+  {
+   "index": 54,
+   "internalName": "R09",
+   "gmapEventId": 53,
+   "wmBeginning": "EventScrWM_LagdouRuins9_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_31"
+  },
+  {
+   "index": 55,
+   "internalName": "R10",
+   "gmapEventId": 54,
+   "wmBeginning": "EventScrWM_LagdouRuins10_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_32"
+  },
+  {
+   "index": 56,
+   "internalName": "C00",
+   "gmapEventId": 55,
+   "wmBeginning": "EventScrWM_CastleFrelia_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_54"
+  },
+  {
+   "index": 57,
+   "internalName": "H00",
+   "gmapEventId": 56,
+   "wmBeginning": "EventScrWM_MelkaenCoast_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_10"
+  },
+  {
+   "index": 58,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 59,
+   "internalName": "D00",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 60,
+   "internalName": "D01",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 61,
+   "internalName": "E10x",
+   "gmapEventId": 57,
+   "wmBeginning": "EventScrWM_Ch11a_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_57"
+  },
+  {
+   "index": 62,
+   "internalName": "I10x",
+   "gmapEventId": 58,
+   "wmBeginning": "EventScrWM_Ch11b_Beginning",
+   "wmChapterIntro": "EventScrWM_MessedEventscr_58"
+  },
+  {
+   "index": 63,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 64,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 65,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 66,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 67,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 68,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 69,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 70,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 71,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 72,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 73,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 74,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 75,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 76,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 77,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  },
+  {
+   "index": 78,
+   "internalName": "-",
+   "gmapEventId": 0,
+   "wmBeginning": null,
+   "wmChapterIntro": null
+  }
+ ]
 }

@@ -91,6 +91,41 @@ def parse_paths():
     return out
 
 
+def parse_chapter_wm():
+    """章节 → 章间脚本（`gmapEventId` 索引两张表）
+
+    出处：`src/data/data_chapter_asset_table.c:613-732`
+
+    * `Events_WM_BeginningTail[58]` —— 注释里的下标就是 `gmapEventId`
+      （`Events_WM_Beginning[1]` = Prologue），所以数组第 i 项对应 gmapEventId = i+1
+    * `Events_WM_ChapterIntro[59]` —— **直接**按 gmapEventId 索引（[0] 未用）
+
+    调用者：`src/worldmap_main_080BF178.c:117`（Beginning）与 `:130`（ChapterIntro）。
+    """
+    path = os.path.join(DECOMP, "src/data/data_chapter_asset_table.c")
+    txt = open(path, encoding="utf-8", errors="replace").read()
+
+    def arr(name, pat):
+        m = re.search(name + r"[^=]*=\s*\{(.*?)\n\};", txt, re.S)
+        if not m:
+            return None
+        out = []
+        # ⚠️ 必须把 `0,`（数字）也算进来占位 —— 只认标识符会让整表**错位一格**
+        # （`Events_WM_ChapterIntro[0]` 就是 0，于是 Prologue 的 ChapterIntro
+        # 被我读成了 Ch1 的 —— 与节点表那次是同一个坑）。
+        for e in re.finditer(r"([A-Za-z_]\w*|\d+)\s*(?:/\*[^*]*\*/)?\s*,",
+                             m.group(1)):
+            v = e.group(1)
+            out.append(None if v == "0" else v)
+        return out
+
+    tail = arr("Events_WM_BeginningTail", None)
+    intro = arr("Events_WM_ChapterIntro", None)
+    if tail is None or intro is None:
+        return None, None
+    return tail, intro
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "..", "out", "tables"))
@@ -119,13 +154,48 @@ def main():
           f"路径 20 条（path_0 = {p0}）")
     print(f"    带商店指针的节点：{sum(1 for n in nodes if n['hasShopPointers'])} 条")
 
+    # ---- 章节 → 章间脚本（把 `gmapEventId` 接到刚才那两张表上）----
+    tail, intro = parse_chapter_wm()
+    chPath = os.path.join(a.out, "chapters.json")
+    if tail is None or intro is None:
+        print("⚠️ 没读到 Events_WM_BeginningTail / ChapterIntro —— 跳过章节连接", file=sys.stderr)
+        chapterWm = None
+    elif not os.path.exists(chPath):
+        # 提取器之间**不该有隐藏顺序依赖**：没有 chapters.json 就跳过并说明
+        print("⚠️ 还没有 chapters.json（先跑 parse_chapters.py）—— 跳过章节连接",
+              file=sys.stderr)
+        chapterWm = None
+    else:
+        chs = json.load(open(chPath, encoding="utf-8"))["chapters"]
+        chapterWm = []
+        for c in chs:
+            g = c.get("gmapEventId") or 0
+            beg = tail[g - 1] if 1 <= g <= len(tail) else None
+            itr = intro[g] if 0 <= g < len(intro) else None
+            chapterWm.append({
+                "index": c["index"], "internalName": c["internalName"],
+                "gmapEventId": g, "wmBeginning": beg, "wmChapterIntro": itr,
+            })
+        # ★ 正向抽查真值
+        byIdx = {e["index"]: e for e in chapterWm}
+        if byIdx[0]["wmBeginning"] != "EventScrWM_Prologue_Beginning":
+            print(f"❌ 序章的章间脚本不对：{byIdx[0]}", file=sys.stderr)
+            return 1
+        if byIdx[56]["wmBeginning"] != "EventScrWM_CastleFrelia_Beginning":
+            print(f"❌ C00 的章间脚本不对：{byIdx[56]}", file=sys.stderr)
+            return 1
+        print(f"  ✓ 章节→章间脚本 {sum(1 for e in chapterWm if e['wmBeginning'])} 条"
+              f"（序章 {byIdx[0]['wmBeginning']}；C00 {byIdx[56]['wmBeginning']}）")
+
     os.makedirs(a.out, exist_ok=True)
     dst = os.path.join(a.out, "worldmap.json")
     with open(dst, "w", encoding="utf-8") as f:
         json.dump({
-            "note": "大地图节点与路径。节点顺序 = gWMNodeData 顺序（= WMLoc_GetChapterId 的 i）。",
+            "note": "大地图节点与路径 + 章节→章间脚本。节点顺序 = gWMNodeData 顺序"
+                    "（= WMLoc_GetChapterId 的 i）。",
             "nodes": nodes,
             "paths": paths,
+            "chapterWm": chapterWm,
         }, f, ensure_ascii=False, indent=1)
     print(f"→ {dst}  ({os.path.getsize(dst)} B)")
     return 0

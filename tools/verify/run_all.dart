@@ -222,7 +222,7 @@ Future<void> main(List<String> argv) async {
       Step('L0', '大地图表（节点/路径）', 'python3',
           ['extract/parse_worldmap.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline',
-          note: '节点 29 / 路径 20；path_0 = [(1351,128,88),(2703,112,72)]')
+          note: '节点 29 / 路径 20 / 章节→章间脚本 58；C00 = EventScrWM_CastleFrelia_Beginning')
     else
       Step('L0', '大地图表', 'true', const [], skip: true, note: decompNote),
 

@@ -6,6 +6,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fe8r/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -38,6 +39,29 @@ void main() {
     final p0 = (paths['gWorldmapPath_0'] as List).cast<Map<String, dynamic>>();
     expect([for (final p in p0) '${p['t']},${p['x']},${p['y']}'],
         ['1351,128,88', '2703,112,72']);
+  });
+
+  test('★ 章节 → 章间脚本（`gmapEventId` 接上两张表）', () {
+    final wm = (d['chapterWm'] as List?)?.cast<Map<String, dynamic>>();
+    expect(wm, isNotNull, reason: '缺 chapterWm（先跑 parse_chapters.py 再跑本提取器）');
+    expect(wm!.length, 79, reason: '章节数与 chapters.json 一致');
+    expect(wm.where((e) => e['wmBeginning'] != null).length, 58,
+        reason: 'gmapEventId 非零的章节正好 58 个');
+    // 正向抽查：序章与 C00（フレリア城，第 1 章结束剧情里 `MNCH(0x38)` 的目标）
+    final byIdx = {for (final e in wm) e['index'] as int: e};
+    expect(byIdx[0]!['wmBeginning'], 'EventScrWM_Prologue_Beginning');
+    expect(byIdx[0]!['wmChapterIntro'], 'EventScrWM_Prologue_ChapterIntro');
+    expect(byIdx[56]!['wmBeginning'], 'EventScrWM_CastleFrelia_Beginning');
+    expect(byIdx[56]!['gmapEventId'], 55);
+    // 这两张表**必须在**生成好的脚本表里（否则接上了也演不出来）
+    for (final e in wm) {
+      for (final k in ['wmBeginning', 'wmChapterIntro']) {
+        final n = e[k];
+        if (n is String) {
+          expect(allSceneFns.containsKey(n), isTrue, reason: '$n 不在 scene_data 里');
+        }
+      }
+    }
   });
 
   test('每条路径都以 keyframe 组成、时间递增（不是空表）', () {
