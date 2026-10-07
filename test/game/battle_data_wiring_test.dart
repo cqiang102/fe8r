@@ -265,4 +265,33 @@ void main() {
               '`PlayerPhase_HandleAutoEnd` 必须被求值到一次');
     });
   });
+
+  test('★ 关掉"自动结束回合"后，最后一个单位的攻击**不该**结束阶段', () {
+    // 出处：`src/playerphase_0801D808.c:52-58` —— 配置开关与判据在**同一个条件**里：
+    //   if (!(gPlaySt.config.disableAutoEndTurns) && (GetPhaseAbleUnitCount(...) == 0))
+    //       Proc_Goto(proc, 3);
+    // ⇒ 关掉之后，阶段只能由玩家在菜单里选「終了」结束。
+    final game = loadTables();
+    game.field = BattleField(width: 15, height: 10, units: []);
+    game.loadUnitsForTest('UnitDef_Event_PrologueAlly', 1);
+    game.loadUnitsForTest('UnitDef_Event_PrologueEnemy', 1);
+
+    final f = game.field!;
+    final seth = f.units.firstWhere((u) => u.charIndex == 2);
+    final eirika = f.units.firstWhere((u) => u.charIndex == 1);
+    final oneill = f.units.firstWhere((u) => u.charIndex == 104);
+
+    game.playConfig.disableAutoEndTurns = true;
+    f.finishUnit(eirika); // 赛特成为最后一个能动的
+    f.moveUnit(seth, oneill.x - 1, oneill.y);
+    f.finishUnit(seth);
+    game.rng.initRn(1);
+
+    return game.attackWithQuoteForTest(seth, oneill).then((_) {
+      expect(oneill.hp, lessThan(oneill.maxHp), reason: '这一下真的打到了');
+      expect(game.autoEndTriggersForTest, 0,
+          reason: '关掉自动结束后，不该有任何一次自动结束判定命中');
+      expect(f.activeFaction, Faction.blue, reason: '还在我方阶段（没被自动结束）');
+    });
+  });
 }

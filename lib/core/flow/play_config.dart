@@ -93,6 +93,33 @@ enum NewGameDifficulty {
   hard,
 }
 
+/// `gPlaySt.config`（`struct PlaySt_OptionBits`，`include/types.h:141-169`）
+///
+/// 这里只放**已经有行为影响**的那些位。现在只有一项 ——
+/// 其余（文字速度、动画开关……）等「設定」屏真的做出来时再补，
+/// 免得出现"存了个值但没人读"的假字段。
+class PlayConfig {
+  PlayConfig({this.disableAutoEndTurns = false});
+
+  /// `config.disableAutoEndTurns`（`include/types.h:155`）
+  ///
+  /// 全作**只有一处**读它：`PlayerPhase_HandleAutoEnd`
+  /// （`src/playerphase_0801D808.c:52-58`）：
+  ///
+  /// ```c
+  /// if (!(gPlaySt.config.disableAutoEndTurns) && (GetPhaseAbleUnitCount(gPlaySt.faction) == 0))
+  ///     Proc_Goto(proc, 3);
+  /// ```
+  ///
+  /// ⇒ 它**只管我方阶段**。敌方 / 友军 NPC 阶段的结束与它无关：
+  /// 那两个阶段跑的是 `gProcScr_CpPhase`（`src/data/data_085D1E10/data_085D1E10.c:20-25`
+  /// = `AiPhaseInit; YIELD; AiPhaseCleanup; END`），AI 把单位跑完就
+  /// `Proc_End`（`src/CpDecide_Main.c:78`）——**没有**读这个开关。
+  ///
+  /// 默认 0（开启自动结束）：`src/InitPlayConfig.c:24`。
+  bool disableAutoEndTurns;
+}
+
 /// 新游戏那一刻写进 `gPlaySt` 的、与地图菜单可见性有关的那几位
 class NewGamePlayFlags {
   const NewGamePlayFlags(this.difficulty);

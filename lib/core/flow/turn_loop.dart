@@ -60,16 +60,52 @@ void switchPhases(BattleField field) {
   field.turn = switchPhasesTurn(prev, field.turn);
 }
 
-/// `PlayerPhase_HandleAutoEnd`
+/// `PlayerPhase_HandleAutoEnd`（`src/playerphase_0801D808.c:52-58`）
+/// ＋ 敌方 / 友军 NPC 阶段的"没人就结束"
 ///
-/// 当前阶段没有任何可行动单位时，自动结束该阶段。
-///
-/// ⚠️ 判据是 **`GetPhaseAbleUnitCount(faction) == 0`**，
+/// 判据是 **`GetPhaseAbleUnitCount(当前阶段阵营) == 0`**，
 /// 也就是"**当前阶段阵营**还有没有能动的单位"，
 /// 不是"还有没有我方单位"。这两个在敌方/NPC 阶段完全不同。
+///
+/// ⚠️ `disableAutoEndTurns` **只对我方阶段有效**。
+/// 全作只有 `PlayerPhase_HandleAutoEnd` 一处读它
+/// （`grep -rn disableAutoEndTurns src/` 一共 5 处：初始化、这一处、設定屏的读与写）。
+/// 敌方 / 友军 NPC 阶段跑的是 `gProcScr_CpPhase`
+/// （`src/data/data_085D1E10/data_085D1E10.c:20-25` = `AiPhaseInit; YIELD; AiPhaseCleanup; END`）
+/// —— AI 把单位跑完就 `Proc_End`（`src/CpDecide_Main.c:78`），**与这个开关无关**。
+///
+/// 把它套到所有阵营上有一个很具体的后果：关掉自动结束后，
+/// **没有敌人的阶段（比如序章的绿色阶段）也会停下来等人**，整局卡住。
 bool shouldAutoEndPhase(BattleField field, {bool disableAutoEndTurns = false}) {
-  if (disableAutoEndTurns) return false;
+  if (field.activeFaction == Faction.blue && disableAutoEndTurns) return false;
   return field.phaseAbleCount(field.activeFaction) == 0;
+}
+
+/// **一次阶段切换** = `BmMain_ChangePhase` 的纯逻辑部分
+/// （`src/bm_08015434.c:82-95`，去掉里面那次 `RunPhaseSwitchEvents`）：
+///
+/// ```c
+/// int BmMain_ChangePhase(void) {
+///     ClearActiveFactionGrayedStates();   // ← 清**当前**（即将结束的）阵营
+///     RefreshUnitSprites();
+///     SwitchPhases();                     // ← 离开 GREEN 时回合 +1
+///     if (RunPhaseSwitchEvents() == true) // ← ★ 这一步在**里面**
+///         return false;
+///     return true;
+/// }
+/// ```
+///
+/// 返回"这个新阶段会不会**自己**结束"。
+///
+/// ⚠️ **调用方必须在每一步之后跑一次 `RunPhaseSwitchEvents`** ——
+/// 原作里它就在 `BmMain_ChangePhase` 内部，也就是**每一次阶段切换都跑**，
+/// 包括那些"一个人都没有、下一个循环就被跳过"的阶段。
+/// 我原来把"跳过空阶段"折成一个循环、循环外只跑一次事件 ——
+/// 于是**被跳过阶段的回合事件永远不触发**。
+bool stepPhase(BattleField field, {bool disableAutoEndTurns = false}) {
+  beginPhase(field); // `ClearActiveFactionGrayedStates`（清即将结束的那个阵营）
+  switchPhases(field); // `SwitchPhases`（离开 GREEN 时回合 +1）
+  return shouldAutoEndPhase(field, disableAutoEndTurns: disableAutoEndTurns);
 }
 
 /// 清掉**当前**阵营的灰化标记。
@@ -102,13 +138,15 @@ void beginPhase(BattleField field) {
   field.clearActiveFactionGrayedStates();
 }
 
-/// 推进到下一个**有单位可行动**的阶段，最多探测若干轮。
+/// 纯逻辑版：一路切到**下一个有单位可行动**的阶段，返回切换次数。
 ///
-/// 原版是在 Proc 里逐阶段跳的；这里做成一步到位的循环，
-/// 但**判据与 SwitchPhases 完全一致**——跳过哪些阶段由
-/// [shouldAutoEndPhase] 决定，不是另写一套。
+/// ⚠️ 这个函数**不跑 `RunPhaseSwitchEvents`** —— 只适合纯 Dart 的测试。
+/// 游戏层请用 [stepPhase] **逐阶段**走，每走一步跑一次回合事件
+/// （原作 `RunPhaseSwitchEvents` 就在 `BmMain_ChangePhase` 里面，
+/// `src/bm_08015434.c:88-90`）。
 ///
-/// 返回实际切换的次数（0 表示所有阶段都空，调用方应视为僵局）。
+/// 保留它是因为 `turn_loop_test.dart` 用它验"跳过哪些阶段"这条判据；
+/// 真机上那条判据由 `scenario.sh turnend` 的 `phaseSwitchEventRuns==6` 覆盖。
 int advanceToNextActivePhase(
   BattleField field, {
   bool disableAutoEndTurns = false,
@@ -116,14 +154,10 @@ int advanceToNextActivePhase(
 }) {
   var hops = 0;
   for (var i = 0; i < maxHops; i++) {
-    // ★ 先清**当前**阵营的灰化（= 它的阶段结束），再切阵营。
-    // 顺序与 `BmMain_ChangePhase` 一致（`src/bm_08015434.c:85-87`）。
-    beginPhase(field);
-    switchPhases(field);
+    final autoEnd =
+        stepPhase(field, disableAutoEndTurns: disableAutoEndTurns);
     hops += 1;
-    if (!shouldAutoEndPhase(field, disableAutoEndTurns: disableAutoEndTurns)) {
-      return hops;
-    }
+    if (!autoEnd) return hops;
   }
   return hops;
 }

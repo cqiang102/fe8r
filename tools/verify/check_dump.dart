@@ -296,6 +296,24 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
 
     ok(d['turnEventFired'] == 'EventScr_Prologue_Turn3',
         '第 3 回合的回合事件跑了', 'turnEventFired=${d['turnEventFired']}');
+
+    // ★ `RunPhaseSwitchEvents` 必须**每一次阶段切换都跑**。
+    //
+    // 出处：`src/bm_08015434.c:82-95` —— 它就在 `BmMain_ChangePhase` **里面**：
+    //   ClearActiveFactionGrayedStates(); RefreshUnitSprites(); SwitchPhases();
+    //   if (RunPhaseSwitchEvents() == true) return false;
+    //
+    // 一次结束 = 3 步（蓝→红、红→绿、绿→蓝），两次结束 = 6 次。
+    // ⚠️ 原来把"跳过空阶段"折成一个循环、循环外只跑一次 ⇒ 只有 2 次/回合，
+    //    绿色阶段的 TURN 条目永远不触发（序章恰好没有这种条目，所以看不出来）。
+    ok(d['phaseSwitchEventRuns'] == 6,
+        '两次结束共跑 6 次阶段切换事件（3 步/次）',
+        'runs=${d['phaseSwitchEventRuns']}');
+    ok(d['configDisableAutoEndTurns'] == false,
+        '`disableAutoEndTurns` 默认 0（`src/InitPlayConfig.c:24`）',
+        'disableAutoEndTurns=${d['configDisableAutoEndTurns']}');
+    ok((d['turnLoopNote'] as String? ?? '').isEmpty,
+        '阶段循环没有异常告警', 'turnLoopNote=${d['turnLoopNote']}');
     ok((d['scene'] as Map?)?['running'] == false, '没有卡在剧情里',
         'scene=${d['scene']}');
     // 敌方真的动过（出生在 x=14）
@@ -675,6 +693,9 @@ Map<String, dynamic> goodTurnEndDump() {
     'active': 0,
   };
   d['turnEventFired'] = 'EventScr_Prologue_Turn3';
+  d['phaseSwitchEventRuns'] = 6;
+  d['configDisableAutoEndTurns'] = false;
+  d['turnLoopNote'] = '';
   for (final u in (d['units'] as List).cast<Map<String, dynamic>>()) {
     u['hasActed'] = false;
     if (u['faction'] == 0x80) u['x'] = 9; // 敌方已经离开出生列 x=14
@@ -707,6 +728,14 @@ Map<String, Map<String, dynamic>> brokenTurnEndDumps() {
     if (u['faction'] == 0x80) u['x'] = 14; // 敌人没动
   }
   out['敌方一步都没动'] = f;
+
+  final g = goodTurnEndDump();
+  g['phaseSwitchEventRuns'] = 4; // 旧实现：每个回合只跑 2 次
+  out['跳过的阶段没跑回合事件（旧实现）'] = g;
+
+  final h = goodTurnEndDump();
+  h['turnLoopNote'] = '转满 6 步没回到我方阶段';
+  out['阶段循环转满了 6 步'] = h;
 
   return out;
 }

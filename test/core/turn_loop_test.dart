@@ -255,4 +255,59 @@ void _secondEnemyPhaseTests() {
     expect(f.phaseAbleCount(Faction.red), 2,
         reason: '★ 第 2 个敌方阶段敌人必须还能动 —— 这条曾经红过');
   });
+
+  group('★ `stepPhase` = 一次 `BmMain_ChangePhase`（纯逻辑部分）', () {
+    test('清的是**即将结束**的阵营，切完才轮到新阵营', () {
+      final f = _field();
+      f.finishUnit(f.unitById(1)!); // 蓝 1 号已行动
+      f.finishUnit(f.unitById(0x81)!); // 红 81 号已行动
+      expect(f.phaseAbleCount(Faction.blue), 1);
+
+      // 蓝→红：清的是**蓝**（它的阶段结束了）
+      final autoEnd = stepPhase(f);
+      expect(f.activeFaction, Faction.red);
+      expect(f.phaseAbleCount(Faction.blue), 2,
+          reason: '蓝的灰化在**自己阶段结束时**清掉（ClearActiveFactionGrayedStates）');
+      expect(f.phaseAbleCount(Faction.red), 1,
+          reason: '红的灰化要等**红的阶段**结束才清 —— 现在还是"已行动"');
+      expect(autoEnd, isFalse, reason: '红方还有 1 个能动的');
+    });
+
+    test('回合数只在离开 GREEN 时 +1（跨 stepPhase 也一样）', () {
+      final f = _field();
+      f.turn = 1;
+      stepPhase(f); // 蓝→红
+      expect(f.turn, 1);
+      stepPhase(f); // 红→绿
+      expect(f.turn, 1);
+      stepPhase(f); // 绿→蓝
+      expect(f.turn, 2);
+      expect(f.activeFaction, Faction.blue);
+    });
+
+    test('★ `disableAutoEndTurns` **只**管我方阶段（敌方/NPC 照旧自己结束）', () {
+      final f = _field();
+
+      // 我方阶段：关掉自动结束后，即使一个能动的都没有也不结束
+      f.finishUnit(f.unitById(1)!);
+      f.finishUnit(f.unitById(2)!);
+      expect(f.phaseAbleCount(Faction.blue), 0);
+      expect(shouldAutoEndPhase(f, disableAutoEndTurns: true), isFalse,
+          reason: '`PlayerPhase_HandleAutoEnd` 的 `!disableAutoEndTurns` 那一半');
+      expect(shouldAutoEndPhase(f, disableAutoEndTurns: false), isTrue);
+
+      // 敌方阶段：同一个开关**不该**影响它
+      // （敌方阶段跑 `gProcScr_CpPhase`，AI 跑完就 Proc_End；全作只有
+      //  `PlayerPhase_HandleAutoEnd` 读这个开关）
+      final g = BattleField(
+        width: 15,
+        height: 10,
+        activeFaction: Faction.green,
+        units: [MapUnit(id: 1, faction: Faction.blue, x: 2, y: 2)],
+      );
+      expect(g.phaseAbleCount(Faction.green), 0);
+      expect(shouldAutoEndPhase(g, disableAutoEndTurns: true), isTrue,
+          reason: '没有友军 NPC 的阶段必须照旧被跳过，否则整局卡住');
+    });
+  });
 }

@@ -476,6 +476,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastDefeatQuote': _lastDefeatQuote,
       'lastEndEvent': _lastEndEvent,
       'turnEventFired': _turnEventFired,
+      'turnLoopNote': _turnLoopNote,
+      // `gPlaySt.config` 现在只有这一项有行为影响
+      'configDisableAutoEndTurns': playConfig.disableAutoEndTurns,
+      // `RunPhaseSwitchEvents` 被跑过的次数（一次阶段切换一次 —— 判据用）
+      'phaseSwitchEventRuns': _phaseSwitchEventRuns,
       'moveCostsNote': _moveCostsNote,
       'moveCostsWeather': _weatherNow.name,
       // 当前移动范围（选中单位时才有）——调"走到哪"这类脚本时，
@@ -1694,6 +1699,18 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     }
   }
 
+  /// `gPlaySt.config`（`struct PlaySt_OptionBits`，`include/types.h:141-169`）
+  ///
+  /// 现在只有 `disableAutoEndTurns` 一项真的被读（`PlayerPhase_HandleAutoEnd`，
+  /// `src/playerphase_0801D808.c:54`）—— 等「設定」屏做出来就由它写。
+  final PlayConfig playConfig = PlayConfig();
+
+  /// 阶段循环的诊断（正常回合结束时是空串）
+  String _turnLoopNote = '';
+
+  /// `RunPhaseSwitchEvents` 被调用的次数。判据用它钉住"每个阶段一次"。
+  int _phaseSwitchEventRuns = 0;
+
   /// 地图菜单状态（`null` = 没打开）
   MapMenuState? mapMenu;
   String _mapMenuNote = '';
@@ -1979,6 +1996,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   ///
   /// 命中就置 `doneFlag`（对应 `info->flag`），所以同一条不会重复触发。
   Future<void> _runPhaseSwitchEvents() async {
+    // 计数放在最前面：判据是"**每一次阶段切换**都跑了一次"
+    // （原作 `RunPhaseSwitchEvents` 就在 `BmMain_ChangePhase` 里面，
+    // `src/bm_08015434.c:88-90`），所以即使这里因为没表/在演出而提前返回，
+    // 那也算"跑过一次"——被调用次数才是这条判据要测的东西。
+    _phaseSwitchEventRuns += 1;
     if (_sceneRunning) return;
     final t = _turnEvents;
     final f = field;
@@ -2153,8 +2175,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     // 事件引擎还在跑就不判（原作 label 0 的 `PROC_WHILE(EventEngineExists)`）
     if (_sceneRunning) return;
 
-    // ② 自动结束（`PlayerPhase_HandleAutoEnd`；配置项默认开启）
-    if (f.phaseAbleCount(f.activeFaction) == 0) {
+    // ② 自动结束（`PlayerPhase_HandleAutoEnd`）
+    //    源码把配置开关放在**同一个条件**里：
+    //    `if (!(gPlaySt.config.disableAutoEndTurns) && (GetPhaseAbleUnitCount(...) == 0))`
+    //    （`src/playerphase_0801D808.c:54`）
+    if (!(playConfig.disableAutoEndTurns &&
+            f.activeFaction == Faction.blue) &&
+        f.phaseAbleCount(f.activeFaction) == 0) {
       autoEndTriggersForTest += 1;
       endTurn();
     }
@@ -2997,24 +3024,43 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// （Seth 反击杀掉奥尼尔那条路就是这么断的）。
   Future<void> _endTurn() async {
     final f = field;
-    final s = state;
-    if (f == null || s == null) return;
+    if (f == null || state == null) return;
 
     // 回合结束是胜负判定点之一（原作 `CheckForWaitEvents` 挂在等待事件上）
     await _checkObjectives();
 
-    // 最多转 4 个阶段，防止任何意外造成死循环
-    for (var guard = 0; guard < 4; guard++) {
-      final hops = advanceToNextActivePhase(f);
-      if (hops == 0) break;
-
-      // ★ `RunPhaseSwitchEvents`（`src/bm_08015434.c:88-90`：
-      // `SwitchPhases()` 之后马上 `if (RunPhaseSwitchEvents() == true) return false;`）
+    _turnLoopNote = '';
+    var steps = 0;
+    // 最多转 6 个阶段，防止任何意外造成死循环
+    // （正常一个回合是 3 步：蓝→红→绿→蓝）
+    for (var guard = 0; guard < 6; guard++) {
+      // ★ **一次 `BmMain_ChangePhase`**（`src/bm_08015434.c:82-95`）：
+      // `ClearActiveFactionGrayedStates` → `RefreshUnitSprites` → `SwitchPhases`
+      // 然后**立刻** `RunPhaseSwitchEvents`。
+      //
+      // ⚠️ 事件必须**每一步都跑**。原来是把"跳过空阶段"折成一个循环、
+      // 循环外只跑一次 —— 于是被跳过的阶段（序章/第 1 章之外的很多章里
+      // 绿色阶段有 TURN 条目）的回合事件永远不触发。
+      final autoEnd =
+          stepPhase(f, disableAutoEndTurns: playConfig.disableAutoEndTurns);
+      steps += 1;
       await _runPhaseSwitchEvents();
 
+      if (autoEnd) {
+        // 这个阶段**自己**结束：我方 = `PlayerPhase_HandleAutoEnd`；
+        // 敌方/NPC = AI 没人可跑（`gProcScr_CpPhase` + `src/CpDecide_Main.c:78`）
+        // ⇒ 不跑行动，继续切下一个阶段
+        continue;
+      }
+
       if (f.activeFaction == Faction.blue) {
-        // 回到玩家回合
-        state = s.copyWith(
+        // 回到玩家回合。
+        //
+        // ⚠️ 用**当前的** `state`（不是进这个函数时的快照 `s`）：
+        // 敌方阶段/剧情可能改过它（光标、选中），拿旧快照会把那些改动抹掉。
+        final cur = state;
+        if (cur == null) return;
+        state = cur.copyWith(
           phase: FlowPhase.freeCursor,
           selectedUnitId: null,
           moveOriginX: null,
@@ -3030,6 +3076,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       await _runFactionAi(f);
     }
 
+    // 转满 6 步还没回到我方：只可能是所有阵营都没有能动的人。
+    // 响亮记下来（不许静默地"看着像结束了"）。
+    _turnLoopNote = '转满 6 步没回到我方阶段：faction=${f.activeFaction} '
+        'able=(blue ${f.phaseAbleCount(Faction.blue)} / '
+        'green ${f.phaseAbleCount(Faction.green)} / '
+        'red ${f.phaseAbleCount(Faction.red)}) steps=$steps';
     _rebuildOverlay();
     _updateHud();
   }
