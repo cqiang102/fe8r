@@ -53,6 +53,7 @@
 // 序章的首领就是奥尼尔。见 `tools/pipeline/out/tables/defeat_talk.json`。
 
 import '../battle/phase.dart';
+import 'talks.dart';
 
 /// 事件标志（`include/constants/event-flags.h`）
 class EventFlags {
@@ -276,61 +277,12 @@ class ChapterObjectives {
 // ---------------------------------------------------------------- 标志推导
 
 /// 一条 `gDefeatTalkList` 条目 —— **"首领"的操作性定义**
-class DefeatTalkEntry {
-  const DefeatTalkEntry({
-    required this.pid,
-    required this.chapter,
-    required this.flag,
-  });
 
-  factory DefeatTalkEntry.fromJson(Map<String, dynamic> j) => DefeatTalkEntry(
-        pid: j['pid'] as String?,
-        chapter: j['chapter'] as String?,
-        flag: j['flag'] as String?,
-      );
-
-  /// 角色符号名（`CHARACTER_ONEILL`）
-  final String? pid;
-
-  /// 章节符号名（`CHAPTER_L_PROLOGUE`）
-  final String? chapter;
-
-  /// 死亡时要置上的标志符号名（`EVFLAG_DEFEAT_BOSS`）
-  final String? flag;
-}
-
-/// 章节号 → `gDefeatTalkList` 里的章节符号名
-///
-/// 只列到第 1 章 —— 本目标只要求"第一章及之前"。
-/// 后面的章节要接进来时在这里补，**不要瞎猜**。
-String? defeatTalkChapterName(int chapterIndex) {
-  switch (chapterIndex) {
-    case 0:
-      return 'CHAPTER_L_PROLOGUE';
-    case 1:
-      return 'CHAPTER_L_1';
-    case 2:
-      return 'CHAPTER_L_2';
-    case 3:
-      return 'CHAPTER_L_3';
-  }
-  return null;
-}
-
-/// `EVFLAG_*` 符号名 → 数值
-int? flagByName(String? name) {
-  switch (name) {
-    case 'EVFLAG_DEFEAT_BOSS':
-      return EventFlags.defeatBoss;
-    case 'EVFLAG_DEFEAT_ALL':
-      return EventFlags.defeatAll;
-    case 'EVFLAG_WIN':
-      return EventFlags.win;
-    case 'EVFLAG_GAMEOVER':
-      return EventFlags.gameOver;
-  }
-  return null;
-}
+// ⚠️ 这里原来还有 `defeatTalkChapterName` / `flagByName` 两个"符号名 → 数值"
+// 的桥 —— 因为当时 `defeat_talk.json` 是**美版**导出的（`pid`/`chapter`/`flag`
+// 都是字符串）。现在数据改成**日版 carve 数组**（数值），桥就不需要了：
+// 用 `talks.dart` 的 `DefeatTalkEntry`（数值）直接比。
+// 已删除，避免留下第二份真相。
 
 /// 从**战场现状**推导隐含的事件标志。
 ///
@@ -341,27 +293,21 @@ int? flagByName(String? name) {
 /// （首领没了 / 主角没了 / 敌人全没了），只是计算时机不同。
 /// 好处是它是**纯函数**，可以单测。
 ///
-/// [chapterIndex] 章节号；[defeatTalk] 首领表；
-/// [charNameOf] `charIndex` -> 符号名；[chapterName] 章号 -> 表里的符号名。
+/// [chapterIndex] 章节号；[defeatTalk] 阵亡对话表（数值，来自日版 carve 数组）。
 Set<int> deriveEventFlags({
   required List<BattleUnitView> units,
   required int chapterIndex,
   required List<DefeatTalkEntry> defeatTalk,
-  required String? Function(int charIndex) charNameOf,
 }) {
   final flags = <int>{};
-  final want = defeatTalkChapterName(chapterIndex);
 
-  // 首领阵亡
+  // 首领阵亡：表里"某个角色在某章死亡时置某个标志"
+  // （`SetPidDefeatedFlag`，`src/eventinfo_080858A8.c:143-152`）
   for (final e in defeatTalk) {
-    if (want != null && e.chapter != want) continue;
-    final pid = e.pid;
-    if (pid == null) continue;
-    // 表里是符号名 —— 找哪个单位的 charIndex 对得上
-    final boss = units.where((u) => charNameOf(u.charIndex) == pid).firstOrNull;
-    if (boss != null && !boss.alive) {
-      final f = flagByName(e.flag);
-      if (f != null) flags.add(f);
+    if (e.chapter != chapterAny && e.chapter != chapterIndex) continue;
+    if (e.flag == 0) continue;
+    if (units.any((u) => u.charIndex == e.pid && !u.alive)) {
+      flags.add(e.flag);
     }
   }
 

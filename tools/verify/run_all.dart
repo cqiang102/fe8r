@@ -189,7 +189,9 @@ Future<void> main(List<String> argv) async {
 
     if (hasDecomp())
       Step('L0', '首领定义（死亡台词表）', 'python3',
-          ['extract/parse_defeat_talk.py', '--out', 'out/tables'],
+          // 战斗/阵亡对话：**日版** carve 数组（`parse_defeat_talk.py` 是旧的
+          // 美版版版本，已废弃 —— 它会把日版 JSON 覆盖成字符串格式）
+          ['extract/parse_talks.py', '--out', 'out/tables'],
           cwd: 'tools/pipeline', note: 'gDefeatTalkList —— 首领的操作性定义')
     else
       Step('L0', '首领定义', 'true', const [], skip: true, note: decompNote),

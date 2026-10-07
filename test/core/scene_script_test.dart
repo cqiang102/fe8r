@@ -240,14 +240,16 @@ void _chapterChainTests() {
         BattleUnitView(charIndex: 1, faction: Faction.blue, alive: true),
       ],
       chapterIndex: 0,
+      // 日版阵亡对话表里序章那一条（`frontier_df4_menu.c:1945`）
       defeatTalk: const [
         DefeatTalkEntry(
-          pid: 'CHARACTER_ONEILL',
-          chapter: 'CHAPTER_L_PROLOGUE',
-          flag: 'EVFLAG_DEFEAT_BOSS',
+          pid: 104,               // CHARACTER_ONEILL
+          route: chapterModeAny,
+          chapter: 0,             // CHAPTER_L_PROLOGUE
+          flag: EventFlags.defeatBoss,
+          msg: 0x08D7,
         ),
       ],
-      charNameOf: (i) => i == 104 ? 'CHARACTER_ONEILL' : 'CHARACTER_X',
     );
 
     // ② 序章的真实 Misc 列表

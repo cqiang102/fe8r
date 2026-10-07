@@ -1,0 +1,209 @@
+{
+ "chapter": 0,
+ "map": {
+  "width": 15,
+  "height": 10,
+  "id": "PrologueMap"
+ },
+ "camera": {
+  "x": 0.0,
+  "y": 0.0
+ },
+ "phase": null,
+ "cursor": null,
+ "turn": 1,
+ "activeFaction": 0,
+ "selectedUnitId": null,
+ "units": [
+  {
+   "id": 1,
+   "name": "Eirika",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 0,
+   "x": 2,
+   "y": 2,
+   "hp": 18,
+   "maxHp": 18,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  },
+  {
+   "id": 2,
+   "name": "Seth",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 0,
+   "x": 3,
+   "y": 4,
+   "hp": 28,
+   "maxHp": 30,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  },
+  {
+   "id": 3,
+   "name": "Mage",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 0,
+   "x": 5,
+   "y": 3,
+   "hp": 12,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  },
+  {
+   "id": 129,
+   "name": "Fighter",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 128,
+   "x": 4,
+   "y": 4,
+   "hp": 22,
+   "maxHp": 22,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  },
+  {
+   "id": 131,
+   "name": "Brigand",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 128,
+   "x": 8,
+   "y": 6,
+   "hp": 22,
+   "maxHp": 22,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  },
+  {
+   "id": 130,
+   "name": "Archer",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 128,
+   "x": 10,
+   "y": 3,
+   "hp": 20,
+   "maxHp": 20,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  },
+  {
+   "id": 65,
+   "name": "Ally",
+   "charIndex": 0,
+   "classId": 0,
+   "faction": 64,
+   "x": 7,
+   "y": 8,
+   "hp": 16,
+   "maxHp": 16,
+   "alive": true,
+   "items": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "held": [],
+   "itemNames": []
+  }
+ ],
+ "unitIdsUnique": true,
+ "render": {
+  "unitComponents": null,
+  "markerComponents": null,
+  "cursorComponents": null,
+  "total": null,
+  "aliveUnits": 7,
+  "matches": null
+ },
+ "eventFlags": [],
+ "scene": {
+  "running": false,
+  "objectiveRunning": false,
+  "showDialogue": false,
+  "script": null,
+  "shown": 0,
+  "currentTextId": null,
+  "hudExtra": "",
+  "slots": {},
+  "missing": null,
+  "placeholders": null
+ },
+ "titleFlow": null,
+ "objectiveHit": null,
+ "objectivesNote": "",
+ "turnEventsNote": "",
+ "endEventNote": "",
+ "talksNote": "",
+ "lastBattleQuote": null,
+ "lastDefeatQuote": null,
+ "lastEndEvent": null,
+ "turnEventFired": null,
+ "moveCostsNote": "",
+ "moveCostsWeather": "normal",
+ "range": null,
+ "objectives": null,
+ "mapHistory": "",
+ "mapNote": "",
+ "mapLoadFailures": [],
+ "trace": [],
+ "lastCombat": "",
+ "hud": "",
+ "status": "加载失败: type 'String' is not a subtype of type 'num' in type cast"
+}

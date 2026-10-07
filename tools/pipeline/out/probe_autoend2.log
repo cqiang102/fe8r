@@ -1,0 +1,4 @@
+[IMPORTANT:flutter/shell/platform/embedder/embedder_surface_metal_impeller.mm(53)] Using the Impeller rendering backend (MetalSDF).
+flutter: [Fe8Game] MapGrid(PrologueMap, 15x10, 5 种地形)；地形分布 {TERRAIN_PLAINS: 32, TERRAIN_FOREST: 5, TERRAIN_PEAK: 101, TERRAIN_RIVER: 10, TERRAIN_BRIDGE_REGULAR: 2}
+flutter: [screenshot] 已写出 /Users/caoqiang/person/flutter-game/tools/pipeline/out/probe_autoend2.png (800x600, 157192 字节)
+flutter: [dump] 已写出 /Users/caoqiang/person/flutter-game/tools/pipeline/out/probe_autoend2.json

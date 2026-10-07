@@ -196,8 +196,19 @@ def stmt(op, A):
             return (f"await s.giveItem({lit(A[0])}, 3);", False)
         return (f"s.placeholder('{op}');", True)
 
-    if op == "MNC2":
+    # 换章：`Event2A_MoveToChapter`（`src/Event2A_MoveToChapter.c:22-57`）
+    #   MNTS(0)  → 回标题（`GAME_ACTION_EVENT_RETURN`）—— **不是换章**
+    #   MNCH(1)  → `SetNextChapterId` + CLASS_REEL   ← 第 1 章→第 2 章走的是这条
+    #   MNC2(2)  → `SetNextChapterId` + USR_SKIPPED  ← 序章→第 1 章
+    #   MNC3(3)  → `GotoChapterWithoutSave`
+    #   MNC4(4)  → played-through
+    #
+    # ⚠️ 原来只认 `MNC2` —— 于是**第 1 章的结束剧情演完后什么都没发生**
+    # （`MNCH` 落成占位符），第 1 章永远接不到第 2 章。
+    if op in ("MNCH", "MNC2", "MNC3", "MNC4"):
         return (f"await s.changeChapter({num(A[0]) if A else 0});", False)
+    if op == "MNTS":
+        return ("s.placeholder('MNTS(回标题)');", True)
 
     # 换地图 —— 操作数是 **chapterIndex**（`src/eventscr_0800F390.c:54`）
     if op == "LOMA":

@@ -1,0 +1,30 @@
+[IMPORTANT:flutter/shell/platform/embedder/embedder_surface_metal_impeller.mm(53)] Using the Impeller rendering backend (MetalSDF).
+flutter: [Fe8Game] 加载失败: type 'String' is not a subtype of type 'num' in type cast
+flutter: #0      new DefeatTalkEntry.fromJson (package:fe8r/core/flow/talks.dart:108)
+flutter: #1      new TalkTables.parse (package:fe8r/core/flow/talks.dart:136)
+flutter: #2      Fe8Game._loadTalks (package:fe8r/game/fe8_game.dart:1466)
+flutter: #3      Fe8Game.loadRuleData (package:fe8r/game/fe8_game.dart:2000)
+flutter: #4      Fe8Game.onLoad (package:fe8r/game/fe8_game.dart:681)
+flutter: <asynchronous suspension>
+flutter: #5      FlameGame.load (package:flame/src/game/flame_game.dart:126)
+flutter: <asynchronous suspension>
+flutter: #6      GameWidgetState.loaderFuture.<anonymous closure> (package:flame/src/game/game_widget/game_widget.dart:210)
+flutter: <asynchronous suspension>
+flutter: #7      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:641)
+flutter: <asynchronous suspension>
+flutter: 
+flutter: type 'String' is not a subtype of type 'num' in type cast
+flutter: #0      new DefeatTalkEntry.fromJson (package:fe8r/core/flow/talks.dart:108)
+flutter: #1      new TalkTables.parse (package:fe8r/core/flow/talks.dart:136)
+flutter: #2      Fe8Game._loadTalks (package:fe8r/game/fe8_game.dart:1466)
+flutter: #3      Fe8Game.loadRuleData (package:fe8r/game/fe8_game.dart:2000)
+flutter: #4      Fe8Game.onLoad (package:fe8r/game/fe8_game.dart:681)
+flutter: <asynchronous suspension>
+flutter: #5      FlameGame.load (package:flame/src/game/flame_game.dart:126)
+flutter: <asynchronous suspension>
+flutter: #6      GameWidgetState.loaderFuture.<anonymous closure> (package:flame/src/game/game_widget/game_widget.dart:210)
+flutter: <asynchronous suspension>
+flutter: #7      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:641)
+flutter: <asynchronous suspension>
+flutter: [screenshot] 已写出 /Users/caoqiang/person/flutter-game/tools/pipeline/out/probe_autoend.png (800x600, 15498 字节)
+flutter: [dump] 已写出 /Users/caoqiang/person/flutter-game/tools/pipeline/out/probe_autoend.json

@@ -123,15 +123,15 @@ void main() {
 
 /// 序章的首领表（`gDefeatTalkList` 里本章那一条）
 const oneillTalk = DefeatTalkEntry(
-  pid: 'CHARACTER_ONEILL',
-  chapter: 'CHAPTER_L_PROLOGUE',
-  flag: 'EVFLAG_DEFEAT_BOSS',
+  pid: 104,                 // CHARACTER_ONEILL（include/constants/characters.h:87）
+  route: chapterModeAny,    // 0xFF
+  chapter: 0,               // CHAPTER_L_PROLOGUE
+  flag: EventFlags.defeatBoss,
+  msg: 0x08D7,              // 日版阵亡台词「な　なんだと・・・？」
 );
 
 /// `CHARACTER_ONEILL = 104`（`include/constants/characters.h`）
 const oneill = 104;
-
-String? _charName(int i) => i == oneill ? 'CHARACTER_ONEILL' : 'CHARACTER_X';
 
 void _deriveTests() {
   test('★ 击破首领 -> 置 EVFLAG_DEFEAT_BOSS', () {
@@ -142,7 +142,6 @@ void _deriveTests() {
       ],
       chapterIndex: 0,
       defeatTalk: const [oneillTalk],
-      charNameOf: _charName,
     );
     expect(flags, contains(EventFlags.defeatBoss));
   });
@@ -155,7 +154,6 @@ void _deriveTests() {
       ],
       chapterIndex: 0,
       defeatTalk: const [oneillTalk],
-      charNameOf: _charName,
     );
     expect(flags, isNot(contains(EventFlags.defeatBoss)));
   });
@@ -168,7 +166,6 @@ void _deriveTests() {
       ],
       chapterIndex: 1, // 第 1 章，而条目写的是 PROLOGUE
       defeatTalk: const [oneillTalk],
-      charNameOf: _charName,
     );
     expect(flags, isNot(contains(EventFlags.defeatBoss)));
   });
@@ -181,7 +178,6 @@ void _deriveTests() {
       ],
       chapterIndex: 0,
       defeatTalk: const [],
-      charNameOf: _charName,
     );
     expect(flags, contains(EventFlags.gameOver));
   });
@@ -196,8 +192,7 @@ void _deriveTests() {
         ],
         chapterIndex: 0,
         defeatTalk: const [],
-        charNameOf: _charName,
-      ),
+        ),
       contains(EventFlags.defeatAll),
     );
     expect(
@@ -205,8 +200,7 @@ void _deriveTests() {
         units: blues,
         chapterIndex: 0,
         defeatTalk: const [],
-        charNameOf: _charName,
-      ),
+        ),
       isNot(contains(EventFlags.defeatAll)),
       reason: '本来就没有敌人，不该算"敌全灭"',
     );
@@ -221,7 +215,6 @@ void _deriveTests() {
       ],
       chapterIndex: 0,
       defeatTalk: const [oneillTalk],
-      charNameOf: _charName,
     );
     final hit = prologue().firstMatch(flags.contains);
     expect(hit, isNotNull, reason: '击破首领后应当命中一条条件');

@@ -237,7 +237,7 @@ Future<void> scr_9EE8F0(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('MNCH');
+          await s.changeChapter(65535);
           pc = 5;
           continue;
         case 5:
@@ -1680,7 +1680,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 102;
           continue;
         case 102:
-          s.placeholder('MNCH');
+          await s.changeChapter(61);
           pc = 103;
           continue;
         case 103:
@@ -3738,7 +3738,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 113;
           continue;
         case 113:
-          s.placeholder('MNCH');
+          await s.changeChapter(14);
           pc = 114;
           continue;
         case 114:
@@ -3777,7 +3777,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     s.placeholder('CLEE');
     s.placeholder('CLEN');
     s.placeholder('ENUT');
-    s.placeholder('MNCH');
+    await s.changeChapter(27);
     return;
 }
 
@@ -4201,7 +4201,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
 Future<void> Ch14b_EndingScene(Scene s) async {
     await s.call(Sym('EventScr_Ch15A_26'));
     s.placeholder('ENUT');
-    s.placeholder('MNCH');
+    await s.changeChapter(29);
     return;
     s.placeholder('MUSI');
     s.setSlot(2, 0);
@@ -4320,7 +4320,7 @@ Future<void> Ch15A_0(Scene s) async {
 Future<void> Ch15A_1(Scene s) async {
     await s.call(Sym('EventScr_Ch15A_26'));
     s.placeholder('ENUT');
-    s.placeholder('MNCH');
+    await s.changeChapter(16);
     return;
 }
 
@@ -5648,7 +5648,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
 /// `EventScr_Ch16A_0`
 Future<void> Ch16A_0(Scene s) async {
     await s.call(Sym('EventScr_Ch16A_12'));
-    s.placeholder('MNCH');
+    await s.changeChapter(17);
     return;
 }
 
@@ -7504,7 +7504,7 @@ Future<void> Ch16b_BeginningScene(Scene s) async {
     s.placeholder('ENUT');
     return;
     await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 996));
-    s.placeholder('MNCH');
+    await s.changeChapter(31);
     return;
     await s.call(Sym('frontier_df3_eventscr_ch_001_A696D4', 1724));
     return;
@@ -8856,7 +8856,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('MNCH');
+          await s.changeChapter(56);
           pc = 25;
           continue;
         case 25:
@@ -9102,7 +9102,7 @@ Future<void> Ch21A_0(Scene s) async {
     s.placeholder('REMA');
     s.placeholder('EvtBgmFadeIn');
     await s.call(Sym('EventScr_Ch21A_9'));
-    s.placeholder('MNC3');
+    await s.changeChapter(22);
     return;
 }
 
@@ -9379,7 +9379,7 @@ Future<void> Ch21b_BeginningScene(Scene s) async {
     await s.call(Sym('frontier_df3_eventscr_ch_005_A6B460', 300));
     return;
     await s.call(Sym('UnitDef_Ch21BEnemy_1'));
-    s.placeholder('MNC4');
+    await s.changeChapter(0);
     return;
     s.placeholder('ASMC');
     s.setSlot(2, 0);
@@ -9414,7 +9414,7 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     s.placeholder('REMA');
     s.placeholder('EvtBgmFadeIn');
     await s.call(Sym('EventScr_Ch21A_9'));
-    s.placeholder('MNC3');
+    await s.changeChapter(35);
     return;
 }
 
@@ -10351,7 +10351,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('MNCH');
+          await s.changeChapter(3);
           pc = 59;
           continue;
         case 59:
@@ -11192,7 +11192,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 77;
           continue;
         case 77:
-          s.placeholder('MNCH');
+          await s.changeChapter(4);
           pc = 78;
           continue;
         case 78:
@@ -11513,7 +11513,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          s.placeholder('MNCH');
+          await s.changeChapter(6);
           pc = 62;
           continue;
         case 62:
@@ -12950,7 +12950,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     s.placeholder('EVENT_WORD');
     s.placeholder('EVENT_WORD');
-    s.placeholder('MNCH');
+    await s.changeChapter(7);
     return;
 }
 
@@ -13440,7 +13440,7 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('MNCH');
+          await s.changeChapter(8);
           pc = 31;
           continue;
         case 31:
@@ -13814,7 +13814,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
     s.placeholder('ENUT');
-    s.placeholder('MNCH');
+    await s.changeChapter(9);
     return;
 }
 
@@ -13915,7 +13915,7 @@ Future<void> Ch8_10(Scene s) async {
     await s.textShow(3013);
     s.placeholder('TEXTEND');
     s.placeholder('REMA');
-    s.placeholder('MNCH');
+    await s.changeChapter(56);
     s.placeholder('ENDB');
 }
 
@@ -14099,7 +14099,7 @@ Future<void> Ch8_EndingScene(Scene s) async {
     s.placeholder('ENDTEXT');
     s.placeholder('DISPLAYTEXT');
     s.placeholder('ENUT');
-    s.placeholder('MNCH');
+    await s.changeChapter(6);
     return;
     s.placeholder('MUSC');
     s.placeholder('SETTEXTTYPE');
@@ -15344,7 +15344,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 72;
           continue;
         case 72:
-          s.placeholder('MNCH');
+          await s.changeChapter(11);
           pc = 73;
           continue;
         case 73:
@@ -15565,7 +15565,7 @@ Future<void> FloorClearInTower(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
           continue;
         case 8:
-          s.placeholder('MNCH');
+          await s.changeChapter(65535);
           pc = 9;
           continue;
         case 9:
@@ -15583,7 +15583,7 @@ Future<void> FloorClearInTower(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('MNC3');
+          await s.changeChapter(65535);
           pc = 14;
           continue;
         case 14:
@@ -19473,7 +19473,7 @@ Future<void> SkirmishRetreat(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('MNCH');
+          await s.changeChapter(65535);
           pc = 10;
           continue;
         case 10:
@@ -19634,7 +19634,7 @@ Future<void> SuspendPrompt(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('MNTS');
+          s.placeholder('MNTS(回标题)');
           pc = 12;
           continue;
         case 12:
@@ -20060,7 +20060,7 @@ Future<void> WholeTowerClear(Scene s) async {
     s.placeholder('ASMC');
     s.placeholder('ASMC');
     s.placeholder('ASMC');
-    s.placeholder('MNCH');
+    await s.changeChapter(65535);
     return;
 }
 

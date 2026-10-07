@@ -417,6 +417,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       // 和"命中了但脚本名为 null"在转储里长得一模一样。
       'objectivesNote': _objectivesNote,
       'turnEventsNote': _turnEventsNote,
+      'endEventNote': _endEventNote,
+      'talksNote': _talksNote,
+      'lastBattleQuote': _lastBattleQuote,
+      'lastDefeatQuote': _lastDefeatQuote,
+      'lastEndEvent': _lastEndEvent,
       'turnEventFired': _turnEventFired,
       'moveCostsNote': _moveCostsNote,
       'moveCostsWeather': _weatherNow.name,
@@ -462,7 +467,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
                       defeatTalk: [
                         for (final e in _defeatTalk) DefeatTalkEntry.fromJson(e)
                       ],
-                      charNameOf: (i) => _charNames?[i],
                     ).toList()
                       ..sort()),
               'firstMatch': _objectives!
@@ -928,7 +932,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           final target = f.unitById(atk.targetId);
           final attacker = f.unitById(atk.attackerId);
           if (target != null && attacker != null) {
-            _resolveAttack(f, attacker, target);
+            unawaited(_attackWithQuote(f, attacker, target));
           }
         }
       }
@@ -940,7 +944,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     // ★ 单位行动结束之后：等待事件 + 自动结束阶段
     // （`RunPotentialWaitEvents` / `PlayerPhase_HandleAutoEnd`）
-    if (r.committedMove) _afterUnitAction();
+    //
+    // ⚠️ 攻击的情况**延到对白演完之后**（`_attackWithQuote` 里）——
+    // 否则"该不该结束回合"会在伤害落地之前就算出来。
+    if (r.committedMove && r.attack == null) _afterUnitAction();
 
     if (r.endTurn) endTurn();
   }
@@ -1446,6 +1453,26 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 胜负条件载入的**结论**（转储里带出来）
   String _objectivesNote = '';
 
+  /// 战斗/阵亡对话表（日版 carve 数组 → `tools/pipeline/out/tables/*_talk*.json`）
+  TalkTables? talks;
+
+  void _loadTalks() {
+    final bf = File('tools/pipeline/out/tables/battle_talks.json');
+    final df = File('tools/pipeline/out/tables/defeat_talk.json');
+    if (!bf.existsSync() || !df.existsSync()) {
+      _talksNote = '对话表缺失（battle_talks.json / defeat_talk.json）';
+      return;
+    }
+    talks = TalkTables.parse(bf.readAsStringSync(), df.readAsStringSync());
+    _talksNote = '战斗对话 ${talks!.battleTalks.length} 条、'
+        '阵亡对话 ${talks!.defeatTalks.length} 条';
+  }
+
+  String _talksNote = '';
+  String? _lastBattleQuote;
+  String? _lastDefeatQuote;
+  final Set<int> _defeatQuoted = {};
+
   /// 回合事件表（`turnBasedEvents`，`EvListTurn`）
   ChapterObjectives? _turnEvents;
   String _turnEventsNote = '';
@@ -1553,7 +1580,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       ],
       chapterIndex: sceneChapter,
       defeatTalk: [for (final e in _defeatTalk) DefeatTalkEntry.fromJson(e)],
-      charNameOf: (i) => _charNames?[i],
     ));
   }
 
@@ -1577,6 +1603,119 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 最近一次命中的回合事件（脚本名）
   String? _turnEventFired;
+
+  /// 本章的**结束剧情**脚本名（`ChapterEventGroup.endingSceneEvents`）
+  String? get _endingSceneName {
+    final g = _chapterLinks.isEmpty || sceneChapter >= _chapterLinks.length
+        ? null
+        : _chapterLinks[sceneChapter]['eventGroupName'] as String?;
+    if (g == null) return null;
+    final eg = _eventGroups[g];
+    if (eg is! Map) return null;
+    return eg['endingSceneEvents'] as String?;
+  }
+
+  /// `MaybeCallEndEvent` / `CallEndEvent`（`src/eventinfo.c:111-127` 与 `:64-77`）
+  ///
+  /// ```c
+  /// void MaybeCallEndEvent(void) {
+  ///     if (!CheckFlag(3)) return;            // EVFLAG_WIN
+  ///     if (!ShouldCallEndEvent()) return;    // = CheckWin() && 不是演练地图
+  ///     CallEndEvent();
+  /// }
+  ///
+  /// void CallEndEvent(void) {
+  ///     const struct ChapterEventGroup* evGroup = GetChapterEventDataPointer(gPlaySt.chapterIndex);
+  ///     if (GetBattleMapKind() != BATTLEMAP_KIND_SKIRMISH)
+  ///         CallEvent(evGroup->endingSceneEvents, 1);   // ★ 本章结束剧情
+  ///     RefreshAllies();
+  ///     SetFlag(0x84);                        // ← 只演一次
+  /// }
+  /// ```
+  ///
+  /// 调用点：`PlayerPhase_FinishAction`（`src/PlayerPhase_FinishAction.c:68-80`）——
+  /// **每个我方单位行动结束之后**。
+  ///
+  /// ⚠️ 我原来只走了 `EventListScr_*_Misc` 里的 `DefeatBoss` 条目，
+  /// 那条在序章恰好就是 `EventScr_Prologue_EndingScene`（所以序章看起来是对的），
+  /// 但**第 1 章的 Misc 条目是教学提示**（`EventScr_Ch1_Misc_DefeatBoss`），
+  /// 真正的"第 1 章 → 第 2 章"剧情在 `endingSceneEvents` 里 ——
+  /// 从来没被触发过。
+  Future<void> _maybeCallEndEvent() async {
+    if (_sceneRunning || _objectiveRunning) return;
+    if (!eventFlags.contains(EventFlags.win)) return;
+    if (eventFlags.contains(0x84)) return;      // `SetFlag(0x84)` —— 已演过
+    final name = _endingSceneName;
+    if (name == null) {
+      _endEventNote = '第 $sceneChapter 章没有 endingSceneEvents';
+      return;
+    }
+    final fn = allSceneFns[name];
+    if (fn == null) {
+      _endEventNote = '$name（没有这个脚本）';
+      return;
+    }
+    eventFlags.add(0x84);
+    _endEventNote = name;
+    _lastEndEvent = name;
+    await runSceneScript(fn);
+  }
+
+  // ---- 测试钩子（章节流转）----
+  /// `loadRuleData()` 不含章节链路（那条在 `onLoad` 里、且必须**先于**它，
+  /// 见 `_loadObjectives` 的说明），所以测试里单独载一次。
+  @visibleForTesting
+  void loadChapterLinksForTest() => _loadChapterLinks();
+
+  /// 建剧情 `Scene`（`onLoad` 里走 `_loadSceneData`；测试要单独来一次）
+  @visibleForTesting
+  void loadSceneForTest() => _loadSceneData();
+
+  /// 让剧情脚本**不等按键**（等价于玩家按住 START）——
+  /// 测"脚本会演到哪一步"时必须开，否则会卡在第一句对白上。
+  @visibleForTesting
+  void skipSceneForTest() => scene?.startSkip();
+
+  @visibleForTesting
+  String? endingSceneNameForTest(int chapterIndex) {
+    final g = chapterIndex >= 0 && chapterIndex < _chapterLinks.length
+        ? _chapterLinks[chapterIndex]['eventGroupName'] as String?
+        : null;
+    if (g == null) return null;
+    final eg = _eventGroups[g];
+    return eg is Map ? eg['endingSceneEvents'] as String? : null;
+  }
+
+  /// 某一章的**开场**剧情脚本名（`beginningSceneEvents`）
+  @visibleForTesting
+  String? beginningSceneNameForTest(int chapterIndex) {
+    final g = chapterIndex >= 0 && chapterIndex < _chapterLinks.length
+        ? _chapterLinks[chapterIndex]['eventGroupName'] as String?
+        : null;
+    if (g == null) return null;
+    final eg = _eventGroups[g];
+    return eg is Map ? eg['beginningSceneEvents'] as String? : null;
+  }
+
+  @visibleForTesting
+  int get sceneChapterForTest => sceneChapter;
+  @visibleForTesting
+  set sceneChapterForTest(int v) => sceneChapter = v;
+
+  @visibleForTesting
+  String? get lastEndEventForTest => _lastEndEvent;
+  @visibleForTesting
+  set lastEndEventForTest(String? v) => _lastEndEvent = v;
+
+  @visibleForTesting
+  void raiseFlagForTest(int flag) => eventFlags.add(flag);
+
+  @visibleForTesting
+  Future<void> maybeCallEndEventForTest() => _maybeCallEndEvent();
+
+  /// 章节结束剧情的**结论**（转储里带出来）
+  String _endEventNote = '';
+  String? _lastEndEvent;
 
   /// `RunPhaseSwitchEvents`（`src/RunPhaseSwitchEvents.c:24-54`）——
   /// **每次阶段切换后**搜回合事件表并演出来。
@@ -1641,12 +1780,89 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// if (!(gPlaySt.config.disableAutoEndTurns) && (GetPhaseAbleUnitCount(gPlaySt.faction) == 0))
   ///     Proc_Goto(proc, 3);
   /// ```
+  /// `EventScr_DisplayBattleQuote`：把一条文本当"战斗对白"演出来
+  /// （`CallBattleQuoteEventInBattle`，`src/event.c:42-47`）。
+  ///
+  /// 日版那个脚本本身**未 carve**（`layout/baseline_syms.tsv:330`），
+  /// 美版交叉参考的形状是 `TEXTSHOW(0xFFFF) / TEXTEND / REMA / ENDA`
+  /// —— 即"显示槽 2 的文本，等按键，收对话框"。这里就按这个形状演。
+  Future<void> _playTalkText(int msg, String tag) async {
+    final sc = scene;
+    if (sc == null || msg == 0) return;
+    await runSceneScript((sc) async {
+      await sc.textShow(msg);
+      await sc.endCursor();
+    });
+    _sceneHudExtra = '$tag: 文本 ${msg.toRadixString(16)}';
+  }
+
+  /// 战斗对白：**开打之前**演（`MapAnim_CallBattleQuoteEvents`，
+  /// `src/mapanim_0807CF54.c:33-40` —— 在第一轮伤害之前、
+  /// `PROC_WHILE(BattleEventEngineExists)` 等它演完）。
+  Future<void> _playBattleQuoteIfAny(MapUnit attacker, MapUnit defender) async {
+    final t = talks;
+    if (t == null) return;
+    final ent = t.lookupBattleQuote(
+      pidA: attacker.charIndex,
+      pidB: defender.charIndex,
+      chapterIndex: sceneChapter,
+      flagSet: eventFlags.contains,
+    );
+    if (ent == null) return;
+    // `CallBattleQuoteEventsIfAny`：msg 优先 → 否则 event → 最后置 flag
+    _lastBattleQuote = '${attacker.charIndex} vs ${defender.charIndex} '
+        '→ ${ent.msg.toRadixString(16)}';
+    if (ent.msg != 0) await _playTalkText(ent.msg, '战斗对话');
+    if (ent.flag != 0) eventFlags.add(ent.flag);
+  }
+
+  /// 阵亡对话：`DisplayDefeatTalkForPid`（`src/eventinfo_080858A8.c:171-195`）
+  ///
+  /// 先演台词，再 `SetPidDefeatedFlag`（原作就是"先起脚本、紧接着置标志"，
+  /// 然后由调用方 `PROC_WHILE` 等它演完）。**没有"主角死了不说话"的分支。**
+  Future<void> _playDefeatQuoteIfAny(MapUnit unit) async {
+    final t = talks;
+    if (t == null) return;
+    if (_defeatQuoted.contains(unit.charIndex)) return;
+    final ent = t.defeatTalk(
+      pid: unit.charIndex,
+      chapterIndex: sceneChapter,
+      flagSet: eventFlags.contains,
+    );
+    if (ent == null) return;
+    _defeatQuoted.add(unit.charIndex);
+    _lastDefeatQuote = '${unit.charIndex} → ${ent.msg.toRadixString(16)}'
+        '（flag ${ent.flag}）';
+    if (ent.msg != 0) await _playTalkText(ent.msg, '阵亡对话');
+    if (ent.flag != 0) eventFlags.add(ent.flag);
+  }
+
+  /// 一次攻击：**先对白 → 再结算 → 再处理阵亡**。
+  Future<void> _attackWithQuote(
+      BattleField f, MapUnit attacker, MapUnit defender) async {
+    await _playBattleQuoteIfAny(attacker, defender);
+    _resolveAttack(f, attacker, defender);
+    _rebuildOverlay();
+    _updateHud();
+    await _handleDeaths(f);
+  }
+
+  /// 结算之后处理阵亡（台词 + 标志）。
+  Future<void> _handleDeaths(BattleField f) async {
+    for (final u in f.units.toList()) {
+      if (u.hp <= 0 && u.isAlive) u.hp = 0;
+      if (u.hp <= 0) await _playDefeatQuoteIfAny(u);
+    }
+  }
+
   void _afterUnitAction() {
     final f = field;
     if (f == null) return;
 
     // ① 等待事件（`RunPotentialWaitEvents` → `CheckForWaitEvents`）
     unawaited(_checkObjectives());
+    // ①' 章节结束剧情（`PlayerPhase_FinishAction` → `MaybeCallEndEvent`）
+    unawaited(_maybeCallEndEvent());
     // 脚本已经接管的话，阶段要不要结束得等它演完（原作是 PROC_WHILE 等事件引擎）
     if (_sceneRunning) return;
 
@@ -1792,6 +2008,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// **在测试里根本走不到**，只能靠肉眼看画面（这正是这次踩的坑）。
   @visibleForTesting
   void loadRuleData() {
+    _loadTalks();
     classTable = _loadClassTable();
     _loadUnitDefs();
     _loadBattleData();
@@ -2553,10 +2770,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
       // 够得着就打
       if (a.attacked && a.targetId != null) {
-        _resolveAttack(f, u, f.unitById(a.targetId)!);
-        // 目标阵亡就从战场移除
-        final tgt = f.unitById(a.targetId);
-        if (tgt != null && tgt.hp <= 0) tgt.hp = 0;
+        await _attackWithQuote(f, u, f.unitById(a.targetId)!);
       }
 
       // ★ AI 行动之后也要查等待事件（`gProcScr_CpPerform` 的

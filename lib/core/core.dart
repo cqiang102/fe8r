@@ -36,6 +36,7 @@ export 'flow/flow_machine.dart';
 export 'flow/turn_loop.dart';
 export 'flow/unit_defs.dart';
 export 'flow/move_costs.dart';
+export 'flow/talks.dart';
 export 'flow/unit_move.dart';
 export 'battle/weapon_triangle.dart';
 export 'battle/battle_unit.dart';

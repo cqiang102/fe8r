@@ -1,0 +1,946 @@
+{
+ "source": "third_party/fireemblem8j/src/data/frontier_df4_menu/frontier_df4_menu.c",
+ "note": "日版：carve 在 src/data/frontier_df4_menu/frontier_df4_menu.c 的 frontier_df4_menu_003_A5E6CC（基址 0x8a5e6cc），数组 729 字；两张表的字偏移、终止符位置、条目数每次运行都断言。",
+ "layout": {
+  "slots": 105,
+  "base": "0x8a5e7e0"
+ },
+ "entries": [
+  {
+   "pidA": 69,
+   "pidB": 2,
+   "chapter": 64,
+   "flag": 0,
+   "msg": 2250,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 104,
+   "chapter": 0,
+   "flag": 1,
+   "msg": 2262,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 104,
+   "pidB": 0,
+   "chapter": 0,
+   "flag": 1,
+   "msg": 2262,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 70,
+   "chapter": 1,
+   "flag": 1,
+   "msg": 2293,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 70,
+   "pidB": 0,
+   "chapter": 1,
+   "flag": 1,
+   "msg": 2293,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 71,
+   "chapter": 2,
+   "flag": 1,
+   "msg": 2336,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 71,
+   "pidB": 0,
+   "chapter": 2,
+   "flag": 1,
+   "msg": 2336,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 72,
+   "chapter": 3,
+   "flag": 1,
+   "msg": 2387,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 72,
+   "pidB": 0,
+   "chapter": 3,
+   "flag": 1,
+   "msg": 2387,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 74,
+   "chapter": 6,
+   "flag": 1,
+   "msg": 2439,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 74,
+   "pidB": 0,
+   "chapter": 6,
+   "flag": 1,
+   "msg": 2439,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 106,
+   "chapter": 5,
+   "flag": 1,
+   "msg": 2463,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 106,
+   "pidB": 0,
+   "chapter": 5,
+   "flag": 1,
+   "msg": 2463,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 75,
+   "chapter": 7,
+   "flag": 1,
+   "msg": 2480,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 75,
+   "pidB": 0,
+   "chapter": 7,
+   "flag": 1,
+   "msg": 2480,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 76,
+   "chapter": 8,
+   "flag": 1,
+   "msg": 2499,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 76,
+   "pidB": 0,
+   "chapter": 8,
+   "flag": 1,
+   "msg": 2499,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 77,
+   "chapter": 9,
+   "flag": 1,
+   "msg": 2511,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 77,
+   "pidB": 0,
+   "chapter": 9,
+   "flag": 1,
+   "msg": 2511,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 78,
+   "chapter": 10,
+   "flag": 1,
+   "msg": 2529,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 78,
+   "pidB": 0,
+   "chapter": 10,
+   "flag": 1,
+   "msg": 2529,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 18,
+   "pidB": 90,
+   "chapter": 23,
+   "flag": 9,
+   "msg": 2666,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 90,
+   "chapter": 23,
+   "flag": 1,
+   "msg": 2667,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 90,
+   "pidB": 0,
+   "chapter": 23,
+   "flag": 1,
+   "msg": 2667,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 11,
+   "pidB": 79,
+   "chapter": 11,
+   "flag": 12,
+   "msg": 2548,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 79,
+   "chapter": 11,
+   "flag": 1,
+   "msg": 2549,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 79,
+   "pidB": 0,
+   "chapter": 11,
+   "flag": 1,
+   "msg": 2549,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 29,
+   "pidB": 14,
+   "chapter": 24,
+   "flag": 9,
+   "msg": 2686,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 91,
+   "chapter": 24,
+   "flag": 1,
+   "msg": 2687,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 91,
+   "pidB": 0,
+   "chapter": 24,
+   "flag": 1,
+   "msg": 2687,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 81,
+   "chapter": 13,
+   "flag": 9,
+   "msg": 2609,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 81,
+   "chapter": 13,
+   "flag": 10,
+   "msg": 2610,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 81,
+   "pidB": 0,
+   "chapter": 13,
+   "flag": 10,
+   "msg": 2610,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 79,
+   "chapter": 13,
+   "flag": 11,
+   "msg": 2612,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 79,
+   "pidB": 0,
+   "chapter": 13,
+   "flag": 11,
+   "msg": 2612,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 68,
+   "chapter": 26,
+   "flag": 1,
+   "msg": 2737,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 68,
+   "pidB": 0,
+   "chapter": 26,
+   "flag": 1,
+   "msg": 2737,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 32,
+   "pidB": 82,
+   "chapter": 14,
+   "flag": 7,
+   "msg": 2633,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 82,
+   "chapter": 14,
+   "flag": 1,
+   "msg": 2634,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 82,
+   "pidB": 0,
+   "chapter": 14,
+   "flag": 1,
+   "msg": 2634,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 107,
+   "chapter": 27,
+   "flag": 7,
+   "msg": 2754,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 29,
+   "pidB": 107,
+   "chapter": 27,
+   "flag": 8,
+   "msg": 2755,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 107,
+   "chapter": 27,
+   "flag": 1,
+   "msg": 2756,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 107,
+   "pidB": 0,
+   "chapter": 27,
+   "flag": 1,
+   "msg": 2756,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 105,
+   "pidB": 67,
+   "chapter": 65,
+   "flag": 0,
+   "msg": 2578,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 67,
+   "chapter": 15,
+   "flag": 7,
+   "msg": 2782,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 67,
+   "chapter": 15,
+   "flag": 8,
+   "msg": 2783,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 14,
+   "pidB": 67,
+   "chapter": 15,
+   "flag": 9,
+   "msg": 2784,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 32,
+   "pidB": 83,
+   "chapter": 15,
+   "flag": 10,
+   "msg": 2786,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 67,
+   "chapter": 15,
+   "flag": 11,
+   "msg": 2788,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 67,
+   "pidB": 0,
+   "chapter": 15,
+   "flag": 11,
+   "msg": 2788,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 83,
+   "chapter": 15,
+   "flag": 12,
+   "msg": 2790,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 83,
+   "pidB": 0,
+   "chapter": 15,
+   "flag": 12,
+   "msg": 2790,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 67,
+   "chapter": 28,
+   "flag": 7,
+   "msg": 2782,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 67,
+   "chapter": 28,
+   "flag": 8,
+   "msg": 2783,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 14,
+   "pidB": 67,
+   "chapter": 28,
+   "flag": 9,
+   "msg": 2785,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 32,
+   "pidB": 83,
+   "chapter": 28,
+   "flag": 10,
+   "msg": 2787,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 67,
+   "chapter": 28,
+   "flag": 11,
+   "msg": 2788,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 67,
+   "pidB": 0,
+   "chapter": 28,
+   "flag": 11,
+   "msg": 2788,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 83,
+   "chapter": 28,
+   "flag": 12,
+   "msg": 2790,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 83,
+   "pidB": 0,
+   "chapter": 28,
+   "flag": 12,
+   "msg": 2790,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 109,
+   "chapter": 16,
+   "flag": 7,
+   "msg": 2818,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 2,
+   "pidB": 109,
+   "chapter": 16,
+   "flag": 8,
+   "msg": 2820,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 17,
+   "pidB": 109,
+   "chapter": 16,
+   "flag": 9,
+   "msg": 2821,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 16,
+   "pidB": 109,
+   "chapter": 16,
+   "flag": 10,
+   "msg": 2822,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 109,
+   "chapter": 16,
+   "flag": 1,
+   "msg": 2823,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 109,
+   "pidB": 0,
+   "chapter": 16,
+   "flag": 1,
+   "msg": 2823,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 109,
+   "chapter": 29,
+   "flag": 7,
+   "msg": 2819,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 2,
+   "pidB": 109,
+   "chapter": 29,
+   "flag": 8,
+   "msg": 2820,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 17,
+   "pidB": 109,
+   "chapter": 29,
+   "flag": 9,
+   "msg": 2821,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 16,
+   "pidB": 109,
+   "chapter": 29,
+   "flag": 10,
+   "msg": 2822,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 109,
+   "chapter": 29,
+   "flag": 1,
+   "msg": 2823,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 109,
+   "pidB": 0,
+   "chapter": 29,
+   "flag": 1,
+   "msg": 2823,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 64,
+   "chapter": 17,
+   "flag": 7,
+   "msg": 2856,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 64,
+   "chapter": 17,
+   "flag": 8,
+   "msg": 2857,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 64,
+   "chapter": 17,
+   "flag": 1,
+   "msg": 2860,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 64,
+   "pidB": 0,
+   "chapter": 17,
+   "flag": 1,
+   "msg": 2860,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 64,
+   "chapter": 30,
+   "flag": 7,
+   "msg": 2858,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 64,
+   "chapter": 30,
+   "flag": 8,
+   "msg": 2859,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 64,
+   "chapter": 30,
+   "flag": 1,
+   "msg": 2860,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 64,
+   "pidB": 0,
+   "chapter": 30,
+   "flag": 1,
+   "msg": 2860,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 87,
+   "chapter": 19,
+   "flag": 1,
+   "msg": 2906,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 87,
+   "pidB": 0,
+   "chapter": 19,
+   "flag": 1,
+   "msg": 2906,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 87,
+   "chapter": 32,
+   "flag": 1,
+   "msg": 2906,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 87,
+   "pidB": 0,
+   "chapter": 32,
+   "flag": 1,
+   "msg": 2906,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 30,
+   "pidB": 65,
+   "chapter": 20,
+   "flag": 7,
+   "msg": 2927,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 25,
+   "pidB": 87,
+   "chapter": 20,
+   "flag": 8,
+   "msg": 2928,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 87,
+   "chapter": 20,
+   "flag": 1,
+   "msg": 2929,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 87,
+   "pidB": 0,
+   "chapter": 20,
+   "flag": 1,
+   "msg": 2929,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 30,
+   "pidB": 65,
+   "chapter": 33,
+   "flag": 7,
+   "msg": 2927,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 25,
+   "pidB": 87,
+   "chapter": 33,
+   "flag": 8,
+   "msg": 2928,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 87,
+   "chapter": 33,
+   "flag": 1,
+   "msg": 2929,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 87,
+   "pidB": 0,
+   "chapter": 33,
+   "flag": 1,
+   "msg": 2929,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 108,
+   "chapter": 21,
+   "flag": 7,
+   "msg": 2943,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 108,
+   "chapter": 21,
+   "flag": 1,
+   "msg": 2945,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 108,
+   "pidB": 0,
+   "chapter": 21,
+   "flag": 1,
+   "msg": 2945,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 108,
+   "chapter": 34,
+   "flag": 7,
+   "msg": 2944,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 0,
+   "pidB": 108,
+   "chapter": 34,
+   "flag": 1,
+   "msg": 2947,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 108,
+   "pidB": 0,
+   "chapter": 34,
+   "flag": 1,
+   "msg": 2947,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 1,
+   "pidB": 190,
+   "chapter": 22,
+   "flag": 7,
+   "msg": 2995,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 15,
+   "pidB": 190,
+   "chapter": 35,
+   "flag": 7,
+   "msg": 2996,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 6,
+   "pidB": 0,
+   "chapter": 254,
+   "flag": 127,
+   "msg": 2240,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 34,
+   "pidB": 0,
+   "chapter": 254,
+   "flag": 128,
+   "msg": 2241,
+   "pad": 0,
+   "event": 0
+  },
+  {
+   "pidA": 33,
+   "pidB": 0,
+   "chapter": 254,
+   "flag": 129,
+   "msg": 2242,
+   "pad": 0,
+   "event": 0
+  }
+ ]
+}

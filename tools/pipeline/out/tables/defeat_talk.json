@@ -1,480 +1,642 @@
 {
- "source": "third_party/fireemblem8u/src/data_battlequotes.c",
- "note": "角色在某章死亡时置上的标志。「首领」= 出现在这张表里的角色。",
+ "source": "third_party/fireemblem8j/src/data/frontier_df4_menu/frontier_df4_menu.c",
+ "note": "日版：carve 在 src/data/frontier_df4_menu/frontier_df4_menu.c 的 frontier_df4_menu_003_A5E6CC（基址 0x8a5e6cc），数组 729 字；两张表的字偏移、终止符位置、条目数每次运行都断言。",
+ "layout": {
+  "slots": 80,
+  "base": "0x8a5ee70"
+ },
  "entries": [
   {
-   "pid": "CHARACTER_ONEILL",
-   "chapter": "CHAPTER_L_PROLOGUE",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0917"
+   "pid": 104,
+   "route": 255,
+   "chapter": 0,
+   "flag": 2,
+   "msg": 2263,
+   "event": 0
+  },
+  {
+   "pid": 70,
+   "route": 255,
+   "chapter": 1,
+   "flag": 2,
+   "msg": 2294,
+   "event": 0
+  },
+  {
+   "pid": 71,
+   "route": 255,
+   "chapter": 2,
+   "flag": 2,
+   "msg": 2337,
+   "event": 0
+  },
+  {
+   "pid": 72,
+   "route": 255,
+   "chapter": 3,
+   "flag": 2,
+   "msg": 2388,
+   "event": 0
+  },
+  {
+   "pid": 73,
+   "route": 255,
+   "chapter": 4,
+   "flag": 2,
+   "msg": 0,
+   "event": 0
+  },
+  {
+   "pid": 13,
+   "route": 255,
+   "chapter": 6,
+   "flag": 0,
+   "msg": 2438,
+   "event": 0
+  },
+  {
+   "pid": 74,
+   "route": 255,
+   "chapter": 6,
+   "flag": 2,
+   "msg": 2440,
+   "event": 0
+  },
+  {
+   "pid": 106,
+   "route": 255,
+   "chapter": 5,
+   "flag": 2,
+   "msg": 2464,
+   "event": 0
+  },
+  {
+   "pid": 16,
+   "route": 255,
+   "chapter": 5,
+   "flag": 0,
+   "msg": 2460,
+   "event": 0
+  },
+  {
+   "pid": 17,
+   "route": 255,
+   "chapter": 5,
+   "flag": 0,
+   "msg": 2461,
+   "event": 0
+  },
+  {
+   "pid": 66,
+   "route": 255,
+   "chapter": 5,
+   "flag": 0,
+   "msg": 2462,
+   "event": 0
+  },
+  {
+   "pid": 75,
+   "route": 255,
+   "chapter": 7,
+   "flag": 2,
+   "msg": 2481,
+   "event": 0
+  },
+  {
+   "pid": 76,
+   "route": 255,
+   "chapter": 8,
+   "flag": 2,
+   "msg": 2500,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_BREGUET",
-   "chapter": "CHAPTER_L_1",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0936"
+   "pid": 77,
+   "route": 255,
+   "chapter": 9,
+   "flag": 2,
+   "msg": 2512,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_BONE",
-   "chapter": "CHAPTER_L_2",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0961"
+   "pid": 78,
+   "route": 255,
+   "chapter": 10,
+   "flag": 2,
+   "msg": 2530,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_BAZBA",
-   "chapter": "CHAPTER_L_3",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0994"
+   "pid": 90,
+   "route": 255,
+   "chapter": 23,
+   "flag": 2,
+   "msg": 2668,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_ENTOUMBED_CH4",
-   "chapter": "CHAPTER_L_4",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0000"
+   "pid": 79,
+   "route": 255,
+   "chapter": 11,
+   "flag": 2,
+   "msg": 2550,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_NATASHA",
-   "chapter": "CHAPTER_L_5",
-   "flag": null,
-   "msg": "0x09C6"
+   "pid": 29,
+   "route": 255,
+   "chapter": 24,
+   "flag": 101,
+   "msg": 3072,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_SAAR",
-   "chapter": "CHAPTER_L_5",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x09C8"
+   "pid": 91,
+   "route": 255,
+   "chapter": 24,
+   "flag": 2,
+   "msg": 2688,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_ZONTA",
-   "chapter": "CHAPTER_L_5X",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x09E0"
+   "pid": 92,
+   "route": 255,
+   "chapter": 25,
+   "flag": 2,
+   "msg": 0,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_FORDE",
-   "chapter": "CHAPTER_L_5X",
-   "flag": null,
-   "msg": "0x09DC"
+   "pid": 81,
+   "route": 255,
+   "chapter": 13,
+   "flag": 2,
+   "msg": 2611,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_KYLE",
-   "chapter": "CHAPTER_L_5X",
-   "flag": null,
-   "msg": "0x09DD"
+   "pid": 79,
+   "route": 255,
+   "chapter": 13,
+   "flag": 0,
+   "msg": 2613,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_ORSON_CH5X",
-   "chapter": "CHAPTER_L_5X",
-   "flag": null,
-   "msg": "0x09DE"
+   "pid": 68,
+   "route": 255,
+   "chapter": 26,
+   "flag": 2,
+   "msg": 2738,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_NOVALA",
-   "chapter": "CHAPTER_L_6",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x09F0"
+   "pid": 82,
+   "route": 255,
+   "chapter": 14,
+   "flag": 2,
+   "msg": 2635,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_MURRAY",
-   "chapter": "CHAPTER_L_7",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0A03"
+   "pid": 107,
+   "route": 255,
+   "chapter": 27,
+   "flag": 2,
+   "msg": 2757,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_TIRADO",
-   "chapter": "CHAPTER_L_8",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0A0F"
+   "pid": 67,
+   "route": 255,
+   "chapter": 15,
+   "flag": 0,
+   "msg": 2789,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_BINKS",
-   "chapter": "CHAPTER_E_9",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0A21"
+   "pid": 83,
+   "route": 255,
+   "chapter": 15,
+   "flag": 0,
+   "msg": 2791,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_GHEB",
-   "chapter": "CHAPTER_I_9",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0AAB"
+   "pid": 67,
+   "route": 255,
+   "chapter": 28,
+   "flag": 0,
+   "msg": 2789,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_PABLO",
-   "chapter": "CHAPTER_E_10",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0A35"
+   "pid": 83,
+   "route": 255,
+   "chapter": 28,
+   "flag": 0,
+   "msg": 2791,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_DUESSEL",
-   "chapter": "CHAPTER_I_10",
-   "flag": "EVFLAG_GAMEOVER",
-   "msg": "0x0C40"
+   "pid": 109,
+   "route": 255,
+   "chapter": 16,
+   "flag": 2,
+   "msg": 2824,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_BERAN",
-   "chapter": "CHAPTER_I_10",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0ABF"
+   "pid": 109,
+   "route": 255,
+   "chapter": 29,
+   "flag": 2,
+   "msg": 2824,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_CYCLOPS_CHUnk",
-   "chapter": "CHAPTER_I_12",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0000"
+   "pid": 64,
+   "route": 255,
+   "chapter": 17,
+   "flag": 2,
+   "msg": 2861,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_AIAS",
-   "chapter": "CHAPTER_E_13",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0A72"
+   "pid": 64,
+   "route": 255,
+   "chapter": 30,
+   "flag": 2,
+   "msg": 2861,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_PABLO",
-   "chapter": "CHAPTER_E_13",
-   "flag": null,
-   "msg": "0x0A74"
+   "pid": 86,
+   "route": 255,
+   "chapter": 18,
+   "flag": 2,
+   "msg": 0,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_SELENA",
-   "chapter": "CHAPTER_I_13",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0AF1"
+   "pid": 86,
+   "route": 255,
+   "chapter": 31,
+   "flag": 2,
+   "msg": 0,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_CARLYLE",
-   "chapter": "CHAPTER_E_14",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0A8A"
+   "pid": 200,
+   "route": 255,
+   "chapter": 19,
+   "flag": 101,
+   "msg": 2905,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_VIGARDE",
-   "chapter": "CHAPTER_I_14",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B04"
+   "pid": 87,
+   "route": 255,
+   "chapter": 19,
+   "flag": 2,
+   "msg": 2907,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_VALTER",
-   "chapter": "CHAPTER_E_15",
-   "flag": null,
-   "msg": "0x0B24"
+   "pid": 34,
+   "route": 255,
+   "chapter": 32,
+   "flag": 7,
+   "msg": 3060,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_CAELLACH",
-   "chapter": "CHAPTER_E_15",
-   "flag": null,
-   "msg": "0x0B26"
+   "pid": 200,
+   "route": 255,
+   "chapter": 32,
+   "flag": 101,
+   "msg": 2905,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_VALTER",
-   "chapter": "CHAPTER_I_15",
-   "flag": null,
-   "msg": "0x0B24"
+   "pid": 87,
+   "route": 255,
+   "chapter": 32,
+   "flag": 2,
+   "msg": 2907,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_CAELLACH",
-   "chapter": "CHAPTER_I_15",
-   "flag": null,
-   "msg": "0x0B26"
+   "pid": 87,
+   "route": 255,
+   "chapter": 20,
+   "flag": 0,
+   "msg": 2930,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_ORSON",
-   "chapter": "CHAPTER_E_16",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B48"
+   "pid": 87,
+   "route": 255,
+   "chapter": 33,
+   "flag": 0,
+   "msg": 2930,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_ORSON",
-   "chapter": "CHAPTER_I_16",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B48"
+   "pid": 108,
+   "route": 255,
+   "chapter": 21,
+   "flag": 2,
+   "msg": 2946,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_LYON",
-   "chapter": "CHAPTER_E_17",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B6D"
+   "pid": 108,
+   "route": 255,
+   "chapter": 34,
+   "flag": 2,
+   "msg": 2948,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_LYON",
-   "chapter": "CHAPTER_I_17",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B6D"
+   "pid": 190,
+   "route": 255,
+   "chapter": 22,
+   "flag": 2,
+   "msg": 0,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_GORGON_CHUnk",
-   "chapter": "CHAPTER_E_18",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0000"
+   "pid": 190,
+   "route": 255,
+   "chapter": 35,
+   "flag": 2,
+   "msg": 0,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_GORGON_CHUnk",
-   "chapter": "CHAPTER_I_18",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0000"
+   "pid": 1,
+   "route": 255,
+   "chapter": 255,
+   "flag": 101,
+   "msg": 3043,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_MANSEL",
-   "chapter": "CHAPTER_E_19",
-   "flag": "EVFLAG_GAMEOVER",
-   "msg": "0x0B99"
+   "pid": 15,
+   "route": 255,
+   "chapter": 255,
+   "flag": 101,
+   "msg": 3044,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_RIEV",
-   "chapter": "CHAPTER_E_19",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B9B"
+   "pid": 2,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3045,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_TANA",
-   "chapter": "CHAPTER_I_19",
-   "flag": "0x0007",
-   "msg": "0x0C34"
+   "pid": 4,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3046,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_MANSEL",
-   "chapter": "CHAPTER_I_19",
-   "flag": "EVFLAG_GAMEOVER",
-   "msg": "0x0B99"
+   "pid": 3,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3047,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_RIEV",
-   "chapter": "CHAPTER_I_19",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0B9B"
+   "pid": 5,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3048,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_RIEV",
-   "chapter": "CHAPTER_E_20",
-   "flag": null,
-   "msg": "0x0BB2"
+   "pid": 6,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3049,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_RIEV",
-   "chapter": "CHAPTER_I_20",
-   "flag": null,
-   "msg": "0x0BB2"
+   "pid": 10,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3050,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_LYON_FINAL",
-   "chapter": "CHAPTER_E_21",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0BC2"
+   "pid": 7,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3051,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_LYON_FINAL",
-   "chapter": "CHAPTER_I_21",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0BC4"
+   "pid": 9,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3052,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_FOMORTIIS",
-   "chapter": "CHAPTER_E_21X",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0000"
+   "pid": 8,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3053,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_FOMORTIIS",
-   "chapter": "CHAPTER_I_21X",
-   "flag": "EVFLAG_DEFEAT_BOSS",
-   "msg": "0x0000"
+   "pid": 19,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3054,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_EIRIKA",
-   "chapter": "0xFF",
-   "flag": "EVFLAG_GAMEOVER",
-   "msg": "0x0C23"
+   "pid": 12,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3055,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_EPHRAIM",
-   "chapter": "0xFF",
-   "flag": "EVFLAG_GAMEOVER",
-   "msg": "0x0C24"
+   "pid": 13,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3056,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_SETH",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C25"
+   "pid": 32,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3057,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_FRANZ",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C26"
+   "pid": 17,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3058,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_GILLIAM",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C27"
+   "pid": 16,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3059,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_MOULDER",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C28"
+   "pid": 34,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3060,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_VANESSA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C29"
+   "pid": 11,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3061,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_GARCIA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C2A"
+   "pid": 20,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3062,
+   "event": 0
   },
   {
-   "pid": "CHARACTER_ROSS",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C2B"
-  },
-  {
-   "pid": "CHARACTER_COLM",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C2C"
-  },
-  {
-   "pid": "CHARACTER_NEIMI",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C2D"
-  },
-  {
-   "pid": "CHARACTER_ARTUR",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C2E"
-  },
-  {
-   "pid": "CHARACTER_LUTE",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C2F"
-  },
-  {
-   "pid": "CHARACTER_NATASHA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C30"
-  },
-  {
-   "pid": "CHARACTER_JOSHUA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C31"
-  },
-  {
-   "pid": "CHARACTER_KYLE",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C32"
-  },
-  {
-   "pid": "CHARACTER_FORDE",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C33"
-  },
-  {
-   "pid": "CHARACTER_TANA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C34"
-  },
-  {
-   "pid": "CHARACTER_INNES",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C35"
-  },
-  {
-   "pid": "CHARACTER_GERIK",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C36"
-  },
-  {
-   "pid": "CHARACTER_TETHYS",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C37"
-  },
-  {
-   "pid": "CHARACTER_MARISA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C38"
-  },
-  {
-   "pid": "CHARACTER_SALEH",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C39"
-  },
-  {
-   "pid": "CHARACTER_EWAN",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C3A"
-  },
-  {
-   "pid": "CHARACTER_LARACHEL",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C3B"
-  },
-  {
-   "pid": "CHARACTER_DOZLA",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C3C"
-  },
-  {
-   "pid": "CHARACTER_CORMAG",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C3D"
-  },
-  {
-   "pid": "CHARACTER_AMELIA",
-   "chapter": "0xFF",
-   "flag": "0x0086",
-   "msg": "0x0C3E"
-  },
-  {
-   "pid": "CHARACTER_RENNAC",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C3F"
-  },
-  {
-   "pid": "CHARACTER_DUESSEL",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C40"
-  },
-  {
-   "pid": "CHARACTER_MYRRH",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C41"
-  },
-  {
-   "pid": "CHARACTER_KNOLL",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C42"
-  },
-  {
-   "pid": "CHARACTER_SYRENE",
-   "chapter": "0xFF",
-   "flag": null,
-   "msg": "0x0C43"
+   "pid": 21,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3063,
+   "event": 0
+  },
+  {
+   "pid": 22,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3064,
+   "event": 0
+  },
+  {
+   "pid": 23,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3065,
+   "event": 0
+  },
+  {
+   "pid": 24,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3066,
+   "event": 0
+  },
+  {
+   "pid": 25,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3067,
+   "event": 0
+  },
+  {
+   "pid": 26,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3068,
+   "event": 0
+  },
+  {
+   "pid": 14,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3069,
+   "event": 0
+  },
+  {
+   "pid": 18,
+   "route": 255,
+   "chapter": 255,
+   "flag": 134,
+   "msg": 3070,
+   "event": 0
+  },
+  {
+   "pid": 28,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3071,
+   "event": 0
+  },
+  {
+   "pid": 29,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3072,
+   "event": 0
+  },
+  {
+   "pid": 30,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3073,
+   "event": 0
+  },
+  {
+   "pid": 31,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3074,
+   "event": 0
+  },
+  {
+   "pid": 33,
+   "route": 255,
+   "chapter": 255,
+   "flag": 0,
+   "msg": 3075,
+   "event": 0
   }
  ]
 }
