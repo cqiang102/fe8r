@@ -162,7 +162,22 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"     # 与 range 同：选中赛特
     SCRIPT="$SCRIPT,confirm,wait,wait"                     # 落点确认 → 行动菜单
     SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 「道具」→ 进道具菜单
-    SCRIPT="$SCRIPT,confirm,wait,wait,wait"                # 使用伤药
+    # 菜单现在列**全部道具**（铁枪/铁剑/伤药）⇒ 伤药是第 3 项（down×2）
+    SCRIPT="$SCRIPT,down,down,wait,confirm,wait,wait,wait" # 选伤药 → 使用
+    ;;
+  equip)
+    # ★ 装备：选赛特 → 行动菜单「道具」→ 选**第 2 件**（武器）→ 确认 ⇒ 轮转到 0 号槽。
+    #
+    # 出处：`EquipUnitItemSlot`（`src/exact_08016968.c:14-23`）是**轮转**；
+    # `GetUnitEquippedWeapon`（`src/exact_080168d0.c:18-26`）= 0 号槽起第一个能用的武器。
+    TITLE=""
+    SCRIPT="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    CANCEL=$(python3 -c "print(','.join(['cancel']*4))")
+    RESYNC=$(python3 -c "print(','.join(['left']*20+['up']*20+['right']*4+['down']*4))")
+    SCRIPT="$SCRIPT,$CANCEL,$RESYNC,confirm,wait,wait"
+    SCRIPT="$SCRIPT,confirm,wait,wait"                     # 落点确认 → 行动菜单
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"           # 「道具」→ 道具菜单
+    SCRIPT="$SCRIPT,down,wait,confirm,wait,wait,wait"      # 第 2 件（武器）→ 装备
     ;;
   suspend)
     # ★ 序章里打开地图菜单 → 走到「中断」→ 确认。

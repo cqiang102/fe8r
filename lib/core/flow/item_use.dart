@@ -123,3 +123,46 @@ ItemUseResult useHealingItem({
     healed: newHp - hp,
   );
 }
+
+// ---------------------------------------------------------------------------
+// 装备（换武器）
+// ---------------------------------------------------------------------------
+
+/// `EquipUnitItemSlot`（`src/exact_08016968.c:14-23`）——**轮转**，不是交换：
+///
+/// ```c
+/// item = unit->items[itemSlot];
+/// for (i = itemSlot; i != 0; --i) unit->items[i] = unit->items[i - 1];
+/// unit->items[0] = item;
+/// ```
+///
+/// ⚠️ "交换"和"轮转"在 `itemSlot <= 1` 时**结果相同**，所以只有 2 把武器时
+///    两种写法都对 —— 判据要用 **3 个及以上**才能分辨（`item_use_test` 就是这么写的）。
+///
+/// 为什么装备 = 挪到 0 号槽：原作**没有"当前武器"字段**，
+/// `GetUnitEquippedWeapon`（`src/exact_080168d0.c:18-26`）就是"从 0 号槽起
+/// 第一个能用的武器"。
+List<int> equipUnitItemSlot(List<int> items, int slot) {
+  if (slot <= 0 || slot >= items.length) return List<int>.from(items);
+  final out = List<int>.from(items);
+  final item = out[slot];
+  for (var i = slot; i != 0; --i) {
+    out[i] = out[i - 1];
+  }
+  out[0] = item;
+  return out;
+}
+
+/// `GetUnitEquippedWeapon`（`src/exact_080168d0.c:18-26`）——
+/// **从 0 号槽起第一个"能用"的武器**（不是单独的字段）。
+///
+/// [isUsableWeapon] 由调用方给（要看道具表属性 + 武器等级），核心层不持有道具表。
+int equippedWeaponSlot(
+  List<int> items, {
+  required bool Function(int item) isUsableWeapon,
+}) {
+  for (var i = 0; i < items.length; i++) {
+    if (isUsableWeapon(items[i])) return i;
+  }
+  return -1;
+}

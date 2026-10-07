@@ -385,6 +385,35 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
         '道具菜单显示真名字（没有占位）', 'itemMenuText=${mt.replaceAll('\n', ' | ')}');
   }
 
+  if (scenario == 'equip') {
+    // ★ 装备：`EquipUnitItemSlot`（`src/exact_08016968.c:14-23`）是**轮转**，
+    //   装备之后 `GetUnitEquippedWeapon`（首个能用的武器）自然换成新的那把。
+    final e = d['lastEquip'] as Map<String, dynamic>?;
+    ok(e != null, '真的装备了一次', 'lastEquip=$e');
+    if (e != null) {
+      ok(e['unit'] == 13, '装的是赛特（id 13）', '${e['unit']}');
+      ok(e['before0'] == 7683 && e['after0'] == 5143,
+          '0 号槽从 7683 变成原来的 1 号槽（5143）',
+          'before0=${e['before0']} after0=${e['after0']}');
+      ok('${e['item']}'.startsWith('ITEM_'), '记下了道具名', '${e['item']}');
+    }
+    // 单位**真实的**背包也轮转了：`[5143, 7683, 876, 0, 0]`
+    final seth = (d['units'] as List)
+        .cast<Map<String, dynamic>>()
+        .firstWhere((x) => x['id'] == 13, orElse: () => <String, dynamic>{});
+    final inv = (seth['items'] as List?)?.cast<int>() ?? const [];
+    ok(inv.length > 2 && inv[0] == 5143 && inv[1] == 7683 && (inv[2] & 0xFF) == 108,
+        '背包真的轮转了（0↔1 换位，伤药仍在 2 号槽）', 'items=$inv');
+    // 装备之后"当前武器"必须是新那把（`GetUnitEquippedWeapon` = 首个能用的武器）
+    ok(d['equippedWeapon'] == 5143,
+        '`GetUnitEquippedWeapon` 跟着换成 0 号槽那把', 'equipped=${d['equippedWeapon']}');
+    // 菜单把武器标成 装備、回复品标成 使う（真名字，不是占位）
+    final mt = '${d['lastItemMenuText']}';
+    ok(mt.contains('装備') && mt.contains('使う'),
+        '菜单区分了 装備 / 使う', 'itemMenuText=${mt.replaceAll('\n', ' | ')}');
+    ok(!mt.contains('item#'), '菜单里没有占位名', '');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

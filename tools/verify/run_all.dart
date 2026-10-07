@@ -516,6 +516,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 装备（换武器）：轮转到 0 号槽，`GetUnitEquippedWeapon` 随之改变
+      Step('L4', '端到端场景（装备）', 'bash',
+          ['tools/verify/scenario.sh', 'equip'],
+          note: 'EquipUnitItemSlot 是轮转；装完当前武器变成 0 号槽那把',
+          requires: ['tools/verify/scenario.sh']),
       // 用道具：伤药回 10 但受 maxHp 截断（赛特 13/20 ⇒ 7）；耐久 3→2
       Step('L4', '端到端场景（用道具）', 'bash',
           ['tools/verify/scenario.sh', 'item'],

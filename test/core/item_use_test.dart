@@ -87,4 +87,33 @@ void main() {
     expect(r.item, item, reason: '不消耗 ⇒ 原样');
     expect(r.consumed, isFalse);
   });
+  _equipTests();
+}
+
+/// 装备（`EquipUnitItemSlot`，`src/exact_08016968.c:14-23`）
+void _equipTests() {
+  test('★ 装备是**轮转**不是交换（用 3 个槽才分辨得出）', () {
+    // [A,B,C] 选槽 2 ⇒ 轮转 [C,A,B]；交换会得到 [C,B,A] ✗
+    final r = equipUnitItemSlot([11, 12, 13], 2);
+    expect(r, [13, 11, 12], reason: '源码是 `for (i = slot; i != 0; --i) items[i] = items[i-1]`');
+    // 槽 1：轮转与交换结果相同（这一点要写下来，免得以后用 2 槽去"验证"轮转）
+    expect(equipUnitItemSlot([11, 12, 13], 1), [12, 11, 13]);
+    // 槽 0 / 越界：不动
+    expect(equipUnitItemSlot([11, 12, 13], 0), [11, 12, 13]);
+    expect(equipUnitItemSlot([11, 12, 13], 9), [11, 12, 13]);
+    // 空槽照样轮转（原作不判空 —— 照抄）
+    expect(equipUnitItemSlot([11, 0, 13], 2), [13, 11, 0]);
+  });
+
+  test('★ `GetUnitEquippedWeapon` = 从 0 号槽起第一个能用的武器', () {
+    final items = [876, 5143, 7683, 0, 0]; // 伤药、剑、枪
+    bool isWeapon(int w) => w == 5143 || w == 7683;
+    expect(equippedWeaponSlot(items, isUsableWeapon: isWeapon), 1);
+    // 轮转到 0 号槽之后，它就是被装备的那把
+    final after = equipUnitItemSlot(items, 2);
+    expect(after[0], 7683);
+    expect(equippedWeaponSlot(after, isUsableWeapon: isWeapon), 0);
+    // 一把能用的都没有 ⇒ -1（原作返回 0）
+    expect(equippedWeaponSlot([876, 0, 0], isUsableWeapon: isWeapon), -1);
+  });
 }

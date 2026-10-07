@@ -528,6 +528,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             },
       'gameOptionsText': _gameOptionsText,
       'lastItemUse': lastItemUse,
+      'lastEquip': lastEquip,
+      'equippedWeapon': _equippedWeaponWord(),
       'itemMenuText': _itemMenuText,
       'lastItemMenuText': lastItemMenuText,
       'usableItemSlots': _usableSlots,
@@ -1337,6 +1339,26 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           final slot = _usableSlots[useIdx.clamp(0, _usableSlots.length - 1)];
           final word = u.items[slot];
           final num = ItemTable.itemIndex(word);
+          if (isWeaponItem(word)) {
+            // ★ 装备 = `EquipUnitItemSlot`（`src/exact_08016968.c:14-23`）——**轮转**
+            //（不是交换：槽里的挪到 0，前面的顺次后移）。原作没有"当前武器"字段，
+            // 装完 `GetUnitEquippedWeapon`（首个能用的武器）自然换人。
+            final before = List<int>.from(u.items);
+            final rotated = equipUnitItemSlot(u.items, slot);
+            for (var i = 0; i < u.items.length; i++) {
+              u.items[i] = rotated[i];
+            }
+            lastEquip = {
+              'unit': u.id,
+              'slot': slot,
+              'item': _itemNameByNumber[num],
+              'before0': before[0],
+              'after0': u.items[0],
+            };
+            debugPrint('[EQUIP] $lastEquip');
+            _syncAttackRange(u); // 射程跟着新武器变
+            _rebuildOverlay();
+          } else {
           final res = useHealingItem(
             hp: u.hp,
             maxHp: u.maxHp,
@@ -1359,6 +1381,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           };
           debugPrint('[ITEM] $lastItemUse');
           _rebuildOverlay();
+          }
         }
 
         final atk = r.attack;
@@ -4101,9 +4124,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final num = ItemTable.itemIndex(u.items[slot]);
       final nameId = _itemNameTextId[num] ?? 0;
       final name = _textOr(gameTexts?.byId(nameId)?.plain, 'item#$num');
-      final uses = itemUses(u.items[slot]);
+      final w = u.items[slot];
+      final uses = itemUses(w);
+      final tag = isWeaponItem(w) ? '装備' : (canUseItem(u, w) ? '使う' : '—');
       lines.add('${i == s.itemIndex ? '▶ ' : '  '}$name  '
-          '${uses == 0 ? '∞' : uses}');
+          '${uses == 0 ? '∞' : uses}  $tag');
     }
     lines.add('A 使用   B 返回');
     _itemMenuText = lines.join('\n');
@@ -4123,6 +4148,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 最近一次"用道具"的记录（判据用）
   Map<String, Object?>? lastItemUse;
+
+  /// 最近一次"装备"的记录（判据用）
+  Map<String, Object?>? lastEquip;
 
   /// 道具菜单的文本（判据用）
   String _itemMenuText = '';
@@ -4241,6 +4269,21 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
     _playNote = kPlayNote;
     _updateHud();
+  }
+
+  /// **刚被操作过**的那个单位，按 `GetUnitEquippedWeapon` 的规则算出的武器字（判据用）。
+  ///
+  /// ⚠️ 我第一版用 `state.selectedUnitId` —— 动作做完单位就取消选中了，
+  /// 于是转储里永远是 `0`：**一个在动作之后必然撒谎的诊断字段**。
+  /// 现在改成回顾"最近一次装备/使用"的那个单位。
+  int _equippedWeaponWord() {
+    final f = field;
+    if (f == null) return 0;
+    final id = lastEquip?['unit'] ?? lastItemUse?['unit'];
+    final u = id == null ? null : f.unitById(id as int);
+    if (u == null) return 0;
+    final i = equippedWeaponSlot(u.items, isUsableWeapon: isWeaponItem);
+    return i < 0 ? 0 : u.items[i];
   }
 
   /// 「部隊」列表的状态（开着时非 null）
@@ -4703,32 +4746,43 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     fl.attackMaxRange = _items.maxRangeOf(p.weaponItem);
     // ★ 「道具」这一项出不出现、菜单里有几个可用槽 —— 都需要道具表 + 当前 HP，
     // 所以由游戏层算好注入（状态机不持有道具表）。
-    _usableSlots = usableItemSlots(unit);
+    _usableSlots = itemMenuSlots(unit);
     fl.hasUsableItem = _usableSlots.isNotEmpty;
     fl.itemSlotCount = _usableSlots.length;
   }
 
-  /// 这个单位身上**能用**的回复道具槽（绝对下标）。
+  /// 道具菜单里列出的槽（**所有非空槽**，绝对下标）。
   ///
-  /// 过滤规则：槽非空 && `GetUnitItemHealAmount > 0` && **没满血**。
-  /// ⚠️ 原作的可用性在 `ItemSelectMenu_Usability`（`src/bmmenu_0802339C.c:64`）一族里，
-  /// 我**没有逐行核对**；"没满血"是我加的保守条件（满血用药是空动作）。
-  List<int> usableItemSlots(MapUnit u) {
+  /// 原作「道具」打开的是 `ItemSelectMenu`，列出**全部道具**，再对选中的那件弹
+  /// `ItemSubMenu`（装備 / 使う / 捨てる / 交換，`src/ItemSubMenu_*.c`）。
+  ///
+  /// ⚠️ **子菜单未实现**：这里把子菜单的"默认项"直接做了 ——
+  /// 武器 ⇒ 装备（`EquipUnitItemSlot`），回复品 ⇒ 使用。子菜单本身还没做。
+  /// ⚠️ 可用性（`ItemSelectMenu_Usability`，`src/bmmenu_0802339C.c:64`）未逐行核对；
+  /// 这里只按"槽非空"。
+  List<int> itemMenuSlots(MapUnit u) {
     final out = <int>[];
-    if (u.hp >= u.maxHp) return out;
     for (var i = 0; i < u.items.length; i++) {
-      final w = u.items[i];
-      if (w == 0) continue;
-      final num = ItemTable.itemIndex(w);
-      final name = _itemNameByNumber[num];
-      final heal = unitItemHealAmount(
-          itemNumber: num,
-          isStaff: (_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0,
-          nameOf: _itemNameByNumber);
-      if (heal > 0 && name != null) out.add(i);
+      if (u.items[i] != 0) out.add(i);
     }
     return out;
   }
+
+  /// 这件道具能不能"使用"（回复类，且没满血）
+  bool canUseItem(MapUnit u, int word) {
+    if (u.hp >= u.maxHp) return false;
+    final num = ItemTable.itemIndex(word);
+    if (_itemNameByNumber[num] == null) return false;
+    return unitItemHealAmount(
+            itemNumber: num,
+            isStaff: (_itemStats[num]?.attributes ?? 0) & kItemStaffAttribute != 0,
+            nameOf: _itemNameByNumber) >
+        0;
+  }
+
+  /// 这件道具是不是武器（`IA_WEAPON`，见 [ItemStats.isWeapon]）
+  bool isWeaponItem(int word) =>
+      _itemStats[ItemTable.itemIndex(word)]?.isWeapon ?? false;
 
   /// 按阵营给一套演示用的职业/武器数据。
   ///
