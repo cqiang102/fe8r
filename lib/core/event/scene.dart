@@ -827,6 +827,9 @@ class Scene {
   final Set<int> _flagsSetHere = {};
   int flagsReadWithoutReader = 0;
 
+  /// `CHECK_ALIVE` 没注入读单位器时的计数
+  int checksWithoutReader = 0;
+
   bool flagIsSet(int flag) {
     final r = flagReader;
     if (r != null) return r(flag);
@@ -836,9 +839,49 @@ class Scene {
 
   /// `CHECK_EVBIT` / `CHECK_EVENTID`：把结果写进**条件槽** `gEventSlots[0xC]`
   /// （`src/Event03_CheckEvBitOrId.c:14-33`），随后由 `BEQ`/`BNE` 消费。
+  /// `gPlaySt.chapterTurnNumber`（由游戏侧更新；`CHECK_TURNS` 要用）
+  int turnNumber = 1;
+
+  /// 红方 / 绿方的**在场**单位数（`CountRedUnits` / `CountGreenUnits`），由游戏侧更新
+  int redUnitCount = 0;
+  int greenUnitCount = 0;
+
+  /// 这个角色还活着吗（`GetUnitStructFromEventParameter` + `US_DEAD` 判定）。
+  /// 场景不持有单位表 => 由游戏侧注入；注入不了就按源码的 `!unit => 0` 处理，
+  /// 并在 [checksWithoutReader] 里**计数**（不把读不到当成不活着）。
+  bool Function(int pid)? unitAliveReader;
+
+  /// `CHECK_TURNS` / `CHECK_ENEMIES` / `CHECK_OTHERS`：把**数值**写进条件槽
+  void checkSlotValue(String kind) {
+    final v = switch (kind) {
+      'turn' => turnNumber,
+      'redCount' => redUnitCount,
+      'greenCount' => greenUnitCount,
+      _ => 0,
+    };
+    setSlot(0xC, v);
+  }
+
   void checkSlot(String kind, int arg) {
     final a = arg < 0 ? slotInt(2) : arg;
-    final v = kind == 'evbit' ? evBit(a) : flagIsSet(a);
+    final bool v;
+    switch (kind) {
+      case 'evbit':
+        v = evBit(a);
+      case 'flag':
+        v = flagIsSet(a);
+      case 'alive':
+        // src/Event33_CheckUnitVarious.c:69-81：找不到单位 => 0；US_DEAD => 0
+        final r = unitAliveReader;
+        if (r == null) {
+          checksWithoutReader++;
+          v = false;
+        } else {
+          v = r(a);
+        }
+      default:
+        v = false;
+    }
     setSlot(0xC, v ? 1 : 0);
   }
 

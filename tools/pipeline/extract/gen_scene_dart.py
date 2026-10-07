@@ -194,6 +194,23 @@ def stmt(op, A):
     # ★ "remove" 在这套指令里的**实际状态位**就是 `REMU` 用的那三个
     #   （`src/eventscr_080103F4.c:110-111`：`unit->state |= US_HIDDEN | US_BIT16 | US_BIT26`）
     #   ⇒ 对应我们模型里的 `isHidden`（`visibleUnits` 已尊重它）。
+    # 条件族第二批（写 `gEventSlots[0xC]`，随后 `BEQ`/`BNE` 消费）：
+    #   CHECK_TURNS   = EvtGetCurrentTurn（include/EAstdlib.h:75）
+    #                 => gEventSlots[0xC] = gPlaySt.chapterTurnNumber
+    #                    （src/eventscr_0800E2C8.c:93-95）
+    #   CHECK_ENEMIES = CountRedUnits()   （:97-99）
+    #   CHECK_OTHERS  = CountGreenUnits() （:101-103）
+    #   CHECK_ALIVE   = EvtCheckUnitNotDead（include/EAstdlib.h:127）
+    #                 => src/Event33_CheckUnitVarious.c:69-81：找不到单位 => 0；US_DEAD => 0；否则 1
+    if op in ("CHECK_TURNS", "CHECK_ENEMIES", "CHECK_OTHERS"):
+        kind = {"CHECK_TURNS": "turn", "CHECK_ENEMIES": "redCount",
+                "CHECK_OTHERS": "greenCount"}[op]
+        return (f"s.checkSlotValue('{kind}');", True)
+    if op == "CHECK_ALIVE":
+        a = A[0] if A else 0
+        arg = num(a) if isinstance(a, int) else lit(a)
+        return (f"s.checkSlot('alive', {arg});", True)
+
     if op in ("CLEA", "CLEN", "CLEE"):
         faction = {"CLEA": "blue", "CLEN": "green", "CLEE": "red"}[op]
         return (f"s.hideFaction('{faction}');", True)

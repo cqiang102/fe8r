@@ -1786,7 +1786,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     _tickBanner();
     _tickGoalWindow();
     _tickMinimug();
-    _tickUnitInfoWindow(); // 单位信息窗（与 minimug 同一个每帧同步点）
+    _tickUnitInfoWindow();
+    _syncSceneCounters(); // 单位信息窗（与 minimug 同一个每帧同步点）
     _tickTerrainWindow();
     _tickForecast();
     _tickPopups();
@@ -6492,6 +6493,25 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 信息窗**实际会画的行**（headless 下也留着，判据看得见）
   List<String> _unitInfoLines = const [];
+
+  /// 把回合数 / 各阵营在场单位数同步给场景
+  /// （`CHECK_TURNS` / `CHECK_ENEMIES` / `CHECK_OTHERS` 用）
+  void _syncSceneCounters() {
+    final sc = scene;
+    if (sc == null) return;
+    // 回合数：流程状态里有 `turn` 就用它，否则退回 1（`CHECK_TURNS` 仍能工作，只是值=1）
+    sc.turnNumber = state?.turn ?? 1;
+    final f = field;
+    if (f == null) return;
+    sc.redUnitCount = f.units
+        .where((x) => !x.isHidden && x.isAlive && (x.faction & 0xC0) == Faction.red)
+        .length;
+    sc.greenUnitCount = f.units
+        .where((x) => !x.isHidden && x.isAlive && (x.faction & 0xC0) == Faction.green)
+        .length;
+    sc.unitAliveReader = (pid) =>
+        f.units.any((x) => x.charIndex == pid && x.isAlive && !x.isHidden);
+  }
 
   void _removeUnitInfo() {
     _unitInfoComp?.removeFromParent();

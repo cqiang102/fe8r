@@ -1839,7 +1839,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 20);
           pc = 7;
           continue;
         case 7:
@@ -1864,7 +1864,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           if (s.slotInt(1) == 12) { pc = 10; } else { pc = 13; }
           continue;
         case 13:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 21);
           pc = 14;
           continue;
         case 14:
@@ -2134,7 +2134,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 82;
           continue;
         case 82:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 21);
           pc = 83;
           continue;
         case 83:
@@ -2395,7 +2395,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 21);
           pc = 19;
           continue;
         case 19:
@@ -2628,7 +2628,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 25);
           pc = 4;
           continue;
         case 4:
@@ -2680,7 +2680,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 26);
           pc = 18;
           continue;
         case 18:
@@ -3609,7 +3609,7 @@ Future<void> Ch13A_4(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -4010,7 +4010,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 26);
           pc = 48;
           continue;
         case 48:
@@ -5623,7 +5623,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 23);
           pc = 52;
           continue;
         case 52:
@@ -8313,7 +8313,7 @@ Future<void> Ch19A_11(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_OTHERS');
+          s.checkSlotValue('greenCount');
           pc = 1;
           continue;
         case 1:
@@ -8365,7 +8365,7 @@ Future<void> Ch19A_11(Scene s) async {
           if (s.slotInt(2) != 12) { pc = 11; } else { pc = 14; }
           continue;
         case 14:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 34);
           pc = 15;
           continue;
         case 15:
@@ -9306,7 +9306,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 3);
           pc = 4;
           continue;
         case 4:
@@ -10656,14 +10656,14 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 10);
           pc = 2;
           continue;
         case 2:
           if (s.slotInt(0) == 12) { pc = 15; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 7);
           pc = 4;
           continue;
         case 4:
@@ -11423,14 +11423,14 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 9);
           pc = 2;
           continue;
         case 2:
           if (s.slotInt(0) == 12) { pc = 14; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 8);
           pc = 4;
           continue;
         case 4:
@@ -11829,7 +11829,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 19);
           pc = 6;
           continue;
         case 6:
@@ -11892,14 +11892,14 @@ Future<void> Ch4_1(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 19);
           pc = 23;
           continue;
         case 23:
           if (s.slotInt(11) == 12) { pc = 9; } else { pc = 24; }
           continue;
         case 24:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 12);
           pc = 25;
           continue;
         case 25:
@@ -13171,7 +13171,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 13);
           pc = 6;
           continue;
         case 6:
@@ -13490,7 +13490,7 @@ Future<void> Ch6_0(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 249);
           pc = 1;
           continue;
         case 1:
@@ -13683,7 +13683,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 9);
           pc = 12;
           continue;
         case 12:
@@ -13866,21 +13866,21 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 250);
           pc = 4;
           continue;
         case 4:
           if (s.slotInt(0) == 12) { pc = 17; } else { pc = 5; }
           continue;
         case 5:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 251);
           pc = 6;
           continue;
         case 6:
           if (s.slotInt(0) == 12) { pc = 17; } else { pc = 7; }
           continue;
         case 7:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 249);
           pc = 8;
           continue;
         case 8:
@@ -14085,7 +14085,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 4);
           pc = 20;
           continue;
         case 20:
@@ -14103,21 +14103,21 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 3);
           pc = 25;
           continue;
         case 25:
           if (s.slotInt(1) == 12) { pc = 23; } else { pc = 26; }
           continue;
         case 26:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 5);
           pc = 27;
           continue;
         case 27:
           if (s.slotInt(1) == 12) { pc = 23; } else { pc = 28; }
           continue;
         case 28:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 6);
           pc = 29;
           continue;
         case 29:
@@ -14135,14 +14135,14 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 7);
           pc = 34;
           continue;
         case 34:
           if (s.slotInt(2) == 12) { pc = 23; } else { pc = 35; }
           continue;
         case 35:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 10);
           pc = 36;
           continue;
         case 36:
@@ -14160,14 +14160,14 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 9);
           pc = 41;
           continue;
         case 41:
           if (s.slotInt(3) == 12) { pc = 23; } else { pc = 42; }
           continue;
         case 42:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 8);
           pc = 43;
           continue;
         case 43:
@@ -14185,14 +14185,14 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 12);
           pc = 48;
           continue;
         case 48:
           if (s.slotInt(4) == 12) { pc = 23; } else { pc = 49; }
           continue;
         case 49:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 19);
           pc = 50;
           continue;
         case 50:
@@ -14210,7 +14210,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 54;
           continue;
         case 54:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 32);
           pc = 55;
           continue;
         case 55:
@@ -14228,7 +14228,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 13);
           pc = 60;
           continue;
         case 60:
@@ -14712,7 +14712,7 @@ Future<void> Ch9A_4(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', 18);
           pc = 1;
           continue;
         case 1:
@@ -14806,7 +14806,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('CHECK_ENEMIES');
+          s.checkSlotValue('redCount');
           pc = 25;
           continue;
         case 25:
@@ -16171,7 +16171,7 @@ Future<void> FormatMoveUnit(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', -3);
           pc = 1;
           continue;
         case 1:
@@ -16600,7 +16600,7 @@ Future<void> MoveUnitS2ToLeader(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ALIVE');
+          s.checkSlot('alive', -3);
           pc = 1;
           continue;
         case 1:
@@ -16906,7 +16906,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ENEMIES');
+          s.checkSlotValue('redCount');
           pc = 1;
           continue;
         case 1:
@@ -17531,7 +17531,7 @@ Future<void> Ruin_37(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -17542,7 +17542,7 @@ Future<void> Ruin_37(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 19; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -17553,7 +17553,7 @@ Future<void> Ruin_37(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 19; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -17622,7 +17622,7 @@ Future<void> Ruin_38(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -17633,7 +17633,7 @@ Future<void> Ruin_38(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 16; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -17702,7 +17702,7 @@ Future<void> Ruin_39(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -17713,7 +17713,7 @@ Future<void> Ruin_39(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 26; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -17724,7 +17724,7 @@ Future<void> Ruin_39(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 26; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -17735,7 +17735,7 @@ Future<void> Ruin_39(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 26; } else { pc = 9; }
           continue;
         case 9:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 10;
           continue;
         case 10:
@@ -17820,7 +17820,7 @@ Future<void> Ruin_40(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -17831,7 +17831,7 @@ Future<void> Ruin_40(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 23; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -17842,7 +17842,7 @@ Future<void> Ruin_40(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 23; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -17927,7 +17927,7 @@ Future<void> Ruin_41(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -17938,7 +17938,7 @@ Future<void> Ruin_41(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 19; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -17949,7 +17949,7 @@ Future<void> Ruin_41(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 19; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -18018,7 +18018,7 @@ Future<void> Ruin_42(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -18029,7 +18029,7 @@ Future<void> Ruin_42(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 16; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -18098,7 +18098,7 @@ Future<void> Ruin_45(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -18109,7 +18109,7 @@ Future<void> Ruin_45(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 28; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -18120,7 +18120,7 @@ Future<void> Ruin_45(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 28; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -18131,7 +18131,7 @@ Future<void> Ruin_45(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 28; } else { pc = 9; }
           continue;
         case 9:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 10;
           continue;
         case 10:
@@ -18142,7 +18142,7 @@ Future<void> Ruin_45(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 28; } else { pc = 12; }
           continue;
         case 12:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 13;
           continue;
         case 13:
@@ -18153,7 +18153,7 @@ Future<void> Ruin_45(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 28; } else { pc = 15; }
           continue;
         case 15:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 16;
           continue;
         case 16:
@@ -18222,7 +18222,7 @@ Future<void> Ruin_47(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -18233,7 +18233,7 @@ Future<void> Ruin_47(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 18; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -18244,7 +18244,7 @@ Future<void> Ruin_47(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 18; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -18255,7 +18255,7 @@ Future<void> Ruin_47(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 18; } else { pc = 9; }
           continue;
         case 9:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 10;
           continue;
         case 10:
@@ -18308,7 +18308,7 @@ Future<void> Ruin_48(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -18319,7 +18319,7 @@ Future<void> Ruin_48(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 15; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 4;
           continue;
         case 4:
@@ -18330,7 +18330,7 @@ Future<void> Ruin_48(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 15; } else { pc = 6; }
           continue;
         case 6:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 7;
           continue;
         case 7:
@@ -20766,7 +20766,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x270(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -20817,7 +20817,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2B4(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -21222,7 +21222,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x534(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -21297,7 +21297,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x5C(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -21340,7 +21340,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 1;
           continue;
         case 1:
@@ -21372,7 +21372,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
         case 8:
           return;
         case 9:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 10;
           continue;
         case 10:
@@ -21404,7 +21404,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
         case 17:
           return;
         case 18:
-          s.placeholder('CHECK_TURNS');
+          s.checkSlotValue('turn');
           pc = 19;
           continue;
         case 19:
