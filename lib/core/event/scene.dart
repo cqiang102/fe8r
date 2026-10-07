@@ -449,11 +449,14 @@ class GiveItem extends SceneEvent {
 
 /// 暂停若干帧
 class Stall extends SceneEvent {
-  const Stall(this.frames);
+  const Stall(this.frames, {this.cancellable = false});
   final int frames;
 
   @override
   String toString() => 'Stall($frames)';
+
+  /// `STAL1` ⇒ true（B 键/跳过可提前结束）
+  final bool cancellable;
 }
 
 /// 符号引用（脚本名 / 单位表名 / 函数名），可带偏移
@@ -731,7 +734,13 @@ class Scene {
             subcmd: subcmd),
       );
 
-  Future<void> stall(int frames) => onEvent(Stall(frames));
+  /// `STAL` / `STAL1` / `STAL2`：按帧等待（`EV_CMD_STALL`，`src/eventscr_0800DD9C.c:9-31`）
+  ///
+  /// * 跳过中（`skipping`）⇒ **不等待**（`:16-20`）；
+  /// * `cancellable`（`STAL1` = `EvtSleepWithCancel`）⇒ B 键或跳过位可提前结束（`:22-23`）；
+  /// * `STAL2`（`EvtSleepWithGameCtrl`）不可取消 ⇒ 默认 [cancellable] = false。
+  Future<void> stall(int frames, {bool cancellable = false}) =>
+      onEvent(Stall(frames, cancellable: cancellable));
 
   /// `DISA(pid)` —— 把单位从地图上拿掉。
   ///

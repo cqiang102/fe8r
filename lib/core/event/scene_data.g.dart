@@ -1785,7 +1785,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.call(Sym('Event_TextWithBG'));
     await s.cameraTo(0, 0, centered: false);
     s.loadUnits(2, Sym('UnitDef_Ch10AAlly_0'));
-    s.placeholder('STAL2');
+    await s.stall(32, cancellable: false);
     s.setSlot(1, 0);
     s.unitStateOp('setState', 1);
     s.setSlot(1, 0);
@@ -2016,7 +2016,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          s.placeholder('STAL2');
+          await s.stall(32, cancellable: false);
           pc = 53;
           continue;
         case 53:
@@ -3194,7 +3194,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 146;
           continue;
         case 146:
-          s.placeholder('STAL2');
+          await s.stall(15, cancellable: false);
           pc = 147;
           continue;
         case 147:
@@ -3563,16 +3563,16 @@ Future<void> Ch12B_1(Scene s) async {
     await s.removeUnit(130);
     s.setSlot(2, Sym('UnitDef_Ch12BEnemy_1'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('STAL2');
+    await s.stall(30, cancellable: false);
     s.setSlot(2, Sym('UnitDef_Ch12BEnemy_2'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('STAL2');
+    await s.stall(30, cancellable: false);
     s.setSlot(2, Sym('frontier_df3_unitdef_b_032_91908C'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('STAL2');
+    await s.stall(30, cancellable: false);
     s.setSlot(2, Sym('UnitDef_Ch12BEnemy_4'));
     await s.call(Sym('EventScr_LoadReinforce'));
-    s.placeholder('STAL2');
+    await s.stall(30, cancellable: false);
     s.placeholder('CAMERA_CAHR');
     s.showCursorAtUnit(15);
     await s.stall(60);
@@ -4608,7 +4608,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.moveUnit('MOVE_CLOSEST', [16, 67698690, 1060672, 67698699, 1060672]);
     s.moveUnit('MOVE_CLOSEST', [16, 67698699, 1060672, 67698713, 1314338]);
     s.moveUnit('MOVE_CLOSEST', [16, 67698713, 1314338, 1054497, 12320]);
-    s.placeholder('STAL2');
+    await s.stall(20, cancellable: false);
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
     s.hideFaction('blue');
@@ -7145,7 +7145,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('STAL2');
+          await s.stall(20, cancellable: false);
           pc = 60;
           continue;
         case 60:
@@ -9208,7 +9208,7 @@ Future<void> Ch1_BeginningScene(Scene s) async {
     s.placeholder('MUSC');
     s.loadUnits(1, Sym('UnitDef_Event_Ch1Enemy'));
     await s.waitUnitMoving();
-    s.placeholder('STAL2');
+    await s.stall(60, cancellable: false);
     s.showCursorAt(2, 2);
     await s.stall(60);
     await s.endCursor();
@@ -9262,7 +9262,7 @@ Future<void> Ch1_BeginningScene(Scene s) async {
     s.setSlot(11, 589826);
     s.moveUnit('MOVE', [24, 65534, 2, 8]);
     await s.waitUnitMoving();
-    s.placeholder('STAL2');
+    await s.stall(60, cancellable: false);
     s.showCursorAt(2, 2);
     await s.stall(60);
     await s.endCursor();
@@ -9888,7 +9888,7 @@ Future<void> Ch21A_9(Scene s) async {
     await s.stall(30);
     s.moveUnit('MOVE_1STEP', [2, 64, 3]);
     await s.waitUnitMoving();
-    s.placeholder('STAL2');
+    await s.stall(30, cancellable: false);
     s.setSlot(2, 64);
     await s.call(Sym('EventScr_UnitWarpOUT'));
     await s.removeUnit(64);
@@ -10565,7 +10565,7 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch2Enemy_2'));
     await s.waitUnitMoving();
-    s.placeholder('STAL2');
+    await s.stall(60, cancellable: false);
     s.placeholder('MUSC');
     s.showCursorAtUnit(71);
     await s.stall(60);
@@ -12770,7 +12770,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 75;
           continue;
         case 75:
-          s.placeholder('STAL2');
+          await s.stall(30, cancellable: false);
           pc = 76;
           continue;
         case 76:
@@ -13385,11 +13385,11 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     s.setSlot(3, 2457);
     await s.call(Sym('Event_TextWithBG'));
     s.moveUnit('MOVE', [0, 15, 9, 4]);
-    s.placeholder('STAL2');
+    await s.stall(8, cancellable: false);
     s.moveUnit('MOVE', [0, 16, 9, 5]);
     s.moveUnit('MOVE', [0, 17, 8, 5]);
     s.moveUnit('MOVE', [0, 66, 8, 6]);
-    s.placeholder('STAL2');
+    await s.stall(8, cancellable: false);
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
     s.hideFaction('blue');
@@ -14340,7 +14340,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.setSlot(1, 0);
     s.placeholder('SENQUEUE1');
     s.moveUnit('MOVE_DEFINED', [2]);
-    s.placeholder('STAL2');
+    await s.stall(8, cancellable: false);
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
     s.evBitMod('flag', true, 213);
@@ -14416,7 +14416,7 @@ Future<void> Ch8_10(Scene s) async {
     s.placeholder('CLEAN');
     await s.fade(FadeDirection.fromWhite, 16);
     s.moveUnit('MOVE', [0, 1, 0, 16]);
-    s.placeholder('STAL2');
+    await s.stall(32, cancellable: false);
     await s.fade(FadeDirection.toWhite, 16);
     await s.waitUnitMoving();
     s.hideFaction('blue');
@@ -14518,7 +14518,7 @@ Future<void> Ch8_11(Scene s) async {
     s.textRemoveAll();
     s.moveUnit('MOVE', [16, 29, 13, 10]);
     s.moveUnit('MOVE', [16, 68, 15, 10]);
-    s.placeholder('STAL2');
+    await s.stall(15, cancellable: false);
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
     s.hideFaction('blue');
@@ -15344,7 +15344,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 73;
           continue;
         case 73:
-          s.placeholder('STAL2');
+          await s.stall(16, cancellable: false);
           pc = 74;
           continue;
         case 74:
@@ -18410,7 +18410,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 8;
           continue;
         case 8:
@@ -18444,7 +18444,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 17;
           continue;
         case 17:
@@ -18478,7 +18478,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 26;
           continue;
         case 26:
@@ -18512,7 +18512,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 35;
           continue;
         case 35:
@@ -18546,7 +18546,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 44;
           continue;
         case 44:
@@ -18580,7 +18580,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 53;
           continue;
         case 53:
@@ -18614,7 +18614,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 62;
           continue;
         case 62:
@@ -18648,7 +18648,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 70;
           continue;
         case 70:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 71;
           continue;
         case 71:
@@ -18682,7 +18682,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 79;
           continue;
         case 79:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 80;
           continue;
         case 80:
@@ -18716,7 +18716,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 88;
           continue;
         case 88:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 89;
           continue;
         case 89:
@@ -18750,7 +18750,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 97;
           continue;
         case 97:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 98;
           continue;
         case 98:
@@ -18784,7 +18784,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 106;
           continue;
         case 106:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 107;
           continue;
         case 107:
@@ -18818,7 +18818,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 115;
           continue;
         case 115:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 116;
           continue;
         case 116:
@@ -18852,7 +18852,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 124;
           continue;
         case 124:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 125;
           continue;
         case 125:
@@ -18886,7 +18886,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 133;
           continue;
         case 133:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 134;
           continue;
         case 134:
@@ -18920,7 +18920,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 142;
           continue;
         case 142:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 143;
           continue;
         case 143:
@@ -18954,7 +18954,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 151;
           continue;
         case 151:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 152;
           continue;
         case 152:
@@ -18988,7 +18988,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 160;
           continue;
         case 160:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 161;
           continue;
         case 161:
@@ -19022,7 +19022,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 169;
           continue;
         case 169:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 170;
           continue;
         case 170:
@@ -19056,7 +19056,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 178;
           continue;
         case 178:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 179;
           continue;
         case 179:
@@ -19090,7 +19090,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 187;
           continue;
         case 187:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 188;
           continue;
         case 188:
@@ -19124,7 +19124,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 196;
           continue;
         case 196:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 197;
           continue;
         case 197:
@@ -19158,7 +19158,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 205;
           continue;
         case 205:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 206;
           continue;
         case 206:
@@ -19192,7 +19192,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 214;
           continue;
         case 214:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 215;
           continue;
         case 215:
@@ -19226,7 +19226,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 223;
           continue;
         case 223:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 224;
           continue;
         case 224:
@@ -19260,7 +19260,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 232;
           continue;
         case 232:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 233;
           continue;
         case 233:
@@ -19294,7 +19294,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 241;
           continue;
         case 241:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 242;
           continue;
         case 242:
@@ -19328,7 +19328,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 250;
           continue;
         case 250:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 251;
           continue;
         case 251:
@@ -19362,7 +19362,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 259;
           continue;
         case 259:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 260;
           continue;
         case 260:
@@ -19396,7 +19396,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 268;
           continue;
         case 268:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 269;
           continue;
         case 269:
@@ -19430,7 +19430,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 277;
           continue;
         case 277:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 278;
           continue;
         case 278:
@@ -19464,7 +19464,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 286;
           continue;
         case 286:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 287;
           continue;
         case 287:
@@ -19498,7 +19498,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 295;
           continue;
         case 295:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 296;
           continue;
         case 296:
@@ -19565,7 +19565,7 @@ Future<void> Ruin_56(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 10;
           continue;
         case 10:
@@ -19641,7 +19641,7 @@ Future<void> Ruin_58(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          s.placeholder('STAL1');
+          await s.stall(65535, cancellable: true);
           pc = 8;
           continue;
         case 8:
@@ -20524,17 +20524,17 @@ Future<void> UnTriggerIfNotUnit(Scene s) async {
 Future<void> UnitFlushingIN(Scene s) async {
     s.placeholder('CAMERA_CAHR');
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
-    s.placeholder('STAL2');
+    await s.stall(4, cancellable: false);
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
-    s.placeholder('STAL2');
+    await s.stall(4, cancellable: false);
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REVEAL');
     return;
 }
@@ -20543,19 +20543,19 @@ Future<void> UnitFlushingIN(Scene s) async {
 Future<void> UnitFlushingOUT(Scene s) async {
     s.placeholder('CAMERA_CAHR');
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
-    s.placeholder('STAL2');
+    await s.stall(4, cancellable: false);
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
-    s.placeholder('STAL2');
+    await s.stall(6, cancellable: false);
     s.placeholder('REVEAL');
-    s.placeholder('STAL2');
+    await s.stall(2, cancellable: false);
     s.placeholder('REMU');
     return;
 }
@@ -20567,7 +20567,7 @@ Future<void> UnitWarpIN(Scene s) async {
     s.placeholder('CHECK_COORDS');
     s.slotArith('SADD', 11, 12);
     s.placeholder('WARP_IN');
-    s.placeholder('STAL2');
+    await s.stall(10, cancellable: false);
     s.placeholder('REVEAL');
     s.placeholder('ENDWARP');
     return;
@@ -20579,7 +20579,7 @@ Future<void> UnitWarpOUT(Scene s) async {
     s.placeholder('CHECK_COORDS');
     s.slotArith('SADD', 11, 12);
     s.placeholder('WARP_OUT');
-    s.placeholder('STAL2');
+    await s.stall(20, cancellable: false);
     s.placeholder('REMU');
     s.placeholder('ENDWARP');
     return;

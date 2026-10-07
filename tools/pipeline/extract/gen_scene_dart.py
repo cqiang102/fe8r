@@ -211,6 +211,19 @@ def stmt(op, A):
         arg = num(a) if isinstance(a, int) else lit(a)
         return (f"s.checkSlot('alive', {arg});", True)
 
+    # 帧等待（`EV_CMD_STALL`，`src/eventscr_0800DD9C.c:9-31` 的 `Event0E_STAL`）：
+    #   `STAL1` = `EvtSleepWithCancel`   ⇒ subcode 奇数：**可取消**
+    #             （源码 `subcode & 1` 时，看跳过位或 **B 键**就提前结束）
+    #   `STAL2` = `EvtSleepWithGameCtrl` ⇒ 不可取消
+    #   两者都是 `evStallTimer = 参数` 的**按帧**计时（`:25-30`）；
+    #   ⚠️ 跳过中（`EVENT_IS_SKIPPING`）**不等待**（`:16-20`）。
+    if op in ("STAL1", "STAL2"):
+        a = A[0] if A else 0
+        if isinstance(a, int):
+            cancel = "true" if op == "STAL1" else "false"
+            return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
+        return (f"s.placeholder('{op}');", True)
+
     # 单单位状态（`EV_CMD_CHANGESTATE`，`src/eventscr_080103F4.c:60-135`）：
     #   REMU   = `state |= US_HIDDEN | US_BIT16 | US_BIT26`（`:110-111`）
     #   REVEAL = 清那三位（`:114-115`）

@@ -1877,6 +1877,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           eventFlags.remove(flag);
         }
         debugPrint('[EVFLAG] $flag = $value');
+      case Stall(:final frames, :final cancellable):
+        // `STAL1`/`STAL2`：按帧等（`src/eventscr_0800DD9C.c:14-31`）
+        // 跳过中不等待；`cancellable` 时按 B 也可提前结束。
+        if (scene?.skipping == true) break;
+        for (var i = 0; i < frames; i++) {
+          if (cancellable && _cancelHeld) break;
+          if (scene?.skipping == true) break;
+          await Future<void>.delayed(const Duration(milliseconds: 16));
+        }
       case UnitStateOp(:final kind, :final arg):
         // `REMU`/`REVEAL`/`SET_STATE`：按**角色编号**找单位（负数 = 事件槽 2）
         final pid = arg < 0 ? (scene?.slotInt(2) ?? -1) : arg;
@@ -1982,11 +1991,6 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         break; // ShowText 已经等过了
       case LoadUnits(:final table, :final group):
         _loadUnitsFromTable(table, group);
-      case Stall():
-        // `STAL` 是时间门控的；快进时直接跳过（原作里这些等待同样被跳过）
-        if (scene?.skipping != true) {
-          await Future<void>.delayed(Duration(milliseconds: e.frames * 16));
-        }
       case MoveUnitInScene(:final op, :final args):
         _moveUnitInScene(op, args);
 
