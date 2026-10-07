@@ -322,6 +322,39 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     ok(log.any((e) => e.contains('unitList')), '菜单日志记着開了部隊', 'menuLog=$log');
   }
 
+  if (scenario == 'options') {
+    // ★ 「設定」屏：真名字（文本 id 解析出来的）+ 真值 + **改了真生效**
+    final txt = '${d['gameOptionsText']}';
+    ok(txt.contains('設定'), '設定屏开了', 'text=${txt.split('\n').take(2)}');
+    ok(!txt.contains('msg#') && !txt.contains('text#'),
+        '**选项名/取值都是文本 id 解析出来的**（不是占位的 msg#NN）',
+        '含占位=${txt.contains('msg#')}');
+    // 取值标签：映射到的选项应当显示真实标签（如 オン / ふつう / 簡略）
+    ok(txt.contains('オン') || txt.contains('ふつう') || txt.contains('簡略'),
+        '取值显示的是真实标签', '');
+    ok(d['gameOptionsWired'] == true, '选项→配置字段的映射解出来了',
+        'wired=${d['gameOptionsWired']}');
+    final last = d['gameOptionsLast'] as Map<String, dynamic>?;
+    ok(last != null, '屏关掉后仍留下了结果（判据看得到）', 'last=$last');
+    if (last != null) {
+      ok(last['count'] == 13, '显示顺序 13 项（gGameOptionsUiOrder）',
+          'count=${last['count']}');
+      ok(last['index'] == 9, '光标走到了「オートターンエンド」那一行',
+          'index=${last['index']}');
+      ok((last['changes'] as int? ?? 0) >= 1, '左右**改到了**值',
+          'changes=${last['changes']}');
+      final vals = (last['values'] as Map).cast<String, dynamic>();
+      ok(vals.containsKey('disableAutoEndTurns'),
+          '配置里出现的是**源码字段名**（`src/uiconfig.c` 的 switch）', 'keys=${vals.keys.take(4)}');
+    }
+    // ★★ 功能链：改完之后，游戏**真的**读到了新值
+    //（`PlayerPhase_HandleAutoEnd`，`src/playerphase_0801D808.c:52-58`）
+    ok(d['disableAutoEndTurns'] == true,
+        '★ 改了「オートターンエンド」之后 `disableAutoEndTurns` 真的变了',
+        'disableAutoEndTurns=${d['disableAutoEndTurns']}');
+    ok(d['gameOptions'] == null, 'B 把設定屏关掉了', '');
+  }
+
   if (scenario == 'battle') {
     ok(d['chapter'] == 1, '切到了第 1 章（chapter 字段）', 'chapter=${d['chapter']}');
     ok(map?['id'] == 'Ch1Map', '地图是 Ch1Map', 'map.id=${map?['id']}');

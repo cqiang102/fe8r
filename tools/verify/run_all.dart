@@ -516,6 +516,11 @@ Future<void> main(List<String> argv) async {
           ['tools/verify/scenario.sh', 'resume'],
           note: '集成级"存→读→逐字段相同"：章号/回合/单位 hp·坐标/事件旗',
           requires: ['tools/verify/scenario.sh']),
+      // 設定屏：真名字 + 真值 + **改了真生效**（auto-end 写回配置）
+      Step('L4', '端到端场景（設定屏）', 'bash',
+          ['tools/verify/scenario.sh', 'options'],
+          note: '开 設定 → 走到「オートターンエンド」→ 右 ⇒ disableAutoEndTurns 变 true',
+          requires: ['tools/verify/scenario.sh']),
       // 部隊列表 → A 选中 → 开**那个单位**的状況屏（原作的两屏串联）
       Step('L4', '端到端场景（部隊列表 → 状況屏）', 'bash',
           ['tools/verify/scenario.sh', 'unitlist'],

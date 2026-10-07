@@ -1,0 +1,478 @@
+{
+ "options": [
+  {
+   "msgId": 9,
+   "selectors": [
+    {
+     "helpTextId": 26,
+     "optionTextId": 56,
+     "xPos": 112,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 27,
+     "optionTextId": 57,
+     "xPos": 127,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 28,
+     "optionTextId": 55,
+     "xPos": 142,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 29,
+     "optionTextId": 64,
+     "xPos": 165,
+     "unk_05": 2
+    }
+   ],
+   "icon": 0,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 10,
+   "selectors": [
+    {
+     "helpTextId": 36,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 36,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 2,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 11,
+   "selectors": [
+    {
+     "helpTextId": 37,
+     "optionTextId": 67,
+     "xPos": 112,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 38,
+     "optionTextId": 68,
+     "xPos": 143,
+     "unk_05": 4
+    },
+    {
+     "helpTextId": 39,
+     "optionTextId": 55,
+     "xPos": 182,
+     "unk_05": 2
+    }
+   ],
+   "icon": 4,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 14,
+   "selectors": [
+    {
+     "helpTextId": 44,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 44,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 6,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 15,
+   "selectors": [
+    {
+     "helpTextId": 32,
+     "optionTextId": 60,
+     "xPos": 112,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 33,
+     "optionTextId": 61,
+     "xPos": 143,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 34,
+     "optionTextId": 62,
+     "xPos": 174,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 35,
+     "optionTextId": 63,
+     "xPos": 205,
+     "unk_05": 2
+    }
+   ],
+   "icon": 8,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 16,
+   "selectors": [
+    {
+     "helpTextId": 30,
+     "optionTextId": 61,
+     "xPos": 112,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 31,
+     "optionTextId": 62,
+     "xPos": 143,
+     "unk_05": 3
+    }
+   ],
+   "icon": 10,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 17,
+   "selectors": [
+    {
+     "helpTextId": 46,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 46,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 12,
+   "func": "MusicOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 18,
+   "selectors": [
+    {
+     "helpTextId": 47,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 47,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 14,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 19,
+   "selectors": [
+    {
+     "helpTextId": 48,
+     "optionTextId": 56,
+     "xPos": 112,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 48,
+     "optionTextId": 57,
+     "xPos": 127,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 48,
+     "optionTextId": 58,
+     "xPos": 142,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 48,
+     "optionTextId": 59,
+     "xPos": 157,
+     "unk_05": 1
+    }
+   ],
+   "icon": 16,
+   "func": "WindowColorOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 20,
+   "selectors": [
+    {
+     "helpTextId": 49,
+     "optionTextId": 56,
+     "xPos": 112,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 49,
+     "optionTextId": 57,
+     "xPos": 127,
+     "unk_05": 1
+    },
+    {
+     "helpTextId": 49,
+     "optionTextId": 58,
+     "xPos": 142,
+     "unk_05": 1
+    }
+   ],
+   "icon": 18,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 12,
+   "selectors": [
+    {
+     "helpTextId": 40,
+     "optionTextId": 65,
+     "xPos": 112,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 41,
+     "optionTextId": 66,
+     "xPos": 135,
+     "unk_05": 3
+    },
+    {
+     "helpTextId": 42,
+     "optionTextId": 55,
+     "xPos": 158,
+     "unk_05": 2
+    }
+   ],
+   "icon": 20,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 13,
+   "selectors": [
+    {
+     "helpTextId": 43,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 43,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 22,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 21,
+   "selectors": [
+    {
+     "helpTextId": 45,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 45,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 24,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 22,
+   "selectors": [
+    {
+     "helpTextId": 50,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 50,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 26,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 23,
+   "selectors": [
+    {
+     "helpTextId": 51,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 51,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 28,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 24,
+   "selectors": [
+    {
+     "helpTextId": 52,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 52,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 30,
+   "func": "GenericOptionChangeHandler + 0x1"
+  },
+  {
+   "msgId": 25,
+   "selectors": [
+    {
+     "helpTextId": 53,
+     "optionTextId": 54,
+     "xPos": 112,
+     "unk_05": 2
+    },
+    {
+     "helpTextId": 53,
+     "optionTextId": 55,
+     "xPos": 135,
+     "unk_05": 2
+    }
+   ],
+   "icon": 32,
+   "func": "GenericOptionChangeHandler + 0x1"
+  }
+ ],
+ "uiOrder": [
+  0,
+  5,
+  4,
+  1,
+  2,
+  10,
+  14,
+  11,
+  3,
+  12,
+  6,
+  7,
+  8
+ ],
+ "optionEnum": {
+  "GAME_OPTION_ANIMATION": 0,
+  "GAME_OPTION_TERRAIN": 1,
+  "GAME_OPTION_UNIT": 2,
+  "GAME_OPTION_AUTOCURSOR": 3,
+  "GAME_OPTION_TEXT_SPEED": 4,
+  "GAME_OPTION_GAME_SPEED": 5,
+  "GAME_OPTION_MUSIC": 6,
+  "GAME_OPTION_SOUND_EFFECTS": 7,
+  "GAME_OPTION_WINDOW_COLOR": 8,
+  "GAME_OPTION_CPU_LEVEL": 9,
+  "GAME_OPTION_COMBAT": 10,
+  "GAME_OPTION_SUBTITLE_HELP": 11,
+  "GAME_OPTION_AUTOEND_TURNS": 12,
+  "GAME_OPTION_UNIT_COLOR": 13,
+  "GAME_OPTION_OBJECTIVE": 14,
+  "GAME_OPTION_CONTROLLER": 15,
+  "GAME_OPTION_RANK_DISPLAY": 16
+ },
+ "optionToConfigField": {
+  "1": {
+   "enum": "GAME_OPTION_TERRAIN",
+   "field": "disableTerrainDisplay"
+  },
+  "2": {
+   "enum": "GAME_OPTION_UNIT",
+   "field": "unitDisplayType"
+  },
+  "3": {
+   "enum": "GAME_OPTION_AUTOCURSOR",
+   "field": "autoCursor"
+  },
+  "4": {
+   "enum": "GAME_OPTION_TEXT_SPEED",
+   "field": "textSpeed"
+  },
+  "5": {
+   "enum": "GAME_OPTION_GAME_SPEED",
+   "field": "gameSpeed"
+  },
+  "6": {
+   "enum": "GAME_OPTION_MUSIC",
+   "field": "disableBgm"
+  },
+  "7": {
+   "enum": "GAME_OPTION_SOUND_EFFECTS",
+   "field": "disableSoundEffects"
+  },
+  "8": {
+   "enum": "GAME_OPTION_WINDOW_COLOR",
+   "field": "windowColor"
+  },
+  "10": {
+   "enum": "GAME_OPTION_COMBAT",
+   "field": "battleForecastType"
+  },
+  "11": {
+   "enum": "GAME_OPTION_SUBTITLE_HELP",
+   "field": "noSubtitleHelp"
+  },
+  "12": {
+   "enum": "GAME_OPTION_AUTOEND_TURNS",
+   "field": "disableAutoEndTurns"
+  },
+  "13": {
+   "enum": "GAME_OPTION_UNIT_COLOR",
+   "field": "unitColor"
+  },
+  "14": {
+   "enum": "GAME_OPTION_OBJECTIVE",
+   "field": "disableGoalDisplay"
+  },
+  "15": {
+   "enum": "GAME_OPTION_CONTROLLER",
+   "field": "controller"
+  },
+  "16": {
+   "enum": "GAME_OPTION_RANK_DISPLAY",
+   "field": "rankDisplay"
+  }
+ },
+ "note": "msgId 是**文本 id**（选项名），selector.optionTextId 是取值标签的文本 id；func 是改值处理函数的名字（具体怎么改在 C 代码里，未移植）。"
+}

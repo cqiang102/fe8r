@@ -195,6 +195,20 @@ case "$SCENARIO" in
     SCRIPT="$SCRIPT,down,wait,confirm,wait,wait"      # 下移一行 → A
     SCRIPT="$SCRIPT,cancel,wait,wait"                 # 状況屏 B 关
     ;;
+  options)
+    # ★ 「設定」屏：真名字（文本 id 解析出来的）+ 真值（`gPlaySt.config` 字段映射）
+    #   → 走到「自动结束回合」→ 左右改值 → B 关。
+    #
+    # 条目顺序（uiOrder）：13 项；`GAME_OPTION_AUTOEND_TURNS` 的下标是 **12**
+    #（`include/uiconfig.h` 的枚举 = 表下标；`src/uiconfig.c` 的 switch 给字段名）。
+    TITLE=""
+    BASE="wait,wait,wait,wait,confirm,confirm,confirm,confirm,confirm,wait,start,wait,wait"
+    SCRIPT="$BASE,start,down,down,down,confirm,wait,wait"   # 設定（第 4 项）
+    # 显示顺序里「オートターンエンド」是**第 10 行**（下标 9）⇒ down×9
+    SCRIPT="$SCRIPT,down,down,down,down,down,down,down,down,down,wait"
+    SCRIPT="$SCRIPT,right,wait"                            # オン → オフ（真的写回配置）
+    SCRIPT="$SCRIPT,cancel,wait,wait"                       # B 关
+    ;;
   worldmap)
     # ★ **章间大地图**（`MNCH` 那条路）。
     #

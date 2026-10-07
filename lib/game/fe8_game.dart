@@ -518,6 +518,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
               'sortRequested': unitList!.sortRequested,
             },
       'unitListText': _unitListText,
+      'gameOptions': gameOptions == null
+          ? null
+          : {
+              'index': gameOptions!.index,
+              'count': gameOptions!.count,
+              'changes': gameOptions!.changes,
+              'value': gameOptions!.current?.value,
+            },
+      'gameOptionsText': _gameOptionsText,
+      'gameOptionsLast': _gameOptionsLast,
+      'gameOptionsWired': gameOptionRowsHasMapping,
+      'gameConfigFields': gameOptions == null
+          ? null
+          : Map<String, int>.from(
+              gameOptions!.config?.values ?? const <String, int>{}),
+      'disableAutoEndTurns': playConfig.disableAutoEndTurns,
       'statusText': _statusText,
       'resumable': titleFlow?.resumable ?? false,
       'popupLog': _popupLog.toList(),
@@ -918,6 +934,33 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   }
 
   void routeInput(FlowInput i) {
+    // ★ 「設定」屏开着时输入归它（`Config_Loop_KeyHandler`）
+    final go = gameOptions;
+    if (go != null) {
+      switch (i) {
+        case FlowInput.up:
+          gameOptionsKey(go, GameOptionsKey.up);
+        case FlowInput.down:
+          gameOptionsKey(go, GameOptionsKey.down);
+        case FlowInput.left:
+          gameOptionsKey(go, GameOptionsKey.left);
+        case FlowInput.right:
+          gameOptionsKey(go, GameOptionsKey.right);
+        case FlowInput.confirm:
+          gameOptionsKey(go, GameOptionsKey.a);
+        case FlowInput.cancel:
+          gameOptionsKey(go, GameOptionsKey.b);
+        default:
+          return;
+      }
+      if (go.closed) {
+        _closeGameOptions();
+      } else {
+        _showGameOptions(go);
+      }
+      return;
+    }
+
     // ★ 「部隊」列表开着时输入归它（`UnitList_LoopKeyHandler`）
     final ul = unitList;
     if (ul != null) {
@@ -1991,6 +2034,11 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       case MapMenuCommand.guide:
       case MapMenuCommand.records:
       case MapMenuCommand.options:
+        // `src/MapMenu_OptionsCommand.c` ⇒ 开「設定」屏（数据来自
+        // `tools/pipeline/out/tables/game_options.json`，见 `parse_game_options.py`）
+        _openGameOptions();
+        _mapMenuNoteLog.add('options：开設定屏');
+        _mapMenuNote = '$_mapMenuNote → 設定（Config_Loop_KeyHandler）';
       case MapMenuCommand.retreat:
         _mapMenuUnimplemented.add(c.name);
         _mapMenuNote = '$_mapMenuNote → 界面未实现（${c.name}）';
@@ -2857,6 +2905,27 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       final f = File('tools/pipeline/out/tables/$name');
       if (!f.existsSync()) return const {};
       return jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
+    }
+
+    // 設定屏的选项表（`gGameOptions` + `gGameOptionsUiOrder`）
+    final oj = read('game_options.json');
+    final oList = (oj['options'] as List?)?.cast<Map<String, dynamic>>();
+    final oOrder = (oj['uiOrder'] as List?)?.cast<int>();
+    if (oList != null && oOrder != null && oList.isNotEmpty) {
+      _gameOptionRows = [
+        {
+          '_options': oList,
+          '_uiOrder': oOrder,
+          '_toField': (oj['optionToConfigField'] as Map<String, dynamic>? ?? {}),
+        },
+      ];
+      // ⚠️ **"哪个选项对应 `gPlaySt.config.disableAutoEndTurns`" 取不到**：
+      // 那个映射在 `func`（`GenericOptionChangeHandler` 等）的 **C 代码**里，
+      // 数据表只有 msgId/取值文本/函数名。⇒ 不编一个 msgId 出来；
+      // `gameOptionMsgIdAutoEnd` 保持 null ⇒ 屏上的值**不会**写回配置，
+      // 转储里的 `gameOptionsWired` 会如实标成 false。
+    } else {
+      debugPrint('[OPTIONS] 读不到 game_options.json —— 設定屏会明确说取不到，不兜底');
     }
 
     final cj = read('classes.json');
@@ -3968,6 +4037,120 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   static MovementCostTable get _uniformCosts =>
       MovementCostTable(List<int>.filled(64, 1));
+
+  /// 「設定」屏的状态（开着时非 null）
+  GameOptionsState? gameOptions;
+  List<Map<String, dynamic>> _gameOptionRows = const [];
+
+  /// 屏关掉之后仍要能断言"改过什么"（转储时 gameOptions 已是 null）——
+  /// 上一次設定屏的结果留在这里。
+  Map<String, Object?>? _gameOptionsLast;
+
+  String _gameOptionsText = '';
+
+  /// 选项→配置字段的映射**非空**时为真（不是"屏开着"）
+  bool gameOptionRowsHasMapping = false;
+
+  /// 开「設定」屏。选项表与显示顺序来自提取产物。
+  void _openGameOptions() {
+    final raw = _gameOptionRows;
+    if (raw.isEmpty) {
+      _playNote = '設定：选项表取不到（game_options.json）';
+      debugPrint('[OPTIONS] 选项表为空');
+      return;
+    }
+    _gameOptionRows = raw;
+    final order = (raw.first['_uiOrder'] as List<Object?>).cast<int>();
+    final table =
+        (raw.first['_options'] as List<Object?>).cast<Map<String, dynamic>>();
+    final toField = raw.first['_toField'] as Map<String, dynamic>? ?? {};
+    gameOptionRowsHasMapping = toField.isNotEmpty;
+    // 配置值：`disableAutoEndTurns` 与 `playConfig` **共享**（改它真的生效）；
+    // 其余字段先放在这个容器里（名字来自源码 `src/uiconfig.c`，默认值未核对）
+    final cfg = GameConfigValues(initial: {
+      'disableAutoEndTurns': playConfig.disableAutoEndTurns ? 1 : 0,
+    });
+    final opts = <GameOptionState>[];
+    for (final i in order) {
+      if (i < 0 || i >= table.length) continue;
+      final o = table[i];
+      final sels = (o['selectors'] as List).length;
+      final m = toField['$i'];
+      final field = m is Map ? m['field'] as String? : null;
+      final st0 = GameOptionState(
+        msgId: o['msgId'] as int,
+        selectorCount: sels,
+        field: field,
+      );
+      // 有字段的从配置读初值；没字段的（例如动画那一项）留 null ⇒ 屏上「—」，不编
+      if (field != null) st0.value = cfg.get(field).clamp(0, sels - 1);
+      opts.add(st0);
+    }
+    final st = GameOptionsState(options: opts, config: cfg);
+    gameOptions = st;
+    _showGameOptions(st);
+  }
+
+  /// `disableAutoEndTurns` 那一项的 msgId（从产物里认出来，不硬编码文本 id）
+  int? gameOptionMsgIdAutoEnd;
+
+  void _showGameOptions(GameOptionsState st) {
+    final lines = <String>['設定'];
+    for (var i = 0; i < st.options.length; i++) {
+      final o = st.options[i];
+      final name = _textOr(gameTexts?.byId(o.msgId)?.plain, 'msg#${o.msgId}');
+      final raw = _gameOptionRows.first['_options'] as List;
+      final sels = (raw.firstWhere(
+                  (e) => (e as Map<String, dynamic>)['msgId'] == o.msgId,
+                  orElse: () => <String, dynamic>{'selectors': <Object?>[]})
+              as Map<String, dynamic>)['selectors'] as List<Object?>;
+      String val;
+      if (o.value == null) {
+        val = '—';
+      } else if (o.value! < sels.length) {
+        val = _textOr(
+            gameTexts?.byId((sels[o.value!] as Map)['optionTextId'] as int)?.plain,
+            'text#${(sels[o.value!] as Map)['optionTextId']}');
+      } else {
+        val = '?';
+      }
+      lines.add('${i == st.index ? '▶ ' : '  '}$name  $val');
+    }
+    lines.add('← → 改值   B 返回');
+    _gameOptionsText = lines.join('\n');
+    _sceneView?.show(text: _gameOptionsText, virtualSize: camera.viewport.virtualSize);
+    _playNote = '設定：${st.current == null ? "—" : _textOr(gameTexts?.byId(st.current!.msgId)?.plain, "msg#${st.current!.msgId}")}';
+  }
+
+  String _textOr(String? s, String fallback) =>
+      (s == null || s.isEmpty) ? fallback : s;
+
+  void _closeGameOptions() {
+    final st = gameOptions;
+    if (st != null) {
+      // ★ 写回配置。`disableAutoEndTurns` 是我们的流程**真的在读**的那一个
+      //（`PlayerPhase_HandleAutoEnd`，`src/playerphase_0801D808.c:52-58`）
+      // ⇒ 改它**真的生效**；其余字段目前只存在屏上（转储里成对记账）。
+      for (final o in st.options) {
+        if (o.field == 'disableAutoEndTurns' && o.value != null) {
+          playConfig.disableAutoEndTurns = o.value == 1;
+        }
+      }
+      _gameOptionsLast = {
+        'index': st.index,
+        'count': st.count,
+        'changes': st.changes,
+        'values': {
+          for (final o in st.options)
+            if (o.field != null) o.field!: o.value,
+        },
+      };
+    }
+    gameOptions = null;
+    _sceneView?.show(text: null, virtualSize: camera.viewport.virtualSize);
+    _playNote = kPlayNote;
+    _updateHud();
+  }
 
   /// 「部隊」列表的状态（开着时非 null）
   UnitListState? unitList;
