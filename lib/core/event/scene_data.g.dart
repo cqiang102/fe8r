@@ -8882,7 +8882,7 @@ Future<void> Ch1Tut_BeforeSethMoveToEnemy(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65534);
     s.setKeyIgnore(266);
     return;
 }
@@ -8908,7 +8908,7 @@ Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
     s.placeholder('SENQUEUE1');
     s.placeholder('FIGHT_SCRIPT');
     s.placeholder('EvtEnqueueConditionalTutCall');
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(24576);
     return;
 }
 
@@ -8967,7 +8967,7 @@ Future<void> Ch1Tut_EirikaVisitHouseIdle2(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65503);
     s.setKeyIgnore(266);
     return;
 }
@@ -8991,7 +8991,7 @@ Future<void> Ch1Tut_EirikaVisitHouseInit(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.placeholder('EvtEnqueueConditionalTutCall');
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -9036,7 +9036,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.enqueueTutCall(2, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     return;
 }
 
@@ -9069,7 +9069,7 @@ Future<void> Ch1Tut_GuideTerrainHeal(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     s.evBitMod('flag', true, 206);
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(512);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -9112,7 +9112,7 @@ Future<void> Ch1Tut_PostTradeAndItemUseAction(Scene s) async {
     await s.textShow(2290);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     await s.call(Sym('EventScr_Ch1Tut_MsgOnGuideOption'));
     s.evBitMod('evbit', true, 7);
     return;
@@ -9198,7 +9198,7 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65023);
     s.setKeyIgnore(266);
     return;
 }
@@ -9996,7 +9996,7 @@ Future<void> Ch2Tutorial12(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial12'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65519);
     s.setKeyIgnore(266);
     return;
 }
@@ -10018,7 +10018,7 @@ Future<void> Ch2Tutorial14(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     s.evBitMod('flag', true, 197);
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     s.placeholder('SHOW_ATTACK_RANGE');
     s.showCursorAt(9, 4, flashing: true);
     await s.stall(60);
@@ -10099,7 +10099,7 @@ Future<void> Ch2Tutorial18(Scene s) async {
 Future<void> Ch2Tutorial19(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.placeholder('ASMC');
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65533);
     s.setKeyIgnore(0);
     s.enqueueTutCall(4, Sym('EventScr_Ch2Tutorial20'));
     return;
@@ -10121,7 +10121,7 @@ Future<void> Ch2Tutorial2(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial2'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65527);
     s.setKeyIgnore(266);
     return;
 }
@@ -10154,7 +10154,7 @@ Future<void> Ch2Tutorial21(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     s.evBitMod('flag', true, 196);
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     await s.call(Sym('EventScr_Ch2_7'));
     s.evBitMod('evbit', true, 7);
     return;
@@ -10179,7 +10179,7 @@ Future<void> Ch2Tutorial22(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.placeholder('EvtEnqueueConditionalTutCall');
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -10224,7 +10224,7 @@ Future<void> Ch2Tutorial24(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial24'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65503);
     s.setKeyIgnore(266);
     return;
 }
@@ -10248,7 +10248,7 @@ Future<void> Ch2Tutorial26(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(2, Sym('EventScr_Ch2_Village2', 160));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     s.placeholder('EvtEnqueueCallDirectly');
     s.evBitMod('evbit', true, 7);
     return;
@@ -10295,7 +10295,7 @@ Future<void> Ch2Tutorial28(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial28'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65471);
     s.setKeyIgnore(266);
     return;
 }
@@ -10333,7 +10333,7 @@ Future<void> Ch2Tutorial30(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(2, Sym('EventScr_Ch2_9'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -10348,7 +10348,7 @@ Future<void> Ch2Tutorial4(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     s.placeholder('MUNO');
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     s.placeholder('SHOW_ATTACK_RANGE');
     s.showCursorAt(8, 4, flashing: true);
     await s.stall(60);
@@ -10439,7 +10439,7 @@ Future<void> Ch2Tutorial9(Scene s) async {
     s.setSlot(1, Sym('EventScr_Ch2Tutorial9'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65531);
     s.setKeyIgnore(266);
     return;
 }
@@ -10475,7 +10475,7 @@ Future<void> Ch2_4(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.enqueueTutCall(2, Sym('EventScr_Ch2Tutorial8'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -10491,7 +10491,7 @@ Future<void> Ch2_5(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.enqueueTutCall(2, Sym('EventScr_Ch2Tutorial11'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     return;
 }
 
@@ -10507,7 +10507,7 @@ Future<void> Ch2_6(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.enqueueTutCall(2, Sym('EventScr_Ch2Tutorial18'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -10524,7 +10524,7 @@ Future<void> Ch2_7(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.enqueueTutCall(2, Sym('EventScr_Ch2Tutorial27'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -11075,7 +11075,7 @@ Future<void> Ch2_Village2(Scene s) async {
     await s.stall(60);
     await s.endCursor();
     s.enqueueTutCall(2, Sym('EventScr_Ch2_Village2', 308));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(16384);
     return;
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
@@ -16810,7 +16810,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
 
 /// `EventScr_Prologue_EirikaAttacked`
 Future<void> Prologue_EirikaAttacked(Scene s) async {
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(24576);
     s.evBitMod('flag', true, 102);
     s.evBitMod('flag', true, 224);
     s.evBitMod('flag', true, 225);
@@ -17318,7 +17318,7 @@ Future<void> Prologue_Tutorial1(Scene s) async {
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial1'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65531);
     s.setKeyIgnore(266);
     return;
 }
@@ -17370,7 +17370,7 @@ Future<void> Prologue_Tutorial4(Scene s) async {
 Future<void> Prologue_Tutorial5(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.placeholder('ASMC');
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65534);
     s.setKeyIgnore(266);
     s.enqueueTutCall(4, Sym('EventScr_Prologue_Tutorial6'));
     return;
@@ -17484,7 +17484,7 @@ Future<void> Prologue_TutorialB(Scene s) async {
     s.setSlot(1, Sym('EventScr_Prologue_TutorialB'));
     s.placeholder('SENQUEUE1');
     await s.call(Sym('EventScr_Tutorial_Exec1'));
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(65534);
     s.setKeyIgnore(266);
     return;
 }
@@ -17521,7 +17521,7 @@ Future<void> Prologue_TutorialE(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     s.evBitMod('flag', true, 231);
-    s.placeholder('DISABLEOPTIONS');
+    s.overrideUnitMenu(0);
     return;
 }
 

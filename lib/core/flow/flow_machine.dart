@@ -59,6 +59,27 @@ const int kKeyDown = 0x0080;
 const int kKeyR = 0x0100;
 const int kKeyL = 0x0200;
 
+/// `ActionOption` → `menuOverrideKeys` 里的语义键
+///
+/// 用于 `DISABLEOPTIONS`（`EvtOverrideUnitMenu`，
+/// `src/Event3D_MenuOverride.c:74-118` 的 `UnitMenuOverrideConf`）——
+/// 那张表按 msgId 列出可隐藏的菜单项，我们按语义键对到自己这边。
+String menuKeyOfAction(ActionOption o) => switch (o) {
+      ActionOption.wait => 'wait',
+      ActionOption.attack => 'attack',
+      ActionOption.item => 'item',
+      ActionOption.visit => 'visit',
+      ActionOption.seize => 'seize',
+      ActionOption.chest => 'chest',
+      ActionOption.door => 'door',
+      ActionOption.rescue => 'rescue',
+      ActionOption.drop => 'drop',
+      ActionOption.supply => 'supply',
+      ActionOption.talk => 'talk',
+      ActionOption.dance => 'dance',
+      ActionOption.steal => 'steal',
+    };
+
 /// `FlowInput` → GBA 键位（`include/gba/io_reg.h:663-672`）
 ///
 /// `IGNORE_KEYS`（`EvtSetKeyIgnore` ⇒ `SetKeyStatus_IgnoreMask`，

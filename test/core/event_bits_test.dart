@@ -87,6 +87,7 @@ void main() {
   _counterTests();
   _evBitModifyTests();
   _textTypeTests();
+  _menuOverrideTests();
 }
 
 // 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
@@ -181,5 +182,24 @@ void _textTypeTests() {
     expect(n(0) + n(1) + n(2) + n(3) + n(4) + n(5), 184, reason: '这一族的总数');
     expect(RegExp(r's\.placeholder\(.(TEXTSTART|TUTORIALTEXTBOXSTART)').hasMatch(t),
         isFalse, reason: '这两个不该再是占位符');
+  });
+}
+
+// `DISABLEOPTIONS`（`EvtOverrideUnitMenu`，`src/Event3D_MenuOverride.c:74-118`）
+void _menuOverrideTests() {
+  test('★ 掩码 bit i ⇒ 第 i 个菜单项；**未映射的要显式返回**', () {
+    // 表（`:74-90`）：0 攻撃 / 1 杖 / 2 待機 / 3 救出 / 4 降ろす / 5 訪問 / 6 話す / 7 持ち物 …
+    expect(unitMenuOverrideMsgIds.length, 15);
+    expect(menuOverrideKeysForMask(1 << 0), ['attack']);
+    expect(menuOverrideKeysForMask(1 << 2), ['wait'], reason: '0x6B 待機');
+    expect(menuOverrideKeysForMask(1 << 5), ['visit'], reason: '0x5C 訪問');
+    expect(menuOverrideKeysForMask((1 << 0) | (1 << 2)), ['attack', 'wait']);
+    // ★ bit 1 = 杖：我们模型里没有独立的"杖"项 ⇒ 它必须出现在 unmapped 里（不静默丢）
+    final r = menuOverrideForMask(1 << 1);
+    expect(r.keys, isEmpty);
+    expect(r.unmapped, [0x51], reason: '0x51 杖 —— 我们把它放在道具子菜单里');
+    // 支援 / 武器屋 / 設定 / 終了 也都没对应项
+    final r2 = menuOverrideForMask((1 << 11) | (1 << 14));
+    expect(r2.unmapped, containsAll([0x5B, 0x78]));
   });
 }

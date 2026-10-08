@@ -47,6 +47,62 @@ enum FadeDirection {
   toWhite,
 }
 
+/// `UnitMenuOverrideConf[15]`（`src/Event3D_MenuOverride.c:74-90`）
+///
+/// **bit i ⇒ 把第 i 个菜单项永久隐藏**（`AddMenuOverride(..., MenuAlwaysNotShown)`，
+/// `:110-118`）。表里是菜单项的 **msgId**，注释是反编译自带的。
+/// 我们按"语义键"映射到自己的 `ActionOption`；映射不到的（如"杖"在我们的模型里
+/// 属于道具子菜单、没有独立项）在 [menuOverrideKeys] 里留 `null`，
+/// 由调用方**显式记录**，而不是悄悄丢掉。
+const List<int> unitMenuOverrideMsgIds = [
+  0x4F, 0x51, 0x6B, 0x63, 0x64, 0x5C, 0x5A, 0x67,
+  0x37, 0x68, 0x69, 0x5B, 0x5F, 0x71, 0x78,
+];
+
+/// msgId → 我们的 ActionOption 语义键（`null` = 我们模型里没有对应项）
+const List<String?> menuOverrideKeys = [
+  'attack', //  0x4F 攻撃
+  null, //      0x51 杖    —— 我们把它放在道具子菜单里，没有独立项（走 unmapped）
+  'wait', //    0x6B 待機
+  'rescue', //  0x63 救出
+  'drop', //    0x64 降ろす
+  'visit', //   0x5C 訪問
+  'talk', //    0x5A 話す
+  'item', //    0x67 持ち物
+  'discard', // 0x37 捨てる
+  'trade', //   0x68 交換
+  'supply', //  0x69 輸送隊
+  null, //      0x5B 支援    —— 我们还没做支援
+  null, //      0x5F 武器屋  —— 商店还没做（数据被 gUidebug_2 挡住）
+  null, //      0x71 設定    —— 設定是地图菜单，不是行动菜单
+  null, //      0x78 終了
+];
+
+/// `DISABLEOPTIONS` = `EvtOverrideUnitMenu(mask)`（`include/eventscript.h:738`）
+/// ⇒ 把掩码里置位的那些菜单项**永久隐藏**。
+/// 返回 `(我们能隐藏的键, 我们模型里没有对应项的 msgId 列表)`
+///
+/// ⚠️ 第二项**必须**返回：那些位（杖 / 支援 / 武器屋 / 設定 / 終了）我们没法隐藏，
+/// 静默丢掉就等于"原作隐藏了、我们没隐藏"而没人知道。
+({List<String> keys, List<int> unmapped}) menuOverrideForMask(int mask) {
+  final keys = <String>[];
+  final unmapped = <int>[];
+  for (var i = 0; i < menuOverrideKeys.length; i++) {
+    if ((mask & (1 << i)) == 0) continue;
+    final k = menuOverrideKeys[i];
+    if (k != null) {
+      keys.add(k);
+    } else {
+      unmapped.add(unitMenuOverrideMsgIds[i]);
+    }
+  }
+  return (keys: keys, unmapped: unmapped);
+}
+
+/// 只要键的那部分（判据用；未映射的请看 [menuOverrideForMask]）
+List<String> menuOverrideKeysForMask(int mask) =>
+    menuOverrideForMask(mask).keys;
+
 /// `IsActiveEventTextTypeOnMap`（`src/IsActiveEventTextTypeOnMap.c:25-45`）：
 /// **类型 1 和 2 是"在地图上"的文本框**，0/3/4/5 不是。
 bool eventTextTypeOnMap(int type) => type == 1 || type == 2;
@@ -394,6 +450,13 @@ class KeyIgnore extends SceneEvent {
   final int mask;
 }
 
+/// `DISABLEOPTIONS` —— 永久隐藏掩码里置位的那些菜单项
+class MenuOverride extends SceneEvent {
+  const MenuOverride(this.mask);
+
+  final int mask;
+}
+
 /// `CUMO_CHAR` —— 场景光标画到某个单位上
 class DisplayCursorAtUnit extends SceneEvent {
   const DisplayCursorAtUnit(this.pid);
@@ -709,6 +772,12 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// `DISABLEOPTIONS` = `EvtOverrideUnitMenu(mask)`（`include/eventscript.h:738`）
+  ///
+  /// 菜单是**游戏侧**的 ⇒ 场景发事件，由游戏把对应项永久隐藏
+  /// （原作：`AddMenuOverride(..., MenuAlwaysNotShown)`，`src/Event3D_MenuOverride.c:110-118`）。
+  void overrideUnitMenu(int mask) => onEvent(MenuOverride(mask));
 
   /// `proc->activeTextType` —— **子命令号就是类型**（`src/eventscr_0800E3E0.c:94`）
   ///

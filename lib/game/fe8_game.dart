@@ -596,9 +596,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           ? flow!
               .availableActions(state!, field!,
                   hasUsableItem: _usableSlots.isNotEmpty)
+              // `DISABLEOPTIONS` 隐藏掉的项在这里被剔除（判据直接看这个列表）
+              .where((o) => !hiddenMenuKeys.contains(
+                  menuKeyOfAction(o)))
               .map((o) => o.label)
               .toList()
           : null,
+      'hiddenMenuKeys': hiddenMenuKeys.toList()..sort(),
+      'unmappedMenuOverrides': unmappedMenuOverrides.toList()..sort(),
       'actionIndex': state?.actionIndex,
       // ★ 光标所指单位的**信息窗**内容（原作 `struct UnitInfoWindowProc`：
       //   名字 + 最多 5 行道具，行数 = 道具数且至少 1。
@@ -1932,6 +1937,13 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         lastPopup = {'textId': textId, 'x': x, 'y': y};
         debugPrint('[POPUP] $lastPopup');
         await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
+      case MenuOverride(:final mask):
+        // `DISABLEOPTIONS`：掩码里置位的菜单项永久隐藏
+        final r = menuOverrideForMask(mask);
+        hiddenMenuKeys.addAll(r.keys);
+        unmappedMenuOverrides.addAll(r.unmapped); // 我们隐藏不了的 msgId（留痕）
+        debugPrint('[MENUOVERRIDE] mask=$mask -> ${r.keys} '
+            '(未映射 ${r.unmapped})');
       case KeyIgnore(:final mask):
         // `IGNORE_KEYS`：屏蔽掩码由**游戏侧**持有（输入的归属）
         keyIgnoreMask = mask;
@@ -5550,6 +5562,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     c.removeFromParent();
     _popupComp = null;
   }
+
+  /// `DISABLEOPTIONS` 隐藏掉的行动菜单项（语义键，见 `menuOverrideKeys`）
+  final Set<String> hiddenMenuKeys = {};
+
+  /// `DISABLEOPTIONS` 里**我们模型没有对应项**的菜单 msgId（留痕，别静默丢）
+  final Set<int> unmappedMenuOverrides = {};
 
   /// 被 `IGNORE_KEYS` 掩码吞掉的输入次数（判据用）
   int ignoredInputCount = 0;

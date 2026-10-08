@@ -248,6 +248,16 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 菜单屏蔽：`DISABLEOPTIONS` = `EvtOverrideUnitMenu(mask)`
+    #   （`include/eventscript.h:738`，`EV_CMD_MENUOVERRIDE` subcmd 0）
+    #   => `src/Event3D_MenuOverride.c:110-118`：掩码里置位的位 => 对应菜单项**永久隐藏**
+    #      （表是 `UnitMenuOverrideConf[15]`，`:74-90`）。
+    if op == "DISABLEOPTIONS":
+        a5 = A[0] if A else 0
+        if isinstance(a5, int):
+            return (f"s.overrideUnitMenu({num(a5)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 文本类型（`EV_CMD_SETTEXTTYPE`）—— 子命令号**就是**文本类型：
     #   `src/eventscr_0800E3E0.c:94`：`proc->activeTextType = subcode;`
     #   号码见 `include/eventscript.h:415-420`（TEXTSTART=0、REMOVEPORTRAITS=1、
