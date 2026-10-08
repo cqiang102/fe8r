@@ -604,6 +604,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           : null,
       'hiddenMenuKeys': hiddenMenuKeys.toList()..sort(),
       'unmappedMenuOverrides': unmappedMenuOverrides.toList()..sort(),
+      'textContinueCount': textContinueCount,
       'actionIndex': state?.actionIndex,
       // ★ 光标所指单位的**信息窗**内容（原作 `struct UnitInfoWindowProc`：
       //   名字 + 最多 5 行道具，行数 = 道具数且至少 1。
@@ -1937,6 +1938,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         lastPopup = {'textId': textId, 'x': x, 'y': y};
         debugPrint('[POPUP] $lastPopup');
         await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
+      case ContinueText(:final skipping):
+        // `TEXTCONT`（`src/eventscr.c:47-66`）：跳过中要**真的收尾**（结束对话），
+        // 否则是 `ResumeTalk()`（我们的 `textShow` 本来就是逐页 await ⇒ 无需额外动作）。
+        textContinueCount++;
+        if (skipping) {
+          _currentText = null;
+          _updateSceneDialogue();
+          debugPrint('[TEXTCONT] 跳过中 ⇒ 结束对话');
+        }
       case MenuOverride(:final mask):
         // `DISABLEOPTIONS`：掩码里置位的菜单项永久隐藏
         final r = menuOverrideForMask(mask);
@@ -5562,6 +5572,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     c.removeFromParent();
     _popupComp = null;
   }
+
+  /// `TEXTCONT` 出现过的次数（判据用）
+  int textContinueCount = 0;
 
   /// `DISABLEOPTIONS` 隐藏掉的行动菜单项（语义键，见 `menuOverrideKeys`）
   final Set<String> hiddenMenuKeys = {};

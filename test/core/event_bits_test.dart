@@ -88,6 +88,7 @@ void main() {
   _evBitModifyTests();
   _textTypeTests();
   _menuOverrideTests();
+  _continueTextTests();
 }
 
 // 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
@@ -201,5 +202,24 @@ void _menuOverrideTests() {
     // 支援 / 武器屋 / 設定 / 終了 也都没对应项
     final r2 = menuOverrideForMask((1 << 11) | (1 << 14));
     expect(r2.unmapped, containsAll([0x5B, 0x78]));
+  });
+}
+
+// `TEXTCONT` = `EvtContinueText`（`include/EAstdlib.h:92`；
+// 处理函数 `Event1D_TalkContinue`，`src/eventscr.c:47-66`）
+void _continueTextTests() {
+  test('★ 产物里 25 处 `s.continueText()`，且不再是占位符', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    expect(RegExp(r's\.continueText\(\)').allMatches(t).length, 25,
+        reason: '按事实钉住（第 80/84 轮的教训）');
+    expect(t.contains("s.placeholder('TEXTCONT')"), isFalse);
+  });
+
+  test('★ 跳过中要**真的收尾**（源码 `:49-59` 的 EndTalk/EndCgText/EndAllBoxDialogue）', () {
+    // 事件携带 skipping 标志 —— 游戏侧据此决定"收尾"还是"ResumeTalk"
+    const a = ContinueText(false);
+    const b = ContinueText(true);
+    expect(a.skipping, isFalse, reason: '非跳过 => ResumeTalk（我们逐页 await，无需额外动作）');
+    expect(b.skipping, isTrue, reason: '跳过 => 结束对话');
   });
 }

@@ -2367,7 +2367,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 12;
           continue;
         case 12:
@@ -2379,7 +2379,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 15;
           continue;
         case 15:
@@ -2894,7 +2894,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 71;
           continue;
         case 71:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 72;
           continue;
         case 72:
@@ -2998,7 +2998,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 97;
           continue;
         case 97:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 98;
           continue;
         case 98:
@@ -4053,7 +4053,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 58;
           continue;
         case 58:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 59;
           continue;
         case 59:
@@ -4065,7 +4065,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 62;
           continue;
         case 62:
@@ -4115,7 +4115,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 74;
           continue;
         case 74:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 75;
           continue;
         case 75:
@@ -4127,7 +4127,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 77;
           continue;
         case 77:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 78;
           continue;
         case 78:
@@ -4600,7 +4600,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.textShow(2627);
     await s.textEnd();
     s.placeholder('MUSC');
-    s.placeholder('TEXTCONT');
+    await s.continueText();
     await s.textEnd();
     s.textRemoveAll();
     await s.call(Sym('EventScr_TextShowWithFadeIn'));
@@ -5591,7 +5591,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 44;
           continue;
         case 44:
@@ -5603,7 +5603,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 47;
           continue;
         case 47:
@@ -6264,7 +6264,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 15;
           continue;
         case 15:
@@ -8087,7 +8087,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 10;
           continue;
         case 10:
@@ -8099,7 +8099,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 13;
           continue;
         case 13:
@@ -8125,7 +8125,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 20;
           continue;
         case 20:
@@ -8137,7 +8137,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 23;
           continue;
         case 23:
@@ -9627,7 +9627,7 @@ Future<void> Ch21A_0(Scene s) async {
     await s.textShow(2949);
     await s.textEnd();
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('TEXTCONT');
+    await s.continueText();
     await s.textEnd();
     s.textRemoveAll();
     s.placeholder('EvtBgmFadeIn');
@@ -9939,7 +9939,7 @@ Future<void> Ch21b_EndingScene(Scene s) async {
     await s.textShow(2950);
     await s.textEnd();
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('TEXTCONT');
+    await s.continueText();
     await s.textEnd();
     s.textRemoveAll();
     s.placeholder('EvtBgmFadeIn');
@@ -12822,7 +12822,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 88;
           continue;
         case 88:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 89;
           continue;
         case 89:
@@ -12854,7 +12854,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 96;
           continue;
         case 96:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 97;
           continue;
         case 97:
@@ -13789,7 +13789,7 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.textShow(2469);
     await s.textEnd();
     s.placeholder('MUSC');
-    s.placeholder('TEXTCONT');
+    await s.continueText();
     await s.textEnd();
     s.textRemoveAll();
     s.setSlot(2, 34);
@@ -13950,7 +13950,7 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 26;
           continue;
         case 26:
@@ -14540,7 +14540,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     await s.textShow(2505);
     await s.textEnd();
     s.placeholder('EvtBgmFadeIn');
-    s.placeholder('TEXTCONT');
+    await s.continueText();
     await s.textEnd();
     await s.call(Sym('EventScr_TextShowWithFadeIn'));
     s.loadUnits(1, Sym('UnitDef_Ch8Enemy_3'));
@@ -15244,7 +15244,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 49;
           continue;
         case 49:
@@ -15316,7 +15316,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 66;
           continue;
         case 66:
-          s.placeholder('TEXTCONT');
+          await s.continueText();
           pc = 67;
           continue;
         case 67:

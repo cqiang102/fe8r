@@ -450,6 +450,13 @@ class KeyIgnore extends SceneEvent {
   final int mask;
 }
 
+/// `TEXTCONT` —— 继续/结束对话（带"是否跳过中"：跳过时要真的收尾）
+class ContinueText extends SceneEvent {
+  const ContinueText(this.skipping);
+
+  final bool skipping;
+}
+
 /// `DISABLEOPTIONS` —— 永久隐藏掩码里置位的那些菜单项
 class MenuOverride extends SceneEvent {
   const MenuOverride(this.mask);
@@ -772,6 +779,14 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// `TEXTCONT` = `EvtContinueText`（`include/EAstdlib.h:92`；
+  /// 处理函数 `Event1D_TalkContinue`，`src/eventscr.c:47-66`）
+  ///
+  /// * **跳过中** ⇒ `EndTalk/EndCgText/EndAllBoxDialogue`（结束对话）；
+  /// * 否则 ⇒ `ResumeTalk()`；
+  /// * 两种都返回 `EVC_ADVANCE_YIELD`。
+  Future<void> continueText() => onEvent(ContinueText(skipping));
 
   /// `DISABLEOPTIONS` = `EvtOverrideUnitMenu(mask)`（`include/eventscript.h:738`）
   ///

@@ -248,6 +248,14 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 文本继续：`TEXTCONT` = `EvtContinueText`（`include/EAstdlib.h:92`，
+    #   `EV_CMD_CONTINUETEXT` = 0x1C，处理函数 `Event1D_TalkContinue`，
+    #   `src/eventscr.c:47-66`）：
+    #   跳过中 => `EndTalk/EndCgText/EndAllBoxDialogue`（**结束对话**）；
+    #   否则 => `ResumeTalk()`；返回 `EVC_ADVANCE_YIELD`。
+    if op == "TEXTCONT":
+        return ("await s.continueText();", False)
+
     # 菜单屏蔽：`DISABLEOPTIONS` = `EvtOverrideUnitMenu(mask)`
     #   （`include/eventscript.h:738`，`EV_CMD_MENUOVERRIDE` subcmd 0）
     #   => `src/Event3D_MenuOverride.c:110-118`：掩码里置位的位 => 对应菜单项**永久隐藏**
