@@ -85,6 +85,7 @@ void main() {
         reason: '接上的处数（参数是符号的会退回占位）');
   });
   _counterTests();
+  _evBitModifyTests();
 }
 
 // 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
@@ -121,5 +122,33 @@ void _counterTests() {
     final again = eventCounterGet(c, 4);
     expect(again, 4);
     expect(eventCounterGet(c, 4), 4, reason: '读取不改变计数器');
+  });
+}
+
+// `EVBIT_MODIFY`（`src/masked_0800def0.c:74-100`）的位操作 —— 用**纯算术**验证
+void _evBitModifyTests() {
+  test('★ 参数 0/1/2 的位效果（照 `case 0/1/2`）', () {
+    // 0 ⇒ 清 NOSKIP|0020|0040
+    var b = kEvStateNoSkip | kEvState0020 | kEvState0040 | (1 << 9);
+    b &= ~(kEvStateNoSkip | kEvState0020 | kEvState0040);
+    expect(b & (kEvStateNoSkip | kEvState0020 | kEvState0040), 0);
+    expect(b & (1 << 9), isNot(0), reason: '别的位不动');
+    // 1 ⇒ 三个全置
+    var c = 0;
+    c |= kEvStateNoSkip | kEvState0020 | kEvState0040;
+    expect(c, kEvStateNoSkip | kEvState0020 | kEvState0040);
+    // 2 ⇒ 清前两个、**置第三个**
+    var d = kEvStateNoSkip | kEvState0020 | kEvState0040;
+    d &= ~(kEvStateNoSkip | kEvState0020);
+    d |= kEvState0040;
+    expect(d & kEvStateNoSkip, 0);
+    expect(d & kEvState0020, 0);
+    expect(d & kEvState0040, isNot(0), reason: '第三个反而是**置**上');
+  });
+
+  test('★ 位值与源码一致（`include/event.h:59-61`）', () {
+    expect(kEvStateNoSkip, 1 << 0x4);
+    expect(kEvState0020, 1 << 0x5);
+    expect(kEvState0040, 1 << 0x6);
   });
 }

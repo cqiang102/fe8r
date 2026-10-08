@@ -6610,6 +6610,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     sc.chapterModeIndex = chapterModeIndex;
     sc.chapterIndex = sceneChapter;
     sc.isHard = _currentPlayFlags.difficulty == NewGameDifficulty.hard;
+    // `gPlaySt.config.controller` —— 我们的对应字段是 `NewGamePlayFlags.configController`
+    //（`play_config.dart:204-211`：它**就是** isTutorial，带交叉验证；注意它在
+    //  `NewGamePlayFlags` 上，不在 `PlayConfig` 上 —— 我第一次就放错了类）
+    sc.controllerConfig = _currentPlayFlags.configController;
 
     final f = field;
     if (f == null) return;

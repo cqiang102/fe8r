@@ -1117,7 +1117,7 @@ Future<void> scr_9EEB00(Scene s) async {
 
 /// `EventScr_ApplyActiveUnitTileChange`
 Future<void> ApplyActiveUnitTileChange(Scene s) async {
-    s.placeholder('EVBIT_MODIFY');
+    s.modifyEvBit(1);
     s.placeholder('TILECHANGE');
     s.evBitMod('evbit', true, 7);
     return;
@@ -1129,7 +1129,7 @@ Future<void> ApplyTileChangeForFaction(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('EVBIT_MODIFY');
+          s.modifyEvBit(1);
           pc = 1;
           continue;
         case 1:
@@ -1253,7 +1253,7 @@ Future<void> CallOnHardMode(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 1;
           continue;
         case 1:
@@ -1287,7 +1287,7 @@ Future<void> CallOnTutorialMode(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 1;
           continue;
         case 1:
@@ -1447,7 +1447,7 @@ Future<void> Ch10A_8(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 1;
           continue;
         case 1:
@@ -6196,7 +6196,7 @@ Future<void> Ch16A_1(Scene s) async {
     s.slotArith('SADD', 2, 10);
     s.placeholder('BACG');
     await s.fade(FadeDirection.fromWhite, 4);
-    s.placeholder('EVBIT_MODIFY');
+    s.modifyEvBit(0);
     return;
     s.checkSlotValue('mode');
     s.placeholder('EVENT_WORD');
@@ -11250,7 +11250,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 21;
           continue;
         case 21:
@@ -11316,7 +11316,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 38;
           continue;
         case 38:
@@ -11344,7 +11344,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 46;
           continue;
         case 46:
@@ -15012,7 +15012,7 @@ Future<void> Ch9B_9(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 4;
           continue;
         case 4:
@@ -16351,7 +16351,7 @@ Future<void> LoadReinforce(Scene s) async {
     s.placeholder('LOAD1');
     await s.waitUnitMoving();
     s.evBitMod('evbit', false, 9);
-    s.placeholder('EVBIT_MODIFY');
+    s.modifyEvBit(0);
     return;
 }
 
@@ -16361,7 +16361,7 @@ Future<void> LoadReinforceHardMode(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 1;
           continue;
         case 1:
@@ -16501,7 +16501,7 @@ Future<void> LoadUnitForTutorial(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 1;
           continue;
         case 1:
@@ -16671,7 +16671,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_TUTORIAL');
+          s.checkSlotValue('tutorial');
           pc = 4;
           continue;
         case 4:

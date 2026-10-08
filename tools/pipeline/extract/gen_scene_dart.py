@@ -248,6 +248,21 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 三个小条件/状态命令（都读全了）：
+    #   `CHECK_TUTORIAL` = `EvtGetIsTutorial`（include/EAstdlib.h:79）
+    #     => `src/eventscr_0800E2C8.c:109-115`：
+    #        slot 0xC = !(config.controller || (chapterStateBits & PLAY_FLAG_HARD))
+    #   `EVBIT_MODIFY` = `EvtModifyEvBit(type)`（include/eventscript.h:622）
+    #     => `src/masked_0800def0.c:74-100`：0 => 清 NOSKIP|0020|0040；
+    #        1 => 三个全置；2 => 清前两个、**置第三个**（其余值未读 => 保持占位）
+    if op == "CHECK_TUTORIAL":
+        return ("s.checkSlotValue('tutorial');", True)
+    if op == "EVBIT_MODIFY":
+        t = A[0] if A else 0
+        if isinstance(t, int) and t in (0, 1, 2):
+            return (f"s.modifyEvBit({num(t)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 事件计数器（`EV_CMD_COUNTER`，`src/Event0F_CounterOps.c:24-99`）：
     #   32 位里**按 nibble 打包**，`shift = 4 * ((参数低字节) % 8)`；
     #   `COUNTER_CHECK` => `gEventSlots[0xC] = (counter >> shift) & 0xF`（**不回写**）；

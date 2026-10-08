@@ -47,6 +47,15 @@ enum FadeDirection {
   toWhite,
 }
 
+/// `EV_STATE_*` 位（`include/event.h:59-63`）—— `EVBIT_MODIFY` 动的是这几位
+const int kEvStateNoSkip = 1 << 0x4;
+const int kEvState0020 = 1 << 0x5;
+const int kEvState0040 = 1 << 0x6;
+/// `EV_STATE_SKIPPING`（`include/event.h` 里那一位；注释见 `EVENT_IS_SKIPPING`）
+const int kEvStateSkipping = 1 << 2;
+/// `EV_STATE_FADEDIN`（跳过 EVBIT_MODIFY 时翻到的位）
+const int kEvStateFadedIn = 1 << 7;
+
 /// 事件计数器的**纯运算**（`src/Event0F_CounterOps.c:24-99`）
 ///
 /// 32 位按 **nibble** 打包（8 个 4 位计数器）；`shift = 4 * (idx % 8)`
@@ -697,6 +706,30 @@ class Scene {
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
 
+  /// `EVBIT_MODIFY` = `EvtModifyEvBit(type)`（`include/eventscript.h:622`）
+  ///
+  /// 出处：`src/masked_0800def0.c:74-100`：
+  ///   * `0` ⇒ 清 `EV_STATE_NOSKIP | 0020 | 0040`；
+  ///   * `1` ⇒ 三个全置；
+  ///   * `2` ⇒ 清前两个、**置第三个**；
+  ///   * 跳过中且参数非 0 ⇒ 把状态翻成 `EV_STATE_FADEDIN`（`:78-79`）。
+  /// 位值见 `include/event.h:59-61`。其余参数值**未读** ⇒ 生成器保持占位符。
+  void modifyEvBit(int type) {
+    if (skipping && type != 0) {
+      evStateBits =
+          (evStateBits & ~kEvStateSkipping) | kEvStateFadedIn;
+    }
+    switch (type) {
+      case 0:
+        evStateBits &= ~(kEvStateNoSkip | kEvState0020 | kEvState0040);
+      case 1:
+        evStateBits |= kEvStateNoSkip | kEvState0020 | kEvState0040;
+      case 2:
+        evStateBits &= ~(kEvStateNoSkip | kEvState0020);
+        evStateBits |= kEvState0040;
+    }
+  }
+
   /// `COUNTER_CHECK`：写条件槽 **0xC**，**不回写**计数器（源码 `case 0` 里直接 `return 0`）
   void counterCheck(int idx) => setSlot(0xC, eventCounterGet(eventSlotCounter, idx));
 
@@ -1016,6 +1049,9 @@ class Scene {
   /// `gPlaySt.chapterStateBits & PLAY_FLAG_HARD`（`CHECK_HARD` 用）
   bool isHard = false;
 
+  /// `gPlaySt.config.controller`（`CHECK_TUTORIAL` 用）
+  bool controllerConfig = false;
+
   /// 红方 / 绿方的**在场**单位数（`CountRedUnits` / `CountGreenUnits`），由游戏侧更新
   int redUnitCount = 0;
   int greenUnitCount = 0;
@@ -1040,6 +1076,9 @@ class Scene {
       'mode' => chapterModeIndex,
       'chapter' => chapterIndex,
       'hard' => isHard ? 1 : 0,
+      // `CHECK_TUTORIAL`（`src/eventscr_0800E2C8.c:109-115`）：
+      // slot 0xC = !(config.controller || hard)
+      'tutorial' => (controllerConfig || isHard) ? 0 : 1,
       'redCount' => redUnitCount,
       'greenCount' => greenUnitCount,
       _ => 0,
