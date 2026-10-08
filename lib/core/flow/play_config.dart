@@ -137,6 +137,11 @@ class PlayConfig {
   int disableGoalDisplay = 0; // :1
   int animationType = 0; // :2
   int battleForecastType = 0; // :2
+  // ★ 第 87 轮补：`include/types.h:160-161` 里**确实有**这两位，
+  //   而设定屏的表（`optionToConfigField`）已经把它们列了出来 ——
+  //   少了它们，那两项在屏上改了也**静默不生效**（是判据抓出来的）。
+  int controller = 0; // :1   （`src/uiconfig.c:132/238`）
+  int rankDisplay = 0; // :1  （`src/uiconfig.c:137/243`）
 
   /// 按**源码字段名**读（设定屏的解出来的映射用的就是这些名字）
   int getField(String f) => switch (f) {
@@ -154,6 +159,8 @@ class PlayConfig {
         'disableGoalDisplay' => disableGoalDisplay,
         'animationType' => animationType,
         'battleForecastType' => battleForecastType,
+        'controller' => controller,
+        'rankDisplay' => rankDisplay,
         _ => 0,
       };
 
@@ -188,6 +195,10 @@ class PlayConfig {
         animationType = v;
       case 'battleForecastType':
         battleForecastType = v;
+      case 'controller':
+        controller = v;
+      case 'rankDisplay':
+        rankDisplay = v;
       default:
         return false;
     }
