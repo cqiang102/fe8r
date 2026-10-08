@@ -83,6 +83,10 @@ class MPlayTrackPort {
   /// 需要初始化时清空整条 track（原版 `Clear64byte` **清 64 字节**）
   static const int clearBytes = 64;
 
+  /// `MusicPlayerTrack.wait`：还要等几个 tick 才读下一条指令
+  /// （`o_MusicPlayerTrack_wait`，`src/m4a_1.s:1085-1090`）
+  int wait = 0;
+
   /// 指令流（对应原版的 `cmdPtr` 指向的那段内存）
   ///
   /// ⚠️ 第一版我把字节流当**参数**传进来、游标却留在对象里 —— 第二次调用就错位
