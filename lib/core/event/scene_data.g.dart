@@ -870,7 +870,7 @@ Future<void> scr_9EEAAC(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('EVBIT_MODIFY');
+          s.modifyEvBit(3);
           pc = 1;
           continue;
         case 1:
@@ -1021,7 +1021,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('MURE');
+          s.restoreBgm(2);
           pc = 19;
           continue;
         case 19:
@@ -3476,7 +3476,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('MURE');
+          s.restoreBgm(2);
           pc = 33;
           continue;
         case 33:
@@ -4760,7 +4760,7 @@ Future<void> Ch14b_EndingScene(Scene s) async {
     await s.textShow(2796);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MURE');
+    s.restoreBgm(2);
     s.evBitMod('evbit', true, 7);
     return;
     s.volumeDown(true);
@@ -5035,7 +5035,7 @@ Future<void> Ch15A_2(Scene s) async {
     await s.textShow(2796);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MURE');
+    s.restoreBgm(2);
     s.evBitMod('evbit', true, 7);
     return;
     s.volumeDown(true);
@@ -5596,7 +5596,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('MURE');
+          s.restoreBgm(4);
           pc = 46;
           continue;
         case 46:
@@ -6186,7 +6186,7 @@ Future<void> Ch16A_1(Scene s) async {
     s.placeholder('EvtColorFadeSetup');
     await s.fade(FadeDirection.fromWhite, 128);
     await s.call(Sym('data_085B9BBC', 360));
-    s.placeholder('EVBIT_MODIFY');
+    s.modifyEvBit(4);
     await s.call(Sym('EventScr_Ch16A_1', 84));
     s.placeholder('EvtBgmFadeIn');
     s.setTextType(1);
@@ -11737,7 +11737,7 @@ Future<void> Ch3_Talk_NeimiColm(Scene s) async {
     await s.textShow(2394);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MURE');
+    s.restoreBgm(2);
     s.placeholder('CHANGESTATE');
     s.setSlot(2, Sym('EventScr_Ch3_6'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
@@ -12160,7 +12160,7 @@ Future<void> Ch4_2(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('MURE');
+          s.restoreBgm(4);
           pc = 22;
           continue;
         case 22:
@@ -14680,7 +14680,7 @@ Future<void> Ch9A_2(Scene s) async {
     s.setSlot(2, 0);
     s.setSlot(3, 2538);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MURE');
+    s.restoreBgm(2);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 96);
     await s.giveItem(65535, 3);
@@ -15308,7 +15308,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 65;
           continue;
         case 65:
-          s.placeholder('MURE');
+          s.restoreBgm(4);
           pc = 66;
           continue;
         case 66:
@@ -16059,7 +16059,7 @@ Future<void> FloorClearInTower(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('EVBIT_MODIFY');
+          s.modifyEvBit(4);
           pc = 1;
           continue;
         case 1:
@@ -16338,7 +16338,7 @@ Future<void> GiveTreasureToLuckyDog(Scene s) async {
 
 /// `EventScr_LoadReinforce`
 Future<void> LoadReinforce(Scene s) async {
-    s.placeholder('EVBIT_MODIFY');
+    s.modifyEvBit(4);
     await s.call(Sym('data_085B9BBC', 360));
     s.evBitMod('evbit', true, 9);
     s.placeholder('LOAD1');
@@ -16532,7 +16532,7 @@ Future<void> MapSupportConversation(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('EVBIT_MODIFY');
+          s.modifyEvBit(3);
           pc = 1;
           continue;
         case 1:
@@ -19959,7 +19959,7 @@ Future<void> SkirmishRetreat(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('EVBIT_MODIFY');
+          s.modifyEvBit(4);
           pc = 1;
           continue;
         case 1:
@@ -20112,7 +20112,7 @@ Future<void> SuspendPrompt(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('EVBIT_MODIFY');
+          s.modifyEvBit(4);
           pc = 1;
           continue;
         case 1:

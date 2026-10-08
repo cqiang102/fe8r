@@ -889,7 +889,19 @@ class Scene {
 
   /// 音频（`MUSC` / `MUSS` / `SOUN` / `MUSI` / `MUNO`）—— 场景只**发信号**，
   /// 状态与发声都归游戏侧（与 `IGNORE_KEYS` 同一条教训：谁拥有资源谁持有状态）。
-  void sound(String kind, int id) => onEvent(SoundOp(kind: kind, id: id));
+  void sound(String kind, int id) {
+    // ⚠️ 源码 `src/Event14_BgmOverideRestore.c:20-21`：`MUSS` 的参数**为负**时
+    //    取事件槽 2（`song = (s16)gEventSlots[2]`），不是直接用那个负数当歌曲 id。
+    final real = (kind == 'override' && id < 0) ? slotInt(2) : id;
+    onEvent(SoundOp(kind: kind, id: real));
+  }
+
+  /// `MURE` = `EvtRestoreBgm(speed)`（`include/eventscript.h:631`）
+  ///
+  /// 出处 `src/Event14_BgmOverideRestore.c:27-31`：`case 1` ⇒
+  /// `DeleteAll6CWaitMusicRelated(); _RestoreBgm(evArgument);` ⇒ **撤销 BGM 覆盖**。
+  /// 参数是**变速**（不是歌曲 id）。
+  void restoreBgm(int speed) => onEvent(SoundOp(kind: 'restore', id: speed));
 
   /// `MUSI`（降低）/ `MUNO`（恢复）
   void volumeDown(bool down) => onEvent(SoundOp(kind: 'volume', id: down ? 1 : 0));
@@ -936,6 +948,15 @@ class Scene {
       case 2:
         evStateBits &= ~(kEvStateNoSkip | kEvState0020);
         evStateBits |= kEvState0040;
+      case 3:
+        evStateBits |= kEvStateNoSkip;
+        evStateBits &= ~(kEvState0020 | kEvState0040);
+      case 4:
+        evStateBits |= kEvStateNoSkip | kEvState0020;
+        evStateBits &= ~kEvState0040;
+      default:
+        // 源码 `src/masked_0800def0.c:120-123`：参数 >4 ⇒ `EVC_ERROR`
+        scriptErrors++;
     }
   }
 

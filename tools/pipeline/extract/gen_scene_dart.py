@@ -353,11 +353,20 @@ def stmt(op, A):
     #   取用方式：`src/m4aSongNumStart.c:5-12` 的 `&gSongTable[n]` ⇒ **n 是表下标**
     #   `MUSI` = `EvtSetVolumeDown` / `MUNO` = `EvtUnsetVolumeDown`
     #          => `EV_CMD_BGMVOLUMECHANGE`（**没有歌曲参数**）
+    #   `MURE` = `EvtRestoreBgm(speed)`（`include/eventscript.h:631`，
+    #     `EV_CMD_BGMOVERWRITE` subcmd 1）⇒ `Event14_BgmOverideRestore`
+    #     （`src/Event14_BgmOverideRestore.c:8-32`）：`case 1` 调
+    #     `DeleteAll6CWaitMusicRelated(); _RestoreBgm(evArgument);` ⇒ **撤销覆盖**
     if op in ("MUSC", "MUSS", "SOUN"):
         a6 = A[0] if A else 0
         if isinstance(a6, int):
             kind = {"MUSC": "bgm", "MUSS": "override", "SOUN": "se"}[op]
             return (f"s.sound('{kind}', {num(a6)});", True)
+        return (f"s.placeholder('{op}');", True)
+    if op == "MURE":
+        a7 = A[0] if A else 0
+        if isinstance(a7, int):
+            return (f"s.restoreBgm({num(a7)});", True)
         return (f"s.placeholder('{op}');", True)
     if op in ("MUSI", "MUNO"):
         return (f"s.volumeDown({str(op == 'MUSI').lower()});", True)
@@ -403,8 +412,11 @@ def stmt(op, A):
     if op == "CHECK_TUTORIAL":
         return ("s.checkSlotValue('tutorial');", True)
     if op == "EVBIT_MODIFY":
+        # 全文读自 `src/masked_0800def0.c:74-125`：0/1/2/3/4 各自设/清
+        # `EV_STATE_NOSKIP | 0020 | 0040`，**default ⇒ `EVC_ERROR`**
+        # ⇒ 参数 >4 也要接上（记一次脚本错误），不能留占位符装作没看见。
         t = A[0] if A else 0
-        if isinstance(t, int) and t in (0, 1, 2):
+        if isinstance(t, int):
             return (f"s.modifyEvBit({num(t)});", True)
         return (f"s.placeholder('{op}');", True)
 

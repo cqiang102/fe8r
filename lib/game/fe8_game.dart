@@ -1979,6 +1979,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
             audio.playSe(id);
           case 'volume':
             audio.setVolumeDown(id == 1);
+          case 'restore':
+            // `MURE`：撤销 BGM 覆盖（`_RestoreBgm`）
+            audio.restoreBgm(speed: id);
         }
         debugPrint('[SOUND] $kind($id) -> bgm=${audio.bgmSymbol} '
             'se=${audio.seSymbol} volDown=${audio.volumeDown}');

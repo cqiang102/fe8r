@@ -66,4 +66,18 @@ class AudioState {
   }
 
   void setVolumeDown(bool down) => volumeDown = down;
+
+  /// `MURE` = `EvtRestoreBgm(speed)`（`include/eventscript.h:631`）
+  ///
+  /// 出处 `src/Event14_BgmOverideRestore.c:27-31`（`case 1`）：
+  /// `DeleteAll6CWaitMusicRelated(); _RestoreBgm(evArgument);`
+  /// ⇒ **撤销 [bgmOverrideId]**（恢复原本的 BGM）。
+  /// ⚠️ 参数是**变速**（`speed`），不是歌曲 id。
+  void restoreBgm({required int speed}) {
+    lastRestoreSpeed = speed;
+    bgmOverrideId = null;
+  }
+
+  /// 最近一次 `MURE` 的变速参数（判据用）
+  int? lastRestoreSpeed;
 }

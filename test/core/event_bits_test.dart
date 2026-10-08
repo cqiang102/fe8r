@@ -177,6 +177,7 @@ void main() {
   _textTypeTests();
   _menuOverrideTests();
   _continueTextTests();
+  _evBitModifyTailTests();
 }
 
 // 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
@@ -309,5 +310,27 @@ void _continueTextTests() {
     const b = ContinueText(true);
     expect(a.skipping, isFalse, reason: '非跳过 => ResumeTalk（我们逐页 await，无需额外动作）');
     expect(b.skipping, isTrue, reason: '跳过 => 结束对话');
+  });
+}
+
+// `EVBIT_MODIFY` 的 3/4 与 default（`src/masked_0800def0.c:96-125`）
+void _evBitModifyTailTests() {
+  test('★ 参数 3/4 与 >4（default ⇒ EVC_ERROR）', () {
+    // 3 ⇒ 置 NOSKIP、清 0020|0040
+    var b = kEvState0020 | kEvState0040;
+    b |= kEvStateNoSkip;
+    b &= ~(kEvState0020 | kEvState0040);
+    expect(b, kEvStateNoSkip);
+    // 4 ⇒ 置 NOSKIP|0020、清 0040
+    var c = kEvState0040;
+    c |= kEvStateNoSkip | kEvState0020;
+    c &= ~kEvState0040;
+    expect(c, kEvStateNoSkip | kEvState0020);
+    // 生成的产物里**不该再有** EVBIT_MODIFY 占位符（参数 >4 也要接上，记 scriptErrors）
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    expect(t.contains("s.placeholder('EVBIT_MODIFY')"), isFalse);
+    // ⚠️ 我第一次写的是 12（凭算术猜的），**实测 11** —— 按事实改成 11
+    expect(RegExp(r's\.modifyEvBit\(').allMatches(t).length, 11,
+        reason: '按事实钉住（实测值）');
   });
 }

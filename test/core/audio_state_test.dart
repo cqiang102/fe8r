@@ -56,4 +56,20 @@ void main() {
     expect(a.bgmSymbol, 'song009_agbfe3_bgm_map_pl2');
     expect(a.overrideSymbol, 'song004_agbfe3_bgm_wmap_01');
   });
+  _restoreBgmTests();
+}
+
+// `MURE` = `EvtRestoreBgm(speed)`（`include/eventscript.h:631`；
+// 处理体 `src/Event14_BgmOverideRestore.c:27-31` 的 `case 1`）
+void _restoreBgmTests() {
+  test('★ `MURE` 撤销 BGM 覆盖（`_RestoreBgm`），并记下变速参数', () {
+    final a = AudioState();
+    a.startBgm(9);
+    a.overrideBgm(4);
+    expect(a.overrideSymbol, 'song004_agbfe3_bgm_wmap_01');
+    a.restoreBgm(speed: 6);
+    expect(a.bgmOverrideId, isNull, reason: '★ 撤销之后没有覆盖了');
+    expect(a.lastRestoreSpeed, 6, reason: '参数是**变速**，不是歌曲 id');
+    expect(a.bgmSymbol, 'song009_agbfe3_bgm_map_pl2', reason: '原本的 BGM 不受影响');
+  });
 }
