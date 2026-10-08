@@ -224,4 +224,32 @@ void main() {
       expect(r.cmdId, anyOf(0, 2));
     }
   });
+
+  test('交叉印证：两条独立实现（原始 blob / 具名表）对 TURN 规则给同一答案', () {
+    // 覆盖三类边界：单回合(0)、区间、无上限(0xFF)，以及阵营相符/不符
+    var checked = 0;
+    for (final turn in [1, 3]) {
+      for (final maxTurn in [0, 2, 8, 0xFF]) {
+        for (final faction in [0, 1]) {
+          for (final ct in [0, 1, 3, 9, 500]) {
+            for (final cf in [0, 1]) {
+              expect(
+                turnRuleAgrees(
+                  turn: turn,
+                  maxTurn: maxTurn,
+                  faction: faction,
+                  chapterTurn: ct,
+                  chapterFaction: cf,
+                ),
+                isTrue,
+                reason: 'turn=$turn max=$maxTurn f=$faction ct=$ct cf=$cf',
+              );
+              checked++;
+            }
+          }
+        }
+      }
+    }
+    expect(checked, 2 * 4 * 2 * 5 * 2, reason: '组合数（确保真的跑满）');
+  });
 }

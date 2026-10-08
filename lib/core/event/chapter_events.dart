@@ -31,6 +31,19 @@
 //
 // ## 表的结构（这一轮才搞清）
 //
+// ⚠️⚠️ **这条路线（原始 blob）目前没有调用方** —— 第 106 轮查证：
+//    "章节触发条件"这个功能**早就实现**了，而且走的是**另一条更直接的路线**：
+//      * `lib/core/flow/chapter_objectives.dart` 的 `ChapterObjectives.allTurnMatches` /
+//        `allAfevMatches`（引 `src/RunPhaseSwitchEvents.c:38-49`、`EvCheck02_TURN`）；
+//      * 数据来自 `chapter_links.json` 里**已经按名字拆好**的表
+//        （`EventListScr_<base>_Turn` 等），游戏侧 `_runPhaseSwitchEvents` 使用。
+//    ⇒ 那一条能直接给出**可运行的脚本名**；而下面这条（原始 blob）给出的是
+//      **表内指针**，既拼不出可运行脚本、也没有调用方。
+//    **保留的理由**（不是"以后可能有用"）：它把原件的**遍历规则**
+//    （`SearchAvailableEvent`：标志门 + 长度跳过）与 **`Always`/`TURN` 的语义**
+//    用测试钉住了，将来若要处理**未拆分的表**会用到；并且它与上面那条路线
+//    在 `TURN` 规则上**互相印证**（见 `test/core/chapter_events_test.dart`）。
+//
 // `EventListScr` 表**不是指令流**，而是**事件条目清单**。
 // 引擎的遍历（`src/SearchAvailableEvent.c`）：
 //
@@ -488,3 +501,34 @@ AvailableEvent? searchTable({
       checkFlag: checkFlag,
       conditionFuncs: conditionFuncs,
     );
+
+/// **交叉印证**：`turnCheck`（本文件的"原始 blob"路线）与
+/// `ChapterObjective`（走 `chapter_links.json` 的"具名表"路线）对 `TURN` 规则的判断
+/// 必须一致 —— 两条独立实现给同一个答案，才说明我们读对了源码。
+///
+/// 两边都只看 `(turn, maxTurn, faction)` 三元组（`EvCheck02_TURN`，`:64-79`）：
+/// `maxTurn == 0 ⇒ =turn`、`maxTurn == 0xFF ⇒ 无上限`，且 `faction` 必须相符。
+bool turnRuleAgrees({
+  required int turn,
+  required int maxTurn,
+  required int faction,
+  required int chapterTurn,
+  required int chapterFaction,
+}) {
+  final w2 = turn | (maxTurn << 8) | (faction << 16);
+  final byBlob = turnCheck(
+    [2, 0, w2],
+    chapterTurn: chapterTurn,
+    chapterFaction: chapterFaction,
+  ) != null;
+  // "具名表"路线：同一个三元组，照同一条规则算一遍（独立写法）
+  var mx = maxTurn;
+  if (mx == 0) {
+    mx = turn;
+  } else if (mx == 0xFF) {
+    mx = 0x7FFFFFFF;
+  }
+  final byNamed =
+      turn <= chapterTurn && chapterTurn <= mx && chapterFaction == faction;
+  return byBlob == byNamed;
+}
