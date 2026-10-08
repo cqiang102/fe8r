@@ -235,6 +235,16 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '大地图表', 'true', const [], skip: true, note: decompNote),
 
+    // 地形/地图变化表（`TILECHANGE`/`TILEREVERT` 要用的数据）
+    if (hasDecomp())
+      Step('L0', '地图变化表（地形变化）', 'python3',
+          ['extract/parse_map_changes.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline',
+          note: '65 张表 / 325 条记录（含 65 个 -1 哨兵）/ 260 个格数组；'
+              '24 个 .s 切片**未覆盖**（具名列出）')
+    else
+      Step('L0', '地图变化表', 'true', const [], skip: true, note: decompNote),
+
     // 歌曲表：`n` 是下标（`src/m4aSongNumStart.c:5-12`）；1000 条 × 8 B
     if (hasDecomp())
       Step('L0', '歌曲表（音频子系统第一块）', 'python3',

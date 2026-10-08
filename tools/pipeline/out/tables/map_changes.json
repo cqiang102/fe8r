@@ -1,0 +1,4708 @@
+{
+ "tables": {
+  "PrologueMapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch1MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch2TileChanges": [
+   {
+    "id": 0,
+    "x": 3,
+    "y": 0,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch2TileChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 6,
+    "y": 0,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch2TileChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 11,
+    "y": 1,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch2TileChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 0,
+    "y": 10,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch2TileChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 4,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch2TileChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 7,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch2TileChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 12,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch2TileChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 1,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch2TileChanges_change_7"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch3MapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 8,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     2616,
+     0,
+     1680,
+     1808
+    ],
+    "dataSymbol": "Ch3MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 4,
+    "y": 11,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     2616,
+     0,
+     1680,
+     1808
+    ],
+    "dataSymbol": "Ch3MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 8,
+    "y": 7,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     2616,
+     0,
+     1680,
+     2104
+    ],
+    "dataSymbol": "Ch3MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 2,
+    "y": 3,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     2236,
+     2356
+    ],
+    "dataSymbol": "Ch3MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 6,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     1816
+    ],
+    "dataSymbol": "Ch3MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 10,
+    "y": 5,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2236
+    ],
+    "dataSymbol": "Ch3MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 6,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "Ch3MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 8,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "Ch3MapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 10,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "Ch3MapChanges_change_8"
+   },
+   {
+    "id": 9,
+    "x": 6,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "Ch3MapChanges_change_9"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch4MapChanges": [
+   {
+    "id": 0,
+    "x": 7,
+    "y": 0,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch4MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 4,
+    "y": 8,
+    "w": 1,
+    "h": 3,
+    "tiles": [
+     28,
+     16,
+     44
+    ],
+    "dataSymbol": "Ch4MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 0,
+    "y": 9,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch4MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 8,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch4MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 4,
+    "y": 8,
+    "w": 1,
+    "h": 3,
+    "tiles": [
+     28,
+     16,
+     44
+    ],
+    "dataSymbol": "Ch4MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 1,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch4MapChanges_change_5"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch5MapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 0,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2960,
+     2964,
+     3208,
+     3088,
+     3092,
+     3336
+    ],
+    "dataSymbol": "Ch5MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 4,
+    "y": 5,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2960,
+     2964,
+     3208,
+     3088,
+     3092,
+     3336
+    ],
+    "dataSymbol": "Ch5MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 11,
+    "y": 9,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2960,
+     2964,
+     3208,
+     3088,
+     3092,
+     3336
+    ],
+    "dataSymbol": "Ch5MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 11,
+    "y": 18,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     3208,
+     2964,
+     2968,
+     3336,
+     3092,
+     3096
+    ],
+    "dataSymbol": "Ch5MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 5,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch5MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 5,
+    "y": 6,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch5MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 12,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch5MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 12,
+    "y": 19,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch5MapChanges_change_7"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch5XMapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 8,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch5XMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 5,
+    "y": 8,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch5XMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 4,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3280
+    ],
+    "dataSymbol": "Ch5XMapChanges_change_2"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch6MapChanges": [
+   {
+    "id": 0,
+    "x": 10,
+    "y": 16,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch6MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 11,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch6MapChanges_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch7MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch8MapChanges": [
+   {
+    "id": 0,
+    "x": 20,
+    "y": 7,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3280
+    ],
+    "dataSymbol": "Ch8MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 4,
+    "y": 6,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     1864,
+     0,
+     1992,
+     0,
+     3300,
+     3284
+    ],
+    "dataSymbol": "Ch8MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 1,
+    "y": 5,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3280
+    ],
+    "dataSymbol": "Ch8MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 1,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch8MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 2,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch8MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 18,
+    "y": 21,
+    "w": 4,
+    "h": 3,
+    "tiles": [
+     876,
+     880,
+     884,
+     888,
+     1004,
+     1008,
+     1008,
+     1016,
+     1132,
+     1136,
+     1140,
+     1144
+    ],
+    "dataSymbol": "Ch8MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 19,
+    "y": 4,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch8MapChanges_change_6"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch9EirikaMapChanges": [
+   {
+    "id": 0,
+    "x": 0,
+    "y": 10,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2960,
+     2964,
+     2968,
+     3088,
+     3092,
+     3096
+    ],
+    "dataSymbol": "Ch9EirikaMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 10,
+    "y": 14,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2960,
+     2964,
+     2968,
+     3088,
+     3092,
+     3096
+    ],
+    "dataSymbol": "Ch9EirikaMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 1,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3588
+    ],
+    "dataSymbol": "Ch9EirikaMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 11,
+    "y": 15,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3588
+    ],
+    "dataSymbol": "Ch9EirikaMapChanges_change_3"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch10EirikaMapChanges": [
+   {
+    "id": 0,
+    "x": 10,
+    "y": 9,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     2920,
+     2892
+    ],
+    "dataSymbol": "Ch10EirikaMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 10,
+    "y": 7,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3480
+    ],
+    "dataSymbol": "Ch10EirikaMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 11,
+    "y": 6,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3480
+    ],
+    "dataSymbol": "Ch10EirikaMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 12,
+    "y": 6,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3480
+    ],
+    "dataSymbol": "Ch10EirikaMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 13,
+    "y": 8,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3480
+    ],
+    "dataSymbol": "Ch10EirikaMapChanges_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch11EirikaMapChanges": [
+   {
+    "id": 0,
+    "x": 3,
+    "y": 8,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch11EirikaMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 12,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch11EirikaMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 17,
+    "y": 5,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch11EirikaMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 4,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3008
+    ],
+    "dataSymbol": "Ch11EirikaMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 17,
+    "y": 13,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     3008,
+     2884
+    ],
+    "dataSymbol": "Ch11EirikaMapChanges_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch12EirikaMapChanges": [
+   {
+    "id": 0,
+    "x": 6,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3608
+    ],
+    "dataSymbol": "Ch12EirikaMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 5,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3608
+    ],
+    "dataSymbol": "Ch12EirikaMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 6,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3096
+    ],
+    "dataSymbol": "Ch12EirikaMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 5,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3096
+    ],
+    "dataSymbol": "Ch12EirikaMapChanges_change_3"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch13EirikaMapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch14EirikaMapChanges": [
+   {
+    "id": 0,
+    "x": 19,
+    "y": 0,
+    "w": 6,
+    "h": 10,
+    "tiles": [
+     1704,
+     1704,
+     1704,
+     1704,
+     1704,
+     0,
+     0,
+     3300,
+     3144,
+     3144,
+     3144,
+     0,
+     0,
+     0,
+     3136,
+     3140,
+     3140,
+     0,
+     0,
+     0,
+     3136,
+     388,
+     3136,
+     0,
+     0,
+     0,
+     3136,
+     3144,
+     3140,
+     0,
+     0,
+     0,
+     3136,
+     388,
+     3136,
+     0,
+     0,
+     0,
+     3136,
+     3144,
+     3140,
+     0,
+     0,
+     0,
+     3136,
+     3140,
+     3140,
+     0,
+     0,
+     0,
+     0,
+     3136,
+     0,
+     0,
+     0,
+     0,
+     0,
+     3288,
+     0,
+     0
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 21,
+    "y": 11,
+    "w": 3,
+    "h": 7,
+    "tiles": [
+     2052,
+     3136,
+     1540,
+     3148,
+     3140,
+     3144,
+     3136,
+     3140,
+     3140,
+     3136,
+     3140,
+     3140,
+     3136,
+     3140,
+     3140,
+     3136,
+     3140,
+     3140,
+     0,
+     3136,
+     0
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 17,
+    "y": 2,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     3280,
+     3288
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 16,
+    "y": 14,
+    "w": 4,
+    "h": 6,
+    "tiles": [
+     1704,
+     1704,
+     1704,
+     1704,
+     3272,
+     3144,
+     3144,
+     3144,
+     3140,
+     3140,
+     388,
+     3136,
+     3136,
+     3140,
+     3144,
+     3140,
+     3136,
+     3140,
+     3140,
+     3140,
+     0,
+     3136,
+     0,
+     0
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 10,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3280
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 6,
+    "y": 19,
+    "w": 7,
+    "h": 6,
+    "tiles": [
+     1704,
+     1704,
+     1704,
+     1704,
+     1704,
+     1704,
+     1840,
+     3148,
+     3144,
+     388,
+     3148,
+     388,
+     3148,
+     3144,
+     3136,
+     3140,
+     3144,
+     3140,
+     3144,
+     3140,
+     3140,
+     3400,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     3140,
+     0,
+     0,
+     0,
+     3136,
+     0,
+     0,
+     0
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 1,
+    "y": 14,
+    "w": 4,
+    "h": 6,
+    "tiles": [
+     1704,
+     1704,
+     1704,
+     1704,
+     3148,
+     3144,
+     3144,
+     3144,
+     3136,
+     388,
+     3136,
+     3140,
+     3136,
+     3144,
+     3140,
+     3140,
+     3136,
+     3140,
+     3140,
+     3140,
+     0,
+     3136,
+     0,
+     0
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 22,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 22,
+    "y": 5,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_8"
+   },
+   {
+    "id": 9,
+    "x": 20,
+    "y": 11,
+    "w": 4,
+    "h": 6,
+    "tiles": [
+     0,
+     2052,
+     3280,
+     1540,
+     2212,
+     3148,
+     3140,
+     3144,
+     3300,
+     3140,
+     3140,
+     3140,
+     0,
+     3136,
+     3140,
+     3140,
+     0,
+     3136,
+     3140,
+     3140,
+     0,
+     3136,
+     3140,
+     3140
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_9"
+   },
+   {
+    "id": 10,
+    "x": 18,
+    "y": 16,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_10"
+   },
+   {
+    "id": 11,
+    "x": 8,
+    "y": 20,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_11"
+   },
+   {
+    "id": 12,
+    "x": 2,
+    "y": 16,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_12"
+   },
+   {
+    "id": 13,
+    "x": 10,
+    "y": 20,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch14EirikaMapChanges_change_13"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch15MapChanges": [
+   {
+    "id": 0,
+    "x": 0,
+    "y": 12,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3784,
+     3788,
+     3792,
+     3912,
+     3916,
+     3920,
+     4040,
+     4044,
+     4048
+    ],
+    "dataSymbol": "Ch15MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 1,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3664
+    ],
+    "dataSymbol": "Ch15MapChanges_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch16MapChanges": [
+   {
+    "id": 0,
+    "x": 3,
+    "y": 3,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     1856,
+     3136,
+     0,
+     3140
+    ],
+    "dataSymbol": "Ch16MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 2,
+    "y": 10,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2212,
+     3136,
+     1968,
+     0,
+     3140,
+     0
+    ],
+    "dataSymbol": "Ch16MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 3,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch16MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 20,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch16MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 20,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch16MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 1,
+    "y": 4,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3136
+    ],
+    "dataSymbol": "Ch16MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 20,
+    "y": 5,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch16MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 13,
+    "y": 2,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3944,
+     1676
+    ],
+    "dataSymbol": "Ch16MapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 14,
+    "y": 2,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     4060,
+     0,
+     2496,
+     3116
+    ],
+    "dataSymbol": "Ch16MapChanges_change_8"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch17MapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 14,
+    "w": 1,
+    "h": 3,
+    "tiles": [
+     28,
+     156,
+     44
+    ],
+    "dataSymbol": "Ch17MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 15,
+    "y": 13,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     272,
+     148,
+     276
+    ],
+    "dataSymbol": "Ch17MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 12,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3596
+    ],
+    "dataSymbol": "Ch17MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 1,
+    "y": 20,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3596
+    ],
+    "dataSymbol": "Ch17MapChanges_change_3"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch18MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch19MapChanges": [
+   {
+    "id": 0,
+    "x": 2,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch19MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 3,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch19MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 4,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch19MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 27,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch19MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 27,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch19MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 27,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch19MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 3,
+    "y": 15,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     2880,
+     2884
+    ],
+    "dataSymbol": "Ch19MapChanges_change_6"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch20MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "FinalChapterMap1Changes": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 19,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3284,
+     3152
+    ],
+    "dataSymbol": "FinalChapterMap1Changes_change_0"
+   },
+   {
+    "id": 1,
+    "x": 18,
+    "y": 19,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3408,
+     3536
+    ],
+    "dataSymbol": "FinalChapterMap1Changes_change_1"
+   },
+   {
+    "id": 2,
+    "x": 21,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "FinalChapterMap1Changes_change_2"
+   },
+   {
+    "id": 3,
+    "x": 2,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "FinalChapterMap1Changes_change_3"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "FinalChapterMap2Changes": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch9EphMapChanges": [
+   {
+    "id": 0,
+    "x": 12,
+    "y": 17,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     3280,
+     3284,
+     3280,
+     3284
+    ],
+    "dataSymbol": "Ch9EphMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 13,
+    "y": 1,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     1960,
+     0,
+     3300,
+     3284
+    ],
+    "dataSymbol": "Ch9EphMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 12,
+    "y": 3,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3280,
+     3288
+    ],
+    "dataSymbol": "Ch9EphMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 7,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch9EphMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 18,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch9EphMapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 23,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     260
+    ],
+    "dataSymbol": "Ch9EphMapChanges_change_5"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch10EphraimMapChanges": [
+   {
+    "id": 0,
+    "x": 8,
+    "y": 0,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3716,
+     3720,
+     3724,
+     3844,
+     3848,
+     3852,
+     3972,
+     3976,
+     3980
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 3,
+    "y": 10,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3716,
+     3720,
+     3724,
+     3844,
+     3848,
+     3852,
+     3972,
+     3976,
+     3980
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 5,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3968
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 6,
+    "y": 0,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3968
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 9,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 4,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 8,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3968
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 9,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3968
+    ],
+    "dataSymbol": "Ch10EphraimMapChanges_change_7"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch11EphraimMapChanges": [
+   {
+    "id": 0,
+    "x": 14,
+    "y": 7,
+    "w": 7,
+    "h": 12,
+    "tiles": [
+     0,
+     0,
+     2156,
+     2152,
+     0,
+     0,
+     0,
+     0,
+     1896,
+     1612,
+     1640,
+     2152,
+     0,
+     1896,
+     2028,
+     2024,
+     888,
+     1764,
+     2028,
+     2152,
+     1896,
+     0,
+     1004,
+     1008,
+     1012,
+     1016,
+     2028,
+     1896,
+     1128,
+     1132,
+     1136,
+     1140,
+     1144,
+     1148,
+     1896,
+     1256,
+     1412,
+     1656,
+     1432,
+     1272,
+     1276,
+     1896,
+     996,
+     1540,
+     1432,
+     1552,
+     1544,
+     1120,
+     1896,
+     1124,
+     1780,
+     1268,
+     1268,
+     1268,
+     1248,
+     1896,
+     1124,
+     1780,
+     1268,
+     1420,
+     1656,
+     1248,
+     1896,
+     1124,
+     1780,
+     1268,
+     1548,
+     1652,
+     1248,
+     1896,
+     1124,
+     1780,
+     1268,
+     1420,
+     1656,
+     1248,
+     1896,
+     1124,
+     1780,
+     1268,
+     1548,
+     1652,
+     1248,
+     1896
+    ],
+    "dataSymbol": "Ch11EphraimMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 9,
+    "y": 0,
+    "w": 8,
+    "h": 19,
+    "tiles": [
+     0,
+     0,
+     0,
+     2156,
+     2152,
+     0,
+     0,
+     0,
+     0,
+     0,
+     2156,
+     1612,
+     1640,
+     2152,
+     0,
+     0,
+     1900,
+     2288,
+     2024,
+     888,
+     1764,
+     2028,
+     2152,
+     0,
+     2288,
+     2156,
+     1004,
+     1008,
+     1012,
+     1016,
+     2028,
+     2152,
+     2152,
+     1128,
+     1132,
+     1136,
+     1140,
+     1144,
+     1148,
+     2028,
+     2156,
+     1256,
+     1412,
+     1656,
+     1432,
+     1272,
+     1276,
+     2028,
+     1900,
+     996,
+     1540,
+     1432,
+     1552,
+     1544,
+     1120,
+     0,
+     0,
+     1124,
+     1780,
+     1268,
+     1268,
+     1268,
+     1248,
+     0,
+     0,
+     1124,
+     1780,
+     1268,
+     1420,
+     1656,
+     1248,
+     2028,
+     0,
+     1124,
+     1780,
+     1268,
+     1548,
+     1652,
+     1248,
+     1896,
+     0,
+     1124,
+     1780,
+     1268,
+     1420,
+     1656,
+     1248,
+     1896,
+     0,
+     1124,
+     1780,
+     1268,
+     1548,
+     1652,
+     1248,
+     1896,
+     0,
+     996,
+     1780,
+     1432,
+     1432,
+     1268,
+     1248,
+     1896,
+     2156,
+     996,
+     1440,
+     1648,
+     1552,
+     1440,
+     992,
+     0,
+     0,
+     1228,
+     976,
+     980,
+     1104,
+     1108,
+     1356,
+     1896,
+     2152,
+     1488,
+     1492,
+     1884,
+     1888,
+     1504,
+     1508,
+     2028,
+     2156,
+     1616,
+     1620,
+     1624,
+     1628,
+     1632,
+     1636,
+     2156,
+     0,
+     2028,
+     1748,
+     1752,
+     1756,
+     1760,
+     2024,
+     0,
+     0,
+     0,
+     2028,
+     2408,
+     2408,
+     2024,
+     0,
+     0
+    ],
+    "dataSymbol": "Ch11EphraimMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 7,
+    "y": 7,
+    "w": 4,
+    "h": 5,
+    "tiles": [
+     1560,
+     1436,
+     1436,
+     1564,
+     1560,
+     1436,
+     1436,
+     1564,
+     0,
+     1900,
+     0,
+     1124,
+     992,
+     0,
+     0,
+     996,
+     1560,
+     1436,
+     1436,
+     1564
+    ],
+    "dataSymbol": "Ch11EphraimMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 15,
+    "y": 2,
+    "w": 6,
+    "h": 17,
+    "tiles": [
+     2152,
+     0,
+     0,
+     0,
+     2156,
+     2152,
+     2152,
+     2152,
+     0,
+     2156,
+     1612,
+     1640,
+     1148,
+     2028,
+     2024,
+     2156,
+     888,
+     1764,
+     1276,
+     2028,
+     2024,
+     1004,
+     1008,
+     1012,
+     1120,
+     2028,
+     1128,
+     1132,
+     1136,
+     1140,
+     1248,
+     0,
+     1256,
+     1440,
+     1400,
+     1432,
+     1248,
+     0,
+     1384,
+     1784,
+     1268,
+     1268,
+     1248,
+     0,
+     1512,
+     1780,
+     1268,
+     1420,
+     1560,
+     1436,
+     1564,
+     1780,
+     1268,
+     1548,
+     1248,
+     0,
+     1124,
+     1780,
+     1268,
+     1420,
+     1248,
+     0,
+     996,
+     1780,
+     1268,
+     1548,
+     992,
+     0,
+     1124,
+     1780,
+     1268,
+     1268,
+     1356,
+     0,
+     996,
+     1440,
+     1648,
+     1268,
+     1508,
+     2028,
+     1228,
+     976,
+     1376,
+     1372,
+     1636,
+     2028,
+     1488,
+     1492,
+     1496,
+     1500,
+     2024,
+     0,
+     1616,
+     1620,
+     1624,
+     1628,
+     0,
+     0,
+     2028,
+     1748,
+     1752,
+     1756
+    ],
+    "dataSymbol": "Ch11EphraimMapChanges_change_3"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch12EphraimMapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 4,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2960,
+     2964,
+     2948,
+     3088,
+     3092,
+     3076
+    ],
+    "dataSymbol": "Ch12EphraimMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 5,
+    "y": 5,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch12EphraimMapChanges_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch13EphraimMapChanges": [
+   {
+    "id": 0,
+    "x": 3,
+    "y": 16,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch13EphraimMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 16,
+    "y": 11,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3612,
+     3616,
+     3620,
+     3740,
+     3744,
+     3748,
+     3868,
+     3872,
+     3876
+    ],
+    "dataSymbol": "Ch13EphraimMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 4,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch13EphraimMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 17,
+    "y": 13,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     128
+    ],
+    "dataSymbol": "Ch13EphraimMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 10,
+    "y": 17,
+    "w": 1,
+    "h": 3,
+    "tiles": [
+     40,
+     16,
+     44
+    ],
+    "dataSymbol": "Ch13EphraimMapChanges_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "Ch14EphraimMapChanges": [
+   {
+    "id": 0,
+    "x": 13,
+    "y": 7,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     1664,
+     1668,
+     1668,
+     1664,
+     1668,
+     1668
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 6,
+    "y": 12,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     2432,
+     2060,
+     2192,
+     2436,
+     2708,
+     2060,
+     2436,
+     2188,
+     2188
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 20,
+    "y": 12,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     2308,
+     2188,
+     2188,
+     2432,
+     2060,
+     2060,
+     2436,
+     2184,
+     2064
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 13,
+    "y": 20,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     1664,
+     1668,
+     1668,
+     1664,
+     1668,
+     1668
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 13,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 15,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 3,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 27,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 14,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "Ch14EphraimMapChanges_change_8"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges1": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges2": [
+   {
+    "id": 0,
+    "x": 3,
+    "y": 3,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     1856,
+     3136,
+     0,
+     3140
+    ],
+    "dataSymbol": "UnusedMapChanges2_change_0"
+   },
+   {
+    "id": 1,
+    "x": 2,
+    "y": 10,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     2212,
+     3136,
+     1968,
+     0,
+     3140,
+     0
+    ],
+    "dataSymbol": "UnusedMapChanges2_change_1"
+   },
+   {
+    "id": 2,
+    "x": 3,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges2_change_2"
+   },
+   {
+    "id": 3,
+    "x": 20,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges2_change_3"
+   },
+   {
+    "id": 4,
+    "x": 20,
+    "y": 4,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges2_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges3": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 14,
+    "w": 1,
+    "h": 3,
+    "tiles": [
+     28,
+     156,
+     44
+    ],
+    "dataSymbol": "UnusedMapChanges3_change_0"
+   },
+   {
+    "id": 1,
+    "x": 15,
+    "y": 13,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     272,
+     148,
+     276
+    ],
+    "dataSymbol": "UnusedMapChanges3_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges4": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges5": [
+   {
+    "id": 0,
+    "x": 2,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges5_change_0"
+   },
+   {
+    "id": 1,
+    "x": 4,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges5_change_1"
+   },
+   {
+    "id": 2,
+    "x": 3,
+    "y": 15,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     2880,
+     2884
+    ],
+    "dataSymbol": "UnusedMapChanges5_change_2"
+   },
+   {
+    "id": 3,
+    "x": 27,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges5_change_3"
+   },
+   {
+    "id": 4,
+    "x": 27,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "UnusedMapChanges5_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges6": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges7": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges8": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni1MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni2MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni3MapChanges": [
+   {
+    "id": 0,
+    "x": 10,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni3MapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni4MapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni5MapChanges": [
+   {
+    "id": 0,
+    "x": 6,
+    "y": 9,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni5MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 14,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni5MapChanges_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni6MapChanges": [
+   {
+    "id": 0,
+    "x": 5,
+    "y": 3,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2260,
+     0,
+     2252,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 8,
+    "y": 0,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2260,
+     0,
+     2252,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 10,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 12,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 4,
+    "y": 8,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2260,
+     0,
+     2252,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 9,
+    "y": 6,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     2248,
+     28,
+     1736,
+     2244,
+     28,
+     2240,
+     0,
+     20,
+     0
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 14,
+    "y": 6,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     2248,
+     28,
+     1736,
+     2244,
+     28,
+     2240,
+     0,
+     20,
+     0
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 7,
+    "y": 11,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2248,
+     0,
+     2244,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 13,
+    "y": 9,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2248,
+     28,
+     2244,
+     28,
+     0,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_8"
+   },
+   {
+    "id": 9,
+    "x": 17,
+    "y": 9,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2248,
+     28,
+     2244,
+     28,
+     0,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_9"
+   },
+   {
+    "id": 10,
+    "x": 2,
+    "y": 18,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_10"
+   },
+   {
+    "id": 11,
+    "x": 4,
+    "y": 16,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2260,
+     0,
+     2252,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_11"
+   },
+   {
+    "id": 12,
+    "x": 7,
+    "y": 16,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2260,
+     0,
+     2252,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_12"
+   },
+   {
+    "id": 13,
+    "x": 10,
+    "y": 16,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2260,
+     0,
+     2252,
+     0,
+     24,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_13"
+   },
+   {
+    "id": 14,
+    "x": 16,
+    "y": 16,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     1736,
+     1740,
+     2240,
+     2116,
+     24,
+     24
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_14"
+   },
+   {
+    "id": 15,
+    "x": 18,
+    "y": 16,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     2248,
+     28,
+     2244,
+     28,
+     0,
+     20
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_15"
+   },
+   {
+    "id": 16,
+    "x": 19,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni6MapChanges_change_16"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni7MapChanges": [
+   {
+    "id": 0,
+    "x": 9,
+    "y": 13,
+    "w": 1,
+    "h": 7,
+    "tiles": [
+     148,
+     148,
+     148,
+     148,
+     148,
+     148,
+     148
+    ],
+    "dataSymbol": "TowerOfValni7MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 17,
+    "y": 12,
+    "w": 1,
+    "h": 8,
+    "tiles": [
+     148,
+     148,
+     148,
+     148,
+     148,
+     148,
+     148,
+     148
+    ],
+    "dataSymbol": "TowerOfValni7MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 22,
+    "y": 4,
+    "w": 2,
+    "h": 11,
+    "tiles": [
+     148,
+     148,
+     148,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148,
+     0,
+     148
+    ],
+    "dataSymbol": "TowerOfValni7MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 12,
+    "y": 2,
+    "w": 1,
+    "h": 4,
+    "tiles": [
+     148,
+     148,
+     148,
+     148
+    ],
+    "dataSymbol": "TowerOfValni7MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 4,
+    "y": 2,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     148,
+     148,
+     148,
+     148,
+     148,
+     148
+    ],
+    "dataSymbol": "TowerOfValni7MapChanges_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "TowerOfValni8MapChanges": [
+   {
+    "id": 0,
+    "x": 11,
+    "y": 8,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     272
+    ],
+    "dataSymbol": "TowerOfValni8MapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges9": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges10": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins1MapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 3,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     3536,
+     0
+    ],
+    "dataSymbol": "LagdouRuins1MapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins2MapChanges": [
+   {
+    "id": 0,
+    "x": 9,
+    "y": 13,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3352,
+     0,
+     1620,
+     0,
+     3644,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins2MapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins3MapChanges": [
+   {
+    "id": 0,
+    "x": 1,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 3,
+    "y": 1,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     3352,
+     0,
+     3644,
+     4024
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 1,
+    "y": 7,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3768
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 8,
+    "y": 6,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     3768,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 14,
+    "y": 0,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     3096,
+     3096,
+     3096,
+     0,
+     3644,
+     3644
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 15,
+    "y": 3,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     3352,
+     0,
+     3644,
+     4024
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 17,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 17,
+    "y": 8,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3768
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 8,
+    "y": 10,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3768,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_8"
+   },
+   {
+    "id": 9,
+    "x": 1,
+    "y": 15,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3768,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_9"
+   },
+   {
+    "id": 10,
+    "x": 1,
+    "y": 22,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3772
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_10"
+   },
+   {
+    "id": 11,
+    "x": 15,
+    "y": 15,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_11"
+   },
+   {
+    "id": 12,
+    "x": 17,
+    "y": 13,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     3352,
+     3768,
+     3644,
+     4024
+    ],
+    "dataSymbol": "LagdouRuins3MapChanges_change_12"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins4MapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 3,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3352,
+     0,
+     1616,
+     0,
+     3644,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 12,
+    "y": 2,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3500,
+     3772,
+     3104,
+     1492,
+     3772,
+     3480,
+     0,
+     4028,
+     0
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 18,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 1,
+    "y": 26,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 1,
+    "y": 9,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3108,
+     3772,
+     1492,
+     3772,
+     0,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 7,
+    "y": 9,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3108,
+     3772,
+     3216,
+     1492,
+     3772,
+     0,
+     0,
+     4028,
+     0
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 12,
+    "y": 9,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3220,
+     3768,
+     0,
+     3768,
+     0,
+     3768
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 1,
+    "y": 13,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3108,
+     3772,
+     1492,
+     3772,
+     0,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 4,
+    "y": 9,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3096,
+     3096,
+     3484,
+     3484,
+     3644,
+     3644
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_8"
+   },
+   {
+    "id": 9,
+    "x": 6,
+    "y": 13,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3352,
+     0,
+     1620,
+     0,
+     3644,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_9"
+   },
+   {
+    "id": 10,
+    "x": 11,
+    "y": 13,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3352,
+     0,
+     1620,
+     0,
+     3644,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_10"
+   },
+   {
+    "id": 11,
+    "x": 4,
+    "y": 17,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3352,
+     0,
+     1620,
+     0,
+     3644,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_11"
+   },
+   {
+    "id": 12,
+    "x": 7,
+    "y": 16,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3108,
+     3772,
+     3216,
+     1492,
+     3772,
+     0,
+     0,
+     4028,
+     0
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_12"
+   },
+   {
+    "id": 13,
+    "x": 14,
+    "y": 16,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3768,
+     3352,
+     3772,
+     1620,
+     3780,
+     0
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_13"
+   },
+   {
+    "id": 14,
+    "x": 16,
+    "y": 15,
+    "w": 3,
+    "h": 3,
+    "tiles": [
+     3500,
+     3772,
+     3216,
+     1492,
+     3772,
+     0,
+     0,
+     4028,
+     0
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_14"
+   },
+   {
+    "id": 15,
+    "x": 6,
+    "y": 20,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3108,
+     3772,
+     1492,
+     3772,
+     0,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_15"
+   },
+   {
+    "id": 16,
+    "x": 11,
+    "y": 20,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3220,
+     3772,
+     0,
+     3772,
+     0,
+     3768
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_16"
+   },
+   {
+    "id": 17,
+    "x": 9,
+    "y": 24,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3108,
+     3772,
+     1492,
+     3772,
+     0,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins4MapChanges_change_17"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins5MapChanges": [
+   {
+    "id": 0,
+    "x": 4,
+    "y": 4,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins5MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 13,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins5MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 17,
+    "y": 21,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins5MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 0,
+    "y": 6,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3604,
+     3772,
+     0,
+     3772,
+     0,
+     3768
+    ],
+    "dataSymbol": "LagdouRuins5MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 8,
+    "y": 5,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     3768,
+     3352,
+     3768,
+     1620,
+     4028,
+     0
+    ],
+    "dataSymbol": "LagdouRuins5MapChanges_change_4"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins6MapChanges": [
+   {
+    "id": 0,
+    "x": 7,
+    "y": 1,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     3352,
+     0,
+     3644,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins6MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 17,
+    "y": 4,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3772,
+     4028
+    ],
+    "dataSymbol": "LagdouRuins6MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 16,
+    "y": 7,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     3772
+    ],
+    "dataSymbol": "LagdouRuins6MapChanges_change_2"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins7MapChanges": [
+   {
+    "id": 0,
+    "x": 5,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins7MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 14,
+    "y": 17,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     3096,
+     3096,
+     3644,
+     3644
+    ],
+    "dataSymbol": "LagdouRuins7MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 16,
+    "y": 4,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     3220,
+     3772,
+     3216,
+     0,
+     3772,
+     0
+    ],
+    "dataSymbol": "LagdouRuins7MapChanges_change_2"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins8MapChanges": [
+   {
+    "id": 0,
+    "x": 0,
+    "y": 15,
+    "w": 2,
+    "h": 3,
+    "tiles": [
+     1740,
+     604,
+     1740,
+     732,
+     1740,
+     732
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 0,
+    "y": 10,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     1740,
+     1740,
+     856,
+     1740,
+     1740,
+     732
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_1"
+   },
+   {
+    "id": 2,
+    "x": 0,
+    "y": 3,
+    "w": 7,
+    "h": 2,
+    "tiles": [
+     1740,
+     1740,
+     1740,
+     1740,
+     1740,
+     1740,
+     732,
+     728,
+     728,
+     1740,
+     1740,
+     856,
+     728,
+     0
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_2"
+   },
+   {
+    "id": 3,
+    "x": 5,
+    "y": 19,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     1740,
+     856
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_3"
+   },
+   {
+    "id": 4,
+    "x": 9,
+    "y": 15,
+    "w": 3,
+    "h": 4,
+    "tiles": [
+     1740,
+     1740,
+     856,
+     1740,
+     1740,
+     732,
+     1740,
+     1740,
+     732,
+     1740,
+     1740,
+     732
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_4"
+   },
+   {
+    "id": 5,
+    "x": 9,
+    "y": 9,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     1740,
+     1740,
+     732,
+     1740,
+     1740,
+     732
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_5"
+   },
+   {
+    "id": 6,
+    "x": 9,
+    "y": 6,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     1740,
+     1740,
+     0
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_6"
+   },
+   {
+    "id": 7,
+    "x": 12,
+    "y": 11,
+    "w": 3,
+    "h": 2,
+    "tiles": [
+     1740,
+     1740,
+     1740,
+     856,
+     728,
+     728
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_7"
+   },
+   {
+    "id": 8,
+    "x": 11,
+    "y": 20,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     1740,
+     1740
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_8"
+   },
+   {
+    "id": 9,
+    "x": 15,
+    "y": 13,
+    "w": 5,
+    "h": 2,
+    "tiles": [
+     0,
+     0,
+     0,
+     0,
+     1740,
+     1740,
+     1740,
+     1740,
+     1740,
+     1740
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_9"
+   },
+   {
+    "id": 10,
+    "x": 16,
+    "y": 7,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     1740,
+     1740,
+     0
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_10"
+   },
+   {
+    "id": 11,
+    "x": 4,
+    "y": 16,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     1740,
+     0,
+     1740,
+     732
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_11"
+   },
+   {
+    "id": 12,
+    "x": 4,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_12"
+   },
+   {
+    "id": 13,
+    "x": 16,
+    "y": 5,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     3504,
+     3368
+    ],
+    "dataSymbol": "LagdouRuins8MapChanges_change_13"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins9MapChanges": [
+   {
+    "id": 0,
+    "x": 1,
+    "y": 5,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     1844,
+     2928,
+     1840
+    ],
+    "dataSymbol": "LagdouRuins9MapChanges_change_0"
+   },
+   {
+    "id": 1,
+    "x": 15,
+    "y": 11,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     1844,
+     2928,
+     1840
+    ],
+    "dataSymbol": "LagdouRuins9MapChanges_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LagdouRuins10MapChanges": [
+   {
+    "id": 0,
+    "x": 9,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     4
+    ],
+    "dataSymbol": "LagdouRuins10MapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "LordsSplitMapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "MelkaenCoastMapChanges": [
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "UnusedMapChanges11": [
+   {
+    "id": 0,
+    "x": 14,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_0"
+   },
+   {
+    "id": 1,
+    "x": 13,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_1"
+   },
+   {
+    "id": 2,
+    "x": 12,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_2"
+   },
+   {
+    "id": 3,
+    "x": 11,
+    "y": 10,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_3"
+   },
+   {
+    "id": 4,
+    "x": 14,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_4"
+   },
+   {
+    "id": 5,
+    "x": 13,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_5"
+   },
+   {
+    "id": 6,
+    "x": 12,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_6"
+   },
+   {
+    "id": 7,
+    "x": 11,
+    "y": 11,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_7"
+   },
+   {
+    "id": 8,
+    "x": 14,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_8"
+   },
+   {
+    "id": 9,
+    "x": 13,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_9"
+   },
+   {
+    "id": 10,
+    "x": 12,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_10"
+   },
+   {
+    "id": 11,
+    "x": 11,
+    "y": 12,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_11"
+   },
+   {
+    "id": 12,
+    "x": 14,
+    "y": 13,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_12"
+   },
+   {
+    "id": 13,
+    "x": 13,
+    "y": 13,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_13"
+   },
+   {
+    "id": 14,
+    "x": 12,
+    "y": 13,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_14"
+   },
+   {
+    "id": 15,
+    "x": 11,
+    "y": 13,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     256
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_15"
+   },
+   {
+    "id": 16,
+    "x": 14,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_16"
+   },
+   {
+    "id": 17,
+    "x": 13,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_17"
+   },
+   {
+    "id": 18,
+    "x": 12,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_18"
+   },
+   {
+    "id": 19,
+    "x": 11,
+    "y": 14,
+    "w": 1,
+    "h": 1,
+    "tiles": [
+     2064
+    ],
+    "dataSymbol": "UnusedMapChanges11_change_19"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "RenaisThroneMapChanges": [
+   {
+    "id": 0,
+    "x": 7,
+    "y": 7,
+    "w": 2,
+    "h": 1,
+    "tiles": [
+     3136,
+     3140
+    ],
+    "dataSymbol": "RenaisThroneMapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "GradoPrisonMapChanges": [
+   {
+    "id": 0,
+    "x": 18,
+    "y": 6,
+    "w": 2,
+    "h": 2,
+    "tiles": [
+     1920,
+     1928,
+     1920,
+     1928
+    ],
+    "dataSymbol": "GradoPrisonMapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "GradoShrineMapChangesPast": [
+   {
+    "id": 0,
+    "x": 5,
+    "y": 2,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3560,
+     3688
+    ],
+    "dataSymbol": "GradoShrineMapChangesPast_change_0"
+   },
+   {
+    "id": 1,
+    "x": 9,
+    "y": 2,
+    "w": 1,
+    "h": 2,
+    "tiles": [
+     3556,
+     3684
+    ],
+    "dataSymbol": "GradoShrineMapChangesPast_change_1"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ],
+  "RenaisShrineMapChanges": [
+   {
+    "id": 0,
+    "x": 6,
+    "y": 7,
+    "w": 3,
+    "h": 1,
+    "tiles": [
+     2880,
+     2884,
+     2884
+    ],
+    "dataSymbol": "RenaisShrineMapChanges_change_0"
+   },
+   {
+    "id": -1,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "tiles": null,
+    "dataSymbol": null
+   }
+  ]
+ },
+ "tableCount": 65,
+ "recordCount": 325,
+ "tileArrayCount": 260,
+ "uncovered": [
+  "Ch10EphraimMapChanges_ref",
+  "Ch11EirikaMapChanges_ref",
+  "Ch11EphraimMapChanges_ref",
+  "Ch12EirikaMapChanges_ref",
+  "Ch12EphraimMapChanges_ref",
+  "Ch13EirikaMapChanges_ref",
+  "Ch13EphraimMapChanges_ref",
+  "Ch14EirikaMapChanges_ref",
+  "Ch14EphraimMapChanges_ref",
+  "Ch15MapChanges_ref",
+  "Ch16MapChanges_ref",
+  "Ch18MapChanges_ref",
+  "Ch19MapChanges_ref",
+  "Ch20MapChanges_ref",
+  "Ch9EphMapChanges_ref",
+  "LagdouRuins2MapChanges_ref",
+  "LagdouRuins3MapChanges_ref",
+  "LagdouRuins5MapChanges_ref",
+  "LagdouRuins6MapChanges_ref",
+  "LagdouRuins7MapChanges_ref",
+  "LagdouRuins8MapChanges_ref",
+  "MelkaenCoastMapChanges_ref",
+  "TowerOfValni6MapChanges_ref",
+  "TowerOfValni7MapChanges_ref"
+ ],
+ "note": "id=-1 是结束哨兵；tiles 里的 u16 含义见 bmtrick.c 的 ApplyMapChangesById（未查证）"
+}
