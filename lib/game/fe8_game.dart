@@ -606,6 +606,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'unmappedMenuOverrides': unmappedMenuOverrides.toList()..sort(),
       'textContinueCount': textContinueCount,
       'clearedScreens': clearedScreens,
+      // ★ 所有场景都能看到"难度/教学位"（第 6 轮教训：只在 map-menu inputs 里看不见）
+      ...debugFlagBits(_currentPlayFlags, titleFlow?.difficulty.name, checkTutorialSlotC: scene?.slotInt(0xC)),
       'mapChangeTable': mapChangeTableName,
       'appliedMapChanges': appliedMapChanges.toList()..sort(),
       'mapChangeErrors': mapChangeErrors,
@@ -2604,10 +2606,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         'chapterIndex': sceneChapter,
         'battleMapKind': null,
         'battleMapKindVerified': false,
-        'guideLocked': ng.guideLocked,
-        'tutorial': ng.playFlagTutorial,
-        'tutorialMode': ng.isTutorialMode,
-        'difficulty': diff.name,
+        ...debugFlagBits(ng, diff.name),
       };
       _syncMapMenuPanel();
       return;

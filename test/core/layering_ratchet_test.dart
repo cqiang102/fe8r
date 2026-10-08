@@ -20,7 +20,7 @@ void main() {
     final f = File('lib/game/fe8_game.dart');
     expect(f.existsSync(), isTrue);
     final lines = f.readAsLinesSync().length;
-    const baseline = 7488; // ← 第 106 轮实测；搬走一块就改小
+    const baseline = 7487; // ← 第 106 轮实测 7488；第 7 轮把观测片段搬进 core ⇒ 收紧到 7487
     expect(lines, lessThanOrEqualTo(baseline),
         reason: '逻辑应当搬进 `lib/core`（带 PORT OF 与测试），而不是继续堆在这个文件里；'
             '当前 $lines 行、基线 $baseline 行。'

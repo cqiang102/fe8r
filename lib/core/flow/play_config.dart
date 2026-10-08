@@ -241,3 +241,21 @@ class NewGamePlayFlags {
   /// 非教学模式 → 序章那句 ASMC 被 `BNE` 跳过 → 表全 0 → 锁住 → 辞书不显示。
   bool get guideLocked => !isTutorialMode;
 }
+
+/// **观测片段**：把"难度 / 教学位"打成一个可直接铺进转储的 map。
+///
+/// 为什么要它（第 6 轮的实测教训）：这些值原来只出现在 **map-menu 的 inputs** 里，
+/// 而 `range` / `turn` 这类关键场景**不开菜单** ⇒ 转储里看不到它们 ⇒
+/// 一次改动到底有没有生效**无法判断**（第 5 轮就是把"没生效"误读成"回归"）。
+///
+/// 放在 core（而不是 `lib/game`）是**分层棘轮**的要求：
+/// `fe8_game.dart` 只许降，所以这类可复用的拼装逻辑必须落在核心层并带测试。
+Map<String, Object?> debugFlagBits(
+        NewGamePlayFlags ng, String? difficulty, {int? checkTutorialSlotC}) =>
+    {
+      'difficulty': difficulty ?? '（还没选）',
+      'tutorial': ng.playFlagTutorial,
+      'tutorialMode': ng.isTutorialMode,
+      'guideLocked': ng.guideLocked,
+      'checkTutorialSlotC': checkTutorialSlotC,
+    };
