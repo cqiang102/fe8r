@@ -22,6 +22,8 @@ export 'm4a_layout.dart';
 export 'mplay_main.dart';
 export 'mplay_commands.dart';
 export 'mplay_track.dart';
+export 'm4a_tables.g.dart';
+export 'mplay_dispatch.dart';
 
 /// 按**下标**取表项（`&gSongTable[n]`）。越界返回 null —— 调用方必须**记录**，
 /// 不能静默当成"没这首歌"。

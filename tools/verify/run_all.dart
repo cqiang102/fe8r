@@ -293,6 +293,17 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '可编程波', 'true', const [], skip: true, note: decompNote),
 
+    // M4A 的数值表（`gClockTable` 等）—— 音序器规则段的输入。
+    if (hasDecomp())
+      Step('L0', 'M4A 数值表', 'python3',
+          ['extract/parse_m4a_tables.py', '--out', 'out/tables',
+           '--dart', '../../lib/core/sound/m4a_tables.g.dart', '--check'],
+          cwd: 'tools/pipeline',
+          note: 'gClockTable(49/等待时长)、gScaleTable(180)、gFreqTable(12) 等；'
+              '⚠️ gClockTable **不是 0..48 连续**（尾部 68…96）⇒ 必须抽，不能手抄')
+    else
+      Step('L0', 'M4A 数值表', 'true', const [], skip: true, note: decompNote),
+
     // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
     // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
     if (hasDecomp())
