@@ -1,0 +1,3123 @@
+{
+ "source": "sound/direct_sound_samples/*.aif（AIFF）",
+ "count": 439,
+ "samples": {
+  "0": {
+   "channels": 1,
+   "frames": 1199,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1199
+  },
+  "1": {
+   "channels": 1,
+   "frames": 1855,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1855
+  },
+  "10": {
+   "channels": 1,
+   "frames": 2266,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2266
+  },
+  "11": {
+   "channels": 1,
+   "frames": 8794,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8794
+  },
+  "12": {
+   "channels": 1,
+   "frames": 673,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 673
+  },
+  "13": {
+   "channels": 1,
+   "frames": 8107,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8107
+  },
+  "14": {
+   "channels": 1,
+   "frames": 895,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 895
+  },
+  "15": {
+   "channels": 1,
+   "frames": 1273,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1273
+  },
+  "16": {
+   "channels": 1,
+   "frames": 2025,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2025
+  },
+  "17": {
+   "channels": 1,
+   "frames": 1197,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1197
+  },
+  "18": {
+   "channels": 1,
+   "frames": 469,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 469
+  },
+  "19": {
+   "channels": 1,
+   "frames": 2619,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2619
+  },
+  "2": {
+   "channels": 1,
+   "frames": 3215,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3215
+  },
+  "20": {
+   "channels": 1,
+   "frames": 510,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 510
+  },
+  "21": {
+   "channels": 1,
+   "frames": 451,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 451
+  },
+  "22": {
+   "channels": 1,
+   "frames": 837,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 837
+  },
+  "23": {
+   "channels": 1,
+   "frames": 4347,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4347
+  },
+  "24": {
+   "channels": 1,
+   "frames": 4087,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4087
+  },
+  "25": {
+   "channels": 1,
+   "frames": 5577,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5577
+  },
+  "26": {
+   "channels": 1,
+   "frames": 4550,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4550
+  },
+  "27": {
+   "channels": 1,
+   "frames": 1801,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1801
+  },
+  "28": {
+   "channels": 1,
+   "frames": 2438,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2438
+  },
+  "29": {
+   "channels": 1,
+   "frames": 3034,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3034
+  },
+  "3": {
+   "channels": 1,
+   "frames": 1761,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1761
+  },
+  "30": {
+   "channels": 1,
+   "frames": 1242,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1242
+  },
+  "31": {
+   "channels": 1,
+   "frames": 4606,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4606
+  },
+  "32": {
+   "channels": 1,
+   "frames": 2813,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2813
+  },
+  "33": {
+   "channels": 1,
+   "frames": 8013,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8013
+  },
+  "34": {
+   "channels": 1,
+   "frames": 7527,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7527
+  },
+  "35": {
+   "channels": 1,
+   "frames": 2259,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2259
+  },
+  "36": {
+   "channels": 1,
+   "frames": 14556,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 14556
+  },
+  "37": {
+   "channels": 1,
+   "frames": 4808,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4808
+  },
+  "38": {
+   "channels": 1,
+   "frames": 18984,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 18984
+  },
+  "39": {
+   "channels": 1,
+   "frames": 1061,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1061
+  },
+  "4": {
+   "channels": 1,
+   "frames": 3126,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3126
+  },
+  "40": {
+   "channels": 1,
+   "frames": 4585,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4585
+  },
+  "41": {
+   "channels": 1,
+   "frames": 1922,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 1922
+  },
+  "42": {
+   "channels": 1,
+   "frames": 6908,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6908
+  },
+  "43": {
+   "channels": 1,
+   "frames": 5698,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5698
+  },
+  "44": {
+   "channels": 1,
+   "frames": 5423,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5423
+  },
+  "5": {
+   "channels": 1,
+   "frames": 4614,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4614
+  },
+  "6": {
+   "channels": 1,
+   "frames": 2642,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2642
+  },
+  "7": {
+   "channels": 1,
+   "frames": 20882,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 20882
+  },
+  "8": {
+   "channels": 1,
+   "frames": 46453,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 46453
+  },
+  "9": {
+   "channels": 1,
+   "frames": 19379,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 19379
+  },
+  "antidote1_e_13k8b": {
+   "channels": 1,
+   "frames": 10782,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10782
+  },
+  "armor1b_e1_13k8b": {
+   "channels": 1,
+   "frames": 4443,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4443
+  },
+  "arrow1_e1_13k8b": {
+   "channels": 1,
+   "frames": 2262,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2262
+  },
+  "aureole1_el_13k8b": {
+   "channels": 1,
+   "frames": 6191,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6191
+  },
+  "aureole2_el_13k8b": {
+   "channels": 1,
+   "frames": 7964,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7964
+  },
+  "axe2_e2_13k8b": {
+   "channels": 1,
+   "frames": 1715,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1715
+  },
+  "berserk4_e2l_p25_10k8b": {
+   "channels": 1,
+   "frames": 11183,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 11183
+  },
+  "biguru_step_29_e3_13k8b": {
+   "channels": 1,
+   "frames": 5415,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5415
+  },
+  "bird3_e5_13k8b": {
+   "channels": 1,
+   "frames": 2087,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2087
+  },
+  "bird5b_e3_13k8b": {
+   "channels": 1,
+   "frames": 2265,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2265
+  },
+  "blizzard1_e2l_13k8b": {
+   "channels": 1,
+   "frames": 13688,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 13688
+  },
+  "bmap_shooter_move1_13k": {
+   "channels": 1,
+   "frames": 3489,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3489
+  },
+  "bow1_e1_10k8b": {
+   "channels": 1,
+   "frames": 1011,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 1011
+  },
+  "bow2_e2_10k8b": {
+   "channels": 1,
+   "frames": 2088,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 2088
+  },
+  "brass4_c3_e1l_10k8b": {
+   "channels": 1,
+   "frames": 6485,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 6485
+  },
+  "brass4_c4_e3l_10k8b": {
+   "channels": 1,
+   "frames": 7084,
+   "bits": 8,
+   "rate": 5256.0,
+   "dataBytes": 7084
+  },
+  "breath_magic1_e1_10k8b": {
+   "channels": 1,
+   "frames": 9820,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 9820
+  },
+  "btl_bird1_e4_13k8b": {
+   "channels": 1,
+   "frames": 3489,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3489
+  },
+  "btl_bird2_e2_13k8b": {
+   "channels": 1,
+   "frames": 6099,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6099
+  },
+  "btl_bird2b_e6_m1_10k8b": {
+   "channels": 1,
+   "frames": 3710,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 3710
+  },
+  "btl_critical_dmg1_13k": {
+   "channels": 1,
+   "frames": 12753,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 12753
+  },
+  "btl_dance1_10k": {
+   "channels": 1,
+   "frames": 49789,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 49789
+  },
+  "btl_evl_magic1_13k": {
+   "channels": 1,
+   "frames": 8005,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8005
+  },
+  "btl_evl_magic2_10k": {
+   "channels": 1,
+   "frames": 60754,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 60754
+  },
+  "btl_mnt_magic1_13k": {
+   "channels": 1,
+   "frames": 16910,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16910
+  },
+  "btl_mon_magic1_13k": {
+   "channels": 1,
+   "frames": 11240,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 11240
+  },
+  "btl_skill1_13k": {
+   "channels": 1,
+   "frames": 8652,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8652
+  },
+  "btl_snr_magic1_13k": {
+   "channels": 1,
+   "frames": 15084,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 15084
+  },
+  "class1_down1_e_10k8b": {
+   "channels": 1,
+   "frames": 15369,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 15369
+  },
+  "class1_light1_el_10k8b": {
+   "channels": 1,
+   "frames": 5963,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 5963
+  },
+  "class1_up1_e_10k8b": {
+   "channels": 1,
+   "frames": 15374,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 15374
+  },
+  "count_bell1b_e2_13k8b": {
+   "channels": 1,
+   "frames": 9940,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9940
+  },
+  "damage_du1_e4_13k8b": {
+   "channels": 1,
+   "frames": 2328,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2328
+  },
+  "damage_last1_e3_13k8b": {
+   "channels": 1,
+   "frames": 4566,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4566
+  },
+  "damage_tuki2_e3_13k8b": {
+   "channels": 1,
+   "frames": 2541,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2541
+  },
+  "damage_ud1_e3_13k8b": {
+   "channels": 1,
+   "frames": 2677,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2677
+  },
+  "dr_solo2_c2_e3l_10k": {
+   "channels": 1,
+   "frames": 1638,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 1638
+  },
+  "dragon_foot1_e1_8k8b": {
+   "channels": 1,
+   "frames": 1402,
+   "bits": 8,
+   "rate": 8000.0,
+   "dataBytes": 1402
+  },
+  "dragon_in1b_e3_10k8b": {
+   "channels": 1,
+   "frames": 12327,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 12327
+  },
+  "dragon_out1b_e3_10k8b": {
+   "channels": 1,
+   "frames": 10492,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 10492
+  },
+  "dragon_scream1_e4_10k8b": {
+   "channels": 1,
+   "frames": 17351,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 17351
+  },
+  "dragon_scream3_e6_10k8b": {
+   "channels": 1,
+   "frames": 23899,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 23899
+  },
+  "dv_hikari_e_p25_10k8b": {
+   "channels": 1,
+   "frames": 13717,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 13717
+  },
+  "dv_open1_e_p44_10k8b": {
+   "channels": 1,
+   "frames": 5969,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 5969
+  },
+  "e_piano2_c3_10k8b": {
+   "channels": 1,
+   "frames": 3158,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 3158
+  },
+  "eclipse1a_e_10k8b": {
+   "channels": 1,
+   "frames": 20015,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 20015
+  },
+  "eclipse1b_e_10k8b": {
+   "channels": 1,
+   "frames": 20056,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 20056
+  },
+  "elec1_e2_13k8b": {
+   "channels": 1,
+   "frames": 5487,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5487
+  },
+  "fade_die_away1_e5_13k8b": {
+   "channels": 1,
+   "frames": 9457,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9457
+  },
+  "fall_light1_e3_13k8b": {
+   "channels": 1,
+   "frames": 7092,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7092
+  },
+  "fire4_e2_13k8b": {
+   "channels": 1,
+   "frames": 6490,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6490
+  },
+  "fire_e2_13k8b": {
+   "channels": 1,
+   "frames": 6929,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6929
+  },
+  "forbraze1_e_p45_10k8b": {
+   "channels": 1,
+   "frames": 6081,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 6081
+  },
+  "freeze1_e3_13k8b": {
+   "channels": 1,
+   "frames": 362,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 362
+  },
+  "furu1_e_13k8b": {
+   "channels": 1,
+   "frames": 2742,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2742
+  },
+  "furu1b_e5_13k8b": {
+   "channels": 1,
+   "frames": 2098,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2098
+  },
+  "furu2_e1_13k8b": {
+   "channels": 1,
+   "frames": 2618,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2618
+  },
+  "furu2b_e6_13k8b": {
+   "channels": 1,
+   "frames": 2266,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2266
+  },
+  "furu4_e3_13k8b": {
+   "channels": 1,
+   "frames": 3239,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3239
+  },
+  "h_acd_g3_13k8b_ss": {
+   "channels": 1,
+   "frames": 5315,
+   "bits": 8,
+   "rate": 17858.822,
+   "dataBytes": 5315
+  },
+  "h_agogo_h_13k8b_ss": {
+   "channels": 1,
+   "frames": 904,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 904
+  },
+  "h_bmp_bomb_fall_02_13k8b": {
+   "channels": 1,
+   "frames": 2347,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2347
+  },
+  "h_bridge_02_02_13k8b": {
+   "channels": 1,
+   "frames": 6603,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6603
+  },
+  "h_dr_bd_13k8b_ss": {
+   "channels": 1,
+   "frames": 1080,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1080
+  },
+  "h_dr_bongo_h_13k8b_ss": {
+   "channels": 1,
+   "frames": 592,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 592
+  },
+  "h_dr_bongo_l_13k8b_ss": {
+   "channels": 1,
+   "frames": 848,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 848
+  },
+  "h_dr_midtom_13k8b_ss": {
+   "channels": 1,
+   "frames": 2856,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2856
+  },
+  "h_dulcimer_g3_13k8b_ss": {
+   "channels": 1,
+   "frames": 8377,
+   "bits": 8,
+   "rate": 17858.822,
+   "dataBytes": 8377
+  },
+  "h_excb1_08_04_10k8b": {
+   "channels": 1,
+   "frames": 8269,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 8269
+  },
+  "h_excb2_19_02_10k8b": {
+   "channels": 1,
+   "frames": 15301,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 15301
+  },
+  "h_ges2_03_05_10k8b": {
+   "channels": 1,
+   "frames": 17186,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 17186
+  },
+  "h_ges3_03_03_10k8b": {
+   "channels": 1,
+   "frames": 8719,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 8719
+  },
+  "h_guiter_scrape1_13k_e": {
+   "channels": 1,
+   "frames": 14274,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 14274
+  },
+  "h_hector_axe01_13k8b": {
+   "channels": 1,
+   "frames": 5987,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5987
+  },
+  "h_kekkai_02_13k8b": {
+   "channels": 1,
+   "frames": 11183,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 11183
+  },
+  "h_levup05_03_13k8b": {
+   "channels": 1,
+   "frames": 10288,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10288
+  },
+  "h_live05_02_13k8b": {
+   "channels": 1,
+   "frames": 18886,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 18886
+  },
+  "h_luna_af_01_13_10k8b_l1": {
+   "channels": 1,
+   "frames": 32710,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 32710
+  },
+  "h_luna_bf_01_13k8b": {
+   "channels": 1,
+   "frames": 10797,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10797
+  },
+  "h_monm_kiran_13k8b": {
+   "channels": 1,
+   "frames": 7833,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7833
+  },
+  "h_mysty7_p16l_10k8b": {
+   "channels": 1,
+   "frames": 17585,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 17585
+  },
+  "h_nodamage02_13k8b": {
+   "channels": 1,
+   "frames": 3473,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3473
+  },
+  "h_orc_symbal_13k8b_ss": {
+   "channels": 1,
+   "frames": 8008,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8008
+  },
+  "h_organ2_c5_13k8b_ss": {
+   "channels": 1,
+   "frames": 7142,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 7142
+  },
+  "h_organ_c5_13k8b_ss": {
+   "channels": 1,
+   "frames": 1638,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 1638
+  },
+  "h_oura1_03_03_10k8b": {
+   "channels": 1,
+   "frames": 7045,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 7045
+  },
+  "h_oura2_03_03_10k8b": {
+   "channels": 1,
+   "frames": 11664,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 11664
+  },
+  "h_oura3_07_02_10k8b": {
+   "channels": 1,
+   "frames": 26573,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 26573
+  },
+  "h_piano_c5_13k8b_ss": {
+   "channels": 1,
+   "frames": 16811,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 16811
+  },
+  "h_piano_g3_13k8b_ss": {
+   "channels": 1,
+   "frames": 15285,
+   "bits": 8,
+   "rate": 17858.822,
+   "dataBytes": 15285
+  },
+  "h_pizz_c4_13k8b_ss": {
+   "channels": 1,
+   "frames": 1100,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1100
+  },
+  "h_pr_hyuun1_02_13k8b": {
+   "channels": 1,
+   "frames": 19291,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 19291
+  },
+  "h_rec_c5_13k8b_ss": {
+   "channels": 1,
+   "frames": 3130,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 3130
+  },
+  "h_river1_13k": {
+   "channels": 1,
+   "frames": 10936,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10936
+  },
+  "h_sdruid_01_02_13k8b": {
+   "channels": 1,
+   "frames": 10912,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10912
+  },
+  "h_shine_10k8b_l1": {
+   "channels": 1,
+   "frames": 9746,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 9746
+  },
+  "h_sidestick_13k8b_ss": {
+   "channels": 1,
+   "frames": 672,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 672
+  },
+  "h_square_c5_13k8b_ss": {
+   "channels": 1,
+   "frames": 4992,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4992
+  },
+  "h_sword_kaesu_01_13k8b": {
+   "channels": 1,
+   "frames": 1418,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1418
+  },
+  "h_sword_nuku_02_13k8b": {
+   "channels": 1,
+   "frames": 11816,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 11816
+  },
+  "h_taoreru_05_13k8b": {
+   "channels": 1,
+   "frames": 6068,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6068
+  },
+  "h_tp_mute_c5_13k8b_ss": {
+   "channels": 1,
+   "frames": 4460,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 4460
+  },
+  "h_wblock_l_13k8b_ss": {
+   "channels": 1,
+   "frames": 572,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 572
+  },
+  "h_whiteout_01_13k8b": {
+   "channels": 1,
+   "frames": 16240,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16240
+  },
+  "hammerne2_e1l_p25_10k8b": {
+   "channels": 1,
+   "frames": 13150,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 13150
+  },
+  "have2_e3_10k8b": {
+   "channels": 1,
+   "frames": 1368,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 1368
+  },
+  "horse1_b1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2927,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2927
+  },
+  "horse1_b1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 2731,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2731
+  },
+  "horse1_b1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2821,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2821
+  },
+  "horse1_b1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2933,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2933
+  },
+  "horse1_b1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 2676,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2676
+  },
+  "horse1_b1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2731,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2731
+  },
+  "horse1_b1_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2797,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2797
+  },
+  "horse1_f1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3357,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3357
+  },
+  "horse1_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 3045,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3045
+  },
+  "horse1_f1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3507,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3507
+  },
+  "horse1_f1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3349,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3349
+  },
+  "horse1_f1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 3727,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3727
+  },
+  "horse1_f1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3589,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3589
+  },
+  "horse1_f1_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3507,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3507
+  },
+  "horse1_t1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2917,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2917
+  },
+  "horse1_t1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 2625,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2625
+  },
+  "horse1_t2_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2633,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2633
+  },
+  "horse1_t2_flat1_13k8b": {
+   "channels": 1,
+   "frames": 2433,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2433
+  },
+  "horse1_t2_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2009,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2009
+  },
+  "horse1_t2_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2625,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2625
+  },
+  "horse1_t2_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2625,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2625
+  },
+  "horse2_b1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2889,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2889
+  },
+  "horse2_b1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 3103,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3103
+  },
+  "horse2_b2_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3109,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3109
+  },
+  "horse2_b2_flat1_13k8b": {
+   "channels": 1,
+   "frames": 3109,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3109
+  },
+  "horse2_b2_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3129,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3129
+  },
+  "horse2_b2_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3109,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3109
+  },
+  "horse2_b2_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2973,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2973
+  },
+  "horse2_e3_p1_13k8b": {
+   "channels": 1,
+   "frames": 657,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 657
+  },
+  "horse2_e3_p2_13k8b": {
+   "channels": 1,
+   "frames": 1566,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1566
+  },
+  "horse2_e3_p3_13k8b": {
+   "channels": 1,
+   "frames": 1488,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1488
+  },
+  "horse2_f1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3325,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3325
+  },
+  "horse2_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 3252,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3252
+  },
+  "horse2_f1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3219,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3219
+  },
+  "horse2_f1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3189,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3189
+  },
+  "horse2_f1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 3569,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3569
+  },
+  "horse2_f1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3203,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3203
+  },
+  "horse2_f1_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3081,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3081
+  },
+  "horse2_t1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1767,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1767
+  },
+  "horse2_t1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 1489,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1489
+  },
+  "horse2_t1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1553,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1553
+  },
+  "horse2_t1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1717,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1717
+  },
+  "horse2_t1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 1912,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1912
+  },
+  "horse2_t1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1709,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1709
+  },
+  "horse2_t1_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1731,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1731
+  },
+  "horse3_b1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2764,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2764
+  },
+  "horse3_b1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 3506,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3506
+  },
+  "horse3_b1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3273,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3273
+  },
+  "horse3_b1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2465,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2465
+  },
+  "horse3_b1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 3007,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3007
+  },
+  "horse3_b1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3461,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3461
+  },
+  "horse3_b1_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2765,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2765
+  },
+  "horse3_f1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3637,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3637
+  },
+  "horse3_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 3541,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3541
+  },
+  "horse3_f1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3861,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3861
+  },
+  "horse3_f1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3881,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3881
+  },
+  "horse3_f1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 4347,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4347
+  },
+  "horse3_f1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3784,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3784
+  },
+  "horse3_f1_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 4697,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4697
+  },
+  "horse3_t1_sand1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2477,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2477
+  },
+  "horse3_t1_stone1_m2_13k8b": {
+   "channels": 1,
+   "frames": 3048,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3048
+  },
+  "horse3_t3_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2419,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2419
+  },
+  "horse3_t3_flat1_13k8b": {
+   "channels": 1,
+   "frames": 2337,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2337
+  },
+  "horse3_t3_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2477,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2477
+  },
+  "horse3_t3_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2405,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2405
+  },
+  "horse3_t3_wood1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3000,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3000
+  },
+  "hp_count1_e2_13k8b": {
+   "channels": 1,
+   "frames": 4549,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4549
+  },
+  "hu1_f1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1912,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1912
+  },
+  "hu1_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 2295,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2295
+  },
+  "hu1_f1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1473,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1473
+  },
+  "hu1_f1_sand1_m2_13k8b": {
+   "channels": 1,
+   "frames": 1565,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1565
+  },
+  "hu1_f1_stone1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1159,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1159
+  },
+  "hu1_f1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1543,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1543
+  },
+  "hu2_f1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1776,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1776
+  },
+  "hu2_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 1235,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1235
+  },
+  "hu2_f1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1391,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1391
+  },
+  "hu2_f1_sand1_m2_13k8b": {
+   "channels": 1,
+   "frames": 1339,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1339
+  },
+  "hu2_f1_stone1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1148,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1148
+  },
+  "hu2_f1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 1221,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1221
+  },
+  "hu3_f1_dart1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2638,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2638
+  },
+  "hu3_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 2677,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2677
+  },
+  "hu3_f1_grass1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2677,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2677
+  },
+  "hu3_f1_sand1_m2_13k8b": {
+   "channels": 1,
+   "frames": 2149,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2149
+  },
+  "hu3_f1_stone1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2545,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2545
+  },
+  "hu3_f1_water1_m1_13k8b": {
+   "channels": 1,
+   "frames": 2636,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2636
+  },
+  "hu4_f1_dart1_m2_13k8b": {
+   "channels": 1,
+   "frames": 4017,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4017
+  },
+  "hu4_f1_flat1_13k8b": {
+   "channels": 1,
+   "frames": 4419,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4419
+  },
+  "hu4_f1_grass1_m2_13k8b": {
+   "channels": 1,
+   "frames": 4017,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4017
+  },
+  "hu4_f1_sand2_m2_13k8b": {
+   "channels": 1,
+   "frames": 3349,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3349
+  },
+  "hu4_f1_stone1_m1_13k8b": {
+   "channels": 1,
+   "frames": 3092,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3092
+  },
+  "hu4_f1_water1_m2_13k8b": {
+   "channels": 1,
+   "frames": 4017,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4017
+  },
+  "human1_e5_13k8b": {
+   "channels": 1,
+   "frames": 1004,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1004
+  },
+  "human4b_m1_e1_13k8b": {
+   "channels": 1,
+   "frames": 1341,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1341
+  },
+  "human_fall1_e5_13k8b": {
+   "channels": 1,
+   "frames": 3081,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3081
+  },
+  "hurtmut1_el_p45_10k8b": {
+   "channels": 1,
+   "frames": 11254,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 11254
+  },
+  "hyuun1_e3l_13k8b": {
+   "channels": 1,
+   "frames": 4392,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4392
+  },
+  "ibreath2_el_10k8b": {
+   "channels": 1,
+   "frames": 6157,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 6157
+  },
+  "ice5_e_p26_13k8b": {
+   "channels": 1,
+   "frames": 6022,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6022
+  },
+  "k_bassoon_c3_13k_ss": {
+   "channels": 1,
+   "frames": 1453,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 1453
+  },
+  "k_brass2_c4_13k": {
+   "channels": 1,
+   "frames": 25856,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 25856
+  },
+  "k_brass3_c3_13k": {
+   "channels": 1,
+   "frames": 25936,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 25936
+  },
+  "k_brass3_c4_13k": {
+   "channels": 1,
+   "frames": 19579,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 19579
+  },
+  "k_brass_c3_13k": {
+   "channels": 1,
+   "frames": 31618,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 31618
+  },
+  "k_brass_c4_13k": {
+   "channels": 1,
+   "frames": 29153,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 29153
+  },
+  "k_brassorc_c4_13k": {
+   "channels": 1,
+   "frames": 32613,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 32613
+  },
+  "k_brasstrm2_c4_13k": {
+   "channels": 1,
+   "frames": 25455,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 25455
+  },
+  "k_brasstrm_c4_13k": {
+   "channels": 1,
+   "frames": 27768,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 27768
+  },
+  "k_brasstrp_c4_13k": {
+   "channels": 1,
+   "frames": 29856,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 29856
+  },
+  "k_brightness_c5_13k_ss": {
+   "channels": 1,
+   "frames": 3215,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 3215
+  },
+  "k_celesta_c5_13k_ss": {
+   "channels": 1,
+   "frames": 2051,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 2051
+  },
+  "k_clarinet_c5_13k_ss": {
+   "channels": 1,
+   "frames": 931,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 931
+  },
+  "k_distgtr2_c3_13k_ss": {
+   "channels": 1,
+   "frames": 18885,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 18885
+  },
+  "k_distgtr2_mute_c313k_ss": {
+   "channels": 1,
+   "frames": 2540,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 2540
+  },
+  "k_distgtr2_mute_c3_13k_s": {
+   "channels": 1,
+   "frames": 4374,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 4374
+  },
+  "k_distgtr4_c3_13k": {
+   "channels": 1,
+   "frames": 13566,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 13566
+  },
+  "k_enghorn_c4_13k_s": {
+   "channels": 1,
+   "frames": 3697,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3697
+  },
+  "k_epiano_g4_13k": {
+   "channels": 1,
+   "frames": 21765,
+   "bits": 8,
+   "rate": 8929.411,
+   "dataBytes": 21765
+  },
+  "k_fbass_c3_13k_s": {
+   "channels": 1,
+   "frames": 6779,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 6779
+  },
+  "k_finbass2_c3_13k_s": {
+   "channels": 1,
+   "frames": 1762,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 1762
+  },
+  "k_flute_c5_13k_ss": {
+   "channels": 1,
+   "frames": 3893,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 3893
+  },
+  "k_flute_c6_13k_s": {
+   "channels": 1,
+   "frames": 9374,
+   "bits": 8,
+   "rate": 3344.75,
+   "dataBytes": 9374
+  },
+  "k_harp_c4_13k_s": {
+   "channels": 1,
+   "frames": 3056,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3056
+  },
+  "k_harp_c4_13k_ss": {
+   "channels": 1,
+   "frames": 2252,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2252
+  },
+  "k_harpsi_c3_13k_s": {
+   "channels": 1,
+   "frames": 3729,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 3729
+  },
+  "k_horn2_c4_13k_ss": {
+   "channels": 1,
+   "frames": 4773,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4773
+  },
+  "k_horn5_c4_13k_ss": {
+   "channels": 1,
+   "frames": 6491,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6491
+  },
+  "k_marimba2_c4_13k_ss": {
+   "channels": 1,
+   "frames": 6440,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6440
+  },
+  "k_mbox_c5_13k_s": {
+   "channels": 1,
+   "frames": 6027,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 6027
+  },
+  "k_oboe_c4_13k_s": {
+   "channels": 1,
+   "frames": 16213,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16213
+  },
+  "k_oboe_c4_13k_ss": {
+   "channels": 1,
+   "frames": 8998,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8998
+  },
+  "k_oboe_c5_13k_s": {
+   "channels": 1,
+   "frames": 9897,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 9897
+  },
+  "k_pflute_c5_13k_ss": {
+   "channels": 1,
+   "frames": 3431,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 3431
+  },
+  "k_piccolo_c5_13k_ss": {
+   "channels": 1,
+   "frames": 3245,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 3245
+  },
+  "k_pipeorgan_c4_13k_s": {
+   "channels": 1,
+   "frames": 12650,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 12650
+  },
+  "k_pipeorgan_c5_13k_s": {
+   "channels": 1,
+   "frames": 11609,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 11609
+  },
+  "k_roomcc_c4_13k_ss": {
+   "channels": 1,
+   "frames": 11688,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 11688
+  },
+  "k_roomsd_c4_13k_ss": {
+   "channels": 1,
+   "frames": 1860,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1860
+  },
+  "k_sitar_c4_13k_ss": {
+   "channels": 1,
+   "frames": 1814,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1814
+  },
+  "k_slap_c2_13k_ss": {
+   "channels": 1,
+   "frames": 1586,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 1586
+  },
+  "k_strings5_c2_13k": {
+   "channels": 1,
+   "frames": 16561,
+   "bits": 8,
+   "rate": 53516.0,
+   "dataBytes": 16561
+  },
+  "k_strings5_c3_13k": {
+   "channels": 1,
+   "frames": 20034,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 20034
+  },
+  "k_strings5_c4_13k": {
+   "channels": 1,
+   "frames": 17322,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 17322
+  },
+  "k_strings5_c5_13k": {
+   "channels": 1,
+   "frames": 16515,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 16515
+  },
+  "k_strings5_c5_13k_ss": {
+   "channels": 1,
+   "frames": 7253,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 7253
+  },
+  "k_strings5_c5c4_13k": {
+   "channels": 1,
+   "frames": 16523,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 16523
+  },
+  "k_strings7_c5_13k_ss": {
+   "channels": 1,
+   "frames": 5039,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 5039
+  },
+  "k_strings7_c6_13k_ss": {
+   "channels": 1,
+   "frames": 4229,
+   "bits": 8,
+   "rate": 3344.75,
+   "dataBytes": 4229
+  },
+  "k_strings_13k_c4": {
+   "channels": 1,
+   "frames": 33124,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 33124
+  },
+  "k_strings_13k_c5": {
+   "channels": 1,
+   "frames": 12614,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 12614
+  },
+  "k_strpizz_c2_13k_ss": {
+   "channels": 1,
+   "frames": 4176,
+   "bits": 8,
+   "rate": 53516.0,
+   "dataBytes": 4176
+  },
+  "k_synbass1_c2_13k_ss": {
+   "channels": 1,
+   "frames": 2625,
+   "bits": 8,
+   "rate": 53516.0,
+   "dataBytes": 2625
+  },
+  "k_synstrings1_c4_13k": {
+   "channels": 1,
+   "frames": 24292,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 24292
+  },
+  "k_timpani3_g3_13k_s": {
+   "channels": 1,
+   "frames": 10317,
+   "bits": 8,
+   "rate": 17858.822,
+   "dataBytes": 10317
+  },
+  "k_tuba_c3_13k_ss": {
+   "channels": 1,
+   "frames": 2964,
+   "bits": 8,
+   "rate": 26758.0,
+   "dataBytes": 2964
+  },
+  "k_tubular_c4_13k_s": {
+   "channels": 1,
+   "frames": 5572,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5572
+  },
+  "k_voice1_c4_13k_ss": {
+   "channels": 1,
+   "frames": 5953,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5953
+  },
+  "k_voice1_c5_13k_ss": {
+   "channels": 1,
+   "frames": 4175,
+   "bits": 8,
+   "rate": 6689.5,
+   "dataBytes": 4175
+  },
+  "kansei1_e5l_13k8b": {
+   "channels": 1,
+   "frames": 12953,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 12953
+  },
+  "ken_osameru2_e2_13k8b": {
+   "channels": 1,
+   "frames": 1633,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1633
+  },
+  "ken_osameru4_e2_13k8b": {
+   "channels": 1,
+   "frames": 1715,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1715
+  },
+  "key_open1_e2_13k8b": {
+   "channels": 1,
+   "frames": 2904,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2904
+  },
+  "kiran2_e2_13k8b": {
+   "channels": 1,
+   "frames": 4319,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4319
+  },
+  "kiran2b_e6_13k8b": {
+   "channels": 1,
+   "frames": 4002,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4002
+  },
+  "lance1_e1_13k8b": {
+   "channels": 1,
+   "frames": 2196,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2196
+  },
+  "lfire2_e1_10k8b": {
+   "channels": 1,
+   "frames": 5524,
+   "bits": 8,
+   "rate": 5256.0,
+   "dataBytes": 5524
+  },
+  "light31_af_e_p26_10k8b": {
+   "channels": 1,
+   "frames": 9147,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 9147
+  },
+  "light31_bf_e_p23_10k8b": {
+   "channels": 1,
+   "frames": 5373,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 5373
+  },
+  "live4_e1l_p25_10k8b": {
+   "channels": 1,
+   "frames": 5988,
+   "bits": 8,
+   "rate": 14031.837,
+   "dataBytes": 5988
+  },
+  "live_p81_e4_13k8b": {
+   "channels": 1,
+   "frames": 13130,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 13130
+  },
+  "m_dragon_out1_e_10k8b": {
+   "channels": 1,
+   "frames": 5270,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 5270
+  },
+  "miss1_m1_e3_10k8b": {
+   "channels": 1,
+   "frames": 2105,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 2105
+  },
+  "mistyrain2_e1l_10k8b": {
+   "channels": 1,
+   "frames": 14769,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 14769
+  },
+  "mistyrain3_e1l_10k8b": {
+   "channels": 1,
+   "frames": 17585,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 17585
+  },
+  "mon_bae_critical1_13k": {
+   "channels": 1,
+   "frames": 7323,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7323
+  },
+  "mon_bae_hand_down1_13k": {
+   "channels": 1,
+   "frames": 4336,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4336
+  },
+  "mon_bae_hand_up1_13k": {
+   "channels": 1,
+   "frames": 3159,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3159
+  },
+  "mon_bae_move_dart1_13k": {
+   "channels": 1,
+   "frames": 2427,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2427
+  },
+  "mon_bae_move_flat1_13k": {
+   "channels": 1,
+   "frames": 2427,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2427
+  },
+  "mon_bae_move_grass1_13k": {
+   "channels": 1,
+   "frames": 2427,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2427
+  },
+  "mon_bae_move_sand1_13k": {
+   "channels": 1,
+   "frames": 2755,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2755
+  },
+  "mon_bae_move_stone1_13k": {
+   "channels": 1,
+   "frames": 2427,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2427
+  },
+  "mon_bae_move_water1_13k": {
+   "channels": 1,
+   "frames": 1907,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 1907
+  },
+  "mon_bae_move_wood1_13k": {
+   "channels": 1,
+   "frames": 2427,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2427
+  },
+  "mon_bgl_attack1_13k": {
+   "channels": 1,
+   "frames": 8916,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8916
+  },
+  "mon_bgl_attack6_10k": {
+   "channels": 1,
+   "frames": 28091,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 28091
+  },
+  "mon_bgl_attack6_2_13k": {
+   "channels": 1,
+   "frames": 19620,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 19620
+  },
+  "mon_bone1_e2_p36_13k8b": {
+   "channels": 1,
+   "frames": 2262,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2262
+  },
+  "mon_cyc_attack1_13k": {
+   "channels": 1,
+   "frames": 7979,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7979
+  },
+  "mon_gar_critical1_10k": {
+   "channels": 1,
+   "frames": 9759,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 9759
+  },
+  "mon_gar_critical2_13k": {
+   "channels": 1,
+   "frames": 4595,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4595
+  },
+  "mon_gog_attack1_13k": {
+   "channels": 1,
+   "frames": 4134,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4134
+  },
+  "mon_gog_attack2_13k": {
+   "channels": 1,
+   "frames": 3758,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3758
+  },
+  "mon_gog_attack3_13k": {
+   "channels": 1,
+   "frames": 6861,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6861
+  },
+  "mon_gog_attack4_13k": {
+   "channels": 1,
+   "frames": 9394,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9394
+  },
+  "mon_gog_attack5_1_13k": {
+   "channels": 1,
+   "frames": 12607,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 12607
+  },
+  "mon_gog_hand_move1_13k": {
+   "channels": 1,
+   "frames": 1942,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1942
+  },
+  "mon_gog_move1_13k": {
+   "channels": 1,
+   "frames": 6683,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6683
+  },
+  "mon_mao_attack1_13k": {
+   "channels": 1,
+   "frames": 17034,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 17034
+  },
+  "mon_mao_attack2_13k": {
+   "channels": 1,
+   "frames": 8560,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8560
+  },
+  "mon_mao_magic1_1_10k": {
+   "channels": 1,
+   "frames": 31042,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 31042
+  },
+  "mon_mao_magic1_2_10k": {
+   "channels": 1,
+   "frames": 14304,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 14304
+  },
+  "mon_mdg_attack1_13k": {
+   "channels": 1,
+   "frames": 4048,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4048
+  },
+  "mon_mdg_critical1_10k": {
+   "channels": 1,
+   "frames": 12606,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 12606
+  },
+  "mon_mdg_groan1_13k": {
+   "channels": 1,
+   "frames": 6715,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6715
+  },
+  "mon_mdg_move_dart1_13k": {
+   "channels": 1,
+   "frames": 1076,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1076
+  },
+  "mon_mdg_move_flat1_13k": {
+   "channels": 1,
+   "frames": 855,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 855
+  },
+  "mon_mdg_move_grass1_13k": {
+   "channels": 1,
+   "frames": 961,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 961
+  },
+  "mon_mdg_move_sand1_13k": {
+   "channels": 1,
+   "frames": 893,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 893
+  },
+  "mon_mdg_move_stone1_13k": {
+   "channels": 1,
+   "frames": 855,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 855
+  },
+  "mon_mdg_move_water1_13k": {
+   "channels": 1,
+   "frames": 1013,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1013
+  },
+  "mon_mdg_move_wood1_13k": {
+   "channels": 1,
+   "frames": 992,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 992
+  },
+  "mon_sks_critical1_13k": {
+   "channels": 1,
+   "frames": 2592,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2592
+  },
+  "mon_sks_move_brid1_13k": {
+   "channels": 1,
+   "frames": 3054,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3054
+  },
+  "mon_sks_move_dart1_13k": {
+   "channels": 1,
+   "frames": 3799,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3799
+  },
+  "mon_sks_move_grass1_13k": {
+   "channels": 1,
+   "frames": 4995,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4995
+  },
+  "mon_sks_move_ston1_13k": {
+   "channels": 1,
+   "frames": 4894,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4894
+  },
+  "mon_sks_move_water1_13k": {
+   "channels": 1,
+   "frames": 4813,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4813
+  },
+  "mon_zom_attack3_13k": {
+   "channels": 1,
+   "frames": 4700,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 4700
+  },
+  "mon_zom_hand_down1_13k": {
+   "channels": 1,
+   "frames": 3952,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3952
+  },
+  "mon_zom_hand_up1_13k": {
+   "channels": 1,
+   "frames": 2817,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2817
+  },
+  "mon_zom_move_brid1_13k": {
+   "channels": 1,
+   "frames": 2653,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2653
+  },
+  "mon_zom_move_dart1_13k": {
+   "channels": 1,
+   "frames": 2680,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2680
+  },
+  "mon_zom_move_grass1_13k": {
+   "channels": 1,
+   "frames": 3060,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3060
+  },
+  "mon_zom_move_ston1_13k": {
+   "channels": 1,
+   "frames": 1519,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1519
+  },
+  "mon_zom_move_water1_13k": {
+   "channels": 1,
+   "frames": 2856,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2856
+  },
+  "mon_zombie1_e2_p26_13k8b": {
+   "channels": 1,
+   "frames": 2664,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2664
+  },
+  "mshield3_e_13k8b": {
+   "channels": 1,
+   "frames": 17794,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 17794
+  },
+  "nosferatu1a_el_10k8b": {
+   "channels": 1,
+   "frames": 13172,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 13172
+  },
+  "nosferatu1b_e_p45_10k8b": {
+   "channels": 1,
+   "frames": 16061,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 16061
+  },
+  "nosferatu1c_e_10k8b": {
+   "channels": 1,
+   "frames": 10359,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 10359
+  },
+  "op_kiran1_e4_13k8b": {
+   "channels": 1,
+   "frames": 9033,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9033
+  },
+  "op_thunder1_m1_e_13k8b": {
+   "channels": 1,
+   "frames": 2945,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2945
+  },
+  "point_count1b_e1_13k8b": {
+   "channels": 1,
+   "frames": 859,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 859
+  },
+  "poison1_e_13k8b": {
+   "channels": 1,
+   "frames": 8224,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8224
+  },
+  "pr_hyuun1_e4_13k8b": {
+   "channels": 1,
+   "frames": 13244,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 13244
+  },
+  "purge1_2nd_e_13k8b": {
+   "channels": 1,
+   "frames": 17454,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 17454
+  },
+  "purge_l_s_e_p26_10k8b": {
+   "channels": 1,
+   "frames": 5586,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 5586
+  },
+  "recover1_e_13k8b": {
+   "channels": 1,
+   "frames": 7668,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7668
+  },
+  "recover_efx2_m1_e4_13k8b": {
+   "channels": 1,
+   "frames": 7684,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 7684
+  },
+  "reserve_e_13k8b": {
+   "channels": 1,
+   "frames": 21073,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 21073
+  },
+  "resire4_a_e_p45_10k8b": {
+   "channels": 1,
+   "frames": 12995,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 12995
+  },
+  "resire4_b_e_p26_10k8b": {
+   "channels": 1,
+   "frames": 12279,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 12279
+  },
+  "resire6_a_e_p26_10k8b": {
+   "channels": 1,
+   "frames": 8495,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 8495
+  },
+  "rest2_e1l_p18_10k8b": {
+   "channels": 1,
+   "frames": 13686,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 13686
+  },
+  "sand_wind1_e5l_8k8b": {
+   "channels": 1,
+   "frames": 29045,
+   "bits": 8,
+   "rate": 8000.0,
+   "dataBytes": 29045
+  },
+  "scream1c_m_e2_10k8b": {
+   "channels": 1,
+   "frames": 10388,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 10388
+  },
+  "senko3_e4_10k8b": {
+   "channels": 1,
+   "frames": 8107,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 8107
+  },
+  "shooter_fire2_e2_10k8b": {
+   "channels": 1,
+   "frames": 1987,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 1987
+  },
+  "silence3_p17_e1l_13k8b": {
+   "channels": 1,
+   "frames": 6455,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 6455
+  },
+  "sleep2a_e1_13k8b": {
+   "channels": 1,
+   "frames": 12221,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 12221
+  },
+  "sleep2b_e2_13k8b": {
+   "channels": 1,
+   "frames": 17921,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 17921
+  },
+  "sys_break_stone1_13k": {
+   "channels": 1,
+   "frames": 16421,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16421
+  },
+  "sys_chapter_start1_10k": {
+   "channels": 1,
+   "frames": 43525,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 43525
+  },
+  "sys_chapter_start2_10k": {
+   "channels": 1,
+   "frames": 22320,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 22320
+  },
+  "sys_chapter_start3_13k": {
+   "channels": 1,
+   "frames": 19308,
+   "bits": 8,
+   "rate": 53516.0,
+   "dataBytes": 19308
+  },
+  "sys_class_light1_13k": {
+   "channels": 1,
+   "frames": 11402,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 11402
+  },
+  "sys_class_light2_13k": {
+   "channels": 1,
+   "frames": 9864,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9864
+  },
+  "sys_op_fadein1_13k": {
+   "channels": 1,
+   "frames": 25466,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 25466
+  },
+  "thunder2_e5_10k8b": {
+   "channels": 1,
+   "frames": 11039,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 11039
+  },
+  "thunder_storm1a_e_10k8b": {
+   "channels": 1,
+   "frames": 1551,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 1551
+  },
+  "triangle1_e_10k8b": {
+   "channels": 1,
+   "frames": 9462,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 9462
+  },
+  "village_bomb1_e2_10k8b": {
+   "channels": 1,
+   "frames": 6498,
+   "bits": 8,
+   "rate": 10512.0,
+   "dataBytes": 6498
+  },
+  "wall_bomb2_m1_e4_13k8b": {
+   "channels": 1,
+   "frames": 5961,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5961
+  },
+  "warp1a_e2_13k8b": {
+   "channels": 1,
+   "frames": 16056,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16056
+  },
+  "warp1b_e2_13k8b": {
+   "channels": 1,
+   "frames": 8684,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 8684
+  },
+  "wmap_base_appear1_13k": {
+   "channels": 1,
+   "frames": 13177,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 13177
+  },
+  "wmap_base_appear1_2_13k": {
+   "channels": 1,
+   "frames": 10601,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10601
+  },
+  "wmap_mon_appear1_13k": {
+   "channels": 1,
+   "frames": 9359,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9359
+  },
+  "wmap_mon_attack1_13k": {
+   "channels": 1,
+   "frames": 2691,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2691
+  },
+  "wmap_mon_attack2_13k": {
+   "channels": 1,
+   "frames": 9887,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9887
+  },
+  "wmap_road_appear1_13k": {
+   "channels": 1,
+   "frames": 10751,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10751
+  },
+  "wood_human1b_e2_13k8b": {
+   "channels": 1,
+   "frames": 1072,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1072
+  },
+  "wood_human2_e1p_13k8b": {
+   "channels": 1,
+   "frames": 1212,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1212
+  },
+  "wood_human3_e1_p110_13k8b": {
+   "channels": 1,
+   "frames": 3041,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 3041
+  },
+  "wood_human4_e3_13k8b": {
+   "channels": 1,
+   "frames": 2385,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2385
+  },
+  "y_bird_1_13k8b": {
+   "channels": 1,
+   "frames": 10650,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10650
+  },
+  "y_bird_2_13k8b": {
+   "channels": 1,
+   "frames": 10015,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 10015
+  },
+  "y_bird_3_13k8b": {
+   "channels": 1,
+   "frames": 5603,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5603
+  },
+  "y_boat_2_13k8b": {
+   "channels": 1,
+   "frames": 22802,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 22802
+  },
+  "y_hibashira_1_13k8b": {
+   "channels": 1,
+   "frames": 9375,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 9375
+  },
+  "y_sail_1_13k8b": {
+   "channels": 1,
+   "frames": 2912,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 2912
+  },
+  "y_sail_2_13k8b": {
+   "channels": 1,
+   "frames": 1775,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1775
+  },
+  "y_se_wind_1_l_13k8b": {
+   "channels": 1,
+   "frames": 5687,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 5687
+  },
+  "y_se_wind_3_e3_13k8b": {
+   "channels": 1,
+   "frames": 16459,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16459
+  },
+  "y_yoru_1_13k8b": {
+   "channels": 1,
+   "frames": 11719,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 11719
+  },
+  "y_yoru_2_13k8b": {
+   "channels": 1,
+   "frames": 16657,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 16657
+  },
+  "y_yoru_3_13k8b": {
+   "channels": 1,
+   "frames": 1435,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 1435
+  },
+  "y_yougan_1_e_13k8b": {
+   "channels": 1,
+   "frames": 13250,
+   "bits": 8,
+   "rate": 13379.0,
+   "dataBytes": 13250
+  }
+ },
+ "neededSymbolCount": 398,
+ "neededSymbols": [
+  "0",
+  "1",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "2",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "3",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "4",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44"
+ ],
+ "mappingStatus": "**未查证/缺失**：符号 → 采样文件 的映射不在日版仓库里（`DirectSoundData_*` 只出现在 voicegroup 的引用处）；美版 `direct_sound_data.s` 用的是**不同文件名**（`<名字>.bin` vs 日版 `<n>.aif`）⇒ 不能直接套用。需要日版构建产物或 ROM 指针表。"
+}

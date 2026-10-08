@@ -270,6 +270,18 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '音色组', 'true', const [], skip: true, note: decompNote),
 
+    // 直采采样（音频"数据"段第三块）：439 个 AIFF 的**头信息**。
+    // ⚠️ **没有**「符号 → 采样文件」映射 —— 日版仓库里不存在（见 docs/计划-音频.md）。
+    if (hasDecomp())
+      Step('L0', '直采采样（音频数据段第三块）', 'python3',
+          ['extract/parse_direct_sound.py', '--out', 'out/tables',
+           '--dart', '../../lib/core/sound/direct_sound_samples.g.dart', '--check'],
+          cwd: 'tools/pipeline',
+          note: '439 个 AIFF、全部 8 位单声道、11 种采样率（13379 Hz 占 325）、'
+              '数据共 3,264,489 B；全量不变量：帧×声道×位深/8 == SSND 长度')
+    else
+      Step('L0', '直采采样', 'true', const [], skip: true, note: decompNote),
+
     // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
     // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
     if (hasDecomp())
