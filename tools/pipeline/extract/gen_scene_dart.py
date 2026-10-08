@@ -594,7 +594,6 @@ def stmt(op, A):
 
 
 UNRESOLVED = []   # (script, label) pairs whose label is missing in that script
-_CURRENT_SCRIPT = "?"
 
 
 def gen_straight(ops):
@@ -610,9 +609,8 @@ def gen_straight(ops):
     return out
 
 
-def gen_switch(ops, labels):
+def gen_switch(ops, labels, script_name="?"):
     """有分支：`while(true) { switch (pc) }`，`pc` 是**局部变量**（不需要存档）"""
-    global _CURRENT_SCRIPT
     out = ["    var pc = 0;", "    while (true) {", "      switch (pc) {"]
     for i, (op, A) in enumerate(ops):
         out.append(f"        case {i}:")
@@ -640,7 +638,7 @@ def gen_switch(ops, labels):
             label, s1, s2 = num(A[0]), num(A[1]), num(A[2])
             tgt = labels.get(label)
             if tgt is None:
-                UNRESOLVED.append((_CURRENT_SCRIPT, label))
+                UNRESOLVED.append((script_name, label, sorted(labels.keys())))
                 tgt = i + 1
             cmp = {"BEQ": "==", "BNE": "!=", "BGE": ">=", "BGT": ">",
                    "BLE": "<=", "BLT": "<"}[op]
@@ -663,6 +661,7 @@ def gen_switch(ops, labels):
 
 
 def main():
+    global _CURRENT_SCRIPT
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--check", action="store_true")
@@ -960,8 +959,7 @@ def main():
         lines.append(f"Future<void> {names[n]}(Scene s) async {{")
         if has_branch:
             labels = {num(A[0]): i for i, (op, A) in enumerate(ops) if op == "LABEL"}
-            _CURRENT_SCRIPT = name
-            lines.extend(gen_switch(ops, labels))
+            lines.extend(gen_switch(ops, labels, name))
         else:
             lines.extend(gen_straight(ops))
         lines.append("}")
@@ -1017,8 +1015,8 @@ def main():
     # 分支跳不到标签 = 静默的【跳不动】（第 88/89 轮那个 bug 的兜底路径）。
     if UNRESOLVED:
         print("! 未解析分支目标 {} 处（这些分支退化成【往下走】）：".format(len(UNRESOLVED)))
-        for sc, lb in UNRESOLVED[:6]:
-            print("    {} : LABEL({}) 找不到".format(sc, lb))
+        for sc, lb, keys in UNRESOLVED[:6]:
+            print("    {} : LABEL({}) 找不到；表里的标签是 {}".format(sc, lb, keys))
         print("    生成器的标签表是**预扫描**的，前向引用本应能找到")
         print("    => 要么数据缺 LABEL、要么方言不同（**未查证**）；个数已进判据")
 
