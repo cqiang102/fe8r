@@ -248,6 +248,22 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 事件槽队列（`EV_CMD_QUEUE_OPS`，`src/sub_800DBA0.c:7-29`）：
+    #   `SENQUEUE(slot)`  = `EvtEnqueueFormSlot(slot)`  => `SlotQueuePush(gEventSlots[slot])`
+    #   `SENQUEUE1`       = `EvtEnqueueFormSlot1`       => `SlotQueuePush(gEventSlots[0x1])`（**无参数**）
+    #   `SDEQUEUE(slot)`  = `EvtDequeueToSlot(slot)`    => `gEventSlots[slot] = SlotQueuePop()`
+    # 队列写下标就是**槽 0xD**（`src/masked_0800d7ec.c:37-40`），Pop 是 FIFO + 左移
+    # （`src/SlotQueuePop.c:2-19`；⚠️ **空队列弹出会让 0xD 变成 −1**，原作没检查）。
+    if op == "SENQUEUE1":
+        return ("s.slotQueuePushSlot(0x1);", True)
+    if op in ("SENQUEUE", "SDEQUEUE"):
+        a7 = A[0] if A else 0
+        if isinstance(a7, int):
+            if op == "SENQUEUE":
+                return (f"s.slotQueuePushSlot({num(a7)});", True)
+            return (f"s.slotQueuePopToSlot({num(a7)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 音频（`include/EAstdlib.h:55-64`）—— **只接"放什么"，不发声**：
     #   `MUSC` = `EvtStartBgm(bgm)`       => `_EvtArg0(EV_CMD_BGMCHANGE_12, 2, 0, bgm)`
     #   `MUSS` = `EvtOverrideBgm(bgm)`    => `EV_CMD_BGMOVERWRITE`

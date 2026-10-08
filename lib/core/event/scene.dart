@@ -461,6 +461,47 @@ class SoundOp extends SceneEvent {
   final int id;
 }
 
+/// 事件槽队列的**纯算术**（`src/sub_800DBA0.c:7-29` + `src/masked_0800d7ec.c:37-40`
+/// + `src/SlotQueuePop.c:2-19`）。
+///
+/// * 队列**长度存在槽 0xD**（所以 `push`/`pop` 都把长度收进来再吐出去，
+///   由调用方写回事件槽）；
+/// * `pop` 是 **FIFO**：取队首，其余**左移**（源码就是 O(n) 左移）；
+/// * ⚠️ **空队列 `pop`**：源码照样 `gEventSlots[0xD]--` ⇒ 变成 **-1**（没有下溢检查），
+///   取到的值是数组里的旧值（**未定义**）。我们**照做算术**（长度 -1）+ `underflows++`
+///   + 值取 0，**不悄悄钳到 0**。
+///
+/// ⚠️ `gEventSlotQueue` 的**容量未查证**（`layout/baseline_syms.tsv:334` 只有地址，
+/// 没有大小）⇒ 这里用可增长表；溢出行为**无法**照抄原作的越界写。
+class EventSlotQueue {
+  final List<int> values = [];
+
+  int underflows = 0;
+  int inconsistencies = 0;
+
+  int get length => values.length;
+
+  /// 压入并返回新的"长度"（写回槽 0xD）
+  int push(int value, {required int lenInSlot}) {
+    if (lenInSlot != values.length) {
+      // 槽 0xD 被别处改过 ⇒ 队列与它不一致。不静默对齐，记下来。
+      inconsistencies++;
+    }
+    values.add(value);
+    return values.length;
+  }
+
+  /// 弹出队首：返回 `(值, 写回槽 0xD 的新长度)`
+  ({int value, int lenInSlot}) pop({required int lenInSlot}) {
+    if (values.isEmpty) {
+      underflows++;
+      return (value: 0, lenInSlot: lenInSlot - 1); // 源码：空队列也让 0xD--
+    }
+    final v = values.removeAt(0);
+    return (value: v, lenInSlot: values.length);
+  }
+}
+
 /// `TEXTCONT` —— 继续/结束对话（带"是否跳过中"：跳过时要真的收尾）
 class ContinueText extends SceneEvent {
   const ContinueText(this.skipping);
@@ -790,6 +831,26 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// 事件槽队列（`gEventSlotQueue`）——`EV_CMD_QUEUE_OPS` 用它。
+  ///
+  /// ★ 源码里**队列长度就存在槽 0xD**（`src/masked_0800d7ec.c:38`：
+  /// `gEventSlotQueue[gEventSlots[0xD]] = value; gEventSlots[0xD]++;`）
+  /// ⇒ 这里也用 `slotInt(0xD)` 当长度，别的代码能看到同一个值。
+  final EventSlotQueue slotQueue = EventSlotQueue();
+
+  /// `SENQUEUE`/`SENQUEUE1`：把槽 `slot` 的**值**压入队列
+  void slotQueuePushSlot(int slot) {
+    final n = slotQueue.push(slotInt(slot), lenInSlot: slotInt(0xD));
+    setSlot(0xD, n);
+  }
+
+  /// `SDEQUEUE`：弹出队首写进槽 `slot`（FIFO + 其余左移，照 `src/SlotQueuePop.c:2-19`）
+  void slotQueuePopToSlot(int slot) {
+    final r = slotQueue.pop(lenInSlot: slotInt(0xD));
+    setSlot(0xD, r.lenInSlot);
+    setSlot(slot, r.value);
+  }
 
   /// 音频（`MUSC` / `MUSS` / `SOUN` / `MUSI` / `MUNO`）—— 场景只**发信号**，
   /// 状态与发声都归游戏侧（与 `IGNORE_KEYS` 同一条教训：谁拥有资源谁持有状态）。

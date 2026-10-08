@@ -646,7 +646,7 @@ Future<void> scr_9EE84C(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(9);
           pc = 5;
           continue;
         case 5:
@@ -721,7 +721,7 @@ Future<void> scr_9EE84C(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 24;
           continue;
         case 24:
@@ -895,7 +895,7 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 7;
           continue;
         case 7:
@@ -907,7 +907,7 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 10;
           continue;
         case 10:
@@ -917,11 +917,11 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 13;
           continue;
         case 13:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 14;
           continue;
         case 14:
@@ -965,7 +965,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 4;
           continue;
         case 4:
@@ -984,7 +984,7 @@ Future<void> scr_9EEB00(Scene s) async {
           if (s.slotInt(1) != 458764) { pc = 8; } else { pc = 8; }
           continue;
         case 8:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 9;
           continue;
         case 9:
@@ -1034,19 +1034,19 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 22;
           continue;
         case 22:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 23;
           continue;
         case 23:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 24;
           continue;
         case 24:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 25;
           continue;
         case 25:
@@ -1073,11 +1073,11 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 32;
           continue;
         case 32:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 33;
           continue;
         case 33:
@@ -1420,21 +1420,21 @@ Future<void> Ch10A_13(Scene s) async {
     s.evBitMod('flag', false, 14);
     s.setSlot(13, 0);
     s.setSlot(1, 1900557);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1835022);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1900559);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1835024);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1900561);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1966094);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1966096);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1966098);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(2, 65536);
     await s.call(Sym('EventScr_ChangeAIinQueue'));
     s.evBitMod('evbit', true, 7);
@@ -2475,7 +2475,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 40;
           continue;
         case 40:
@@ -2483,7 +2483,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 42;
           continue;
         case 42:
@@ -2491,7 +2491,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 44;
           continue;
         case 44:
@@ -2499,7 +2499,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 46;
           continue;
         case 46:
@@ -2507,7 +2507,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 48;
           continue;
         case 48:
@@ -2515,7 +2515,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 49;
           continue;
         case 49:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 50;
           continue;
         case 50:
@@ -3030,7 +3030,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 105;
           continue;
         case 105:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 106;
           continue;
         case 106:
@@ -3038,7 +3038,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 107;
           continue;
         case 107:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 108;
           continue;
         case 108:
@@ -3046,7 +3046,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 109;
           continue;
         case 109:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 110;
           continue;
         case 110:
@@ -3054,7 +3054,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 111;
           continue;
         case 111:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 112;
           continue;
         case 112:
@@ -3106,7 +3106,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 124;
           continue;
         case 124:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 125;
           continue;
         case 125:
@@ -3114,7 +3114,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 126;
           continue;
         case 126:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 127;
           continue;
         case 127:
@@ -3122,7 +3122,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 128;
           continue;
         case 128:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 129;
           continue;
         case 129:
@@ -3130,7 +3130,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 130;
           continue;
         case 130:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 131;
           continue;
         case 131:
@@ -3138,7 +3138,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 132;
           continue;
         case 132:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 133;
           continue;
         case 133:
@@ -3146,7 +3146,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 134;
           continue;
         case 134:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 135;
           continue;
         case 135:
@@ -3162,7 +3162,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 138;
           continue;
         case 138:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 139;
           continue;
         case 139:
@@ -3170,7 +3170,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 140;
           continue;
         case 140:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 141;
           continue;
         case 141:
@@ -3178,7 +3178,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 142;
           continue;
         case 142:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 143;
           continue;
         case 143:
@@ -3186,7 +3186,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 144;
           continue;
         case 144:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 145;
           continue;
         case 145:
@@ -3206,7 +3206,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 149;
           continue;
         case 149:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 150;
           continue;
         case 150:
@@ -3214,7 +3214,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 151;
           continue;
         case 151:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 152;
           continue;
         case 152:
@@ -3222,7 +3222,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 153;
           continue;
         case 153:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 154;
           continue;
         case 154:
@@ -3230,7 +3230,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 155;
           continue;
         case 155:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 156;
           continue;
         case 156:
@@ -3238,7 +3238,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 157;
           continue;
         case 157:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 158;
           continue;
         case 158:
@@ -3246,7 +3246,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 159;
           continue;
         case 159:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 160;
           continue;
         case 160:
@@ -3262,7 +3262,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 163;
           continue;
         case 163:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 164;
           continue;
         case 164:
@@ -3270,7 +3270,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 165;
           continue;
         case 165:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 166;
           continue;
         case 166:
@@ -3278,7 +3278,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 167;
           continue;
         case 167:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 168;
           continue;
         case 168:
@@ -3286,7 +3286,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 169;
           continue;
         case 169:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 170;
           continue;
         case 170:
@@ -4249,7 +4249,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 108;
           continue;
         case 108:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 109;
           continue;
         case 109:
@@ -4372,17 +4372,17 @@ Future<void> Ch14A_1(Scene s) async {
     s.setSlot(4, 9980);
     s.setSlot(13, 0);
     s.setSlot(1, 2649);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2650);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2652);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2653);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2654);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2651);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EEAAC'));
     return;
 }
@@ -4483,11 +4483,11 @@ Future<void> Ch14A_8(Scene s) async {
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.setSlot(13, 0);
     s.setSlot(1, 458760);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 458761);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 458762);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(2, 65536);
     await s.call(Sym('EventScr_ChangeAIinQueue'));
     s.evBitMod('evbit', true, 7);
@@ -4556,17 +4556,17 @@ Future<void> Ch14B_2(Scene s) async {
     s.setSlot(4, 9980);
     s.setSlot(13, 0);
     s.setSlot(1, 2770);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2771);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2773);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2774);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2775);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2772);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EEAAC'));
     return;
 }
@@ -8872,15 +8872,15 @@ Future<void> Ch1Tut_BeforeSethMoveToEnemy(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 393225);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2320);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524296);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_AfterSethMoveToEnemy'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65534);
     s.setKeyIgnore(266);
@@ -8899,13 +8899,13 @@ Future<void> Ch1Tut_ChooseSethTurn1(Scene s) async {
     await s.endCursor();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 65536);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT_SCRIPT');
     s.placeholder('EvtEnqueueConditionalTutCall');
     s.overrideUnitMenu(24576);
@@ -8932,21 +8932,21 @@ Future<void> Ch1Tut_EirikaVisitHouseIdle1(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 393229);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2304);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524296);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2303);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524296);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle1'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -8957,15 +8957,15 @@ Future<void> Ch1Tut_EirikaVisitHouseIdle2(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 393229);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseEnd'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_EirikaVisitHouseIdle2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65503);
     s.setKeyIgnore(266);
@@ -9005,13 +9005,13 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 131073);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 513);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(11, 196616);
     s.placeholder('FIGHT');
     s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsg944'));
@@ -9123,21 +9123,21 @@ Future<void> Ch1Tut_SethMoveToEnemy(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 2);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 393225);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2320);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524296);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2319);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524296);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_BeforeSethMoveToEnemy'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_SethMoveToEnemy'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -9162,21 +9162,21 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle1(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 3);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 131080);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2311);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4194344);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2310);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4194344);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle1'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     s.setKeyIgnore(1022);
     return;
@@ -9188,15 +9188,15 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 131080);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamEnd'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch1Tut_TradeSelectGalliamIdle2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65023);
     s.setKeyIgnore(266);
@@ -9230,11 +9230,11 @@ Future<void> Ch1_BeginningScene(Scene s) async {
     s.evBitMod('flag', true, 1);
     s.setSlot(13, 0);
     s.setSlot(1, 70656);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT');
     s.evBitMod('flag', false, 1);
     s.setSlot(11, 131074);
@@ -9960,21 +9960,21 @@ Future<void> Ch2Tutorial11(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 6);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 262152);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2358);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2356);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial12'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial11'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     s.setKeyIgnore(1022);
     return;
@@ -9986,15 +9986,15 @@ Future<void> Ch2Tutorial12(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262152);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial13'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial12'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65519);
     s.setKeyIgnore(266);
@@ -10039,15 +10039,15 @@ Future<void> Ch2Tutorial15(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262153);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial16'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial15'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.setKeyIgnore(266);
     return;
@@ -10075,21 +10075,21 @@ Future<void> Ch2Tutorial18(Scene s) async {
     s.cameraToChar(5);
     s.setSlot(13, 0);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 196615);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2361);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2360);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial19'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial18'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     s.setKeyIgnore(1022);
     return;
@@ -10111,15 +10111,15 @@ Future<void> Ch2Tutorial2(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 327689);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial3'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65527);
     s.setKeyIgnore(266);
@@ -10189,21 +10189,21 @@ Future<void> Ch2Tutorial23(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 131076);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2370);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2369);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial24'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial23'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -10214,15 +10214,15 @@ Future<void> Ch2Tutorial24(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 131076);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial25'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial24'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65503);
     s.setKeyIgnore(266);
@@ -10260,21 +10260,21 @@ Future<void> Ch2Tutorial27(Scene s) async {
     s.cameraToChar(1);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 262150);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2374);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2373);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial28'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial27'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -10285,15 +10285,15 @@ Future<void> Ch2Tutorial28(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262150);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial29'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial28'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65471);
     s.setKeyIgnore(266);
@@ -10369,15 +10369,15 @@ Future<void> Ch2Tutorial5(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 262152);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial6'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial5'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.setKeyIgnore(266);
     return;
@@ -10404,21 +10404,21 @@ Future<void> Ch2Tutorial8(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 196615);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2364);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2363);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial9'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial8'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -10429,15 +10429,15 @@ Future<void> Ch2Tutorial9(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 196615);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial10'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial9'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65531);
     s.setKeyIgnore(266);
@@ -11080,21 +11080,21 @@ Future<void> Ch2_Village2(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 6);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 327689);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2353);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2356);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5767200);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2Tutorial2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Ch2_Village2', 308));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -11105,11 +11105,11 @@ Future<void> Ch3_0(Scene s) async {
     await s.stall(15);
     s.setSlot(13, 0);
     s.setSlot(1, 196610);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 655366);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 327690);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_FormatFlashingCursor'));
     await s.stall(60);
     await s.endCursor();
@@ -11121,11 +11121,11 @@ Future<void> Ch3_0(Scene s) async {
     await s.stall(15);
     s.setSlot(13, 0);
     s.setSlot(1, 589828);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 786436);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524296);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_FormatFlashingCursor'));
     await s.stall(60);
     await s.endCursor();
@@ -11151,9 +11151,9 @@ Future<void> Ch3_5(Scene s) async {
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(11, 589829);
     s.placeholder('FIGHT');
     s.setTextType(3);
@@ -11610,7 +11610,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 49;
           continue;
         case 49:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 50;
           continue;
         case 50:
@@ -11618,7 +11618,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 52;
           continue;
         case 52:
@@ -11626,7 +11626,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 53;
           continue;
         case 53:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 54;
           continue;
         case 54:
@@ -11634,7 +11634,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 56;
           continue;
         case 56:
@@ -12292,11 +12292,11 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.textRemoveAll();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 65536);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(11, 196617);
     s.placeholder('FIGHT');
     s.setSlot(11, 196617);
@@ -12666,7 +12666,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 49;
           continue;
         case 49:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 50;
           continue;
         case 50:
@@ -12674,7 +12674,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 51;
           continue;
         case 51:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 52;
           continue;
         case 52:
@@ -12682,7 +12682,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 53;
           continue;
         case 53:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 54;
           continue;
         case 54:
@@ -12690,7 +12690,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 56;
           continue;
         case 56:
@@ -12698,7 +12698,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 57;
           continue;
         case 57:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 58;
           continue;
         case 58:
@@ -12706,7 +12706,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 60;
           continue;
         case 60:
@@ -12722,7 +12722,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 63;
           continue;
         case 63:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 64;
           continue;
         case 64:
@@ -12730,7 +12730,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 65;
           continue;
         case 65:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 66;
           continue;
         case 66:
@@ -12738,7 +12738,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 67;
           continue;
         case 67:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 68;
           continue;
         case 68:
@@ -12746,7 +12746,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 70;
           continue;
         case 70:
@@ -12754,7 +12754,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 71;
           continue;
         case 71:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 72;
           continue;
         case 72:
@@ -12762,7 +12762,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 73;
           continue;
         case 73:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 74;
           continue;
         case 74:
@@ -14322,23 +14322,23 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.moveUnit('MOVE', [0, 66, 9, 0]);
     s.setSlot(13, 0);
     s.setSlot(1, 265);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 9);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [1]);
     s.setSlot(13, 0);
     s.setSlot(1, 266);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 10);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [2]);
     await s.stall(8, cancellable: false);
     await s.fade(FadeDirection.toBlack, 16);
@@ -14473,13 +14473,13 @@ Future<void> Ch8_11(Scene s) async {
     s.moveUnit('MOVE', [16, 83, 13, 5]);
     s.setSlot(13, 0);
     s.setSlot(1, 65873);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 65871);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [87]);
     await s.waitUnitMoving();
     await s.removeUnit(105);
@@ -14497,13 +14497,13 @@ Future<void> Ch8_11(Scene s) async {
     s.moveUnit('MOVE', [16, 68, 15, 5]);
     s.setSlot(13, 0);
     s.setSlot(1, 65867);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 65869);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [29]);
     await s.waitUnitMoving();
     await s.removeUnit(83);
@@ -15356,7 +15356,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 77;
           continue;
         case 77:
@@ -15364,7 +15364,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 78;
           continue;
         case 78:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 79;
           continue;
         case 79:
@@ -15372,7 +15372,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 80;
           continue;
         case 80:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 81;
           continue;
         case 81:
@@ -15380,7 +15380,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 82;
           continue;
         case 82:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 83;
           continue;
         case 83:
@@ -15396,7 +15396,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 86;
           continue;
         case 86:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 87;
           continue;
         case 87:
@@ -15404,7 +15404,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 88;
           continue;
         case 88:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 89;
           continue;
         case 89:
@@ -15412,7 +15412,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 90;
           continue;
         case 90:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 91;
           continue;
         case 91:
@@ -15420,7 +15420,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 92;
           continue;
         case 92:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 93;
           continue;
         case 93:
@@ -15713,7 +15713,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 32;
           continue;
         case 32:
@@ -15721,7 +15721,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 34;
           continue;
         case 34:
@@ -15729,7 +15729,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 36;
           continue;
         case 36:
@@ -15737,7 +15737,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('SENQUEUE1');
+          s.slotQueuePushSlot(0x1);
           pc = 38;
           continue;
         case 38:
@@ -15902,7 +15902,7 @@ Future<void> ChangeAIinQueue(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 4;
           continue;
         case 4:
@@ -16144,7 +16144,7 @@ Future<void> FormatFlashingCursor(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 3;
           continue;
         case 3:
@@ -16817,13 +16817,13 @@ Future<void> Prologue_EirikaAttacked(Scene s) async {
     s.evBitMod('flag', true, 4);
     s.setSlot(13, 0);
     s.setSlot(1, 131072);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT_SCRIPT');
     return;
 }
@@ -16987,11 +16987,11 @@ Future<void> Prologue_OneillSethBattle(Scene s) async {
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 131073);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT');
     s.displayCursorAtUnit(2);
     await s.stall(60);
@@ -17047,13 +17047,13 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.moveUnit('MOVE', [0, 2, 13, 11]);
     s.setSlot(13, 0);
     s.setSlot(1, 268);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 716);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [4]);
     await s.waitUnitMoving();
     await s.removeUnit(2);
@@ -17095,17 +17095,17 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.call(Sym('Event_TextWithBG'));
     s.setSlot(13, 0);
     s.setSlot(1, 260);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 132);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 128);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [4]);
     await s.waitUnitMoving();
     await s.removeUnit(4);
@@ -17131,11 +17131,11 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 131072);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT');
     s.showCursorAtUnit(2);
     await s.stall(60);
@@ -17149,17 +17149,17 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     await s.removeUnit(1);
     s.setSlot(13, 0);
     s.setSlot(1, 98564);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 98436);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 98432);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.moveUnit('MOVE_DEFINED', [2]);
     await s.waitUnitMoving();
     await s.removeUnit(2);
@@ -17221,13 +17221,13 @@ Future<void> Prologue_TutEirikaAttack(Scene s) async {
     await s.endCursor();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 65536);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT_SCRIPT');
     s.placeholder('EvtEnqueueConditionalTutCall');
     return;
@@ -17256,13 +17256,13 @@ Future<void> Prologue_TutMessageTurn2(Scene s) async {
     s.textRemoveAll();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 131073);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.placeholder('FIGHT_SCRIPT');
     s.setTextType(3);
     s.setSlot(11, 4294967295);
@@ -17283,21 +17283,21 @@ Future<void> Prologue_Tutorial0(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 327684);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2267);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2266);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial1'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial0'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -17308,15 +17308,15 @@ Future<void> Prologue_Tutorial1(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 327684);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2268);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial2'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial1'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65531);
     s.setKeyIgnore(266);
@@ -17346,21 +17346,21 @@ Future<void> Prologue_Tutorial4(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 327684);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2270);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2271);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial5'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_Tutorial4'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     s.setKeyIgnore(1022);
     return;
@@ -17428,9 +17428,9 @@ Future<void> Prologue_Tutorial9(Scene s) async {
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 5120);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4294967295);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(11, 393225);
     s.placeholder('FIGHT');
     s.placeholder('_3427');
@@ -17449,21 +17449,21 @@ Future<void> Prologue_TutorialA(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setSlot(13, 0);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 393224);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2277);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2276);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_TutorialB'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_TutorialA'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec0'));
     return;
 }
@@ -17474,15 +17474,15 @@ Future<void> Prologue_TutorialB(Scene s) async {
     s.setKeyIgnore(0);
     s.setSlot(13, 0);
     s.setSlot(1, 393224);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2277);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 524376);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_TutorialC'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, Sym('EventScr_Prologue_TutorialB'));
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_Tutorial_Exec1'));
     s.overrideUnitMenu(65534);
     s.setKeyIgnore(266);
@@ -19686,22 +19686,22 @@ Future<void> Ruin_60(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     return;
 }
 
@@ -19711,18 +19711,18 @@ Future<void> Ruin_62(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     return;
 }
 
@@ -19732,26 +19732,26 @@ Future<void> Ruin_64(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 3);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     return;
 }
 
@@ -19761,15 +19761,15 @@ Future<void> Ruin_66(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     return;
 }
@@ -19780,24 +19780,24 @@ Future<void> Ruin_68(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 3);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     return;
 }
 
@@ -19807,15 +19807,15 @@ Future<void> Ruin_70(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.placeholder('EvtChangeFogVision');
     return;
@@ -19827,28 +19827,28 @@ Future<void> Ruin_72(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 2);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 3);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 6);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 7);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     return;
 }
 
@@ -19858,22 +19858,22 @@ Future<void> Ruin_74(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     s.setSlot(1, 0);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 1);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 4);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     return;
 }
 
@@ -19883,15 +19883,15 @@ Future<void> Ruin_76(Scene s) async {
     await s.call(Sym('EventScr_ConfigHardModeLoadUnitHard'));
     s.setSlot(13, 0);
     s.setSlot(1, 50);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 25);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 15);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     s.setSlot(1, 5);
-    s.placeholder('SENQUEUE1');
+    s.slotQueuePushSlot(0x1);
     await s.call(Sym('EventScr_9EE84C'));
     return;
 }
@@ -20239,7 +20239,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 3;
           continue;
         case 3:
@@ -20250,7 +20250,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 6;
           continue;
         case 6:
@@ -20262,11 +20262,11 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 9;
           continue;
         case 9:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 10;
           continue;
         case 10:
@@ -20286,15 +20286,15 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 15;
           continue;
         case 15:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 16;
           continue;
         case 16:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 17;
           continue;
         case 17:
@@ -20304,15 +20304,15 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 20;
           continue;
         case 20:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 21;
           continue;
         case 21:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 22;
           continue;
         case 22:
@@ -20328,11 +20328,11 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 26;
           continue;
         case 26:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 27;
           continue;
         case 27:
@@ -20348,11 +20348,11 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 31;
           continue;
         case 31:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 32;
           continue;
         case 32:
@@ -20380,7 +20380,7 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 2;
           continue;
         case 2:
@@ -20391,15 +20391,15 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 5;
           continue;
         case 5:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 6;
           continue;
         case 6:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 7;
           continue;
         case 7:
@@ -20437,11 +20437,11 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 17;
           continue;
         case 17:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(11);
           pc = 18;
           continue;
         case 18:
@@ -20467,11 +20467,11 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(12);
           pc = 25;
           continue;
         case 25:
-          s.placeholder('SDEQUEUE');
+          s.slotQueuePopToSlot(2);
           pc = 26;
           continue;
         case 26:

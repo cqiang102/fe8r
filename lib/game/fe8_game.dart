@@ -611,6 +611,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'seSymbol': audio.seSymbol,
       'volumeDown': audio.volumeDown,
       'soundOutOfRange': audio.outOfRangeIds.toList(),
+      'slotQueue': scene?.slotQueue.values.toList(),
+      'slotQueueLenSlot0xD': scene?.slotInt(0xD),
+      'queueInconsistencies': scene?.slotQueue.inconsistencies ?? 0,
+      'queueUnderflows': scene?.slotQueue.underflows ?? 0,
       'actionIndex': state?.actionIndex,
       // ★ 光标所指单位的**信息窗**内容（原作 `struct UnitInfoWindowProc`：
       //   名字 + 最多 5 行道具，行数 = 道具数且至少 1。
