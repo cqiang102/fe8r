@@ -13,6 +13,7 @@ import 'song_table.g.dart';
 
 // 表本身也导出（调用方/测试要能按**下标**直接看表）
 export 'song_table.g.dart';
+export 'voicegroups.g.dart';
 
 /// 按**下标**取表项（`&gSongTable[n]`）。越界返回 null —— 调用方必须**记录**，
 /// 不能静默当成"没这首歌"。

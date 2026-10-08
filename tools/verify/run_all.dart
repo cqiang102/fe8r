@@ -256,6 +256,20 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '歌曲表', 'true', const [], skip: true, note: decompNote),
 
+    // 音色组（音频"数据"段第二块）：93 个文件 / 9787 条 voice。
+    // ★ 这一块的正确性不靠抽查，靠**地址注解严丝合缝**：每个 voice 行后面都有
+    //   `@08207A70`，提取器按"上一条地址 + 上一条长度"推下一条并断言相等。
+    if (hasDecomp())
+      Step('L0', '音色组（音频数据段第二块）', 'python3',
+          ['extract/parse_voicegroups.py', '--out', 'out/tables',
+           '--dart', '../../lib/core/sound/voicegroups.g.dart', '--check'],
+          cwd: 'tools/pipeline',
+          note: '93 个文件 / 9787 条 voice；长度从宏体推（全部 12 B）；'
+              '偏移与源码 `@地址` 注解逐条相符；最少 1 条、最多 465 条，'
+              '只有 54 个文件正好 128 条')
+    else
+      Step('L0', '音色组', 'true', const [], skip: true, note: decompNote),
+
     // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
     // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
     if (hasDecomp())
