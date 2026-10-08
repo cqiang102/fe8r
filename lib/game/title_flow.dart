@@ -218,7 +218,15 @@ class TitleFlow {
     if (o.isEmpty) return MainMenuItem.newGame;
     return o[mainIndex.clamp(0, o.length - 1)];
   }
-  Difficulty difficulty = Difficulty.normal;
+  // ★ 默认选中项 = **第 0 项**：源码 `src/difficultymenu.c:29` 与
+  //   `src/difficultymenu_080B0B38.c:65-66` 都是 `proc->current_selection = 0;`，
+  //   而说明文字表的**顺序是 2098/2099/2100**（从 ROM 字节读出，见本文件前面），
+  //   第 0 项 = 消息 **2098**「はじめて遊ぶ人に…操作方法など」= 本枚举的 `easy`。
+  //   ⚠️ 原来是 `Difficulty.normal` —— 那会让 `CHECK_TUTORIAL = 0`
+  //   （`controller = difficulty != easy`），而 `EventScr_CallOnTutorialMode`
+  //   在那种情况下**不调** `ExecTut`（美版注释：`/* Not exec if tutorial */`）
+  //   ⇒ 序章的教学链永远不触发。这就是那两条端到端判据失败的根因。
+  Difficulty difficulty = Difficulty.easy;
   int saveSlot = -1;
 
   /// 选好的存档（`-1` 表示还没选）
