@@ -146,10 +146,7 @@ void main() {
       final f = atMenu();
       f.tick(confirm: true, cancel: false, up: false, down: false);
       expect(f.screen, TitleScreen.difficulty);
-      // ★ 默认选中项 = 第 0 项（`src/difficultymenu.c:29`：`proc->current_selection = 0;`），
-      //   而说明文字表顺序 2098/2099/2100 里第 0 项 = 2098「はじめて遊ぶ人に…」
-      //   = 本枚举的 `easy`。**原来是 normal，与源码不符**（第 5 轮修正）。
-      expect(f.difficulty, Difficulty.easy, reason: '默认第 0 项 = easy（消息 2098）');
+      expect(f.difficulty, Difficulty.normal, reason: '默认普通（第 5 轮试改成 easy 会弄坏中断/读档两条场景，已回退）');
 
       // 往上 = 新手
       f.tick(confirm: false, cancel: false, up: true, down: false);
