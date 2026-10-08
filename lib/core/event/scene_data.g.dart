@@ -1196,7 +1196,7 @@ Future<void> CallIfCommonMode(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(12) != s.slotInt(2)) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(2)) { pc = 4; } else { pc = 2; }
           continue;
         case 2:
           s.slotArith('SADD', 2, 3);
@@ -1315,14 +1315,14 @@ Future<void> CallWithModeCheck(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.setSlot(7, RawArg('CHAPTER_MODE_COMMON'));
+          s.setSlot(7, 1);
           pc = 2;
           continue;
         case 2:
           if (s.slotInt(12) == s.slotInt(7)) { pc = 9; } else { pc = 3; }
           continue;
         case 3:
-          s.setSlot(7, RawArg('CHAPTER_MODE_EIRIKA'));
+          s.setSlot(7, 2);
           pc = 4;
           continue;
         case 4:

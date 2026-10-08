@@ -82,6 +82,42 @@ def slot_constants():
     return out
 
 
+def extra_constants():
+    """`include/types.h` 里的简单枚举（脚本参数会用到，例如 CHAPTER_MODE_COMMON = 1）。
+
+    ★ 为什么要它：数据里写的是 `BNE(CHAPTER_MODE_COMMON, EVT_SLOT_C, EVT_SLOT_2)`，
+      而 `CHAPTER_MODE_COMMON` 长得像宏名 ⇒ 解析器把它归成"符号" ⇒ `num()` 返回 0
+      ⇒ 去找 `LABEL(0)`（脚本里写的是 `LABEL(0x1)`）⇒ **分支悬空**。
+      第 92 轮就是靠"符号回退"计数把它抓出来的。
+    """
+    p = os.path.join(DECOMP, "include", "types.h")
+    if not os.path.exists(p):
+        return {}
+    t = strip_comments(open(p, encoding="utf-8", errors="replace").read())
+    out = {}
+    for m in re.finditer(r"enum\s+(\w+)\s*\{(.*?)\}", t, re.S):
+        val = 0
+        for item in m.group(2).split(","):
+            item = item.strip()
+            if not item or "(" in item:
+                continue
+            if "=" in item:
+                n, v = item.split("=", 1)
+                n, v = n.strip(), v.strip()
+                if not re.fullmatch(r"-?0[xX][0-9A-Fa-f]+|-?\d+", v):
+                    break
+                val = int(v, 0)
+                out[n] = val
+            else:
+                if not re.fullmatch(r"[A-Za-z_]\w*", item):
+                    continue
+                out[item] = val
+            val += 1
+    return out
+
+
+EXTRA = extra_constants()
+
 SLOTS = slot_constants()
 CAST = r"(?:\(\s*(?:u8|u16|u32|void|int)\s*\*\s*\)\s*)?"
 
@@ -120,6 +156,8 @@ def parse_arg(a):
         return ("sym", m2.group(1), 0)
     if a in SLOTS:
         return SLOTS[a]
+    if a in EXTRA:
+        return EXTRA[a]          # 例：CHAPTER_MODE_COMMON = 1（`include/types.h:258`）
     if re.fullmatch(r"[A-Za-z_]\w*", a) and not MACRO_NAME.match(a):
         return ("sym", a, 0)
     return ("raw", a)
@@ -593,7 +631,8 @@ def stmt(op, A):
     return (f"s.placeholder('{op}');", True)
 
 
-UNRESOLVED = []   # (script, label) pairs whose label is missing in that script
+UNRESOLVED = []   # (script, label, label-table) whose label is missing
+SYM_FALLBACK = []  # (script, op, [symbols]) that num() would have silently turned into 0
 
 
 def gen_straight(ops):
@@ -635,6 +674,15 @@ def gen_switch(ops, labels, script_name="?"):
             # ⚠️ 以前写成 `slot=A[0], val=A[1], 标签=A[2]` —— 三样全错，
             #    产出 `if (s.slotInt(0) != 196620) { pc = 1; } else { pc = 1; }`
             #    （比错东西 + 两分支同目标 = 永不跳转；第 88 轮量化为 259 / 109 处）。
+            # ★★ **符号不许静默变 0**（第 92 轮查明的真凶）：
+            #   数据里写的是 `BNE(CHAPTER_MODE_COMMON, EVT_SLOT_C, EVT_SLOT_2)`
+            #   （`CHAPTER_MODE_COMMON = 1`，`include/types.h:258`；`EVT_SLOT_C = 0xC`），
+            #   而 `num()` 对**不认识的符号**返回默认 0 ⇒ 于是去找 `LABEL(0)`，
+            #   而脚本里写的是 `LABEL(0x1)` ⇒ **分支悬空**（4 处就是它）。
+            #   所以这里显式把"符号没解析成数"记下来（比事后猜标签为什么找不到有用得多）。
+            unresolved_syms = [a for a in A[:3] if not isinstance(a, int)]
+            if unresolved_syms:
+                SYM_FALLBACK.append((script_name, op, unresolved_syms))
             label, s1, s2 = num(A[0]), num(A[1]), num(A[2])
             tgt = labels.get(label)
             if tgt is None:
@@ -959,7 +1007,7 @@ def main():
         lines.append(f"Future<void> {names[n]}(Scene s) async {{")
         if has_branch:
             labels = {num(A[0]): i for i, (op, A) in enumerate(ops) if op == "LABEL"}
-            lines.extend(gen_switch(ops, labels, name))
+            lines.extend(gen_switch(ops, labels, n))
         else:
             lines.extend(gen_straight(ops))
         lines.append("}")
@@ -1013,6 +1061,10 @@ def main():
     print(f"   直线 {len(straight)} / 有分支 {len(scripts) - len(straight)} / "
           f"缺失占位 {len(missing)}")
     # 分支跳不到标签 = 静默的【跳不动】（第 88/89 轮那个 bug 的兜底路径）。
+    if SYM_FALLBACK:
+        print("! 分支参数里有 {} 处**符号没解析成数**（会被当成 0）：".format(len(SYM_FALLBACK)))
+        for sc, op, syms in SYM_FALLBACK[:6]:
+            print("    {} {} 的 {}（未解析）".format(sc, op, syms))
     if UNRESOLVED:
         print("! 未解析分支目标 {} 处（这些分支退化成【往下走】）：".format(len(UNRESOLVED)))
         for sc, lb, keys in UNRESOLVED[:6]:

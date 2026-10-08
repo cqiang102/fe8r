@@ -108,7 +108,14 @@ void main() {
         .allMatches(t)
         .where((m) => m.group(1) == m.group(2))
         .length;
-    expect(sameTarget, 4, reason: '现状 4 处（修前是 109 —— 那 109 里 105 处是这个 bug 造成的）');
+    // ★ 第 92 轮：4 → **3**。少的那 1 处是 `EventScr_CallIfCommonMode`，
+    //   根因是**符号被静默当成 0**：数据写 `BNE(CHAPTER_MODE_COMMON, EVT_SLOT_C, EVT_SLOT_2)`，
+    //   而 `CHAPTER_MODE_COMMON`（`include/types.h:258` = 1）长得像宏名 ⇒ 被归成"符号"
+    //   ⇒ `num()` 返回 0 ⇒ 去找 `LABEL(0)`（脚本里写的是 `LABEL(0x1)`）。
+    //   修法：把 `types.h` 的简单枚举做成常量表，在**符号判断之前**查它。
+    //   剩下的 3 处都在 `EventScr_Ch9A_4`，标签表**空** ⇒ 指向"切片/片段丢了标签"，**未查证**。
+    expect(sameTarget, 3,
+        reason: '现状 3 处（第 92 轮从 4 降到 3；都在 EventScr_Ch9A_4，标签表为空）');
   });
 
   test('★ 条件族第三批：CHECK_MODE / CHECK_CHAPTER_NUMBER / CHECK_HARD 写条件槽', () {
