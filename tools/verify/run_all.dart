@@ -235,6 +235,15 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '大地图表', 'true', const [], skip: true, note: decompNote),
 
+    // 歌曲表：`n` 是下标（`src/m4aSongNumStart.c:5-12`）；1000 条 × 8 B
+    if (hasDecomp())
+      Step('L0', '歌曲表（音频子系统第一块）', 'python3',
+          ['extract/parse_song_table.py', '--out', 'out/tables'],
+          cwd: 'tools/pipeline',
+          note: '1000 条 × 8 B；588 个 MIDI；594 个不同符号（dummy_song 361）')
+    else
+      Step('L0', '歌曲表', 'true', const [], skip: true, note: decompNote),
+
     // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
     // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
     if (hasDecomp())
