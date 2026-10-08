@@ -95,11 +95,13 @@ class EventListEntry {
   /// 载荷元素（首字之后的部分），每个元素是 32 位
   final List<int> payload;
 
-  /// 载荷里的**指针类**字段。
+  /// 载荷里是否有**大于 0xFFFF 的值**（疑似引用）。
   ///
-  /// ⚠️ 这些值在当前产物里是**宿主地址**（平台相关），不能当 ROM 地址用。
-  /// 标出来是为了让调用方知道"这里有个待解析的引用"，
-  /// 而不是把它当成一个有意义的数字。
+  /// ⚠️ 曾经的注释说"这些值在当前产物里是**宿主地址**（平台相关）" ——
+  /// **第 103 轮实测证伪**：整份 `chapter_events.json` 里
+  /// **大于 0x10000000 的词 = 0**，指针全部以**具名**形式存在 `ptrs` 侧表里
+  /// （570 个）。所以这里是"疑似引用的启发式"，**不是**"平台相关"。
+  /// 真正的判别要用 `ptrs`（有名字的那个）。
   bool get hasUnresolvedPointer => payload.any((v) => v > 0xFFFF);
 
   @override
@@ -164,6 +166,12 @@ class ChapterEventTable {
       final w0 = words[wordIdx];
       final w1 = words[wordIdx + 1];
       if (w0 == null || w1 == null) break;
+      // ⚠️ `words` 是 **u16** 列表，`wordIdx = elem*2` ⇒
+      //   `w0` = 该 32 位元素的**低半**、`w1` = **高半**。
+      //   源码读的是**同一个字**的两半（`src/SearchAvailableEvent.c:29-31`）：
+      //     cmdId = EVT_CMD_LO(listScript[0]);      // 低 16 位
+      //     flag  = EVT_CMD_HI(listScript[0]);      // 高 16 位
+      //   ⇒ 所以下面这两行是**对的**（别"顺手修正"成从 w0 取两次）。
       final conditionId = w0 & 0xFFFF;
       final flag = w1 & 0xFFFF;
 
@@ -444,3 +452,39 @@ EventCheckResult? afevCheck(List<int> words, {required bool Function(int flag) c
   }
   return null;
 }
+
+// ---------------------------------------------------------------------------
+// 把「表」接到「遍历」上：`EventListEntry` → `searchAvailableEvent`
+//
+// 两侧的形状不一样，谁都不该为对方改：
+//   * `EventListEntry`（本文件前面）：表里**解析出来**的条目
+//     （conditionId / flag / length / payload）；
+//   * `searchAvailableEvent`：引擎**遍历**的规则（标志门 + 长度跳过 + 条件回调）。
+// 这个函数只做**转换**，不改变任何一侧的语义。
+//
+// ⚠️ 首字要**还原**成 32 位：低 16 = conditionId、高 16 = flag
+//   （源码读的就是同一个字的两半）。
+List<({List<int> words, EventScript script})> entriesForSearch(List<EventListEntry> entries) {
+  return [
+    for (final e in entries)
+      (
+        words: [(e.conditionId & 0xFFFF) | ((e.flag & 0xFFFF) << 16), ...e.payload],
+        // 脚本由条件的回调决定（`Always` 不写 ⇒ 这里只给个占位空脚本）
+        script: EventScript(instructions: const [], labels: const {}),
+      ),
+  ];
+}
+
+/// 在一张表上跑一遍遍历（`SearchAvailableEvent` 的用法）
+AvailableEvent? searchTable({
+  required List<EventListEntry> entries,
+  required Map<int, int> cmdLengths,
+  required bool Function(int flag) checkFlag,
+  required Map<int, EventCheckResult? Function(List<int> words)> conditionFuncs,
+}) =>
+    searchAvailableEvent(
+      entries: entriesForSearch(entries),
+      cmdLengths: cmdLengths,
+      checkFlag: checkFlag,
+      conditionFuncs: conditionFuncs,
+    );

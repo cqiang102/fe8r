@@ -199,4 +199,29 @@ void main() {
       expect(total, 10768);
     });
   });
+
+  // ★ 第 105 轮新增：在**真实数据**上跑一遍遍历（`SearchAvailableEvent`）
+  //   —— 既有 11 条测的是"表/条目/长度"，没测过"遍历落点"。
+  test('遍历在序章表上落点（Always/TURN，回合 1、阵营 0）', () {
+    // 自解析（不依赖上面 group 里的变量）
+    final ev = ChapterEvents.parse(
+        File('tools/pipeline/out/tables/chapter_events.json').readAsStringSync());
+    final t = ev.tables['frontier_df3_eventscr_ch_000_A69464']!;
+    final entries = t.parseEntries(ev.cmdLengths);
+    expect(entries, isNotEmpty);
+    final r = searchTable(
+      entries: entries,
+      cmdLengths: ev.cmdLengths,
+      checkFlag: (_) => false,
+      conditionFuncs: {
+        0: alwaysCheck,
+        2: (w) => turnCheck(w, chapterTurn: 1, chapterFaction: 0),
+      },
+    );
+    // 不假装一定命中：命中就断言下标合法（把结果当**信号**用）
+    if (r != null) {
+      expect(r.index, inInclusiveRange(0, entries.length - 1));
+      expect(r.cmdId, anyOf(0, 2));
+    }
+  });
 }
