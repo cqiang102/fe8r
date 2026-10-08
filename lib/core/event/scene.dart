@@ -47,6 +47,10 @@ enum FadeDirection {
   toWhite,
 }
 
+/// `IsActiveEventTextTypeOnMap`（`src/IsActiveEventTextTypeOnMap.c:25-45`）：
+/// **类型 1 和 2 是"在地图上"的文本框**，0/3/4/5 不是。
+bool eventTextTypeOnMap(int type) => type == 1 || type == 2;
+
 /// `EV_STATE_*` 位（`include/event.h:59-63`）—— `EVBIT_MODIFY` 动的是这几位
 const int kEvStateNoSkip = 1 << 0x4;
 const int kEvState0020 = 1 << 0x5;
@@ -705,6 +709,13 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// `proc->activeTextType` —— **子命令号就是类型**（`src/eventscr_0800E3E0.c:94`）
+  ///
+  /// 含义见 [eventTextTypeOnMap]（`src/IsActiveEventTextTypeOnMap.c:25-45`）。
+  int activeTextType = 0;
+
+  void setTextType(int type) => activeTextType = type;
 
   /// `EVBIT_MODIFY` = `EvtModifyEvBit(type)`（`include/eventscript.h:622`）
   ///

@@ -584,6 +584,8 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'lastCamera': lastCamera,
       'lastSceneCursor': lastSceneCursor,
       'eventSlotCounter': scene?.eventSlotCounter ?? 0,
+      'activeTextType': scene?.activeTextType ?? 0,
+      'textBoxOnMap': eventTextTypeOnMap(scene?.activeTextType ?? 0),
       'scriptErrors': scene?.scriptErrors ?? 0,
       'popupComponents': popupComponentCount,
       'ignoredInputCount': ignoredInputCount,

@@ -248,6 +248,19 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 文本类型（`EV_CMD_SETTEXTTYPE`）—— 子命令号**就是**文本类型：
+    #   `src/eventscr_0800E3E0.c:94`：`proc->activeTextType = subcode;`
+    #   号码见 `include/eventscript.h:415-420`（TEXTSTART=0、REMOVEPORTRAITS=1、
+    #   0x1A22=2、TUTORIALTEXTBOXSTART=3、SOLOTEXTBOXSTART=4、0x1A25=5）。
+    #   含义见 `src/IsActiveEventTextTypeOnMap.c:25-45`：**1/2 是在地图上的文本框**，
+    #   其余（0/3/4/5）不是。
+    _TEXT_TYPES = {
+        "TEXTSTART": 0, "REMOVEPORTRAITS": 1, "0x1A22": 2,
+        "TUTORIALTEXTBOXSTART": 3, "SOLOTEXTBOXSTART": 4, "0x1A25": 5,
+    }
+    if op in _TEXT_TYPES:
+        return (f"s.setTextType({_TEXT_TYPES[op]});", True)
+
     # 三个小条件/状态命令（都读全了）：
     #   `CHECK_TUTORIAL` = `EvtGetIsTutorial`（include/EAstdlib.h:79）
     #     => `src/eventscr_0800E2C8.c:109-115`：

@@ -86,6 +86,7 @@ void main() {
   });
   _counterTests();
   _evBitModifyTests();
+  _textTypeTests();
 }
 
 // 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
@@ -150,5 +151,35 @@ void _evBitModifyTests() {
     expect(kEvStateNoSkip, 1 << 0x4);
     expect(kEvState0020, 1 << 0x5);
     expect(kEvState0040, 1 << 0x6);
+  });
+}
+
+// 文本类型（`src/eventscr_0800E3E0.c:94` + `src/IsActiveEventTextTypeOnMap.c:25-45`）
+void _textTypeTests() {
+  test('★ `IsActiveEventTextTypeOnMap`：**1 和 2 是"在地图上"**，其余不是', () {
+    expect(eventTextTypeOnMap(0), isFalse, reason: 'TEXTSTART');
+    expect(eventTextTypeOnMap(1), isTrue, reason: 'REMOVEPORTRAITS');
+    expect(eventTextTypeOnMap(2), isTrue, reason: '0x1A22');
+    expect(eventTextTypeOnMap(3), isFalse, reason: 'TUTORIALTEXTBOXSTART');
+    expect(eventTextTypeOnMap(4), isFalse, reason: 'SOLOTEXTBOXSTART');
+    expect(eventTextTypeOnMap(5), isFalse, reason: '0x1A25');
+  });
+
+  test('★ 生成物里这一族**按子命令号**写类型（子命令号就是类型）', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    // ★ 按**观察到的事实**写（第 80 轮的教训：别按"我以为"）：
+    //   0 => 114（TEXTSTART）、3 => 56（TUTORIALTEXTBOXSTART）、
+    //   1 => 12（REMOVEPORTRAITS）、4 => 2（SOLOTEXTBOXSTART）；
+    //   **类型 2 / 5 在数据里根本不出现**（那两条子命令没被用到）。
+    int n(int type) =>
+        RegExp('s\\.setTextType\\($type\\)').allMatches(t).length;
+    expect(n(0), 114);
+    expect(n(3), 56);
+    expect(n(1), 12);
+    expect(n(4), 2);
+    expect(n(2) + n(5), 0, reason: '0x1A22 / 0x1A25 在数据里没出现');
+    expect(n(0) + n(1) + n(2) + n(3) + n(4) + n(5), 184, reason: '这一族的总数');
+    expect(RegExp(r's\.placeholder\(.(TEXTSTART|TUTORIALTEXTBOXSTART)').hasMatch(t),
+        isFalse, reason: '这两个不该再是占位符');
   });
 }
