@@ -349,61 +349,86 @@ void _evBitModifyTailTests() {
 }
 
 // `SearchAvailableEvent` 的**遍历规则**（`src/SearchAvailableEvent.c:24-60`）
+// + 两个读过函数体的条件（`src/eventinfo_08085B30.c:51-79`）
 void _searchAvailableEventTests() {
+  EventScript es() => EventScript(instructions: const [], labels: const {});
+
   test('★ 标志门：CheckFlag(高 16 位) 为真 ⇒ 整条跳过（**不调条件函数**）', () {
     var called = 0;
     final r = searchAvailableEvent(
       entries: [
-        (firstWord: (5 << 16) | 2, script: EventScript(instructions: const [], labels: const {})),
-        (firstWord: (0 << 16) | 2, script: EventScript(instructions: const [], labels: const {})),
+        (words: [(5 << 16) | 0, 0, 0], script: es()),
+        (words: [(0 << 16) | 0, 0, 0], script: es()),
       ],
-      // ⚠️ 我第一次写 {2: 3} —— 那样第一条会直接**跳过第二条**，
-      //    条件函数当然不会被调用（是判据数据不自洽，不是实现错）。改成 1。
-      cmdLengths: {2: 1},
-      checkFlag: (f) => f == 5, // 第一条的标志置了 ⇒ 跳过
+      cmdLengths: {0: 1},
+      checkFlag: (f) => f == 5, // 第一条标志置位 ⇒ 跳过，且不调条件
       conditionFuncs: {
-        2: (_) {
+        0: (_) {
           called++;
-          return true;
+          return const EventCheckResult();
         },
       },
     );
-    expect(called, 1, reason: '★ 第一条根本不该调用条件函数');
-    expect(r!.index, 1, reason: '采用的是第二条');
-    expect(r.cmdId, 2);
+    expect(called, 1, reason: '★ 第一条根本不该调用条件函数（只有第二条调了）');
+    expect(r!.index, 1);
   });
 
   test('★ 长度跳过：条件不成立时前进 cmdInfo[].length **个字**', () {
-    final seen = <int>[];
     final r = searchAvailableEvent(
       entries: [
-        (firstWord: 2, script: EventScript(instructions: const [], labels: const {})), // cmdId 2，length 3 ⇒ 跳到 3
-        (firstWord: 1, script: EventScript(instructions: const [], labels: const {})), // index 1
-        (firstWord: 1, script: EventScript(instructions: const [], labels: const {})), // index 2
-        (firstWord: 4, script: EventScript(instructions: const [], labels: const {})), // index 3 ⇒ 从这里命中
+        (words: [2, 0, 0], script: es()), // cmdId 2，length 3 ⇒ 跳到 3
+        (words: [1, 0, 0], script: es()),
+        (words: [1, 0, 0], script: es()),
+        (words: [4, 0, 0], script: es()), // index 3 ⇒ 命中
       ],
       cmdLengths: {2: 3, 1: 2, 4: 1},
       checkFlag: (_) => false,
-      conditionFuncs: {
-        2: (_) => false,
-        1: (_) => false,
-        4: (w) {
-          seen.add(w);
-          return true;
-        },
-      },
+      conditionFuncs: {4: (_) => const EventCheckResult()},
     );
     expect(r!.index, 3);
-    expect(seen, [4]);
   });
 
-  test('★ 缺长度 ⇒ 返回 null（不瞎猜步长）', () {
-    final r = searchAvailableEvent(
-      entries: [(firstWord: 9, script: EventScript(instructions: const [], labels: const {}))],
-      cmdLengths: const {},
-      checkFlag: (_) => false,
-      conditionFuncs: const {},
+  test('★ 缺长度 ⇒ null（不瞎猜步长）', () {
+    expect(
+      searchAvailableEvent(
+        entries: [(words: [9, 0], script: es())],
+        cmdLengths: const {},
+        checkFlag: (_) => false,
+        conditionFuncs: const {},
+      ),
+      isNull,
     );
-    expect(r, isNull);
+  });
+
+  test('★★ TURN 条件（`EvCheck02_TURN`，`:64-79`）：0 是**单回合**、0xFF 是**无上限**、阵营要相符', () {
+    // w2 = turn | maxTurn<<8 | faction<<16
+    int w2(int t, int mx, int f) => t | (mx << 8) | (f << 16);
+    // 单回合：turn=3, maxTurn=0 ⇒ 只在第 3 回合成立
+    expect(turnCheck([2, 0, w2(3, 0, 1)], chapterTurn: 2, chapterFaction: 1), isNull);
+    expect(turnCheck([2, 0, w2(3, 0, 1)], chapterTurn: 3, chapterFaction: 1), isNotNull,
+        reason: '★ maxTurn==0 ⇒ maxTurn=turn ⇒ 只在这一回合');
+    expect(turnCheck([2, 0, w2(3, 0, 1)], chapterTurn: 4, chapterFaction: 1), isNull);
+    // 区间：turn=2, maxTurn=5
+    expect(turnCheck([2, 0, w2(2, 5, 1)], chapterTurn: 1, chapterFaction: 1), isNull);
+    expect(turnCheck([2, 0, w2(2, 5, 1)], chapterTurn: 5, chapterFaction: 1), isNotNull);
+    expect(turnCheck([2, 0, w2(2, 5, 1)], chapterTurn: 6, chapterFaction: 1), isNull);
+    // 无上限：maxTurn=0xFF
+    expect(turnCheck([2, 0, w2(2, 0xFF, 1)], chapterTurn: 999, chapterFaction: 1), isNotNull,
+        reason: '★ 0xFF ⇒ INT32_MAX（无上限）');
+    // ★ 阵营不符 ⇒ 不成立（源码里这一条是 && 的一部分）
+    expect(turnCheck([2, 0, w2(2, 0xFF, 1)], chapterTurn: 5, chapterFaction: 0), isNull);
+  });
+
+  test('★ AFEV 条件（`EvCheck01_AFEV`，`:55-62`）：unk8 ∈ {0,100} 或该标志已置', () {
+    expect(afevCheck([1, 0, 0], checkFlag: (_) => false), isNotNull, reason: 'unk8==0 ⇒ 成立');
+    expect(afevCheck([1, 0, 100], checkFlag: (_) => false), isNotNull, reason: 'unk8==100 ⇒ 成立');
+    expect(afevCheck([1, 0, 7], checkFlag: (f) => f == 7), isNotNull);
+    expect(afevCheck([1, 0, 7], checkFlag: (_) => false), isNull, reason: '标志没置 ⇒ 不成立');
+  });
+
+  test('★ `Always` **不写** script/flag（源码只 `return 1`）', () {
+    final r = alwaysCheck([0, 0, 0]);
+    expect(r.script, isNull, reason: '★ 不替它编一个 script');
+    expect(r.flag, isNull);
   });
 }

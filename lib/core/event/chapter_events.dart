@@ -322,25 +322,61 @@ int resolveLomaChapter(int operand, int slot2) {
 // [entries]: 每条 = 首字 + 该条的脚本（跳过用长度，不用脚本长度）
 // [conditionFuncs]: `cmdId → (首字) → bool`
 // 返回：被采用的那条（`null` = 走到末尾都没找到）
-({int cmdId, int firstWord, EventScript script, int index})? searchAvailableEvent({
-  required List<({int firstWord, EventScript script})> entries,
+/// 条件函数：读**整条 entry 的字**，成立时**回写** `script` / `flag`
+/// （照 `src/eventinfo_08085B30.c` 的 `EvCheck01_AFEV` / `EvCheck02_TURN`：
+/// 两者都在成立时写 `info->script = listScript->script;`
+/// `info->flag = EVT_CMD_HI(listScript->unk0);`）。
+///
+/// ⚠️ `Always`（`:51-53`）**只 `return 1`，不写** `script`/`flag` —— 所以这里允许返回
+/// `null` 表示"没写"，调用方据此沿用外层已有的值（**不替它编一个**）。
+class EventCheckResult {
+  const EventCheckResult({this.script, this.flag});
+
+  final EventScript? script;
+  final int? flag;
+}
+
+/// `searchAvailableEvent` 的返回值
+typedef AvailableEvent = ({int cmdId, List<int> words, EventScript? script, int? flag, int index});
+
+/// 事件条目的**遍历**（`SearchAvailableEvent`，`src/SearchAvailableEvent.c:24-60`）
+///
+/// ```c
+/// for (;;) {
+///     int cmdId = EVT_CMD_LO(info->listScript[0]);      // 首字低 16 位 = 条件类型
+///     if (!CheckFlag(EVT_CMD_HI(info->listScript[0])))  // 首字高 16 位 = 标志
+///         if (cmdInfo[cmdId].func(info) == 1) break;    // 成立 ⇒ 采用这条
+///     info->listScript += cmdInfo[cmdId].length;        // 否则按**长度**跳过
+/// }
+/// ```
+///
+/// ★ 三条已确证的规则：
+///   1. **标志门**：`CheckFlag(高 16 位)` 为真 ⇒ 整条跳过（**不调条件函数**）；
+///   2. **长度跳过**：条件不成立时前进 `cmdInfo[cmdId].length` **个字**；
+///   3. **条件拿的是整条 entry 的字**（不是只有首字）—— 见 [EventCheckResult]。
+AvailableEvent? searchAvailableEvent({
+  required List<({List<int> words, EventScript script})> entries,
   required Map<int, int> cmdLengths,
   required bool Function(int flag) checkFlag,
-  required Map<int, bool Function(int firstWord)> conditionFuncs,
+  required Map<int, EventCheckResult? Function(List<int> words)> conditionFuncs,
 }) {
   var i = 0;
   while (i < entries.length) {
-    final first = entries[i].firstWord;
+    final words = entries[i].words;
+    if (words.isEmpty) return null;
+    final first = words[0];
     final cmdId = first & 0xFFFF; // 低 16 位 = 条件类型
     final flag = (first >> 16) & 0xFFFF; // 高 16 位 = 标志
     // 规则 1：标志门 —— 为真就整条跳过（**不调条件函数**）
     if (!checkFlag(flag)) {
       final f = conditionFuncs[cmdId];
-      if (f != null && f(first)) {
+      final r = f == null ? null : f(words);
+      if (r != null) {
         return (
           cmdId: cmdId,
-          firstWord: first,
-          script: entries[i].script,
+          words: words,
+          script: r.script ?? entries[i].script,
+          flag: r.flag,
           index: i,
         );
       }
@@ -349,6 +385,62 @@ int resolveLomaChapter(int operand, int slot2) {
     final len = cmdLengths[cmdId];
     if (len == null || len <= 0) return null;
     i += len;
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// 两个**读过函数体**的条件（`src/eventinfo_08085B30.c`）
+// ---------------------------------------------------------------------------
+
+/// `EvCheck00_Always`（`:51-53`）：`return 1;` —— **不写** `script`/`flag`。
+EventCheckResult alwaysCheck(List<int> words) => const EventCheckResult();
+
+/// `EvCheck02_TURN`（`:64-79`）：
+///
+/// ```c
+/// struct EvCheck02 { u32 unk0; u32 script; u8 turn; u8 maxTurn; u16 faction; };
+/// if (maxTurn == 0)        maxTurn = turn;          // 单回合事件
+/// else if (maxTurn == 0xff) maxTurn = INT32_MAX;
+/// if (turn <= chapterTurn && chapterTurn <= maxTurn && gPlaySt.faction == faction) { …; return 1; }
+/// return 0;
+/// ```
+///
+/// ⚠️ `maxTurn == 0` **就是** `turn`（不是"无上限"）；`0xFF` 才是无上限。
+EventCheckResult? turnCheck(
+  List<int> words, {
+  required int chapterTurn,
+  required int chapterFaction,
+}) {
+  if (words.length < 3) return null; // 长度不够 ⇒ 不猜
+  final w2 = words[2];
+  final turn = w2 & 0xFF;
+  var maxTurn = (w2 >> 8) & 0xFF;
+  final faction = (w2 >> 16) & 0xFFFF;
+  if (maxTurn == 0) {
+    maxTurn = turn;
+  } else if (maxTurn == 0xFF) {
+    maxTurn = 0x7FFFFFFF; // INT32_MAX
+  }
+  if (turn <= chapterTurn && chapterTurn <= maxTurn && chapterFaction == faction) {
+    return EventCheckResult(
+      script: null, // 调用方用 entry 自己的 script（words[1] 是它的字偏移）
+      flag: (words[0] >> 16) & 0xFFFF,
+    );
+  }
+  return null;
+}
+
+/// `EvCheck01_AFEV`（`:55-62`）：
+/// `unk8 ∈ {0, 100}` 或 `CheckFlag(unk8)` 成立时采用该条，并写 `script`/`flag`。
+EventCheckResult? afevCheck(List<int> words, {required bool Function(int flag) checkFlag}) {
+  if (words.length < 3) return null;
+  final unk8 = words[2];
+  if (unk8 == 0 || unk8 == 100 || checkFlag(unk8)) {
+    return EventCheckResult(
+      script: null,
+      flag: (words[0] >> 16) & 0xFFFF,
+    );
   }
   return null;
 }
