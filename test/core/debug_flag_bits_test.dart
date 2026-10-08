@@ -12,8 +12,15 @@ void main() {
     final ng = NewGamePlayFlags(NewGameDifficulty.normal);
     final m = debugFlagBits(ng, 'normal', checkTutorialSlotC: 0);
     // 这 4 个键名是**契约**：check_dump.dart 与场景判据都按名字读
-    expect(m.keys.toSet(),
-        {'difficulty', 'tutorial', 'tutorialMode', 'guideLocked', 'checkTutorialSlotC'});
+    // ⚠️ 第 7 轮实测：原来叫 `tutorial` 会与主转储里的**同名键**（教学队列状态 map）
+    //   静默撞车 ⇒ 取到的是那个 map。改成不会撞的 `playFlagTutorial`。
+    expect(m.keys.toSet(), {
+      'difficulty',
+      'playFlagTutorial',
+      'tutorialMode',
+      'guideLocked',
+      'checkTutorialSlotC'
+    });
     expect(m['difficulty'], 'normal');
     expect(m['checkTutorialSlotC'], 0);
   });
@@ -27,7 +34,7 @@ void main() {
     for (final d in NewGameDifficulty.values) {
       final ng = NewGamePlayFlags(d);
       final m = debugFlagBits(ng, d.name);
-      expect(m['tutorial'], ng.playFlagTutorial, reason: '$d');
+      expect(m['playFlagTutorial'], ng.playFlagTutorial, reason: '$d');
       expect(m['tutorialMode'], ng.isTutorialMode, reason: '$d');
       expect(m['guideLocked'], ng.guideLocked, reason: '$d');
     }

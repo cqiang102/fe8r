@@ -2589,7 +2589,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 绝不兜底成 `story`（兜底会让"未查证的章节"看起来和序章一模一样）。
   void _openMapMenu() {
     final kind = battleMapKindOf(sceneChapter);
-    final diff = titleFlow?.difficulty ?? Difficulty.normal;
+    final diff = titleFlow?.difficulty ?? Difficulty.easy; // 兜底也按源码默认第 0 项（difficultymenu.c:29）
     // ★ 从存档继续时用**存档里的**教学/难度位；新游戏才看难度屏选的那个
     final ng = _playFlagsFromSave ?? NewGamePlayFlags(switch (diff) {
       Difficulty.easy => NewGameDifficulty.easy,

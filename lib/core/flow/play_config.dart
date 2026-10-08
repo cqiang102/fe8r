@@ -254,7 +254,9 @@ Map<String, Object?> debugFlagBits(
         NewGamePlayFlags ng, String? difficulty, {int? checkTutorialSlotC}) =>
     {
       'difficulty': difficulty ?? '（还没选）',
-      'tutorial': ng.playFlagTutorial,
+      // ⚠️ 这里**不能**叫 `tutorial` —— 主转储里已有一个 `tutorial`（教学队列状态 map），
+      //   同名会**静默覆盖**（第 7 轮实测：转储里拿到的是那个 map，不是这个 bool）。
+      'playFlagTutorial': ng.playFlagTutorial,
       'tutorialMode': ng.isTutorialMode,
       'guideLocked': ng.guideLocked,
       'checkTutorialSlotC': checkTutorialSlotC,

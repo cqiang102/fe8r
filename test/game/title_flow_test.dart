@@ -146,7 +146,8 @@ void main() {
       final f = atMenu();
       f.tick(confirm: true, cancel: false, up: false, down: false);
       expect(f.screen, TitleScreen.difficulty);
-      expect(f.difficulty, Difficulty.normal, reason: '默认普通（第 5 轮试改成 easy 会弄坏中断/读档两条场景，已回退）');
+      expect(f.difficulty, Difficulty.easy,
+          reason: '默认第 0 项 = easy（`src/difficultymenu.c:29` 的 current_selection = 0）');
 
       // 往上 = 新手
       f.tick(confirm: false, cancel: false, up: true, down: false);
