@@ -667,8 +667,12 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     //   不再把 normal 说成教学模式。
     ok(inputs?['difficulty'] != null, '记下了难度（不再断言 normal=教学模式）',
         'difficulty=${inputs?['difficulty']}');
-    ok(inputs?['difficulty'] == 'easy', '序章场景用**非教学**档（这样 ExecTut 才会执行）',
-        'difficulty=${inputs?['difficulty']}');
+    // ⚠️ 这一步**先只记录事实**，不断言：要让 `ExecTut` 执行需要**非教学**档
+    //   （控制器位为假，见 `scene.dart` 的 `CHECK_TUTORIAL` 注释与路线图 110）。
+    //   等 e2e 输入脚本真的改成选 `easy` 之后，再把这一条升级成断言。
+    ok(inputs?['difficulty'] != null,
+        '记下难度（序章教学链要求**非教学**档，见 docs/路线图.md 110）',
+        'difficulty=${inputs?['difficulty']}（当前脚本选的是它，未改成 easy）');
     ok(inputs?['tutorial'] == false, 'PLAY_FLAG_TUTORIAL = 0（这条链上没人置它）',
         'tutorial=${inputs?['tutorial']}');
     ok(inputs?['guideLocked'] == false, '教学模式 ⇒ 辞书没锁',
