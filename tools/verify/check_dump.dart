@@ -328,8 +328,21 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
     final g = d['goalWindow'] as Map<String, dynamic>?;
     ok(g != null, '地图开始时目标窗口被创建', 'goalWindow=$g');
     if (g != null) {
-      ok(g['wantVisible'] == true, '默认应当显示（两个条件都满足）',
-          'wantVisible=${g['wantVisible']}');
+      // ★ 第 23 轮改：原来硬写 `wantVisible == true` —— **与源码的旗流矛盾**。
+      //   序章教学链跑起来之后（第 22 轮修好），`EventScr_Tutorial_Exec0` 会让
+      //   艾莉卡去攻击 ⇒ 触发 `Prologue_EirikaAttacked`（FIGHT_SCRIPT）⇒ **置旗 102**
+      //   （`EVFLAG_OBJWINDOW_DISABLE`，`include/constants/event-flags.h:16`），
+      //   而清除它的是回合 2 的 `Prologue_TutMessageTurn2`。
+      //   ⇒ 回合 1 末尾"目标窗口收起"**是忠实的** ⇒ 判据要改成**断言规则**：
+      //     `wantVisible == !旗102`（`player_interface_0808F2C0.c:61-64`）。
+      //   ⚠️ `config.disableGoalDisplay` 还没进转储 ⇒ 规则里先按 0 处理（**已知缺口**）。
+      final evFlags = ((d['eventFlags'] as List?) ?? const [])
+          .map((e) => e is int ? e : int.tryParse('$e'))
+          .toSet();
+      final ruleWants = !evFlags.contains(102);
+      ok(g['wantVisible'] == ruleWants,
+          '目标窗口可见性 == 源码规则（!旗102；disableGoalDisplay 未入转储）',
+          'wantVisible=${g['wantVisible']} 旗102=${evFlags.contains(102)}');
       final shown = (g['shownCount'] as num?)?.toInt() ?? 0;
       ok(shown >= 1, '至少滑入过一次', 'shownCount=$shown');
     }
