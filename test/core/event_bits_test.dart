@@ -49,6 +49,43 @@ void main() {
     expect(RegExp(r's\.branch|cmp|slotInt').hasMatch(t), isTrue);
   });
 
+  // ⚠️⚠️ **已知 bug（第 88 轮发现，尚未修）**：分支的比较**对不上源码**。
+  //
+  // 源码 `src/Event0C_Branch.c:52-56`：
+  //     val1 = gEventSlots[ARGV[1]];  val2 = gEventSlots[ARGV[2]];
+  //     case EVSUBCMD_BEQ: if (val1 == val2) return Event09_Goto(proc);
+  //   ⇒ **两边都是事件槽的值**；而且 `Event09_Goto` 读的是 `ARGV[0]`（`src/exact_0800dc08.c:76`），
+  //     所以标签在**第一个**参数。
+  // 生成器现在把 `A[0]` 当槽、`A[1]` 当**字面值**、`A[2]` 当标签
+  //   ⇒ 于是写出 `if (s.slotInt(0) != 196620) { pc = 1; } else { pc = 1; }`：
+  //     比错了东西，而且**两个分支跳到同一处**（等于不跳）。
+  //
+  // 本文件把**现状数字**钉在这里：修好之后这两个数会明显变化（应当变成 0 / 0）。
+  // 为什么没直接修：数据里 `BEQ(0, 0x2000c, 0xa40)` 这三个数**既不像槽号也不像字面量**，
+  // 说明 `.s`/`.c` 里那套写法（**数据方言**）与 C 宏 `EvtBEQ(label, s1, s2)`
+  // （`include/eventscript.h:610`）**不是同一套参数**，而我没找到定义该脚本的那份源文件
+  // （`EventScr_UnTriggerIfNotUnit` 只有 extern/引用，没有可读定义）。
+  // ⇒ 猜着改 259 处会造出更大的错；先钉住，等找到方言的定义再修。
+  test('⚠️ 已知 bug：分支比较用字面值（源码是两槽比较），且 109/259 处永不跳转', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    final literal = RegExp(r'if \(s\.slotInt\('
+            r'-?\d+\) (!=|==|>=|>|<=|<) -?\d+\)')
+        .allMatches(t)
+        .length;
+    final twoSlots = RegExp(r'if \(s\.slotInt\(-?\d+\) '
+            r'(!=|==|>=|>|<=|<) s\.slotInt\(-?\d+\)\)')
+        .allMatches(t)
+        .length;
+    final sameTarget = RegExp(r'if \(s\.slotInt\(-?\d+\) [^\n]*?\{ pc = (\d+); \} '
+            r'else \{ pc = (\d+); \}')
+        .allMatches(t)
+        .where((m) => m.group(1) == m.group(2))
+        .length;
+    expect(twoSlots, 0, reason: '★ 一处都没有 —— 这就是 bug（应当是 259 处两槽比较）');
+    expect(literal, 259, reason: '现状；修好后应当变成 0');
+    expect(sameTarget, 109, reason: '现状：109 处两个分支跳同一处（永不跳转）；修好后应当变 0');
+  });
+
   test('★ 条件族第三批：CHECK_MODE / CHECK_CHAPTER_NUMBER / CHECK_HARD 写条件槽', () {
     final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
     // 出处：src/eventscr_0800E2C8.c:77-87
