@@ -463,9 +463,12 @@ class SoundOp extends SceneEvent {
 
 /// `TILECHANGE` —— 触发一条地图变化（`id` 可能为 -1/-2/-3 的特殊值）
 class TileChange extends SceneEvent {
-  const TileChange(this.id);
+  const TileChange(this.id, {this.revert = false});
 
   final int id;
+
+  /// `false` = `TILECHANGE`（触发）；`true` = `TILEREVERT`（撤销）
+  final bool revert;
 }
 
 /// `CLEAN` —— 清屏（清对话框 + 结束所有立绘）
@@ -861,6 +864,11 @@ class Scene {
   /// `-2` = 当前行动单位所在格、`-3` = 从槽队列取；取不到 ⇒ `EVC_ERROR`。
   /// 场景不持有地图 ⇒ 发事件由游戏侧解析（正数直接查表，负值按上述规则）。
   Future<void> tileChange(int id) => onEvent(TileChange(id));
+
+  /// `TILEREVERT` = `EvtRevertMapChange(id)`（`include/EAstdlib.h:103`）——
+  /// 撤销一条已经应用过的地形变化（`RevertMapChange`，`src/bmmap_08019F28.c:85-100`）。
+  /// `id` 的特殊负值与 [tileChange] 相同（同一个处理函数 `Event27_MapChange`）。
+  Future<void> tileRevert(int id) => onEvent(TileChange(id, revert: true));
 
   /// `CLEAN` = `EvtClearScreen`（`include/EAstdlib.h:96`）
   ///

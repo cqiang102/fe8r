@@ -1738,7 +1738,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.tileChange(0);
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
     await s.waitUnitMoving();
-    s.placeholder('TILEREVERT');
+    await s.tileRevert(0);
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 272));
     await s.waitUnitMoving();
     s.showCursorAtUnit(105);
@@ -2231,7 +2231,7 @@ Future<void> Ch11B_0(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('TILEREVERT');
+    await s.tileRevert(0);
     await s.tileChange(1);
     await s.clearScreen();
     await s.cameraTo(9, 9, centered: true);
@@ -6381,7 +6381,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 44;
           continue;
         case 44:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(0);
           pc = 45;
           continue;
         case 45:
@@ -6627,7 +6627,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 107;
           continue;
         case 107:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(0);
           pc = 108;
           continue;
         case 108:
@@ -7778,7 +7778,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 219;
           continue;
         case 219:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(65535);
           pc = 220;
           continue;
         case 220:
@@ -7786,7 +7786,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 221;
           continue;
         case 221:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(65535);
           pc = 222;
           continue;
         case 222:
@@ -17655,7 +17655,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(0);
           pc = 12;
           continue;
         case 12:
@@ -17671,7 +17671,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(7);
           pc = 16;
           continue;
         case 16:
@@ -17864,7 +17864,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(1);
           pc = 15;
           continue;
         case 15:
@@ -17880,7 +17880,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(5);
           pc = 19;
           continue;
         case 19:
@@ -17896,7 +17896,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(8);
           pc = 23;
           continue;
         case 23:
@@ -18051,7 +18051,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(2);
           pc = 12;
           continue;
         case 12:
@@ -18067,7 +18067,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(9);
           pc = 16;
           continue;
         case 16:
@@ -18352,7 +18352,7 @@ Future<void> Ruin_48(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('TILEREVERT');
+          await s.tileRevert(11);
           pc = 15;
           continue;
         case 15:

@@ -609,6 +609,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'mapChangeTable': mapChangeTableName,
       'appliedMapChanges': appliedMapChanges.toList()..sort(),
       'mapChangeErrors': mapChangeErrors,
+      'revertedMapChanges': revertedMapChanges.toList()..sort(),
       'lastMapChangeId': lastMapChangeId,
       'facesCleared': facesCleared,
       'lastTextBgIndex': lastTextBgIndex,
@@ -1956,7 +1957,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         lastPopup = {'textId': textId, 'x': x, 'y': y};
         debugPrint('[POPUP] $lastPopup');
         await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
-      case TileChange(:final id):
+      case TileChange(:final id, :final revert):
         // `TILECHANGE`（`src/eventscr_0800F4D0.c:45-100`）：先解析 id（含 -1/-2/-3），
         // 再用 `MapGrid.applyMapChange` 落表（语义 `ApplyMapChangesById`：0 = 不动）。
         final resolved = _resolveMapChangeId(id);
@@ -1977,9 +1978,15 @@ class Fe8Game extends FlameGame with KeyboardEvents {
           debugPrint('[TILECHANGE] 表里没有 id=$resolved');
           break;
         }
-        final applied = map!.applyMapChange(rec);
-        if (applied) {
-          appliedMapChanges.add(resolved);
+        // `revert` ⇒ `RevertMapChange`（矩形内**无条件**拷回原值 + `DisableMapChange`）
+        final ok = revert ? map!.revertMapChange(rec) : map!.applyMapChange(rec);
+        if (ok) {
+          if (revert) {
+            appliedMapChanges.remove(resolved);
+            revertedMapChanges.add(resolved);
+          } else {
+            appliedMapChanges.add(resolved);
+          }
           lastMapChangeId = resolved;
         }
       case ClearScreen():
@@ -5658,6 +5665,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 已应用 / 解析失败的地图变化（判据用）
   final Set<int> appliedMapChanges = {};
+  final Set<int> revertedMapChanges = {};
   int mapChangeErrors = 0;
   int? lastMapChangeId;
 

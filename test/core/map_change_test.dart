@@ -78,6 +78,7 @@ void main() {
     expect(out[2 * 4 + 1], 8);
   });
   _mapChangeIdAtTests();
+  _revertMapChangeTests();
 }
 
 // `GetMapChangeIdAt`（`src/GetMapChangeIdAt.c:15-31`）—— 纯函数版
@@ -106,5 +107,42 @@ void _mapChangeIdAtTests() {
     expect(getMapChangeIdAt(recs, 3, 3), 5, reason: '右上角在内（xOrigin+xSize-1 == 3）');
     expect(getMapChangeIdAt(recs, 4, 3), -1, reason: '再往右就出界');
     expect(getMapChangeIdAt(recs, 2, 4), -1, reason: '往下就出界');
+  });
+}
+
+// `RevertMapChange`（`src/bmmap_08019F28.c:85-100`）+ `UntriggerMapChange`
+// （`src/sub_800BE34.c:7-24`：先查 `IsMapChangeEnabled(id) != 1` 就返回）
+void _revertMapChangeTests() {
+  test('★ 撤销 = 拷回原值；**没应用过就返回 false**（对应 IsMapChangeEnabled 检查）', () {
+    final g = grid(); // 复用本文件既有的构造（4x4，metatile = 100+i）
+    const r = MapChangeRecord(id: 3, xOrigin: 1, yOrigin: 1, xSize: 2, ySize: 2, tiles: [7, 8, 9, 0]);
+    // 没应用过 ⇒ 撤销无效果
+    expect(g.revertMapChange(r), isFalse, reason: '★ 对应源码 :12-13 的提前返回');
+    expect(g.metatileAt(1, 1), 105, reason: '没动过');
+    // 应用 ⇒ (1,1)=7 (2,1)=8 (1,2)=9 (2,2) **不动**（0）
+    expect(g.applyMapChange(r), isTrue);
+    expect(g.metatileAt(1, 1), 7);
+    // ⚠️ 网格是 4x4，值 = 100 + y*4 + x ⇒ (2,2) 是 110（我第一次算成 106，是**判据错**）
+    expect(g.metatileAt(2, 2), 110, reason: '0 = 不动');
+    // 撤销 ⇒ 整块回原值（含被 0 跳过的 (2,2)，但它的原值本来就没变）
+    expect(g.revertMapChange(r), isTrue);
+    expect(g.metatileAt(1, 1), 105);
+    expect(g.metatileAt(2, 1), 106);
+    expect(g.metatileAt(1, 2), 109);
+    expect(g.metatileAt(2, 2), 110, reason: '撤销后仍是原值');
+  });
+
+  test('★ 撤销**不遵守"0 = 不动"**（与 apply 相反）—— 矩形内全部回原值', () {
+    // 先人为把整块都改掉（模拟别处/多次应用），再撤销一条只写了两格的记录
+    final g = grid(); // 同上（4x4）
+    const r = MapChangeRecord(id: 1, xOrigin: 0, yOrigin: 0, xSize: 3, ySize: 3,
+        tiles: [1, 0, 0, 0, 0, 0, 0, 0, 0]);
+    expect(g.applyMapChange(r), isTrue);
+    expect(g.metatileAt(0, 0), 1, reason: '非 0 ⇒ 写进去');
+    expect(g.metatileAt(1, 0), 101, reason: 'apply 时 0 跳过 ⇒ 仍是原值 101');
+    expect(g.metatileAt(2, 2), 110, reason: '同上（原值）');
+    expect(g.revertMapChange(r), isTrue);
+    expect(g.metatileAt(0, 0), 100,
+        reason: '★ 撤销把矩形内**每一格**都拷回原值（这里 100）');
   });
 }

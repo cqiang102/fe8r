@@ -147,6 +147,38 @@ class MapGrid {
     return true;
   }
 
+  /// **撤销**一条地形变化（`RevertMapChange`，`src/bmmap_08019F28.c:85-100`）。
+  ///
+  /// 源码的做法是：先把**原始地图**重新解压，再把该矩形的图块**整块无条件拷回**：
+  ///
+  /// ```c
+  /// Decompress(GetChapterMapPointer(gPlaySt.chapterIndex), gBmMapBuffer);
+  /// for (iy…) { itSource = 原图那一块; itDest = gBmMapBaseTiles[iy] + xOrigin;
+  ///             for (ix…) *itDest++ = *itSource++; }
+  /// ```
+  ///
+  /// ⚠️ **两条与 `apply` 不同**：
+  /// 1. 这里**不遵守"0 = 不动"** —— 矩形内每一格都拷回原值；
+  /// 2. 调用方（`UntriggerMapChange`，`src/sub_800BE34.c:12`）先查
+  ///    `IsMapChangeEnabled(id) != 1` 就**直接返回** ⇒ 没应用过就不动。
+  ///
+  /// 我们的覆盖层正好等价：底层 `metatiles` 一直是原始值，
+  /// 所以"删掉矩形内的覆盖"就是"拷回原值"。
+  /// 返回 false = **这条本来就没应用过**（对应 `:12-13` 的提前返回）。
+  bool revertMapChange(MapChangeRecord r) {
+    if (!appliedMapChanges.contains(r.id)) return false;
+    for (var iy = 0; iy < r.ySize; iy++) {
+      for (var ix = 0; ix < r.xSize; ix++) {
+        final gx = r.xOrigin + ix;
+        final gy = r.yOrigin + iy;
+        if (gx < 0 || gy < 0 || gx >= width || gy >= height) continue;
+        _metatileOverrides.remove(gy * width + gx); // ← 不跳过 0（与 apply 相反）
+      }
+    }
+    appliedMapChanges.remove(r.id); // 对应 DisableMapChange
+    return true;
+  }
+
   /// 换某一格的地形（门/桥开了会变成地板这类）
   void applyTerrainOverride(int x, int y, int terrainIndex) {
     if (x < 0 || y < 0 || x >= width || y >= height) return;

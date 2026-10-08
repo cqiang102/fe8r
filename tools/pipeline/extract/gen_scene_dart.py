@@ -324,10 +324,16 @@ def stmt(op, A):
     #     **tile == 0 表示这格不动**。
     # ⚠️ `TILEREVERT`（subcmd 1 ⇒ `UntriggerMapChange`/`RevertMapChange`）本轮**没做**：
     #    `RevertMapChange` 的还原机制我**还没读** ⇒ 保持占位符（不猜）。
-    if op == "TILECHANGE":
+    if op in ("TILECHANGE", "TILEREVERT"):
+        # `TILEREVERT` = `EvtRevertMapChange(id)`（`include/EAstdlib.h:103`，
+        #   `EV_CMD_TILE_CHANGE` subcmd 1）⇒ `Event27_MapChange` 的
+        #   `case EVSUBCMD_TILEREVERT: UntriggerMapChange(mapChangeId, FALSE, proc);`
+        #   （`src/eventscr_0800F4D0.c:92-94`）⇒ `RevertMapChange`（已读，见 core 注释）。
         a10 = A[0] if A else 0
         if isinstance(a10, int):
-            return (f"await s.tileChange({num(a10)});", False)
+            if op == "TILECHANGE":
+                return (f"await s.tileChange({num(a10)});", False)
+            return (f"await s.tileRevert({num(a10)});", False)
         return (f"s.placeholder('{op}');", True)
 
     # 清屏与文本底（都读过源）：
