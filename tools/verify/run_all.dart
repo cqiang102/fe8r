@@ -482,6 +482,14 @@ Future<void> main(List<String> argv) async {
 
     // ★ 占位符棘轮：`s.placeholder(...)` 与缺失脚本**只许降不许升**。
     //
+    // ⚠️ 第 7 轮**降级**：这个数只当
+    // **回归护栏**（不许新增占位符），**不是进度指标** ——
+    // 它奖励的是「把占位符换成只记录状态的接线」，而那正是用户明令禁止的
+    // 「先做 demo」。实测证据：它消掉的调用里 **267 次**属于音频族
+    // （`s.sound` / `s.volumeDown`），**一个音都不出**。
+    // 进度请看：端到端通过数、`test/core/debt_ratchet_test.dart`（欠账只许降）、
+    // 以及 `test/core/layering_ratchet_test.dart`（`fe8_game.dart` 只许降）。
+    //
     // 12 个真 bug 里有 3 个就是这个形状（`MNC2` / `LoadUnits` / `MOVE`
     // 都是"先放个占位"，然后忘了接）。它们都不报错，只表现为"不对" ——
     // 所以"还有多少没接上"必须是一个**会自己变红的数字**。
