@@ -450,6 +450,17 @@ class KeyIgnore extends SceneEvent {
   final int mask;
 }
 
+/// 音频指令（`MUSC`/`MUSS`/`SOUN`/`MUSI`/`MUNO`）—— 只表达"要放什么"
+class SoundOp extends SceneEvent {
+  const SoundOp({required this.kind, required this.id});
+
+  /// `bgm`（MUSC）/ `override`（MUSS）/ `se`（SOUN）/ `volume`（MUSI/MUNO）
+  final String kind;
+
+  /// 歌曲表下标（`volume` 时 1=降低、0=恢复）
+  final int id;
+}
+
 /// `TEXTCONT` —— 继续/结束对话（带"是否跳过中"：跳过时要真的收尾）
 class ContinueText extends SceneEvent {
   const ContinueText(this.skipping);
@@ -779,6 +790,13 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// 音频（`MUSC` / `MUSS` / `SOUN` / `MUSI` / `MUNO`）—— 场景只**发信号**，
+  /// 状态与发声都归游戏侧（与 `IGNORE_KEYS` 同一条教训：谁拥有资源谁持有状态）。
+  void sound(String kind, int id) => onEvent(SoundOp(kind: kind, id: id));
+
+  /// `MUSI`（降低）/ `MUNO`（恢复）
+  void volumeDown(bool down) => onEvent(SoundOp(kind: 'volume', id: down ? 1 : 0));
 
   /// `TEXTCONT` = `EvtContinueText`（`include/EAstdlib.h:92`；
   /// 处理函数 `Event1D_TalkContinue`，`src/eventscr.c:47-66`）

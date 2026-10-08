@@ -876,7 +876,7 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 2;
           continue;
         case 2:
@@ -988,7 +988,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('MUSS');
+          s.sound('override', 48);
           pc = 10;
           continue;
         case 10:
@@ -1062,7 +1062,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 29;
           continue;
         case 29:
@@ -1093,7 +1093,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 37;
           continue;
         case 37:
@@ -1366,7 +1366,7 @@ Future<void> Ch10A_0(Scene s) async {
     s.showCursorAtUnit(79);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 20);
     s.setTextType(0);
     await s.textShow(2545);
     await s.textEnd();
@@ -1374,33 +1374,33 @@ Future<void> Ch10A_0(Scene s) async {
     s.showCursorAt(16, 1);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 19);
     s.setSlot(3, 2546);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
 
 /// `EventScr_Ch10A_10`
 Future<void> Ch10A_10(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2565);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
 
 /// `EventScr_Ch10A_11`
 Future<void> Ch10A_11(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2566);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -1505,18 +1505,18 @@ Future<void> Ch10A_8(Scene s) async {
 
 /// `EventScr_Ch10A_9`
 Future<void> Ch10A_9(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2564);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
 
 /// `EventScr_Ch10B_0`
 Future<void> Ch10B_0(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 20);
     await s.cameraTo(15, 11, centered: true);
     await s.stall(15);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 520));
@@ -1525,7 +1525,7 @@ Future<void> Ch10B_0(Scene s) async {
     s.showCursorAt(19, 11);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 23);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2682);
@@ -1549,7 +1549,7 @@ Future<void> Ch10B_0(Scene s) async {
     await s.textShow(2683);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.moveUnit('MOVE', [16, 67, 23, 14]);
     await s.waitUnitMoving();
     await s.removeUnit(67);
@@ -1581,7 +1581,7 @@ Future<void> Ch10B_1(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
           continue;
         case 5:
-          s.placeholder('MUSC');
+          s.sound('bgm', 20);
           pc = 6;
           continue;
         case 6:
@@ -1659,7 +1659,7 @@ Future<void> Ch10B_2(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
           continue;
         case 5:
-          s.placeholder('MUSC');
+          s.sound('bgm', 20);
           pc = 6;
           continue;
         case 6:
@@ -1711,7 +1711,7 @@ Future<void> Ch10B_2(Scene s) async {
 
 /// `EventScr_Ch10a_BeginningScene`
 Future<void> Ch10a_BeginningScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 46);
     s.setSlot(2, 131087);
     await s.call(Sym('EventScr_9EEA58'));
     s.loadUnits(1, Sym('frontier_df4_banim_b_077_90DB94', 52));
@@ -1752,7 +1752,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     await s.call(Sym('Event_TextWithBG'));
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 312));
     await s.waitUnitMoving();
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.showCursorAtUnit(67);
     await s.stall(60);
     await s.endCursor();
@@ -1779,7 +1779,7 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.showCursorAtUnit(11);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.setSlot(2, 57);
     s.setSlot(3, 2543);
     await s.call(Sym('Event_TextWithBG'));
@@ -1964,7 +1964,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 40;
           continue;
         case 40:
@@ -2084,7 +2084,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 69;
           continue;
         case 69:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 70;
           continue;
         case 70:
@@ -2141,7 +2141,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           if (s.slotInt(10) == 12) { pc = 10; } else { pc = 84; }
           continue;
         case 84:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 85;
           continue;
         case 85:
@@ -2177,7 +2177,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 93;
           continue;
         case 93:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 94;
           continue;
         case 94:
@@ -2223,7 +2223,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
 
 /// `EventScr_Ch11B_0`
 Future<void> Ch11B_0(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 17);
     s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
@@ -2250,7 +2250,7 @@ Future<void> Ch11B_0(Scene s) async {
 
 /// `EventScr_Ch11B_1`
 Future<void> Ch11B_1(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 17);
     await s.cameraTo(9, 9, centered: true);
     s.placeholder('EARTHQUAKE_START');
     await s.stall(30);
@@ -2271,7 +2271,7 @@ Future<void> Ch11B_1(Scene s) async {
 
 /// `EventScr_Ch11B_2`
 Future<void> Ch11B_2(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 17);
     s.cameraToChar(15);
     s.showCursorAtUnit(15);
     await s.stall(60);
@@ -2323,7 +2323,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 77);
           pc = 1;
           continue;
         case 1:
@@ -2375,7 +2375,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('MUSC');
+          s.sound('bgm', 37);
           pc = 14;
           continue;
         case 14:
@@ -2616,7 +2616,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 1;
           continue;
         case 1:
@@ -2750,7 +2750,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 35;
           continue;
         case 35:
-          s.placeholder('MUSC');
+          s.sound('bgm', 74);
           pc = 36;
           continue;
         case 36:
@@ -2794,7 +2794,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 47;
           continue;
         case 47:
@@ -2870,7 +2870,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 65;
           continue;
         case 65:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 66;
           continue;
         case 66:
@@ -2890,7 +2890,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 70;
           continue;
         case 70:
-          s.placeholder('MUSC');
+          s.sound('bgm', 40);
           pc = 71;
           continue;
         case 71:
@@ -2974,7 +2974,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 91;
           continue;
         case 91:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 92;
           continue;
         case 92:
@@ -2994,7 +2994,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 96;
           continue;
         case 96:
-          s.placeholder('MUSC');
+          s.sound('bgm', 38);
           pc = 97;
           continue;
         case 97:
@@ -3343,11 +3343,11 @@ Future<void> Ch11a_EndingScene(Scene s) async {
 
 /// `EventScr_Ch12A_0`
 Future<void> Ch12A_0(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 1);
     s.setSlot(3, 2596);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 89);
     await s.giveItem(65535, 3);
@@ -3362,7 +3362,7 @@ Future<void> Ch12A_1(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSS');
+          s.sound('override', 48);
           pc = 1;
           continue;
         case 1:
@@ -3587,7 +3587,7 @@ Future<void> Ch12B_1(Scene s) async {
 
 /// `EventScr_Ch13A_3`
 Future<void> Ch13A_3(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 20);
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_3'));
     await s.call(Sym('EventScr_LoadReinforce'));
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_4'));
@@ -3672,7 +3672,7 @@ Future<void> Ch13A_6(Scene s) async {
 
 /// `EventScr_Ch13A_7`
 Future<void> Ch13A_7(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 20);
     s.setSlot(2, Sym('UnitDef_Ch13AEnemy_9'));
     await s.call(Sym('EventScr_LoadReinforce'));
     s.displayCursorAtUnit(14);
@@ -3715,7 +3715,7 @@ Future<void> Ch13B_0(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 7;
           continue;
         case 7:
@@ -3735,7 +3735,7 @@ Future<void> Ch13B_0(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 12;
           continue;
         case 12:
@@ -3782,7 +3782,7 @@ Future<void> Ch13B_1(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 7;
           continue;
         case 7:
@@ -3802,7 +3802,7 @@ Future<void> Ch13B_1(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 12;
           continue;
         case 12:
@@ -3934,7 +3934,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('MUSC');
+          s.sound('bgm', 15);
           pc = 29;
           continue;
         case 29:
@@ -4002,7 +4002,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('MUSS');
+          s.sound('override', 49);
           pc = 46;
           continue;
         case 46:
@@ -4061,7 +4061,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 60;
           continue;
         case 60:
-          s.placeholder('MUSC');
+          s.sound('bgm', 38);
           pc = 61;
           continue;
         case 61:
@@ -4123,7 +4123,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 76;
           continue;
         case 76:
-          s.placeholder('MUSC');
+          s.sound('bgm', 38);
           pc = 77;
           continue;
         case 77:
@@ -4221,7 +4221,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 101;
           continue;
         case 101:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 102;
           continue;
         case 102:
@@ -4296,7 +4296,7 @@ Future<void> Ch13b_EndingScene(Scene s) async {
     s.showCursorAtUnit(30);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 50);
     s.setSlot(2, 44);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2739);
@@ -4319,7 +4319,7 @@ Future<void> Ch14A_0(Scene s) async {
     s.showCursorAtUnit(83);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.setTextType(0);
     await s.textShow(2630);
     await s.textEnd();
@@ -4588,7 +4588,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.textRemoveAll();
     s.setSlot(11, 262158);
     await s.loadMap(15);
-    s.placeholder('MUSC');
+    s.sound('bgm', 78);
     await s.fade(FadeDirection.fromWhite, 2);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_004_91075C_p5'));
     await s.waitUnitMoving();
@@ -4599,7 +4599,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2627);
     await s.textEnd();
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     await s.continueText();
     await s.textEnd();
     s.textRemoveAll();
@@ -4627,7 +4627,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.displayCursorAtUnit(82);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.setTextType(0);
     await s.textShow(2628);
     await s.textEnd();
@@ -4635,13 +4635,13 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     s.moveUnit('MOVE_CLOSEST', [65535, 117964882, 2624, Sym('data_085B9BBC', 512), 1315360]);
     await s.call(Sym('data_085B9BBC', 512));
-    s.placeholder('MUSC');
+    s.sound('bgm', 20);
     s.cameraToChar(28);
     await s.fade(FadeDirection.fromBlack, 16);
     s.displayCursorAtUnit(28);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 63);
     s.setSlot(3, 2629);
     await s.call(Sym('Event_TextWithBG'));
@@ -4660,7 +4660,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     await s.waitUnitMoving();
     await s.cameraTo(0, 21, centered: false);
     s.placeholder('CLEAN');
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_038_91B948_residue'));
     s.setSlot(1, 0);
@@ -4693,7 +4693,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.showCursorAtUnit(64);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 46);
     s.setSlot(2, 73);
     s.setSlot(3, 2779);
     await s.call(Sym('Event_TextWithBG'));
@@ -4713,7 +4713,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     await s.call(Sym('data_085B9BBC', 512));
     await s.cameraTo(12, 7, centered: true);
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1180));
     await s.waitUnitMoving();
     s.unitStateOp('reveal', 1);
@@ -4733,31 +4733,31 @@ Future<void> Ch14b_EndingScene(Scene s) async {
     s.evBitMod('flag', true, 119);
     await s.changeChapter(29, subcmd: 1);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2806);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 136);
     await s.giveItem(65535, 3);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2807);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2808);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSS');
+    s.sound('override', 39);
     await s.stall(33);
     s.setTextType(0);
     await s.textShow(2796);
@@ -4766,36 +4766,36 @@ Future<void> Ch14b_EndingScene(Scene s) async {
     s.placeholder('MURE');
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2802);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2803);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2804);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2805);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
     s.setSlot(2, Sym('frontier_df3_unitdef_b_037_91AC38_tail_p1', 1260));
@@ -4830,7 +4830,7 @@ Future<void> Ch14b_EndingScene(Scene s) async {
 
 /// `EventScr_Ch15A_0`
 Future<void> Ch15A_0(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     s.evBitMod('evbit', true, 9);
     s.loadUnits(1, Sym('UnitDef_Ch15AAlly_1'));
     await s.waitUnitMoving();
@@ -5012,27 +5012,27 @@ Future<void> Ch15A_2(Scene s) async {
     s.placeholder('EvtNop');
     s.setSlot(3, 2806);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 136);
     await s.giveItem(65535, 3);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2807);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2808);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSS');
+    s.sound('override', 39);
     await s.stall(33);
     s.setTextType(0);
     await s.textShow(2796);
@@ -5041,44 +5041,44 @@ Future<void> Ch15A_2(Scene s) async {
     s.placeholder('MURE');
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2797);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2798);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2799);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2800);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2801);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
     s.setSlot(2, Sym('frontier_df3_unitdef_b_006_911070'));
@@ -5423,7 +5423,7 @@ Future<void> Ch15A_26(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 1;
           continue;
         case 1:
@@ -5583,7 +5583,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('MUSS');
+          s.sound('override', 45);
           pc = 42;
           continue;
         case 42:
@@ -5638,7 +5638,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          s.placeholder('MUSC');
+          s.sound('bgm', 43);
           pc = 56;
           continue;
         case 56:
@@ -5663,7 +5663,7 @@ Future<void> Ch15A_26(Scene s) async {
         case 61:
           return;
         case 62:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 63;
           continue;
         case 63:
@@ -6137,7 +6137,7 @@ Future<void> Ch15B_22(Scene s) async {
 
 /// `EventScr_Ch15a_BeginningScene`
 Future<void> Ch15a_BeginningScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_005_9109A8_residue_p5'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
@@ -6208,7 +6208,7 @@ Future<void> Ch16A_11(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 71);
           pc = 1;
           continue;
         case 1:
@@ -6260,7 +6260,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('MUSC');
+          s.sound('bgm', 37);
           pc = 14;
           continue;
         case 14:
@@ -6368,7 +6368,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 41;
           continue;
         case 41:
@@ -6465,7 +6465,7 @@ Future<void> Ch16A_11(Scene s) async {
           if (s.slotInt(2) == 12) { pc = 61; } else { pc = 65; }
           continue;
         case 65:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 66;
           continue;
         case 66:
@@ -6606,7 +6606,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 101;
           continue;
         case 101:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 102;
           continue;
         case 102:
@@ -6658,7 +6658,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 114;
           continue;
         case 114:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 115;
           continue;
         case 115:
@@ -6775,7 +6775,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 145;
           continue;
         case 145:
-          s.placeholder('MUSC');
+          s.sound('bgm', 45);
           pc = 146;
           continue;
         case 146:
@@ -6817,7 +6817,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 156;
           continue;
         case 156:
-          s.placeholder('MUSC');
+          s.sound('bgm', 45);
           pc = 157;
           continue;
         case 157:
@@ -6925,7 +6925,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('MUSC');
+          s.sound('bgm', 50);
           pc = 5;
           continue;
         case 5:
@@ -6973,7 +6973,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 17;
           continue;
         case 17:
@@ -7077,7 +7077,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 42;
           continue;
         case 42:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 43;
           continue;
         case 43:
@@ -7181,7 +7181,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 68;
           continue;
         case 68:
-          s.placeholder('MUSC');
+          s.sound('bgm', 149);
           pc = 69;
           continue;
         case 69:
@@ -7517,7 +7517,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 152;
           continue;
         case 152:
-          s.placeholder('SOUN');
+          s.sound('se', 747);
           pc = 153;
           continue;
         case 153:
@@ -7577,7 +7577,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 167;
           continue;
         case 167:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 168;
           continue;
         case 168:
@@ -7593,7 +7593,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 171;
           continue;
         case 171:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 172;
           continue;
         case 172:
@@ -7805,7 +7805,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 225;
           continue;
         case 225:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 226;
           continue;
         case 226:
@@ -8052,7 +8052,7 @@ Future<void> Ch18A_11(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 73);
           pc = 1;
           continue;
         case 1:
@@ -8095,7 +8095,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('MUSC');
+          s.sound('bgm', 44);
           pc = 12;
           continue;
         case 12:
@@ -8133,7 +8133,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('MUSC');
+          s.sound('bgm', 44);
           pc = 22;
           continue;
         case 22:
@@ -8176,7 +8176,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('MUSC');
+          s.sound('bgm', 73);
           pc = 33;
           continue;
         case 33:
@@ -8228,7 +8228,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('MUSC');
+          s.sound('bgm', 37);
           pc = 46;
           continue;
         case 46:
@@ -8303,7 +8303,7 @@ Future<void> Ch18b_BeginningScene(Scene s) async {
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 17);
     s.placeholder('EVENT_WORD');
 }
 
@@ -8321,7 +8321,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 3;
           continue;
         case 3:
@@ -8459,7 +8459,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 40;
           continue;
         case 40:
@@ -8503,7 +8503,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 50;
           continue;
         case 50:
-          s.placeholder('MUSC');
+          s.sound('bgm', 43);
           pc = 51;
           continue;
         case 51:
@@ -8615,7 +8615,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 79;
           continue;
         case 79:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 80;
           continue;
         case 80:
@@ -8974,7 +8974,7 @@ Future<void> Ch1Tut_EirikaVisitHouseIdle2(Scene s) async {
 
 /// `EventScr_Ch1Tut_EirikaVisitHouseInit`
 Future<void> Ch1Tut_EirikaVisitHouseInit(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 9);
     s.setTextType(0);
     await s.textShow(2286);
     await s.textEnd();
@@ -9021,12 +9021,12 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.displayCursorAtUnit(4);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2291);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.setTextType(3);
     s.setSlot(11, 4294967295);
     await s.textShow(2310);
@@ -9205,7 +9205,7 @@ Future<void> Ch1Tut_TradeSelectGalliamIdle2(Scene s) async {
 
 /// `EventScr_Ch1_BeginningScene`
 Future<void> Ch1_BeginningScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     s.loadUnits(1, Sym('UnitDef_Event_Ch1Enemy'));
     await s.waitUnitMoving();
     await s.stall(60, cancellable: false);
@@ -9294,7 +9294,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 1;
           continue;
         case 1:
@@ -9400,22 +9400,22 @@ Future<void> Ch1_EndingScene(Scene s) async {
 /// `EventScr_Ch1_Loca_Visit1`
 Future<void> Ch1_Loca_Visit1(Scene s) async {
     s.setKeyIgnore(0);
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2299);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
 
 /// `EventScr_Ch1_Loca_Visit2`
 Future<void> Ch1_Loca_Visit2(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2300);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -9447,7 +9447,7 @@ Future<void> Ch1_Turn1Player(Scene s) async {
 
 /// `EventScr_Ch1_Turn_AllyReinforceArrive`
 Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 84);
     s.loadUnits(1, Sym('UnitDef_Event_Ch1AllyReinforce'));
     await s.waitUnitMoving();
     s.showCursorAtUnit(4);
@@ -9465,7 +9465,7 @@ Future<void> Ch1_Turn_AllyReinforceArrive(Scene s) async {
 
 /// `EventScr_Ch1_Turn_EnemyReinforceArrive`
 Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, Sym('UnitDef_Event_Ch1EnemyReinforce'));
     await s.call(Sym('EventScr_LoadReinforce'));
     s.displayCursorAtUnit(131);
@@ -9475,7 +9475,7 @@ Future<void> Ch1_Turn_EnemyReinforceArrive(Scene s) async {
     await s.textShow(2292);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -9773,7 +9773,7 @@ Future<void> Ch21A_8(Scene s) async {
           if (s.slotInt(10) != 12) { pc = 16; } else { pc = 34; }
           continue;
         case 34:
-          s.placeholder('MUSC');
+          s.sound('bgm', 68);
           pc = 35;
           continue;
         case 35:
@@ -10012,7 +10012,7 @@ Future<void> Ch2Tutorial13(Scene s) async {
 Future<void> Ch2Tutorial14(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setKeyIgnore(0);
-    s.placeholder('MUSC');
+    s.sound('bgm', 9);
     s.setTextType(0);
     await s.textShow(2334);
     await s.textEnd();
@@ -10342,12 +10342,12 @@ Future<void> Ch2Tutorial30(Scene s) async {
 Future<void> Ch2Tutorial4(Scene s) async {
     s.evBitMod('evbit', true, 7);
     s.setKeyIgnore(0);
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2333);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.overrideUnitMenu(0);
     s.placeholder('SHOW_ATTACK_RANGE');
     s.showCursorAt(8, 4, flashing: true);
@@ -10549,7 +10549,7 @@ Future<void> Ch2_8(Scene s) async {
 
 /// `EventScr_Ch2_BeginningScene`
 Future<void> Ch2_BeginningScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 36);
     s.setSlot(2, 30);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2324);
@@ -10566,7 +10566,7 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     s.loadUnits(1, Sym('UnitDef_Ch2Enemy_2'));
     await s.waitUnitMoving();
     await s.stall(60, cancellable: false);
-    s.placeholder('MUSC');
+    s.sound('bgm', 26);
     s.showCursorAtUnit(71);
     await s.stall(60);
     await s.endCursor();
@@ -10580,7 +10580,7 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     s.showCursorAt(12, 3);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     s.setSlot(2, 2);
     s.setSlot(3, 2326);
     await s.call(Sym('Event_TextWithBG'));
@@ -10596,10 +10596,10 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     s.setSlot(11, 327692);
     s.moveUnit('MOVE', [0, 65534, 12, 3]);
     await s.waitUnitMoving();
-    s.placeholder('SOUN');
+    s.sound('se', 171);
     s.setSlot(11, 131084);
     s.placeholder('TILECHANGE');
-    s.placeholder('SOUN');
+    s.sound('se', 92);
     s.placeholder('NOTIFY');
     s.loadUnits(1, Sym('UnitDef_Ch2NPC'));
     await s.waitUnitMoving();
@@ -10652,7 +10652,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 1;
           continue;
         case 1:
@@ -10777,7 +10777,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('MUSC');
+          s.sound('bgm', 82);
           pc = 33;
           continue;
         case 33:
@@ -10945,7 +10945,7 @@ Future<void> Ch2_Village1(Scene s) async {
           if (s.slotInt(0) != 12) { pc = 16; } else { pc = 4; }
           continue;
         case 4:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 5;
           continue;
         case 5:
@@ -10961,7 +10961,7 @@ Future<void> Ch2_Village1(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 9;
           continue;
         case 9:
@@ -10971,7 +10971,7 @@ Future<void> Ch2_Village1(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 12;
           continue;
         case 12:
@@ -10987,7 +10987,7 @@ Future<void> Ch2_Village1(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 16;
           continue;
         case 16:
@@ -11019,21 +11019,21 @@ Future<void> Ch2_Village1(Scene s) async {
 
 /// `EventScr_Ch2_Village2`
 Future<void> Ch2_Village2(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 2);
     s.setSlot(3, 2347);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 109);
     await s.giveItem(65535, 3);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 2);
     s.setSlot(3, 2348);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 110);
     await s.giveItem(65535, 3);
@@ -11170,7 +11170,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 37);
           pc = 1;
           continue;
         case 1:
@@ -11351,7 +11351,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           if (s.slotInt(10) != 12) { pc = 29; } else { pc = 47; }
           continue;
         case 47:
-          s.placeholder('MUSC');
+          s.sound('bgm', 19);
           pc = 48;
           continue;
         case 48:
@@ -11419,7 +11419,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 1;
           continue;
         case 1:
@@ -11562,7 +11562,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 37;
           continue;
         case 37:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 38;
           continue;
         case 38:
@@ -11594,7 +11594,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 45;
           continue;
         case 45:
-          s.placeholder('SOUN');
+          s.sound('se', 177);
           pc = 46;
           continue;
         case 46:
@@ -11735,7 +11735,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
 
 /// `EventScr_Ch3_Talk_NeimiColm`
 Future<void> Ch3_Talk_NeimiColm(Scene s) async {
-    s.placeholder('MUSS');
+    s.sound('override', 48);
     await s.stall(33);
     s.setTextType(0);
     await s.textShow(2394);
@@ -11755,7 +11755,7 @@ Future<void> Ch3_Turn1Npc(Scene s) async {
     await s.stall(15);
     s.loadUnits(1, Sym('UnitDef_Ch3NPC'));
     await s.waitUnitMoving();
-    s.placeholder('MUSC');
+    s.sound('bgm', 15);
     s.showCursorAtUnit(9);
     await s.stall(60);
     await s.endCursor();
@@ -11787,7 +11787,7 @@ Future<void> Ch4_0(Scene s) async {
     await s.stall(15);
     s.loadUnits(1, Sym('UnitDef_Ch4NPC_0'));
     await s.waitUnitMoving();
-    s.placeholder('MUSC');
+    s.sound('bgm', 42);
     s.showCursorAtUnit(25);
     await s.stall(60);
     await s.endCursor();
@@ -11810,7 +11810,7 @@ Future<void> Ch4_1(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 1;
           continue;
         case 1:
@@ -11880,7 +11880,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('MUSC');
+          s.sound('bgm', 50);
           pc = 20;
           continue;
         case 20:
@@ -11983,7 +11983,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('MUSC');
+          s.sound('bgm', 42);
           pc = 47;
           continue;
         case 47:
@@ -12087,7 +12087,7 @@ Future<void> Ch4_2(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSS');
+          s.sound('override', 48);
           pc = 1;
           continue;
         case 1:
@@ -12189,11 +12189,11 @@ Future<void> Ch4_2(Scene s) async {
 
 /// `EventScr_Ch4_3`
 Future<void> Ch4_3(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 2);
     s.setSlot(3, 2421);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 31);
     await s.giveItem(65535, 3);
@@ -12230,7 +12230,7 @@ Future<void> Ch4_6(Scene s) async {
 Future<void> Ch4_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch4Ally_0'));
     await s.waitUnitMoving();
-    s.placeholder('MUSC');
+    s.sound('bgm', 82);
     s.showCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
@@ -12244,7 +12244,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.loadUnits(1, Sym('UnitDef_Ch4Enemy_0'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     s.showCursorAtUnit(1);
     await s.stall(60);
     await s.endCursor();
@@ -12255,7 +12255,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     await s.cameraTo(0, 14, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.showCursorAt(1, 11);
     await s.stall(60);
     await s.endCursor();
@@ -12264,7 +12264,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.textShow(2405);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.setSlot(2, Sym('EventScr_Ch4_7'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     await s.fade(FadeDirection.toBlack, 16);
@@ -12316,7 +12316,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.call(Sym('data_085B9BBC', 512));
     await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('MUSC');
+    s.sound('bgm', 9);
     s.showCursorAtUnit(19);
     await s.stall(60);
     await s.endCursor();
@@ -12333,11 +12333,11 @@ Future<void> Ch4_BeginningScene(Scene s) async {
 
 /// `EventScr_Ch5_0`
 Future<void> Ch5_0(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2445);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 14);
     await s.giveItem(65535, 3);
@@ -12349,11 +12349,11 @@ Future<void> Ch5_0(Scene s) async {
 
 /// `EventScr_Ch5_1`
 Future<void> Ch5_1(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2446);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 96);
     await s.giveItem(65535, 3);
@@ -12406,11 +12406,11 @@ Future<void> Ch5_11(Scene s) async {
 
 /// `EventScr_Ch5_2`
 Future<void> Ch5_2(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2447);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 93);
     await s.giveItem(65535, 3);
@@ -12420,14 +12420,14 @@ Future<void> Ch5_2(Scene s) async {
 
 /// `EventScr_Ch5_3`
 Future<void> Ch5_3(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2448);
     await s.call(Sym('Event_TextWithBG'));
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 112);
     await s.giveItem(65535, 3);
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -12436,7 +12436,7 @@ Future<void> Ch5_3(Scene s) async {
 Future<void> Ch5_5(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch5_10'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.placeholder('MUSC');
+    s.sound('bgm', 19);
     s.setSlot(2, Sym('frontier_df4_banim_b_074_909DE8'));
     await s.call(Sym('EventScr_LoadReinforce'));
     s.showCursorAt(14, 16);
@@ -12486,7 +12486,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('MUSC');
+          s.sound('bgm', 37);
           pc = 5;
           continue;
         case 5:
@@ -12578,7 +12578,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 28;
           continue;
         case 28:
@@ -12806,7 +12806,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 84;
           continue;
         case 84:
-          s.placeholder('MUSC');
+          s.sound('bgm', 36);
           pc = 85;
           continue;
         case 85:
@@ -12818,7 +12818,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 87;
           continue;
         case 87:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 88;
           continue;
         case 88:
@@ -12834,7 +12834,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 91;
           continue;
         case 91:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 92;
           continue;
         case 92:
@@ -12886,7 +12886,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 104;
           continue;
         case 104:
-          s.placeholder('MUSC');
+          s.sound('bgm', 38);
           pc = 105;
           continue;
         case 105:
@@ -13022,7 +13022,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 138;
           continue;
         case 138:
-          s.placeholder('MUSC');
+          s.sound('bgm', 19);
           pc = 139;
           continue;
         case 139:
@@ -13094,7 +13094,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 156;
           continue;
         case 156:
-          s.placeholder('MUSC');
+          s.sound('bgm', 9);
           pc = 157;
           continue;
         case 157:
@@ -13178,7 +13178,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 11; } else { pc = 7; }
           continue;
         case 7:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 8;
           continue;
         case 8:
@@ -13196,7 +13196,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('MUSC');
+          s.sound('bgm', 50);
           pc = 13;
           continue;
         case 13:
@@ -13320,7 +13320,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
 /// `EventScr_Ch5x_BeginningScene`
 Future<void> Ch5x_BeginningScene(Scene s) async {
     s.placeholder('ASMC');
-    s.placeholder('MUSC');
+    s.sound('bgm', 46);
     s.setSlot(11, 262154);
     await s.loadMap(8);
     await s.fade(FadeDirection.fromBlack, 16);
@@ -13365,7 +13365,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
     await s.endCursor();
     s.setSlot(2, 45);
     await s.call(Sym('EventScr_SetBackground'));
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     await s.textShow(2456);
     await s.textEnd();
     s.textRemoveAll();
@@ -13424,7 +13424,7 @@ Future<void> Ch5x_BeginningScene(Scene s) async {
 /// `EventScr_Ch5x_EndingScene`
 Future<void> Ch5x_EndingScene(Scene s) async {
     s.placeholder('ASMC');
-    s.placeholder('MUSC');
+    s.sound('bgm', 49);
     s.setSlot(2, 21);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2465);
@@ -13463,7 +13463,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_3'));
     await s.waitUnitMoving();
     s.evBitMod('evbit', false, 9);
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_3'));
     await s.waitUnitMoving();
     s.loadUnits(1, Sym('UnitDef_Ch5xEnemy_4'));
@@ -13512,7 +13512,7 @@ Future<void> Ch6_0(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('MUSC');
+          s.sound('bgm', 24);
           pc = 7;
           continue;
         case 7:
@@ -13619,11 +13619,11 @@ Future<void> Ch6_0(Scene s) async {
 
 /// `EventScr_Ch6_1`
 Future<void> Ch6_1(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2484);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 111);
     await s.giveItem(65535, 3);
@@ -13651,7 +13651,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('MUSC');
+          s.sound('bgm', 17);
           pc = 4;
           continue;
         case 4:
@@ -13757,7 +13757,7 @@ Future<void> Ch6_4(Scene s) async {
 
 /// `EventScr_Ch6_BeginningScene`
 Future<void> Ch6_BeginningScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 46);
     s.setSlot(2, 34);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2468);
@@ -13788,7 +13788,7 @@ Future<void> Ch6_BeginningScene(Scene s) async {
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2469);
     await s.textEnd();
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     await s.continueText();
     await s.textEnd();
     s.textRemoveAll();
@@ -13887,7 +13887,7 @@ Future<void> Ch6_EndingScene(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 17; } else { pc = 9; }
           continue;
         case 9:
-          s.placeholder('MUSC');
+          s.sound('bgm', 49);
           pc = 10;
           continue;
         case 10:
@@ -13926,7 +13926,7 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('MUSC');
+          s.sound('bgm', 43);
           pc = 20;
           continue;
         case 20:
@@ -13983,22 +13983,22 @@ Future<void> Ch6_EndingScene(Scene s) async {
 
 /// `EventScr_Ch7_1`
 Future<void> Ch7_1(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2503);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
 
 /// `EventScr_Ch7_2`
 Future<void> Ch7_2(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2504);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -14009,7 +14009,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 37);
           pc = 1;
           continue;
         case 1:
@@ -14258,7 +14258,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 67;
           continue;
         case 67:
-          s.placeholder('MUSC');
+          s.sound('bgm', 9);
           pc = 68;
           continue;
         case 68:
@@ -14294,7 +14294,7 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.hideFaction('red');
     s.hideFaction('green');
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('MUSC');
+    s.sound('bgm', 83);
     s.loadUnits(2, Sym('frontier_df4_banim_b_076_90B4DC', 440));
     await s.waitUnitMoving();
     s.showCursorAtUnit(1);
@@ -14312,11 +14312,11 @@ Future<void> Ch7_EndingScene(Scene s) async {
     s.showCursorAtUnit(66);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 21);
     s.setSlot(3, 2502);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.moveUnit('MOVE_1STEP', [0, 66, 0]);
     await s.waitUnitMoving();
     s.moveUnit('MOVE', [0, 66, 9, 0]);
@@ -14365,7 +14365,7 @@ Future<void> Ch8_0(Scene s) async {
     s.showCursorAtUnit(15);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     s.setTextType(0);
     await s.textShow(2510);
     await s.textEnd();
@@ -14379,7 +14379,7 @@ Future<void> Ch8_10(Scene s) async {
     await s.cameraTo(14, 20, centered: false);
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
     await s.waitUnitMoving();
-    s.placeholder('MUSC');
+    s.sound('bgm', 76);
     await s.fade(FadeDirection.fromBlack, 16);
     s.showCursorAtUnit(1);
     await s.stall(60);
@@ -14435,7 +14435,7 @@ Future<void> Ch8_10(Scene s) async {
     s.placeholder('UNIT_COLORS');
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_2'));
     await s.waitUnitMoving();
-    s.placeholder('MUSC');
+    s.sound('bgm', 76);
     await s.fade(FadeDirection.fromWhite, 2);
     s.showCursorAtUnit(1);
     await s.stall(60);
@@ -14529,7 +14529,7 @@ Future<void> Ch8_11(Scene s) async {
 
 /// `EventScr_Ch8_BeginningScene`
 Future<void> Ch8_BeginningScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 37);
     s.loadUnits(2, Sym('UnitDef_Ch8Ally_1'));
     await s.waitUnitMoving();
     s.showCursorAtUnit(66);
@@ -14548,7 +14548,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     s.showCursorAtUnit(77);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     s.setTextType(0);
     await s.textShow(2506);
     await s.textEnd();
@@ -14593,7 +14593,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     s.setSlot(11, 1376276);
-    s.placeholder('SOUN');
+    s.sound('se', 171);
     s.placeholder('TILECHANGE');
     s.moveUnit('MOVE', [0, 77, 19, 10]);
     s.setSlot(11, 1048595);
@@ -14622,7 +14622,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
 
 /// `EventScr_Ch8_EndingScene`
 Future<void> Ch8_EndingScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 49);
     s.setSlot(2, 21);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2513);
@@ -14631,35 +14631,35 @@ Future<void> Ch8_EndingScene(Scene s) async {
     s.evBitMod('flag', true, 223);
     await s.changeChapter(6, subcmd: 1);
     return;
-    s.placeholder('MUSC');
+    s.sound('bgm', 39);
     s.setTextType(0);
     await s.textShow(2514);
     await s.textEnd();
     s.textRemoveAll();
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2515);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2516);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setTextType(0);
     await s.textShow(2517);
     await s.textEnd();
     s.textRemoveAll();
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     s.evBitMod('evbit', true, 7);
     return;
     s.setSlot(2, 0);
@@ -14679,7 +14679,7 @@ Future<void> Ch8_EndingScene(Scene s) async {
 
 /// `EventScr_Ch9A_2`
 Future<void> Ch9A_2(Scene s) async {
-    s.placeholder('MUSS');
+    s.sound('override', 42);
     await s.stall(33);
     s.setSlot(2, 0);
     s.setSlot(3, 2538);
@@ -14694,11 +14694,11 @@ Future<void> Ch9A_2(Scene s) async {
 
 /// `EventScr_Ch9A_3`
 Future<void> Ch9A_3(Scene s) async {
-    s.placeholder('MUSI');
+    s.volumeDown(true);
     s.setSlot(2, 0);
     s.setSlot(3, 2539);
     await s.call(Sym('Event_TextWithBG'));
-    s.placeholder('MUNO');
+    s.volumeDown(false);
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 9);
     await s.giveItem(65535, 3);
@@ -14746,7 +14746,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          s.placeholder('MUSS');
+          s.sound('override', 20);
           pc = 10;
           continue;
         case 10:
@@ -14945,7 +14945,7 @@ Future<void> Ch9A_5(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('MUSS');
+          s.sound('override', 20);
           pc = 33;
           continue;
         case 33:
@@ -15054,7 +15054,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 46);
           pc = 1;
           continue;
         case 1:
@@ -15152,7 +15152,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('MUSC');
+          s.sound('bgm', 36);
           pc = 26;
           continue;
         case 26:
@@ -15240,7 +15240,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 48;
           continue;
         case 48:
@@ -15288,7 +15288,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          s.placeholder('MUSS');
+          s.sound('override', 42);
           pc = 60;
           continue;
         case 60:
@@ -15508,7 +15508,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 114;
           continue;
         case 114:
-          s.placeholder('MUSC');
+          s.sound('bgm', 38);
           pc = 115;
           continue;
         case 115:
@@ -15589,7 +15589,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('MUSC');
+          s.sound('bgm', 50);
           pc = 1;
           continue;
         case 1:
@@ -15761,7 +15761,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 43;
           continue;
         case 43:
-          s.placeholder('MUSC');
+          s.sound('bgm', 40);
           pc = 44;
           continue;
         case 44:
@@ -15805,7 +15805,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 54;
           continue;
         case 54:
-          s.placeholder('MUSC');
+          s.sound('bgm', 38);
           pc = 55;
           continue;
         case 55:
@@ -16546,7 +16546,7 @@ Future<void> MapSupportConversation(Scene s) async {
           if (s.slotInt(0) == 2) { pc = 4; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('MUSC');
+          s.sound('bgm', 65535);
           pc = 3;
           continue;
         case 3:
@@ -16556,7 +16556,7 @@ Future<void> MapSupportConversation(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 6;
           continue;
         case 6:
@@ -16717,7 +16717,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 15;
           continue;
         case 15:
-          s.placeholder('MUSI');
+          s.volumeDown(true);
           pc = 16;
           continue;
         case 16:
@@ -16733,7 +16733,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          s.placeholder('MUNO');
+          s.volumeDown(false);
           pc = 20;
           continue;
         case 20:
@@ -16830,7 +16830,7 @@ Future<void> Prologue_EirikaAttacked(Scene s) async {
 
 /// `EventScr_Prologue_EndingScene`
 Future<void> Prologue_EndingScene(Scene s) async {
-    s.placeholder('MUSC');
+    s.sound('bgm', 49);
     s.setSlot(2, 37);
     await s.call(Sym('EventScr_SetBackground'));
     await s.textShow(2264);
@@ -16891,7 +16891,7 @@ Future<void> Prologue_ONeillSpawn(Scene s) async {
     s.displayCursorAtUnit(104);
     await s.stall(60);
     await s.endCursor();
-    s.placeholder('MUSC');
+    s.sound('bgm', 19);
     s.setTextType(0);
     await s.textShow(2256);
     await s.textEnd();
@@ -17010,7 +17010,7 @@ Future<void> Prologue_RenaisThroneCutscene(Scene s) async {
     s.loadUnits(2, Sym('UnitDef_Event_PrologueThroneRoomUnits'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('MUSC');
+    s.sound('bgm', 38);
     await s.popupText(1526, 8, 8);
     s.loadUnits(1, Sym('UnitDef_Event_PrologueMessager'));
     await s.waitUnitMoving();
@@ -20739,7 +20739,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x1B8(Scene s) async {
     await s.fade(FadeDirection.toWhite, 2);
     s.placeholder('CLEAN');
     await s.fade(FadeDirection.fromWhite, 2);
-    s.placeholder('MUSC');
+    s.sound('bgm', 45);
     s.showCursorAtUnit(64);
     await s.stall(60);
     await s.endCursor();

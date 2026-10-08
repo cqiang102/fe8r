@@ -38,6 +38,9 @@ BYTES_PER_ENTRY = 8
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
+    ap.add_argument("--dart", help="同时把表写成 Dart（给 lib/core 用；核心禁 dart:io）")
+    ap.add_argument("--check", action="store_true",
+                    help="只校验 --dart 指向的文件是否与生成结果一致（门禁用）")
     a = ap.parse_args()
 
     table_p = os.path.join(DECOMP, "sound", "song_table.s")
@@ -102,6 +105,52 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     with open(os.path.join(a.out, "song_table.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
+    if a.dart:
+        lines = [
+            "// 由 tools/pipeline/extract/parse_song_table.py 生成，**不要手改**。",
+            "// 出处：sound/song_table.s（`gSongTable`）+ asm/macros/m4a.inc:1-5（每条 8 字节）",
+            "// 取用：src/m4aSongNumStart.c:5-12 —— `&gSongTable[n]`，**n 是下标**。",
+            "// PORT OF: sound/song_table.s",
+            "",
+            "/// 一条歌曲表项",
+            "class SongEntry {",
+            "  const SongEntry(this.symbol, this.ms, this.hasMidi);",
+            "",
+            "  /// 歌曲头符号（**不是**唯一键：1000 条里只有 594 个不同符号）",
+            "  final String symbol;",
+            "",
+            "  /// `song` 宏的第 2 个参数（音乐播放器下标）",
+            "  final int ms;",
+            "",
+            "  /// 反编译里有对应的 `.mid` 乐曲源",
+            "  final bool hasMidi;",
+            "}",
+            "",
+            f"/// `gSongTable`：{len(songs)} 条（下标即事件指令里的歌曲参数）",
+            "const List<SongEntry> gSongTable = [",
+        ]
+        for e in songs:
+            lines.append(f"  SongEntry('{e['symbol']}', {e['ms']}, "
+                         f"{'true' if e['midi'] else 'false'}),")
+        lines.append("];")
+        lines.append("")
+        lines.append(f"/// 不同符号数（{len(counts)}）—— 与 `gSongTable.length` "
+                     f"（{len(songs)}）**不同**，因为 `dummy_song` 占了 {dummy_count} 条")
+        lines.append(f"const int gSongTableDistinctSymbols = {len(counts)};")
+        lines.append("")
+        text = "\n".join(lines)
+        if a.check:
+            old = open(a.dart, encoding="utf-8").read() if os.path.exists(a.dart) else None
+            if old != text:
+                print(f"✗ {a.dart} 与生成结果不一致（跑提取器不带 --check 重新生成）")
+                raise SystemExit(1)
+            print(f"✓ {a.dart} 与生成结果一致（{len(songs)} 条）")
+        else:
+            os.makedirs(os.path.dirname(a.dart) or ".", exist_ok=True)
+            with open(a.dart, "w", encoding="utf-8") as f:
+                f.write(text)
+            print(f"已写 {a.dart}（{len(songs)} 条）")
+
     print(f"歌曲表：{len(songs)} 条 × {BYTES_PER_ENTRY} B = {len(songs)*BYTES_PER_ENTRY} B"
           f"；midi {len(midi_names)} 个；缺 midi {len(missing)} 条；"
           f"不同符号 {len(counts)}（dummy {dummy_count}、重复符号 {len(duplicates)}）")

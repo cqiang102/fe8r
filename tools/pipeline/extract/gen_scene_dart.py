@@ -248,6 +248,22 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 音频（`include/EAstdlib.h:55-64`）—— **只接"放什么"，不发声**：
+    #   `MUSC` = `EvtStartBgm(bgm)`       => `_EvtArg0(EV_CMD_BGMCHANGE_12, 2, 0, bgm)`
+    #   `MUSS` = `EvtOverrideBgm(bgm)`    => `EV_CMD_BGMOVERWRITE`
+    #   `SOUN` = `EvtPlaySong(songid)`    => `EV_CMD_PLAYSE`
+    #   取用方式：`src/m4aSongNumStart.c:5-12` 的 `&gSongTable[n]` ⇒ **n 是表下标**
+    #   `MUSI` = `EvtSetVolumeDown` / `MUNO` = `EvtUnsetVolumeDown`
+    #          => `EV_CMD_BGMVOLUMECHANGE`（**没有歌曲参数**）
+    if op in ("MUSC", "MUSS", "SOUN"):
+        a6 = A[0] if A else 0
+        if isinstance(a6, int):
+            kind = {"MUSC": "bgm", "MUSS": "override", "SOUN": "se"}[op]
+            return (f"s.sound('{kind}', {num(a6)});", True)
+        return (f"s.placeholder('{op}');", True)
+    if op in ("MUSI", "MUNO"):
+        return (f"s.volumeDown({str(op == 'MUSI').lower()});", True)
+
     # 文本继续：`TEXTCONT` = `EvtContinueText`（`include/EAstdlib.h:92`，
     #   `EV_CMD_CONTINUETEXT` = 0x1C，处理函数 `Event1D_TalkContinue`，
     #   `src/eventscr.c:47-66`）：

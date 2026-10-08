@@ -605,6 +605,12 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'hiddenMenuKeys': hiddenMenuKeys.toList()..sort(),
       'unmappedMenuOverrides': unmappedMenuOverrides.toList()..sort(),
       'textContinueCount': textContinueCount,
+      'bgmId': audio.bgmId,
+      'bgmSymbol': audio.bgmSymbol,
+      'bgmOverrideSymbol': audio.overrideSymbol,
+      'seSymbol': audio.seSymbol,
+      'volumeDown': audio.volumeDown,
+      'soundOutOfRange': audio.outOfRangeIds.toList(),
       'actionIndex': state?.actionIndex,
       // ★ 光标所指单位的**信息窗**内容（原作 `struct UnitInfoWindowProc`：
       //   名字 + 最多 5 行道具，行数 = 道具数且至少 1。
@@ -1938,6 +1944,20 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         lastPopup = {'textId': textId, 'x': x, 'y': y};
         debugPrint('[POPUP] $lastPopup');
         await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
+      case SoundOp(:final kind, :final id):
+        // 音频（**只记状态，不发声** —— 发声要 M4A 引擎或合成器，见 core/sound）
+        switch (kind) {
+          case 'bgm':
+            audio.startBgm(id);
+          case 'override':
+            audio.overrideBgm(id);
+          case 'se':
+            audio.playSe(id);
+          case 'volume':
+            audio.setVolumeDown(id == 1);
+        }
+        debugPrint('[SOUND] $kind($id) -> bgm=${audio.bgmSymbol} '
+            'se=${audio.seSymbol} volDown=${audio.volumeDown}');
       case ContinueText(:final skipping):
         // `TEXTCONT`（`src/eventscr.c:47-66`）：跳过中要**真的收尾**（结束对话），
         // 否则是 `ResumeTalk()`（我们的 `textShow` 本来就是逐页 await ⇒ 无需额外动作）。
@@ -5572,6 +5592,9 @@ class Fe8Game extends FlameGame with KeyboardEvents {
     c.removeFromParent();
     _popupComp = null;
   }
+
+  /// 音频状态（`MUSC`/`MUSS`/`SOUN`/`MUSI`/`MUNO`）——**不发声**，只记"脚本让放什么"
+  final AudioState audio = AudioState();
 
   /// `TEXTCONT` 出现过的次数（判据用）
   int textContinueCount = 0;

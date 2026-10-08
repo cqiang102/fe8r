@@ -69,3 +69,4 @@ export 'map/map_grid.dart';
 export 'map/movement_range.dart';
 export 'rng/game_rng.dart';
 export 'terrain/terrain_type.dart';
+export 'sound/audio_state.dart';

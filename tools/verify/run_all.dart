@@ -238,9 +238,11 @@ Future<void> main(List<String> argv) async {
     // 歌曲表：`n` 是下标（`src/m4aSongNumStart.c:5-12`）；1000 条 × 8 B
     if (hasDecomp())
       Step('L0', '歌曲表（音频子系统第一块）', 'python3',
-          ['extract/parse_song_table.py', '--out', 'out/tables'],
+          ['extract/parse_song_table.py', '--out', 'out/tables',
+           '--dart', '../../lib/core/sound/song_table.g.dart', '--check'],
           cwd: 'tools/pipeline',
-          note: '1000 条 × 8 B；588 个 MIDI；594 个不同符号（dummy_song 361）')
+          note: '1000 条 × 8 B；588 个 MIDI；594 个不同符号（dummy_song 361）；'
+              '生成物用 --check 比对，**不用写模式**（写模式会静默覆盖）')
     else
       Step('L0', '歌曲表', 'true', const [], skip: true, note: decompNote),
 
