@@ -15,7 +15,8 @@ import 'package:flutter_test/flutter_test.dart';
 const List<(String, String, String)> knownHalfDone = [
   (
     '音频播放',
-    ' `s.sound`/`s.volumeDown` 只记录状态（267 处），**一个音都没有**',
+    ' `s.sound`/`s.volumeDown` 只记录状态（267 处），**一个音都没有**；'
+     '数据段已基本齐（歌曲表/混音/音色组/采样头/波），差规则段与表现段',
     '按 `docs/计划-音频.md` 做完「数据→规则→表现」，并有"事件时轴对齐 + WAV 非静音"判据',
   ),
   (

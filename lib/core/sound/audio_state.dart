@@ -10,6 +10,7 @@
 //    但听不到。别把它当成"音频做完了"。
 
 import 'song_table.g.dart';
+import 'direct_sound_samples.g.dart';
 
 // 表本身也导出（调用方/测试要能按**下标**直接看表）
 export 'song_table.g.dart';
@@ -83,4 +84,17 @@ class AudioState {
 
   /// 最近一次 `MURE` 的变速参数（判据用）
   int? lastRestoreSpeed;
+}
+
+/// 采样符号 → 采样头（`DirectSoundData_<名字>` → `<名字>.aif`）。
+///
+/// ★ 这条映射是**第 12 轮实测建立**的（不是猜的）：voicegroup 里引用的
+/// **398** 个不同 `DirectSoundData_<名字>` **全部**能在
+/// `sound/direct_sound_samples/` 里找到**同名** `.aif`（缺 0 个）。
+///
+/// 查不到时返回 null，**调用方必须记录**（不许静默配一个采样）。
+DirectSoundSample? directSoundSampleFor(String symbol) {
+  const prefix = 'DirectSoundData_';
+  final name = symbol.startsWith(prefix) ? symbol.substring(prefix.length) : symbol;
+  return gDirectSoundSamples[name];
 }

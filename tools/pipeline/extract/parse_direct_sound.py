@@ -8,17 +8,21 @@
 * 需求侧：`sound/voicegroups/*.s` 里 `voice_directsound … DirectSoundData_<名字> …`
   引用这些采样（第 9 轮已提取 9787 条 voice）。
 
-## ⚠️ 缺口（**未查证**，不许编）
+## ★★ 更正（第 12 轮）：映射**存在**，就是同名文件
 
-**符号 → 采样文件** 的映射**不在日版仓库里**：
+第 10 轮我写过"日版是编号的 `<n>.aif`、映射不在仓库里" —— **那是错的** ✗。
+根因：`ls | head` 按**字典序**把 45 个编号文件排在前面，我没看全就下了结论
+（和第 2 轮把 `head -8` 当成全量、误判"序章没有入队"是**同一个错**）。
 
-* 全树 grep `DirectSoundData_k_tubular_c4_13k_s` ⇒ 只出现在 `sound/voicegroups/*.s`
-  （**只在引用处**，没有定义/清单）；
-* 美版有 `fireemblem8u/sound/direct_sound_data.s`，但它映射的是
-  `sound/direct_sound_samples/<名字>.bin` ——**日版是编号的 `<n>.aif`**，
-  **两边文件名不同** ⇒ 不能拿美版的名字硬套日版的编号。
-* ⇒ 要建立映射，需要**日版构建时生成的** `direct_sound_data.s`（本仓库没有 carve）
-  或从 ROM 里读指针表。**在那之前，本项目不提供"符号 → 采样"的对应**。
+实测（第 12 轮）：
+
+    总文件 439 = 45 个编号式（`<n>.aif`）+ 394 个带名字式（`<名字>.aif`）
+    voicegroup 引用到的 398 个不同 `DirectSoundData_<名字>`
+    ⇒ **398 / 398 都能找到同名 `.aif`，缺 0 个**
+
+⇒ 映射规则：`DirectSoundData_<名字>` → `<名字>.aif`。
+美版用的是 `<名字>.bin`，**同一套名字**、只是采样格式不同（美版是 `.bin`）。
+`<n>.aif` 那 45 个是**另一种用途**（本提取器只做记录，不硬套）。
 
 本提取器因此只做**能证实的两件事**：
 
@@ -141,17 +145,25 @@ def main():
             f"{name}.aif: 帧×声道×位深/8 = {expect}，但 SSND 数据长度 = {v['dataBytes']}"
 
     need = needed_symbols(DECOMP)
+    # ★ 映射：`DirectSoundData_<名字>` → `<名字>.aif`（同名）
+    have = {f[:-4]: f for f in files}
+    missing = sorted(n for n in need if n not in have)
+    # ★★ 判据：需求侧**每一个**符号都必须有同名文件（0 缺失）
+    #   第 10 轮就是因为只看了 `ls | head`，漏掉了"带名字的文件"这一大类。
+    assert not missing, f"{len(missing)} 个被引用的采样找不到同名 .aif：{missing[:5]}"
+    mapping = {n: have[n] for n in sorted(need)}
     out = {
         "source": f"{SAMPLES}/*.aif（AIFF）",
         "count": len(samples),
         "samples": samples,
         "neededSymbolCount": len(need),
         "neededSymbols": sorted(need)[:40],
+        "mapping": mapping,
         "mappingStatus": (
-            "**未查证/缺失**：符号 → 采样文件 的映射不在日版仓库里"
-            "（`DirectSoundData_*` 只出现在 voicegroup 的引用处）；"
-            "美版 `direct_sound_data.s` 用的是**不同文件名**（`<名字>.bin` vs 日版 `<n>.aif`）"
-            "⇒ 不能直接套用。需要日版构建产物或 ROM 指针表。"
+            '**已建立**（第 12 轮更正）：`DirectSoundData_<名字>` -> `<名字>.aif`；'
+            f'需求侧 {len(need)} 个符号**全部命中**（缺 0）。'
+            '第 10 轮说"映射不在仓库里"是错的：根因是 `ls | head` 只看到字典序靠前的 '
+            '45 个编号文件，没看到 394 个带名字的文件。'
         ),
     }
     os.makedirs(a.out, exist_ok=True)
