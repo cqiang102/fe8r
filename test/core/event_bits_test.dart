@@ -108,14 +108,18 @@ void main() {
         .allMatches(t)
         .where((m) => m.group(1) == m.group(2))
         .length;
-    // ★ 第 92 轮：4 → **3**。少的那 1 处是 `EventScr_CallIfCommonMode`，
-    //   根因是**符号被静默当成 0**：数据写 `BNE(CHAPTER_MODE_COMMON, EVT_SLOT_C, EVT_SLOT_2)`，
-    //   而 `CHAPTER_MODE_COMMON`（`include/types.h:258` = 1）长得像宏名 ⇒ 被归成"符号"
-    //   ⇒ `num()` 返回 0 ⇒ 去找 `LABEL(0)`（脚本里写的是 `LABEL(0x1)`）。
-    //   修法：把 `types.h` 的简单枚举做成常量表，在**符号判断之前**查它。
-    //   剩下的 3 处都在 `EventScr_Ch9A_4`，标签表**空** ⇒ 指向"切片/片段丢了标签"，**未查证**。
+    // ★★ 第 93 轮：**查到源头，结论是"原作自己也跑飞"**。
+    //   源码 `src/data/EventScr_Ch9A_4_ref/dat_EventScr_Ch9A_4_ref.c`（45 行）
+    //   里有三个分支（`:17 BEQ(0,0xC,0)` / `:20 BEQ(0,0xC,1)` / `:41 BNE(0,0xC,0)`），
+    //   却**一个 `LABEL` 都没有** —— 所以这**不是**我们的解码器的问题。
+    //   而 `Event09_Goto`（`src/exact_0800dc08.c:70-84`）的实现是：
+    //       while (scr != ref) { cur += EVT_CMD_LEN(cur); scr = *(const u32 *)cur; }
+    //   ⇒ **无界向前扫描**：找不到标签就一路走进内存里后面的数据（没有边界检查）。
+    //   ⇒ 这 3 处在原作里也是"跑飞"；我们没有（也不该）复刻越界扫描，
+    //     退化成【往下走】并把个数钉在这里。
     expect(sameTarget, 3,
-        reason: '现状 3 处（第 92 轮从 4 降到 3；都在 EventScr_Ch9A_4，标签表为空）');
+        reason: '现状 3 处（都在 EventScr_Ch9A_4，源码里本就没有 LABEL；'
+            '原作的无界扫描无法复刻）');
   });
 
   test('★ 条件族第三批：CHECK_MODE / CHECK_CHAPTER_NUMBER / CHECK_HARD 写条件槽', () {
