@@ -1,0 +1,78 @@
+{
+ "source": "sound/programmable_wave_data.s + sound/programmable_wave_samples/*.pcm",
+ "count": 11,
+ "waves": [
+  {
+   "symbol": "wave000_sinewave",
+   "addr": 136396804,
+   "file": "sound/programmable_wave_samples/wave000_sinewave.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave001_triangle",
+   "addr": 136396820,
+   "file": "sound/programmable_wave_samples/wave001_triangle.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave002_fat_saw",
+   "addr": 136396836,
+   "file": "sound/programmable_wave_samples/wave002_fat_saw.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave003_thin_saw",
+   "addr": 136396852,
+   "file": "sound/programmable_wave_samples/wave003_thin_saw.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave004_square12",
+   "addr": 136396868,
+   "file": "sound/programmable_wave_samples/wave004_square12.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave005_square25",
+   "addr": 136396884,
+   "file": "sound/programmable_wave_samples/wave005_square25.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave006_square37",
+   "addr": 136396900,
+   "file": "sound/programmable_wave_samples/wave006_square37.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave007_square50",
+   "addr": 136396916,
+   "file": "sound/programmable_wave_samples/wave007_square50.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave008_se_triangle_1",
+   "addr": 136396932,
+   "file": "sound/programmable_wave_samples/wave008_se_triangle_1.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave009_se_triangle_2",
+   "addr": 136396948,
+   "file": "sound/programmable_wave_samples/wave009_se_triangle_2.pcm",
+   "bytes": 16
+  },
+  {
+   "symbol": "wave010_square25_e1",
+   "addr": 136396964,
+   "file": "sound/programmable_wave_samples/wave010_square25_e1.pcm",
+   "bytes": 16
+  }
+ ],
+ "keysplit": {
+  "tableRefs": 0,
+  "voiceKeysplit": 0,
+  "voiceKeysplitAll": 67,
+  "status": "**未使用**（源码 `sound/keysplit_tables.s` 自述 \"These keysplit tables appear to be unused in Fire Emblem 8.\"，本提取器用三个计数互证：表引用 0、`voice_keysplit` 0、`voice_keysplit_all` 67（它指向音色组，不需要表））"
+ }
+}

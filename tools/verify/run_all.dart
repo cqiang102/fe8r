@@ -282,6 +282,17 @@ Future<void> main(List<String> argv) async {
     else
       Step('L0', '直采采样', 'true', const [], skip: true, note: decompNote),
 
+    // 可编程波 + 键分离表使用情况（音频"数据"段收尾）。
+    if (hasDecomp())
+      Step('L0', '可编程波（音频数据段收尾）', 'python3',
+          ['extract/parse_programmable_waves.py', '--out', 'out/tables',
+           '--dart', '../../lib/core/sound/programmable_waves.g.dart', '--check'],
+          cwd: 'tools/pipeline',
+          note: '11 个波 × 16 B（地址间隙 == 文件大小）；'
+              '键分离表**未使用**（表引用 0、voice_keysplit 0、keysplit_all 67）')
+    else
+      Step('L0', '可编程波', 'true', const [], skip: true, note: decompNote),
+
     // 教学事件表：**指针数组**，`parse_event_lists.py` 只扫 `*.s` 会整批漏掉
     // （它们被去指针化成了 `.c`）。判据是序章恰好 15 条。
     if (hasDecomp())

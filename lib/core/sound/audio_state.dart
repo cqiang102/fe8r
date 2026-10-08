@@ -15,6 +15,7 @@ import 'song_table.g.dart';
 export 'song_table.g.dart';
 export 'voicegroups.g.dart';
 export 'direct_sound_samples.g.dart';
+export 'programmable_waves.g.dart';
 
 /// 按**下标**取表项（`&gSongTable[n]`）。越界返回 null —— 调用方必须**记录**，
 /// 不能静默当成"没这首歌"。
