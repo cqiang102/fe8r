@@ -593,6 +593,10 @@ def stmt(op, A):
     return (f"s.placeholder('{op}');", True)
 
 
+UNRESOLVED = []   # (script, label) pairs whose label is missing in that script
+_CURRENT_SCRIPT = "?"
+
+
 def gen_straight(ops):
     out = []
     for op, A in ops:
@@ -608,6 +612,7 @@ def gen_straight(ops):
 
 def gen_switch(ops, labels):
     """有分支：`while(true) { switch (pc) }`，`pc` 是**局部变量**（不需要存档）"""
+    global _CURRENT_SCRIPT
     out = ["    var pc = 0;", "    while (true) {", "      switch (pc) {"]
     for i, (op, A) in enumerate(ops):
         out.append(f"        case {i}:")
@@ -621,15 +626,26 @@ def gen_switch(ops, labels):
             out.append(f"          pc = {tgt if tgt is not None else i + 1};")
             out.append("          continue;")
             continue
-        if op in ("BNE", "BEQ"):
-            # ⚠️ `BNE(a, b, c)`：slot=a, 比较值=b, 跳转目标=**标签 c**
-            slot, val = num(A[0]), num(A[1])
-            tgt = labels.get(num(A[2]))
+        if op in ("BEQ", "BNE", "BGE", "BGT", "BLE", "BLT"):
+            # ★ 出处 `src/Event0C_Branch.c:45-70`：
+            #     val1 = gEventSlots[(u16)ARGV[1]];
+            #     val2 = gEventSlots[(u16)ARGV[2]];
+            #   ⇒ 比较的是**两个事件槽的值**；参数顺序 `(label, s1, s2)`
+            #     （宏 `EvtBEQ(label, s1, s2)`，`include/eventscript.h:610`），
+            #     标签在 **ARGV[0]**（`Event09_Goto`，`src/exact_0800dc08.c:76`）。
+            #
+            # ⚠️ 以前写成 `slot=A[0], val=A[1], 标签=A[2]` —— 三样全错，
+            #    产出 `if (s.slotInt(0) != 196620) { pc = 1; } else { pc = 1; }`
+            #    （比错东西 + 两分支同目标 = 永不跳转；第 88 轮量化为 259 / 109 处）。
+            label, s1, s2 = num(A[0]), num(A[1]), num(A[2])
+            tgt = labels.get(label)
             if tgt is None:
+                UNRESOLVED.append((_CURRENT_SCRIPT, label))
                 tgt = i + 1
-            cmp = "==" if op == "BEQ" else "!="
-            out.append(f"          if (s.slotInt({slot}) {cmp} {val}) {{ pc = {tgt}; }} "
-                       f"else {{ pc = {i + 1}; }}")
+            cmp = {"BEQ": "==", "BNE": "!=", "BGE": ">=", "BGT": ">",
+                   "BLE": "<=", "BLT": "<"}[op]
+            out.append(f"          if (s.slotInt({s1}) {cmp} s.slotInt({s2})) "
+                       f"{{ pc = {tgt}; }} else {{ pc = {i + 1}; }}")
             out.append("          continue;")
             continue
         if op in ("END", "ENDA"):
@@ -944,6 +960,7 @@ def main():
         lines.append(f"Future<void> {names[n]}(Scene s) async {{")
         if has_branch:
             labels = {num(A[0]): i for i, (op, A) in enumerate(ops) if op == "LABEL"}
+            _CURRENT_SCRIPT = name
             lines.extend(gen_switch(ops, labels))
         else:
             lines.extend(gen_straight(ops))
@@ -997,6 +1014,14 @@ def main():
     print(f"\n→ {a.out}  ({os.path.getsize(a.out) // 1024} KB)")
     print(f"   直线 {len(straight)} / 有分支 {len(scripts) - len(straight)} / "
           f"缺失占位 {len(missing)}")
+    # 分支跳不到标签 = 静默的【跳不动】（第 88/89 轮那个 bug 的兜底路径）。
+    if UNRESOLVED:
+        print("! 未解析分支目标 {} 处（这些分支退化成【往下走】）：".format(len(UNRESOLVED)))
+        for sc, lb in UNRESOLVED[:6]:
+            print("    {} : LABEL({}) 找不到".format(sc, lb))
+        print("    生成器的标签表是**预扫描**的，前向引用本应能找到")
+        print("    => 要么数据缺 LABEL、要么方言不同（**未查证**）；个数已进判据")
+
     return 0
 
 

@@ -66,24 +66,41 @@ void main() {
   // （`include/eventscript.h:610`）**不是同一套参数**，而我没找到定义该脚本的那份源文件
   // （`EventScr_UnTriggerIfNotUnit` 只有 extern/引用，没有可读定义）。
   // ⇒ 猜着改 259 处会造出更大的错；先钉住，等找到方言的定义再修。
-  test('⚠️ 已知 bug：分支比较用字面值（源码是两槽比较），且 109/259 处永不跳转', () {
+  // ★ **已修（第 89 轮）**：分支比较对不上源码那个 bug。
+  //   修法两处：① 提取器把 `_EvtParams2(x, y)` 的打包字拆成两个参数
+  //   （`((y & 0xFFFF) << 16) + (x & 0xFFFF)`，`include/eventscript.h:568`）；
+  //   ② 生成器按 `(label, s1, s2)` 发**两槽比较**，并把 `BGE/BGT/BLE/BLT` 一起接上
+  //   （出处 `src/Event0C_Branch.c:45-70`：`val1 = gEventSlots[ARGV[1]]; val2 = gEventSlots[ARGV[2]]`）。
+  test('★ 分支：268 处全是**两槽比较**，字面值比较为 0（第 88 轮那个 bug 已修）', () {
     final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
-    final literal = RegExp(r'if \(s\.slotInt\('
-            r'-?\d+\) (!=|==|>=|>|<=|<) -?\d+\)')
+    final literal = RegExp(r'if \(s\.slotInt\(-?\d+\) (!=|==|>=|>|<=|<) -?\d+\)')
         .allMatches(t)
         .length;
     final twoSlots = RegExp(r'if \(s\.slotInt\(-?\d+\) '
             r'(!=|==|>=|>|<=|<) s\.slotInt\(-?\d+\)\)')
         .allMatches(t)
         .length;
+    expect(literal, 0, reason: '★ 不该再有"拿字面值比"的分支（修前是 259）');
+    expect(twoSlots, 268, reason: '★ 两槽比较（修前是 0；268 = 259 + 新接的 BGE/BGT/BLE/BLT）');
+    expect(t.contains("s.placeholder('BLT')") ||
+        t.contains("s.placeholder('BGE')") ||
+        t.contains("s.placeholder('BGT')") ||
+        t.contains("s.placeholder('BLE')"), isFalse,
+        reason: '六种比较都该接上');
+  });
+
+  test('⚠️ 未查证：4 处分支的标签在该脚本里找不到（已钉住个数）', () {
+    // 生成器会把这 4 处打印出来（预扫描标签表找不到 ⇒ 退化成"往下走"）。
+    // 它们**不是**第 88 轮那个 bug（那个是"两边都不是槽"）；这 4 处两边都是槽，
+    // 只是跳转目标缺失。要么数据缺 LABEL、要么方言不同 —— **未查证**。
+    // 数字钉在这里：修好或变多都会响。
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
     final sameTarget = RegExp(r'if \(s\.slotInt\(-?\d+\) [^\n]*?\{ pc = (\d+); \} '
             r'else \{ pc = (\d+); \}')
         .allMatches(t)
         .where((m) => m.group(1) == m.group(2))
         .length;
-    expect(twoSlots, 0, reason: '★ 一处都没有 —— 这就是 bug（应当是 259 处两槽比较）');
-    expect(literal, 259, reason: '现状；修好后应当变成 0');
-    expect(sameTarget, 109, reason: '现状：109 处两个分支跳同一处（永不跳转）；修好后应当变 0');
+    expect(sameTarget, 4, reason: '现状 4 处（修前是 109 —— 那 109 里 105 处是这个 bug 造成的）');
   });
 
   test('★ 条件族第三批：CHECK_MODE / CHECK_CHAPTER_NUMBER / CHECK_HARD 写条件槽', () {

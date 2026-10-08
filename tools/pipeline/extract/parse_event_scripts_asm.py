@@ -148,6 +148,24 @@ def to_macro(words, syms, macros):
                 if hi >= 0x80:
                     hi -= 0x100
                 lines.append(f"{m['macro']}({lo}, {hi})")
+            elif m.get("extraParamWords") == 1 and len(params) >= 3:
+                # ★ **一个词里装了两个参数**：`_EvtParams2(x, y)` 的展开是
+                #   `((y & 0xFFFF) << 16) + (x & 0xFFFF)`
+                #   （`include/eventscript.h:568`）⇒ 低 16 位是第一个、高 16 位是第二个。
+                #
+                # 踩过的坑：以前走通用分支，把那个字**原样十六进制**当成一个参数，
+                # 于是 `BEQ(label, s1, s2)` 变成 `BEQ(0, 0x2000c, 0xa40)` ——
+                # 第三个参数甚至越到了**下一条指令**的字上。
+                # 后果（第 88 轮量化）：259 处分支比较的是字面值而不是事件槽，
+                # 其中 109 处两个分支跳同一处（**永不跳转**）。
+                #
+                # 例：`EvtBEQ(label, s1, s2)`（`include/eventscript.h:610`）；
+                #     引擎读法 `src/Event0C_Branch.c:52-56`。
+                args = [str(arg)]
+                w = words[i + 1] if i + 1 < len(words) else 0
+                args.append(str(w & 0xFFFF))
+                args.append(str((w >> 16) & 0xFFFF))
+                lines.append('{}({})'.format(m['macro'], ', '.join(args)))
             elif params:
                 # 第一个参数取 arg0；多参数时后面的来自紧随的指针字
                 args = [str(arg)]

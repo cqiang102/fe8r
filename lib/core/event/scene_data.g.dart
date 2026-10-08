@@ -553,7 +553,7 @@ Future<void> scr_9EE6A0(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          if (s.slotInt(0) != 196620) { pc = 1; } else { pc = 1; }
+          if (s.slotInt(12) != s.slotInt(3)) { pc = 3; } else { pc = 1; }
           continue;
         case 1:
           await s.call(Sym('EventScr_ChangeAIinQueue'));
@@ -594,7 +594,7 @@ Future<void> scr_9EE6C8(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 196620) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(3)) { pc = 4; } else { pc = 2; }
           continue;
         case 2:
           await s.call(Sym('EventScr_ChangeAIinQueue'));
@@ -662,8 +662,7 @@ Future<void> scr_9EE84C(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('BLE');
-          pc = 9;
+          if (s.slotInt(8) <= s.slotInt(12)) { pc = 3; } else { pc = 9; }
           continue;
         case 9:
           s.setSlot(13, 0);
@@ -725,8 +724,7 @@ Future<void> scr_9EE84C(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('BLE');
-          pc = 25;
+          if (s.slotInt(0) <= s.slotInt(7)) { pc = 20; } else { pc = 25; }
           continue;
         case 25:
           s.placeholder('EvtSetLoadUnitChance');
@@ -754,7 +752,7 @@ Future<void> scr_9EE8F0(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('ASMC');
@@ -797,7 +795,7 @@ Future<void> scr_9EEA58(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(32795) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.fade(FadeDirection.toBlack, 16);
@@ -888,7 +886,7 @@ Future<void> scr_9EEAAC(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 11; } else { pc = 5; }
           continue;
         case 5:
           s.evBitMod('flag', true, 65535);
@@ -957,8 +955,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('BLT');
-          pc = 2;
+          if (s.slotInt(12) < s.slotInt(4)) { pc = 20; } else { pc = 2; }
           continue;
         case 2:
           s.evBitMod('evbit', false, 3);
@@ -981,7 +978,7 @@ Future<void> scr_9EEB00(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(1) != 458764) { pc = 8; } else { pc = 8; }
+          if (s.slotInt(12) != s.slotInt(7)) { pc = 30; } else { pc = 8; }
           continue;
         case 8:
           s.slotQueuePopToSlot(2);
@@ -1137,7 +1134,7 @@ Future<void> ApplyTileChangeForFaction(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) != s.slotInt(2)) { pc = 4; } else { pc = 3; }
           continue;
         case 3:
           s.placeholder('TILECHANGE');
@@ -1199,7 +1196,7 @@ Future<void> CallIfCommonMode(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(2)) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
           s.slotArith('SADD', 2, 3);
@@ -1230,7 +1227,7 @@ Future<void> CallOnChapterNumber(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(3)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.callSlot(2);
@@ -1257,14 +1254,14 @@ Future<void> CallOnHardMode(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
           s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 5; } else { pc = 4; }
           continue;
         case 4:
           await s.callSlot(2);
@@ -1291,7 +1288,7 @@ Future<void> CallOnTutorialMode(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.callSlot(2);
@@ -1322,14 +1319,14 @@ Future<void> CallWithModeCheck(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(2) == 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 9; } else { pc = 3; }
           continue;
         case 3:
           s.setSlot(7, RawArg('CHAPTER_MODE_EIRIKA'));
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(1) != 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) != s.slotInt(7)) { pc = 7; } else { pc = 5; }
           continue;
         case 5:
           s.slotArith('SADD', 2, 3);
@@ -1451,14 +1448,14 @@ Future<void> Ch10A_8(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 2; }
           continue;
         case 2:
           s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 7; } else { pc = 4; }
           continue;
         case 4:
           await s.cameraTo(0, 10, centered: false);
@@ -1567,7 +1564,7 @@ Future<void> Ch10B_1(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_ALLEGIANCE');
@@ -1578,7 +1575,7 @@ Future<void> Ch10B_1(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 15; } else { pc = 5; }
           continue;
         case 5:
           s.sound('bgm', 20);
@@ -1645,7 +1642,7 @@ Future<void> Ch10B_2(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_ALLEGIANCE');
@@ -1656,7 +1653,7 @@ Future<void> Ch10B_2(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 15; } else { pc = 5; }
           continue;
         case 5:
           s.sound('bgm', 20);
@@ -1836,14 +1833,14 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 10; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlot('alive', 20);
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) == 12) { pc = 10; } else { pc = 8; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 10; } else { pc = 8; }
           continue;
         case 8:
           s.setSlot(1, 1);
@@ -1861,14 +1858,14 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          if (s.slotInt(1) == 12) { pc = 10; } else { pc = 13; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 17; } else { pc = 13; }
           continue;
         case 13:
           s.checkSlot('alive', 21);
           pc = 14;
           continue;
         case 14:
-          if (s.slotInt(1) == 12) { pc = 10; } else { pc = 15; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 17; } else { pc = 15; }
           continue;
         case 15:
           s.setSlot(1, 1);
@@ -1898,7 +1895,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          if (s.slotInt(2) == 7) { pc = 10; } else { pc = 23; }
+          if (s.slotInt(7) == s.slotInt(0)) { pc = 33; } else { pc = 23; }
           continue;
         case 23:
           s.setSlot(1, 0);
@@ -2100,7 +2097,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 73;
           continue;
         case 73:
-          if (s.slotInt(3) != 7) { pc = 10; } else { pc = 74; }
+          if (s.slotInt(7) != s.slotInt(0)) { pc = 79; } else { pc = 74; }
           continue;
         case 74:
           s.setSlot(2, 21);
@@ -2138,7 +2135,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 83;
           continue;
         case 83:
-          if (s.slotInt(10) == 12) { pc = 10; } else { pc = 84; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 95; } else { pc = 84; }
           continue;
         case 84:
           s.volumeDown(true);
@@ -2399,7 +2396,7 @@ Future<void> Ch11a_BeginningScene(Scene s) async {
           pc = 19;
           continue;
         case 19:
-          if (s.slotInt(0) == 12) { pc = 20; } else { pc = 20; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 27; } else { pc = 20; }
           continue;
         case 20:
           s.displayCursorAtUnit(21);
@@ -2632,7 +2629,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 8; } else { pc = 5; }
           continue;
         case 5:
           await s.textShow(2571);
@@ -2684,7 +2681,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          if (s.slotInt(2) == 12) { pc = 8; } else { pc = 19; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 21; } else { pc = 19; }
           continue;
         case 19:
           s.placeholder('EvtTextShow2');
@@ -3381,21 +3378,21 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(1) == 458764) { pc = 6; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 14; } else { pc = 6; }
           continue;
         case 6:
           s.setSlot(7, 23);
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(2) == 458764) { pc = 8; } else { pc = 8; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 19; } else { pc = 8; }
           continue;
         case 8:
           s.setSlot(7, 21);
           pc = 9;
           continue;
         case 9:
-          if (s.slotInt(3) == 458764) { pc = 10; } else { pc = 10; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 24; } else { pc = 10; }
           continue;
         case 10:
           s.setSlot(2, 1);
@@ -3621,7 +3618,7 @@ Future<void> Ch13A_4(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 8; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, Sym('UnitDef_Ch13AEnemy_5'));
@@ -3696,7 +3693,7 @@ Future<void> Ch13B_0(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 12; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 12; } else { pc = 2; }
           continue;
         case 2:
           s.setSlot(2, 0);
@@ -3763,7 +3760,7 @@ Future<void> Ch13B_1(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 12; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 12; } else { pc = 2; }
           continue;
         case 2:
           s.setSlot(2, 0);
@@ -3830,7 +3827,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 11; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 11; } else { pc = 2; }
           continue;
         case 2:
           s.cameraToChar(81);
@@ -4014,7 +4011,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          if (s.slotInt(10) == 12) { pc = 11; } else { pc = 49; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 64; } else { pc = 49; }
           continue;
         case 49:
           await s.textShow(2618);
@@ -4162,7 +4159,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 86;
           continue;
         case 86:
-          if (s.slotInt(99) != 12) { pc = 11; } else { pc = 87; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 111; } else { pc = 87; }
           continue;
         case 87:
           s.setSlot(11, 0);
@@ -4456,7 +4453,7 @@ Future<void> Ch14A_7(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 6; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           s.evBitMod('flag', true, 14);
@@ -4528,7 +4525,7 @@ Future<void> Ch14B_12(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 8; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 9; } else { pc = 8; }
           continue;
         case 8:
           s.evBitMod('flag', true, 16);
@@ -4580,7 +4577,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     s.placeholder('BACG');
     s.placeholder('BGMCHANGE_13');
     await s.fade(FadeDirection.fromWhite, 2);
-    s.placeholder('BROWNBOXTEXT');
+    await s.popupText(407, 8, 8);
     await s.textShow(2626);
     await s.textEnd();
     s.placeholder('BGMCHANGE_13');
@@ -4604,10 +4601,10 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.call(Sym('EventScr_TextShowWithFadeIn'));
-    s.moveUnit('MOVE_CLOSEST', [16, 67698689, 1060672, 67698690, 1060672]);
-    s.moveUnit('MOVE_CLOSEST', [16, 67698690, 1060672, 67698699, 1060672]);
-    s.moveUnit('MOVE_CLOSEST', [16, 67698699, 1060672, 67698713, 1314338]);
-    s.moveUnit('MOVE_CLOSEST', [16, 67698713, 1314338, 1054497, 12320]);
+    s.moveUnit('MOVE_CLOSEST', [16, 1, 1033]);
+    s.moveUnit('MOVE_CLOSEST', [16, 2, 1033]);
+    s.moveUnit('MOVE_CLOSEST', [16, 11, 1033]);
+    s.moveUnit('MOVE_CLOSEST', [16, 25, 1033]);
     await s.stall(20, cancellable: false);
     await s.fade(FadeDirection.toBlack, 16);
     await s.waitUnitMoving();
@@ -4618,7 +4615,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.loadMap(14);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_001_91020C'));
     await s.waitUnitMoving();
-    s.moveUnit('MOVE_CLOSEST', [65535, 118030418, 76864, Sym('frontier_df3_unitdef_b_003_91066C'), 12320]);
+    s.moveUnit('MOVE_CLOSEST', [65535, 82, 1801]);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_003_91066C'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
@@ -4633,7 +4630,7 @@ Future<void> Ch14a_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.moveUnit('MOVE_CLOSEST', [65535, 117964882, 2624, Sym('data_085B9BBC', 512), 1315360]);
+    s.moveUnit('MOVE_CLOSEST', [65535, 82, 1800]);
     await s.call(Sym('data_085B9BBC', 512));
     s.sound('bgm', 20);
     s.cameraToChar(28);
@@ -4884,7 +4881,7 @@ Future<void> Ch15A_17(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33196) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -4935,7 +4932,7 @@ Future<void> Ch15A_18(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33212) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -4986,7 +4983,7 @@ Future<void> Ch15A_19(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33228) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5141,7 +5138,7 @@ Future<void> Ch15A_20(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33244) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5192,7 +5189,7 @@ Future<void> Ch15A_21(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33260) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5243,7 +5240,7 @@ Future<void> Ch15A_22(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33276) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5294,7 +5291,7 @@ Future<void> Ch15A_23(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33292) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5345,7 +5342,7 @@ Future<void> Ch15A_24(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33308) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5396,7 +5393,7 @@ Future<void> Ch15A_25(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33324) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5443,7 +5440,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 26; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 16; } else { pc = 6; }
           continue;
         case 6:
           await s.textShow(2792);
@@ -5627,7 +5624,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          if (s.slotInt(99) == 12) { pc = 16; } else { pc = 53; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 60; } else { pc = 53; }
           continue;
         case 53:
           s.setSlot(2, 59);
@@ -5706,7 +5703,7 @@ Future<void> Ch15B_14(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33118) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5757,7 +5754,7 @@ Future<void> Ch15B_15(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33134) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5808,7 +5805,7 @@ Future<void> Ch15B_16(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33150) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5859,7 +5856,7 @@ Future<void> Ch15B_17(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33166) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5910,7 +5907,7 @@ Future<void> Ch15B_18(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33182) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -5961,7 +5958,7 @@ Future<void> Ch15B_19(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33198) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -6012,7 +6009,7 @@ Future<void> Ch15B_20(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33214) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -6063,7 +6060,7 @@ Future<void> Ch15B_21(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33230) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -6114,7 +6111,7 @@ Future<void> Ch15B_22(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(33246) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -6420,7 +6417,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 53;
           continue;
         case 53:
-          if (s.slotInt(1) != 12) { pc = 61; } else { pc = 54; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 61; } else { pc = 54; }
           continue;
         case 54:
           s.setSlot(2, 19);
@@ -6462,7 +6459,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 64;
           continue;
         case 64:
-          if (s.slotInt(2) == 12) { pc = 61; } else { pc = 65; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 89; } else { pc = 65; }
           continue;
         case 65:
           s.sound('bgm', 46);
@@ -6572,7 +6569,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 92;
           continue;
         case 92:
-          if (s.slotInt(3) != 12) { pc = 61; } else { pc = 93; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 98; } else { pc = 93; }
           continue;
         case 93:
           s.loadUnits(2, Sym('UnitDef_Ch16AAlly_8'));
@@ -6690,7 +6687,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 122;
           continue;
         case 122:
-          if (s.slotInt(4) != 12) { pc = 61; } else { pc = 123; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 126; } else { pc = 123; }
           continue;
         case 123:
           await s.textShow(2813);
@@ -6758,7 +6755,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 140;
           continue;
         case 140:
-          if (s.slotInt(6) != 12) { pc = 61; } else { pc = 141; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 144; } else { pc = 141; }
           continue;
         case 141:
           await s.textShow(2815);
@@ -6806,7 +6803,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 153;
           continue;
         case 153:
-          if (s.slotInt(8) != 12) { pc = 61; } else { pc = 154; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 174; } else { pc = 154; }
           continue;
         case 154:
           s.placeholder('CLEAN');
@@ -7685,7 +7682,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 194;
           continue;
         case 194:
-          if (s.slotInt(0) != 12) { pc = 201; } else { pc = 195; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 198; } else { pc = 195; }
           continue;
         case 195:
           await s.textShow(2839);
@@ -7817,7 +7814,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 228;
           continue;
         case 228:
-          if (s.slotInt(10) != 12) { pc = 201; } else { pc = 229; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 234; } else { pc = 229; }
           continue;
         case 229:
           s.setTextType(0);
@@ -7933,7 +7930,7 @@ Future<void> Ch16B_3(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 8; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 9; } else { pc = 8; }
           continue;
         case 8:
           s.evBitMod('flag', true, 14);
@@ -7988,7 +7985,7 @@ Future<void> Ch16B_5(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) != 12) { pc = 9; } else { pc = 8; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 9; } else { pc = 8; }
           continue;
         case 8:
           s.evBitMod('flag', true, 13);
@@ -8072,7 +8069,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 24; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 15; } else { pc = 6; }
           continue;
         case 6:
           await s.textShow(2874);
@@ -8341,7 +8338,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) != 12) { pc = 19; } else { pc = 8; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 11; } else { pc = 8; }
           continue;
         case 8:
           await s.textShow(2908);
@@ -8362,14 +8359,14 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          if (s.slotInt(2) != 12) { pc = 11; } else { pc = 14; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 23; } else { pc = 14; }
           continue;
         case 14:
           s.checkSlot('alive', 34);
           pc = 15;
           continue;
         case 15:
-          if (s.slotInt(1) == 12) { pc = 11; } else { pc = 16; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 19; } else { pc = 16; }
           continue;
         case 16:
           await s.textShow(2909);
@@ -8547,7 +8544,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 61;
           continue;
         case 61:
-          if (s.slotInt(10) != 12) { pc = 19; } else { pc = 62; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 65; } else { pc = 62; }
           continue;
         case 62:
           s.setSlot(11, 1572864);
@@ -8635,7 +8632,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 84;
           continue;
         case 84:
-          if (s.slotInt(20) != 12) { pc = 19; } else { pc = 85; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 88; } else { pc = 85; }
           continue;
         case 85:
           s.placeholder('EvtTextShow2');
@@ -8719,7 +8716,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 106;
           continue;
         case 106:
-          if (s.slotInt(30) != 12) { pc = 19; } else { pc = 107; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 110; } else { pc = 107; }
           continue;
         case 107:
           await s.textShow(2917);
@@ -8755,8 +8752,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 116;
           continue;
         case 116:
-          s.placeholder('BLT');
-          pc = 117;
+          if (s.slotInt(7) < s.slotInt(8)) { pc = 133; } else { pc = 117; }
           continue;
         case 117:
           s.setSlot(2, 23);
@@ -8775,7 +8771,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 121;
           continue;
         case 121:
-          if (s.slotInt(40) != 12) { pc = 19; } else { pc = 122; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 125; } else { pc = 122; }
           continue;
         case 122:
           await s.textShow(2919);
@@ -9001,7 +8997,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.setSlot(1, 19);
     await s.setUnitHpFromSlot(3);
     await s.stall(60);
-    s.moveUnit('MOVE_CLOSEST', [0, 34078723, 12320, 853312, 0]);
+    s.moveUnit('MOVE_CLOSEST', [0, 3, 520]);
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
@@ -9016,7 +9012,7 @@ Future<void> Ch1Tut_GilliamBattle(Scene s) async {
     s.placeholder('FIGHT');
     s.setSlot(2, Sym('EventScr_Ch1Tut_GuideMsg944'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
-    s.moveUnit('MOVE_CLOSEST', [0, 17301508, 12320, 277281, 3935776]);
+    s.moveUnit('MOVE_CLOSEST', [0, 4, 264]);
     await s.waitUnitMoving();
     s.displayCursorAtUnit(4);
     await s.stall(60);
@@ -9310,7 +9306,7 @@ Future<void> Ch1_EndingScene(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 8; } else { pc = 5; }
           continue;
         case 5:
           await s.textShow(2295);
@@ -9506,7 +9502,7 @@ Future<void> Ch20B_1(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           s.evBitMod('flag', true, 11);
@@ -9561,7 +9557,7 @@ Future<void> Ch20B_2(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           s.evBitMod('flag', true, 12);
@@ -9678,7 +9674,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          if (s.slotInt(0) != 12) { pc = 16; } else { pc = 10; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 13; } else { pc = 10; }
           continue;
         case 10:
           await s.textShow(2938);
@@ -9770,7 +9766,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          if (s.slotInt(10) != 12) { pc = 16; } else { pc = 34; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 40; } else { pc = 34; }
           continue;
         case 34:
           s.sound('bgm', 68);
@@ -10660,14 +10656,14 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlot('alive', 7);
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 5; }
           continue;
         case 5:
           s.setSlot(2, 37);
@@ -10942,7 +10938,7 @@ Future<void> Ch2_Village1(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) != 12) { pc = 16; } else { pc = 4; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 10; } else { pc = 4; }
           continue;
         case 4:
           s.volumeDown(true);
@@ -11254,7 +11250,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          if (s.slotInt(0) != 12) { pc = 29; } else { pc = 22; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 29; } else { pc = 22; }
           continue;
         case 22:
           s.showCursorAtUnit(8);
@@ -11320,7 +11316,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          if (s.slotInt(1) != 12) { pc = 29; } else { pc = 39; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 40; } else { pc = 39; }
           continue;
         case 39:
           pc = 42;
@@ -11348,7 +11344,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          if (s.slotInt(10) != 12) { pc = 29; } else { pc = 47; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 55; } else { pc = 47; }
           continue;
         case 47:
           s.sound('bgm', 19);
@@ -11427,14 +11423,14 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 14; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 14; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlot('alive', 8);
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 14; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 14; } else { pc = 5; }
           continue;
         case 5:
           s.setSlot(2, 60);
@@ -11818,7 +11814,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(10) != 12) { pc = 9; } else { pc = 3; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 18; } else { pc = 3; }
           continue;
         case 3:
           s.setSlot(2, 2);
@@ -11833,7 +11829,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) == 12) { pc = 9; } else { pc = 7; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 9; } else { pc = 7; }
           continue;
         case 7:
           s.setSlot(2, 2413);
@@ -11896,14 +11892,14 @@ Future<void> Ch4_1(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          if (s.slotInt(11) == 12) { pc = 9; } else { pc = 24; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 28; } else { pc = 24; }
           continue;
         case 24:
           s.checkSlot('alive', 12);
           pc = 25;
           continue;
         case 25:
-          if (s.slotInt(11) == 12) { pc = 9; } else { pc = 26; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 28; } else { pc = 26; }
           continue;
         case 26:
           s.setSlot(2, 2415);
@@ -12103,14 +12099,14 @@ Future<void> Ch4_2(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 11; } else { pc = 5; }
           continue;
         case 5:
           s.setSlot(7, 1);
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(1) == 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 16; } else { pc = 7; }
           continue;
         case 7:
           s.setSlot(2, 2);
@@ -12476,7 +12472,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(32800) == 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.call(Sym('EventScr_Ch8_10'));
@@ -13175,7 +13171,7 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) == 12) { pc = 11; } else { pc = 7; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 11; } else { pc = 7; }
           continue;
         case 7:
           s.sound('bgm', 49);
@@ -13219,28 +13215,28 @@ Future<void> Ch5_EndingScene(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 19; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 33; } else { pc = 19; }
           continue;
         case 19:
           s.checkSlot('flag', 9);
           pc = 20;
           continue;
         case 20:
-          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 21; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 33; } else { pc = 21; }
           continue;
         case 21:
           s.checkSlot('flag', 10);
           pc = 22;
           continue;
         case 22:
-          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 23; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 33; } else { pc = 23; }
           continue;
         case 23:
           s.checkSlot('flag', 11);
           pc = 24;
           continue;
         case 24:
-          if (s.slotInt(2) == 12) { pc = 11; } else { pc = 25; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 33; } else { pc = 25; }
           continue;
         case 25:
           s.setSlot(2, 10);
@@ -13494,14 +13490,14 @@ Future<void> Ch6_0(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(99) == 12) { pc = 16; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 31; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_INAREA');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(4) == 12) { pc = 16; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 29; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, 176);
@@ -13540,14 +13536,14 @@ Future<void> Ch6_0(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          if (s.slotInt(1) == 12) { pc = 14; } else { pc = 14; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 19; } else { pc = 14; }
           continue;
         case 14:
           s.setSlot(7, 2);
           pc = 15;
           continue;
         case 15:
-          if (s.slotInt(2) == 12) { pc = 16; } else { pc = 16; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 22; } else { pc = 16; }
           continue;
         case 16:
           pc = 17;
@@ -13687,7 +13683,7 @@ Future<void> Ch6_2(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 13; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 13; }
           continue;
         case 13:
           s.placeholder('EvtTextShow2');
@@ -13870,21 +13866,21 @@ Future<void> Ch6_EndingScene(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 17; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 17; } else { pc = 5; }
           continue;
         case 5:
           s.checkSlot('alive', 251);
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) == 12) { pc = 17; } else { pc = 7; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 17; } else { pc = 7; }
           continue;
         case 7:
           s.checkSlot('alive', 249);
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 17; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 17; } else { pc = 9; }
           continue;
         case 9:
           s.sound('bgm', 49);
@@ -14089,7 +14085,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 21; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 23; } else { pc = 21; }
           continue;
         case 21:
           s.placeholder('EvtTextShow2');
@@ -14107,21 +14103,21 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          if (s.slotInt(1) == 12) { pc = 23; } else { pc = 26; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 32; } else { pc = 26; }
           continue;
         case 26:
           s.checkSlot('alive', 5);
           pc = 27;
           continue;
         case 27:
-          if (s.slotInt(1) == 12) { pc = 23; } else { pc = 28; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 32; } else { pc = 28; }
           continue;
         case 28:
           s.checkSlot('alive', 6);
           pc = 29;
           continue;
         case 29:
-          if (s.slotInt(1) == 12) { pc = 23; } else { pc = 30; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 32; } else { pc = 30; }
           continue;
         case 30:
           s.placeholder('EvtTextShow2');
@@ -14139,14 +14135,14 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 34;
           continue;
         case 34:
-          if (s.slotInt(2) == 12) { pc = 23; } else { pc = 35; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 39; } else { pc = 35; }
           continue;
         case 35:
           s.checkSlot('alive', 10);
           pc = 36;
           continue;
         case 36:
-          if (s.slotInt(2) == 12) { pc = 23; } else { pc = 37; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 39; } else { pc = 37; }
           continue;
         case 37:
           s.placeholder('EvtTextShow2');
@@ -14164,14 +14160,14 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          if (s.slotInt(3) == 12) { pc = 23; } else { pc = 42; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 46; } else { pc = 42; }
           continue;
         case 42:
           s.checkSlot('alive', 8);
           pc = 43;
           continue;
         case 43:
-          if (s.slotInt(3) == 12) { pc = 23; } else { pc = 44; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 46; } else { pc = 44; }
           continue;
         case 44:
           s.placeholder('EvtTextShow2');
@@ -14189,14 +14185,14 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 48;
           continue;
         case 48:
-          if (s.slotInt(4) == 12) { pc = 23; } else { pc = 49; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 53; } else { pc = 49; }
           continue;
         case 49:
           s.checkSlot('alive', 19);
           pc = 50;
           continue;
         case 50:
-          if (s.slotInt(4) == 12) { pc = 23; } else { pc = 51; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 53; } else { pc = 51; }
           continue;
         case 51:
           s.placeholder('EvtTextShow2');
@@ -14214,7 +14210,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 55;
           continue;
         case 55:
-          if (s.slotInt(5) == 12) { pc = 23; } else { pc = 56; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 58; } else { pc = 56; }
           continue;
         case 56:
           s.placeholder('EvtTextShow2');
@@ -14232,7 +14228,7 @@ Future<void> Ch7_BeginningScene(Scene s) async {
           pc = 60;
           continue;
         case 60:
-          if (s.slotInt(6) == 12) { pc = 23; } else { pc = 61; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 63; } else { pc = 61; }
           continue;
         case 61:
           s.placeholder('EvtTextShow2');
@@ -14716,7 +14712,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_ALLEGIANCE');
@@ -14727,7 +14723,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 5; } else { pc = 5; }
           continue;
         case 5:
           s.cameraToChar(18);
@@ -14810,7 +14806,7 @@ Future<void> Ch9A_4(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          if (s.slotInt(0) != 12) { pc = 26; } else { pc = 26; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 26; } else { pc = 26; }
           continue;
         case 26:
           await s.call(Sym('EventScr_Ch9a_EndingScene'));
@@ -15016,14 +15012,14 @@ Future<void> Ch9B_9(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) != 12) { pc = 8; } else { pc = 5; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 5; }
           continue;
         case 5:
           s.checkSlotValue('hard');
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 7; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
           s.counterSet(3, 0);
@@ -15090,7 +15086,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 9;
           continue;
         case 9:
-          if (s.slotInt(0) == 12) { pc = 12; } else { pc = 10; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 12; } else { pc = 10; }
           continue;
         case 10:
           s.setSlot(1, 0);
@@ -15825,14 +15821,14 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 59;
           continue;
         case 59:
-          if (s.slotInt(0) == 12) { pc = 70; } else { pc = 60; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 70; } else { pc = 60; }
           continue;
         case 60:
           s.checkSlot('flag', 9);
           pc = 61;
           continue;
         case 61:
-          if (s.slotInt(0) == 12) { pc = 70; } else { pc = 62; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 70; } else { pc = 62; }
           continue;
         case 62:
           s.setSlot(2, 12);
@@ -15894,8 +15890,7 @@ Future<void> ChangeAIinQueue(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('BLE');
-          pc = 2;
+          if (s.slotInt(13) <= s.slotInt(0)) { pc = 6; } else { pc = 2; }
           continue;
         case 2:
           s.slotArith('SADD', 33, 722722);
@@ -15933,7 +15928,7 @@ Future<void> ConfigHardModeLoadUnitHard(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 4; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 4; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('EvtSetLoadUnitCount');
@@ -15970,14 +15965,14 @@ Future<void> CutsceneExecEnd_Sub0(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
           s.checkSlot('evbit', 7);
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(99) != 12) { pc = 5; } else { pc = 4; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 4; }
           continue;
         case 4:
           await s.fade(FadeDirection.toBlack, 16);
@@ -16015,7 +16010,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.fade(FadeDirection.toBlack, 16);
@@ -16029,7 +16024,7 @@ Future<void> CutsceneExecEnd_Sub1(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(1) == 12) { pc = 3; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('chapter');
@@ -16092,7 +16087,7 @@ Future<void> FloorClearInTower(Scene s) async {
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 11; } else { pc = 8; }
           continue;
         case 8:
           await s.changeChapter(65535, subcmd: 1);
@@ -16140,8 +16135,7 @@ Future<void> FormatFlashingCursor(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('BLE');
-          pc = 2;
+          if (s.slotInt(13) <= s.slotInt(0)) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
           s.slotQueuePopToSlot(11);
@@ -16175,14 +16169,14 @@ Future<void> FormatMoveUnit(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 6; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_DEPLOYED');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 6; } else { pc = 4; }
           continue;
         case 4:
           s.moveUnit('MOVE_NEXTTO', [0, -3, 0]);
@@ -16211,7 +16205,7 @@ Future<void> FormatMoveUnit(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(1) != 7) { pc = 24; } else { pc = 12; }
+          if (s.slotInt(7) != s.slotInt(3)) { pc = 14; } else { pc = 12; }
           continue;
         case 12:
           s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_UP')]);
@@ -16228,7 +16222,7 @@ Future<void> FormatMoveUnit(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          if (s.slotInt(2) != 7) { pc = 24; } else { pc = 17; }
+          if (s.slotInt(7) != s.slotInt(3)) { pc = 19; } else { pc = 17; }
           continue;
         case 17:
           s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_DOWN')]);
@@ -16245,7 +16239,7 @@ Future<void> FormatMoveUnit(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          if (s.slotInt(3) != 7) { pc = 24; } else { pc = 22; }
+          if (s.slotInt(7) != s.slotInt(3)) { pc = 24; } else { pc = 22; }
           continue;
         case 22:
           s.moveUnit('MOVE_1STEP', [0, -3, RawArg('FACING_LEFT')]);
@@ -16290,22 +16284,21 @@ Future<void> GiveTreasureToLuckyDog(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 7; } else { pc = 3; }
           continue;
         case 3:
           s.setSlot(7, 51);
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 7; } else { pc = 5; }
           continue;
         case 5:
           s.placeholder('RANDOMNUMBER');
           pc = 6;
           continue;
         case 6:
-          s.placeholder('BLT');
-          pc = 7;
+          if (s.slotInt(2) < s.slotInt(12)) { pc = 12; } else { pc = 7; }
           continue;
         case 7:
           pc = 8;
@@ -16365,14 +16358,14 @@ Future<void> LoadReinforceHardMode(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
           s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 5; } else { pc = 4; }
           continue;
         case 4:
           await s.call(Sym('EventScr_LoadReinforce'));
@@ -16399,7 +16392,7 @@ Future<void> LoadUniqueAlly(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 7; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 7; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_ALLEGIANCE');
@@ -16410,7 +16403,7 @@ Future<void> LoadUniqueAlly(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(1) == 12) { pc = 14; } else { pc = 5; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 14; } else { pc = 5; }
           continue;
         case 5:
           s.placeholder('CUSA');
@@ -16463,14 +16456,14 @@ Future<void> LoadUnitForDifferentMode(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          if (s.slotInt(0) != 12) { pc = 1; } else { pc = 1; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 4; } else { pc = 1; }
           continue;
         case 1:
           s.checkSlotValue('hard');
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 4; } else { pc = 3; }
           continue;
         case 3:
           s.slotArith('SADD', 50, 2080);
@@ -16505,14 +16498,14 @@ Future<void> LoadUnitForTutorial(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 6; } else { pc = 2; }
           continue;
         case 2:
           s.checkSlotValue('hard');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 6; } else { pc = 4; }
           continue;
         case 4:
           s.slotArith('SADD', 60, 2624);
@@ -16543,7 +16536,7 @@ Future<void> MapSupportConversation(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 2) { pc = 4; } else { pc = 2; }
+          if (s.slotInt(2) == s.slotInt(0)) { pc = 4; } else { pc = 2; }
           continue;
         case 2:
           s.sound('bgm', 65535);
@@ -16604,14 +16597,14 @@ Future<void> MoveUnitS2ToLeader(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('CHECK_DEPLOYED');
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 5; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 5; } else { pc = 4; }
           continue;
         case 4:
           pc = 9;
@@ -16675,7 +16668,7 @@ Future<void> Prologue_BeginningScene(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          if (s.slotInt(0) != 12) { pc = 6; } else { pc = 5; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 6; } else { pc = 5; }
           continue;
         case 5:
           s.placeholder('ASMC');
@@ -16914,7 +16907,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) != s.slotInt(7)) { pc = 12; } else { pc = 3; }
           continue;
         case 3:
           s.showCursorAtUnit(2);
@@ -16983,7 +16976,7 @@ Future<void> Prologue_OneEnemyLeft(Scene s) async {
 
 /// `EventScr_Prologue_OneillSethBattle`
 Future<void> Prologue_OneillSethBattle(Scene s) async {
-    s.moveUnit('MOVE_CLOSEST', [0, 101253224, 12320, 853312, 0]);
+    s.moveUnit('MOVE_CLOSEST', [0, 104, 1545]);
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 0);
@@ -17424,7 +17417,7 @@ Future<void> Prologue_Tutorial8(Scene s) async {
 
 /// `EventScr_Prologue_Tutorial9`
 Future<void> Prologue_Tutorial9(Scene s) async {
-    s.moveUnit('MOVE_CLOSEST', [0, 84475906, 12320, 853312, 0]);
+    s.moveUnit('MOVE_CLOSEST', [0, 2, 1289]);
     await s.waitUnitMoving();
     s.setSlot(13, 0);
     s.setSlot(1, 5120);
@@ -17539,7 +17532,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -17550,7 +17543,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -17561,7 +17554,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 9; }
           continue;
         case 9:
           pc = 19;
@@ -17630,7 +17623,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 7; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -17641,7 +17634,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           pc = 16;
@@ -17710,7 +17703,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -17721,7 +17714,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -17732,7 +17725,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 9; }
           continue;
         case 9:
           s.checkSlotValue('turn');
@@ -17743,7 +17736,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(0) == 12) { pc = 26; } else { pc = 12; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 12; }
           continue;
         case 12:
           pc = 26;
@@ -17828,7 +17821,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -17839,7 +17832,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -17850,7 +17843,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 23; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 9; }
           continue;
         case 9:
           pc = 23;
@@ -17935,7 +17928,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -17946,7 +17939,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -17957,7 +17950,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 19; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 9; }
           continue;
         case 9:
           pc = 19;
@@ -18026,7 +18019,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 7; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -18037,7 +18030,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           pc = 16;
@@ -18106,7 +18099,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 19; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -18117,7 +18110,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 19; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -18128,7 +18121,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 19; } else { pc = 9; }
           continue;
         case 9:
           s.checkSlotValue('turn');
@@ -18139,7 +18132,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 12; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 19; } else { pc = 12; }
           continue;
         case 12:
           s.checkSlotValue('turn');
@@ -18150,7 +18143,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 15; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 19; } else { pc = 15; }
           continue;
         case 15:
           s.checkSlotValue('turn');
@@ -18161,7 +18154,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          if (s.slotInt(0) == 12) { pc = 28; } else { pc = 18; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 19; } else { pc = 18; }
           continue;
         case 18:
           pc = 28;
@@ -18230,7 +18223,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -18241,7 +18234,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -18252,7 +18245,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 9; }
           continue;
         case 9:
           s.checkSlotValue('turn');
@@ -18263,7 +18256,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 12; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 13; } else { pc = 12; }
           continue;
         case 12:
           pc = 18;
@@ -18316,7 +18309,7 @@ Future<void> Ruin_48(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 3; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 3; }
           continue;
         case 3:
           s.checkSlotValue('turn');
@@ -18327,7 +18320,7 @@ Future<void> Ruin_48(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 6; }
           continue;
         case 6:
           s.checkSlotValue('turn');
@@ -18338,7 +18331,7 @@ Future<void> Ruin_48(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(0) == 12) { pc = 15; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 10; } else { pc = 9; }
           continue;
         case 9:
           pc = 15;
@@ -18391,7 +18384,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(32898) != 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 9; } else { pc = 3; }
           continue;
         case 3:
           s.setSlot(11, 0);
@@ -18425,7 +18418,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(32899) != 12) { pc = 12; } else { pc = 12; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 18; } else { pc = 12; }
           continue;
         case 12:
           s.setSlot(11, 0);
@@ -18459,7 +18452,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          if (s.slotInt(32900) != 12) { pc = 21; } else { pc = 21; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 27; } else { pc = 21; }
           continue;
         case 21:
           s.setSlot(11, 0);
@@ -18493,7 +18486,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 29;
           continue;
         case 29:
-          if (s.slotInt(32901) != 12) { pc = 30; } else { pc = 30; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 36; } else { pc = 30; }
           continue;
         case 30:
           s.setSlot(11, 0);
@@ -18527,7 +18520,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 38;
           continue;
         case 38:
-          if (s.slotInt(32902) != 12) { pc = 39; } else { pc = 39; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 45; } else { pc = 39; }
           continue;
         case 39:
           s.setSlot(11, 0);
@@ -18561,7 +18554,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 47;
           continue;
         case 47:
-          if (s.slotInt(32903) != 12) { pc = 48; } else { pc = 48; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 54; } else { pc = 48; }
           continue;
         case 48:
           s.setSlot(11, 0);
@@ -18595,7 +18588,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 56;
           continue;
         case 56:
-          if (s.slotInt(32904) != 12) { pc = 57; } else { pc = 57; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 63; } else { pc = 57; }
           continue;
         case 57:
           s.setSlot(11, 0);
@@ -18629,7 +18622,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 65;
           continue;
         case 65:
-          if (s.slotInt(32905) != 12) { pc = 66; } else { pc = 66; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 72; } else { pc = 66; }
           continue;
         case 66:
           s.setSlot(11, 0);
@@ -18663,7 +18656,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 74;
           continue;
         case 74:
-          if (s.slotInt(32906) != 12) { pc = 75; } else { pc = 75; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 81; } else { pc = 75; }
           continue;
         case 75:
           s.setSlot(11, 0);
@@ -18697,7 +18690,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 83;
           continue;
         case 83:
-          if (s.slotInt(32907) != 12) { pc = 84; } else { pc = 84; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 90; } else { pc = 84; }
           continue;
         case 84:
           s.setSlot(11, 0);
@@ -18731,7 +18724,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 92;
           continue;
         case 92:
-          if (s.slotInt(32908) != 12) { pc = 93; } else { pc = 93; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 99; } else { pc = 93; }
           continue;
         case 93:
           s.setSlot(11, 0);
@@ -18765,7 +18758,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 101;
           continue;
         case 101:
-          if (s.slotInt(32909) != 12) { pc = 102; } else { pc = 102; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 108; } else { pc = 102; }
           continue;
         case 102:
           s.setSlot(11, 0);
@@ -18799,7 +18792,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 110;
           continue;
         case 110:
-          if (s.slotInt(32910) != 12) { pc = 111; } else { pc = 111; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 117; } else { pc = 111; }
           continue;
         case 111:
           s.setSlot(11, 0);
@@ -18833,7 +18826,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 119;
           continue;
         case 119:
-          if (s.slotInt(32911) != 12) { pc = 120; } else { pc = 120; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 126; } else { pc = 120; }
           continue;
         case 120:
           s.setSlot(11, 0);
@@ -18867,7 +18860,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 128;
           continue;
         case 128:
-          if (s.slotInt(32912) != 12) { pc = 129; } else { pc = 129; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 135; } else { pc = 129; }
           continue;
         case 129:
           s.setSlot(11, 0);
@@ -18901,7 +18894,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 137;
           continue;
         case 137:
-          if (s.slotInt(32913) != 12) { pc = 138; } else { pc = 138; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 144; } else { pc = 138; }
           continue;
         case 138:
           s.setSlot(11, 0);
@@ -18935,7 +18928,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 146;
           continue;
         case 146:
-          if (s.slotInt(32914) != 12) { pc = 147; } else { pc = 147; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 153; } else { pc = 147; }
           continue;
         case 147:
           s.setSlot(11, 0);
@@ -18969,7 +18962,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 155;
           continue;
         case 155:
-          if (s.slotInt(32915) != 12) { pc = 156; } else { pc = 156; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 162; } else { pc = 156; }
           continue;
         case 156:
           s.setSlot(11, 0);
@@ -19003,7 +18996,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 164;
           continue;
         case 164:
-          if (s.slotInt(32916) != 12) { pc = 165; } else { pc = 165; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 171; } else { pc = 165; }
           continue;
         case 165:
           s.setSlot(11, 0);
@@ -19037,7 +19030,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 173;
           continue;
         case 173:
-          if (s.slotInt(32917) != 12) { pc = 174; } else { pc = 174; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 180; } else { pc = 174; }
           continue;
         case 174:
           s.setSlot(11, 0);
@@ -19071,7 +19064,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 182;
           continue;
         case 182:
-          if (s.slotInt(32918) != 12) { pc = 183; } else { pc = 183; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 189; } else { pc = 183; }
           continue;
         case 183:
           s.setSlot(11, 0);
@@ -19105,7 +19098,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 191;
           continue;
         case 191:
-          if (s.slotInt(32919) != 12) { pc = 192; } else { pc = 192; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 198; } else { pc = 192; }
           continue;
         case 192:
           s.setSlot(11, 0);
@@ -19139,7 +19132,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 200;
           continue;
         case 200:
-          if (s.slotInt(32920) != 12) { pc = 201; } else { pc = 201; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 207; } else { pc = 201; }
           continue;
         case 201:
           s.setSlot(11, 0);
@@ -19173,7 +19166,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 209;
           continue;
         case 209:
-          if (s.slotInt(32921) != 12) { pc = 210; } else { pc = 210; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 216; } else { pc = 210; }
           continue;
         case 210:
           s.setSlot(11, 0);
@@ -19207,7 +19200,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 218;
           continue;
         case 218:
-          if (s.slotInt(32922) != 12) { pc = 219; } else { pc = 219; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 225; } else { pc = 219; }
           continue;
         case 219:
           s.setSlot(11, 0);
@@ -19241,7 +19234,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 227;
           continue;
         case 227:
-          if (s.slotInt(32923) != 12) { pc = 228; } else { pc = 228; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 234; } else { pc = 228; }
           continue;
         case 228:
           s.setSlot(11, 0);
@@ -19275,7 +19268,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 236;
           continue;
         case 236:
-          if (s.slotInt(32924) != 12) { pc = 237; } else { pc = 237; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 243; } else { pc = 237; }
           continue;
         case 237:
           s.setSlot(11, 0);
@@ -19309,7 +19302,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 245;
           continue;
         case 245:
-          if (s.slotInt(32925) != 12) { pc = 246; } else { pc = 246; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 252; } else { pc = 246; }
           continue;
         case 246:
           s.setSlot(11, 0);
@@ -19343,7 +19336,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 254;
           continue;
         case 254:
-          if (s.slotInt(32926) != 12) { pc = 255; } else { pc = 255; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 261; } else { pc = 255; }
           continue;
         case 255:
           s.setSlot(11, 0);
@@ -19377,7 +19370,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 263;
           continue;
         case 263:
-          if (s.slotInt(32927) != 12) { pc = 264; } else { pc = 264; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 270; } else { pc = 264; }
           continue;
         case 264:
           s.setSlot(11, 0);
@@ -19411,7 +19404,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 272;
           continue;
         case 272:
-          if (s.slotInt(32928) != 12) { pc = 273; } else { pc = 273; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 279; } else { pc = 273; }
           continue;
         case 273:
           s.setSlot(11, 0);
@@ -19445,7 +19438,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 281;
           continue;
         case 281:
-          if (s.slotInt(32929) != 12) { pc = 282; } else { pc = 282; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 288; } else { pc = 282; }
           continue;
         case 282:
           s.setSlot(11, 0);
@@ -19479,7 +19472,7 @@ Future<void> Ruin_54(Scene s) async {
           pc = 290;
           continue;
         case 290:
-          if (s.slotInt(32930) != 12) { pc = 291; } else { pc = 291; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 297; } else { pc = 291; }
           continue;
         case 291:
           s.setSlot(11, 0);
@@ -19585,8 +19578,7 @@ Future<void> Ruin_56(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('BLT');
-          pc = 15;
+          if (s.slotInt(2) < s.slotInt(3)) { pc = 4; } else { pc = 15; }
           continue;
         case 15:
           s.placeholder('CLEAN');
@@ -19657,8 +19649,7 @@ Future<void> Ruin_58(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('BLT');
-          pc = 12;
+          if (s.slotInt(2) < s.slotInt(3)) { pc = 4; } else { pc = 12; }
           continue;
         case 12:
           s.placeholder('CLEAN');
@@ -19906,7 +19897,7 @@ Future<void> SetBackground(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(32978) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.fade(FadeDirection.toBlack, 16);
@@ -19945,7 +19936,7 @@ Future<void> SetFlagIfPlayedThrough(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 12) { pc = 3; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           s.evBitMod('flag', true, -1);
@@ -19992,7 +19983,7 @@ Future<void> SkirmishRetreat(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 7; }
+          if (s.slotInt(12) != s.slotInt(7)) { pc = 14; } else { pc = 7; }
           continue;
         case 7:
           s.placeholder('EvtBgmFadeIn');
@@ -20015,7 +20006,7 @@ Future<void> SkirmishRetreat(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          if (s.slotInt(0) != 12) { pc = 13; } else { pc = 13; }
+          if (s.slotInt(12) != s.slotInt(1)) { pc = 14; } else { pc = 13; }
           continue;
         case 13:
           s.placeholder('ASMC');
@@ -20050,7 +20041,7 @@ Future<void> StrictLoadUniqueAlly(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) != 12) { pc = 5; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 5; } else { pc = 2; }
           continue;
         case 2:
           s.placeholder('SPAWN_ALLY');
@@ -20075,7 +20066,7 @@ Future<void> StrictLoadUniqueAlly(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          if (s.slotInt(2) == 12) { pc = 10; } else { pc = 9; }
+          if (s.slotInt(12) == s.slotInt(1)) { pc = 16; } else { pc = 9; }
           continue;
         case 9:
           s.placeholder('CUSA');
@@ -20141,7 +20132,7 @@ Future<void> SuspendPrompt(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 6; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(7)) { pc = 12; } else { pc = 6; }
           continue;
         case 6:
           s.placeholder('ASMC');
@@ -20196,7 +20187,7 @@ Future<void> TextShowWithFadeIn(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(32957) != 12) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.fade(FadeDirection.toBlack, 16);
@@ -20243,7 +20234,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) != 12) { pc = 4; } else { pc = 4; }
+          if (s.slotInt(12) != s.slotInt(2)) { pc = 18; } else { pc = 4; }
           continue;
         case 4:
           s.placeholder('SHOW_ATTACK_RANGE');
@@ -20384,7 +20375,7 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          if (s.slotInt(0) != 12) { pc = 3; } else { pc = 3; }
+          if (s.slotInt(12) != s.slotInt(11)) { pc = 10; } else { pc = 3; }
           continue;
         case 3:
           s.placeholder('ASMC');
@@ -20445,7 +20436,7 @@ Future<void> Tutorial_Exec1(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          if (s.slotInt(1) == 2) { pc = 10; } else { pc = 19; }
+          if (s.slotInt(2) == s.slotInt(0)) { pc = 22; } else { pc = 19; }
           continue;
         case 19:
           await s.textShow(65535);
@@ -20503,7 +20494,7 @@ Future<void> UnTriggerIfNotUnit(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          if (s.slotInt(0) == 131084) { pc = 2; } else { pc = 2; }
+          if (s.slotInt(12) == s.slotInt(2)) { pc = 3; } else { pc = 2; }
           continue;
         case 2:
           await s.call(Sym('UnitDef_Ch14BAlly_7', 28));
@@ -20778,7 +20769,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x270(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) != 12) { pc = 8; } else { pc = 4; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 8; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue'));
@@ -20829,7 +20820,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2B4(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 8; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 100));
@@ -20906,7 +20897,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x318(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           s.evBitMod('flag', true, 10);
@@ -20955,21 +20946,21 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 13; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(7, 3);
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 13; } else { pc = 6; }
           continue;
         case 6:
           s.setSlot(7, 1);
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 13; } else { pc = 8; }
           continue;
         case 8:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 260));
@@ -20984,7 +20975,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(0) != 12) { pc = 13; } else { pc = 12; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 13; } else { pc = 12; }
           continue;
         case 12:
           s.evBitMod('flag', true, 12);
@@ -21037,21 +21028,21 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 13; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(7, 3);
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 13; } else { pc = 6; }
           continue;
         case 6:
           s.setSlot(7, 1);
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 13; } else { pc = 8; }
           continue;
         case 8:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 340));
@@ -21066,7 +21057,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(0) != 12) { pc = 13; } else { pc = 12; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 13; } else { pc = 12; }
           continue;
         case 12:
           s.evBitMod('flag', true, 14);
@@ -21127,56 +21118,56 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 4; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(7, 10);
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 6; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 6; }
           continue;
         case 6:
           s.setSlot(7, 8);
           pc = 7;
           continue;
         case 7:
-          if (s.slotInt(0) == 12) { pc = 8; } else { pc = 8; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 8; }
           continue;
         case 8:
           s.setSlot(7, 7);
           pc = 9;
           continue;
         case 9:
-          if (s.slotInt(0) == 12) { pc = 10; } else { pc = 10; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 10; }
           continue;
         case 10:
           s.setSlot(7, 5);
           pc = 11;
           continue;
         case 11:
-          if (s.slotInt(0) == 12) { pc = 12; } else { pc = 12; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 12; }
           continue;
         case 12:
           s.setSlot(7, 4);
           pc = 13;
           continue;
         case 13:
-          if (s.slotInt(0) == 12) { pc = 14; } else { pc = 14; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 14; }
           continue;
         case 14:
           s.setSlot(7, 2);
           pc = 15;
           continue;
         case 15:
-          if (s.slotInt(0) == 12) { pc = 16; } else { pc = 16; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 16; }
           continue;
         case 16:
           s.setSlot(7, 1);
           pc = 17;
           continue;
         case 17:
-          if (s.slotInt(0) == 12) { pc = 18; } else { pc = 18; }
+          if (s.slotInt(12) == s.slotInt(7)) { pc = 23; } else { pc = 18; }
           continue;
         case 18:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 420));
@@ -21191,7 +21182,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          if (s.slotInt(0) != 12) { pc = 23; } else { pc = 22; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 23; } else { pc = 22; }
           continue;
         case 22:
           s.evBitMod('flag', true, 16);
@@ -21234,7 +21225,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x534(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) != 12) { pc = 12; } else { pc = 4; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 12; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_050_91EE14_residue', 500));
@@ -21309,7 +21300,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x5C(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) == 12) { pc = 6; } else { pc = 4; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 6; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue'));
@@ -21352,7 +21343,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          if (s.slotInt(0) != 12) { pc = 24; } else { pc = 4; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 24; } else { pc = 4; }
           continue;
         case 4:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 60));
@@ -21384,7 +21375,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          if (s.slotInt(0) == 12) { pc = 24; } else { pc = 13; }
+          if (s.slotInt(12) == s.slotInt(0)) { pc = 24; } else { pc = 13; }
           continue;
         case 13:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 120));
@@ -21416,7 +21407,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x90(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          if (s.slotInt(0) != 12) { pc = 24; } else { pc = 22; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 24; } else { pc = 22; }
           continue;
         case 22:
           s.setSlot(2, Sym('frontier_df3_unitdef_b_047_91E280_residue', 180));
@@ -21553,7 +21544,7 @@ Future<void> frontier_df3_eventscr_ch_020_A6FB9C_0x10(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          if (s.slotInt(0) != 12) { pc = 7; } else { pc = 6; }
+          if (s.slotInt(12) != s.slotInt(0)) { pc = 7; } else { pc = 6; }
           continue;
         case 6:
           s.evBitMod('flag', true, 13);
