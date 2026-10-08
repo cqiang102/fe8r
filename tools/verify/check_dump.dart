@@ -659,7 +659,15 @@ List<Finding> check(Map<String, dynamic> d, {String? scenario}) {
 
     ok(inputs?['battleMapKind'] == 'story', '输入的 kind 是 story',
         'inputs=$inputs');
-    ok(inputs?['difficulty'] == 'normal', '默认难度 normal → 教学模式',
+    // ⚠️ 原来这里写"normal → 教学模式" —— **与源码相反**（第 109 轮查证）：
+    //   源码 `SaveMenuWriteNewGame.c:34-45` 是 `case 0: isTutorial = 0; case 1/2: isTutorial = 1;`
+    //   而 `CHECK_TUTORIAL = !(controller || hard)` ⇒ **教学/困难档 ⇒ 0**；
+    //   美版还写着 `/* Not exec if tutorial */`（`prologue-eventscript.h:38-41`）
+    //   ⇒ 只有**非教学**档才会执行 `ExecTut`。所以这里改成按"实际难度字符串"判，
+    //   不再把 normal 说成教学模式。
+    ok(inputs?['difficulty'] != null, '记下了难度（不再断言 normal=教学模式）',
+        'difficulty=${inputs?['difficulty']}');
+    ok(inputs?['difficulty'] == 'easy', '序章场景用**非教学**档（这样 ExecTut 才会执行）',
         'difficulty=${inputs?['difficulty']}');
     ok(inputs?['tutorial'] == false, 'PLAY_FLAG_TUTORIAL = 0（这条链上没人置它）',
         'tutorial=${inputs?['tutorial']}');

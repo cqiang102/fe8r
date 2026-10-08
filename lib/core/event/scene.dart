@@ -1343,6 +1343,13 @@ class Scene {
       'hard' => isHard ? 1 : 0,
       // `CHECK_TUTORIAL`（`src/eventscr_0800E2C8.c:109-115`）：
       // slot 0xC = !(config.controller || hard)
+      // ⚠️ 极性照源码（`src/eventscr_0800E2C8.c:109-115`）：
+      //   `if (gPlaySt.config.controller || (chapterStateBits & PLAY_FLAG_HARD)) FALSE else TRUE`
+      // ★ 而 `EventScr_CallOnTutorialMode` 是"**相等就跳过 CALL**"，
+      //   美版源码在同一处**亲手写了注释**：`/* Not exec if tutorial */`
+      //   （`fireemblem8u/src/events/prologue-eventscript.h:38-41`）——
+      //   所以**教学/困难档下 `EventScr_Prologue_ExecTut` 本来就不会执行**。
+      //   要它执行，档位必须让 `CHECK_TUTORIAL != 0`（= 非教学、非困难）。
       'tutorial' => (controllerConfig || isHard) ? 0 : 1,
       // `CHECK_ACTIVE` = `EvtGetActiveUnitPid`（把**当前行动单位**的 pid 写进槽）
       'activePid' => activeUnitPid,
