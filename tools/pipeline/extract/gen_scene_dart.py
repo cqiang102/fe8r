@@ -286,6 +286,32 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 条件族第四批（`src/Event33_CheckUnitVarious.c`）：
+    #   `CHECK_EXISTS`     = `EvtCheckUnitExists`（`EAstdlib.h:125`）
+    #     => `:53-59`：`unit ? 1 : 0`（**没有 EVC_ERROR**，与别条不同）
+    #   `CHECK_ALLEGIANCE` = `EvtGetUnitFaction`（`:130`）
+    #     => `:110-124`：`!unit => EVC_ERROR`；否则写 `FACTION_ID_BLUE(0)` /
+    #        `FACTION_ID_RED(2)`，**default => `FACTION_ID_GREEN(1)`**
+    #        （`include/bmunit.h:299-301`）—— 注意**不是**简单右移
+    #   `CHECK_ACTIVE`     = `EvtGetActiveUnitPid`（`include/EAstdlib.h:116`）
+    #     => `_EvtArg0(EV_CMD_GET_PID, 2, EVSUBCMD_CHECK_ACTIVE, 0)`（`eventscript.h:693`），
+    #        而 `EVSUBCMD_CHECK_ACTIVE = 1`（`:463`）；处理体是
+    #        `Event2E_CheckAt`（`src/eventscr_0800FEA4.c:97-111`）：
+    #            case 1: unit = gActiveUnit; break;
+    #            if (!unit) gEventSlots[0xC] = 0;
+    #            else       gEventSlots[0xC] = unit->pCharacterData->number;
+    #        ⇒ **没有行动单位就写 0**（不是报错）
+    #        ⚠️ 第 95 轮我**先按宏名猜着实现了这条**（当时没定位到处理体），
+    #        事后才查到这里 —— 作者应该先读再写（用户的追问是对的）
+    if op in ("CHECK_EXISTS", "CHECK_ALLEGIANCE"):
+        a9 = A[0] if A else 0
+        if isinstance(a9, int):
+            kind = "exists" if op == "CHECK_EXISTS" else "allegiance"
+            return (f"s.checkSlot('{kind}', {num(a9)});", True)
+        return (f"s.placeholder('{op}');", True)
+    if op == "CHECK_ACTIVE":
+        return ("s.checkSlotValue('activePid');", True)
+
     # 清屏与文本底（都读过源）：
     #   `CLEAN` = `EvtClearScreen`（`include/EAstdlib.h:96`，
     #     `_EvtAutoCmdLen2(EV_CMD_CLEARSCREEN)`）

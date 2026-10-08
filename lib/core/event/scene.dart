@@ -1261,6 +1261,18 @@ class Scene {
   /// `gPlaySt.config.controller`（`CHECK_TUTORIAL` 用）
   bool controllerConfig = false;
 
+  /// 当前行动单位的 pid（`CHECK_ACTIVE` = `EvtGetActiveUnitPid`；由游戏侧更新）
+  ///
+  /// 出处 `src/eventscr_0800FEA4.c:97-111`：`unit = gActiveUnit`，
+  /// **没有行动单位就写 0**（不是 `EVC_ERROR`）——所以默认值 0 是**语义**，不是兜底。
+  int activeUnitPid = 0;
+
+  /// 读某角色的**阵营 id**（`CHECK_ALLEGIANCE`）：
+  /// `FACTION_ID_BLUE=0` / `FACTION_ID_GREEN=1` / `FACTION_ID_RED=2`，
+  /// 且源码是 `BLUE => 0`、`RED => 2`、**其余一律 GREEN(1)**
+  /// （`src/Event33_CheckUnitVarious.c:110-124`）——所以由游戏侧给值，不在这里右移。
+  int? Function(int pid)? unitFactionIdReader;
+
   /// 红方 / 绿方的**在场**单位数（`CountRedUnits` / `CountGreenUnits`），由游戏侧更新
   int redUnitCount = 0;
   int greenUnitCount = 0;
@@ -1288,6 +1300,8 @@ class Scene {
       // `CHECK_TUTORIAL`（`src/eventscr_0800E2C8.c:109-115`）：
       // slot 0xC = !(config.controller || hard)
       'tutorial' => (controllerConfig || isHard) ? 0 : 1,
+      // `CHECK_ACTIVE` = `EvtGetActiveUnitPid`（把**当前行动单位**的 pid 写进槽）
+      'activePid' => activeUnitPid,
       'redCount' => redUnitCount,
       'greenCount' => greenUnitCount,
       _ => 0,
@@ -1303,6 +1317,29 @@ class Scene {
         v = evBit(a);
       case 'flag':
         v = flagIsSet(a);
+      case 'exists':
+        // `:53-59`：unit ? 1 : 0（**不报错**）
+        final re = unitAliveReader;
+        if (re == null) {
+          checksWithoutReader++;
+          v = false;
+        } else {
+          v = re(a);
+        }
+      case 'allegiance':
+        // `:110-124`：`!unit => EVC_ERROR`（记错、不写槽）
+        final rf = unitFactionIdReader;
+        if (rf == null) {
+          scriptErrors++;
+          return;
+        }
+        final fid = rf(a);
+        if (fid == null) {
+          scriptErrors++;
+          return;
+        }
+        setSlot(0xC, fid);
+        return;
       case 'alive':
         // src/Event33_CheckUnitVarious.c:69-81：找不到单位 => 0；US_DEAD => 0
         final r = unitAliveReader;

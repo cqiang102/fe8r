@@ -590,7 +590,7 @@ Future<void> scr_9EE6C8(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ACTIVE');
+          s.checkSlotValue('activePid');
           pc = 1;
           continue;
         case 1:
@@ -1130,7 +1130,7 @@ Future<void> ApplyTileChangeForFaction(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_ALLEGIANCE');
+          s.checkSlot('allegiance', -1);
           pc = 2;
           continue;
         case 2:
@@ -1560,14 +1560,14 @@ Future<void> Ch10B_1(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EXISTS');
+          s.checkSlot('exists', 14);
           pc = 1;
           continue;
         case 1:
           if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_ALLEGIANCE');
+          s.checkSlot('allegiance', 14);
           pc = 3;
           continue;
         case 3:
@@ -1638,14 +1638,14 @@ Future<void> Ch10B_2(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_EXISTS');
+          s.checkSlot('exists', 14);
           pc = 1;
           continue;
         case 1:
           if (s.slotInt(12) == s.slotInt(0)) { pc = 15; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_ALLEGIANCE');
+          s.checkSlot('allegiance', 14);
           pc = 3;
           continue;
         case 3:
@@ -1829,7 +1829,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('CHECK_EXISTS');
+          s.checkSlot('exists', 20);
           pc = 5;
           continue;
         case 5:
@@ -1854,7 +1854,7 @@ Future<void> Ch10a_EndingScene(Scene s) async {
           pc = 11;
           continue;
         case 11:
-          s.placeholder('CHECK_EXISTS');
+          s.checkSlot('exists', 21);
           pc = 12;
           continue;
         case 12:
@@ -3370,7 +3370,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('CHECK_ACTIVE');
+          s.checkSlotValue('activePid');
           pc = 4;
           continue;
         case 4:
@@ -10930,7 +10930,7 @@ Future<void> Ch2_Village1(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_ACTIVE');
+          s.checkSlotValue('activePid');
           pc = 2;
           continue;
         case 2:
@@ -11810,7 +11810,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_EXISTS');
+          s.checkSlot('exists', 12);
           pc = 2;
           continue;
         case 2:
@@ -12091,7 +12091,7 @@ Future<void> Ch4_2(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('CHECK_ACTIVE');
+          s.checkSlotValue('activePid');
           pc = 3;
           continue;
         case 3:
@@ -14715,7 +14715,7 @@ Future<void> Ch9A_4(Scene s) async {
           if (s.slotInt(12) == s.slotInt(0)) { pc = 2; } else { pc = 2; }
           continue;
         case 2:
-          s.placeholder('CHECK_ALLEGIANCE');
+          s.checkSlot('allegiance', 18);
           pc = 3;
           continue;
         case 3:
@@ -15082,7 +15082,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 8;
           continue;
         case 8:
-          s.placeholder('CHECK_EXISTS');
+          s.checkSlot('exists', 34);
           pc = 9;
           continue;
         case 9:
@@ -20226,7 +20226,7 @@ Future<void> Tutorial_Exec0(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('CHECK_ACTIVE');
+          s.checkSlotValue('activePid');
           pc = 2;
           continue;
         case 2:
@@ -20490,7 +20490,7 @@ Future<void> UnTriggerIfNotUnit(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CHECK_ACTIVE');
+          s.checkSlotValue('activePid');
           pc = 1;
           continue;
         case 1:

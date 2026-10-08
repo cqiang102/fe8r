@@ -6705,6 +6705,28 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
     final f = field;
     if (f == null) return;
+    // `CHECK_ACTIVE`：当前行动单位的 pid
+    sc.activeUnitPid = state?.selectedUnitId == null
+        ? 0
+        : (f.units
+                .where((x) => x.id == state!.selectedUnitId)
+                .map((x) => x.charIndex)
+                .firstOrNull ??
+            0);
+    // `CHECK_ALLEGIANCE`：源码是 BLUE=>0、RED=>2、**其余一律 GREEN(1)**
+    //（`src/Event33_CheckUnitVarious.c:110-124`）—— 所以这里不做右移
+    sc.unitFactionIdReader = (pid) {
+      for (final x in f.units) {
+        if (x.charIndex == pid && x.isAlive) {
+          final bit = x.faction & 0xC0;
+          if (bit == Faction.blue) return 0; // FACTION_ID_BLUE
+          if (bit == Faction.red) return 2; // FACTION_ID_RED
+          return 1; // FACTION_ID_GREEN（default 分支）
+        }
+      }
+      return null; // 找不到 ⇒ 源码 EVC_ERROR
+    };
+
     // `CHECK_LUCK` 的读取钩子（放在 `f` 之后 —— 我第一版插在 `f` 声明前，编译当场报错）
     sc.unitLuckReader = (pid) {
       for (final x in f.units) {
