@@ -190,6 +190,7 @@ void main() {
   _menuOverrideTests();
   _continueTextTests();
   _evBitModifyTailTests();
+  _searchAvailableEventTests();
 }
 
 // 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
@@ -344,5 +345,65 @@ void _evBitModifyTailTests() {
     // ⚠️ 我第一次写的是 12（凭算术猜的），**实测 11** —— 按事实改成 11
     expect(RegExp(r's\.modifyEvBit\(').allMatches(t).length, 11,
         reason: '按事实钉住（实测值）');
+  });
+}
+
+// `SearchAvailableEvent` 的**遍历规则**（`src/SearchAvailableEvent.c:24-60`）
+void _searchAvailableEventTests() {
+  test('★ 标志门：CheckFlag(高 16 位) 为真 ⇒ 整条跳过（**不调条件函数**）', () {
+    var called = 0;
+    final r = searchAvailableEvent(
+      entries: [
+        (firstWord: (5 << 16) | 2, script: EventScript(instructions: const [], labels: const {})),
+        (firstWord: (0 << 16) | 2, script: EventScript(instructions: const [], labels: const {})),
+      ],
+      // ⚠️ 我第一次写 {2: 3} —— 那样第一条会直接**跳过第二条**，
+      //    条件函数当然不会被调用（是判据数据不自洽，不是实现错）。改成 1。
+      cmdLengths: {2: 1},
+      checkFlag: (f) => f == 5, // 第一条的标志置了 ⇒ 跳过
+      conditionFuncs: {
+        2: (_) {
+          called++;
+          return true;
+        },
+      },
+    );
+    expect(called, 1, reason: '★ 第一条根本不该调用条件函数');
+    expect(r!.index, 1, reason: '采用的是第二条');
+    expect(r.cmdId, 2);
+  });
+
+  test('★ 长度跳过：条件不成立时前进 cmdInfo[].length **个字**', () {
+    final seen = <int>[];
+    final r = searchAvailableEvent(
+      entries: [
+        (firstWord: 2, script: EventScript(instructions: const [], labels: const {})), // cmdId 2，length 3 ⇒ 跳到 3
+        (firstWord: 1, script: EventScript(instructions: const [], labels: const {})), // index 1
+        (firstWord: 1, script: EventScript(instructions: const [], labels: const {})), // index 2
+        (firstWord: 4, script: EventScript(instructions: const [], labels: const {})), // index 3 ⇒ 从这里命中
+      ],
+      cmdLengths: {2: 3, 1: 2, 4: 1},
+      checkFlag: (_) => false,
+      conditionFuncs: {
+        2: (_) => false,
+        1: (_) => false,
+        4: (w) {
+          seen.add(w);
+          return true;
+        },
+      },
+    );
+    expect(r!.index, 3);
+    expect(seen, [4]);
+  });
+
+  test('★ 缺长度 ⇒ 返回 null（不瞎猜步长）', () {
+    final r = searchAvailableEvent(
+      entries: [(firstWord: 9, script: EventScript(instructions: const [], labels: const {}))],
+      cmdLengths: const {},
+      checkFlag: (_) => false,
+      conditionFuncs: const {},
+    );
+    expect(r, isNull);
   });
 }

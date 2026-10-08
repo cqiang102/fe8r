@@ -297,3 +297,58 @@ int resolveLomaChapter(int operand, int slot2) {
 /// `LOMA` 的相机坐标：槽 0xB 的**低 16 位 = x，高 16 位 = y**
 ({int x, int y}) lomaCamera(int slotB) =>
     (x: slotB & 0xFFFF, y: (slotB >> 16) & 0xFFFF);
+
+// ---------------------------------------------------------------------------
+// 事件条目的**遍历**（`SearchAvailableEvent`，`src/SearchAvailableEvent.c:24-60`）
+//
+// ```c
+// for (;;) {
+//     int cmdId  = EVT_CMD_LO(info->listScript[0]);      // 首字**低 16 位** = 条件类型
+//     if (!CheckFlag(EVT_CMD_HI(info->listScript[0])))   // 首字**高 16 位** = 标志
+//         if (cmdInfo[cmdId].func(info) == 1) break;     // 条件成立 ⇒ 采用这条
+//     info->listScript += cmdInfo[cmdId].length;         // 否则按**长度**跳过
+// }
+// ```
+//
+// ★ 两条已确证的规则（本函数只做这两条）：
+//   1. **标志门**：`CheckFlag(高 16 位)` 为真 ⇒ **整条跳过**（连条件函数都不调）；
+//   2. **长度跳过**：条件不成立时，前进 `cmdInfo[cmdId].length` **个字**。
+//
+// ⚠️ **未读**：各个 `EvCheck*`（`EvCheck02_TURN` / `EvCheck03_CHAR` / `EvCheck05_LOCA`
+//    / `EvCheck06_VILL` / `EvCheck07_CHES` / `EvCheck01_AFEV` …）**函数体**我还没读
+//    ⇒ 条件是否成立由调用方通过 [conditionFuncs] 注入，**本文件不猜**。
+//    调用方给不出实现时，返回 `null`（= "没找到可用条目"），而不是假装成立。
+//
+// [entries]: 每条 = 首字 + 该条的脚本（跳过用长度，不用脚本长度）
+// [conditionFuncs]: `cmdId → (首字) → bool`
+// 返回：被采用的那条（`null` = 走到末尾都没找到）
+({int cmdId, int firstWord, EventScript script, int index})? searchAvailableEvent({
+  required List<({int firstWord, EventScript script})> entries,
+  required Map<int, int> cmdLengths,
+  required bool Function(int flag) checkFlag,
+  required Map<int, bool Function(int firstWord)> conditionFuncs,
+}) {
+  var i = 0;
+  while (i < entries.length) {
+    final first = entries[i].firstWord;
+    final cmdId = first & 0xFFFF; // 低 16 位 = 条件类型
+    final flag = (first >> 16) & 0xFFFF; // 高 16 位 = 标志
+    // 规则 1：标志门 —— 为真就整条跳过（**不调条件函数**）
+    if (!checkFlag(flag)) {
+      final f = conditionFuncs[cmdId];
+      if (f != null && f(first)) {
+        return (
+          cmdId: cmdId,
+          firstWord: first,
+          script: entries[i].script,
+          index: i,
+        );
+      }
+    }
+    // 规则 2：按**长度**跳过（缺长度 = 无法前进 ⇒ 停，不瞎猜）
+    final len = cmdLengths[cmdId];
+    if (len == null || len <= 0) return null;
+    i += len;
+  }
+  return null;
+}
