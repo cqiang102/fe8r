@@ -2589,7 +2589,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 绝不兜底成 `story`（兜底会让"未查证的章节"看起来和序章一模一样）。
   void _openMapMenu() {
     final kind = battleMapKindOf(sceneChapter);
-    final diff = titleFlow?.difficulty ?? Difficulty.normal;
+    final diff = titleFlow?.difficulty ?? Difficulty.normal; // 菜单用；**真源**见 _currentPlayFlags
     // ★ 从存档继续时用**存档里的**教学/难度位；新游戏才看难度屏选的那个
     final ng = _playFlagsFromSave ?? NewGamePlayFlags(switch (diff) {
       Difficulty.easy => NewGameDifficulty.easy,
@@ -2759,7 +2759,7 @@ class Fe8Game extends FlameGame with KeyboardEvents {
   /// 当前生效的新游戏标志：优先用**存档恢复**的，否则用难度屏选的
   NewGamePlayFlags get _currentPlayFlags =>
       _playFlagsFromSave ??
-      NewGamePlayFlags(switch (titleFlow?.difficulty ?? Difficulty.normal) {
+      NewGamePlayFlags(switch (titleFlow?.difficulty ?? Difficulty.easy) { // 兜底见 docs/路线图.md 133
         Difficulty.easy => NewGameDifficulty.easy,
         Difficulty.normal => NewGameDifficulty.normal,
         Difficulty.hard => NewGameDifficulty.hard,
