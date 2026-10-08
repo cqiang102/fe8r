@@ -461,6 +461,13 @@ class SoundOp extends SceneEvent {
   final int id;
 }
 
+/// `TILECHANGE` —— 触发一条地图变化（`id` 可能为 -1/-2/-3 的特殊值）
+class TileChange extends SceneEvent {
+  const TileChange(this.id);
+
+  final int id;
+}
+
 /// `CLEAN` —— 清屏（清对话框 + 结束所有立绘）
 class ClearScreen extends SceneEvent {
   const ClearScreen();
@@ -846,6 +853,14 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// `TILECHANGE` = `EvtTriggerMapChange(id)`（`include/EAstdlib.h:102`；
+  /// 处理体 `Event27_MapChange`，`src/eventscr_0800F4D0.c:45-100`）。
+  ///
+  /// ⚠️ `id` 有**特殊负值**（源码 `:55-80`）：`-1` = 取槽 0xB 的坐标、
+  /// `-2` = 当前行动单位所在格、`-3` = 从槽队列取；取不到 ⇒ `EVC_ERROR`。
+  /// 场景不持有地图 ⇒ 发事件由游戏侧解析（正数直接查表，负值按上述规则）。
+  Future<void> tileChange(int id) => onEvent(TileChange(id));
 
   /// `CLEAN` = `EvtClearScreen`（`include/EAstdlib.h:96`）
   ///

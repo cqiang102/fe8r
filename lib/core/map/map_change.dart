@@ -88,3 +88,25 @@ List<int> applyMapChangeToTiles({
   }
   return out;
 }
+
+/// `GetMapChangeIdAt`（`src/GetMapChangeIdAt.c:15-31`）的**纯函数**版本。
+///
+/// * 从表头开始走，走到 `id < 0`（哨兵）为止；
+/// * 命中的矩形条件是 `x >= xOrigin && y >= yOrigin &&
+///   xOrigin + xSize - 1 >= x && yOrigin + ySize - 1 >= y`；
+/// * ★ **后面的记录覆盖前面的**（源码每命中一次就改写 `result`）
+///   ⇒ 是"**最后命中者胜**"，不是第一个；
+/// * 一个都没有 ⇒ **-1**（源码的初值）。
+int getMapChangeIdAt(List<MapChangeRecord> records, int x, int y) {
+  var result = -1;
+  for (final r in records) {
+    if (r.id < 0) break; // 哨兵
+    if (x >= r.xOrigin &&
+        y >= r.yOrigin &&
+        r.xOrigin + r.xSize - 1 >= x &&
+        r.yOrigin + r.ySize - 1 >= y) {
+      result = r.id;
+    }
+  }
+  return result;
+}

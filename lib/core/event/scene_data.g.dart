@@ -1115,7 +1115,7 @@ Future<void> scr_9EEB00(Scene s) async {
 /// `EventScr_ApplyActiveUnitTileChange`
 Future<void> ApplyActiveUnitTileChange(Scene s) async {
     s.modifyEvBit(1);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(65534);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -1137,7 +1137,7 @@ Future<void> ApplyTileChangeForFaction(Scene s) async {
           if (s.slotInt(12) != s.slotInt(2)) { pc = 4; } else { pc = 3; }
           continue;
         case 3:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(-2);
           pc = 4;
           continue;
         case 4:
@@ -1733,9 +1733,9 @@ Future<void> Ch10a_BeginningScene(Scene s) async {
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
     await s.waitUnitMoving();
     s.setSlot(11, 851975);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(65535);
     await s.fade(FadeDirection.fromBlack, 16);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(0);
     s.loadUnits(2, Sym('frontier_df4_banim_b_077_90DB94', 212));
     await s.waitUnitMoving();
     s.placeholder('TILEREVERT');
@@ -2232,7 +2232,7 @@ Future<void> Ch11B_0(Scene s) async {
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('TILEREVERT');
-    s.placeholder('TILECHANGE');
+    await s.tileChange(1);
     await s.clearScreen();
     await s.cameraTo(9, 9, centered: true);
     s.setTextType(0);
@@ -2251,7 +2251,7 @@ Future<void> Ch11B_1(Scene s) async {
     await s.cameraTo(9, 9, centered: true);
     s.placeholder('EARTHQUAKE_START');
     await s.stall(30);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(2);
     await s.stall(30);
     s.placeholder('EARTHQUAKE_END');
     s.cameraToChar(15);
@@ -2279,7 +2279,7 @@ Future<void> Ch11B_2(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(3);
     await s.clearScreen();
     await s.cameraTo(12, 10, centered: true);
     s.setTextType(0);
@@ -3348,7 +3348,7 @@ Future<void> Ch12A_0(Scene s) async {
     await s.call(Sym('data_085B9BBC', 360));
     s.setSlot(3, 89);
     await s.giveItem(65535, 3);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(2);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -3472,7 +3472,7 @@ Future<void> Ch12A_1(Scene s) async {
           pc = 31;
           continue;
         case 31:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(3);
           pc = 32;
           continue;
         case 32:
@@ -6369,7 +6369,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 41;
           continue;
         case 41:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 42;
           continue;
         case 42:
@@ -6607,7 +6607,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 102;
           continue;
         case 102:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 103;
           continue;
         case 103:
@@ -6974,7 +6974,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 18;
           continue;
         case 18:
@@ -7370,7 +7370,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 116;
           continue;
         case 116:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(65535);
           pc = 117;
           continue;
         case 117:
@@ -7378,7 +7378,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 118;
           continue;
         case 118:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(65535);
           pc = 119;
           continue;
         case 119:
@@ -7578,7 +7578,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 168;
           continue;
         case 168:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 169;
           continue;
         case 169:
@@ -7594,7 +7594,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 172;
           continue;
         case 172:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(1);
           pc = 173;
           continue;
         case 173:
@@ -7742,7 +7742,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 210;
           continue;
         case 210:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(65535);
           pc = 211;
           continue;
         case 211:
@@ -7750,7 +7750,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 212;
           continue;
         case 212:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(65535);
           pc = 213;
           continue;
         case 213:
@@ -8460,7 +8460,7 @@ Future<void> Ch19A_11(Scene s) async {
           pc = 40;
           continue;
         case 40:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 41;
           continue;
         case 41:
@@ -10594,7 +10594,7 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     await s.waitUnitMoving();
     s.sound('se', 171);
     s.setSlot(11, 131084);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(65535);
     s.sound('se', 92);
     s.placeholder('NOTIFY');
     s.loadUnits(1, Sym('UnitDef_Ch2NPC'));
@@ -11594,7 +11594,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 46;
           continue;
         case 46:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 47;
           continue;
         case 47:
@@ -14452,7 +14452,7 @@ Future<void> Ch8_11(Scene s) async {
     s.slotArith('SADD', 9, 4);
     s.setSlot(2, 131087);
     await s.call(Sym('EventScr_9EEA58'));
-    s.placeholder('TILECHANGE');
+    await s.tileChange(0);
     s.loadUnits(1, Sym('UnitDef_Ch9AEnemy_11'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
@@ -14590,7 +14590,7 @@ Future<void> Ch8_BeginningScene(Scene s) async {
     s.textRemoveAll();
     s.setSlot(11, 1376276);
     s.sound('se', 171);
-    s.placeholder('TILECHANGE');
+    await s.tileChange(65535);
     s.moveUnit('MOVE', [0, 77, 19, 10]);
     s.setSlot(11, 1048595);
     s.moveUnit('MOVE', [16, 65534, 19, 11]);
@@ -17575,7 +17575,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(0);
           pc = 15;
           continue;
         case 15:
@@ -17591,7 +17591,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(7);
           pc = 19;
           continue;
         case 19:
@@ -17757,7 +17757,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(1);
           pc = 18;
           continue;
         case 18:
@@ -17773,7 +17773,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(5);
           pc = 22;
           continue;
         case 22:
@@ -17789,7 +17789,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 25;
           continue;
         case 25:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(8);
           pc = 26;
           continue;
         case 26:
@@ -17971,7 +17971,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(2);
           pc = 15;
           continue;
         case 15:
@@ -17987,7 +17987,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(9);
           pc = 19;
           continue;
         case 19:
@@ -18175,7 +18175,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 23;
           continue;
         case 23:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(4);
           pc = 24;
           continue;
         case 24:
@@ -18191,7 +18191,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 27;
           continue;
         case 27:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(10);
           pc = 28;
           continue;
         case 28:
@@ -18277,7 +18277,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('TILECHANGE');
+          await s.tileChange(11);
           pc = 18;
           continue;
         case 18:

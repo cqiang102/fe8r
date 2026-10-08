@@ -70,3 +70,4 @@ export 'map/movement_range.dart';
 export 'rng/game_rng.dart';
 export 'terrain/terrain_type.dart';
 export 'sound/audio_state.dart';
+export 'map/map_changes.g.dart';

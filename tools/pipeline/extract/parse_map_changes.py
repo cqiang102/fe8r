@@ -38,6 +38,8 @@ DECOMP = os.path.normpath(os.path.join(HERE, "..", "..", "..", "third_party", "f
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
+    ap.add_argument("--dart", help="把表写成 Dart（给 lib/core 用；核心禁 dart:io）")
+    ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
 
     src = os.path.join(DECOMP, "src", "data", "map", "data_map_change.c")
@@ -105,6 +107,47 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     with open(os.path.join(a.out, "map_changes.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
+    if a.dart:
+        lines = [
+            "// 由 tools/pipeline/extract/parse_map_changes.py 生成，**不要手改**。",
+            "// 出处：src/data/map/data_map_change.c（typed C，65 张表）",
+            "// 应用语义：src/masked_0802e4c4.c:30-51 的 ApplyMapChangesById",
+            "//   —— **tile == 0 表示这一格不动**（判据在 test/core/map_change_test.dart）",
+            "// 记录类型复用 `lib/core/map/map_change.dart` 的 MapChangeRecord（不重复定义）",
+            "// PORT OF: src/data/map/data_map_change.c",
+            "",
+            "import 'map_change.dart';",
+            "",
+            "/// 地图变化表：表名 → 记录（哨兵条已去掉）",
+            "final Map<String, List<MapChangeRecord>> gMapChanges = {",
+        ]
+        for name in sorted(tables):
+            recs = [r for r in tables[name] if r["id"] != -1]
+            if not recs:
+                continue
+            lines.append("  // " + name)
+            lines.append("  '{}': [".format(name))
+            for r in recs:
+                tl = ", ".join(hex(v) for v in (r["tiles"] or []))
+                lines.append(
+                    "    MapChangeRecord(id: {}, xOrigin: {}, yOrigin: {}, "
+                    "xSize: {}, ySize: {}, tiles: [{}]),".format(
+                        r["id"], r["x"], r["y"], r["w"], r["h"], tl))
+            lines.append("  ],")
+        lines.append("};")
+        lines.append("")
+        text = chr(10).join(lines)
+        if a.check:
+            old = open(a.dart, encoding="utf-8").read() if os.path.exists(a.dart) else None
+            if old != text:
+                print("X " + a.dart + " 与生成结果不一致")
+                raise SystemExit(1)
+            print("OK " + a.dart + " 一致")
+        else:
+            os.makedirs(os.path.dirname(a.dart) or ".", exist_ok=True)
+            open(a.dart, "w", encoding="utf-8").write(text)
+            print("已写 " + a.dart)
+
     print(f"地图变化表：{len(tables)} 张 / {out['recordCount']} 条记录 / {len(tiles)} 个格数组")
     print(f"  未覆盖的 .s 切片：{len(uncovered)} 个（{', '.join(uncovered[:3])} …）")
 

@@ -606,6 +606,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'unmappedMenuOverrides': unmappedMenuOverrides.toList()..sort(),
       'textContinueCount': textContinueCount,
       'clearedScreens': clearedScreens,
+      'mapChangeTable': mapChangeTableName,
+      'appliedMapChanges': appliedMapChanges.toList()..sort(),
+      'mapChangeErrors': mapChangeErrors,
+      'lastMapChangeId': lastMapChangeId,
       'facesCleared': facesCleared,
       'lastTextBgIndex': lastTextBgIndex,
       'textBgErrors': textBgErrors,
@@ -1952,6 +1956,32 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         lastPopup = {'textId': textId, 'x': x, 'y': y};
         debugPrint('[POPUP] $lastPopup');
         await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
+      case TileChange(:final id):
+        // `TILECHANGE`（`src/eventscr_0800F4D0.c:45-100`）：先解析 id（含 -1/-2/-3），
+        // 再用 `MapGrid.applyMapChange` 落表（语义 `ApplyMapChangesById`：0 = 不动）。
+        final resolved = _resolveMapChangeId(id);
+        if (resolved == null) {
+          mapChangeErrors++;
+          debugPrint('[TILECHANGE] id=$id 解析失败（源码这里是 EVC_ERROR）');
+          break;
+        }
+        final recs = gMapChanges[mapChangeTableName];
+        if (recs == null) {
+          mapChangeErrors++;
+          debugPrint('[TILECHANGE] 当前地图没有变化表（$mapChangeTableName）');
+          break;
+        }
+        final rec = recs.where((r) => r.id == resolved).firstOrNull;
+        if (rec == null || map == null) {
+          mapChangeErrors++;
+          debugPrint('[TILECHANGE] 表里没有 id=$resolved');
+          break;
+        }
+        final applied = map!.applyMapChange(rec);
+        if (applied) {
+          appliedMapChanges.add(resolved);
+          lastMapChangeId = resolved;
+        }
       case ClearScreen():
         // `CLEAN`（`src/eventscr_0800F2DC.c:76-92`）：清对话框 + **结束所有立绘**
         clearedScreens++;
@@ -5622,6 +5652,49 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 音频状态（`MUSC`/`MUSS`/`SOUN`/`MUSI`/`MUNO`）——**不发声**，只记"脚本让放什么"
   final AudioState audio = AudioState();
+
+  /// 当前地图的变化表名（`gMapChanges` 的键；由章节决定）
+  String mapChangeTableName = 'PrologueMapChanges';
+
+  /// 已应用 / 解析失败的地图变化（判据用）
+  final Set<int> appliedMapChanges = {};
+  int mapChangeErrors = 0;
+  int? lastMapChangeId;
+
+  /// 把 `TILECHANGE` 的参数解析成**表里的 id**（源码 `Event27_MapChange:55-80`）
+  int? _resolveMapChangeId(int id) {
+    if (id >= 0) return id;
+    final g = map;
+    if (g == null) return null;
+    switch (id) {
+      case -1:
+        // 槽 0xB 的高低字节是 x / y（源码 `((u16 *)(gEventSlots + 0xB))[0]`）
+        final w = scene?.slotInt(0xB) ?? 0;
+        final recs = gMapChanges[mapChangeTableName] ?? const [];
+        final hit = getMapChangeIdAt(recs, w & 0xFF, (w >> 8) & 0xFF);
+        return hit < 0 ? null : hit;
+      case -2:
+        // 当前行动单位所在格
+        final s = state;
+        final f = field;
+        if (s == null || f == null) return null;
+        for (final x in f.units) {
+          if (x.id == s.selectedUnitId) {
+            final recs = gMapChanges[mapChangeTableName] ?? const [];
+            final hit = getMapChangeIdAt(recs, x.x, x.y);
+            return hit < 0 ? null : hit;
+          }
+        }
+        return null;
+      case -3:
+        // 从槽队列取（源码 `mapChangeIt = gEventSlotQueue; mapChangeId = *mapChangeIt++;`）
+        final q = scene?.slotQueue.values;
+        if (q == null || q.isEmpty) return null;
+        return q.first;
+      default:
+        return null;
+    }
+  }
 
   /// `CLEAN` 清屏次数 / 清掉的立绘总数（判据用）
   int clearedScreens = 0;

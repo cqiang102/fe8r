@@ -77,4 +77,34 @@ void main() {
     expect(out[1 * 4 + 2], 100 + 1 * 4 + 2, reason: '0 ⇒ 不动');
     expect(out[2 * 4 + 1], 8);
   });
+  _mapChangeIdAtTests();
+}
+
+// `GetMapChangeIdAt`（`src/GetMapChangeIdAt.c:15-31`）—— 纯函数版
+void _mapChangeIdAtTests() {
+  test('★ 矩形命中：**最后命中者胜**（源码每命中一次就改写 result）', () {
+    final recs = [
+      const MapChangeRecord(id: 0, xOrigin: 0, yOrigin: 0, xSize: 4, ySize: 4, tiles: [1]),
+      const MapChangeRecord(id: 1, xOrigin: 2, yOrigin: 2, xSize: 2, ySize: 2, tiles: [2]),
+      const MapChangeRecord(id: -1, xOrigin: 0, yOrigin: 0, xSize: 0, ySize: 0, tiles: []),
+    ];
+    expect(getMapChangeIdAt(recs, 0, 0), 0);
+    // ⚠️ 我第一次把 (3,3) 写成"只有 0 覆盖" —— **错了**：记录 1 是
+    //    2..3 × 2..3，(3,3) 也在里面 ⇒ 最后命中者应是 **1**。是判据错，不是实现对。
+    expect(getMapChangeIdAt(recs, 0, 3), 0, reason: '只有 0 覆盖这里（x<2）');
+    expect(getMapChangeIdAt(recs, 3, 3), 1, reason: '★ 两条都覆盖 ⇒ 后面的(1)胜');
+    expect(getMapChangeIdAt(recs, 2, 2), 1, reason: '★ 两条都覆盖 ⇒ 后面的(1)胜');
+    expect(getMapChangeIdAt(recs, 4, 4), -1, reason: '没有命中 ⇒ -1');
+  });
+
+  test('★ 命中判定用的是闭区间（`+ size - 1`）', () {
+    final recs = [
+      const MapChangeRecord(id: 5, xOrigin: 2, yOrigin: 3, xSize: 2, ySize: 1, tiles: [1, 2]),
+      const MapChangeRecord(id: -1, xOrigin: 0, yOrigin: 0, xSize: 0, ySize: 0, tiles: []),
+    ];
+    expect(getMapChangeIdAt(recs, 2, 3), 5, reason: '左上角在内');
+    expect(getMapChangeIdAt(recs, 3, 3), 5, reason: '右上角在内（xOrigin+xSize-1 == 3）');
+    expect(getMapChangeIdAt(recs, 4, 3), -1, reason: '再往右就出界');
+    expect(getMapChangeIdAt(recs, 2, 4), -1, reason: '往下就出界');
+  });
 }

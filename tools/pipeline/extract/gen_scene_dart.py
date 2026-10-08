@@ -312,6 +312,24 @@ def stmt(op, A):
     if op == "CHECK_ACTIVE":
         return ("s.checkSlotValue('activePid');", True)
 
+    # 地形变化：`TILECHANGE` = `EvtTriggerMapChange(id)`（`include/EAstdlib.h:102`，
+    #   `EV_CMD_TILE_CHANGE` subcmd 0；处理体 `Event27_MapChange`，
+    #   `src/eventscr_0800F4D0.c:45-100`）：
+    #     `mapChangeId = ARGV[0]`，且有**特殊负值**：
+    #       `-1` => 取**槽 0xB** 的坐标（`GetMapChangeIdAt`）
+    #       `-2` => 取**当前行动单位**所在格
+    #       `-3` => 从**槽队列**取（连上 `SAVETOQUEUE`）
+    #       取不到（<0）=> `EVC_ERROR`
+    #   应用语义 `ApplyMapChangesById`（`src/masked_0802e4c4.c:30-51`）：
+    #     **tile == 0 表示这格不动**。
+    # ⚠️ `TILEREVERT`（subcmd 1 ⇒ `UntriggerMapChange`/`RevertMapChange`）本轮**没做**：
+    #    `RevertMapChange` 的还原机制我**还没读** ⇒ 保持占位符（不猜）。
+    if op == "TILECHANGE":
+        a10 = A[0] if A else 0
+        if isinstance(a10, int):
+            return (f"await s.tileChange({num(a10)});", False)
+        return (f"s.placeholder('{op}');", True)
+
     # 清屏与文本底（都读过源）：
     #   `CLEAN` = `EvtClearScreen`（`include/EAstdlib.h:96`，
     #     `_EvtAutoCmdLen2(EV_CMD_CLEARSCREEN)`）
