@@ -248,6 +248,27 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 事件计数器（`EV_CMD_COUNTER`，`src/Event0F_CounterOps.c:24-99`）：
+    #   32 位里**按 nibble 打包**，`shift = 4 * ((参数低字节) % 8)`；
+    #   `COUNTER_CHECK` => `gEventSlots[0xC] = (counter >> shift) & 0xF`（**不回写**）；
+    #   `COUNTER_SET`   => 取参数**高字节**（符号扩展）写进该 nibble；
+    #   `COUNTER_INC`   => +1，**上限 15**；`COUNTER_DEC` => -1，**下限 0**。
+    # 宏形式：`_EvtSubParam16u8((idx), (val))`（`include/eventscript.h:624-627`）
+    #   => 参数 = idx(低字节) | val(高字节)。
+    if op in ("COUNTER_CHECK", "COUNTER_SET", "COUNTER_INC", "COUNTER_DEC"):
+        w = A[0] if A else 0
+        if isinstance(w, int):
+            idx = w & 0xFF
+            val = (w >> 8) & 0xFF
+            if op == "COUNTER_CHECK":
+                return (f"s.counterCheck({num(idx)});", True)
+            if op == "COUNTER_SET":
+                return (f"s.counterSet({num(idx)}, {num(val)});", True)
+            if op == "COUNTER_INC":
+                return (f"s.counterInc({num(idx)});", True)
+            return (f"s.counterDec({num(idx)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 场景光标移到角色：`CUMO_CHAR` = `CURSOR_CHAR` = `EvtDisplayCursorAtUnit`
     #   （`include/EAstdlib.h:166`，`EV_CMD_DISPLAYCURSOR` subcmd `EVSUBCMD_CURSOR_UNIT`=1）
     #   处理函数 `Event3B_DisplayCursor`（`src/Event3B_DisplayCursor.c:51-59`）：

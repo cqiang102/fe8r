@@ -12,6 +12,8 @@
 // "章节旗"这些行为全是空的。
 import 'dart:io';
 
+import 'package:fe8r/core/core.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -81,5 +83,43 @@ void main() {
     //  光标画在 unit->xPos/yPos —— 是**场景光标**，不是玩家地图光标）
     expect(RegExp(r's\.displayCursorAtUnit\(').allMatches(t).length, 17,
         reason: '接上的处数（参数是符号的会退回占位）');
+  });
+  _counterTests();
+}
+
+// 事件计数器（`src/Event0F_CounterOps.c:24-99`）—— **精确算术**判据
+void _counterTests() {
+  test('★ nibble 打包：8 个 4 位计数器互不干扰', () {
+    var c = 0;
+    c = eventCounterPut(c, 0, 5);
+    c = eventCounterPut(c, 3, 9);
+    expect(eventCounterGet(c, 0), 5);
+    expect(eventCounterGet(c, 3), 9);
+    expect(eventCounterGet(c, 1), 0, reason: '别的 nibble 不受影响');
+    // 下标按 % 8：第 8 个就是第 0 个（源码 `% 8`）
+    expect(eventCounterGet(c, 8), eventCounterGet(c, 0));
+  });
+
+  test('★ INC 上限 15、DEC 下限 0（源码的钳位，不是回绕）', () {
+    final c = eventCounterPut(0, 2, 15);
+    final inc = eventCounterInc(c, 2);
+    expect(eventCounterGet(inc, 2), 15, reason: '★ 15 再加还是 15（不是 0）');
+    final z = eventCounterPut(0, 2, 0);
+    final dec = eventCounterDec(z, 2);
+    expect(eventCounterGet(dec, 2), 0, reason: '★ 0 再减还是 0（不是 15）');
+    // 普通情形
+    expect(eventCounterGet(eventCounterInc(eventCounterPut(0, 5, 3), 5), 5), 4);
+    expect(eventCounterGet(eventCounterDec(eventCounterPut(0, 5, 3), 5), 5), 2);
+  });
+
+  test('★ `COUNTER_CHECK` **不回写**（源码 `case 0` 直接 return 0）', () {
+    // 纯函数层面：`eventCounterGet` 本来就不改 counter；这里钉住"钳位只在 INC/DEC/SET 里"
+    var c = 0;
+    for (var i = 0; i < 8; i++) {
+      c = eventCounterPut(c, i, i);
+    }
+    final again = eventCounterGet(c, 4);
+    expect(again, 4);
+    expect(eventCounterGet(c, 4), 4, reason: '读取不改变计数器');
   });
 }

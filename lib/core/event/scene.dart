@@ -47,6 +47,33 @@ enum FadeDirection {
   toWhite,
 }
 
+/// 事件计数器的**纯运算**（`src/Event0F_CounterOps.c:24-99`）
+///
+/// 32 位按 **nibble** 打包（8 个 4 位计数器）；`shift = 4 * (idx % 8)`
+/// （源码：`shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
+int eventCounterShift(int idx) => 4 * (idx % 8);
+
+int eventCounterGet(int counter, int idx) =>
+    (counter >> eventCounterShift(idx)) & 0xF;
+
+int eventCounterPut(int counter, int idx, int value) {
+  final shift = eventCounterShift(idx);
+  final clearMask = 0xF << shift;
+  return (counter & ~clearMask) | ((value & 0xF) << shift);
+}
+
+/// `COUNTER_INC`：+1，**上限 15**（源码：`if (newValue > mask) newValue = 0xF;`）
+int eventCounterInc(int counter, int idx) {
+  final v = eventCounterGet(counter, idx) + 1;
+  return eventCounterPut(counter, idx, v > 0xF ? 0xF : v);
+}
+
+/// `COUNTER_DEC`：-1，**下限 0**
+int eventCounterDec(int counter, int idx) {
+  final v = eventCounterGet(counter, idx) - 1;
+  return eventCounterPut(counter, idx, v < 0 ? 0 : v);
+}
+
 sealed class SceneEvent {
   const SceneEvent();
 }
@@ -662,6 +689,27 @@ class Scene {
       'SORR' => a | b,
       _ => a,
     };
+  }
+
+  /// 事件计数器（`gEventSlotCounter`）：**32 位按 nibble 打包**（8 个计数器）
+  ///
+  /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
+  /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
+  int eventSlotCounter = 0;
+
+  /// `COUNTER_CHECK`：写条件槽 **0xC**，**不回写**计数器（源码 `case 0` 里直接 `return 0`）
+  void counterCheck(int idx) => setSlot(0xC, eventCounterGet(eventSlotCounter, idx));
+
+  void counterSet(int idx, int value) {
+    eventSlotCounter = eventCounterPut(eventSlotCounter, idx, value);
+  }
+
+  void counterInc(int idx) {
+    eventSlotCounter = eventCounterInc(eventSlotCounter, idx);
+  }
+
+  void counterDec(int idx) {
+    eventSlotCounter = eventCounterDec(eventSlotCounter, idx);
   }
 
   /// `CUMO_CHAR` = `EvtDisplayCursorAtUnit(pid)`（`include/EAstdlib.h:166`；

@@ -4424,7 +4424,7 @@ Future<void> Ch14A_5(Scene s) async {
 Future<void> Ch14A_6(Scene s) async {
     s.setSlot(2, 0);
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
-    s.placeholder('COUNTER_SET');
+    s.counterSet(0, 0);
     s.evBitMod('flag', false, 14);
     s.evBitMod('evbit', true, 7);
     return;
@@ -4444,7 +4444,7 @@ Future<void> Ch14A_7(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(0);
           pc = 3;
           continue;
         case 3:
@@ -4452,7 +4452,7 @@ Future<void> Ch14A_7(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(0);
           pc = 5;
           continue;
         case 5:
@@ -4516,7 +4516,7 @@ Future<void> Ch14B_12(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(1);
           pc = 5;
           continue;
         case 5:
@@ -4524,7 +4524,7 @@ Future<void> Ch14B_12(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(1);
           pc = 7;
           continue;
         case 7:
@@ -7921,7 +7921,7 @@ Future<void> Ch16B_3(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(0);
           pc = 5;
           continue;
         case 5:
@@ -7929,7 +7929,7 @@ Future<void> Ch16B_3(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(0);
           pc = 7;
           continue;
         case 7:
@@ -7976,7 +7976,7 @@ Future<void> Ch16B_5(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(1);
           pc = 5;
           continue;
         case 5:
@@ -7984,7 +7984,7 @@ Future<void> Ch16B_5(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(1);
           pc = 7;
           continue;
         case 7:
@@ -9494,7 +9494,7 @@ Future<void> Ch20B_1(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(0);
           pc = 3;
           continue;
         case 3:
@@ -9502,7 +9502,7 @@ Future<void> Ch20B_1(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(0);
           pc = 5;
           continue;
         case 5:
@@ -9549,7 +9549,7 @@ Future<void> Ch20B_2(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(1);
           pc = 3;
           continue;
         case 3:
@@ -9557,7 +9557,7 @@ Future<void> Ch20B_2(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(1);
           pc = 5;
           continue;
         case 5:
@@ -15008,7 +15008,7 @@ Future<void> Ch9B_9(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_SET');
+          s.counterSet(3, 0);
           pc = 3;
           continue;
         case 3:
@@ -15026,7 +15026,7 @@ Future<void> Ch9B_9(Scene s) async {
           if (s.slotInt(0) == 12) { pc = 8; } else { pc = 7; }
           continue;
         case 7:
-          s.placeholder('COUNTER_SET');
+          s.counterSet(3, 0);
           pc = 8;
           continue;
         case 8:
@@ -20604,7 +20604,7 @@ Future<void> frontier_df3_eventscr_ch_014_A6EDFC_0x98(Scene s) async {
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.setSlot(1, 65536);
     s.placeholder('CHAI');
-    s.placeholder('COUNTER_SET');
+    s.counterSet(0, 0);
     s.evBitMod('flag', false, 14);
     s.evBitMod('evbit', true, 7);
     return;
@@ -20618,7 +20618,7 @@ Future<void> frontier_df3_eventscr_ch_015_A6EF04(Scene s) async {
     s.placeholder('CHAI');
     s.setSlot(1, 66307);
     s.placeholder('CHAI');
-    s.placeholder('COUNTER_SET');
+    s.counterSet(1, 0);
     s.evBitMod('flag', false, 13);
     s.evBitMod('evbit', true, 7);
     return;
@@ -20874,7 +20874,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2C(Scene s) async {
 Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x2F8(Scene s) async {
     s.setSlot(2, 0);
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
-    s.placeholder('COUNTER_SET');
+    s.counterSet(0, 0);
     s.evBitMod('flag', false, 10);
     s.evBitMod('evbit', true, 7);
     return;
@@ -20894,7 +20894,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x318(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(0);
           pc = 3;
           continue;
         case 3:
@@ -20902,7 +20902,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x318(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(0);
           pc = 5;
           continue;
         case 5:
@@ -20932,7 +20932,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x34C(Scene s) async {
     s.setSlot(2, 0);
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.evBitMod('flag', false, 12);
-    s.placeholder('COUNTER_SET');
+    s.counterSet(1, 0);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -20947,7 +20947,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(1);
           pc = 2;
           continue;
         case 2:
@@ -20980,7 +20980,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(1);
           pc = 11;
           continue;
         case 11:
@@ -20994,7 +20994,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x36C(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(1);
           pc = 15;
           continue;
         case 15:
@@ -21014,7 +21014,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3D4(Scene s) async {
     s.setSlot(2, 0);
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.evBitMod('flag', false, 14);
-    s.placeholder('COUNTER_SET');
+    s.counterSet(2, 0);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -21029,7 +21029,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(2);
           pc = 2;
           continue;
         case 2:
@@ -21062,7 +21062,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(2);
           pc = 11;
           continue;
         case 11:
@@ -21076,7 +21076,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x3F4(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(2);
           pc = 15;
           continue;
         case 15:
@@ -21104,7 +21104,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x45C(Scene s) async {
     s.setSlot(2, 0);
     await s.call(Sym('UnitDef_Ch14BAlly_7'));
     s.evBitMod('flag', false, 16);
-    s.placeholder('COUNTER_SET');
+    s.counterSet(3, 0);
     s.evBitMod('evbit', true, 7);
     return;
 }
@@ -21119,7 +21119,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(3);
           pc = 2;
           continue;
         case 2:
@@ -21187,7 +21187,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(3);
           pc = 21;
           continue;
         case 21:
@@ -21201,7 +21201,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x47C(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(3);
           pc = 25;
           continue;
         case 25:
@@ -21541,7 +21541,7 @@ Future<void> frontier_df3_eventscr_ch_020_A6FB9C_0x10(Scene s) async {
           pc = 2;
           continue;
         case 2:
-          s.placeholder('COUNTER_DEC');
+          s.counterDec(2);
           pc = 3;
           continue;
         case 3:
@@ -21549,7 +21549,7 @@ Future<void> frontier_df3_eventscr_ch_020_A6FB9C_0x10(Scene s) async {
           pc = 4;
           continue;
         case 4:
-          s.placeholder('COUNTER_CHECK');
+          s.counterCheck(2);
           pc = 5;
           continue;
         case 5:
