@@ -90,10 +90,19 @@ def extra_constants():
       ⇒ 去找 `LABEL(0)`（脚本里写的是 `LABEL(0x1)`）⇒ **分支悬空**。
       第 92 轮就是靠"符号回退"计数把它抓出来的。
     """
-    p = os.path.join(DECOMP, "include", "types.h")
-    if not os.path.exists(p):
-        return {}
-    t = strip_comments(open(p, encoding="utf-8", errors="replace").read())
+    # ★ 扫 `include/types.h` **和** `include/constants/*.h`：
+    #   后者的枚举里就有脚本参数会用到的常量，例如
+    #   `SONG_BD = 0xBD` / `SONG_BE = 0xBE`（`include/constants/songs.h:162-163`）——
+    #   而 `SOUN(SONG_BE)` 这样的写法有 18 处，以前全被当成"符号"⇒ 占位符。
+    paths = [os.path.join(DECOMP, "include", "types.h")]
+    cdir = os.path.join(DECOMP, "include", "constants")
+    if os.path.isdir(cdir):
+        paths += sorted(os.path.join(cdir, f) for f in os.listdir(cdir)
+                        if f.endswith(".h"))
+    t = ""
+    for p1 in paths:
+        if os.path.exists(p1):
+            t += strip_comments(open(p1, encoding="utf-8", errors="replace").read()) + chr(10)
     out = {}
     for m in re.finditer(r"enum\s+(\w+)\s*\{(.*?)\}", t, re.S):
         val = 0

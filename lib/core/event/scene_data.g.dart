@@ -17571,7 +17571,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 14;
           continue;
         case 14:
@@ -17587,7 +17587,7 @@ Future<void> Ruin_37(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 18;
           continue;
         case 18:
@@ -17651,7 +17651,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 11;
           continue;
         case 11:
@@ -17667,7 +17667,7 @@ Future<void> Ruin_38(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 15;
           continue;
         case 15:
@@ -17753,7 +17753,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 17;
           continue;
         case 17:
@@ -17769,7 +17769,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 21;
           continue;
         case 21:
@@ -17785,7 +17785,7 @@ Future<void> Ruin_39(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 25;
           continue;
         case 25:
@@ -17860,7 +17860,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 14;
           continue;
         case 14:
@@ -17876,7 +17876,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 18;
           continue;
         case 18:
@@ -17892,7 +17892,7 @@ Future<void> Ruin_40(Scene s) async {
           pc = 21;
           continue;
         case 21:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 22;
           continue;
         case 22:
@@ -17967,7 +17967,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 14;
           continue;
         case 14:
@@ -17983,7 +17983,7 @@ Future<void> Ruin_41(Scene s) async {
           pc = 17;
           continue;
         case 17:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 18;
           continue;
         case 18:
@@ -18047,7 +18047,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 11;
           continue;
         case 11:
@@ -18063,7 +18063,7 @@ Future<void> Ruin_42(Scene s) async {
           pc = 14;
           continue;
         case 14:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 15;
           continue;
         case 15:
@@ -18171,7 +18171,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 22;
           continue;
         case 22:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 23;
           continue;
         case 23:
@@ -18187,7 +18187,7 @@ Future<void> Ruin_45(Scene s) async {
           pc = 26;
           continue;
         case 26:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 27;
           continue;
         case 27:
@@ -18273,7 +18273,7 @@ Future<void> Ruin_47(Scene s) async {
           pc = 16;
           continue;
         case 16:
-          s.placeholder('SOUN');
+          s.sound('se', 190);
           pc = 17;
           continue;
         case 17:
@@ -18348,7 +18348,7 @@ Future<void> Ruin_48(Scene s) async {
           pc = 13;
           continue;
         case 13:
-          s.placeholder('SOUN');
+          s.sound('se', 189);
           pc = 14;
           continue;
         case 14:

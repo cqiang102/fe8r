@@ -122,6 +122,18 @@ void main() {
             '原作的无界扫描无法复刻）');
   });
 
+  test('★ 符号常量必须解成数（`SOUN(SONG_BE)` 这类，第 100 轮）', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    // `SONG_BD = 0xBD` / `SONG_BE = 0xBE`（`include/constants/songs.h:162-163`）
+    // 以前它们被当成"符号" ⇒ `num()` 回退 0 ⇒ 整条指令变占位符。
+    expect(t.contains("s.placeholder('SOUN')"), isFalse,
+        reason: '★ SOUN(SONG_BE)/SOUN(SONG_BD) 共 18 处，现在应当全解出来');
+    expect(RegExp(r's\.sound\(.se., 190\)').allMatches(t).length, 10,
+        reason: 'SONG_BE = 0xBE = 190 → 10 处');
+    expect(RegExp(r's\.sound\(.se., 189\)').allMatches(t).length, 8,
+        reason: 'SONG_BD = 0xBD = 189 → 8 处');
+  });
+
   test('★ 清屏 + 文本底（第 94 轮）：`BACG` 的"不生效"分支要真的存在', () {
     final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
     // `CLEAN` = `EvtClearScreen`（`src/eventscr_0800F2DC.c:76-92`）
