@@ -461,6 +461,21 @@ class SoundOp extends SceneEvent {
   final int id;
 }
 
+/// `CLEAN` —— 清屏（清对话框 + 结束所有立绘）
+class ClearScreen extends SceneEvent {
+  const ClearScreen();
+}
+
+/// `BACG` —— 设文本底；`isError == true` 表示源码在这一支返回 `EVC_ERROR`（不生效）
+class ShowTextBg extends SceneEvent {
+  const ShowTextBg({required this.bgIndex, required this.isError});
+
+  final int bgIndex;
+
+  /// `activeTextType` 为 0/3/4/5 时源码返回 `EVC_ERROR` ⇒ 这里为 true
+  final bool isError;
+}
+
 /// 事件槽队列的**纯算术**（`src/sub_800DBA0.c:7-29` + `src/masked_0800d7ec.c:37-40`
 /// + `src/SlotQueuePop.c:2-19`）。
 ///
@@ -831,6 +846,26 @@ class Scene {
   /// 出处：`src/Event0F_CounterOps.c:24-99`。下标 `idx` 取 `idx % 8`（源码：
   /// `shift = 4 * ((*((const u8 *)(event + 1))) % 8)`）。
   int eventSlotCounter = 0;
+
+  /// `CLEAN` = `EvtClearScreen`（`include/EAstdlib.h:96`）
+  ///
+  /// 出处 `src/eventscr_0800F2DC.c:76-92`：清 BG0/BG1、清对话框、
+  /// **结束所有立绘**（`Proc_EndEach(gProcScr_E_FACE)`）、`ResetFaces()`、
+  /// `ClearTalkFaceRefs()`。立绘与对话框都在**游戏侧** ⇒ 发事件让它清。
+  Future<void> clearScreen() => onEvent(ClearScreen());
+
+  /// `BACG(bgIndex)` = `EvtDisplayTextBg` 一族 ⇒ `EventShowTextBgDirect(activeTextType, arg)`
+  /// （`src/Event21_TextBg.c:18-19`）。
+  ///
+  /// ⚠️ 关键：`EventShowTextBgDirect`（`src/EventShowTextBgDirect.c:45-75`）对
+  /// `activeTextType` 为 **0/3/4/5 时直接 `EVC_ERROR`**（什么都不做），
+  /// 只有 **1/2**（= [eventTextTypeOnMap] 为真）才真正设底 —— 所以这条指令
+  /// **一半的情况下必须"不生效"**，不能一律当成功。
+  void showTextBg(int bgIndex) => onEvent(ShowTextBg(
+        bgIndex: bgIndex,
+        // 源码在那些类型上返回 EVC_ERROR ⇒ 我们记成"这次设底无效"
+        isError: !eventTextTypeOnMap(activeTextType),
+      ));
 
   /// 事件槽队列（`gEventSlotQueue`）——`EV_CMD_QUEUE_OPS` 用它。
   ///

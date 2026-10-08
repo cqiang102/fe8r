@@ -122,6 +122,21 @@ void main() {
             '原作的无界扫描无法复刻）');
   });
 
+  test('★ 清屏 + 文本底（第 94 轮）：`BACG` 的"不生效"分支要真的存在', () {
+    final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
+    // `CLEAN` = `EvtClearScreen`（`src/eventscr_0800F2DC.c:76-92`）
+    expect(RegExp(r's\.clearScreen\(\)').allMatches(t).length, 34,
+        reason: '按事实钉住（第 80/84 轮的教训）');
+    // `BACG` = `EVSUBCMD_BACG` ⇒ `EventShowTextBgDirect(activeTextType, arg)`
+    //   ⚠️ `activeTextType` 0/3/4/5 ⇒ 源码直接 `EVC_ERROR`（什么都不做）
+    expect(RegExp(r's\.showTextBg\(').allMatches(t).length, 15);
+    expect(t.contains("s.placeholder('CLEAN')"), isFalse);
+    // 谓词本身（两边一致性）：只有 1/2 才"在地图上"
+    expect(eventTextTypeOnMap(0), isFalse);
+    expect(eventTextTypeOnMap(1), isTrue);
+    expect(eventTextTypeOnMap(3), isFalse);
+  });
+
   test('★ 条件族第三批：CHECK_MODE / CHECK_CHAPTER_NUMBER / CHECK_HARD 写条件槽', () {
     final t = File('lib/core/event/scene_data.g.dart').readAsStringSync();
     // 出处：src/eventscr_0800E2C8.c:77-87

@@ -286,6 +286,24 @@ def stmt(op, A):
             return (f"await s.stall({num(a)}, cancellable: {cancel});", False)
         return (f"s.placeholder('{op}');", True)
 
+    # 清屏与文本底（都读过源）：
+    #   `CLEAN` = `EvtClearScreen`（`include/EAstdlib.h:96`，
+    #     `_EvtAutoCmdLen2(EV_CMD_CLEARSCREEN)`）
+    #     => `src/eventscr_0800F2DC.c:76-92` 的 `Event22_ClearScreen`：
+    #        清 BG0/BG1 图块、`ClearTalkBubble()`、**结束所有立绘**
+    #        （`Proc_EndEach(gProcScr_E_FACE)`）、`ResetFaces()`、`ClearTalkFaceRefs()`
+    #   `BACG` = `EvtDisplayTextBg` 一族（`include/eventscript.h` 的 `EVSUBCMD_BACG`）
+    #     => `src/Event21_TextBg.c:18-19`：`return EventShowTextBgDirect(activeTextType, arg);`
+    #        ⚠️ 而 `EventShowTextBgDirect`（`src/EventShowTextBgDirect.c:45-75`）
+    #        对 `activeTextType` 0/3/4/5 **直接 `EVC_ERROR`**（什么都不做），只有 1/2 才设底。
+    if op == "CLEAN":
+        return ("await s.clearScreen();", False)
+    if op == "BACG":
+        a8 = A[0] if A else 0
+        if isinstance(a8, int):
+            return (f"s.showTextBg({num(a8)});", True)
+        return (f"s.placeholder('{op}');", True)
+
     # 事件槽队列（`EV_CMD_QUEUE_OPS`，`src/sub_800DBA0.c:7-29`）：
     #   `SENQUEUE(slot)`  = `EvtEnqueueFormSlot(slot)`  => `SlotQueuePush(gEventSlots[slot])`
     #   `SENQUEUE1`       = `EvtEnqueueFormSlot1`       => `SlotQueuePush(gEventSlots[0x1])`（**无参数**）

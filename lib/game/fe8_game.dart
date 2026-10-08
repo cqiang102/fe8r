@@ -605,6 +605,10 @@ class Fe8Game extends FlameGame with KeyboardEvents {
       'hiddenMenuKeys': hiddenMenuKeys.toList()..sort(),
       'unmappedMenuOverrides': unmappedMenuOverrides.toList()..sort(),
       'textContinueCount': textContinueCount,
+      'clearedScreens': clearedScreens,
+      'facesCleared': facesCleared,
+      'lastTextBgIndex': lastTextBgIndex,
+      'textBgErrors': textBgErrors,
       'bgmId': audio.bgmId,
       'bgmSymbol': audio.bgmSymbol,
       'bgmOverrideSymbol': audio.overrideSymbol,
@@ -1948,6 +1952,22 @@ class Fe8Game extends FlameGame with KeyboardEvents {
         lastPopup = {'textId': textId, 'x': x, 'y': y};
         debugPrint('[POPUP] $lastPopup');
         await _showPopupForTest(textId: textId, x: x, y: y, frames: 45);
+      case ClearScreen():
+        // `CLEAN`（`src/eventscr_0800F2DC.c:76-92`）：清对话框 + **结束所有立绘**
+        clearedScreens++;
+        final n = _sceneView?.clearAllFaces() ?? 0;
+        facesCleared += n;
+        _currentText = null;
+        _updateSceneDialogue();
+        debugPrint('[CLEAN] 清屏：立绘 $n 个');
+      case ShowTextBg(:final bgIndex, :final isError):
+        // `BACG`：`activeTextType` 0/3/4/5 ⇒ 源码 `EVC_ERROR`（不生效）
+        if (isError) {
+          textBgErrors++;
+        } else {
+          lastTextBgIndex = bgIndex;
+        }
+        debugPrint('[BACG] bgIndex=$bgIndex isError=$isError');
       case SoundOp(:final kind, :final id):
         // 音频（**只记状态，不发声** —— 发声要 M4A 引擎或合成器，见 core/sound）
         switch (kind) {
@@ -5599,6 +5619,14 @@ class Fe8Game extends FlameGame with KeyboardEvents {
 
   /// 音频状态（`MUSC`/`MUSS`/`SOUN`/`MUSI`/`MUNO`）——**不发声**，只记"脚本让放什么"
   final AudioState audio = AudioState();
+
+  /// `CLEAN` 清屏次数 / 清掉的立绘总数（判据用）
+  int clearedScreens = 0;
+  int facesCleared = 0;
+
+  /// `BACG`：最后一次**真正生效**的文本底下标；以及源码返回 `EVC_ERROR` 的次数
+  int? lastTextBgIndex;
+  int textBgErrors = 0;
 
   /// `TEXTCONT` 出现过的次数（判据用）
   int textContinueCount = 0;

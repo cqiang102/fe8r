@@ -1529,7 +1529,7 @@ Future<void> Ch10B_0(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.removeUnit(68);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_027_917600', 560));
@@ -2233,7 +2233,7 @@ Future<void> Ch11B_0(Scene s) async {
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('TILEREVERT');
     s.placeholder('TILECHANGE');
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.cameraTo(9, 9, centered: true);
     s.setTextType(0);
     s.loadUnits(1, Sym('UnitDef_Ch11BEnemy_1'));
@@ -2280,7 +2280,7 @@ Future<void> Ch11B_2(Scene s) async {
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
     s.placeholder('TILECHANGE');
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.cameraTo(12, 10, centered: true);
     s.setTextType(0);
     s.placeholder('EARTHQUAKE_START');
@@ -2815,7 +2815,7 @@ Future<void> Ch11a_EndingScene(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 53;
           continue;
         case 53:
@@ -3899,7 +3899,7 @@ Future<void> Ch13a_EndingScene(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 21;
           continue;
         case 21:
@@ -4571,10 +4571,10 @@ Future<void> Ch14B_2(Scene s) async {
 /// `EventScr_Ch14a_BeginningScene`
 Future<void> Ch14a_BeginningScene(Scene s) async {
     s.setTextType(1);
-    s.placeholder('BACG');
+    s.showTextBg(79);
     await s.fade(FadeDirection.fromBlack, 128);
     await s.fade(FadeDirection.toWhite, 2);
-    s.placeholder('BACG');
+    s.showTextBg(26);
     s.placeholder('BGMCHANGE_13');
     await s.fade(FadeDirection.fromWhite, 2);
     await s.popupText(407, 8, 8);
@@ -4656,7 +4656,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_038_91B948_residue', 240));
     await s.waitUnitMoving();
     await s.cameraTo(0, 21, centered: false);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     s.sound('bgm', 37);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(2, Sym('frontier_df3_unitdef_b_038_91B948_residue'));
@@ -4680,7 +4680,7 @@ Future<void> Ch14b_BeginningScene(Scene s) async {
     s.textRemoveAll();
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.placeholder('SPAWN_ENEMY');
@@ -5544,7 +5544,7 @@ Future<void> Ch15A_26(Scene s) async {
           pc = 32;
           continue;
         case 32:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 33;
           continue;
         case 33:
@@ -6148,7 +6148,7 @@ Future<void> Ch15a_BeginningScene(Scene s) async {
     await s.fade(FadeDirection.toBlack, 4);
     s.textRemoveAll();
     await s.cameraTo(23, 21, centered: false);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     s.loadUnits(1, Sym('frontier_df3_unitdef_b_005_9109A8', 696));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
@@ -6191,7 +6191,7 @@ Future<void> Ch16A_1(Scene s) async {
     s.placeholder('EvtBgmFadeIn');
     s.setTextType(1);
     s.slotArith('SADD', 2, 10);
-    s.placeholder('BACG');
+    s.showTextBg(65535);
     await s.fade(FadeDirection.fromWhite, 4);
     s.modifyEvBit(0);
     return;
@@ -6277,7 +6277,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 18;
           continue;
         case 18:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 19;
           continue;
         case 19:
@@ -6444,7 +6444,7 @@ Future<void> Ch16A_11(Scene s) async {
           pc = 60;
           continue;
         case 60:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 61;
           continue;
         case 61:
@@ -6806,7 +6806,7 @@ Future<void> Ch16A_11(Scene s) async {
           if (s.slotInt(12) != s.slotInt(1)) { pc = 174; } else { pc = 154; }
           continue;
         case 154:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 155;
           continue;
         case 155:
@@ -7478,7 +7478,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 143;
           continue;
         case 143:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 144;
           continue;
         case 144:
@@ -7558,7 +7558,7 @@ Future<void> Ch16A_12(Scene s) async {
           pc = 163;
           continue;
         case 163:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 164;
           continue;
         case 164:
@@ -8157,7 +8157,7 @@ Future<void> Ch18A_11(Scene s) async {
           pc = 28;
           continue;
         case 28:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 29;
           continue;
         case 29:
@@ -9642,7 +9642,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 1;
           continue;
         case 1:
-          s.placeholder('BACG');
+          s.showTextBg(79);
           pc = 2;
           continue;
         case 2:
@@ -9650,7 +9650,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 3;
           continue;
         case 3:
-          s.placeholder('BACG');
+          s.showTextBg(26);
           pc = 4;
           continue;
         case 4:
@@ -9714,7 +9714,7 @@ Future<void> Ch21A_8(Scene s) async {
           pc = 20;
           continue;
         case 20:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 21;
           continue;
         case 21:
@@ -10552,7 +10552,7 @@ Future<void> Ch2_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch2Ally'));
     await s.waitUnitMoving();
@@ -10741,7 +10741,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 24;
           continue;
         case 24:
-          s.placeholder('BACG');
+          s.showTextBg(41);
           pc = 25;
           continue;
         case 25:
@@ -10765,7 +10765,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 30;
           continue;
         case 30:
-          s.placeholder('BACG');
+          s.showTextBg(28);
           pc = 31;
           continue;
         case 31:
@@ -10801,7 +10801,7 @@ Future<void> Ch2_EndingScene(Scene s) async {
           pc = 39;
           continue;
         case 39:
-          s.placeholder('BACG');
+          s.showTextBg(41);
           pc = 40;
           continue;
         case 40:
@@ -11214,7 +11214,7 @@ Future<void> Ch3_BeginningScene(Scene s) async {
           pc = 12;
           continue;
         case 12:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 13;
           continue;
         case 13:
@@ -11542,7 +11542,7 @@ Future<void> Ch3_EndingScene(Scene s) async {
           pc = 33;
           continue;
         case 33:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 34;
           continue;
         case 34:
@@ -11939,7 +11939,7 @@ Future<void> Ch4_1(Scene s) async {
           pc = 36;
           continue;
         case 36:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 37;
           continue;
         case 37:
@@ -12236,7 +12236,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     s.loadUnits(1, Sym('UnitDef_Ch4Enemy_0'));
     await s.waitUnitMoving();
     await s.fade(FadeDirection.fromBlack, 16);
@@ -12264,7 +12264,7 @@ Future<void> Ch4_BeginningScene(Scene s) async {
     s.setSlot(2, Sym('EventScr_Ch4_7'));
     await s.call(Sym('EventScr_CallOnTutorialMode'));
     await s.fade(FadeDirection.toBlack, 16);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.cameraTo(0, 0, centered: false);
     await s.fade(FadeDirection.fromBlack, 16);
     s.loadUnits(1, Sym('UnitDef_Ch4Ally_1'));
@@ -12570,7 +12570,7 @@ Future<void> Ch5_BeginningScene(Scene s) async {
           pc = 26;
           continue;
         case 26:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 27;
           continue;
         case 27:
@@ -13431,7 +13431,7 @@ Future<void> Ch5x_EndingScene(Scene s) async {
     s.hideFaction('blue');
     s.hideFaction('red');
     s.hideFaction('green');
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.cameraTo(13, 9, centered: true);
     s.placeholder('EvtSetLoadUnitNoREDA');
     s.loadUnits(2, Sym('UnitDef_Ch5xAlly_0'));
@@ -13635,7 +13635,7 @@ Future<void> Ch6_2(Scene s) async {
     while (true) {
       switch (pc) {
         case 0:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 1;
           continue;
         case 1:
@@ -14403,13 +14403,13 @@ Future<void> Ch8_10(Scene s) async {
     await s.endCursor();
     s.setTextType(1);
     await s.fade(FadeDirection.toWhite, 16);
-    s.placeholder('BACG');
+    s.showTextBg(11);
     await s.fade(FadeDirection.fromWhite, 16);
     await s.textShow(3011);
     await s.textEnd();
     s.textRemoveAll();
     await s.fade(FadeDirection.toWhite, 16);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.fade(FadeDirection.fromWhite, 16);
     s.moveUnit('MOVE', [0, 1, 0, 16]);
     await s.stall(32, cancellable: false);
@@ -14419,7 +14419,7 @@ Future<void> Ch8_10(Scene s) async {
     s.hideFaction('red');
     s.hideFaction('green');
     s.setTextType(1);
-    s.placeholder('BACG');
+    s.showTextBg(11);
     await s.fade(FadeDirection.fromWhite, 16);
     await s.textShow(3012);
     await s.textEnd();
@@ -15256,7 +15256,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 52;
           continue;
         case 52:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 53;
           continue;
         case 53:
@@ -15328,7 +15328,7 @@ Future<void> Ch9a_BeginningScene(Scene s) async {
           pc = 70;
           continue;
         case 70:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 71;
           continue;
         case 71:
@@ -15625,7 +15625,7 @@ Future<void> Ch9a_EndingScene(Scene s) async {
           pc = 10;
           continue;
         case 10:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 11;
           continue;
         case 11:
@@ -15982,7 +15982,7 @@ Future<void> CutsceneExecEnd_Sub0(Scene s) async {
           pc = 6;
           continue;
         case 6:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 7;
           continue;
         case 7:
@@ -19542,7 +19542,7 @@ Future<void> Ruin_56(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('BACG');
+          s.showTextBg(81);
           pc = 6;
           continue;
         case 6:
@@ -19581,7 +19581,7 @@ Future<void> Ruin_56(Scene s) async {
           if (s.slotInt(2) < s.slotInt(3)) { pc = 4; } else { pc = 15; }
           continue;
         case 15:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 16;
           continue;
         case 16:
@@ -19625,7 +19625,7 @@ Future<void> Ruin_58(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('BACG');
+          s.showTextBg(65535);
           pc = 6;
           continue;
         case 6:
@@ -19652,7 +19652,7 @@ Future<void> Ruin_58(Scene s) async {
           if (s.slotInt(2) < s.slotInt(3)) { pc = 4; } else { pc = 12; }
           continue;
         case 12:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 13;
           continue;
         case 13:
@@ -19911,7 +19911,7 @@ Future<void> SetBackground(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('BACG');
+          s.showTextBg(65535);
           pc = 6;
           continue;
         case 6:
@@ -20201,7 +20201,7 @@ Future<void> TextShowWithFadeIn(Scene s) async {
           pc = 5;
           continue;
         case 5:
-          s.placeholder('CLEAN');
+          await s.clearScreen();
           pc = 6;
           continue;
         case 6:
@@ -20713,7 +20713,7 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x1B8(Scene s) async {
     await s.fade(FadeDirection.toWhite, 2);
     s.placeholder('EvtBgmFadeIn');
     s.setTextType(1);
-    s.placeholder('BACG');
+    s.showTextBg(20);
     await s.fade(FadeDirection.fromWhite, 2);
     await s.popupText(405, 8, 8);
     await s.textShow(2935);
@@ -20721,14 +20721,14 @@ Future<void> frontier_df3_eventscr_ch_017_A6F47C_0x1B8(Scene s) async {
     s.textRemoveAll();
     await s.fade(FadeDirection.toWhite, 16);
     s.setTextType(1);
-    s.placeholder('BACG');
+    s.showTextBg(18);
     await s.fade(FadeDirection.fromWhite, 16);
     await s.textShow(2936);
     await s.textEnd();
     s.textRemoveAll();
     s.placeholder('EvtBgmFadeIn');
     await s.fade(FadeDirection.toWhite, 2);
-    s.placeholder('CLEAN');
+    await s.clearScreen();
     await s.fade(FadeDirection.fromWhite, 2);
     s.sound('bgm', 45);
     s.showCursorAtUnit(64);

@@ -30,6 +30,18 @@ import 'portrait_component.dart';
 class SceneView {
   SceneView({required this.onHudChanged});
 
+  /// `CLEAN`（`EvtClearScreen`，`src/eventscr_0800F2DC.c:76-92`）要**结束所有立绘**
+  /// （源码：`Proc_EndEach(gProcScr_E_FACE)`）。返回清掉的个数（判据用）。
+  int clearAllFaces() {
+    final n = _portraits.length;
+    for (final c in _portraits.values.toList()) {
+      c.removeFromParent();
+    }
+    _portraits.clear();
+    return n;
+  }
+
+
   /// 显示状态变化时通知外部更新 HUD
   final void Function() onHudChanged;
 
