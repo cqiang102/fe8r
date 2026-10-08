@@ -36,8 +36,27 @@
 //   adds r0, r1                              ; ★ 本 tick 的计数 = tempoC + tempoI
 // ```
 //
+// ```asm
+// _081DD9BC:
+//   strh r0, [r7, o_MusicPlayerInfo_tempoC]   ; ★ tempoC = tempoC + tempoI（**16 位**存回）
+//   cmp  r0, 0x96                             ; ★ 与 150 比较
+//   bcc  _081DD9C4                            ; < 150 ⇒ 只走通道更新
+//   b    _081DD874                            ; ≥ 150 ⇒ 推进事件那一支
+// ```
+//
+// ```asm
+// _081DDA6C:                                  ; 出口（正常与 PAUSE 都汇到这里）
+//   ldr r0, lt2_ID_NUMBER
+//   str r0, [r7, o_MusicPlayerInfo_ident]     ; ★ ident = ID_NUMBER（复位/解锁）
+// ```
+//
+// ★ **`ident` 是重入锁**：美版 `src/m4a.c:43-50` 的 `MPlayContinue` 把这个惯用法
+//   写得很清楚 —— 守卫进、`ident++` 上锁、干活、`ident = ID_NUMBER` 解锁。
+//   所以"连续 tick 会被拦下"是我第 15 轮的**误判**（移植不完整造成的假象，
+//   而判据把它暴露了出来）。
+//
 // **还没移植**（明确列出，避免"看着像做完了"）：
-//   * `_081DD9BC` 处的计数比较（`clock` 与阈值的推进规则）；
+//   * 推进事件那一支（`_081DD874` 起，含每音轨的指令读取与 `clock`）；
 //   * 每音轨的循环（`trackCount` / `o_MusicPlayerTrack_chan` / `0xC7` 掩码那一段）；
 //   * `FadeOutBody`（淡出的实际推进）；
 //   * `CgbSound` / `SoundMain`（混音与写寄存器）。
@@ -73,23 +92,42 @@ class MPlayMainPort {
   /// 本实例跑过多少次"真正做了事"的 tick（判据用）
   int ticksRun = 0;
 
+  /// 其中**推进了事件**的次数（`tempoC >= 150`）
+  int advancesRun = 0;
+
   /// 上一次 tick 的 tempo 计数（`tempoC + tempoI`）；暂停/守卫拦住时为 null
   int? lastTempoCount;
 
   /// 哨兵值（`include/gba/m4a_internal.h:8`）
   static const int idNumber = 0x68736D53;
 
-  /// 一个 tick。返回"这次真的做了事"（供上层/判据观察）。
+  /// tempo 门的阈值（`src/m4a_1.s:1161` 的 `cmp r0, 0x96`）
+  static const int tempoThreshold = 0x96;
+
+  /// 一个 tick。返回"本 tick 是否**推进了一个事件**"（供上层/判据观察）。
+  ///
+  /// 流程逐条照抄 `src/m4a_1.s:934-1262`：
+  /// 守卫 → `ident++` → 钩子 → PAUSE 门 → `tempoC += tempoI`（16 位）→
+  /// `< 150` ⇒ 只更新通道（返回 false）；`≥ 150` ⇒ 推进事件（返回 true）；
+  /// **出口：`ident = ID_NUMBER`（复位/解锁）**。
   bool tick() {
     // ★ 入口守卫：ident 不等于哨兵 ⇒ 立刻返回（一个字节都没读）
     if (ident != idNumber) return false;
-    ident = ident + 1; // ★ ident += 1（原版就是这么写的；它同时是帧计数）
+    ident = ident + 1; // ★ 上锁（原版 `adds r3, 0x1`）
     hook?.call(hookArg);
-    // ★ PAUSE 门：status 最高位 ⇒ 本 tick 跳过（原版 `b _081DDA6C`）
-    if ((status & MPlayStatus.pause) != 0) return false;
-    // ★ 本 tick 的 tempo 计数
-    lastTempoCount = tempoC + tempoI;
+    // ★ PAUSE 门：status 最高位 ⇒ 直接去出口（`b _081DDA6C`）
+    if ((status & MPlayStatus.pause) != 0) {
+      ident = idNumber; // ★ 出口复位：**PAUSE 分支也复位**
+      return false;
+    }
+    // ★ tempo 门：`strh` = 16 位存回，所以这里必须**截断**
+    tempoC = (tempoC + tempoI) & 0xFFFF;
+    lastTempoCount = tempoC;
     ticksRun++;
-    return true;
+    final advanced = tempoC >= tempoThreshold;
+    if (advanced) advancesRun++;
+    // ★ 出口复位（`_081DDA6C`）：正因为有这一步，连续 tick 才跑得下去
+    ident = idNumber;
+    return advanced;
   }
 }
