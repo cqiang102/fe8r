@@ -12,6 +12,11 @@
       const struct Song *song = &gSongTable[n];
       MPlayStart(mplayTable[song->ms].info, song->header);
   ⇒ 事件指令里的 `MUSC/MUSI/MUNO/...` 参数 `n` 就是**这张表的下标**。
+* **每首歌的音色组与混音参数**：`sound/songs.mk` 的构建规则里就写着，例如
+  `song001_agbfe3_bgm_opening.s: %.s: %.mid` → `$(MID2AGB) $< $@ -E -G000 -R020 -P010 -V051`
+  ⇒ `-G` = **音色组号**、`-R` = reverb、`-P` = priority、`-V` = volume。
+  ⚠️ 这个 `.mk` 是 `scripts/gen_d311_songs.py` **从美版移植**过来的（文件头自述 ✓）
+  —— 这正是"结合美版"该用的地方。
 * 歌曲本身：`sound/songs/midi/<label>.mid`（**标准 MIDI**，588 个）。
   ⚠️ 这是反编译项目给出的**乐曲源**；ROM 里是 M4A 编译产物。
   本仓库的原则是"规则 1:1、表现自己实现" ⇒ 播 MIDI 是**允许的表现替换**，
@@ -51,6 +56,37 @@ def main():
             if m:
                 rows.append((m.group(1), int(m.group(2)), int(m.group(3))))
 
+    # ---- 每首歌的 -G/-R/-P/-V（`sound/songs.mk`）----
+    mix = {}
+    mk = os.path.join(DECOMP, "sound", "songs.mk")
+    if os.path.exists(mk):
+        cur = None
+        for line in open(mk, encoding="utf-8", errors="replace"):
+            m = re.match(r"\$\(MID_SUBDIR\)/(\w+)\.s:", line)
+            if m:
+                cur = m.group(1)
+                continue
+            if cur:
+                # 逐个 flag 独立解析（**不要求顺序、不要求 -R 存在**）：
+                # 实测 `sound/songs.mk` 里有**两种**形式 ——
+                #   带 reverb：`-E -G000 -R020 -P010 -V051`
+                #   不带     ：`-E -G031 -P020 -V127`
+                # 之前用一个"固定顺序、-R 必填"的正则，只匹配到 80/588 条
+                # （一个都不报错，是 `len(mix)` 判据抓到的）。
+                def _flag(text, name):
+                    mm = re.search(rf"-{name}(\d+)", text)
+                    return int(mm.group(1)) if mm else None
+
+                body = line.strip()
+                if _flag(body, "G") is not None:
+                    mix[cur] = {
+                        "voicegroup": _flag(body, "G"),
+                        "reverb": _flag(body, "R"),
+                        "priority": _flag(body, "P"),
+                        "volume": _flag(body, "V"),
+                    }
+                    cur = None
+
     midi_dir = os.path.join(DECOMP, "sound", "songs", "midi")
     midi_names = set(os.listdir(midi_dir)) if os.path.isdir(midi_dir) else set()
 
@@ -66,6 +102,7 @@ def main():
             "ms": ms,
             "me": me,
             "midi": fn if has else None,
+            "mix": mix.get(sym),
         })
 
     # ---- ★ 重复符号记账（"id 不唯一"那类陷阱）----
@@ -85,6 +122,18 @@ def main():
     assert songs[4]["symbol"] == "song004_agbfe3_bgm_wmap_01", songs[4]
     assert songs[4]["ms"] == 1, songs[4]
     assert songs[0]["symbol"] == "dummy_song", songs[0]
+    # ★ 正向抽查（对着 `sound/songs.mk` 的文字核过）：
+    #   `song001_agbfe3_bgm_opening` ⇒ `-G000 -R020 -P010 -V051`
+    #   ⇒ 我们按**字面数字**读：0 / 20 / 10 / 51。
+    #   ⚠️ `020` 是**零填充的十进制**还是八进制/十六进制 —— **未查证**
+    #   （mid2agb 的 flag 语义不在本仓库源码里；这里只保证"读到的就是文件里写的数字"）。
+    assert mix.get("song001_agbfe3_bgm_opening") == {
+        "voicegroup": 0, "reverb": 20, "priority": 10, "volume": 51,
+    }, mix.get("song001_agbfe3_bgm_opening")
+    assert mix.get("song004_agbfe3_bgm_wmap_01", {}).get("voicegroup") == 3, \
+        mix.get("song004_agbfe3_bgm_wmap_01")
+    # ★ 588 条规则**全都有** `-G`（实测 588/588）⇒ 一条都不许丢
+    assert len(mix) == 588, len(mix)
     # 重复/哑元的**具体数字**（实测值；变了一定要有人看一眼）
     assert len(rows) == 1000, len(rows)
     assert len(counts) == 594, len(counts)
@@ -96,6 +145,7 @@ def main():
         "bytesPerEntry": BYTES_PER_ENTRY,
         "totalBytes": len(songs) * BYTES_PER_ENTRY,
         "midiCount": len(midi_names),
+        "mixCount": len(mix),
         "missingMidi": missing,
         "distinctSymbols": len(counts),
         "duplicateSymbols": len(duplicates),
@@ -110,11 +160,33 @@ def main():
             "// 由 tools/pipeline/extract/parse_song_table.py 生成，**不要手改**。",
             "// 出处：sound/song_table.s（`gSongTable`）+ asm/macros/m4a.inc:1-5（每条 8 字节）",
             "// 取用：src/m4aSongNumStart.c:5-12 —— `&gSongTable[n]`，**n 是下标**。",
+            "// 音色组/混音：sound/songs.mk 的构建规则（`-G` = 音色组号、`-R` reverb、",
+            "//   `-P` priority、`-V` volume）。⚠️ 实测 588 条规则里有两种形式：",
+            "//   带 `-R`（35 首）与**不带**（553 首）⇒ `reverb` 可空。",
             "// PORT OF: sound/song_table.s",
+            "",
+            "/// 一首曲子的音色组与混音参数（`sound/songs.mk`）",
+            "///",
+            "/// ⚠️ `020` 这类零填充数字按**字面十进制**读；mid2agb 的确切解释**未查证**。",
+            "class SongMix {",
+            "  const SongMix(this.voicegroup, this.reverb, this.priority, this.volume);",
+            "",
+            "  /// `-G`：音色组号（0..92，实测用到 84 个）",
+            "  final int voicegroup;",
+            "",
+            "  /// `-R`：reverb（**553/588 首没有这个 flag** ⇒ null）",
+            "  final int? reverb;",
+            "",
+            "  /// `-P`",
+            "  final int? priority;",
+            "",
+            "  /// `-V`",
+            "  final int? volume;",
+            "}",
             "",
             "/// 一条歌曲表项",
             "class SongEntry {",
-            "  const SongEntry(this.symbol, this.ms, this.hasMidi);",
+            "  const SongEntry(this.symbol, this.ms, this.hasMidi, this.mix);",
             "",
             "  /// 歌曲头符号（**不是**唯一键：1000 条里只有 594 个不同符号）",
             "  final String symbol;",
@@ -124,14 +196,24 @@ def main():
             "",
             "  /// 反编译里有对应的 `.mid` 乐曲源",
             "  final bool hasMidi;",
+            "",
+            "  /// 该曲的音色组/混音参数（没有对应 `songs.mk` 规则时为 null）",
+            "  final SongMix? mix;",
             "}",
             "",
             f"/// `gSongTable`：{len(songs)} 条（下标即事件指令里的歌曲参数）",
             "const List<SongEntry> gSongTable = [",
         ]
         for e in songs:
+            mx = e.get("mix")
+            mix_src = ("null" if not mx else
+                       "SongMix({vg}, {rv}, {pr}, {vo})".format(
+                           vg=mx["voicegroup"],
+                           rv="null" if mx["reverb"] is None else mx["reverb"],
+                           pr="null" if mx["priority"] is None else mx["priority"],
+                           vo="null" if mx["volume"] is None else mx["volume"]))
             lines.append(f"  SongEntry('{e['symbol']}', {e['ms']}, "
-                         f"{'true' if e['midi'] else 'false'}),")
+                         f"{'true' if e['midi'] else 'false'}, {mix_src}),")
         lines.append("];")
         lines.append("")
         lines.append(f"/// 不同符号数（{len(counts)}）—— 与 `gSongTable.length` "
@@ -151,6 +233,7 @@ def main():
                 f.write(text)
             print(f"已写 {a.dart}（{len(songs)} 条）")
 
+    print(f"  音色组/混音参数：{len(mix)} 首（`sound/songs.mk`）")
     print(f"歌曲表：{len(songs)} 条 × {BYTES_PER_ENTRY} B = {len(songs)*BYTES_PER_ENTRY} B"
           f"；midi {len(midi_names)} 个；缺 midi {len(missing)} 条；"
           f"不同符号 {len(counts)}（dummy {dummy_count}、重复符号 {len(duplicates)}）")
