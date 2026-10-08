@@ -225,12 +225,7 @@ class TitleFlow {
   //   （`中断存档` / `读档继续` —— 因为**教学档下「中断」是禁用的**，
   //    见 `docs/还差什么.md` 的地图菜单表），却**没有**让教学链触发。
   //   ⇒ **先回退**，把真正的断点（教学链的入队）留到下一步单独查。
-  // ★ 默认第 0 项：源码 `src/difficultymenu.c:29` / `difficultymenu_080B0B38.c:65-66`
-  //   都是 `proc->current_selection = 0;`，第 0 项文字是消息 2098 = 本枚举的 `easy`。
-  //   ⚠️ 第 5 轮改成 easy 时曾以为"弄坏了中断/读档"，第 7 轮加上观测后看清：
-  //   那次改动**根本没生效**（`range` 场景的转储显示 `difficulty=（还没选）`），
-  //   所谓回归其实是**判据前移**（中断走得更远、卡在未实现的 `MNTS`）。
-  Difficulty difficulty = Difficulty.easy;
+  Difficulty difficulty = Difficulty.normal;
   int saveSlot = -1;
 
   /// 选好的存档（`-1` 表示还没选）
